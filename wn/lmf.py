@@ -208,6 +208,7 @@ def load(source: AnyPath) -> LexicalResource:
         event, elem = next(events)
 
     _assert_closed(event, elem, 'LexicalResource')
+    list(events)  # consume remaining events, if any
 
     return tuple(lexicons)
 
