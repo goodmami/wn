@@ -3,7 +3,7 @@ from typing import Union, Sequence, List, NamedTuple
 
 from wn._types import RelationMap
 from wn.constants import SYNSET_RELATIONS, SENSE_RELATIONS
-from wn._store import get_lemma, get_synset
+from wn import _store
 
 
 class Synset(NamedTuple):
@@ -13,7 +13,7 @@ class Synset(NamedTuple):
     definitions: Sequence[str]
     relations: RelationMap
     examples: Sequence[str]
-    lemma_ids: Sequence[str]
+    sense_ids: Sequence[str]
 
     def __getattr__(self, attr: str) -> List['Synset']:
         if attr in SYNSET_RELATIONS:
@@ -21,28 +21,28 @@ class Synset(NamedTuple):
         raise AttributeError(attr)
 
     def get_related(self, relation_type: str) -> List['Synset']:
-        return [get_synset(sid) for sid in self.relations.get(relation_type, ())]
+        return [_store.get_synset(sid) for sid in self.relations.get(relation_type, ())]
 
-    def lemmas(self) -> List['Lemma']:
-        return [get_lemma(lid) for lid in self.lemma_ids]
+    def senses(self) -> List['Sense']:
+        return [_store.get_sense(lid) for lid in self.sense_ids]
 
 
-class Lemma(NamedTuple):
-    sense_id: str
+class Sense(NamedTuple):
+    id: str
     synset_id: str
-    form: str
+    lemma: str
     pos: str
     script: str
     relations: RelationMap
     examples: Sequence[str]
 
-    def __getattr__(self, attr: str) -> List[Union[Synset, 'Lemma']]:
+    def __getattr__(self, attr: str) -> List[Union[Synset, 'Sense']]:
         if attr in SENSE_RELATIONS:
             return self.get_related(attr)
         raise AttributeError(attr)
 
-    def get_related(self, relation_type: str) -> List[Union[Synset, 'Lemma']]:
-        return [get_lemma(sid) for sid in self.relations.get(relation_type, ())]
+    def get_related(self, relation_type: str) -> List[Union[Synset, 'Sense']]:
+        return [_store.get_sense(sid) for sid in self.relations.get(relation_type, ())]
 
     def synsets(self):
-        return get_synset(self.synset_id)
+        return _store.get_synset(self.synset_id)

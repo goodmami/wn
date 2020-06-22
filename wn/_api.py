@@ -1,24 +1,8 @@
 
 from typing import List
-from pathlib import Path
 
-from wn._types import AnyPath
-from wn._models import Synset, Lemma
+from wn._models import Synset, Sense
 from wn import _store
-
-
-def add(source: AnyPath) -> None:
-    source = Path(source)
-    if source.suffix.lower() == 'xml':
-        _add_lmf(source)
-    else:
-        raise Exception(f'unsupported wordnet format: {source!s}')
-
-
-def _add_lmf(source):
-    from wn import lmf
-    lexicon = lmf.load(source)
-    return []
 
 
 def synset(id: str) -> Synset:
@@ -34,5 +18,5 @@ def synsets(form: str = None,
     return []
 
 
-def lemma(id: str) -> Lemma:
+def sense(id: str) -> Sense:
     pass
