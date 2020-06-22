@@ -7,8 +7,10 @@ __all__ = (
     'synset',
     'synsets',
     'lemma',
+    'Error',
 )
 
+from wn._exceptions import Error
 from wn._meta import __version__
 from wn._api import add, synset, synsets, lemma
 from wn.wordnet import WordNet
