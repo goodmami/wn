@@ -44,8 +44,8 @@ def add(source: AnyPath) -> None:
 
     if is_gzip(source):
         try:
-            tmp_path = Path(tempfile.mkstemp(suffix='.xml'))
-            with open(tmp_path, 'wb') as tmp:
+            with tempfile.NamedTemporaryFile(suffix='.xml', delete=False) as tmp:
+                tmp_path = Path(tmp.name)
                 with gzip.open(source, 'rb') as src:
                     shutil.copyfileobj(src, tmp)
             _add_lmf(tmp_path)
