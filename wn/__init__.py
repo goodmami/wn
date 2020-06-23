@@ -1,9 +1,9 @@
 
-
 __all__ = (
     '__version__',
     'WordNet',
     'get_project_info',
+    'download',
     'add',
     'synset',
     'synsets',

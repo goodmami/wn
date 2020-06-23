@@ -11,28 +11,80 @@ The wordnets are stored in a cache directory as follows:
 """
 
 
+import sys
 from pathlib import Path
 import shelve
 import json
+import gzip
+import hashlib
 import tempfile
+import shutil
 
+import requests
 
 from wn._types import AnyPath
 from wn._exceptions import Error
-from wn._util import is_gzip
+from wn._util import is_gzip, progress_bar
+from wn import get_project_info
 from wn import _models
 from wn import lmf
 
+CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
+
 CACHE_DIRECTORY = Path.home() / '.wn_data'
+DOWNLOADS_DIRECTORY = CACHE_DIRECTORY / 'downloads'
 SYNSETS_DIRECTORY = CACHE_DIRECTORY / 'synsets'
 SENSES_DIRECTORY = CACHE_DIRECTORY / 'senses'
 INDEX_PATH = CACHE_DIRECTORY / 'index.json'
 
 CACHE_DIRECTORY.mkdir(exist_ok=True)
+DOWNLOADS_DIRECTORY.mkdir(exist_ok=True)
 SYNSETS_DIRECTORY.mkdir(exist_ok=True)
 SENSES_DIRECTORY.mkdir(exist_ok=True)
 if not INDEX_PATH.exists():
     INDEX_PATH.write_text('{}')
+
+
+def get_cache_path(url: str) -> Path:
+    """Return the path for caching *url*."""
+    # TODO: ETags?
+    filename = hashlib.sha256(url.encode('utf-8')).hexdigest()
+    return DOWNLOADS_DIRECTORY / filename
+
+
+def download(project_or_url: str, version: str = None) -> None:
+    """Download the wordnet specified by *project_or_url*.
+
+    If *project_or_url* is a URL, then *version* is ignored and the
+    relevant project information (code, label, version, etc.) will be
+    extracted from the retrieved file. Otherwise, *project_or_url*
+    must be a known project id and *version* is a known version of the
+    project or is unspecified. If *version* is unspecified, the latest
+    known version is retrieved.
+
+    The retrieved file is cached locally and added to the wordnet
+    database. If the URL was previously downloaded, a cached version
+    will be used instead.
+    """
+    if '//' in project_or_url:  # assuming url must have //
+        url = project_or_url
+    else:
+        info = get_project_info(project_or_url, version=version)
+        url = info['resource_url']
+
+    path = get_cache_path(url)
+    if not path.exists():
+        with open(path, 'wb') as f:
+            with requests.get(url, stream=True) as response:
+                size = int(response.headers.get('Content-Length', 0))
+                indicator = progress_bar('Downloading ', max=size)
+                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                    if chunk:
+                        f.write(chunk)
+                    print(indicator.send(len(chunk)), end='', file=sys.stderr)
+                indicator.close()
+                print(f'\r\x1b[KDownload complete ({size} bytes)', file=sys.stderr)
+    add(path)
 
 
 def add(source: AnyPath) -> None:
