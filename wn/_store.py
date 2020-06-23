@@ -19,6 +19,7 @@ import tempfile
 
 from wn._types import AnyPath
 from wn._exceptions import Error
+from wn._util import is_gzip
 from wn import _models
 from wn import lmf
 
@@ -41,7 +42,7 @@ def add(source: AnyPath) -> None:
     """
     source = Path(source)
 
-    if _is_gzip(source):
+    if is_gzip(source):
         try:
             tmp_path = Path(tempfile.mkstemp(suffix='.xml'))
             with open(tmp_path, 'wb') as tmp:
@@ -52,12 +53,6 @@ def add(source: AnyPath) -> None:
             tmp_path.unlink()
     else:
         _add_lmf(source)
-
-
-def _is_gzip(path: Path) -> bool:
-    """Return True if the file at *path* appears to be gzipped."""
-    with path.open('rb') as f:
-        return f.read(2) == b'\x1F\x8B'
 
 
 def _add_lmf(source):
