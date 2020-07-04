@@ -35,7 +35,7 @@ class LMFWarning(Warning):
 
 _dc_uri = 'http://purl.org/dc/elements/1.1/'
 
-_metadata_pairs = (
+_dc_qname_pairs = (
     # dublin-core metadata needs the namespace uri prefixed
     (f'{{{_dc_uri}}}contributor', 'contributor'),
     (f'{{{_dc_uri}}}coverage', 'coverage'),
@@ -51,34 +51,27 @@ _metadata_pairs = (
     (f'{{{_dc_uri}}}subject', 'subject'),
     (f'{{{_dc_uri}}}title', 'title'),
     (f'{{{_dc_uri}}}type', 'type'),
-    # non-dublin-core metadata
-    ('status', 'status'),
-    ('note', 'note'),
-    ('confidenceScore', 'confidence'),
 )
 
 
-Metadata = Dict  # While we support Python < 3.8
-
-# use the following if Python 3.8+
-# class Metadata(TypedDict, total=False):
-#     contributor: str
-#     coverage: str
-#     creator: str
-#     date: str
-#     description: str
-#     format: str
-#     identifier: str
-#     publisher: str
-#     relation: str
-#     rights: str
-#     source: str
-#     subject: str
-#     title: str
-#     -type: str  # NOTE: -type is to avoid mypy type comments
-#     status: str
-#     note: str
-#     confidence: float
+class Metadata(NamedTuple):
+    contributor: Optional[str]
+    coverage: Optional[str]
+    creator: Optional[str]
+    date: Optional[str]
+    description: Optional[str]
+    format: Optional[str]
+    identifier: Optional[str]
+    publisher: Optional[str]
+    relation: Optional[str]
+    rights: Optional[str]
+    source: Optional[str]
+    subject: Optional[str]
+    title: Optional[str]
+    type: Optional[str]
+    status: Optional[str]
+    note: Optional[str]
+    confidence: Optional[float]
 
 
 # These types model the WN-LMF DTD
@@ -86,7 +79,7 @@ Metadata = Dict  # While we support Python < 3.8
 
 class Count(NamedTuple):
     value: int
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class SyntacticBehaviour(NamedTuple):
@@ -97,31 +90,31 @@ class SyntacticBehaviour(NamedTuple):
 class SenseRelation(NamedTuple):
     target: str
     type: str  # Literal[*SENSE_RELATIONS] if python 3.8+
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class SynsetRelation(NamedTuple):
     target: str
     type: str  # Literal[*SYNSET_RELATIONS] if python 3.8+
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class Example(NamedTuple):
     text: str
     language: str
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class ILIDefinition(NamedTuple):
     text: str
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class Definition(NamedTuple):
     text: str
     language: str
     source_sense: str
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class Synset(NamedTuple):
@@ -132,7 +125,8 @@ class Synset(NamedTuple):
     ili_definition: Optional[ILIDefinition]
     relations: Tuple[SynsetRelation, ...]
     examples: Tuple[Example, ...]
-    meta: Metadata
+    lexicalized: bool
+    meta: Optional[Metadata]
 
 
 class Sense(NamedTuple):
@@ -143,7 +137,7 @@ class Sense(NamedTuple):
     counts: Tuple[Count, ...]
     lexicalized: bool
     adjposition: str  # Literal[*ADJPOSITIONS] if Python 3.8+
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 class Tag(NamedTuple):
@@ -169,8 +163,8 @@ class LexicalEntry(NamedTuple):
     lemma: Lemma
     forms: Tuple[Form, ...]
     senses: Tuple[Sense, ...]
-    syntactic_behaviors: Tuple[SyntacticBehaviour, ...]
-    meta: Metadata
+    syntactic_behaviours: Tuple[SyntacticBehaviour, ...]
+    meta: Optional[Metadata]
 
 
 class Lexicon(NamedTuple):
@@ -184,7 +178,7 @@ class Lexicon(NamedTuple):
     synsets: Tuple[Synset, ...]
     url: str
     citation: str
-    meta: Metadata
+    meta: Optional[Metadata]
 
 
 LexicalResource = Tuple[Lexicon, ...]
@@ -261,11 +255,11 @@ def _load_lexical_entry(local_root, events) -> LexicalEntry:
         senses.append(_load_sense(elem, events))
         event, elem = next(events)
 
-    syntactic_behaviors: List[SyntacticBehaviour] = []
+    syntactic_behaviours: List[SyntacticBehaviour] = []
     while event == 'start' and elem.tag == 'SyntacticBehaviour':
         event, elem = next(events)
         _assert_closed(event, elem, 'SyntacticBehaviour')
-        syntactic_behaviors.append(_load_syntactic_behavior(elem))
+        syntactic_behaviours.append(_load_syntactic_behaviour(elem))
         event, elem = next(events)
 
     _assert_closed(event, elem, 'LexicalEntry')
@@ -275,7 +269,7 @@ def _load_lexical_entry(local_root, events) -> LexicalEntry:
         lemma,
         forms=tuple(forms),
         senses=tuple(senses),
-        syntactic_behaviors=tuple(syntactic_behaviors),
+        syntactic_behaviours=tuple(syntactic_behaviours),
         meta=_get_metadata(attrs),
     )
 
@@ -389,7 +383,7 @@ def _load_count(elem) -> Count:
     )
 
 
-def _load_syntactic_behavior(elem) -> SyntacticBehaviour:
+def _load_syntactic_behaviour(elem) -> SyntacticBehaviour:
     attrs = elem.attrib
     return SyntacticBehaviour(
         attrs['subcategorizationFrame'],
@@ -439,6 +433,7 @@ def _load_synset(local_root, events) -> Synset:
         ili_definition=ili_definition,
         relations=tuple(relations),
         examples=tuple(examples),
+        lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
         meta=_get_metadata(attrs),
     )
 
@@ -482,18 +477,23 @@ def _get_literal(value: str, choices: Container[str]) -> str:
 
 
 def _get_metadata(attrs: Dict) -> Metadata:
-    meta = {}
-    for qname, name in _metadata_pairs:
-        if qname in attrs:
-            value = attrs[qname]
-            if qname == 'confidenceScore':
-                try:
-                    value = float(value)
-                    assert 0 <= value <= 1
-                except (ValueError, AssertionError):
-                    warnings.warn(f'confidenceScore not between 0 and 1: {value}', LMFWarning)
-            meta[name] = value
-    return meta
+    metas = [attrs.get(qname) for qname, _ in _dc_qname_pairs]
+    metas.append(attrs.get('status'))
+    metas.append(attrs.get('note'))
+    if 'confidenceScore' in attrs:
+        value = attrs['confidenceScore']
+        try:
+            value = float(value)
+            assert 0 <= value <= 1
+        except (ValueError, AssertionError):
+            warnings.warn(f'confidenceScore not between 0 and 1: {value}', LMFWarning)
+        metas.append(value)
+    else:
+        metas.append(None)
+    if any(meta is not None for meta in metas):
+        return Metadata(*metas)
+    else:
+        return None
 
 
 def _assert_closed(event, elem, tag) -> None:
