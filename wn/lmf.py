@@ -9,12 +9,14 @@ from typing import (
     Container,
     List,
     Dict,
+    Set,
     NamedTuple,
     Optional,
     Tuple,
 )
 import warnings
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # for general XML parsing
+import xml.parsers.expat  # for fast scanning of Lexicon versions
 
 from wn._types import AnyPath
 from wn.constants import (
@@ -191,6 +193,31 @@ class Lexicon(NamedTuple):
 
 
 LexicalResource = Tuple[Lexicon, ...]
+
+
+def scan_lexicons(source: AnyPath) -> List[Dict]:
+    """Scan *source* and return only the top-level lexicon info."""
+
+    # this is implemeted with expat as it's much faster than etree for
+    # this task
+    infos = []
+
+    def start(name, attrs):
+        if name == 'Lexicon':
+            infos.append(attrs)
+        elif name == 'LexicalEntry' and infos:
+            infos[-1]['lexical_entries'] = infos[-1].get('lexical_entries', 0) + 1
+        elif name == 'Sense' and infos:
+            infos[-1]['senses'] = infos[-1].get('senses', 0) + 1
+        elif name == 'Synset' and infos:
+            infos[-1]['synsets'] = infos[-1].get('synsets', 0) + 1
+
+    p = xml.parsers.expat.ParserCreate()
+    p.StartElementHandler = start
+    with open(source, 'rb') as fh:
+        p.ParseFile(fh)
+
+    return infos
 
 
 def load(source: AnyPath) -> LexicalResource:
