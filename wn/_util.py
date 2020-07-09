@@ -1,5 +1,6 @@
 
-from typing import Sequence
+from typing import Sequence, TextIO
+import sys
 from pathlib import Path
 
 
@@ -12,9 +13,10 @@ def is_gzip(path: Path) -> bool:
 def progress_bar(
         message: str = '',
         max: int = 0,
-        width: int = 40,
+        width: int = 30,
         fmt: str = '\r{message}[{fill:<{width}}] ({current}/{max})',
-        fillchars: Sequence[str] = '#'):
+        fillchars: Sequence[str] = '#',
+        file: TextIO = sys.stderr):
     """
     Return a generator which yields a progres bar string.
 
@@ -47,7 +49,11 @@ def progress_bar(
                 'current': 0, 'max': max or '?'}
         while True:
             data['fill'] = fill(data['current'])
-            increment = yield fmt.format(**data)
+            s = fmt.format(**data)
+            if file:
+                print('\r\033[K', end='', file=file)
+                print(s, end='', file=file)
+            increment = yield s
             data['current'] = min(data['current'] + increment, max)
 
     generator = update()
