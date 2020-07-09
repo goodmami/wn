@@ -7,7 +7,7 @@ __all__ = (
     'add',
     'synset',
     'synsets',
-    'lemma',
+    'sense',
     'Error',
 )
 

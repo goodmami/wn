@@ -26,7 +26,6 @@ class Synset(NamedTuple):
     def senses(self) -> List['Sense']:
         return [_store.get_sense(lid) for lid in self.sense_ids]
 
-
 class Sense(NamedTuple):
     id: str
     synset_id: str

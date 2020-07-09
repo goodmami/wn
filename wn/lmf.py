@@ -512,7 +512,7 @@ def _get_literal(value: str, choices: Container[str]) -> str:
     return value
 
 
-def _get_metadata(attrs: Dict) -> Metadata:
+def _get_metadata(attrs: Dict) -> Optional[Metadata]:
     metas = [attrs.get(qname) for qname, _ in _dc_qname_pairs]
     metas.append(attrs.get('status'))
     metas.append(attrs.get('note'))
