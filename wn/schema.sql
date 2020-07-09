@@ -84,6 +84,7 @@ CREATE TABLE synset_relations (
     type_id INTEGER NOT NULL REFERENCES synset_relation_types (id),
     metadata META
 );
+CREATE INDEX synset_relations_source_index ON synset_relations (source_id);
 
 CREATE TABLE definitions (
     synset_id TEXT NOT NULL REFERENCES synsets (id),
@@ -92,6 +93,7 @@ CREATE TABLE definitions (
     sense_id TEXT REFERENCES senses (id),
     metadata META
 );
+CREATE INDEX definitions_id_index ON definitions (synset_id);
 
 CREATE TABLE synset_examples (
     synset_id TEXT NOT NULL REFERENCES synsets (id),
@@ -99,6 +101,7 @@ CREATE TABLE synset_examples (
     language TEXT,  -- bcp-47 language tag
     metadata META
 );
+CREATE INDEX synset_example_id_index ON synset_examples(synset_id);
 
 -- Senses
 
@@ -112,6 +115,7 @@ CREATE TABLE senses (
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
 );
+CREATE INDEX senses_entry_id_index ON senses (entry_id);
 
 CREATE TABLE sense_sense_relations (
     source_id TEXT NOT NULL REFERENCES senses (id),
@@ -119,6 +123,7 @@ CREATE TABLE sense_sense_relations (
     type_id TEXT NOT NULL REFERENCES sense_relation_types (id),
     metadata META
 );
+CREATE INDEX sense_sense_relations_id_index ON sense_sense_relations (source_id);
 
 CREATE TABLE sense_synset_relations (
     source_id TEXT NOT NULL REFERENCES senses (id),
@@ -127,6 +132,7 @@ CREATE TABLE sense_synset_relations (
     type_id TEXT NOT NULL REFERENCES sense_relation_types (id),
     metadata META
 );
+CREATE INDEX sense_synset_relations_id_index ON sense_synset_relations (source_id);
 
 CREATE TABLE sense_examples (
     sense_id TEXT NOT NULL REFERENCES senses (id),
@@ -134,6 +140,7 @@ CREATE TABLE sense_examples (
     language TEXT,  -- bcp-47 language tag
     metadata META
 );
+CREATE INDEX sense_examples_index ON sense_examples (sense_id);
 
 CREATE TABLE counts (
     sense_id TEXT NOT NULL REFERENCES senses (id),
