@@ -6,7 +6,7 @@ from wn import _store
 
 
 def synset(id: str) -> Synset:
-    pass
+    return _store.get_synset(id)
 
 
 def synsets(form: str = None,
