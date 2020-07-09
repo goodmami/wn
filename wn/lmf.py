@@ -204,13 +204,11 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
 
     def start(name, attrs):
         if name == 'Lexicon':
+            attrs['counts'] = {}
             infos.append(attrs)
-        elif name == 'LexicalEntry' and infos:
-            infos[-1]['lexical_entries'] = infos[-1].get('lexical_entries', 0) + 1
-        elif name == 'Sense' and infos:
-            infos[-1]['senses'] = infos[-1].get('senses', 0) + 1
-        elif name == 'Synset' and infos:
-            infos[-1]['synsets'] = infos[-1].get('synsets', 0) + 1
+        elif infos:
+            counts = infos[-1]['counts']
+            counts[name] = counts.get(name, 0) + 1
 
     p = xml.parsers.expat.ParserCreate()
     p.StartElementHandler = start
