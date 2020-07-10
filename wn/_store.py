@@ -11,7 +11,7 @@ The wordnets are stored in a cache directory as follows:
 """
 
 import sys
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from pathlib import Path
 import gzip
 import tempfile
@@ -371,43 +371,103 @@ def _insert_examples(objs, table, cur, indicator):
         indicator.send(len(data))
 
 
+def get_entry(id: str) -> _models.Word:
+    with _connect() as conn:
+        query = (
+            'SELECT p.pos'
+            '  FROM (SELECT pos_id FROM entries WHERE id = ? LIMIT 1)'
+            '  JOIN parts_of_speech AS p'
+            '    ON p.id = pos_id'
+        )
+        pos = conn.execute(query, (id,)).fetchone()[0]
+        query = (
+            'SELECT f.form'
+            '  FROM forms AS f'
+            ' WHERE f.entry_id = ?'
+            ' ORDER BY f.rank ASC'
+        )
+        forms = [row[0] for row in conn.execute(query, (id,)).fetchall()]
+        return _models.Word(id, pos, forms)
+
+
 def get_synset(id: str) -> _models.Synset:
     with _connect() as conn:
         query = (
-            'SELECT s.ili, p.pos'
+            'SELECT ili, p.pos'
+            '  FROM (SELECT ili, pos_id FROM synsets WHERE id = ? LIMIT 1)'
+            '  JOIN parts_of_speech AS p'
+            '    ON p.id = s.pos_id'
+        )
+        ili, pos = conn.execute(query, (id,)).fetchone()
+        return _models.Synset(
+            id,
+            pos,
+            ili,
+        )
+
+
+def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Synset]:
+    with _connect() as conn:
+        query = (
+            'SELECT s.id, s.ili, p.pos'
             '  FROM synsets AS s'
             '  JOIN parts_of_speech AS p'
             '    ON p.id = s.pos_id'
-            ' WHERE s.id = ?'
+            ' WHERE s.id IN'
+            '       (SELECT r.target'
+            '          FROM synset_relations AS r'
+            '          JOIN synset_relation_types as t'
+            '            ON t.id = r.type_id'
+            '         WHERE r.source_id = ?'
+            '           AND t.type = ?)'
         )
-        ili, pos = conn.execute(query, (id,)).fetchone()
+        return [_models.Synset(id, pos, ili)
+                for id, ili, pos
+                in conn.execute(query, (source_id, relation_type))]
+
+
+def get_definitions_for_synset(id: str) -> List[str]:
+    with _connect() as conn:
         query = 'SELECT definition FROM definitions WHERE synset_id = ?'
-        definitions = [row[0] for row in conn.execute(query, (id,)).fetchall()]
-        query = (
-            'SELECT reltype.type, rel.target_id'
-            '  FROM synset_relations AS rel'
-            '  JOIN synset_relation_types AS reltype'
-            '    ON rel.type_id = reltype.id'
-            ' WHERE rel.source_id = ?'
-        )
-        relations: Dict[str, List[str]] = {}
-        for reltype, target in conn.execute(query, (id,)).fetchall():
-            relations.setdefault(reltype, []).append(target)
+        return [row[0] for row in conn.execute(query, (id,)).fetchall()]
+
+
+def get_examples_for_synset(id: str) -> List[str]:
+    with _connect() as conn:
         query = 'SELECT example from synset_examples WHERE synset_id = ?'
-        examples = [row[0] for row in conn.execute(query, (id,)).fetchall()]
-        query = 'SELECT id FROM senses WHERE synset_id = ?'
-        sense_ids = [row[0] for row in conn.execute(query, (id,)).fetchall()]
-        return _models.Synset(
-            id,
-            ili,
-            pos,
-            definitions,
-            relations,
-            examples,
-            sense_ids
-        )
+        return [row[0] for row in conn.execute(query, (id,)).fetchall()]
 
 
 def get_sense(id: str) -> _models.Sense:
     with _connect() as conn:
-        pass
+        query = (
+            'SELECT s.entry_id, s.synset_id, s.sense_key'
+            '  FROM senses AS s'
+            ' WHERE s.id = ?'
+        )
+        entry_id, synset_id, sense_key = conn.execute(query, (id,)).fetchone()
+        return _models.Sense(id, entry_id, synset_id, sense_key)
+
+
+def get_senses_for_entry(id: str) -> List[_models.Sense]:
+    with _connect() as conn:
+        query = (
+            'SELECT s.id, s.entry_id, s.synset_id, s.sense_key'
+            '  FROM senses AS s'
+            ' WHERE s.entry_id = ?'
+        )
+        return [_models.Sense(id, entry_id, synset_id, sense_key)
+                for id, entry_id, synset_id, sense_key
+                in conn.execute(query, (id,)).fetchall()]
+
+
+def get_senses_for_synset(id: str) -> List[_models.Sense]:
+    with _connect() as conn:
+        query = (
+            'SELECT s.id, s.entry_id, s.synset_id, s.sense_key'
+            '  FROM senses AS s'
+            ' WHERE s.synset_id = ?'
+        )
+        return [_models.Sense(id, entry_id, synset_id, sense_key)
+                for id, entry_id, synset_id, sense_key
+                in conn.execute(query, (id,)).fetchall()]

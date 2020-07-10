@@ -116,6 +116,7 @@ CREATE TABLE senses (
     metadata META
 );
 CREATE INDEX senses_entry_id_index ON senses (entry_id);
+CREATE INDEX senses_synset_id_index ON senses (synset_id);
 
 CREATE TABLE sense_sense_relations (
     source_id TEXT NOT NULL REFERENCES senses (id),

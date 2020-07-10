@@ -1,8 +1,12 @@
 
 from typing import List
 
-from wn._models import Synset, Sense
+from wn._models import Word, Synset, Sense
 from wn import _store
+
+
+def word(id: str) -> Word:
+    return _store.get_entry(id)
 
 
 def synset(id: str) -> Synset:
