@@ -487,7 +487,7 @@ def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Syn
             '  JOIN parts_of_speech AS p'
             '    ON p.id = s.pos_id'
             ' WHERE s.id IN'
-            '       (SELECT r.target'
+            '       (SELECT r.target_id'
             '          FROM synset_relations AS r'
             '          JOIN synset_relation_types as t'
             '            ON t.id = r.type_id'
