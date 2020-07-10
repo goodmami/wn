@@ -390,6 +390,43 @@ def get_entry(id: str) -> _models.Word:
         return _models.Word(id, pos, forms)
 
 
+def find_entries(
+        form: str = None,
+        pos: str = None,
+        lgcode: str = None,
+        project: str = None
+) -> List[_models.Word]:
+    with _connect() as conn:
+        # Unconstrained joins
+        _form = 'forms AS f'
+        _pos = 'parts_of_speech AS p'
+
+        params = {}
+        if form:
+            _form = '(SELECT entry_id, form, rank FROM forms WHERE form = :form) AS f'
+            params['form'] = form
+
+        if pos:
+            _pos = '(SELECT id, pos FROM parts_of_speech WHERE pos = :pos) AS p'
+            params['pos'] = pos
+
+        query = f'''
+            SELECT e.id, p.pos, f.form, f.rank
+              FROM entries AS e
+              JOIN {_form} ON f.entry_id = e.id
+              JOIN {_pos} ON p.id = e.pos_id
+             GROUP BY e.id, p.pos
+        '''
+        data: Dict[Tuple[str, str], Tuple[int, str]] = {}
+        for id, pos, form, rank in conn.execute(query, params):
+            data.setdefault((id, pos), []).append((rank, form))
+        entries = []
+        for (id, pos), forms in data.items():
+            entries.append(_models.Word(id, pos, [form for _, form in sorted(forms)]))
+
+        return entries
+
+
 def get_synset(id: str) -> _models.Synset:
     with _connect() as conn:
         query = (
@@ -404,6 +441,42 @@ def get_synset(id: str) -> _models.Synset:
             pos,
             ili,
         )
+
+
+def find_synsets(
+        form: str = None,
+        pos: str = None,
+        lgcode: str = None,
+        project: str = None
+) -> List[_models.Synset]:
+    with _connect() as conn:
+        # Unconstrained joins
+        _pos = 'parts_of_speech AS p'
+        _form = ''
+
+        params = {}
+        if form:
+            _form = '''
+                JOIN (SELECT n.synset_id FROM senses AS n
+                        JOIN (SELECT entry_id FROM forms WHERE form = :form) AS f
+                          ON f.entry_id = n.entry_id) AS n
+                  ON s.id = n.synset_id
+            '''
+            params['form'] = form
+
+        if pos:
+            _pos = '(SELECT id, pos FROM parts_of_speech WHERE pos = :pos) AS p'
+            params['pos'] = pos
+
+        query = f'''
+            SELECT s.id, p.pos, s.ili
+              FROM synsets AS s
+              {_form}
+              JOIN {_pos} ON p.id = s.pos_id
+        '''
+        return [_models.Synset(id, pos, ili)
+                for id, pos, ili
+                in conn.execute(query, params)]
 
 
 def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Synset]:
