@@ -29,9 +29,10 @@ CREATE TABLE proposed_ilis (
 
 -- Lexical Entries
 
-/* The 'lemma' entity of a lexical entry is just a form, but its
-special status is marked in the "lemmas" table. The lemma's
-part-of-speech value is stored directly on the lexical entry. */
+/* The 'lemma' entity of a lexical entry is just a form, but it should
+   be the only form with rank = 0. After that, rank can be used to
+   indicate preference for a form. */
+
 
 CREATE TABLE entries (
     id TEXT PRIMARY KEY NOT NULL,
@@ -77,6 +78,7 @@ CREATE TABLE synsets (
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
 );
+CREATE INDEX synset_ili_index ON synsets (ili);
 
 CREATE TABLE synset_relations (
     source_id TEXT NOT NULL REFERENCES synsets (id),
