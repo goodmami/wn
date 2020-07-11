@@ -37,7 +37,7 @@ class Synset:
         return f'Synset({self.id!r})'
 
     def definition(self) -> Optional[str]:
-        return next(_store.get_definitions_for_synset(self.id), None)
+        return next(iter(_store.get_definitions_for_synset(self.id)), None)
 
     def examples(self) -> List[str]:
         return _store.get_examples_for_synset(self.id)
