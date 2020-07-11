@@ -11,7 +11,7 @@ The wordnets are stored in a cache directory as follows:
 """
 
 import sys
-from typing import Dict, List, Tuple
+from typing import Union, Dict, List, Tuple
 from pathlib import Path
 import gzip
 import tempfile
@@ -481,19 +481,19 @@ def find_synsets(
 
 def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Synset]:
     with _connect() as conn:
-        query = (
-            'SELECT s.id, s.ili, p.pos'
-            '  FROM synsets AS s'
-            '  JOIN parts_of_speech AS p'
-            '    ON p.id = s.pos_id'
-            ' WHERE s.id IN'
-            '       (SELECT r.target_id'
-            '          FROM synset_relations AS r'
-            '          JOIN synset_relation_types as t'
-            '            ON t.id = r.type_id'
-            '         WHERE r.source_id = ?'
-            '           AND t.type = ?)'
-        )
+        query = '''
+            SELECT r.target_id, p.pos, s.ili
+              FROM (SELECT target_id
+                      FROM synset_relations
+                      JOIN synset_relation_types AS t
+                        ON type_id = t.id
+                     WHERE source_id = ?
+                       AND t.type = ?) AS r
+              JOIN synsets AS s
+                ON s.id = r.target_id
+              JOIN parts_of_speech AS p
+                ON p.id = s.pos_id
+        '''
         return [_models.Synset(id, pos, ili)
                 for id, ili, pos
                 in conn.execute(query, (source_id, relation_type))]
@@ -544,3 +544,43 @@ def get_senses_for_synset(id: str) -> List[_models.Sense]:
         return [_models.Sense(id, entry_id, synset_id, sense_key)
                 for id, entry_id, synset_id, sense_key
                 in conn.execute(query, (id,)).fetchall()]
+
+
+def get_sense_relations(
+        source_id: str,
+        relation_type: str
+) -> List[Union[_models.Synset, _models.Sense]]:
+    with _connect() as conn:
+        rels: List[Union[_models.Synset, _models.Sense]] = []
+        query = '''
+            SELECT r.target_id, s.entry_id, s.synset_id, s.sense_key
+              FROM (SELECT target_id
+                      FROM sense_sense_relations
+                      JOIN sense_relation_types AS t
+                        ON type_id = t.id
+                     WHERE source_id = ?
+                       AND t.type = ?) AS r
+              JOIN senses AS s
+                ON s.id = r.target_id
+        '''
+        rels.extend(_models.Sense(id, entry_id, synset_id, sense_key)
+                    for id, entry_id, synset_id, sense_key
+                    in conn.execute(query, (source_id, relation_type)))
+
+        query = '''
+            SELECT r.target_id, p.pos, s.ili
+              FROM (SELECT target_id
+                      FROM synset_relations
+                      JOIN synset_relation_types AS t
+                        ON type_id = t.id
+                     WHERE source_id = ?
+                       AND t.type = ?) AS r
+              JOIN synsets AS s
+                ON s.id = r.target_id
+              JOIN parts_of_speech AS p
+                ON p.id = s.pos_id
+        '''
+        rels.extend(_models.Synset(id, pos, ili)
+                    for id, pos, ili
+                    in conn.execute(query, (source_id, relation_type)))
+        return rels
