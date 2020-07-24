@@ -1,7 +1,10 @@
+"""
+Constants and literals used in wordnets.
+"""
 
 # Relation Types
 
-SENSE_RELATIONS = {
+SENSE_RELATIONS = frozenset((
     'antonym',
     'also',
     'participle',
@@ -15,9 +18,9 @@ SENSE_RELATIONS = {
     'is_exemplified_by',
     'similar',
     'other',
-}
+))
 
-SYNSET_RELATIONS = {
+SYNSET_RELATIONS = frozenset((
     'agent',
     'also',
     'attribute',
@@ -89,16 +92,16 @@ SYNSET_RELATIONS = {
     'subevent',
     'is_subevent_of',
     'antonym',
-}
+))
 
 
 # Adjective Positions
 
-ADJPOSITIONS = (
+ADJPOSITIONS = frozenset((
     'a',   # attributive
     'ip',  # immediate postnominal
     'p',   # predicative
-)
+))
 
 
 # Parts of Speech
@@ -114,7 +117,7 @@ ADP = ADPOSITION = 'p'
 OTHER = 'x'
 UNKNOWN = 'u'
 
-POS_LIST = (
+PARTS_OF_SPEECH = frozenset((
     NOUN,
     VERB,
     ADJECTIVE,
@@ -125,7 +128,7 @@ POS_LIST = (
     ADPOSITION,
     OTHER,
     UNKNOWN,
-)
+))
 
 
 # Lexicographer Files

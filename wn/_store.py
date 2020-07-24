@@ -86,7 +86,7 @@ def _initialize(basepath: Path, exist_ok: bool = False) -> None:
             # prepare lookup tables
             conn.executemany(
                 'INSERT INTO parts_of_speech (pos) VALUES (?)',
-                ((pos,) for pos in constants.POS_LIST))
+                ((pos,) for pos in constants.PARTS_OF_SPEECH))
             conn.executemany(
                 'INSERT INTO adjpositions (position) VALUES (?)',
                 ((adj,) for adj in constants.ADJPOSITIONS))

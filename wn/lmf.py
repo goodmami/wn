@@ -23,7 +23,7 @@ from wn.constants import (
     SENSE_RELATIONS,
     SYNSET_RELATIONS,
     ADJPOSITIONS,
-    POS_LIST,
+    PARTS_OF_SPEECH,
 )
 
 
@@ -122,7 +122,7 @@ class Definition(NamedTuple):
 class Synset(NamedTuple):
     id: str
     ili: str
-    pos: str  # Literal[*POS_LIST] if Python 3.8+
+    pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
     definitions: Tuple[Definition, ...]
     ili_definition: Optional[ILIDefinition]
     relations: Tuple[SynsetRelation, ...]
@@ -155,7 +155,7 @@ class Form(NamedTuple):
 
 class Lemma(NamedTuple):
     form: str
-    pos: str  # Literal[*POS_LIST] if Python 3.8+
+    pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
     script: str
     tags: Tuple[Tag, ...]
 
@@ -315,7 +315,7 @@ def _load_lemma(events) -> Lemma:
     attrs = elem.attrib
     return Lemma(
         attrs['writtenForm'],
-        _get_literal(attrs['partOfSpeech'], POS_LIST),
+        _get_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
         script=attrs.get('script'),
         tags=_load_tags_until(events, 'Lemma'))
 
@@ -462,7 +462,7 @@ def _load_synset(local_root, events) -> Synset:
     return Synset(
         attrs['id'],
         attrs['ili'],
-        pos=_get_optional_literal(attrs['partOfSpeech'], POS_LIST),
+        pos=_get_optional_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
         definitions=tuple(definitions),
         ili_definition=ili_definition,
         relations=tuple(relations),
