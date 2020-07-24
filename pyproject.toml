@@ -1,3 +1,22 @@
 [build-system]
-requires = ["setuptools>=40.8.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "wn"
+author = "Michael Wayne Goodman"
+author-email = "goodman.m.w@gmail.com"
+home-page = "https://github.com/goodmami/wn"
+requires = [
+    "requests==2.24.0",
+]
+requires-python = ">=3.6"
+description-file = "README.md"
+
+[tool.flit.metadata.requires-extra]
+test = [
+    "pytest",
+    "mypy",
+    "flake8",
+]
+

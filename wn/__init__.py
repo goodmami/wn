@@ -1,4 +1,8 @@
 
+"""
+Wordnet Interface.
+"""
+
 __all__ = (
     '__version__',
     'WordNet',
