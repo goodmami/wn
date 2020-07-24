@@ -142,7 +142,7 @@ def _add_lmf(source):
             synset_ids = lexicon.synset_ids()
 
             cur.execute(
-                'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?)',
+                'INSERT INTO lexicons VALUES (?,?,?,?,?,?,?,?,?)',
                 (lexicon.id,
                  lexicon.label,
                  lexicon.language,
@@ -152,7 +152,6 @@ def _add_lmf(source):
                  lexicon.url,
                  lexicon.citation,
                  lexicon.meta))
-            lex_rowid = cur.lastrowid
 
             count = sum(counts.get(name, 0) for name in
                         ('LexicalEntry', 'Lemma', 'Form',  # 'Tag',
@@ -167,8 +166,8 @@ def _add_lmf(source):
             entries = lexicon.lexical_entries
 
             _insert_ilis(synsets, cur, indicator)
-            _insert_synsets(synsets, lex_rowid, posmap, lexname_map, cur, indicator)
-            _insert_entries(entries, lex_rowid, posmap, cur, indicator)
+            _insert_synsets(synsets, lexicon.id, posmap, lexname_map, cur, indicator)
+            _insert_entries(entries, lexicon.id, posmap, cur, indicator)
             _insert_forms(entries, cur, indicator)
             _insert_senses(entries, adjmap, cur, indicator)
 
@@ -239,12 +238,12 @@ def _insert_ilis(synsets, cur, indicator):
         indicator.send(len(batch))
 
 
-def _insert_synsets(synsets, lex_rowid, posmap, lexname_map, cur, indicator):
+def _insert_synsets(synsets, lex_id, posmap, lexname_map, cur, indicator):
     for batch in _split(synsets):
         data = (
             (synset.id,
              synset.ili if synset.ili and synset.ili != 'in' else None,
-             lex_rowid,
+             lex_id,
              lexname_map[synset.meta.subject] if synset.meta else None,
              posmap[synset.pos],
              synset.lexicalized,
@@ -284,11 +283,11 @@ def _insert_synset_relations(synsets, synset_relmap, cur, indicator):
         indicator.send(len(data))
 
 
-def _insert_entries(entries, lex_rowid, posmap, cur, indicator):
+def _insert_entries(entries, lex_id, posmap, cur, indicator):
     for batch in _split(entries):
         data = (
             (entry.id,
-             lex_rowid,
+             lex_id,
              posmap[entry.lemma.pos],
              entry.meta)
             for entry in batch
