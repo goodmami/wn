@@ -1,8 +1,8 @@
 
 from typing import List
 
-from wn._api import synsets
-from wn._models import Synset
+from wn._api import word, words, synset, synsets
+from wn._models import Synset, Word
 
 
 class WordNet:
@@ -10,17 +10,17 @@ class WordNet:
     Class for interacting with WordNet data.
     """
 
-    def __init__(self, project: str = None, version: str = None):
-        self.project = project
-        self.version = version
+    def __init__(self, lexicon: str = None):
+        self.lexicon = lexicon
 
-    def synsets(self,
-                form: str = None,
-                id: str = None,
-                ili: str = None,
-                pos: str = None) -> List[Synset]:
-        return synsets(form=form,
-                       id=id,
-                       ili=ili,
-                       pos=pos,
-                       project=self.project)
+    def word(self, id: str) -> Word:
+        return word(id)
+
+    def words(self, form: str = None, pos: str = None) -> List[Word]:
+        return words(form=form, pos=pos, lexicon=self.lexicon)
+
+    def synset(self, id: str) -> Synset:
+        return synset(id)
+
+    def synsets(self, form: str = None, pos: str = None) -> List[Synset]:
+        return synsets(form=form, pos=pos, lexicon=self.lexicon)
