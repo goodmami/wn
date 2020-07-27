@@ -1,17 +1,9 @@
 """
 Storage back-end interface.
-
-The wordnets are stored in a cache directory as follows:
-
-- index.json  : listing of added wordnets
-- synsets/    : directory of project-specific synset stores
-  - xyz       : synsets for the 'xyz' project
-- senses/     : directory of project-specific sense stores
-  - xyz       : senses for the 'xyz' project
 """
 
 import sys
-from typing import Union, Dict, List, Tuple
+from typing import Union, Dict, List, Tuple, Collection
 from pathlib import Path
 import gzip
 import tempfile
@@ -191,10 +183,10 @@ def _precheck(source, cur):
         id = info['id']
         version = info['version']
         row = cur.execute(
-            'SELECT EXISTS(SELECT 1 FROM lexicons WHERE id=? AND version=?)',
+            'SELECT * FROM lexicons WHERE id=? AND version=?',
             (id, version)
         ).fetchone()
-        if row[0]:
+        if row:
             raise wn.Error(f'wordnet already added: {id} {version}')
         yield info['counts']
 
@@ -378,7 +370,10 @@ def get_entry(id: str) -> _models.Word:
             '  JOIN parts_of_speech AS p'
             '    ON p.id = pos_id'
         )
-        pos = conn.execute(query, (id,)).fetchone()[0]
+        row = conn.execute(query, (id,)).fetchone()
+        if not row:
+            raise wn.Error(f'no such lexical entry: {id}')
+        pos = row[0]
         query = (
             'SELECT f.form'
             '  FROM forms AS f'
@@ -448,17 +443,15 @@ def find_entries(
 def get_synset(id: str) -> _models.Synset:
     with _connect() as conn:
         query = (
-            'SELECT ili, p.pos'
-            '  FROM (SELECT ili, pos_id FROM synsets WHERE id = ? LIMIT 1)'
+            'SELECT p.pos, ili'
+            '  FROM (SELECT ili, pos_id FROM synsets WHERE id = ? LIMIT 1) AS s'
             '  JOIN parts_of_speech AS p'
             '    ON p.id = s.pos_id'
         )
-        ili, pos = conn.execute(query, (id,)).fetchone()
-        return _models.Synset(
-            id,
-            pos,
-            ili,
-        )
+        row = conn.execute(query, (id,)).fetchone()
+        if not row:
+            raise wn.Error(f'no such synset: {id}')
+        return _models.Synset(id, *row)
 
 
 def find_synsets(
@@ -551,8 +544,10 @@ def get_sense(id: str) -> _models.Sense:
             '  FROM senses AS s'
             ' WHERE s.id = ?'
         )
-        entry_id, synset_id, sense_key = conn.execute(query, (id,)).fetchone()
-        return _models.Sense(id, entry_id, synset_id, sense_key)
+        row = conn.execute(query, (id,)).fetchone()
+        if not row:
+            raise wn.Error(f'no such sense: {id}')
+        return _models.Sense(id, *row)
 
 
 def get_senses_for_entry(id: str) -> List[_models.Sense]:
