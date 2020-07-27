@@ -17,7 +17,16 @@ __all__ = (
     'Error',
 )
 
-from wn._exceptions import Error
+
+# This exception are defined here so the traceback says, e.g.,
+# `wn.Error` and not `wn._exceptions.Error`; if this behavior can be
+# cleanly implmented in some other way, then I'd be happy to move
+# non-import code out of __init__.py
+
+class Error(Exception):
+    """Generic error class for invalid wordnet operations."""
+
+
 from wn._meta import __version__
 from wn._projects import get_project_info
 from wn._store import add
