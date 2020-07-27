@@ -12,8 +12,8 @@ def word(id: str) -> Word:
 def words(form: str = None,
           pos: str = None,
           lgcode: str = None,
-          project: str = None) -> List[Word]:
-    return _store.find_entries(form=form, pos=pos, lgcode=lgcode, project=project)
+          lexicon: str = None) -> List[Word]:
+    return _store.find_entries(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
 
 
 def synset(id: str) -> Synset:
@@ -23,8 +23,8 @@ def synset(id: str) -> Synset:
 def synsets(form: str = None,
             pos: str = None,
             lgcode: str = None,
-            project: str = None) -> List[Synset]:
-    return _store.find_synsets(form=form, pos=pos, lgcode=lgcode, project=project)
+            lexicon: str = None) -> List[Synset]:
+    return _store.find_synsets(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
 
 
 def sense(id: str) -> Sense:

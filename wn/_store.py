@@ -393,31 +393,50 @@ def find_entries(
         form: str = None,
         pos: str = None,
         lgcode: str = None,
-        project: str = None
+        lexicon: str = None
 ) -> List[_models.Word]:
     with _connect() as conn:
-        # Unconstrained joins
-        _form = 'forms AS f'
-        _pos = 'parts_of_speech AS p'
-
+        parts = ['SELECT e.id, p.pos, f.form, f.rank FROM entries AS e']
         params = {}
         if form:
-            _form = '(SELECT entry_id, form, rank FROM forms WHERE form = :form) AS f'
+            parts.append('''
+                JOIN (SELECT entry_id, form, rank
+                        FROM forms
+                       WHERE form = :form) AS f
+                  ON f.entry_id = e.id
+            ''')
             params['form'] = form
+        else:
+            parts.append('JOIN forms as f ON f.entry_id = e.id')
 
         if pos:
-            _pos = '(SELECT id, pos FROM parts_of_speech WHERE pos = :pos) AS p'
+            parts.append('''
+                JOIN (SELECT id, pos
+                        FROM parts_of_speech
+                       WHERE pos = :pos) AS p
+                  ON p.id = e.pos_id
+            ''')
             params['pos'] = pos
+        else:
+            parts.append('JOIN parts_of_speech AS p ON p.id = e.pos_id')
 
-        query = f'''
-            SELECT e.id, p.pos, f.form, f.rank
-              FROM entries AS e
-              JOIN {_form} ON f.entry_id = e.id
-              JOIN {_pos} ON p.id = e.pos_id
-             GROUP BY e.id, p.pos
-        '''
-        data: Dict[Tuple[str, str], Tuple[int, str]] = {}
-        for id, pos, form, rank in conn.execute(query, params):
+        if lexicon:
+            parts.append('WHERE e.lexicon_id = :lexicon')
+            params['lexicon'] = lexicon
+        elif lgcode:
+            parts.append('''
+                JOIN (SELECT id
+                        FROM lexicons
+                       WHERE language = :lgcode) AS lx
+                  ON lx.id = e.lexicon_id
+            ''')
+            params['lgcode'] = lgcode
+        parts.append('GROUP BY e.id, p.pos')
+        query = '\n'.join(parts)
+
+        data: Dict[Tuple[str, str], List[Tuple[int, str]]] = {}
+        for row in conn.execute(query, params):  # type: Tuple[str, str, str, int]
+            id, pos, form, rank = row
             data.setdefault((id, pos), []).append((rank, form))
         entries = []
         for (id, pos), forms in data.items():
@@ -446,36 +465,46 @@ def find_synsets(
         form: str = None,
         pos: str = None,
         lgcode: str = None,
-        project: str = None
+        lexicon: str = None
 ) -> List[_models.Synset]:
     with _connect() as conn:
-        # Unconstrained joins
-        _pos = 'parts_of_speech AS p'
-        _form = ''
-
+        parts = ['SELECT s.id, p.pos, s.ili FROM synsets AS s']
         params = {}
         if form:
-            _form = '''
+            parts.append('''
                 JOIN (SELECT n.synset_id FROM senses AS n
                         JOIN (SELECT entry_id FROM forms WHERE form = :form) AS f
                           ON f.entry_id = n.entry_id) AS n
                   ON s.id = n.synset_id
-            '''
+            ''')
             params['form'] = form
 
         if pos:
-            _pos = '(SELECT id, pos FROM parts_of_speech WHERE pos = :pos) AS p'
+            parts.append('''
+                JOIN (SELECT id, pos
+                        FROM parts_of_speech
+                       WHERE pos = :pos) AS p
+                  ON p.id = s.pos_id
+            ''')
             params['pos'] = pos
+        else:
+            parts.append('JOIN parts_of_speech AS p ON p.id = s.pos_id')
 
-        query = f'''
-            SELECT s.id, p.pos, s.ili
-              FROM synsets AS s
-              {_form}
-              JOIN {_pos} ON p.id = s.pos_id
-        '''
+        if lexicon:
+            parts.append('WHERE s.lexicon_id = :lexicon')
+            params['lexicon'] = lexicon
+        elif lgcode:
+            parts.append('''
+                JOIN (SELECT id
+                        FROM lexicons
+                       WHERE language = :lgcode) AS lx
+                  ON lx.id = s.lexicon_id
+            ''')
+            params['lgcode'] = lgcode
+
         return [_models.Synset(id, pos, ili)
                 for id, pos, ili
-                in conn.execute(query, params)]
+                in conn.execute('\n'.join(parts), params)]
 
 
 def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Synset]:
