@@ -24,6 +24,9 @@ class Word:
     def senses(self) -> List['Sense']:
         return _store.get_senses_for_entry(self.id)
 
+    def synsets(self) -> List['Synset']:
+        return [sense.synset() for sense in self.senses()]
+
     def derived_words(self) -> List['Word']:
         return [derived_sense.word()
                 for sense in self.senses()
@@ -92,6 +95,9 @@ class Synset(_Relatable):
     def senses(self) -> List['Sense']:
         return _store.get_senses_for_synset(self.id)
 
+    def words(self) -> List[Word]:
+        return [sense.word() for sense in self.senses()]
+
     def get_related(self, *args: str) -> List['Synset']:
         return _store.get_synset_relations(self.id, args)
 
@@ -152,7 +158,7 @@ class Sense(_Relatable):
     def get_related(self, *args: str) -> List['Sense']:
         return _store.get_sense_relations(self.id, args)
 
-    def get_related_synsets(self, *args: str) -> List['Synset']:
+    def get_related_synsets(self, *args: str) -> List[Synset]:
         return _store.get_sense_synset_relations(self.id, args)
 
     def derivations(self) -> List['Sense']:
