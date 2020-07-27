@@ -42,6 +42,12 @@ class _Relatable:
     def get_related(self: T, relation: str) -> List[T]:
         raise NotImplementedError
 
+    def antonyms(self: T) -> List[T]:
+        return self.get_related('antonym')
+
+    def similar(self: T) -> List[T]:
+        return self.get_related('similar')
+
     def closure(self: T, relation: str) -> Iterator[T]:
         visited = set()
         queue = self.get_related(relation)
@@ -51,6 +57,19 @@ class _Relatable:
                 visited.add(relatable.id)
                 yield relatable
                 queue.extend(relatable.get_related(relation))
+
+    def relation_paths(self: T, *args: str) -> Iterator[List[T]]:
+        paths: List[Tuple[List[T], Set[str]]] = [([self], set([self.id]))]
+        while paths:
+            path, visited = paths.pop()
+            related = [s for s in path[-1].get_related(*args) if s.id not in visited]
+            if not related:
+                yield path
+            else:
+                for synset in reversed(related):
+                    new_path = list(path) + [synset]
+                    new_visited = set(visited) | {synset.id}
+                    paths.append((new_path, new_visited))
 
 
 class Synset(_Relatable):
@@ -75,19 +94,6 @@ class Synset(_Relatable):
 
     def get_related(self, *args: str) -> List['Synset']:
         return _store.get_synset_relations(self.id, args)
-
-    def relation_paths(self, *args: str) -> Iterator[List['Synset']]:
-        paths: List[Tuple[List['Synset'], Set[str]]] = [([self], set([self.id]))]
-        while paths:
-            path, visited = paths.pop()
-            related = [s for s in path[-1].get_related(*args) if s.id not in visited]
-            if not related:
-                yield path
-            else:
-                for synset in reversed(related):
-                    new_path = list(path) + [synset]
-                    new_visited = set(visited) | {synset.id}
-                    paths.append((new_path, new_visited))
 
     def hypernym_paths(self) -> Iterator[List['Synset']]:
         return self.relation_paths('hypernym', 'instance_hypernym')
@@ -124,12 +130,6 @@ class Synset(_Relatable):
             'instance_hyponym'
         )
 
-    def antonyms(self) -> List['Synset']:
-        return self.get_related('antonym')
-
-    def similar(self) -> List['Synset']:
-        return self.get_related('similar')
-
 
 class Sense(_Relatable):
     __slots__ = '_entry_id', '_synset_id', 'key'
@@ -160,9 +160,3 @@ class Sense(_Relatable):
 
     def pertainyms(self) -> List['Sense']:
         return self.get_related('pertainym')
-
-    def antonyms(self) -> List['Sense']:
-        return self.get_related('antonym')
-
-    def similar(self) -> List['Sense']:
-        return self.get_related('similar')
