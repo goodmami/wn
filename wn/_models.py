@@ -42,15 +42,15 @@ class Synset:
     def examples(self) -> List[str]:
         return _store.get_examples_for_synset(self.id)
 
-    def get_related(self, relation_type: str) -> List['Synset']:
-        return _store.get_synset_relations(self.id, relation_type)
-
     def senses(self) -> List['Sense']:
         return _store.get_senses_for_synset(self.id)
 
 
 class Sense:
     __slots__ = 'id', '_entry_id', '_synset_id', 'key'
+    def get_related(self, *args: str) -> List['Synset']:
+        return _store.get_synset_relations(self.id, args)
+
 
     def __init__(self, id: str, entry_id: str, synset_id: str, key: str = None):
         self.id = id
@@ -61,11 +61,12 @@ class Sense:
     def __repr__(self) -> str:
         return f'Sense({self.id!r})'
 
-    def get_related(self, relation_type: str) -> List[Union[Synset, 'Sense']]:
-        return _store.get_sense_relations(self.id, relation_type)
-
     def word(self) -> Word:
         return _store.get_entry(self._entry_id)
 
     def synset(self) -> Synset:
         return _store.get_synset(self._synset_id)
+
+    def get_related(self, *args: str) -> List['Sense']:
+        return _store.get_sense_relations(self.id, args)
+

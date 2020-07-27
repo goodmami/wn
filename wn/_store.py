@@ -172,7 +172,7 @@ def _add_lmf(source):
             _insert_senses(entries, adjmap, cur, indicator)
 
             _insert_synset_relations(synsets, synset_relmap, cur, indicator)
-            _insert_sense_relations(entries, sense_relmap, 'sense_sense_relations',
+            _insert_sense_relations(entries, sense_relmap, 'sense_relations',
                                     sense_ids, cur, indicator)
             _insert_sense_relations(entries, sense_relmap, 'sense_synset_relations',
                                     synset_ids, cur, indicator)
@@ -507,16 +507,21 @@ def find_synsets(
                 in conn.execute('\n'.join(parts), params)]
 
 
-def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Synset]:
+def get_synset_relations(
+        source_id: str,
+        relation_types: Collection[str],
+) -> List[_models.Synset]:
+    if isinstance(relation_types, str):
+        relation_types = (relation_types,)
     with _connect() as conn:
-        query = '''
+        query = f'''
             SELECT r.target_id, p.pos, s.ili
               FROM (SELECT target_id
                       FROM synset_relations
                       JOIN synset_relation_types AS t
                         ON type_id = t.id
                      WHERE source_id = ?
-                       AND t.type = ?) AS r
+                       AND t.type in ({_qs(relation_types)})) AS r
               JOIN synsets AS s
                 ON s.id = r.target_id
               JOIN parts_of_speech AS p
@@ -524,7 +529,7 @@ def get_synset_relations(source_id: str, relation_type: str) -> List[_models.Syn
         '''
         return [_models.Synset(id, pos, ili)
                 for id, ili, pos
-                in conn.execute(query, (source_id, relation_type))]
+                in conn.execute(query, (source_id, *relation_types))]
 
 
 def get_definitions_for_synset(id: str) -> List[str]:
@@ -576,39 +581,51 @@ def get_senses_for_synset(id: str) -> List[_models.Sense]:
 
 def get_sense_relations(
         source_id: str,
-        relation_type: str
-) -> List[Union[_models.Synset, _models.Sense]]:
+        relation_types: Collection[str],
+) -> List[_models.Sense]:
+    if isinstance(relation_types, str):
+        relation_types = (relation_types,)
     with _connect() as conn:
-        rels: List[Union[_models.Synset, _models.Sense]] = []
-        query = '''
+        query = f'''
             SELECT r.target_id, s.entry_id, s.synset_id, s.sense_key
               FROM (SELECT target_id
-                      FROM sense_sense_relations
+                      FROM sense_relations
                       JOIN sense_relation_types AS t
                         ON type_id = t.id
                      WHERE source_id = ?
-                       AND t.type = ?) AS r
+                       AND t.type in ({_qs(relation_types)})) AS r
               JOIN senses AS s
                 ON s.id = r.target_id
         '''
-        rels.extend(_models.Sense(id, entry_id, synset_id, sense_key)
-                    for id, entry_id, synset_id, sense_key
-                    in conn.execute(query, (source_id, relation_type)))
+        return [_models.Sense(id, entry_id, synset_id, sense_key)
+                for id, entry_id, synset_id, sense_key
+                in conn.execute(query, (source_id, *relation_types))]
 
-        query = '''
+
+def get_sense_synset_relations(
+        source_id: str,
+        relation_types: Collection[str],
+) -> List[_models.Synset]:
+    if isinstance(relation_types, str):
+        relation_types = (relation_types,)
+    with _connect() as conn:
+        query = f'''
             SELECT r.target_id, p.pos, s.ili
               FROM (SELECT target_id
-                      FROM synset_relations
+                      FROM sense_synset_relations
                       JOIN synset_relation_types AS t
                         ON type_id = t.id
                      WHERE source_id = ?
-                       AND t.type = ?) AS r
+                       AND t.type in ({_qs(relation_types)})) AS r
               JOIN synsets AS s
                 ON s.id = r.target_id
               JOIN parts_of_speech AS p
                 ON p.id = s.pos_id
         '''
-        rels.extend(_models.Synset(id, pos, ili)
-                    for id, pos, ili
-                    in conn.execute(query, (source_id, relation_type)))
-        return rels
+        return [_models.Synset(id, pos, ili)
+                for id, pos, ili
+                in conn.execute(query, (source_id, *relation_types))]
+
+
+def _qs(x: Collection) -> str:
+    return ','.join('?' * len(x))

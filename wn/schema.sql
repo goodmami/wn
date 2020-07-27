@@ -119,13 +119,13 @@ CREATE TABLE senses (
 CREATE INDEX senses_entry_id_index ON senses (entry_id);
 CREATE INDEX senses_synset_id_index ON senses (synset_id);
 
-CREATE TABLE sense_sense_relations (
+CREATE TABLE sense_relations (
     source_id TEXT NOT NULL REFERENCES senses (id),
     target_id TEXT NOT NULL REFERENCES senses (id),
     type_id TEXT NOT NULL REFERENCES sense_relation_types (id),
     metadata META
 );
-CREATE INDEX sense_sense_relations_id_index ON sense_sense_relations (source_id);
+CREATE INDEX sense_relations_id_index ON sense_relations (source_id);
 
 CREATE TABLE sense_synset_relations (
     source_id TEXT NOT NULL REFERENCES senses (id),
