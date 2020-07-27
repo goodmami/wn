@@ -1,5 +1,5 @@
 
-from typing import TypeVar, Optional, List, Iterator
+from typing import TypeVar, Optional, List, Tuple, Set, Iterator
 
 from wn import _store
 
@@ -75,6 +75,22 @@ class Synset(_Relatable):
 
     def get_related(self, *args: str) -> List['Synset']:
         return _store.get_synset_relations(self.id, args)
+
+    def relation_paths(self, *args: str) -> Iterator[List['Synset']]:
+        paths: List[Tuple[List['Synset'], Set[str]]] = [([self], set([self.id]))]
+        while paths:
+            path, visited = paths.pop()
+            related = [s for s in path[-1].get_related(*args) if s.id not in visited]
+            if not related:
+                yield path
+            else:
+                for synset in reversed(related):
+                    new_path = list(path) + [synset]
+                    new_visited = set(visited) | {synset.id}
+                    paths.append((new_path, new_visited))
+
+    def hypernym_paths(self) -> Iterator[List['Synset']]:
+        return self.relation_paths('hypernym', 'instance_hypernym')
 
     def holonyms(self) -> List['Synset']:
         return self.get_related(
