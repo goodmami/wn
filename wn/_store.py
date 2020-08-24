@@ -236,7 +236,7 @@ def _insert_synsets(synsets, lex_id, posmap, lexname_map, cur, indicator):
             (synset.id,
              synset.ili if synset.ili and synset.ili != 'in' else None,
              lex_id,
-             lexname_map[synset.meta.subject] if synset.meta else None,
+             lexname_map.get(synset.meta.subject) if synset.meta else None,
              posmap[synset.pos],
              synset.lexicalized,
              synset.meta)
