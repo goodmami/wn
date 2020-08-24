@@ -70,7 +70,7 @@ CREATE TABLE syntactic_behaviour_senses (
 
 CREATE TABLE synsets (
     id TEXT PRIMARY KEY NOT NULL,
-    ili TEXT UNIQUE,
+    ili TEXT,
     lexicon_id INTEGER NOT NULL REFERENCES lexicons (id),
     lexname_id INTEGER REFERENCES lexicographer_files (id),
     pos_id INTEGER REFERENCES parts_of_speech (id),

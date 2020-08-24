@@ -226,7 +226,7 @@ def _insert_ilis(synsets, cur, indicator):
              synset.ili_definition.meta if synset.ili_definition else None)
             for synset in batch if synset.ili and synset.ili != 'in'
         )
-        cur.executemany('INSERT INTO ilis VALUES (?,?,?)', data)
+        cur.executemany('INSERT OR IGNORE INTO ilis VALUES (?,?,?)', data)
         indicator.send(len(batch))
 
 
