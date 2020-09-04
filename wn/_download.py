@@ -41,7 +41,9 @@ def download(project_or_url: str, version: str = None) -> None:
         url = info['resource_url']
 
     path = get_cache_path(url)
-    if not path.exists():
+    if path.exists():
+        print(f'Cached file found: {path!s}', file=sys.stderr)
+    else:
         try:
             with open(path, 'wb') as f:
                 with requests.get(url, stream=True) as response:
