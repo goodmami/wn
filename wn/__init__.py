@@ -6,7 +6,6 @@ Wordnet Interface.
 __all__ = (
     '__version__',
     'WordNet',
-    'get_project_info',
     'download',
     'add',
     'word',
@@ -28,7 +27,7 @@ class Error(Exception):
 
 
 from wn._meta import __version__
-from wn._projects import get_project_info
+from wn._config import config
 from wn._store import add
 from wn._download import download
 from wn._api import word, words, synset, synsets, sense

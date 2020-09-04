@@ -2,8 +2,8 @@
 Storage back-end interface.
 """
 
+from typing import Dict, List, Tuple, Collection
 import sys
-from typing import Union, Dict, List, Tuple, Collection
 from pathlib import Path
 import gzip
 import tempfile
@@ -24,13 +24,8 @@ from wn import constants
 from wn import _models
 from wn import lmf
 
-
-CACHE_DIRECTORY = Path.home() / '.wn_data'
-DOWNLOADS_DIRECTORY = CACHE_DIRECTORY / 'downloads'
 DBFILENAME = 'wn.db'
 
-CACHE_DIRECTORY.mkdir(exist_ok=True)
-DOWNLOADS_DIRECTORY.mkdir(exist_ok=True)
 
 BATCH_SIZE = 1000
 
@@ -58,45 +53,39 @@ sqlite3.register_converter('boolean', _convert_boolean)
 
 # The _connect() function should be used for all connections
 
-def _connect(dbpath: Path = None) -> sqlite3.Connection:
-    if dbpath is None:
-        dbpath = CACHE_DIRECTORY / DBFILENAME
+def _connect() -> sqlite3.Connection:
+    dbpath = wn.config.data_directory / DBFILENAME
+    initialized = dbpath.is_file()
     conn = sqlite3.connect(dbpath)
     # foreign key support needs to be enabled for each connection
     conn.execute('PRAGMA foreign_keys = ON')
     # uncomment the following to help with debugging
     # conn.set_trace_callback(print)
+    if not initialized:
+        _initialize(conn)
     return conn
 
 
-def _initialize(basepath: Path, exist_ok: bool = False) -> None:
-    dbpath = basepath / DBFILENAME
-    if not dbpath.exists():
-        schema = resources.read_text('wn', 'schema.sql')
-        with _connect(basepath / DBFILENAME) as conn:
-            conn.executescript(schema)
-            # prepare lookup tables
-            conn.executemany(
-                'INSERT INTO parts_of_speech (pos) VALUES (?)',
-                ((pos,) for pos in constants.PARTS_OF_SPEECH))
-            conn.executemany(
-                'INSERT INTO adjpositions (position) VALUES (?)',
-                ((adj,) for adj in constants.ADJPOSITIONS))
-            conn.executemany(
-                'INSERT INTO synset_relation_types (type) VALUES (?)',
-                ((typ,) for typ in constants.SYNSET_RELATIONS))
-            conn.executemany(
-                'INSERT INTO sense_relation_types (type) VALUES (?)',
-                ((typ,) for typ in constants.SENSE_RELATIONS))
-            conn.executemany(
-                'INSERT INTO lexicographer_files (id, name) VALUES (?,?)',
-                ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))
-    elif not exist_ok:
-        raise wn.Error('database already exists: {dbpath!s}')
-
-
-# ensure the default database is initialized when loading the module
-_initialize(CACHE_DIRECTORY, exist_ok=True)
+def _initialize(conn: sqlite3.Connection) -> None:
+    schema = resources.read_text('wn', 'schema.sql')
+    with conn:
+        conn.executescript(schema)
+        # prepare lookup tables
+        conn.executemany(
+            'INSERT INTO parts_of_speech (pos) VALUES (?)',
+            ((pos,) for pos in constants.PARTS_OF_SPEECH))
+        conn.executemany(
+            'INSERT INTO adjpositions (position) VALUES (?)',
+            ((adj,) for adj in constants.ADJPOSITIONS))
+        conn.executemany(
+            'INSERT INTO synset_relation_types (type) VALUES (?)',
+            ((typ,) for typ in constants.SYNSET_RELATIONS))
+        conn.executemany(
+            'INSERT INTO sense_relation_types (type) VALUES (?)',
+            ((typ,) for typ in constants.SENSE_RELATIONS))
+        conn.executemany(
+            'INSERT INTO lexicographer_files (id, name) VALUES (?,?)',
+            ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))
 
 
 def add(source: AnyPath) -> None:

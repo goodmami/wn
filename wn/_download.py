@@ -7,7 +7,7 @@ import requests
 
 from wn._util import progress_bar
 from wn import _store
-from wn import get_project_info
+from wn import config
 
 
 CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
@@ -17,7 +17,7 @@ def get_cache_path(url: str) -> Path:
     """Return the path for caching *url*."""
     # TODO: ETags?
     filename = hashlib.sha256(url.encode('utf-8')).hexdigest()
-    return _store.DOWNLOADS_DIRECTORY / filename
+    return config.downloads_directory / filename
 
 
 def download(project_or_url: str, version: str = None) -> None:
@@ -37,7 +37,7 @@ def download(project_or_url: str, version: str = None) -> None:
     if '//' in project_or_url:  # assuming url must have //
         url = project_or_url
     else:
-        info = get_project_info(project_or_url, version=version)
+        info = config.get_project_info(project_or_url, version=version)
         url = info['resource_url']
 
     path = get_cache_path(url)
