@@ -48,6 +48,8 @@ CREATE TABLE forms (
     rank INTEGER DEFAULT 1,  -- rank 0 is the preferred lemma
     UNIQUE (entry_id, form, script)
 );
+CREATE INDEX form_index ON forms (form);
+
 
 CREATE TABLE tags (
     form_id INTEGER NOT NULL REFERENCES forms (id),
