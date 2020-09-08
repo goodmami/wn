@@ -353,28 +353,6 @@ def _insert_examples(objs, table, cur, indicator):
         indicator.send(len(data))
 
 
-def get_entry(id: str) -> _Word:
-    with _connect() as conn:
-        query = (
-            'SELECT p.pos'
-            '  FROM (SELECT pos_id FROM entries WHERE id = ? LIMIT 1)'
-            '  JOIN parts_of_speech AS p'
-            '    ON p.id = pos_id'
-        )
-        row = conn.execute(query, (id,)).fetchone()
-        if not row:
-            raise wn.Error(f'no such lexical entry: {id}')
-        pos = row[0]
-        query = (
-            'SELECT f.form'
-            '  FROM forms AS f'
-            ' WHERE f.entry_id = ?'
-            ' ORDER BY f.rank ASC'
-        )
-        forms = [row[0] for row in conn.execute(query, (id,)).fetchall()]
-        return (id, pos, forms)
-
-
 def find_entries(
         id: str = None,
         form: str = None,
