@@ -30,5 +30,4 @@ from wn._meta import __version__
 from wn._config import config
 from wn._db import add
 from wn._download import download
-from wn._api import word, words, synset, synsets, sense
-from wn.wordnet import WordNet
+from wn._core import word, words, synset, synsets, sense, WordNet

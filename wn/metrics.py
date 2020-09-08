@@ -1,5 +1,5 @@
 
-from wn._models import Word, Synset
+from wn._core import Word, Synset
 
 
 # Word-based Metrics

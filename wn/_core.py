@@ -1,6 +1,8 @@
 
 from typing import TypeVar, Optional, List, Tuple, Set, Iterator
+import itertools
 
+import wn
 from wn import _db
 
 
@@ -22,7 +24,8 @@ class Word:
         return self._forms
 
     def senses(self) -> List['Sense']:
-        return _db.get_senses_for_entry(self.id)
+        iterable = _db.get_senses_for_entry(self.id)
+        return list(itertools.starmap(Sense, iterable))
 
     def synsets(self) -> List['Synset']:
         return [sense.synset() for sense in self.senses()]
@@ -93,13 +96,15 @@ class Synset(_Relatable):
         return _db.get_examples_for_synset(self.id)
 
     def senses(self) -> List['Sense']:
-        return _db.get_senses_for_synset(self.id)
+        iterable = _db.get_senses_for_synset(self.id)
+        return list(itertools.starmap(Sense, iterable))
 
     def words(self) -> List[Word]:
         return [sense.word() for sense in self.senses()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        return _db.get_synset_relations(self.id, args)
+        iterable = _db.get_synset_relations(self.id, args)
+        return list(itertools.starmap(Synset, iterable))
 
     def hypernym_paths(self) -> Iterator[List['Synset']]:
         return self.relation_paths('hypernym', 'instance_hypernym')
@@ -138,31 +143,89 @@ class Synset(_Relatable):
 
 
 class Sense(_Relatable):
-    __slots__ = '_entry_id', '_synset_id', 'key'
+    __slots__ = '_entry_id', '_synset_id'
 
-    def __init__(self, id: str, entry_id: str, synset_id: str, key: str = None):
+    def __init__(self, id: str, entry_id: str, synset_id: str):
         self.id = id
         self._entry_id = entry_id
         self._synset_id = synset_id
-        self.key = key
 
     def __repr__(self) -> str:
         return f'Sense({self.id!r})'
 
     def word(self) -> Word:
-        return _db.get_entry(self._entry_id)
+        return Word(*next(_db.find_entries(id=self._entry_id)))
 
     def synset(self) -> Synset:
-        return _db.get_synset(self._synset_id)
+        return Synset(*next(_db.find_synsets(id=self._synset_id)))
 
     def get_related(self, *args: str) -> List['Sense']:
-        return _db.get_sense_relations(self.id, args)
+        iterable = _db.get_sense_relations(self.id, args)
+        return list(itertools.starmap(Sense, iterable))
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
-        return _db.get_sense_synset_relations(self.id, args)
+        iterable = _db.get_sense_synset_relations(self.id, args)
+        return list(itertools.starmap(Synset, iterable))
 
     def derivations(self) -> List['Sense']:
         return self.get_related('derivation')
 
     def pertainyms(self) -> List['Sense']:
         return self.get_related('pertainym')
+
+
+class WordNet:
+    """
+    Class for interacting with WordNet data.
+    """
+
+    def __init__(self, lexicon: str = None):
+        self.lexicon = lexicon
+
+    def word(self, id: str) -> Word:
+        return word(id)
+
+    def words(self, form: str = None, pos: str = None) -> List[Word]:
+        return words(form=form, pos=pos, lexicon=self.lexicon)
+
+    def synset(self, id: str) -> Synset:
+        return synset(id)
+
+    def synsets(self, form: str = None, pos: str = None) -> List[Synset]:
+        return synsets(form=form, pos=pos, lexicon=self.lexicon)
+
+
+def word(id: str, lexicon: str = None) -> Word:
+    iterable = _db.find_entries(id=id, lexicon=lexicon)
+    try:
+        return Word(*next(iterable))
+    except StopIteration:
+        raise wn.Error(f'no such lexical entry: {id}')
+
+
+def words(form: str = None,
+          pos: str = None,
+          lgcode: str = None,
+          lexicon: str = None) -> List[Word]:
+    iterable = _db.find_entries(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
+    return list(itertools.starmap(Word, iterable))
+
+
+def synset(id: str, lexicon: str = None) -> Synset:
+    iterable = _db.find_synsets(id=id, lexicon=lexicon)
+    try:
+        return Synset(*next(iterable))
+    except StopIteration:
+        raise wn.Error(f'no such synset: {id}')
+
+
+def synsets(form: str = None,
+            pos: str = None,
+            lgcode: str = None,
+            lexicon: str = None) -> List[Synset]:
+    iterable = _db.find_synsets(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
+    return list(itertools.starmap(Synset, iterable))
+
+
+def sense(id: str) -> Sense:
+    return Sense(*_db.get_sense(id))

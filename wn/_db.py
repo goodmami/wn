@@ -2,7 +2,7 @@
 Storage back-end interface.
 """
 
-from typing import Dict, List, Tuple, Collection, Iterator
+from typing import List, Tuple, Collection, Iterator
 import sys
 from pathlib import Path
 import gzip
@@ -22,13 +22,14 @@ import wn
 from wn._types import AnyPath
 from wn._util import is_gzip, progress_bar
 from wn import constants
-from wn import _models
 from wn import lmf
 
 DBFILENAME = 'wn.db'
-
-
 BATCH_SIZE = 1000
+
+_Word = Tuple[str, str, List[str]]  # id, pos, forms
+_Synset = Tuple[str, str, str]      # id, pos, ili
+_Sense = Tuple[str, str, str]       # id, entry_id, synset_id
 
 
 # Optional metadata is stored as a JSON string
@@ -352,7 +353,7 @@ def _insert_examples(objs, table, cur, indicator):
         indicator.send(len(data))
 
 
-def get_entry(id: str) -> _models.Word:
+def get_entry(id: str) -> _Word:
     with _connect() as conn:
         query = (
             'SELECT p.pos'
@@ -371,7 +372,7 @@ def get_entry(id: str) -> _models.Word:
             ' ORDER BY f.rank ASC'
         )
         forms = [row[0] for row in conn.execute(query, (id,)).fetchall()]
-        return _models.Word(id, pos, forms)
+        return (id, pos, forms)
 
 
 def find_entries(
@@ -380,7 +381,7 @@ def find_entries(
         pos: str = None,
         lgcode: str = None,
         lexicon: str = None
-) -> List[_models.Word]:
+) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
             'SELECT e.id, p.pos, f.form',
@@ -410,15 +411,12 @@ def find_entries(
 
         query_parts.append(' ORDER BY e.id, f.rank')
 
-        entries = []
         query = '\n'.join(query_parts)
         rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
         for key, group in itertools.groupby(rows, lambda row: row[0:2]):
             id, pos = key
             forms = [row[2] for row in group]
-            entries.append(_models.Word(id, pos, forms))
-
-        return entries
+            yield (id, pos, forms)
 
 
 def find_synsets(
@@ -427,7 +425,7 @@ def find_synsets(
         pos: str = None,
         lgcode: str = None,
         lexicon: str = None
-) -> List[_models.Synset]:
+) -> Iterator[_Synset]:
     with _connect() as conn:
         query_parts = [
             'SELECT s.id, p.pos, s.ili',
@@ -457,14 +455,14 @@ def find_synsets(
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
 
         query = '\n'.join(query_parts)
-        rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
-        return [_models.Synset(id, pos, ili) for id, pos, ili in rows]
+        rows: Iterator[_Synset] = conn.execute(query, params)
+        yield from rows
 
 
 def get_synset_relations(
         source_id: str,
         relation_types: Collection[str],
-) -> List[_models.Synset]:
+) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
@@ -481,9 +479,9 @@ def get_synset_relations(
               JOIN parts_of_speech AS p
                 ON p.id = s.pos_id
         '''
-        return [_models.Synset(id, pos, ili)
-                for id, ili, pos
-                in conn.execute(query, (source_id, *relation_types))]
+        params = source_id, *relation_types
+        rows: Iterator[_Synset] = conn.execute(query, params)
+        yield from rows
 
 
 def get_definitions_for_synset(id: str) -> List[str]:
@@ -498,52 +496,50 @@ def get_examples_for_synset(id: str) -> List[str]:
         return [row[0] for row in conn.execute(query, (id,)).fetchall()]
 
 
-def get_sense(id: str) -> _models.Sense:
+def get_sense(id: str) -> _Sense:
     with _connect() as conn:
         query = (
-            'SELECT s.entry_id, s.synset_id, s.sense_key'
+            'SELECT s.entry_id, s.synset_id'
             '  FROM senses AS s'
             ' WHERE s.id = ?'
         )
-        row = conn.execute(query, (id,)).fetchone()
+        row: Tuple[str, str] = conn.execute(query, (id,)).fetchone()
         if not row:
             raise wn.Error(f'no such sense: {id}')
-        return _models.Sense(id, *row)
+        return (id, *row)
 
 
-def get_senses_for_entry(id: str) -> List[_models.Sense]:
+def get_senses_for_entry(id: str) -> Iterator[_Sense]:
     with _connect() as conn:
         query = (
-            'SELECT s.id, s.entry_id, s.synset_id, s.sense_key'
+            'SELECT s.id, s.entry_id, s.synset_id'
             '  FROM senses AS s'
             ' WHERE s.entry_id = ?'
         )
-        return [_models.Sense(id, entry_id, synset_id, sense_key)
-                for id, entry_id, synset_id, sense_key
-                in conn.execute(query, (id,)).fetchall()]
+        rows: Iterator[_Sense] = conn.execute(query, (id,))
+        yield from rows
 
 
-def get_senses_for_synset(id: str) -> List[_models.Sense]:
+def get_senses_for_synset(id: str) -> Iterator[_Sense]:
     with _connect() as conn:
         query = (
-            'SELECT s.id, s.entry_id, s.synset_id, s.sense_key'
+            'SELECT s.id, s.entry_id, s.synset_id'
             '  FROM senses AS s'
             ' WHERE s.synset_id = ?'
         )
-        return [_models.Sense(id, entry_id, synset_id, sense_key)
-                for id, entry_id, synset_id, sense_key
-                in conn.execute(query, (id,)).fetchall()]
+        rows: Iterator[_Sense] = conn.execute(query, (id,))
+        yield from rows
 
 
 def get_sense_relations(
         source_id: str,
         relation_types: Collection[str],
-) -> List[_models.Sense]:
+) -> Iterator[_Sense]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT r.target_id, s.entry_id, s.synset_id, s.sense_key
+            SELECT r.target_id, s.entry_id, s.synset_id
               FROM (SELECT target_id
                       FROM sense_relations
                       JOIN sense_relation_types AS t
@@ -553,15 +549,15 @@ def get_sense_relations(
               JOIN senses AS s
                 ON s.id = r.target_id
         '''
-        return [_models.Sense(id, entry_id, synset_id, sense_key)
-                for id, entry_id, synset_id, sense_key
-                in conn.execute(query, (source_id, *relation_types))]
+        params = source_id, *relation_types
+        rows: Iterator[_Sense] = conn.execute(query, params)
+        yield from rows
 
 
 def get_sense_synset_relations(
         source_id: str,
         relation_types: Collection[str],
-) -> List[_models.Synset]:
+) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
@@ -578,9 +574,9 @@ def get_sense_synset_relations(
               JOIN parts_of_speech AS p
                 ON p.id = s.pos_id
         '''
-        return [_models.Synset(id, pos, ili)
-                for id, pos, ili
-                in conn.execute(query, (source_id, *relation_types))]
+        params = source_id, *relation_types
+        rows: Iterator[_Synset] = conn.execute(query, params)
+        yield from rows
 
 
 def _qs(x: Collection) -> str:
