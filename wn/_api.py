@@ -1,12 +1,16 @@
 
 from typing import List
 
+import wn
 from wn._models import Word, Synset, Sense
 from wn import _store
 
 
-def word(id: str) -> Word:
-    return _store.get_entry(id)
+def word(id: str, lexicon: str = None) -> Word:
+    words = _store.find_entries(id=id, lexicon=lexicon)
+    if not words:
+        raise wn.Error(f'no such lexical entry: {id}')
+    return words[0]
 
 
 def words(form: str = None,
@@ -16,8 +20,11 @@ def words(form: str = None,
     return _store.find_entries(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
 
 
-def synset(id: str) -> Synset:
-    return _store.get_synset(id)
+def synset(id: str, lexicon: str = None) -> Synset:
+    synsets = _store.find_synsets(id=id, lexicon=lexicon)
+    if not synsets:
+        raise wn.Error(f'no such synset: {id}')
+    return synsets[0]
 
 
 def synsets(form: str = None,
