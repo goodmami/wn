@@ -6,7 +6,7 @@ import hashlib
 import requests
 
 from wn._util import progress_bar
-from wn import _store
+from wn import _db
 from wn import config
 
 
@@ -59,4 +59,4 @@ def download(project_or_url: str, version: str = None) -> None:
             print(f'\r\x1b[KDownload failed at {size} bytes', file=sys.stderr)
             path.unlink()
             raise
-    _store.add(path)
+    _db.add(path)

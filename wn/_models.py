@@ -1,7 +1,7 @@
 
 from typing import TypeVar, Optional, List, Tuple, Set, Iterator
 
-from wn import _store
+from wn import _db
 
 
 class Word:
@@ -22,7 +22,7 @@ class Word:
         return self._forms
 
     def senses(self) -> List['Sense']:
-        return _store.get_senses_for_entry(self.id)
+        return _db.get_senses_for_entry(self.id)
 
     def synsets(self) -> List['Synset']:
         return [sense.synset() for sense in self.senses()]
@@ -87,19 +87,19 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     def definition(self) -> Optional[str]:
-        return next(iter(_store.get_definitions_for_synset(self.id)), None)
+        return next(iter(_db.get_definitions_for_synset(self.id)), None)
 
     def examples(self) -> List[str]:
-        return _store.get_examples_for_synset(self.id)
+        return _db.get_examples_for_synset(self.id)
 
     def senses(self) -> List['Sense']:
-        return _store.get_senses_for_synset(self.id)
+        return _db.get_senses_for_synset(self.id)
 
     def words(self) -> List[Word]:
         return [sense.word() for sense in self.senses()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        return _store.get_synset_relations(self.id, args)
+        return _db.get_synset_relations(self.id, args)
 
     def hypernym_paths(self) -> Iterator[List['Synset']]:
         return self.relation_paths('hypernym', 'instance_hypernym')
@@ -150,16 +150,16 @@ class Sense(_Relatable):
         return f'Sense({self.id!r})'
 
     def word(self) -> Word:
-        return _store.get_entry(self._entry_id)
+        return _db.get_entry(self._entry_id)
 
     def synset(self) -> Synset:
-        return _store.get_synset(self._synset_id)
+        return _db.get_synset(self._synset_id)
 
     def get_related(self, *args: str) -> List['Sense']:
-        return _store.get_sense_relations(self.id, args)
+        return _db.get_sense_relations(self.id, args)
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
-        return _store.get_sense_synset_relations(self.id, args)
+        return _db.get_sense_synset_relations(self.id, args)
 
     def derivations(self) -> List['Sense']:
         return self.get_related('derivation')
