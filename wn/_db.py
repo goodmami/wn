@@ -94,6 +94,12 @@ def add(source: AnyPath) -> None:
     """Add the LMF file at *source* to the database.
 
     The file at *source* may be gzip-compressed or plain text XML.
+
+    >>> wn.add('english-wordnet-2020.xml')
+    Checking english-wordnet-2020.xml
+    Reading english-wordnet-2020.xml
+    Building [###############################] (1337590/1337590)
+
     """
     source = Path(source)
 

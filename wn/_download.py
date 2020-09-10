@@ -33,6 +33,13 @@ def download(project_or_url: str, version: str = None) -> None:
     The retrieved file is cached locally and added to the wordnet
     database. If the URL was previously downloaded, a cached version
     will be used instead.
+
+    >>> wn.download('ewn', version='2020')
+    Download complete (13643357 bytes)
+    Checking /tmp/tmp_uqntl0l.xml
+    Reading /tmp/tmp_uqntl0l.xml
+    Building [###############################] (1337590/1337590)
+
     """
     if '//' in project_or_url:  # assuming url must have //
         url = project_or_url

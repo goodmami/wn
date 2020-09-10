@@ -18,7 +18,7 @@ def progress_bar(
         fillchars: Sequence[str] = '#',
         file: TextIO = sys.stderr):
     """
-    Return a generator which yields a progres bar string.
+    Return a generator which yields a progress bar string.
 
     Update the counter with the generator's send() method giving an
     incremement value. Normally you'd want to print with end='' to

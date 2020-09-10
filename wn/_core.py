@@ -196,6 +196,16 @@ class WordNet:
 
 
 def word(id: str, lexicon: str = None) -> Word:
+    """Return the word with *id* in *lexicon*.
+
+    If *lexicon* is not give, all lexicons will be searched, but only
+    the first result, in arbitrary order, will be returned. If no
+    words match, `None` is returned.
+
+    >>> wn.word('ewn-cell-n')
+    Word('ewn-cell-n')
+
+    """
     iterable = _db.find_entries(id=id, lexicon=lexicon)
     try:
         return Word(*next(iterable))
@@ -207,11 +217,35 @@ def words(form: str = None,
           pos: str = None,
           lgcode: str = None,
           lexicon: str = None) -> List[Word]:
+    """Return the list of matching words.
+
+    The *form*, *pos*, *lgcode*, and *lexicon* parameters act as
+    filters---i.e., if all are omitted, all known words will be
+    returned.
+
+    >>> len(wn.words())
+    282902
+    >>> len(wn.words(pos='v'))
+    34592
+    >>> wn.words(form="scurry")
+    [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
+
+    """
     iterable = _db.find_entries(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
     return list(itertools.starmap(Word, iterable))
 
 
 def synset(id: str, lexicon: str = None) -> Synset:
+    """Return the synset with *id* in *lexicon*.
+
+    If *lexicon* is not give, all lexicons will be searched, but only
+    the first result, in arbitrary order, will be returned. If no
+    words match, `None` is returned.
+
+    >>> wn.synset('ewn-03311152-n')
+    Synset('ewn-03311152-n')
+
+    """
     iterable = _db.find_synsets(id=id, lexicon=lexicon)
     try:
         return Synset(*next(iterable))
@@ -223,6 +257,14 @@ def synsets(form: str = None,
             pos: str = None,
             lgcode: str = None,
             lexicon: str = None) -> List[Synset]:
+    """Return the list of matching synsets.
+
+    >>> len(wn.synsets('couch'))
+    4
+    >>> wn.synsets('couch', pos='v')
+    [Synset('ewn-00983308-v')]
+
+    """
     iterable = _db.find_synsets(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
     return list(itertools.starmap(Synset, iterable))
 
