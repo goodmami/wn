@@ -19,4 +19,8 @@ test = [
     "mypy",
     "flake8",
 ]
-
+doc = [
+    "sphinx",
+    "furo",
+    "sphinx-copybutton",
+]
