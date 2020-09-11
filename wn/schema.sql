@@ -1,6 +1,7 @@
 
 CREATE TABLE lexicons (
-    id TEXT PRIMARY KEY NOT NULL,
+    rowid INTEGER PRIMARY KEY,
+    id TEXT NOT NULL,
     label TEXT NOT NULL,
     language TEXT NOT NULL,  -- bcp-47 language tag
     email TEXT NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE proposed_ilis (
 
 CREATE TABLE entries (
     id TEXT PRIMARY KEY NOT NULL,
-    lexicon_id INTEGER NOT NULL REFERENCES lexicons (id),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
     pos_id INTEGER NOT NULL REFERENCES parts_of_speech (id),
     metadata META
 );
@@ -73,7 +74,7 @@ CREATE TABLE syntactic_behaviour_senses (
 CREATE TABLE synsets (
     id TEXT PRIMARY KEY NOT NULL,
     ili TEXT,
-    lexicon_id INTEGER NOT NULL REFERENCES lexicons (id),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
     lexname_id INTEGER REFERENCES lexicographer_files (id),
     pos_id INTEGER REFERENCES parts_of_speech (id),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,

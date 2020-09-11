@@ -131,7 +131,7 @@ def _add_lmf(source):
             synset_ids = lexicon.synset_ids()
 
             cur.execute(
-                'INSERT INTO lexicons VALUES (?,?,?,?,?,?,?,?,?)',
+                'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?)',
                 (lexicon.id,
                  lexicon.label,
                  lexicon.language,
@@ -141,6 +141,7 @@ def _add_lmf(source):
                  lexicon.url,
                  lexicon.citation,
                  lexicon.meta))
+            lexid = cur.lastrowid
 
             count = sum(counts.get(name, 0) for name in
                         ('LexicalEntry', 'Lemma', 'Form',  # 'Tag',
@@ -155,8 +156,8 @@ def _add_lmf(source):
             entries = lexicon.lexical_entries
 
             _insert_ilis(synsets, cur, indicator)
-            _insert_synsets(synsets, lexicon.id, posmap, lexname_map, cur, indicator)
-            _insert_entries(entries, lexicon.id, posmap, cur, indicator)
+            _insert_synsets(synsets, lexid, posmap, lexname_map, cur, indicator)
+            _insert_entries(entries, lexid, posmap, cur, indicator)
             _insert_forms(entries, cur, indicator)
             _insert_senses(entries, adjmap, cur, indicator)
 
