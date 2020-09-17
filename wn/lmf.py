@@ -56,130 +56,225 @@ _dc_qname_pairs = (
 
 
 class Metadata(NamedTuple):
-    contributor: Optional[str]
-    coverage: Optional[str]
-    creator: Optional[str]
-    date: Optional[str]
-    description: Optional[str]
-    format: Optional[str]
-    identifier: Optional[str]
-    publisher: Optional[str]
-    relation: Optional[str]
-    rights: Optional[str]
-    source: Optional[str]
-    subject: Optional[str]
-    title: Optional[str]
-    type: Optional[str]
-    status: Optional[str]
-    note: Optional[str]
-    confidence: Optional[float]
+    contributor: Optional[str] = None
+    coverage: Optional[str] = None
+    creator: Optional[str] = None
+    date: Optional[str] = None
+    description: Optional[str] = None
+    format: Optional[str] = None
+    identifier: Optional[str] = None
+    publisher: Optional[str] = None
+    relation: Optional[str] = None
+    rights: Optional[str] = None
+    source: Optional[str] = None
+    subject: Optional[str] = None
+    title: Optional[str] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
+    note: Optional[str] = None
+    confidence: Optional[float] = None
+
+
+class _HasMeta:
+    __slots__ = 'meta',
+
+    def __init__(self, meta: Metadata = None):
+        self.meta = meta
 
 
 # These types model the WN-LMF DTD
 # http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd
 
-class Count(NamedTuple):
-    value: int
-    meta: Optional[Metadata]
+class Count(_HasMeta):
+    __slots__ = 'value',
+
+    def __init__(self, value: int, meta: Metadata = None):
+        super().__init__(meta)
+        self.value = value
 
 
-class SyntacticBehaviour(NamedTuple):
-    subcategorization_frame: str
-    senses: List[str]
+class SyntacticBehaviour:
+    __slots__ = 'frame', 'senses'
+
+    def __init__(self, frame: str, senses: List[str] = None):
+        self.frame = frame
+        self.senses = senses or []
 
 
-class SenseRelation(NamedTuple):
-    target: str
-    type: str  # Literal[*SENSE_RELATIONS] if python 3.8+
-    meta: Optional[Metadata]
+class SenseRelation(_HasMeta):
+    __slots__ = 'target', 'type'
+
+    def __init__(self, target: str, type: str, meta: Metadata = None):
+        super().__init__(meta)
+        self.target = target
+        self.type = type
 
 
-class SynsetRelation(NamedTuple):
-    target: str
-    type: str  # Literal[*SYNSET_RELATIONS] if python 3.8+
-    meta: Optional[Metadata]
+class SynsetRelation(_HasMeta):
+    __slots__ = 'target', 'type'
+
+    def __init__(self, target: str, type: str, meta: Metadata = None):
+        super().__init__(meta)
+        self.target = target
+        self.type = type
 
 
-class Example(NamedTuple):
-    text: str
-    language: str
-    meta: Optional[Metadata]
+class Example(_HasMeta):
+    __slots__ = 'text', 'language'
+
+    def __init__(self, text: str, language: str = '', meta: Metadata = None):
+        super().__init__(meta)
+        self.text = text
+        self.language = language
 
 
-class ILIDefinition(NamedTuple):
-    text: str
-    meta: Optional[Metadata]
+class ILIDefinition(_HasMeta):
+    __slots__ = 'text',
+
+    def __init__(self, text: str, meta: Metadata = None):
+        super().__init__(meta)
+        self.text = text
 
 
-class Definition(NamedTuple):
-    text: str
-    language: str
-    source_sense: str
-    meta: Optional[Metadata]
+class Definition(_HasMeta):
+    __slots__ = 'text', 'language', 'source_sense'
+
+    def __init__(
+            self,
+            text: str,
+            language: str = '',
+            source_sense: str = '',
+            meta: Metadata = None):
+        super().__init__(meta)
+        self.text = text
+        self.language = language
+        self.source_sense = source_sense
 
 
-class Synset(NamedTuple):
-    id: str
-    ili: str
-    pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
-    definitions: List[Definition]
-    ili_definition: Optional[ILIDefinition]
-    relations: List[SynsetRelation]
-    examples: List[Example]
-    lexicalized: bool
-    meta: Optional[Metadata]
+class Synset(_HasMeta):
+    __slots__ = ('id', 'ili', 'pos', 'definitions', 'ili_definition',
+                 'relations', 'examples', 'lexicalized')
+
+    def __init__(
+            self,
+            id: str,
+            ili: str,
+            pos: str,
+            definitions: List[Definition] = None,
+            ili_definition: ILIDefinition = None,
+            relations: List[SynsetRelation] = None,
+            examples: List[Example] = None,
+            lexicalized: bool = True,
+            meta: Metadata = None):
+        super().__init__(meta)
+        self.id = id
+        self.ili = ili
+        self.pos = pos
+        self.definitions = definitions or []
+        self.ili_definition = ili_definition
+        self.relations = relations or []
+        self.examples = examples or []
+        self.lexicalized = lexicalized
 
 
-class Sense(NamedTuple):
-    id: str
-    synset: str
-    relations: List[SenseRelation]
-    examples: List[Example]
-    counts: List[Count]
-    lexicalized: bool
-    adjposition: str  # Literal[*ADJPOSITIONS] if Python 3.8+
-    meta: Optional[Metadata]
+class Sense(_HasMeta):
+    __slots__ = ('id', 'synset', 'relations', 'examples', 'counts',
+                 'lexicalized', 'adjposition')
+
+    def __init__(
+            self,
+            id: str,
+            synset: str,
+            relations: List[SenseRelation] = None,
+            examples: List[Example] = None,
+            counts: List[Count] = None,
+            lexicalized: bool = True,
+            adjposition: str = '',
+            meta: Metadata = None):
+        super().__init__(meta)
+        self.id = id
+        self.synset = synset
+        self.relations = relations or []
+        self.examples = examples or []
+        self.counts = counts or []
+        self.lexicalized = lexicalized
+        self.adjposition = adjposition
 
 
-class Tag(NamedTuple):
-    text: str
-    category: str
+class Tag:
+    __slots__ = 'text', 'category'
+
+    def __init__(self, text: str, category: str):
+        self.text = text
+        self.category = category
 
 
-class Form(NamedTuple):
-    form: str
-    script: str
-    tags: List[Tag]
+class Form:
+    __slots__ = 'form', 'script', 'tags'
+
+    def __init__(self, form: str, script: str, tags: List[Tag] = None):
+        self.form = form
+        self.script = script
+        self.tags = tags or []
 
 
-class Lemma(NamedTuple):
-    form: str
-    pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
-    script: str
-    tags: List[Tag]
+class Lemma:
+    __slots__ = 'form', 'pos', 'script', 'tags'
+
+    def __init__(self, form: str, pos: str, script: str = '', tags: List[Tag] = None):
+        self.form = form
+        self.pos = pos
+        self.script = script
+        self.tags = tags or []
 
 
-class LexicalEntry(NamedTuple):
-    id: str
-    lemma: Lemma
-    forms: List[Form]
-    senses: List[Sense]
-    syntactic_behaviours: List[SyntacticBehaviour]
-    meta: Optional[Metadata]
+class LexicalEntry(_HasMeta):
+    __slots__ = 'id', 'lemma', 'forms', 'senses', 'syntactic_behaviours'
+
+    def __init__(
+            self,
+            id: str,
+            lemma: Lemma,
+            forms: List[Form] = None,
+            senses: List[Sense] = None,
+            syntactic_behaviours: List[SyntacticBehaviour] = None,
+            meta: Metadata = None):
+        super().__init__(meta)
+        self.id = id
+        self.lemma = lemma
+        self.forms = forms or []
+        self.senses = senses or []
+        self.syntactic_behaviours = syntactic_behaviours or []
 
 
-class Lexicon(NamedTuple):
-    id: str
-    label: str
-    language: str
-    email: str
-    license: str
-    version: str
-    lexical_entries: List[LexicalEntry]
-    synsets: List[Synset]
-    url: str
-    citation: str
-    meta: Optional[Metadata]
+class Lexicon(_HasMeta):
+    __slots__ = ('id', 'label', 'language', 'email', 'license', 'version',
+                 'url', 'citation', 'lexical_entries', 'synsets')
+
+    def __init__(
+            self,
+            id: str,
+            label: str,
+            language: str,
+            email: str,
+            license: str,
+            version: str,
+            url: str = '',
+            citation: str = '',
+            lexical_entries: List[LexicalEntry] = None,
+            synsets: List[Synset] = None,
+            meta: Metadata = None):
+        super().__init__(meta)
+        self.id = id
+        self.label = label
+        self.language = language
+        self.email = email
+        self.license = license
+        self.version = version
+        self.url = url
+        self.citation = citation
+        self.lexical_entries = lexical_entries or []
+        self.synsets = synsets or []
 
     def entry_ids(self) -> Set[str]:
         return {entry.id for entry in self.lexical_entries}
@@ -265,10 +360,10 @@ def _load_lexicon(local_root, events) -> Lexicon:
         attrs['email'],
         attrs['license'],
         attrs['version'],
-        lexical_entries,
-        synsets,
         url=attrs.get('url'),
         citation=attrs.get('citation'),
+        lexical_entries=lexical_entries,
+        synsets=synsets,
         meta=_get_metadata(attrs),
     )
 
