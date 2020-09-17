@@ -2,8 +2,18 @@
 from wn import lmf
 
 
-def test_load(test_en_lmf):
-    lexicons = lmf.load(test_en_lmf)
+class TestLexicon:
+
+    def test_entry_ids(self):
+        lex = lmf.Lexicon(
+            'id', 'Test', 'tst', 'test@example.com', 'CC-BY 4.0', '1',
+            lexical_entries=[],
+            synsets=[])
+        assert lex.entry_ids() == set()
+
+
+def test_load(datadir):
+    lexicons = lmf.load(datadir / 'mini-lmf-1.0.xml')
     assert len(lexicons) == 1
     lexicon = lexicons[0]
 
@@ -15,11 +25,11 @@ def test_load(test_en_lmf):
     assert lexicon.version == '1'
     assert lexicon.url == 'https://example.com/test-en'
 
-    assert len(lexicon.lexical_entries) == 1
+    assert len(lexicon.lexical_entries) == 5
     le = lexicon.lexical_entries[0]
-    assert le.id == 'test-en-example-n'
+    assert le.id == 'test-en-information-n'
 
-    assert le.lemma.form == 'example'
+    assert le.lemma.form == 'information'
     assert le.lemma.pos == 'n'
     assert le.lemma.script is None
     assert len(le.lemma.tags) == 0
@@ -27,10 +37,10 @@ def test_load(test_en_lmf):
     assert len(le.forms) == 0
 
     assert len(le.senses) == 1
-    assert le.senses[0].id == 'test-en-example-n-05828980-01'
-    assert le.senses[0].synset == 'test-en-05828980-n'
-    assert len(le.senses[0].relations) == 1
-    assert le.senses[0].relations[0].target == 'test-en-exemplify-v-01023137-01'
-    assert le.senses[0].relations[0].type == 'derivation'
+    assert le.senses[0].id == 'test-en-information-n-0001-01'
+    assert le.senses[0].synset == 'test-en-0001-n'
+    assert len(le.senses[0].relations) == 0
+    # assert le.senses[0].relations[0].target == 'test-en-exemplify-v-01023137-01'
+    # assert le.senses[0].relations[0].type == 'derivation'
 
-    assert len(lexicon.synsets) == 2
+    assert len(lexicon.synsets) == 3

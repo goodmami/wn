@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <Lexicon id="test-en"
+           label="Testing English WordNet"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1"
+           url="https://example.com/test-en">
+
+    <LexicalEntry id="test-en-information-n">
+      <Lemma partOfSpeech="n" writtenForm="information" />
+      <Sense id="test-en-information-n-0001-01" synset="test-en-0001-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-example-n">
+      <Lemma partOfSpeech="n" writtenForm="example" />
+      <Sense id="test-en-example-n-0002-01" synset="test-en-0002-n" >
+        <SenseRelation relType="derivation" target="test-en-exemplify-v-0003-01" />
+      </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-exemplify-v">
+      <Lemma partOfSpeech="v" writtenForm="exemplify" />
+      <Form writtenForm="exemplifies" />
+      <Form writtenForm="exemplified" />
+      <Form writtenForm="exemplifying" />
+      <Sense id="test-en-exemplifly-v-0003-01" synset="test-en-0003-v" >
+        <SenseRelation relType="derivation" target="test-en-example-v-0002-01" />
+      </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-illustration-n">
+      <Lemma partOfSpeech="n" writtenForm="illustration" />
+      <Sense id="test-en-illustration-n-0002-01" synset="test-en-0002-n" >
+        <SenseRelation relType="derivation" target="test-en-illustrate-v-0004-01" />
+      </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-illustrate-v">
+      <Lemma partOfSpeech="v" writtenForm="illustrate" />
+      <Sense id="test-en-illustrate-v-0004-01" synset="test-en-0003-v" >
+        <SenseRelation relType="derivation" target="test-en-illustration-v-0002-01" />
+      </Sense>
+    </LexicalEntry>
+
+    <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>something that informs</Definition>
+      <Example>"this is information"</Example>
+    </Synset>
+
+    <Synset id="test-en-0002-n" ili="i67469" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>something that exemplifies</Definition>
+      <SynsetRelation relType="hypernym" target="test-en-0001-n" />
+      <Example>"this is an example"</Example>
+    </Synset>
+
+    <Synset id="test-en-0003-v" ili="i26682" partOfSpeech="v" dc:subject="verb.communication">
+      <Definition>providing an example</Definition>
+    </Synset>
+
+  </Lexicon>
+</LexicalResource>
