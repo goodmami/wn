@@ -12,7 +12,6 @@ from typing import (
     Set,
     NamedTuple,
     Optional,
-    Tuple,
 )
 import warnings
 import xml.etree.ElementTree as ET  # for general XML parsing
@@ -86,7 +85,7 @@ class Count(NamedTuple):
 
 class SyntacticBehaviour(NamedTuple):
     subcategorization_frame: str
-    senses: Tuple[str, ...]
+    senses: List[str]
 
 
 class SenseRelation(NamedTuple):
@@ -123,10 +122,10 @@ class Synset(NamedTuple):
     id: str
     ili: str
     pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
-    definitions: Tuple[Definition, ...]
+    definitions: List[Definition]
     ili_definition: Optional[ILIDefinition]
-    relations: Tuple[SynsetRelation, ...]
-    examples: Tuple[Example, ...]
+    relations: List[SynsetRelation]
+    examples: List[Example]
     lexicalized: bool
     meta: Optional[Metadata]
 
@@ -134,9 +133,9 @@ class Synset(NamedTuple):
 class Sense(NamedTuple):
     id: str
     synset: str
-    relations: Tuple[SenseRelation, ...]
-    examples: Tuple[Example, ...]
-    counts: Tuple[Count, ...]
+    relations: List[SenseRelation]
+    examples: List[Example]
+    counts: List[Count]
     lexicalized: bool
     adjposition: str  # Literal[*ADJPOSITIONS] if Python 3.8+
     meta: Optional[Metadata]
@@ -150,22 +149,22 @@ class Tag(NamedTuple):
 class Form(NamedTuple):
     form: str
     script: str
-    tags: Tuple[Tag, ...]
+    tags: List[Tag]
 
 
 class Lemma(NamedTuple):
     form: str
     pos: str  # Literal[*PARTS_OF_SPEECH] if Python 3.8+
     script: str
-    tags: Tuple[Tag, ...]
+    tags: List[Tag]
 
 
 class LexicalEntry(NamedTuple):
     id: str
     lemma: Lemma
-    forms: Tuple[Form, ...]
-    senses: Tuple[Sense, ...]
-    syntactic_behaviours: Tuple[SyntacticBehaviour, ...]
+    forms: List[Form]
+    senses: List[Sense]
+    syntactic_behaviours: List[SyntacticBehaviour]
     meta: Optional[Metadata]
 
 
@@ -176,8 +175,8 @@ class Lexicon(NamedTuple):
     email: str
     license: str
     version: str
-    lexical_entries: Tuple[LexicalEntry, ...]
-    synsets: Tuple[Synset, ...]
+    lexical_entries: List[LexicalEntry]
+    synsets: List[Synset]
     url: str
     citation: str
     meta: Optional[Metadata]
@@ -192,7 +191,7 @@ class Lexicon(NamedTuple):
         return {synset.id for synset in self.synsets}
 
 
-LexicalResource = Tuple[Lexicon, ...]
+LexicalResource = List[Lexicon]
 
 
 def scan_lexicons(source: AnyPath) -> List[Dict]:
@@ -238,7 +237,7 @@ def load(source: AnyPath) -> LexicalResource:
     _assert_closed(event, elem, 'LexicalResource')
     list(events)  # consume remaining events, if any
 
-    return tuple(lexicons)
+    return lexicons
 
 
 def _load_lexicon(local_root, events) -> Lexicon:
@@ -266,8 +265,8 @@ def _load_lexicon(local_root, events) -> Lexicon:
         attrs['email'],
         attrs['license'],
         attrs['version'],
-        tuple(lexical_entries),
-        tuple(synsets),
+        lexical_entries,
+        synsets,
         url=attrs.get('url'),
         citation=attrs.get('citation'),
         meta=_get_metadata(attrs),
@@ -301,9 +300,9 @@ def _load_lexical_entry(local_root, events) -> LexicalEntry:
     return LexicalEntry(
         attrs['id'],
         lemma,
-        forms=tuple(forms),
-        senses=tuple(senses),
-        syntactic_behaviours=tuple(syntactic_behaviours),
+        forms=forms,
+        senses=senses,
+        syntactic_behaviours=syntactic_behaviours,
         meta=_get_metadata(attrs),
     )
 
@@ -328,7 +327,7 @@ def _load_form(local_root, events) -> Form:
         tags=_load_tags_until(events, 'Form'))
 
 
-def _load_tags_until(events, terminus) -> Tuple[Tag, ...]:
+def _load_tags_until(events, terminus) -> List[Tag]:
     event, elem = next(events)
 
     tags: List[Tag] = []
@@ -340,7 +339,7 @@ def _load_tags_until(events, terminus) -> Tuple[Tag, ...]:
 
     _assert_closed(event, elem, terminus)
 
-    return tuple(tags)
+    return tags
 
 
 def _load_sense(local_root, events) -> Sense:
@@ -373,9 +372,9 @@ def _load_sense(local_root, events) -> Sense:
     return Sense(
         attrs['id'],
         attrs['synset'],
-        relations=tuple(relations),
-        examples=tuple(examples),
-        counts=tuple(counts),
+        relations=relations,
+        examples=examples,
+        counts=counts,
         lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
         adjposition=_get_optional_literal(attrs.get('adjposition'), ADJPOSITIONS),
         meta=_get_metadata(attrs),
@@ -421,7 +420,7 @@ def _load_syntactic_behaviour(elem) -> SyntacticBehaviour:
     attrs = elem.attrib
     return SyntacticBehaviour(
         attrs['subcategorizationFrame'],
-        senses=tuple(attrs.get('senses', '').split()),
+        senses=attrs.get('senses', '').split(),
     )
 
 
@@ -463,10 +462,10 @@ def _load_synset(local_root, events) -> Synset:
         attrs['id'],
         attrs['ili'],
         pos=_get_optional_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
-        definitions=tuple(definitions),
+        definitions=definitions,
         ili_definition=ili_definition,
-        relations=tuple(relations),
-        examples=tuple(examples),
+        relations=relations,
+        examples=examples,
         lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
         meta=_get_metadata(attrs),
     )
