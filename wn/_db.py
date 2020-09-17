@@ -24,7 +24,6 @@ from wn._util import is_gzip, progress_bar
 from wn import constants
 from wn import lmf
 
-DBFILENAME = 'wn.db'
 BATCH_SIZE = 1000
 
 _Word = Tuple[str, str, List[str]]  # id, pos, forms
@@ -56,7 +55,7 @@ sqlite3.register_converter('boolean', _convert_boolean)
 # The _connect() function should be used for all connections
 
 def _connect() -> sqlite3.Connection:
-    dbpath = wn.config.data_directory / DBFILENAME
+    dbpath = wn.config.database_path
     initialized = dbpath.is_file()
     conn = sqlite3.connect(dbpath)
     # foreign key support needs to be enabled for each connection

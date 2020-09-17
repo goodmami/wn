@@ -10,6 +10,7 @@ from wn import Error
 
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
+DEFAULT_DATABASE_FILENAME = 'wn.db'
 
 
 class WNConfig:
@@ -17,6 +18,7 @@ class WNConfig:
     def __init__(self):
         self._data_directory = DEFAULT_DATA_DIRECTORY
         self._projects = {}
+        self.database_filename = DEFAULT_DATABASE_FILENAME
 
     @property
     def data_directory(self) -> Path:
@@ -30,6 +32,10 @@ class WNConfig:
         if dir.exists() and not dir.is_dir():
             raise Error(f'path exists and is not a directory: {dir}')
         self._data_directory = dir
+
+    @property
+    def database_path(self):
+        return self._data_directory / self.database_filename
 
     @property
     def downloads_directory(self):

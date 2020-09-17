@@ -59,13 +59,13 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE syntactic_behaviours (
-    id INTEGER PRIMARY KEY,
-    entry_id TEXT NOT NULL REFERENCES entries (id),
+    rowid INTEGER PRIMARY KEY,
+    lexicon_rowid TEXT NOT NULL REFERENCES lexicons (rowid),
     frame TEXT
 );
 
 CREATE TABLE syntactic_behaviour_senses (
-    syntactic_behaviour_id INTEGER NOT NULL REFERENCES syntactic_behaviours (id),
+    syntactic_behaviour_rowid INTEGER NOT NULL REFERENCES syntactic_behaviours (rowid),
     sense_id TEXT NOT NULL REFERENCES senses (id)
 );
 
