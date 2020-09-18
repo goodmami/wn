@@ -157,19 +157,21 @@ def _add_lmf(source):
             _insert_ilis(synsets, cur, indicator)
             _insert_synsets(synsets, lexid, posmap, lexname_map, cur, indicator)
             _insert_entries(entries, lexid, posmap, cur, indicator)
-            _insert_forms(entries, cur, indicator)
-            _insert_senses(entries, adjmap, cur, indicator)
+            _insert_forms(entries, lexid, cur, indicator)
+            _insert_senses(entries, lexid, adjmap, cur, indicator)
 
-            _insert_synset_relations(synsets, synset_relmap, cur, indicator)
-            _insert_sense_relations(entries, sense_relmap, 'sense_relations',
+            _insert_synset_relations(synsets, lexid, synset_relmap, cur, indicator)
+            _insert_sense_relations(entries, lexid, sense_relmap,
+                                    'sense_relations',
                                     sense_ids, cur, indicator)
-            _insert_sense_relations(entries, sense_relmap, 'sense_synset_relations',
+            _insert_sense_relations(entries, lexid, sense_relmap,
+                                    'sense_synset_relations',
                                     synset_ids, cur, indicator)
 
-            _insert_synset_definitions(synsets, cur, indicator)
+            _insert_synset_definitions(synsets, lexid, cur, indicator)
             _insert_examples([sense for entry in entries for sense in entry.senses],
-                             'sense_examples', cur, indicator)
-            _insert_examples(synsets, 'synset_examples', cur, indicator)
+                             lexid, 'sense_examples', cur, indicator)
+            _insert_examples(synsets, lexid, 'synset_examples', cur, indicator)
 
             indicator.close()
             print(file=sys.stderr)
@@ -231,8 +233,8 @@ def _insert_synsets(synsets, lex_id, posmap, lexname_map, cur, indicator):
     for batch in _split(synsets):
         data = (
             (synset.id,
-             synset.ili if synset.ili and synset.ili != 'in' else None,
              lex_id,
+             synset.ili if synset.ili and synset.ili != 'in' else None,
              lexname_map.get(synset.meta.subject) if synset.meta else None,
              posmap[synset.pos],
              synset.lexicalized,
@@ -243,10 +245,11 @@ def _insert_synsets(synsets, lex_id, posmap, lexname_map, cur, indicator):
         indicator.send(len(batch))
 
 
-def _insert_synset_definitions(synsets, cur, indicator):
+def _insert_synset_definitions(synsets, lexid, cur, indicator):
     for batch in _split(synsets):
         data = [
             (synset.id,
+             lexid,
              definition.text,
              definition.language,
              definition.source_sense,
@@ -254,21 +257,22 @@ def _insert_synset_definitions(synsets, cur, indicator):
             for synset in batch
             for definition in synset.definitions
         ]
-        cur.executemany('INSERT INTO definitions VALUES (?,?,?,?,?)', data)
+        cur.executemany('INSERT INTO definitions VALUES (?,?,?,?,?,?)', data)
         indicator.send(len(data))
 
 
-def _insert_synset_relations(synsets, synset_relmap, cur, indicator):
+def _insert_synset_relations(synsets, lexid, synset_relmap, cur, indicator):
     for batch in _split(synsets):
         data = [
-            (synset.id,
+            (lexid,
+             synset.id,
              relation.target,
              synset_relmap[relation.type],
              relation.meta)
             for synset in batch
             for relation in synset.relations
         ]
-        cur.executemany('INSERT INTO synset_relations VALUES (?,?,?,?)', data)
+        cur.executemany('INSERT INTO synset_relations VALUES (?,?,?,?,?)', data)
         indicator.send(len(data))
 
 
@@ -285,36 +289,23 @@ def _insert_entries(entries, lex_id, posmap, cur, indicator):
         indicator.send(len(batch))
 
 
-def _insert_forms(entries, cur, indicator):
+def _insert_forms(entries, lexid, cur, indicator):
     for batch in _split(entries):
         forms = []
         for entry in batch:
-            forms.append((entry.id, entry.lemma.form, entry.lemma.script, 0))
-            forms.extend((entry.id, form.form, form.script, i)
+            forms.append((entry.id, lexid, entry.lemma.form, entry.lemma.script, 0))
+            forms.extend((entry.id, lexid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
-        cur.executemany('INSERT INTO forms VALUES (null,?,?,?,?)', forms)
+        cur.executemany('INSERT INTO forms VALUES (null,?,?,?,?,?)', forms)
         indicator.send(len(forms))
 
 
-# This is slower but it can link up tags with forms.
-#
-# def _insert_forms_with_tags(entries, cur, indicator):
-#     for entry in entries:
-#         forms = [entry.lemma] + list(entry.forms)
-#         for i, form in enumerate(forms):
-#             cur.execute('INSERT INTO forms VALUES (null,?,?,?,?)',
-#                         (entry.id, form.form, form.script, i))
-#             form_rowid = cur.lastrowid
-#             for tag in form.tags:
-#                 cur.execute('INSERT INTO tags VALUES (?,?,?)',
-#                             (form_rowid, tag.text, tag.category))
-#         indicator.send(len(forms))
-
-def _insert_senses(entries, adjmap, cur, indicator):
+def _insert_senses(entries, lexid, adjmap, cur, indicator):
     for batch in _split(entries):
         data = [
             (sense.id,
              entry.id,
+             lexid,
              i,
              sense.synset,
              sense.meta.identifier if sense.meta else None,
@@ -324,14 +315,15 @@ def _insert_senses(entries, adjmap, cur, indicator):
             for entry in batch
             for i, sense in enumerate(entry.senses)
         ]
-        cur.executemany('INSERT INTO senses VALUES (?,?,?,?,?,?,?,?)', data)
+        cur.executemany('INSERT INTO senses VALUES (?,?,?,?,?,?,?,?,?)', data)
         indicator.send(len(data))
 
 
-def _insert_sense_relations(entries, sense_relmap, table, ids, cur, indicator):
+def _insert_sense_relations(entries, lexid, sense_relmap, table, ids, cur, indicator):
     for batch in _split(entries):
         data = [
-            (sense.id,
+            (lexid,
+             sense.id,
              relation.target,
              sense_relmap[relation.type],
              relation.meta)
@@ -340,14 +332,15 @@ def _insert_sense_relations(entries, sense_relmap, table, ids, cur, indicator):
             for relation in sense.relations if relation.target in ids
         ]
         # be careful of SQL injection here
-        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?)', data)
+        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?,?)', data)
         indicator.send(len(data))
 
 
-def _insert_examples(objs, table, cur, indicator):
+def _insert_examples(objs, lexid, table, cur, indicator):
     for batch in _split(objs):
         data = [
             (obj.id,
+             lexid,
              example.text,
              example.language,
              example.meta)
@@ -355,7 +348,7 @@ def _insert_examples(objs, table, cur, indicator):
             for example in obj.examples
         ]
         # be careful of SQL injection here
-        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?)', data)
+        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?,?)', data)
         indicator.send(len(data))
 
 
@@ -385,10 +378,15 @@ def find_entries(
         if pos:
             conditions.append('p.pos=:pos')
         if lexicon:
-            conditions.append('e.lexicon_id=:lexid')
+            conditions.append('e.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE id=:lexicon)')
         elif lgcode:
-            conditions.append('e.lexicon_id IN'
-                              ' (SELECT id FROM lexicons WHERE language=:lgcode)')
+            conditions.append('e.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE language=:lgcode)')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -430,10 +428,15 @@ def find_synsets(
         if pos:
             conditions.append('p.pos=:pos')
         if lexicon:
-            conditions.append('s.lexicon_id=:lexid')
+            conditions.append('s.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE id=:lexicon)')
         elif lgcode:
-            conditions.append('s.lexicon_id IN'
-                              ' (SELECT id FROM lexicons WHERE language=:lgcode)')
+            conditions.append('s.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE language=:lgcode)')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
