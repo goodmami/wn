@@ -143,7 +143,6 @@ CREATE TABLE senses (
     FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
     UNIQUE (id, lexicon_rowid)
 );
-CREATE INDEX sense_id_index ON senses (id);
 CREATE INDEX sense_entry_id_index ON senses (entry_id);
 CREATE INDEX sense_synset_id_index ON senses (synset_id);
 
