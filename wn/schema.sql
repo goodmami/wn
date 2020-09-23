@@ -65,16 +65,19 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE syntactic_behaviours (
-    rowid INTEGER PRIMARY KEY,
+    id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
-    frame TEXT
+    frame TEXT,
+    PRIMARY KEY (id, lexicon_rowid)
 );
 
 CREATE TABLE syntactic_behaviour_senses (
-    syntactic_behaviour_rowid INTEGER NOT NULL REFERENCES syntactic_behaviours (rowid),
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
-    sense_id TEXT NOT NULL REFERENCES senses (id)
+    syntactic_behaviour_id TEXT NOT NULL,
+    lexicon_rowid INTEGER NOT NULL,
+    sense_id TEXT NOT NULL REFERENCES senses (id),
+    FOREIGN KEY (syntactic_behaviour_id, lexicon_rowid) REFERENCES syntactic_behaviours (id, lexicon_rowid)
 );
+CREATE INDEX syntactic_behavior_sense_index ON syntactic_behaviour_senses (sense_id);
 
 -- Synsets
 

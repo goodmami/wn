@@ -8,6 +8,7 @@ from typing import (
     Type,
     Container,
     List,
+    Tuple,
     Dict,
     Set,
     NamedTuple,
@@ -229,7 +230,7 @@ class Lemma:
 
 
 class LexicalEntry(_HasMeta):
-    __slots__ = 'id', 'lemma', 'forms', 'senses', 'syntactic_behaviours'
+    __slots__ = 'id', 'lemma', 'forms', 'senses'
 
     def __init__(
             self,
@@ -237,19 +238,18 @@ class LexicalEntry(_HasMeta):
             lemma: Lemma,
             forms: List[Form] = None,
             senses: List[Sense] = None,
-            syntactic_behaviours: List[SyntacticBehaviour] = None,
             meta: Metadata = None):
         super().__init__(meta)
         self.id = id
         self.lemma = lemma
         self.forms = forms or []
         self.senses = senses or []
-        self.syntactic_behaviours = syntactic_behaviours or []
 
 
 class Lexicon(_HasMeta):
-    __slots__ = ('id', 'label', 'language', 'email', 'license', 'version',
-                 'url', 'citation', 'lexical_entries', 'synsets')
+    __slots__ = ('id', 'label', 'language',
+                 'email', 'license', 'version', 'url', 'citation',
+                 'lexical_entries', 'synsets', 'syntactic_behaviours')
 
     def __init__(
             self,
@@ -263,6 +263,7 @@ class Lexicon(_HasMeta):
             citation: str = '',
             lexical_entries: List[LexicalEntry] = None,
             synsets: List[Synset] = None,
+            syntactic_behaviours: List[SyntacticBehaviour] = None,
             meta: Metadata = None):
         super().__init__(meta)
         self.id = id
@@ -275,6 +276,7 @@ class Lexicon(_HasMeta):
         self.citation = citation
         self.lexical_entries = lexical_entries or []
         self.synsets = synsets or []
+        self.syntactic_behaviours = syntactic_behaviours or []
 
     def entry_ids(self) -> Set[str]:
         return {entry.id for entry in self.lexical_entries}
@@ -339,9 +341,12 @@ def _load_lexicon(local_root, events) -> Lexicon:
     attrs = local_root.attrib
     event, elem = next(events)
 
+    syntactic_behaviours: List[SyntacticBehaviour] = []
     lexical_entries: List[LexicalEntry] = []
     while event == 'start' and elem.tag == 'LexicalEntry':
-        lexical_entries.append(_load_lexical_entry(elem, events))
+        entry, sbs = _load_lexical_entry(elem, events)
+        lexical_entries.append(entry)
+        syntactic_behaviours.extend(sbs)
         local_root.clear()
         event, elem = next(events)
 
@@ -364,11 +369,15 @@ def _load_lexicon(local_root, events) -> Lexicon:
         citation=attrs.get('citation'),
         lexical_entries=lexical_entries,
         synsets=synsets,
+        syntactic_behaviours=syntactic_behaviours,
         meta=_get_metadata(attrs),
     )
 
 
-def _load_lexical_entry(local_root, events) -> LexicalEntry:
+def _load_lexical_entry(
+        local_root,
+        events
+) -> Tuple[LexicalEntry, List[SyntacticBehaviour]]:
     attrs = local_root.attrib
     lemma: Lemma = _load_lemma(events)
     event, elem = next(events)
@@ -392,14 +401,15 @@ def _load_lexical_entry(local_root, events) -> LexicalEntry:
 
     _assert_closed(event, elem, 'LexicalEntry')
 
-    return LexicalEntry(
+    entry = LexicalEntry(
         attrs['id'],
         lemma,
         forms=forms,
         senses=senses,
-        syntactic_behaviours=syntactic_behaviours,
         meta=_get_metadata(attrs),
     )
+
+    return entry, syntactic_behaviours
 
 
 def _load_lemma(events) -> Lemma:
