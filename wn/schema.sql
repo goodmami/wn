@@ -22,11 +22,9 @@ CREATE TABLE ilis (
 );
 
 CREATE TABLE proposed_ilis (
-    synset_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
     definition TEXT,
-    metadata META,
-    FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid)
+    metadata META
 );
 
 -- Lexical Entries
@@ -37,23 +35,22 @@ CREATE TABLE proposed_ilis (
 
 
 CREATE TABLE entries (
+    rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
-    pos_id INTEGER NOT NULL REFERENCES parts_of_speech (id),
+    pos_rowid INTEGER NOT NULL REFERENCES parts_of_speech (rowid),
     metadata META,
-    PRIMARY KEY (id, lexicon_rowid)
+    UNIQUE (id, lexicon_rowid)
 );
 CREATE INDEX entry_id_index ON entries (id);
 
 CREATE TABLE forms (
     rowid INTEGER PRIMARY KEY,
-    entry_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    entry_rowid INTEGER NOT NULL REFERENCES entries(rowid),
     form TEXT NOT NULL,
     script TEXT,
     rank INTEGER DEFAULT 1,  -- rank 0 is the preferred lemma
-    FOREIGN KEY (entry_id, lexicon_rowid) REFERENCES entries (id, lexicon_rowid),
-    UNIQUE (entry_id, lexicon_rowid, form, script)
+    UNIQUE (entry_rowid, form, script)
 );
 CREATE INDEX form_index ON forms (form);
 
@@ -74,147 +71,130 @@ CREATE TABLE syntactic_behaviours (
 CREATE TABLE syntactic_behaviour_senses (
     syntactic_behaviour_id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL,
-    sense_id TEXT NOT NULL REFERENCES senses (id),
+    sense_rowid INTEGER NOT NULL REFERENCES senses (rowid),
     FOREIGN KEY (syntactic_behaviour_id, lexicon_rowid) REFERENCES syntactic_behaviours (id, lexicon_rowid)
 );
-CREATE INDEX syntactic_behavior_sense_index ON syntactic_behaviour_senses (sense_id);
+CREATE INDEX syntactic_behavior_sense_index ON syntactic_behaviour_senses (sense_rowid);
 
 -- Synsets
 
 CREATE TABLE synsets (
+    rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
     ili TEXT,
-    lexname_id INTEGER REFERENCES lexicographer_files (id),
-    pos_id INTEGER REFERENCES parts_of_speech (id),
+    pos_rowid INTEGER NOT NULL REFERENCES parts_of_speech (rowid),
+    -- lexfile_id INTEGER REFERENCES lexicographer_files (id),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
-    metadata META,
-    PRIMARY KEY (id, lexicon_rowid)
+    metadata META
 );
+CREATE INDEX synset_id_index ON synsets (id);
 CREATE INDEX synset_ili_index ON synsets (ili);
 
 CREATE TABLE synset_relations (
-    lexicon_rowid INTEGER NOT NULL,
-    source_id TEXT NOT NULL,
-    target_id TEXT NOT NULL,
-    type_id INTEGER NOT NULL REFERENCES synset_relation_types (id),
-    metadata META,
-    FOREIGN KEY (source_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
-    FOREIGN KEY (target_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid)
+    source_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
+    target_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
+    type_rowid INTEGER NOT NULL REFERENCES synset_relation_types (rowid),
+    metadata META
 );
-CREATE INDEX synset_relation_source_index ON synset_relations (source_id);
+CREATE INDEX synset_relation_source_index ON synset_relations (source_rowid);
 
 CREATE TABLE definitions (
-    synset_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
     definition TEXT,
     language TEXT,  -- bcp-47 language tag
-    sense_id TEXT,
-    metadata META,
-    FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
-    FOREIGN KEY (sense_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid)
+    -- sense_rowid INTEGER NOT NULL REFERENCES senses(rowid),
+    metadata META
 );
-CREATE INDEX definition_id_index ON definitions (synset_id);
+CREATE INDEX definition_rowid_index ON definitions (synset_rowid);
 
 CREATE TABLE synset_examples (
-    synset_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
     example TEXT,
     language TEXT,  -- bcp-47 language tag
-    metadata META,
-    FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid)
+    metadata META
 );
-CREATE INDEX synset_example_id_index ON synset_examples(synset_id);
+CREATE INDEX synset_example_rowid_index ON synset_examples(synset_rowid);
 
 -- Senses
 
 CREATE TABLE senses (
+    rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
-    entry_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid),
+    entry_rowid INTEGER NOT NULL REFERENCES entries(rowid),
     entry_rank INTEGER DEFAULT 1,
-    synset_id TEXT NOT NULL,
-    sense_key TEXT,  -- not actually UNIQUE ?
-    adjposition_id INTEGER REFERENCES adjpositions (id),
+    synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
+    -- sense_key TEXT,  -- not actually UNIQUE ?
+    -- adjposition_rowid INTEGER REFERENCES adjpositions (rowid),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
-    metadata META,
-    PRIMARY KEY (id, lexicon_rowid),
-    FOREIGN KEY (entry_id, lexicon_rowid) REFERENCES entries (id, lexicon_rowid),
-    FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
-    UNIQUE (id, lexicon_rowid)
+    metadata META
+    -- FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
+    -- UNIQUE (id, lexicon_rowid)
 );
-CREATE INDEX sense_entry_id_index ON senses (entry_id);
-CREATE INDEX sense_synset_id_index ON senses (synset_id);
+CREATE INDEX sense_id_index ON senses(id);
+CREATE INDEX sense_entry_rowid_index ON senses (entry_rowid);
+CREATE INDEX sense_synset_rowid_index ON senses (synset_rowid);
 
 CREATE TABLE sense_relations (
-    lexicon_rowid INTEGER NOT NULL,
-    source_id TEXT NOT NULL,
-    target_id TEXT NOT NULL,
-    type_id TEXT NOT NULL REFERENCES sense_relation_types (id),
-    metadata META,
-    FOREIGN KEY (source_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid),
-    FOREIGN KEY (target_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid)
+    source_rowid INTEGER NOT NULL REFERENCES senses(rowid),
+    target_rowid INTEGER NOT NULL REFERENCES senses(rowid),
+    type_rowid TEXT NOT NULL REFERENCES sense_relation_types (rowid),
+    metadata META
 );
-CREATE INDEX sense_relations_id_index ON sense_relations (source_id);
+CREATE INDEX sense_relations_id_index ON sense_relations (source_rowid);
 
 CREATE TABLE sense_synset_relations (
-    lexicon_rowid INTEGER NOT NULL,
-    source_id TEXT NOT NULL,
-    target_id TEXT NOT NULL,
+    source_rowid INTEGER NOT NULL REFERENCES senses(rowid),
+    target_rowid INTEGER NOT NULL REFERENCES synsets(rowid),
     -- limit the type to ('domain_topic', 'domain_region', 'exemplifies') ?
-    type_id TEXT NOT NULL REFERENCES sense_relation_types (id),
-    metadata META,
-    FOREIGN KEY (source_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid),
-    FOREIGN KEY (target_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid)
+    type_rowid TEXT NOT NULL REFERENCES sense_relation_types (rowid),
+    metadata META
 );
-CREATE INDEX sense_synset_relation_id_index ON sense_synset_relations (source_id);
+CREATE INDEX sense_synset_relation_rowid_index ON sense_synset_relations (source_rowid);
 
 CREATE TABLE sense_examples (
-    sense_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    sense_rowid INTEGER NOT NULL REFERENCES senses(rowid),
     example TEXT,
     language TEXT,  -- bcp-47 language tag
-    metadata META,
-    FOREIGN KEY (sense_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid)
+    metadata META
 );
-CREATE INDEX sense_example_index ON sense_examples (sense_id);
+CREATE INDEX sense_example_index ON sense_examples (sense_rowid);
 
 CREATE TABLE counts (
-    sense_id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL,
+    sense_rowid INTEGER NOT NULL REFERENCES senses(rowid),
     count INTEGER NOT NULL,
-    metadata META,
-    FOREIGN KEY (sense_id, lexicon_rowid) REFERENCES senses (id, lexicon_rowid)
+    metadata META
 );
 
 -- Lookup tables
 
 CREATE TABLE parts_of_speech (
-    id INTEGER PRIMARY KEY,
+    rowid INTEGER PRIMARY KEY,
     pos TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX pos_index ON parts_of_speech (pos);
 
 CREATE TABLE adjpositions (
-    id INTEGER PRIMARY KEY,
+    rowid INTEGER PRIMARY KEY,
     position TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX adposition_index ON adjpositions (position);
 
 CREATE TABLE synset_relation_types (
-    id INTEGER PRIMARY KEY,
+    rowid INTEGER PRIMARY KEY,
     type TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX synset_relation_type_index ON synset_relation_types (type);
 
 CREATE TABLE sense_relation_types (
-    id INTEGER PRIMARY KEY,
+    rowid INTEGER PRIMARY KEY,
     type TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX sense_relation_type_index ON sense_relation_types (type);
 
 CREATE TABLE lexicographer_files (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,  -- this is actually an ID, not just a rowid
     name TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX lexicographer_file_index ON lexicographer_files (name);

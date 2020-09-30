@@ -24,11 +24,45 @@ from wn._util import is_gzip, progress_bar
 from wn import constants
 from wn import lmf
 
+
+# Module Constants
+
 BATCH_SIZE = 1000
 
-_Word = Tuple[str, str, List[str]]  # id, pos, forms
-_Synset = Tuple[str, str, str]      # id, pos, ili
-_Sense = Tuple[str, str, str]       # id, entry_id, synset_id
+# Common Subqueries
+
+POS_QUERY = '''
+    SELECT p.rowid
+      FROM parts_of_speech AS p
+     WHERE p.pos = ?
+'''
+
+ENTRY_QUERY = '''
+    SELECT e.rowid
+      FROM entries AS e
+     WHERE e.id = ?
+       AND e.lexicon_rowid = ?
+'''
+
+SENSE_QUERY = '''
+    SELECT s.rowid
+      FROM senses AS s
+     WHERE s.id = ?
+       AND s.lexicon_rowid = ?
+'''
+
+SYNSET_QUERY = '''
+    SELECT ss.rowid
+      FROM synsets AS ss
+     WHERE ss.id = ?
+       AND ss.lexicon_rowid = ?
+'''
+
+# Local Types
+
+_Word = Tuple[int, str, str, List[str]]  # rowid, id, pos, forms
+_Synset = Tuple[int, str, str, str]      # rowid, id, pos, ili
+_Sense = Tuple[int, str, str, str]       # rowid, id, entry_id, synset_id
 
 
 # Optional metadata is stored as a JSON string
@@ -121,7 +155,6 @@ def _add_lmf(source):
         # abort if any lexicon in *source* is already added
         print(f'Checking {source!s}', file=sys.stderr)
         all_counts = list(_precheck(source, cur))
-        posmap, adjmap, sense_relmap, synset_relmap, lexname_map = _build_maps(cur)
         # all clear, try to add them
 
         print(f'Reading {source!s}', file=sys.stderr)
@@ -155,17 +188,15 @@ def _add_lmf(source):
             entries = lexicon.lexical_entries
 
             _insert_ilis(synsets, cur, indicator)
-            _insert_synsets(synsets, lexid, posmap, lexname_map, cur, indicator)
-            _insert_entries(entries, lexid, posmap, cur, indicator)
+            _insert_synsets(synsets, lexid, cur, indicator)
+            _insert_entries(entries, lexid, cur, indicator)
             _insert_forms(entries, lexid, cur, indicator)
-            _insert_senses(entries, lexid, adjmap, cur, indicator)
+            _insert_senses(entries, lexid, cur, indicator)
 
-            _insert_synset_relations(synsets, lexid, synset_relmap, cur, indicator)
-            _insert_sense_relations(entries, lexid, sense_relmap,
-                                    'sense_relations',
+            _insert_synset_relations(synsets, lexid, cur, indicator)
+            _insert_sense_relations(entries, lexid, 'sense_relations',
                                     sense_ids, cur, indicator)
-            _insert_sense_relations(entries, lexid, sense_relmap,
-                                    'sense_synset_relations',
+            _insert_sense_relations(entries, lexid, 'sense_synset_relations',
                                     synset_ids, cur, indicator)
 
             _insert_synset_definitions(synsets, lexid, cur, indicator)
@@ -182,31 +213,12 @@ def _precheck(source, cur):
         id = info['id']
         version = info['version']
         row = cur.execute(
-            'SELECT * FROM lexicons WHERE id=? AND version=?',
+            'SELECT * FROM lexicons WHERE id = ? AND version = ?',
             (id, version)
         ).fetchone()
         if row:
             raise wn.Error(f'wordnet already added: {id} {version}')
         yield info['counts']
-
-
-def _build_maps(cur):
-    posmap = dict(
-        cur.execute('SELECT p.pos, p.id FROM parts_of_speech AS p').fetchall()
-    )
-    adjmap = dict(
-        cur.execute('SELECT a.position, a.id FROM adjpositions AS a').fetchall()
-    )
-    sense_relmap = dict(
-        cur.execute('SELECT r.type, r.id FROM sense_relation_types AS r').fetchall()
-    )
-    synset_relmap = dict(
-        cur.execute('SELECT r.type, r.id FROM synset_relation_types AS r').fetchall()
-    )
-    lexname_map = dict(
-        cur.execute('SELECT l.name, l.id FROM lexicographer_files AS l').fetchall()
-    )
-    return posmap, adjmap, sense_relmap, synset_relmap, lexname_map
 
 
 def _split(sequence):
@@ -229,118 +241,148 @@ def _insert_ilis(synsets, cur, indicator):
         indicator.send(len(batch))
 
 
-def _insert_synsets(synsets, lex_id, posmap, lexname_map, cur, indicator):
+def _insert_synsets(synsets, lex_id, cur, indicator):
+    query = f'INSERT INTO synsets VALUES (null,?,?,?,({POS_QUERY}),?,?)'
     for batch in _split(synsets):
         data = (
             (synset.id,
              lex_id,
              synset.ili if synset.ili and synset.ili != 'in' else None,
-             lexname_map.get(synset.meta.subject) if synset.meta else None,
-             posmap[synset.pos],
+             synset.pos,
+             # lexfile_map.get(synset.meta.subject) if synset.meta else None,
              synset.lexicalized,
              synset.meta)
             for synset in batch
         )
-        cur.executemany('INSERT INTO synsets VALUES (?,?,?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(batch))
 
 
 def _insert_synset_definitions(synsets, lexid, cur, indicator):
+    query = f'INSERT INTO definitions VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(synsets):
         data = [
-            (synset.id,
-             lexid,
+            (synset.id, lexid,
              definition.text,
              definition.language,
-             definition.source_sense,
+             # definition.source_sense,
+             # lexid,
              definition.meta)
             for synset in batch
             for definition in synset.definitions
         ]
-        cur.executemany('INSERT INTO definitions VALUES (?,?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(data))
 
 
-def _insert_synset_relations(synsets, lexid, synset_relmap, cur, indicator):
+def _insert_synset_relations(synsets, lexid, cur, indicator):
+    type_query = 'SELECT r.rowid FROM synset_relation_types AS r WHERE r.type = ?'
+    query = f'''
+        INSERT INTO synset_relations
+        VALUES (({SYNSET_QUERY}),
+                ({SYNSET_QUERY}),
+                ({type_query}),
+                ?)
+    '''
     for batch in _split(synsets):
         data = [
-            (lexid,
-             synset.id,
-             relation.target,
-             synset_relmap[relation.type],
+            (synset.id, lexid,
+             relation.target, lexid,
+             relation.type,
              relation.meta)
             for synset in batch
             for relation in synset.relations
         ]
-        cur.executemany('INSERT INTO synset_relations VALUES (?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(data))
 
 
-def _insert_entries(entries, lex_id, posmap, cur, indicator):
+def _insert_entries(entries, lex_id, cur, indicator):
+    query = f'INSERT INTO entries VALUES (null,?,?,({POS_QUERY}),?)'
     for batch in _split(entries):
         data = (
             (entry.id,
              lex_id,
-             posmap[entry.lemma.pos],
+             entry.lemma.pos,
              entry.meta)
             for entry in batch
         )
-        cur.executemany('INSERT INTO entries VALUES (?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(batch))
 
 
 def _insert_forms(entries, lexid, cur, indicator):
+    query = f'INSERT INTO forms VALUES (null,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
         forms = []
         for entry in batch:
             forms.append((entry.id, lexid, entry.lemma.form, entry.lemma.script, 0))
             forms.extend((entry.id, lexid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
-        cur.executemany('INSERT INTO forms VALUES (null,?,?,?,?,?)', forms)
+        cur.executemany(query, forms)
         indicator.send(len(forms))
 
 
-def _insert_senses(entries, lexid, adjmap, cur, indicator):
+def _insert_senses(entries, lexid, cur, indicator):
+    query = f'''
+        INSERT INTO senses
+        VALUES (null,
+                ?,
+                ?,
+                ({ENTRY_QUERY}),
+                ?,
+                ({SYNSET_QUERY}),
+                ?,
+                ?)
+    '''
     for batch in _split(entries):
         data = [
             (sense.id,
-             entry.id,
              lexid,
+             entry.id, lexid,
              i,
-             sense.synset,
-             sense.meta.identifier if sense.meta else None,
-             adjmap.get(sense.adjposition),
+             sense.synset, lexid,
+             # sense.meta.identifier if sense.meta else None,
+             # adjmap.get(sense.adjposition),
              sense.lexicalized,
              sense.meta)
             for entry in batch
             for i, sense in enumerate(entry.senses)
         ]
-        cur.executemany('INSERT INTO senses VALUES (?,?,?,?,?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(data))
 
 
-def _insert_sense_relations(entries, lexid, sense_relmap, table, ids, cur, indicator):
+def _insert_sense_relations(entries, lexid, table, ids, cur, indicator):
+    target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
+    type_query = 'SELECT r.rowid FROM sense_relation_types AS r WHERE r.type = ?'
+    query = f'''
+        INSERT INTO {table}
+        VALUES (({SENSE_QUERY}),
+                ({target_query}),
+                ({type_query}),
+                ?)
+    '''
     for batch in _split(entries):
         data = [
-            (lexid,
-             sense.id,
-             relation.target,
-             sense_relmap[relation.type],
+            (sense.id, lexid,
+             relation.target, lexid,
+             relation.type,
              relation.meta)
             for entry in batch
             for sense in entry.senses
             for relation in sense.relations if relation.target in ids
         ]
         # be careful of SQL injection here
-        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(data))
 
 
 def _insert_examples(objs, lexid, table, cur, indicator):
+    query = f'INSERT INTO {table} VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
-            (obj.id,
-             lexid,
+            (obj.id, lexid,
              example.text,
              example.language,
              example.meta)
@@ -348,7 +390,7 @@ def _insert_examples(objs, lexid, table, cur, indicator):
             for example in obj.examples
         ]
         # be careful of SQL injection here
-        cur.executemany(f'INSERT INTO {table} VALUES (?,?,?,?,?)', data)
+        cur.executemany(query, data)
         indicator.send(len(data))
 
 
@@ -361,32 +403,32 @@ def find_entries(
 ) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
-            'SELECT e.id, p.pos, f.form',
+            'SELECT e.rowid, e.id, p.pos, f.form',
             '  FROM entries AS e',
-            '  JOIN parts_of_speech AS p ON p.id == e.pos_id',
-            '  JOIN forms AS f ON f.entry_id = e.id',
+            '  JOIN parts_of_speech AS p ON p.rowid == e.pos_rowid',
+            '  JOIN forms AS f ON f.entry_rowid = e.rowid',
         ]
 
         params = {'id': id, 'form': form, 'pos': pos,
                   'lgcode': lgcode, 'lexicon': lexicon}
         conditions = []
         if id:
-            conditions.append('e.id=:id')
+            conditions.append('e.id = :id')
         if form:
-            conditions.append('e.id IN'
-                              ' (SELECT entry_id FROM forms WHERE form=:form)')
+            conditions.append('e.rowid IN'
+                              ' (SELECT entry_rowid FROM forms WHERE form = :form)')
         if pos:
-            conditions.append('p.pos=:pos')
+            conditions.append('p.pos = :pos')
         if lexicon:
             conditions.append('e.lexicon_rowid IN'
                               ' (SELECT rowid'
                               '    FROM lexicons'
-                              '   WHERE id=:lexicon)')
+                              '   WHERE id = :lexicon)')
         elif lgcode:
             conditions.append('e.lexicon_rowid IN'
                               ' (SELECT rowid'
                               '    FROM lexicons'
-                              '   WHERE language=:lgcode)')
+                              '   WHERE language = :lgcode)')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -394,11 +436,58 @@ def find_entries(
         query_parts.append(' ORDER BY e.id, f.rank')
 
         query = '\n'.join(query_parts)
-        rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
-        for key, group in itertools.groupby(rows, lambda row: row[0:2]):
-            id, pos = key
+        rows: Iterator[Tuple[int, str, str, str]] = conn.execute(query, params)
+        for key, group in itertools.groupby(rows, lambda row: row[0:3]):
+            rowid, id, pos = key
             forms = [row[2] for row in group]
-            yield (id, pos, forms)
+            yield (rowid, id, pos, forms)
+
+
+def find_senses(
+        id: str = None,
+        form: str = None,
+        pos: str = None,
+        lgcode: str = None,
+        lexicon: str = None
+) -> Iterator[_Sense]:
+    with _connect() as conn:
+        query_parts = [
+            'SELECT s.rowid, s.id, e.id, ss.id'
+            '  FROM senses AS s'
+            '  JOIN entries AS e ON e.rowid = s.entry_rowid'
+            '  JOIN synsets AS ss ON ss.rowid = s.synset_rowid'
+        ]
+
+        params = {'id': id, 'form': form, 'pos': pos,
+                  'lgcode': lgcode, 'lexicon': lexicon}
+        conditions = []
+        if id:
+            conditions.append('s.id = :id')
+        if form:
+            conditions.append('s.entry_rowid IN'
+                              ' (SELECT entry_rowid FROM forms WHERE form = :form)')
+        if pos:
+            conditions.append('e.pos_rowid IN'
+                              ' (SELECT p.rowid'
+                              '    FROM parts_of_speech AS p'
+                              '   WHERE p.pos = :pos)')
+        if lexicon:
+            conditions.append('s.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE id = :lexicon)')
+        elif lgcode:
+            conditions.append('s.lexicon_rowid IN'
+                              ' (SELECT rowid'
+                              '    FROM lexicons'
+                              '   WHERE language = :lgcode)')
+
+        if conditions:
+            query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
+
+        query = '\n'.join(query_parts)
+        rows: Iterator[_Synset] = conn.execute(query, params)
+        yield from rows
 
 
 def find_synsets(
@@ -410,33 +499,35 @@ def find_synsets(
 ) -> Iterator[_Synset]:
     with _connect() as conn:
         query_parts = [
-            'SELECT s.id, p.pos, s.ili',
-            '  FROM synsets AS s',
-            '  JOIN parts_of_speech AS p ON p.id == s.pos_id',
+            'SELECT ss.rowid, ss.id, p.pos, ss.ili',
+            '  FROM synsets AS ss',
+            '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
         ]
 
         params = {'id': id, 'form': form, 'pos': pos,
                   'lgcode': lgcode, 'lexicon': lexicon}
         conditions = []
         if id:
-            conditions.append('s.id=:id')
+            conditions.append('ss.id = :id')
         if form:
             conditions.append(
-                's.id IN (SELECT n.synset_id FROM senses AS n'
-                '           JOIN forms AS f ON f.entry_id=n.entry_id'
-                '          WHERE f.form=:form)')
+                'ss.rowid IN (SELECT s.synset_rowid'
+                '               FROM senses AS s'
+                '               JOIN forms AS f'
+                '                 ON f.entry_rowid = s.entry_rowid'
+                '              WHERE f.form = :form)')
         if pos:
-            conditions.append('p.pos=:pos')
+            conditions.append('p.pos = :pos')
         if lexicon:
-            conditions.append('s.lexicon_rowid IN'
+            conditions.append('ss.lexicon_rowid IN'
                               ' (SELECT rowid'
                               '    FROM lexicons'
-                              '   WHERE id=:lexicon)')
+                              '   WHERE id = :lexicon)')
         elif lgcode:
-            conditions.append('s.lexicon_rowid IN'
+            conditions.append('ss.lexicon_rowid IN'
                               ' (SELECT rowid'
                               '    FROM lexicons'
-                              '   WHERE language=:lgcode)')
+                              '   WHERE language = :lgcode)')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -447,121 +538,131 @@ def find_synsets(
 
 
 def get_synset_relations(
-        source_id: str,
+        source_rowid: int,
         relation_types: Collection[str],
 ) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT r.target_id, p.pos, s.ili
-              FROM (SELECT target_id
+            SELECT tgt.rowid, tgt.id, p.pos, tgt.ili
+              FROM (SELECT target_rowid
                       FROM synset_relations
-                      JOIN synset_relation_types AS t
-                        ON type_id = t.id
-                     WHERE source_id = ?
-                       AND t.type in ({_qs(relation_types)})) AS r
-              JOIN synsets AS s
-                ON s.id = r.target_id
+                     WHERE source_rowid = ?
+                       AND type_rowid IN
+                           (SELECT t.rowid
+                              FROM synset_relation_types AS t
+                             WHERE t.type IN ({_qs(relation_types)}))) AS r
+              JOIN synsets AS tgt
+                ON tgt.rowid = r.target_rowid
               JOIN parts_of_speech AS p
-                ON p.id = s.pos_id
+                ON p.rowid = tgt.pos_rowid
         '''
-        params = source_id, *relation_types
+        params = source_rowid, *relation_types
         rows: Iterator[_Synset] = conn.execute(query, params)
         yield from rows
 
 
-def get_definitions_for_synset(id: str) -> List[str]:
+def get_definitions_for_synset(rowid: int) -> List[str]:
     with _connect() as conn:
-        query = 'SELECT definition FROM definitions WHERE synset_id = ?'
-        return [row[0] for row in conn.execute(query, (id,)).fetchall()]
+        query = '''
+            SELECT definition
+              FROM definitions
+             WHERE synset_rowid = ?
+        '''
+        return [row[0] for row in conn.execute(query, (rowid,)).fetchall()]
 
 
-def get_examples_for_synset(id: str) -> List[str]:
+def get_examples_for_synset(rowid: int) -> List[str]:
     with _connect() as conn:
-        query = 'SELECT example from synset_examples WHERE synset_id = ?'
-        return [row[0] for row in conn.execute(query, (id,)).fetchall()]
+        query = '''
+            SELECT example
+              FROM synset_examples
+             WHERE synset_rowid = ?
+        '''
+        return [row[0] for row in conn.execute(query, (rowid,)).fetchall()]
 
 
-def get_sense(id: str) -> _Sense:
+def get_senses_for_entry(rowid: int) -> Iterator[_Sense]:
     with _connect() as conn:
-        query = (
-            'SELECT s.entry_id, s.synset_id'
-            '  FROM senses AS s'
-            ' WHERE s.id = ?'
-        )
-        row: Tuple[str, str] = conn.execute(query, (id,)).fetchone()
-        if not row:
-            raise wn.Error(f'no such sense: {id}')
-        return (id, *row)
-
-
-def get_senses_for_entry(id: str) -> Iterator[_Sense]:
-    with _connect() as conn:
-        query = (
-            'SELECT s.id, s.entry_id, s.synset_id'
-            '  FROM senses AS s'
-            ' WHERE s.entry_id = ?'
-        )
-        rows: Iterator[_Sense] = conn.execute(query, (id,))
+        query = '''
+            SELECT s.rowid, s.id, e.id, ss.id
+              FROM senses AS s
+              JOIN entries AS e
+                ON e.rowid = s.entry_rowid
+              JOIN synsets AS ss
+                ON ss.rowid = s.synset_rowid
+             WHERE s.entry_rowid = ?
+        '''
+        rows: Iterator[_Sense] = conn.execute(query, (rowid,))
         yield from rows
 
 
-def get_senses_for_synset(id: str) -> Iterator[_Sense]:
+def get_senses_for_synset(rowid: int) -> Iterator[_Sense]:
     with _connect() as conn:
-        query = (
-            'SELECT s.id, s.entry_id, s.synset_id'
-            '  FROM senses AS s'
-            ' WHERE s.synset_id = ?'
-        )
-        rows: Iterator[_Sense] = conn.execute(query, (id,))
+        query = '''
+            SELECT s.rowid, s.id, e.id, ss.id
+              FROM senses AS s
+              JOIN entries AS e
+                ON e.rowid = s.entry_rowid
+              JOIN synsets AS ss
+                ON ss.rowid = s.synset_rowid
+             WHERE s.synset_rowid = ?
+        '''
+        rows: Iterator[_Sense] = conn.execute(query, (rowid,))
         yield from rows
 
 
 def get_sense_relations(
-        source_id: str,
+        source_rowid: int,
         relation_types: Collection[str],
 ) -> Iterator[_Sense]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT r.target_id, s.entry_id, s.synset_id
-              FROM (SELECT target_id
+            SELECT s.rowid, s.id, e.id, ss.id
+              FROM senses AS s
+              JOIN entries AS e
+                ON e.rowid = s.entry_rowid
+              JOIN synsets AS ss
+                ON ss.rowid = s.synset_rowid
+             WHERE s.rowid IN
+                   (SELECT target_rowid
                       FROM sense_relations
-                      JOIN sense_relation_types AS t
-                        ON type_id = t.id
-                     WHERE source_id = ?
-                       AND t.type in ({_qs(relation_types)})) AS r
-              JOIN senses AS s
-                ON s.id = r.target_id
+                     WHERE source_rowid = ?
+                       AND type_rowid IN
+                           (SELECT t.rowid
+                              FROM sense_relation_types AS t
+                             WHERE t.type IN ({_qs(relation_types)})))
         '''
-        params = source_id, *relation_types
+        params = source_rowid, *relation_types
         rows: Iterator[_Sense] = conn.execute(query, params)
         yield from rows
 
 
 def get_sense_synset_relations(
-        source_id: str,
+        source_rowid: int,
         relation_types: Collection[str],
 ) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT r.target_id, p.pos, s.ili
-              FROM (SELECT target_id
+            SELECT r.target_rowid, ss.id, p.pos, ss.ili
+              FROM (SELECT target_rowid
                       FROM sense_synset_relations
-                      JOIN synset_relation_types AS t
-                        ON type_id = t.id
-                     WHERE source_id = ?
-                       AND t.type in ({_qs(relation_types)})) AS r
-              JOIN synsets AS s
-                ON s.id = r.target_id
+                     WHERE source_rowid = ?
+                       AND type_rowid IN
+                           (SELECT t.rowid
+                              FROM synset_relation_types AS t
+                             WHERE t.type IN ({_qs(relation_types)}))) AS r
+              JOIN synsets AS ss
+                ON ss.rowid = r.target_rowid
               JOIN parts_of_speech AS p
-                ON p.id = s.pos_id
+                ON p.rowid = s.pos_rowid
         '''
-        params = source_id, *relation_types
+        params = source_rowid, *relation_types
         rows: Iterator[_Synset] = conn.execute(query, params)
         yield from rows
 
