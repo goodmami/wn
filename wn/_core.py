@@ -197,16 +197,22 @@ class WordNet:
         self.lexicon = lexicon
 
     def word(self, id: str) -> Word:
-        return word(id)
+        return word(id, lexicon=self.lexicon)
 
     def words(self, form: str = None, pos: str = None) -> List[Word]:
         return words(form=form, pos=pos, lexicon=self.lexicon)
 
     def synset(self, id: str) -> Synset:
-        return synset(id)
+        return synset(id, lexicon=self.lexicon)
 
     def synsets(self, form: str = None, pos: str = None) -> List[Synset]:
         return synsets(form=form, pos=pos, lexicon=self.lexicon)
+
+    def sense(self, id: str) -> Sense:
+        return sense(id, lexicon=self.lexicon)
+
+    def senses(self, form: str = None, pos: str = None) -> List[Sense]:
+        return senses(form=form, pos=pos, lexicon=self.lexicon)
 
 
 def word(id: str, lexicon: str = None) -> Word:
@@ -287,9 +293,27 @@ def senses(form: str = None,
            pos: str = None,
            lgcode: str = None,
            lexicon: str = None) -> List[Sense]:
+    """Return the list of matching senses.
+
+    >>> len(wn.senses('twig'))
+    3
+    >>> wn.senses('twig', pos='n')
+    [Sense('ewn-twig-n-13184889-02')]
+
+    """
     iterable = _db.find_senses(form=form, pos=pos, lgcode=lgcode, lexicon=lexicon)
     return list(itertools.starmap(Sense, iterable))
 
 
 def sense(id: str, lexicon: str = None) -> Sense:
+    """Return the sense with *id* in *lexicon*.
+
+    If *lexicon* is not given, all lexicons will be searched, but only
+    the first result, in arbitrary order, will be returned. If no
+    words match, `None` is returned.
+
+    >>> wn.sense('ewn-flutter-v-01903884-02')
+    Sense('ewn-flutter-v-01903884-02')
+
+    """
     return Sense(*next(_db.find_senses(id=id, lexicon=lexicon)))

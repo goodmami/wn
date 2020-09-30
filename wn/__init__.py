@@ -13,6 +13,7 @@ __all__ = (
     'synset',
     'synsets',
     'sense',
+    'senses',
     'Error',
 )
 
@@ -22,4 +23,4 @@ from wn._exceptions import Error
 from wn._config import config
 from wn._db import add
 from wn._download import download
-from wn._core import word, words, synset, synsets, sense, WordNet
+from wn._core import word, words, synset, synsets, sense, senses, WordNet
