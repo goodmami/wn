@@ -27,6 +27,7 @@ from wn import lmf
 
 # Module Constants
 
+DEBUG = False
 BATCH_SIZE = 1000
 
 # Common Subqueries
@@ -95,7 +96,8 @@ def _connect() -> sqlite3.Connection:
     # foreign key support needs to be enabled for each connection
     conn.execute('PRAGMA foreign_keys = ON')
     # uncomment the following to help with debugging
-    # conn.set_trace_callback(print)
+    if DEBUG:
+        conn.set_trace_callback(print)
     if not initialized:
         _initialize(conn)
     return conn
