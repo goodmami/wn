@@ -91,3 +91,8 @@ config.add_project_version(
     'https://en-word.net/static/english-wordnet-2020.xml.gz',
     'https://creativecommons.org/licenses/by/4.0/',
 )
+config.add_project_version(
+    'ewn', '2019',
+    'https://en-word.net/static/english-wordnet-2019.xml.gz',
+    'https://creativecommons.org/licenses/by/4.0/',
+)
