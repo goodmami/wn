@@ -528,12 +528,14 @@ def find_synsets(
         if id:
             conditions.append('ss.id = :id')
         if form:
-            conditions.append(
-                'ss.rowid IN (SELECT s.synset_rowid'
-                '               FROM senses AS s'
-                '               JOIN forms AS f'
-                '                 ON f.entry_rowid = s.entry_rowid'
-                '              WHERE f.form = :form)')
+            query_parts.append(
+                '  JOIN (SELECT _s.synset_rowid, _s.entry_rowid, _s.entry_rank'
+                '          FROM senses AS _s'
+                '          JOIN forms AS f'
+                '            ON f.entry_rowid = _s.entry_rowid'
+                '         WHERE f.form = :form) AS s'
+                '    ON s.synset_rowid = ss.rowid'
+            )
         if pos:
             conditions.append('p.pos = :pos')
         if lgcode or lexicon:
@@ -544,6 +546,9 @@ def find_synsets(
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
+
+        if form:
+            query_parts.append(' ORDER BY s.entry_rowid, s.entry_rank')
 
         query = '\n'.join(query_parts)
         rows: Iterator[_Synset] = conn.execute(query, params)
