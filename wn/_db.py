@@ -2,7 +2,7 @@
 Storage back-end interface.
 """
 
-from typing import List, Tuple, Collection, Iterator
+from typing import Any, Dict, Set, List, Tuple, Collection, Iterator
 import sys
 from pathlib import Path
 import gzip
@@ -394,6 +394,35 @@ def _insert_examples(objs, lexid, table, cur, indicator):
         indicator.send(len(data))
 
 
+def _get_lexicon_rowids(
+        conn: sqlite3.Connection,
+        lexicon: str = None,
+        lgcode: str = None,
+) -> Set[int]:
+    rowids: Set[int] = set()
+    query = '''SELECT rowid, id, version
+                 FROM lexicons
+                WHERE :lgcode ISNULL OR :lgcode = language'''
+    rows = conn.execute(query, {'lgcode': lgcode})
+    if not lexicon:
+        rowids.update(rowid for rowid, _, _ in rows)
+    else:
+        lexmap: Dict[str, Dict[str, int]] = {}
+        for rowid, id, version in rows:
+            lexmap.setdefault(id, {})[version] = rowid
+        for id_ver in lexicon.split():
+            id, _, ver = id_ver.partition(':')
+            if id not in lexmap:
+                raise wn.Error(f'invalid lexicon id: {id}')
+            if not ver:
+                rowids.update(lexmap[id].values())
+            elif ver not in lexmap[id]:
+                raise wn.Error(f'invalid lexicon version: {ver} ({id})')
+            else:
+                rowids.add(lexmap[id][ver])
+    return rowids
+
+
 def find_entries(
         id: str = None,
         form: str = None,
@@ -409,8 +438,7 @@ def find_entries(
             '  JOIN forms AS f ON f.entry_rowid = e.rowid',
         ]
 
-        params = {'id': id, 'form': form, 'pos': pos,
-                  'lgcode': lgcode, 'lexicon': lexicon}
+        params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
         conditions = []
         if id:
             conditions.append('e.id = :id')
@@ -419,16 +447,11 @@ def find_entries(
                               ' (SELECT entry_rowid FROM forms WHERE form = :form)')
         if pos:
             conditions.append('p.pos = :pos')
-        if lexicon:
-            conditions.append('e.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE id = :lexicon)')
-        elif lgcode:
-            conditions.append('e.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE language = :lgcode)')
+        if lgcode or lexicon:
+            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+            params.update(kws)
+            conditions.append(f'e.lexicon_rowid IN ({_kws(kws)})')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -458,8 +481,7 @@ def find_senses(
             '  JOIN synsets AS ss ON ss.rowid = s.synset_rowid'
         ]
 
-        params = {'id': id, 'form': form, 'pos': pos,
-                  'lgcode': lgcode, 'lexicon': lexicon}
+        params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
         conditions = []
         if id:
             conditions.append('s.id = :id')
@@ -471,16 +493,11 @@ def find_senses(
                               ' (SELECT p.rowid'
                               '    FROM parts_of_speech AS p'
                               '   WHERE p.pos = :pos)')
-        if lexicon:
-            conditions.append('s.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE id = :lexicon)')
-        elif lgcode:
-            conditions.append('s.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE language = :lgcode)')
+        if lgcode or lexicon:
+            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+            params.update(kws)
+            conditions.append(f's.lexicon_rowid IN ({_kws(kws)})')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -504,8 +521,7 @@ def find_synsets(
             '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
         ]
 
-        params = {'id': id, 'form': form, 'pos': pos,
-                  'lgcode': lgcode, 'lexicon': lexicon}
+        params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
         conditions = []
         if id:
             conditions.append('ss.id = :id')
@@ -518,16 +534,11 @@ def find_synsets(
                 '              WHERE f.form = :form)')
         if pos:
             conditions.append('p.pos = :pos')
-        if lexicon:
-            conditions.append('ss.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE id = :lexicon)')
-        elif lgcode:
-            conditions.append('ss.lexicon_rowid IN'
-                              ' (SELECT rowid'
-                              '    FROM lexicons'
-                              '   WHERE language = :lgcode)')
+        if lgcode or lexicon:
+            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+            params.update(kws)
+            conditions.append(f'ss.lexicon_rowid IN ({_kws(kws)})')
 
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
@@ -667,5 +678,5 @@ def get_sense_synset_relations(
         yield from rows
 
 
-def _qs(x: Collection) -> str:
-    return ','.join('?' * len(x))
+def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
+def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)
