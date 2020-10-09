@@ -458,13 +458,13 @@ def find_entries(
         if conditions:
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
 
-        query_parts.append(' ORDER BY e.id, f.rank')
+        query_parts.append(' ORDER BY e.rowid, e.id, f.rank')
 
         query = '\n'.join(query_parts)
         rows: Iterator[Tuple[int, str, str, str]] = conn.execute(query, params)
         for key, group in itertools.groupby(rows, lambda row: row[0:3]):
             rowid, id, pos = key
-            forms = [row[2] for row in group]
+            forms = [row[3] for row in group]
             yield (rowid, id, pos, forms)
 
 
