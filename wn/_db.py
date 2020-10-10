@@ -396,11 +396,16 @@ def _insert_examples(objs, lexid, table, cur, indicator):
         indicator.send(len(data))
 
 
+def get_lexicon_rowids(lgcode: str = None, lexicon: str = None):
+    with _connect() as conn:
+        return _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon)
+
+
 def _get_lexicon_rowids(
         conn: sqlite3.Connection,
-        lexicon: str = None,
         lgcode: str = None,
-) -> Set[int]:
+        lexicon: str = None,
+) -> Tuple[int, ...]:
     rowids: Set[int] = set()
     query = '''SELECT rowid, id, version
                  FROM lexicons
@@ -422,7 +427,7 @@ def _get_lexicon_rowids(
                 raise wn.Error(f'invalid lexicon version: {ver} ({id})')
             else:
                 rowids.add(lexmap[id][ver])
-    return rowids
+    return tuple(rowids)
 
 
 def find_entries(
@@ -450,7 +455,7 @@ def find_entries(
         if pos:
             conditions.append('p.pos = :pos')
         if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
             kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
             params.update(kws)
             conditions.append(f'e.lexicon_rowid IN ({_kws(kws)})')
@@ -496,7 +501,7 @@ def find_senses(
                               '    FROM parts_of_speech AS p'
                               '   WHERE p.pos = :pos)')
         if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
             kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
             params.update(kws)
             conditions.append(f's.lexicon_rowid IN ({_kws(kws)})')
@@ -539,7 +544,7 @@ def find_synsets(
         if pos:
             conditions.append('p.pos = :pos')
         if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lexicon, lgcode)
+            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
             kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
             params.update(kws)
             conditions.append(f'ss.lexicon_rowid IN ({_kws(kws)})')
@@ -558,6 +563,7 @@ def find_synsets(
 def get_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
+        lexicon_rowids: Collection[int] = None
 ) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
