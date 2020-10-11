@@ -422,8 +422,10 @@ def _get_lexicon_rowids(
             id, _, ver = id_ver.partition(':')
             if id not in lexmap:
                 raise wn.Error(f'invalid lexicon id: {id}')
-            if not ver:
+            if ver == '*':
                 rowids.update(lexmap[id].values())
+            elif not ver:
+                rowids.add(next(iter(lexmap[id].values())))
             elif ver not in lexmap[id]:
                 raise wn.Error(f'invalid lexicon version: {ver} ({id})')
             else:
