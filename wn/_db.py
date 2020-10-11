@@ -59,6 +59,7 @@ SYNSET_QUERY = '''
        AND ss.lexicon_rowid = ?
 '''
 
+
 # Local Types
 
 _Word = Tuple[int, str, str, List[str]]  # rowid, id, pos, forms
@@ -563,28 +564,60 @@ def find_synsets(
 def get_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
-        lexicon_rowids: Collection[int] = None
+        lexicon_rowids: Collection[int] = None,
+        expand_rowids: Collection[int] = None,
 ) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
+
+    # if expand_rowids or lexicon_rowids is None, don't constrain
+    if expand_rowids is not None:
+        expand = f'AND s2.lexicon_rowid IN (s1.lexicon_rowid,{_qs(expand_rowids)})'
+    else:
+        expand = ''
+        expand_rowids = ()  # see params below
+
     with _connect() as conn:
+        # if lexicons is not constrained, use the lexicon of the source synset
+        if lexicon_rowids is None:
+            query = 'SELECT lexicon_rowid FROM synsets WHERE rowid = ?'
+            lexicon_rowids = [row[0] for row in conn.execute(query, (source_rowid,))]
+
+        # first get rowids of relation targets
         query = f'''
-            SELECT tgt.rowid, tgt.id, p.pos, tgt.ili
-              FROM (SELECT target_rowid
-                      FROM synset_relations
-                     WHERE source_rowid = ?
-                       AND type_rowid IN
-                           (SELECT t.rowid
-                              FROM synset_relation_types AS t
-                             WHERE t.type IN ({_qs(relation_types)}))) AS r
-              JOIN synsets AS tgt
-                ON tgt.rowid = r.target_rowid
-              JOIN parts_of_speech AS p
-                ON p.rowid = tgt.pos_rowid
+              WITH sources(source_rowid) AS  -- source synsets expanded by ILI
+                   (SELECT s2.rowid
+                      FROM synsets AS s1
+                      JOIN synsets AS s2
+                        ON s1.ili = s2.ili OR s1.rowid = s2.rowid
+                     WHERE s1.rowid = ? {expand}),
+                   relation_types(type_rowid) AS  -- relation type lookup
+                   (SELECT t.rowid
+                      FROM synset_relation_types AS t
+                     WHERE t.type IN ({_qs(relation_types)}))
+            SELECT target_rowid
+              FROM synset_relations
+              JOIN sources USING (source_rowid)
+              JOIN relation_types USING (type_rowid)
         '''
-        params = source_rowid, *relation_types
-        rows: Iterator[_Synset] = conn.execute(query, params)
-        yield from rows
+        params = source_rowid, *expand_rowids, *relation_types
+        target_rows: List[Tuple[int]] = conn.execute(query, params).fetchall()
+        target_rowids: List[int] = [row[0] for row in target_rows]
+
+        # then get back to synsets in requested lexicons
+        query = f'''
+            SELECT DISTINCT res.rowid, res.id, p.pos, res.ili
+              FROM synsets AS tgt
+              JOIN synsets AS res
+                ON tgt.ili = res.ili OR tgt.rowid = res.rowid
+              JOIN parts_of_speech AS p
+                ON p.rowid = res.pos_rowid
+             WHERE tgt.rowid IN ({_qs(target_rowids)})
+               AND res.lexicon_rowid IN ({_qs(lexicon_rowids)})
+        '''
+        params = *target_rowids, *lexicon_rowids
+        result_rows: Iterator[_Synset] = conn.execute(query, params)
+        yield from result_rows
 
 
 def get_definitions_for_synset(rowid: int) -> List[str]:

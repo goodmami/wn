@@ -139,9 +139,16 @@ class Synset(_Relatable):
 
     def get_related(self, *args: str) -> List['Synset']:
         lexids = None
+        expids = None
         if self._wordnet:
             lexids = self._wordnet._lexicon_ids
-        iterable = _db.get_synset_relations(self._id, args, lexicon_rowids=lexids)
+            expids = self._wordnet._expand_ids or lexids
+        iterable = _db.get_synset_relations(
+            self._id,
+            args,
+            lexicon_rowids=lexids,
+            expand_rowids=expids
+        )
         return [Synset(id, pos, ili, rowid, self._wordnet)
                 for rowid, id, pos, ili in iterable]
 
@@ -227,14 +234,17 @@ class WordNet:
     Class for interacting with WordNet data.
     """
 
-    __slots__ = 'lgcode', 'lexicon', '_lexicon_ids'
+    __slots__ = 'lgcode', 'lexicon', '_lexicon_ids', '_expand_ids'
 
-    def __init__(self, lgcode: str = None, lexicon: str = None):
+    def __init__(self, lgcode: str = None, lexicon: str = None, expand: str = None):
         self.lgcode = lgcode
         self.lexicon = lexicon
         self._lexicon_ids: Optional[Tuple[int]] = None
         if lgcode or lexicon:
             self._lexicon_ids = _db.get_lexicon_rowids(lgcode=lgcode, lexicon=lexicon)
+        self._expand_ids: Optional[Tuple[int]] = None
+        if expand:
+            self._expand_ids = _db.get_lexicon_rowids(lexicon=expand)
 
     def word(self, id: str) -> Word:
         iterable = _db.find_entries(id=id, lgcode=self.lgcode, lexicon=self.lexicon)
