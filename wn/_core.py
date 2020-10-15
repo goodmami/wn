@@ -137,6 +137,9 @@ class Synset(_Relatable):
     def words(self) -> List[Word]:
         return [sense.word() for sense in self.senses()]
 
+    def lemmas(self) -> List[str]:
+        return [w.lemma() for w in self.words()]
+
     def get_related(self, *args: str) -> List['Synset']:
         lexids = None
         expids = None
