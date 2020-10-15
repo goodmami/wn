@@ -268,8 +268,13 @@ class WordNet:
         except StopIteration:
             raise wn.Error(f'no such synset: {id}')
 
-    def synsets(self, form: str = None, pos: str = None) -> List[Synset]:
-        iterable = _db.find_synsets(form=form, pos=pos,
+    def synsets(
+            self,
+            form: str = None,
+            pos: str = None,
+            ili: str = None
+    ) -> List[Synset]:
+        iterable = _db.find_synsets(form=form, pos=pos, ili=ili,
                                     lgcode=self.lgcode, lexicon=self.lexicon)
         return [Synset(id, pos, ili, rowid, self)
                 for rowid, id, pos, ili in iterable]
@@ -340,6 +345,7 @@ def synset(id: str, lexicon: str = None) -> Synset:
 
 def synsets(form: str = None,
             pos: str = None,
+            ili: str = None,
             lgcode: str = None,
             lexicon: str = None) -> List[Synset]:
     """Return the list of matching synsets.
@@ -350,7 +356,7 @@ def synsets(form: str = None,
     [Synset('ewn-00983308-v')]
 
     """
-    return WordNet(lgcode=lgcode, lexicon=lexicon).synsets(form=form, pos=pos)
+    return WordNet(lgcode=lgcode, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
 def senses(form: str = None,

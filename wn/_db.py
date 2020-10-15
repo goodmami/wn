@@ -521,6 +521,7 @@ def find_synsets(
         id: str = None,
         form: str = None,
         pos: str = None,
+        ili: str = None,
         lgcode: str = None,
         lexicon: str = None
 ) -> Iterator[_Synset]:
@@ -531,7 +532,7 @@ def find_synsets(
             '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
         ]
 
-        params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
+        params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos, 'ili': ili}
         conditions = []
         if id:
             conditions.append('ss.id = :id')
@@ -546,6 +547,8 @@ def find_synsets(
             )
         if pos:
             conditions.append('p.pos = :pos')
+        if ili:
+            conditions.append('ss.ili = :ili')
         if lgcode or lexicon:
             lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
             kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
