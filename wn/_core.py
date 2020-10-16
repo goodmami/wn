@@ -1,5 +1,5 @@
 
-from typing import TypeVar, Optional, List, Tuple, Set, Iterator
+from typing import Any, TypeVar, Optional, List, Tuple, Dict, Set, Iterator
 
 import wn
 from wn import _db
@@ -14,6 +14,35 @@ from wn import _db
 # particular rows in the database, and the queries in wn._db would
 # become much more complicated. These rowids should not be exposed to
 # the users, and further coupling to the wn._db module is discouraged.
+
+class Lexicon:
+    __slots__ = ('_id', 'id', 'label', 'language', 'email', 'license',
+                 'version', 'url', 'citation', 'metadata')
+
+    def __init__(
+            self,
+            id: str,
+            label: str,
+            language: str,
+            email: str,
+            license: str,
+            version: str,
+            url: str = None,
+            citation: str = None,
+            metadata: Dict[str, Any] = None,
+            _id: int = -1,
+    ):
+        self._id = _id
+        self.id = id
+        self.label = label
+        self.language = language
+        self.email = email
+        self.license = license
+        self.version = version
+        self.url = url
+        self.citation = citation
+        self.metadata = metadata
+
 
 class _LexiconElement:
     __slots__ = '_id', '_wordnet'
@@ -145,7 +174,7 @@ class Synset(_Relatable):
         expids = None
         if self._wordnet:
             lexids = self._wordnet._lexicon_ids
-            expids = self._wordnet._expand_ids or lexids
+            expids = self._wordnet._expanded_ids or lexids
         iterable = _db.get_synset_relations(
             self._id,
             args,
@@ -237,20 +266,29 @@ class WordNet:
     Class for interacting with WordNet data.
     """
 
-    __slots__ = 'lgcode', 'lexicon', '_lexicon_ids', '_expand_ids'
+    __slots__ = 'lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
 
     def __init__(self, lgcode: str = None, lexicon: str = None, expand: str = None):
         self.lgcode = lgcode
-        self.lexicon = lexicon
-        self._lexicon_ids: Optional[Tuple[int]] = None
+
+        self._lexicons: Tuple[Lexicon, ...] = ()
         if lgcode or lexicon:
-            self._lexicon_ids = _db.get_lexicon_rowids(lgcode=lgcode, lexicon=lexicon)
-        self._expand_ids: Optional[Tuple[int]] = None
+            self._lexicons = tuple(
+                map(_to_lexicon, _db.find_lexicons(lgcode=lgcode, lexicon=lexicon))
+            )
+        self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
+
+        self._expanded: Tuple[Lexicon, ...] = ()
+        if expand is None:
+            expand = '*'  # TODO: use project-specific settings
         if expand:
-            self._expand_ids = _db.get_lexicon_rowids(lexicon=expand)
+            self._expanded = tuple(
+                map(_to_lexicon, _db.find_lexicons(lexicon=expand))
+            )
+        self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
     def word(self, id: str) -> Word:
-        iterable = _db.find_entries(id=id, lgcode=self.lgcode, lexicon=self.lexicon)
+        iterable = _db.find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             rowid, id, pos, forms = next(iterable)
             return Word(id, pos, forms, rowid, self)
@@ -258,13 +296,14 @@ class WordNet:
             raise wn.Error(f'no such lexical entry: {id}')
 
     def words(self, form: str = None, pos: str = None) -> List[Word]:
-        iterable = _db.find_entries(form=form, pos=pos,
-                                    lgcode=self.lgcode, lexicon=self.lexicon)
+        iterable = _db.find_entries(
+            form=form, pos=pos, lexicon_rowids=self._lexicon_ids
+        )
         return [Word(id, pos, forms, rowid, self)
                 for rowid, id, pos, forms in iterable]
 
     def synset(self, id: str) -> Synset:
-        iterable = _db.find_synsets(id=id, lexicon=self.lexicon)
+        iterable = _db.find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             rowid, id, pos, ili = next(iterable)
             return Synset(id, pos, ili, rowid, self)
@@ -272,18 +311,15 @@ class WordNet:
             raise wn.Error(f'no such synset: {id}')
 
     def synsets(
-            self,
-            form: str = None,
-            pos: str = None,
-            ili: str = None
+        self, form: str = None, pos: str = None, ili: str = None
     ) -> List[Synset]:
-        iterable = _db.find_synsets(form=form, pos=pos, ili=ili,
-                                    lgcode=self.lgcode, lexicon=self.lexicon)
-        return [Synset(id, pos, ili, rowid, self)
-                for rowid, id, pos, ili in iterable]
+        iterable = _db.find_synsets(
+            form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids
+        )
+        return [Synset(id, pos, ili, rowid, self) for rowid, id, pos, ili in iterable]
 
     def sense(self, id: str) -> Sense:
-        iterable = _db.find_senses(id=id, lexicon=self.lexicon)
+        iterable = _db.find_senses(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             rowid, id, entry_id, synset_id = next(iterable)
             return Sense(id, entry_id, synset_id, rowid, self)
@@ -291,10 +327,27 @@ class WordNet:
             raise wn.Error(f'no such sense: {id}')
 
     def senses(self, form: str = None, pos: str = None) -> List[Sense]:
-        iterable = _db.find_senses(form=form, pos=pos,
-                                   lgcode=self.lgcode, lexicon=self.lexicon)
+        iterable = _db.find_senses(
+            form=form, pos=pos, lexicon_rowids=self._lexicon_ids
+        )
         return [Sense(id, entry_id, synset_id, rowid, self)
                 for rowid, id, entry_id, synset_id in iterable]
+
+
+def _to_lexicon(data) -> Lexicon:
+    rowid, id, label, language, email, license, version, url, citation, metadata = data
+    return Lexicon(
+        id,
+        label,
+        language,
+        email,
+        license,
+        version,
+        url=url,
+        citation=citation,
+        metadata=metadata,
+        _id=rowid
+    )
 
 
 def word(id: str, lexicon: str = None) -> Word:

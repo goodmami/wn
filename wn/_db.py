@@ -2,7 +2,7 @@
 Storage back-end interface.
 """
 
-from typing import Any, Dict, Set, List, Tuple, Collection, Iterator
+from typing import Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
 import sys
 from pathlib import Path
 import gzip
@@ -65,6 +65,18 @@ SYNSET_QUERY = '''
 _Word = Tuple[int, str, str, List[str]]  # rowid, id, pos, forms
 _Synset = Tuple[int, str, str, str]      # rowid, id, pos, ili
 _Sense = Tuple[int, str, str, str]       # rowid, id, entry_id, synset_id
+_Lexicon = Tuple[
+    int,  # rowid
+    str,  # id
+    str,  # label
+    str,  # language
+    str,  # email
+    str,  # license
+    str,  # version
+    str,  # url
+    str,  # citation
+    Dict[str, Any],  # metadata
+]
 
 
 # Optional metadata is stored as a JSON string
@@ -397,7 +409,24 @@ def _insert_examples(objs, lexid, table, cur, indicator):
         indicator.send(len(data))
 
 
-def get_lexicon_rowids(lgcode: str = None, lexicon: str = None):
+def find_lexicons(lgcode: str = None, lexicon: str = None) -> Iterator[_Lexicon]:
+    with _connect() as conn:
+        for rowid in _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon):
+            yield _get_lexicon(conn, rowid)
+
+
+def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
+    query = '''
+        SELECT rowid, id, label, language, email, license,
+               version, url, citation, metadata
+        FROM lexicons
+        WHERE rowid = ?
+    '''
+    rows: Iterator[_Lexicon] = conn.execute(query, (rowid,))
+    return next(rows)
+
+
+def get_lexicon_rowids(lgcode: str = None, lexicon: str = None) -> Tuple[int, ...]:
     with _connect() as conn:
         return _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon)
 
@@ -420,6 +449,11 @@ def _get_lexicon_rowids(
             lexmap.setdefault(id, {})[version] = rowid
         for id_ver in lexicon.split():
             id, _, ver = id_ver.partition(':')
+            if id == '*':
+                assert not ver, "version not allowed on '*'"
+                for proj in lexmap.values():
+                    rowids.update(proj.values())
+                break
             if id not in lexmap:
                 raise wn.Error(f'invalid lexicon id: {id}')
             if ver == '*':
@@ -433,18 +467,36 @@ def _get_lexicon_rowids(
     return tuple(rowids)
 
 
+def get_lexicon_for_entry(rowid: int) -> _Lexicon:
+    return _get_lexicon_for(rowid, 'entries')
+
+
+def get_lexicon_for_sense(rowid: int) -> _Lexicon:
+    return _get_lexicon_for(rowid, 'senses')
+
+
+def get_lexicon_for_synset(rowid: int) -> _Lexicon:
+    return _get_lexicon_for(rowid, 'synsets')
+
+
+def _get_lexicon_for(rowid: int, table: str) -> _Lexicon:
+    with _connect() as conn:
+        query = f'SELECT lexicon_rowid FROM {table} WHERE rowid = ?'
+        row: Tuple[int] = conn.execute(query, (rowid,)).fetchone()
+        return _get_lexicon(conn, row[0])
+
+
 def find_entries(
         id: str = None,
         form: str = None,
         pos: str = None,
-        lgcode: str = None,
-        lexicon: str = None
+        lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
             'SELECT e.rowid, e.id, p.pos, f.form',
             '  FROM entries AS e',
-            '  JOIN parts_of_speech AS p ON p.rowid == e.pos_rowid',
+            '  JOIN parts_of_speech AS p ON p.rowid = e.pos_rowid',
             '  JOIN forms AS f ON f.entry_rowid = e.rowid',
         ]
 
@@ -457,9 +509,8 @@ def find_entries(
                               ' (SELECT entry_rowid FROM forms WHERE form = :form)')
         if pos:
             conditions.append('p.pos = :pos')
-        if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
-            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+        if lexicon_rowids:
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
             params.update(kws)
             conditions.append(f'e.lexicon_rowid IN ({_kws(kws)})')
 
@@ -480,8 +531,7 @@ def find_senses(
         id: str = None,
         form: str = None,
         pos: str = None,
-        lgcode: str = None,
-        lexicon: str = None
+        lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Sense]:
     with _connect() as conn:
         query_parts = [
@@ -503,9 +553,8 @@ def find_senses(
                               ' (SELECT p.rowid'
                               '    FROM parts_of_speech AS p'
                               '   WHERE p.pos = :pos)')
-        if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
-            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+        if lexicon_rowids:
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
             params.update(kws)
             conditions.append(f's.lexicon_rowid IN ({_kws(kws)})')
 
@@ -522,8 +571,7 @@ def find_synsets(
         form: str = None,
         pos: str = None,
         ili: str = None,
-        lgcode: str = None,
-        lexicon: str = None
+        lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Synset]:
     with _connect() as conn:
         query_parts = [
@@ -549,9 +597,8 @@ def find_synsets(
             conditions.append('p.pos = :pos')
         if ili:
             conditions.append('ss.ili = :ili')
-        if lgcode or lexicon:
-            lex_rowids = _get_lexicon_rowids(conn, lgcode, lexicon)
-            kws = {f'lex{i}': rowid for i, rowid in enumerate(lex_rowids, 1)}
+        if lexicon_rowids:
+            kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
             params.update(kws)
             conditions.append(f'ss.lexicon_rowid IN ({_kws(kws)})')
 
@@ -569,14 +616,14 @@ def find_synsets(
 def get_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
-        lexicon_rowids: Collection[int] = None,
-        expand_rowids: Collection[int] = None,
+        lexicon_rowids: Collection[int],
+        expand_rowids: Collection[int],
 ) -> Iterator[_Synset]:
     if isinstance(relation_types, str):
         relation_types = (relation_types,)
 
     # if expand_rowids or lexicon_rowids is None, don't constrain
-    if expand_rowids is not None:
+    if expand_rowids:
         expand = f'AND s2.lexicon_rowid IN (s1.lexicon_rowid,{_qs(expand_rowids)})'
     else:
         expand = ''
@@ -584,7 +631,7 @@ def get_synset_relations(
 
     with _connect() as conn:
         # if lexicons is not constrained, use the lexicon of the source synset
-        if lexicon_rowids is None:
+        if not lexicon_rowids:
             query = 'SELECT lexicon_rowid FROM synsets WHERE rowid = ?'
             lexicon_rowids = [row[0] for row in conn.execute(query, (source_rowid,))]
 
