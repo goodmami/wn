@@ -8,6 +8,7 @@ __all__ = (
     'WordNet',
     'download',
     'add',
+    'lexicons',
     'word',
     'words',
     'synset',
@@ -23,4 +24,6 @@ from wn._exceptions import Error
 from wn._config import config
 from wn._db import add
 from wn._download import download
-from wn._core import word, words, synset, synsets, sense, senses, WordNet
+from wn._core import (
+    lexicons, word, words, synset, synsets, sense, senses, WordNet
+)

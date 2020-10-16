@@ -287,6 +287,9 @@ class WordNet:
             )
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
+    def lexicons(self): return self._lexicons
+    def expanded_lexicons(self): return self._expanded
+
     def word(self, id: str) -> Word:
         iterable = _db.find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
@@ -348,6 +351,13 @@ def _to_lexicon(data) -> Lexicon:
         metadata=metadata,
         _id=rowid
     )
+
+
+def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
+    """Return the lexicons matching a language or identifier key."""
+    if lexicon is None:
+        lexicon = '*'
+    return WordNet(lgcode=lgcode, lexicon=lexicon).lexicons()
 
 
 def word(id: str, lexicon: str = None) -> Word:
