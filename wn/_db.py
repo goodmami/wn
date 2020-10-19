@@ -409,6 +409,16 @@ def _insert_examples(objs, lexid, table, cur, indicator):
         indicator.send(len(data))
 
 
+def remove(lexicon: str) -> None:
+    with _connect() as conn:
+        for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
+            conn.execute('DELETE FROM entries WHERE lexicon_rowid = ?', (rowid,))
+            conn.execute('DELETE FROM synsets WHERE lexicon_rowid = ?', (rowid,))
+            conn.execute('DELETE FROM syntactic_behaviours WHERE lexicon_rowid = ?',
+                         (rowid,))
+            conn.execute('DELETE FROM lexicons WHERE rowid = ?', (rowid,))
+
+
 def find_lexicons(lgcode: str = None, lexicon: str = None) -> Iterator[_Lexicon]:
     with _connect() as conn:
         for rowid in _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon):
