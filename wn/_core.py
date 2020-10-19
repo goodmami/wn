@@ -90,6 +90,19 @@ class Word(_LexiconElement):
                 for sense in self.senses()
                 for derived_sense in sense.derivations()]
 
+    def translate(
+            self,
+            lgcode: str = None,
+            lexicon: str = None
+    ) -> Dict['Sense', List['Word']]:
+        result = {}
+        for sense in self.senses():
+            result[sense] = [
+                t_sense.word()
+                for t_sense in sense.translate(lgcode=lgcode, lexicon=lexicon)
+            ]
+        return result
+
 
 T = TypeVar('T', bound='_Relatable')
 
@@ -219,6 +232,12 @@ class Synset(_Relatable):
             'instance_hyponym'
         )
 
+    def translate(self, lgcode: str = None, lexicon: str = None) -> List['Synset']:
+        ili = self.ili
+        if not ili:
+            return []
+        return synsets(ili=ili, lgcode=lgcode, lexicon=lexicon)
+
 
 class Sense(_Relatable):
     __slots__ = '_entry_id', '_synset_id'
@@ -259,6 +278,12 @@ class Sense(_Relatable):
 
     def pertainyms(self) -> List['Sense']:
         return self.get_related('pertainym')
+
+    def translate(self, lgcode: str = None, lexicon: str = None) -> List['Sense']:
+        synset = self.synset()
+        return [t_sense
+                for t_synset in synset.translate(lgcode=lgcode, lexicon=lexicon)
+                for t_sense in t_synset.senses()]
 
 
 class WordNet:
