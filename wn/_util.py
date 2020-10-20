@@ -10,52 +10,60 @@ def is_gzip(path: Path) -> bool:
         return f.read(2) == b'\x1F\x8B'
 
 
-def progress_bar(
-        message: str = '',
-        max: int = 0,
-        width: int = 30,
-        fmt: str = '\r{message}[{fill:<{width}}] ({current}/{max})',
-        fillchars: Sequence[str] = '#',
-        file: TextIO = sys.stderr):
-    """
-    Return a generator which yields a progress bar string.
+class ProgressBar:
+    """A class for formatting progress as a bar.
 
-    Update the counter with the generator's send() method giving an
-    incremement value. Normally you'd want to print with end='' to
-    keep the progress bar on the same line.
+    Update the counter with the update() method giving an incremement
+    value.
 
     Example:
-        >>> p = progress_bar('Progress: ', max=10, width=10)
-        >>> print(p.send(3))
+        >>> p = ProgressBar('Progress: ', max=10, width=10)
+        >>> p.update(3)
         Progress: [###       ] (3/10)
+
     """
 
-    assert width >= 1, 'width must be 1 or greater'
-    fillnum = len(fillchars)
-    assert fillnum > 0, 'fillchars must be 1 or more characters'
-    step = max / width
-    fillchars = [''] + list(fillchars)
+    def __init__(
+            self,
+            message: str = '',
+            max: int = 0,
+            width: int = 30,
+            fmt: str = '\r{message}[{fill:<{width}}] ({count}/{max})',
+            fillchars: Sequence[str] = '#',
+            file: TextIO = sys.stderr,
+            **kwargs,
+    ):
+        assert width >= 1, 'width must be 1 or greater'
+        assert len(fillchars) > 0, 'fillchars must be 1 or more characters'
+        self.count = 0
+        self.max = max
+        self.width = width
+        self.fmt = fmt
+        self.fillchars = [''] + list(fillchars)
+        self.file = file
+        kwargs['message'] = message
+        self.kwargs = kwargs
 
-    def fill(current: int) -> str:
+    def update(self, inc: int = 1, **kwargs) -> str:
+        self.count += inc
+        count, max, width = self.count, self.max, self.width
+        if kwargs:
+            self.kwargs.update(kwargs)
+
         if max > 0:
-            done = int((current / max) * width) * fillchars[-1]
-            part = fillchars[int(((current % step) / step) * len(fillchars))]
-            return done + part
+            _chars = self.fillchars
+            _count = min(count, max)
+            _step = (max / width)
+            _done = int((_count / max) * width) * _chars[-1]
+            _part = _chars[int(((_count % _step) / _step) * len(_chars))]
+            fill = _done + _part
         else:
-            return '-' * width
+            fill = '-' * width
 
-    def update():
-        data = {'message': message, 'fill': '', 'width': width,
-                'current': 0, 'max': max or '?'}
-        while True:
-            data['fill'] = fill(data['current'])
-            s = fmt.format(**data)
-            if file:
-                print('\r\033[K', end='', file=file)
-                print(s, end='', file=file)
-            increment = yield s
-            data['current'] = min(data['current'] + increment, max)
-
-    generator = update()
-    next(generator)
-    return generator
+        s = self.fmt.format(
+            fill=fill, width=width, count=count, max=max, **self.kwargs
+        )
+        if self.file:
+            print('\r\033[K', end='', file=self.file)
+            print(s, end='', file=self.file)
+        return s

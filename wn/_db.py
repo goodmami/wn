@@ -20,7 +20,7 @@ except ImportError:
 
 import wn
 from wn._types import AnyPath
-from wn._util import is_gzip, progress_bar
+from wn._util import is_gzip, ProgressBar
 from wn import constants
 from wn import lmf
 
@@ -197,7 +197,11 @@ def _add_lmf(source):
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
             count += counts.get('Synset', 0)  # again for ILIs
-            indicator = progress_bar('Building ', max=count)
+            indicator = ProgressBar(
+                max=count,
+                fmt='\rBuilding: [{fill:<{width}}] ({count}/{max}) {type}',
+                type='',
+            )
 
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
@@ -218,8 +222,8 @@ def _add_lmf(source):
             _insert_examples([sense for entry in entries for sense in entry.senses],
                              lexid, 'sense_examples', cur, indicator)
             _insert_examples(synsets, lexid, 'synset_examples', cur, indicator)
+            indicator.update(0, type='')  # clear type string
 
-            indicator.close()
             print(file=sys.stderr)
 
 
@@ -245,6 +249,7 @@ def _split(sequence):
 
 
 def _insert_ilis(synsets, cur, indicator):
+    indicator.update(0, type='ILI')
     for batch in _split(synsets):
         data = (
             (synset.ili,
@@ -253,10 +258,11 @@ def _insert_ilis(synsets, cur, indicator):
             for synset in batch if synset.ili and synset.ili != 'in'
         )
         cur.executemany('INSERT OR IGNORE INTO ilis VALUES (?,?,?)', data)
-        indicator.send(len(batch))
+        indicator.update(len(batch))
 
 
 def _insert_synsets(synsets, lex_id, cur, indicator):
+    indicator.update(0, type='Synsets')
     query = f'INSERT INTO synsets VALUES (null,?,?,?,({POS_QUERY}),?,?)'
     for batch in _split(synsets):
         data = (
@@ -270,10 +276,11 @@ def _insert_synsets(synsets, lex_id, cur, indicator):
             for synset in batch
         )
         cur.executemany(query, data)
-        indicator.send(len(batch))
+        indicator.update(len(batch))
 
 
 def _insert_synset_definitions(synsets, lexid, cur, indicator):
+    indicator.update(0, type='Definitions')
     query = f'INSERT INTO definitions VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(synsets):
         data = [
@@ -287,10 +294,11 @@ def _insert_synset_definitions(synsets, lexid, cur, indicator):
             for definition in synset.definitions
         ]
         cur.executemany(query, data)
-        indicator.send(len(data))
+        indicator.update(len(data))
 
 
 def _insert_synset_relations(synsets, lexid, cur, indicator):
+    indicator.update(0, type='Synset Relations')
     type_query = 'SELECT r.rowid FROM synset_relation_types AS r WHERE r.type = ?'
     query = f'''
         INSERT INTO synset_relations
@@ -309,10 +317,11 @@ def _insert_synset_relations(synsets, lexid, cur, indicator):
             for relation in synset.relations
         ]
         cur.executemany(query, data)
-        indicator.send(len(data))
+        indicator.update(len(data))
 
 
 def _insert_entries(entries, lex_id, cur, indicator):
+    indicator.update(0, type='Words')
     query = f'INSERT INTO entries VALUES (null,?,?,({POS_QUERY}),?)'
     for batch in _split(entries):
         data = (
@@ -323,10 +332,11 @@ def _insert_entries(entries, lex_id, cur, indicator):
             for entry in batch
         )
         cur.executemany(query, data)
-        indicator.send(len(batch))
+        indicator.update(len(batch))
 
 
 def _insert_forms(entries, lexid, cur, indicator):
+    indicator.update(0, type='Word Forms')
     query = f'INSERT INTO forms VALUES (null,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
         forms = []
@@ -335,10 +345,11 @@ def _insert_forms(entries, lexid, cur, indicator):
             forms.extend((entry.id, lexid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
-        indicator.send(len(forms))
+        indicator.update(len(forms))
 
 
 def _insert_senses(entries, lexid, cur, indicator):
+    indicator.update(0, type='Senses')
     query = f'''
         INSERT INTO senses
         VALUES (null,
@@ -365,10 +376,11 @@ def _insert_senses(entries, lexid, cur, indicator):
             for i, sense in enumerate(entry.senses)
         ]
         cur.executemany(query, data)
-        indicator.send(len(data))
+        indicator.update(len(data))
 
 
 def _insert_sense_relations(entries, lexid, table, ids, cur, indicator):
+    indicator.update(0, type='Sense Relations')
     target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
     type_query = 'SELECT r.rowid FROM sense_relation_types AS r WHERE r.type = ?'
     query = f'''
@@ -390,10 +402,11 @@ def _insert_sense_relations(entries, lexid, table, ids, cur, indicator):
         ]
         # be careful of SQL injection here
         cur.executemany(query, data)
-        indicator.send(len(data))
+        indicator.update(len(data))
 
 
 def _insert_examples(objs, lexid, table, cur, indicator):
+    indicator.update(0, type='Examples')
     query = f'INSERT INTO {table} VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
@@ -406,7 +419,7 @@ def _insert_examples(objs, lexid, table, cur, indicator):
         ]
         # be careful of SQL injection here
         cur.executemany(query, data)
-        indicator.send(len(data))
+        indicator.update(len(data))
 
 
 def remove(lexicon: str) -> None:

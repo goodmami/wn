@@ -5,7 +5,7 @@ import hashlib
 
 import requests
 
-from wn._util import progress_bar
+from wn._util import ProgressBar
 from wn import _db
 from wn import config
 
@@ -55,12 +55,11 @@ def download(project_or_url: str, version: str = None) -> None:
             with open(path, 'wb') as f:
                 with requests.get(url, stream=True) as response:
                     size = int(response.headers.get('Content-Length', 0))
-                    indicator = progress_bar('Downloading ', max=size)
+                    indicator = ProgressBar('Downloading ', max=size)
                     for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
                         if chunk:
                             f.write(chunk)
-                        indicator.send(len(chunk))
-                    indicator.close()
+                        indicator.update(len(chunk))
                     print(f'\r\x1b[KDownload complete ({size} bytes)', file=sys.stderr)
         except:  # noqa: E722 (exception is reraised)
             print(f'\r\x1b[KDownload failed at {size} bytes', file=sys.stderr)
