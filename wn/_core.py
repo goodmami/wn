@@ -149,18 +149,20 @@ class _Relatable(_LexiconElement):
                 yield relatable
                 queue.extend(relatable.get_related(relation))
 
-    def relation_paths(self: T, *args: str) -> Iterator[List[T]]:
-        paths: List[Tuple[List[T], Set[str]]] = [([self], set([self.id]))]
-        while paths:
-            path, visited = paths.pop()
+    def relation_paths(self: T, *args: str) -> List[List[T]]:
+        paths: List[List[T]] = []
+        agenda: List[Tuple[List[T], Set[str]]] = [([self], set([self.id]))]
+        while agenda:
+            path, visited = agenda.pop()
             related = [s for s in path[-1].get_related(*args) if s.id not in visited]
             if not related:
-                yield path
+                paths.append(path)
             else:
                 for synset in reversed(related):
                     new_path = list(path) + [synset]
                     new_visited = set(visited) | {synset.id}
-                    paths.append((new_path, new_visited))
+                    agenda.append((new_path, new_visited))
+        return paths
 
 
 class Synset(_Relatable):
@@ -215,7 +217,7 @@ class Synset(_Relatable):
         return [Synset(id, pos, ili, rowid, self._wordnet)
                 for rowid, id, pos, ili in iterable]
 
-    def hypernym_paths(self) -> Iterator[List['Synset']]:
+    def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
         return self.relation_paths('hypernym', 'instance_hypernym')
 
     def lowest_common_hypernyms(self, other: 'Synset') -> List['Synset']:
