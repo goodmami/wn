@@ -5,6 +5,9 @@ import wn
 from wn import _db
 
 
+_FAKE_ROOT = '*ROOT*'
+
+
 # NOTE: Separation of Concerns
 #
 # This module hooks into the wn._db module but generally interacts
@@ -218,14 +221,24 @@ class Synset(_Relatable):
                 for rowid, id, pos, ili in iterable]
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
-        return self.relation_paths('hypernym', 'instance_hypernym')
+        paths = self.relation_paths('hypernym', 'instance_hypernym')
+        if simulate_root:
+            root = self._simulated_root()
+            paths = [path + [root] for path in paths]
+        return paths
 
-    def lowest_common_hypernyms(self, other: 'Synset') -> List['Synset']:
+    def lowest_common_hypernyms(
+            self, other: 'Synset', simulate_root: bool = False
+    ) -> List['Synset']:
         if not isinstance(other, Synset):
             raise TypeError(f"argument not a Synset: {other!r}")
-        others = {other}.union(ss for path in other.hypernym_paths() for ss in path)
+        others = {other}.union(
+            ss
+            for path in other.hypernym_paths(simulate_root=simulate_root)
+            for ss in path
+        )
         depths: Dict[int, Set['Synset']] = {}
-        for path in self.hypernym_paths():
+        for path in self.hypernym_paths(simulate_root=simulate_root):
             # reverse the path so depth is from root
             for i, hypernym in enumerate(path[::-1] + [self]):
                 if hypernym in others:
@@ -272,6 +285,9 @@ class Synset(_Relatable):
         if not ili:
             return []
         return synsets(ili=ili, lgcode=lgcode, lexicon=lexicon)
+
+    def _simulated_root(self) -> 'Synset':
+        return Synset(_FAKE_ROOT, pos='', _wordnet=self._wordnet)
 
 
 class Sense(_Relatable):
