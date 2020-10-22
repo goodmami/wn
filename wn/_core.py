@@ -344,10 +344,10 @@ class WordNet:
     Class for interacting with WordNet data.
     """
 
-    __slots__ = 'lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __slots__ = '_lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
 
     def __init__(self, lgcode: str = None, lexicon: str = None, expand: str = None):
-        self.lgcode = lgcode
+        self._lgcode = lgcode
 
         self._lexicons: Tuple[Lexicon, ...] = ()
         if lgcode or lexicon:
@@ -364,6 +364,10 @@ class WordNet:
                 map(_to_lexicon, _db.find_lexicons(lexicon=expand))
             )
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
+
+    @property
+    def lgcode(self) -> Optional[str]:
+        return self._lgcode
 
     def lexicons(self): return self._lexicons
     def expanded_lexicons(self): return self._expanded
