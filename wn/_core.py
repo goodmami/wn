@@ -218,6 +218,21 @@ class Synset(_Relatable):
     def hypernym_paths(self) -> Iterator[List['Synset']]:
         return self.relation_paths('hypernym', 'instance_hypernym')
 
+    def lowest_common_hypernyms(self, other: 'Synset') -> List['Synset']:
+        if not isinstance(other, Synset):
+            raise TypeError(f"argument not a Synset: {other!r}")
+        others = {other}.union(ss for path in other.hypernym_paths() for ss in path)
+        depths: Dict[int, Set['Synset']] = {}
+        for path in self.hypernym_paths():
+            # reverse the path so depth is from root
+            for i, hypernym in enumerate(path[::-1] + [self]):
+                if hypernym in others:
+                    depths.setdefault(i, set()).add(hypernym)
+        lowest: List['Synset'] = []
+        if depths:
+            lowest.extend(depths[max(depths)])
+        return lowest
+
     def holonyms(self) -> List['Synset']:
         return self.get_related(
             'holonym',
