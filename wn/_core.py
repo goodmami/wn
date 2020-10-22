@@ -47,13 +47,29 @@ class Lexicon:
 class _LexiconElement:
     __slots__ = '_id', '_wordnet'
 
+    _ENTITY_TYPE = ''
+
     def __init__(self, _id: int = -1, _wordnet: 'WordNet' = None):
         self._id = _id  # Database-internal id (e.g., rowid)
         self._wordnet = _wordnet
 
+    def __eq__(self, other):
+        if not isinstance(other, _LexiconElement):
+            return NotImplemented
+        # the _id of different kinds of entities, such as Synset and
+        # Sense, can be the same, so make sure they are the same type
+        # of object first
+        return (self._ENTITY_TYPE == other._ENTITY_TYPE
+                and self._id == other._id)
+
+    def __hash__(self):
+        return hash((self._ENTITY_TYPE, self._id))
+
 
 class Word(_LexiconElement):
     __slots__ = 'id', 'pos', '_forms'
+
+    _ENTITY_TYPE = 'entries'
 
     def __init__(
             self,
@@ -150,6 +166,8 @@ class _Relatable(_LexiconElement):
 class Synset(_Relatable):
     __slots__ = 'pos', 'ili'
 
+    _ENTITY_TYPE = 'synsets'
+
     def __init__(
             self,
             id: str,
@@ -241,6 +259,8 @@ class Synset(_Relatable):
 
 class Sense(_Relatable):
     __slots__ = '_entry_id', '_synset_id'
+
+    _ENTITY_TYPE = 'senses'
 
     def __init__(
             self,
