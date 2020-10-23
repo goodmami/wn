@@ -65,13 +65,12 @@ class WNConfig:
             'license': license,
         }
 
-    def get_project_info(self, name: str, version: str = None) -> Dict:
+    def get_project_info(self, arg: str) -> Dict:
+        name, _, version = arg.partition(':')
         project: Dict = self._projects[name]
         versions: Dict = project['versions']
-        if version is None:
+        if not version:
             version = next(iter(versions))
-        if not isinstance(version, str):
-            raise Error(f'version must be type {str!r}, not {type(version)!r}')
         if version not in versions:
             raise Error(f'no such version: {version!r} ({project})')
         return dict(

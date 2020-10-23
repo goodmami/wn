@@ -4,9 +4,9 @@ Wn is a Python library for using wordnets. For example:
 
 ```python
 >>> import wn
->>> wn.download('ewn', '2020')  # Install the English Wordnet 2020
->>> ss = wn.synsets('win')[0]   # Get the first synset for 'win'
->>> ss.definition()             # Get the synset's definition
+>>> wn.download('ewn:2020')    # Install the English Wordnet 2020
+>>> ss = wn.synsets('win')[0]  # Get the first synset for 'win'
+>>> ss.definition()            # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
 ```
 

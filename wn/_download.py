@@ -20,31 +20,31 @@ def get_cache_path(url: str) -> Path:
     return config.downloads_directory / filename
 
 
-def download(project_or_url: str, version: str = None) -> None:
+def download(project_or_url: str) -> None:
     """Download the wordnet specified by *project_or_url*.
 
-    If *project_or_url* is a URL, then *version* is ignored and the
-    relevant project information (code, label, version, etc.) will be
-    extracted from the retrieved file. Otherwise, *project_or_url*
-    must be a known project id and *version* is a known version of the
-    project or is unspecified. If *version* is unspecified, the latest
-    known version is retrieved.
+    If *project_or_url* starts with `'http://'` or `'https://'`, then
+    it is taken to be a URL and the relevant project information
+    (code, label, version, etc.) will be extracted from the retrieved
+    file. Otherwise, *project_or_url* must be a known project id,
+    optionally followed by `':'` and a known version. If the version
+    is unspecified, the latest known version is retrieved.
 
     The retrieved file is cached locally and added to the wordnet
     database. If the URL was previously downloaded, a cached version
     will be used instead.
 
-    >>> wn.download('ewn', version='2020')
+    >>> wn.download('ewn:2020')
     Download complete (13643357 bytes)
     Checking /tmp/tmp_uqntl0l.xml
     Reading /tmp/tmp_uqntl0l.xml
     Building [###############################] (1337590/1337590)
 
     """
-    if '//' in project_or_url:  # assuming url must have //
+    if any(project_or_url.startswith(scheme) for scheme in ('http://', 'https://')):
         url = project_or_url
     else:
-        info = config.get_project_info(project_or_url, version=version)
+        info = config.get_project_info(project_or_url)
         url = info['resource_url']
 
     path = get_cache_path(url)

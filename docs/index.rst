@@ -25,7 +25,7 @@ Quick Start
 .. code-block:: python
 
    >>> import wn
-   >>> wn.download('ewn', '2020')
+   >>> wn.download('ewn:2020')
    >>> wn.synsets('coffee')
    [Synset('ewn-04979718-n'), Synset('ewn-07945591-n'), Synset('ewn-07945759-n'), Synset('ewn-12683533-n')]
 
