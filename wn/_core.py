@@ -116,7 +116,7 @@ class Word(_LexiconElement):
     def derived_words(self) -> List['Word']:
         return [derived_sense.word()
                 for sense in self.senses()
-                for derived_sense in sense.derivations()]
+                for derived_sense in sense.get_related('derivation')]
 
     def translate(
             self,
@@ -150,12 +150,6 @@ class _Relatable(_LexiconElement):
 
     def get_related(self: T, relation: str) -> List[T]:
         raise NotImplementedError
-
-    def antonyms(self: T) -> List[T]:
-        return self.get_related('antonym')
-
-    def similar(self: T) -> List[T]:
-        return self.get_related('similar')
 
     def closure(self: T, relation: str) -> Iterator[T]:
         visited = set()
@@ -359,12 +353,6 @@ class Sense(_Relatable):
         iterable = _db.get_sense_synset_relations(self._id, args)
         return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, pos, ili in iterable]
-
-    def derivations(self) -> List['Sense']:
-        return self.get_related('derivation')
-
-    def pertainyms(self) -> List['Sense']:
-        return self.get_related('pertainym')
 
     def translate(self, lgcode: str = None, lexicon: str = None) -> List['Sense']:
         synset = self.synset()
