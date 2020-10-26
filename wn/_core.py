@@ -6,6 +6,7 @@ from wn import _db
 
 
 _FAKE_ROOT = '*ROOT*'
+_EMPTY_SYNSET = '*EMPTY*'
 
 
 class _DatabaseEntity:
@@ -244,7 +245,9 @@ class Synset(_Relatable):
             related.extend(ss for ss in targets if ss._lexid in lexids)
             # add empty synsets for ILIs without a target in lexids
             for ili in (ilis - {tgt.ili for tgt in related}):
-                related.append(Synset.empty(ili=ili, _wordnet=self._wordnet))
+                related.append(
+                    Synset.empty(id=_EMPTY_SYNSET, ili=ili, _wordnet=self._wordnet)
+                )
         return related
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
