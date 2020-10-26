@@ -201,6 +201,10 @@ class Synset(_Relatable):
         self.pos = pos
         self.ili = ili
 
+    @classmethod
+    def empty(cls, ili: str = None, _wordnet: 'WordNet' = None):
+        return cls('', '', ili=ili, _wordnet=_wordnet)
+
     def __repr__(self) -> str:
         return f'Synset({self.id!r})'
 
