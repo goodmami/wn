@@ -8,16 +8,6 @@ from wn import _db
 _FAKE_ROOT = '*ROOT*'
 
 
-# NOTE: Separation of Concerns
-#
-# This module hooks into the wn._db module but generally interacts
-# only through publicly known identifiers. One exception is the rowids
-# of Words, Synsets, and Senses. Without these we would need a 3-tuple
-# of (id, lexicon-id, lexicon-version) in order to uniquely find
-# particular rows in the database, and the queries in wn._db would
-# become much more complicated. These rowids should not be exposed to
-# the users, and further coupling to the wn._db module is discouraged.
-
 class Lexicon:
     __slots__ = ('_id', 'id', 'label', 'language', 'email', 'license',
                  'version', 'url', 'citation', 'metadata')
@@ -33,7 +23,7 @@ class Lexicon:
             url: str = None,
             citation: str = None,
             metadata: Dict[str, Any] = None,
-            _id: int = -1,
+            _id: int = _db.NON_ROWID,
     ):
         self._id = _id
         self.id = id
@@ -48,12 +38,18 @@ class Lexicon:
 
 
 class _LexiconElement:
-    __slots__ = '_id', '_wordnet'
+    __slots__ = '_lexid', '_id', '_wordnet'
 
     _ENTITY_TYPE = ''
 
-    def __init__(self, _id: int = -1, _wordnet: 'WordNet' = None):
-        self._id = _id  # Database-internal id (e.g., rowid)
+    def __init__(
+            self,
+            _lexid: int = _db.NON_ROWID,
+            _id: int = _db.NON_ROWID,
+            _wordnet: 'WordNet' = None
+    ):
+        self._lexid = _lexid  # Database-internal lexicon id
+        self._id = _id        # Database-internal id (e.g., rowid)
         self._wordnet = _wordnet
 
     def __eq__(self, other):
@@ -79,10 +75,11 @@ class Word(_LexiconElement):
             id: str,
             pos: str,
             forms: List[str],
-            _id: int = -1,
+            _lexid: int = _db.NON_ROWID,
+            _id: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
-        super().__init__(_id=_id, _wordnet=_wordnet)
+        super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
         self.pos = pos
         self._forms = forms
@@ -98,8 +95,8 @@ class Word(_LexiconElement):
 
     def senses(self) -> List['Sense']:
         iterable = _db.get_senses_for_entry(self._id)
-        return [Sense(id, entry_id, synset_id, rowid, self._wordnet)
-                for rowid, id, entry_id, synset_id in iterable]
+        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
+                for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def synsets(self) -> List['Synset']:
         return [sense.synset() for sense in self.senses()]
@@ -129,8 +126,14 @@ T = TypeVar('T', bound='_Relatable')
 class _Relatable(_LexiconElement):
     __slots__ = 'id',
 
-    def __init__(self, id: str, _id: int = -1, _wordnet: 'WordNet' = None):
-        super().__init__(_id=_id, _wordnet=_wordnet)
+    def __init__(
+            self,
+            id: str,
+            _id: int = _db.NON_ROWID,
+            _lexid: int = _db.NON_ROWID,
+            _wordnet: 'WordNet' = None
+    ):
+        super().__init__(_id=_id, _lexid=_lexid, _wordnet=_wordnet)
         self.id = id
 
     def get_related(self: T, relation: str) -> List[T]:
@@ -178,10 +181,11 @@ class Synset(_Relatable):
             id: str,
             pos: str,
             ili: str = None,
-            _id: int = -1,
+            _lexid: int = _db.NON_ROWID,
+            _id: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
-        super().__init__(id=id, _id=_id, _wordnet=_wordnet)
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.pos = pos
         self.ili = ili
 
@@ -196,8 +200,8 @@ class Synset(_Relatable):
 
     def senses(self) -> List['Sense']:
         iterable = _db.get_senses_for_synset(self._id)
-        return [Sense(id, entry_id, synset_id, rowid, self._wordnet)
-                for rowid, id, entry_id, synset_id in iterable]
+        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
+                for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def words(self) -> List[Word]:
         return [sense.word() for sense in self.senses()]
@@ -206,19 +210,20 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        lexids = None
-        expids = None
+        lexids: Tuple[int, ...] = ()
+        expids: Tuple[int, ...] = ()
         if self._wordnet:
             lexids = self._wordnet._lexicon_ids
             expids = self._wordnet._expanded_ids or lexids
         iterable = _db.get_synset_relations(
             self._id,
+            self.ili,
             args,
             lexicon_rowids=lexids,
             expand_rowids=expids
         )
-        return [Synset(id, pos, ili, rowid, self._wordnet)
-                for rowid, id, pos, ili in iterable]
+        return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
+                for lexid, rowid, id, pos, ili in iterable]
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
         paths = self.relation_paths('hypernym', 'instance_hypernym')
@@ -300,10 +305,11 @@ class Sense(_Relatable):
             id: str,
             entry_id: str,
             synset_id: str,
-            _id: int = -1,
+            _id: int = _db.NON_ROWID,
+            _lexid: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
-        super().__init__(id=id, _id=_id, _wordnet=_wordnet)
+        super().__init__(id=id, _id=_id, _lexid=_lexid, _wordnet=_wordnet)
         self._entry_id = entry_id
         self._synset_id = synset_id
 
@@ -318,13 +324,13 @@ class Sense(_Relatable):
 
     def get_related(self, *args: str) -> List['Sense']:
         iterable = _db.get_sense_relations(self._id, args)
-        return [Sense(id, entry_id, synset_id, rowid, self._wordnet)
-                for rowid, id, entry_id, synset_id in iterable]
+        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
+                for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         iterable = _db.get_sense_synset_relations(self._id, args)
-        return [Synset(id, pos, ili, rowid, self._wordnet)
-                for rowid, id, pos, ili in iterable]
+        return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
+                for lexid, rowid, id, pos, ili in iterable]
 
     def derivations(self) -> List['Sense']:
         return self.get_related('derivation')
@@ -375,8 +381,8 @@ class WordNet:
     def word(self, id: str) -> Word:
         iterable = _db.find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            rowid, id, pos, forms = next(iterable)
-            return Word(id, pos, forms, rowid, self)
+            lexid, rowid, id, pos, forms = next(iterable)
+            return Word(id, pos, forms, lexid, rowid, self)
         except StopIteration:
             raise wn.Error(f'no such lexical entry: {id}')
 
@@ -384,14 +390,14 @@ class WordNet:
         iterable = _db.find_entries(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
-        return [Word(id, pos, forms, rowid, self)
-                for rowid, id, pos, forms in iterable]
+        return [Word(id, pos, forms, lexid, rowid, self)
+                for lexid, rowid, id, pos, forms in iterable]
 
     def synset(self, id: str) -> Synset:
         iterable = _db.find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            rowid, id, pos, ili = next(iterable)
-            return Synset(id, pos, ili, rowid, self)
+            lexid, rowid, id, pos, ili = next(iterable)
+            return Synset(id, pos, ili, lexid, rowid, self)
         except StopIteration:
             raise wn.Error(f'no such synset: {id}')
 
@@ -401,13 +407,14 @@ class WordNet:
         iterable = _db.find_synsets(
             form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids
         )
-        return [Synset(id, pos, ili, rowid, self) for rowid, id, pos, ili in iterable]
+        return [Synset(id, pos, ili, lexid, rowid, self)
+                for lexid, rowid, id, pos, ili in iterable]
 
     def sense(self, id: str) -> Sense:
         iterable = _db.find_senses(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            rowid, id, entry_id, synset_id = next(iterable)
-            return Sense(id, entry_id, synset_id, rowid, self)
+            lexid, rowid, id, entry_id, synset_id = next(iterable)
+            return Sense(id, entry_id, synset_id, lexid, rowid, self)
         except StopIteration:
             raise wn.Error(f'no such sense: {id}')
 
@@ -415,8 +422,8 @@ class WordNet:
         iterable = _db.find_senses(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
-        return [Sense(id, entry_id, synset_id, rowid, self)
-                for rowid, id, entry_id, synset_id in iterable]
+        return [Sense(id, entry_id, synset_id, lexid, rowid, self)
+                for lexid, rowid, id, entry_id, synset_id in iterable]
 
 
 def _to_lexicon(data) -> Lexicon:

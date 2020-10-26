@@ -29,6 +29,7 @@ from wn import lmf
 
 DEBUG = False
 BATCH_SIZE = 1000
+NON_ROWID = 0  # imaginary rowid of non-existent row
 
 # Common Subqueries
 
@@ -62,9 +63,9 @@ SYNSET_QUERY = '''
 
 # Local Types
 
-_Word = Tuple[int, str, str, List[str]]  # rowid, id, pos, forms
-_Synset = Tuple[int, str, str, str]      # rowid, id, pos, ili
-_Sense = Tuple[int, str, str, str]       # rowid, id, entry_id, synset_id
+_Word = Tuple[int, int, str, str, List[str]]  # lexid, rowid, id, pos, forms
+_Synset = Tuple[int, int, str, str, str]      # lexid, rowid, id, pos, ili
+_Sense = Tuple[int, int, str, str, str]       # lexid, rowid, id, entry_id, synset_id
 _Lexicon = Tuple[
     int,  # rowid
     str,  # id
@@ -517,7 +518,7 @@ def find_entries(
 ) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
-            'SELECT e.rowid, e.id, p.pos, f.form',
+            'SELECT e.lexicon_rowid, e.rowid, e.id, p.pos, f.form',
             '  FROM entries AS e',
             '  JOIN parts_of_speech AS p ON p.rowid = e.pos_rowid',
             '  JOIN forms AS f ON f.entry_rowid = e.rowid',
@@ -543,11 +544,11 @@ def find_entries(
         query_parts.append(' ORDER BY e.rowid, e.id, f.rank')
 
         query = '\n'.join(query_parts)
-        rows: Iterator[Tuple[int, str, str, str]] = conn.execute(query, params)
-        for key, group in itertools.groupby(rows, lambda row: row[0:3]):
-            rowid, id, pos = key
-            forms = [row[3] for row in group]
-            yield (rowid, id, pos, forms)
+        rows: Iterator[Tuple[int, int, str, str, str]] = conn.execute(query, params)
+        for key, group in itertools.groupby(rows, lambda row: row[0:4]):
+            lexid, rowid, id, pos = key
+            forms = [row[4] for row in group]
+            yield (lexid, rowid, id, pos, forms)
 
 
 def find_senses(
@@ -558,7 +559,7 @@ def find_senses(
 ) -> Iterator[_Sense]:
     with _connect() as conn:
         query_parts = [
-            'SELECT s.rowid, s.id, e.id, ss.id'
+            'SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id'
             '  FROM senses AS s'
             '  JOIN entries AS e ON e.rowid = s.entry_rowid'
             '  JOIN synsets AS ss ON ss.rowid = s.synset_rowid'
@@ -585,7 +586,7 @@ def find_senses(
             query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
 
         query = '\n'.join(query_parts)
-        rows: Iterator[_Synset] = conn.execute(query, params)
+        rows: Iterator[_Sense] = conn.execute(query, params)
         yield from rows
 
 
@@ -598,7 +599,7 @@ def find_synsets(
 ) -> Iterator[_Synset]:
     with _connect() as conn:
         query_parts = [
-            'SELECT ss.rowid, ss.id, p.pos, ss.ili',
+            'SELECT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili',
             '  FROM synsets AS ss',
             '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
         ]
@@ -665,7 +666,7 @@ def get_synset_relations(
                       FROM synsets AS s1
                       JOIN synsets AS s2
                         ON s1.ili = s2.ili OR s1.rowid = s2.rowid
-                     WHERE s1.rowid = ? {expand}),
+                     WHERE (s1.rowid = ? OR s1.ili = ?) {expand}),
                    relation_types(type_rowid) AS  -- relation type lookup
                    (SELECT t.rowid
                       FROM synset_relation_types AS t
@@ -681,7 +682,7 @@ def get_synset_relations(
 
         # then get back to synsets in requested lexicons
         query = f'''
-            SELECT DISTINCT res.rowid, res.id, p.pos, res.ili
+            SELECT DISTINCT res.lexicon_rowid, res.rowid, res.id, p.pos, res.ili
               FROM synsets AS tgt
               JOIN synsets AS res
                 ON tgt.ili = res.ili OR tgt.rowid = res.rowid
@@ -718,7 +719,7 @@ def get_examples_for_synset(rowid: int) -> List[str]:
 def get_senses_for_entry(rowid: int) -> Iterator[_Sense]:
     with _connect() as conn:
         query = '''
-            SELECT s.rowid, s.id, e.id, ss.id
+            SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
               FROM senses AS s
               JOIN entries AS e
                 ON e.rowid = s.entry_rowid
@@ -733,7 +734,7 @@ def get_senses_for_entry(rowid: int) -> Iterator[_Sense]:
 def get_senses_for_synset(rowid: int) -> Iterator[_Sense]:
     with _connect() as conn:
         query = '''
-            SELECT s.rowid, s.id, e.id, ss.id
+            SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
               FROM senses AS s
               JOIN entries AS e
                 ON e.rowid = s.entry_rowid
@@ -753,7 +754,7 @@ def get_sense_relations(
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT s.rowid, s.id, e.id, ss.id
+            SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
               FROM senses AS s
               JOIN entries AS e
                 ON e.rowid = s.entry_rowid
@@ -781,7 +782,7 @@ def get_sense_synset_relations(
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT r.target_rowid, ss.id, p.pos, ss.ili
+            SELECT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili
               FROM (SELECT target_rowid
                       FROM sense_synset_relations
                      WHERE source_rowid = ?
