@@ -8,9 +8,32 @@ from wn import _db
 _FAKE_ROOT = '*ROOT*'
 
 
-class Lexicon:
-    __slots__ = ('_id', 'id', 'label', 'language', 'email', 'license',
+class _DatabaseEntity:
+    __slots__ = '_id',
+
+    _ENTITY_TYPE = ''
+
+    def __init__(self, _id: int = _db.NON_ROWID):
+        self._id = _id        # Database-internal id (e.g., rowid)
+
+    def __eq__(self, other):
+        if not isinstance(other, _DatabaseEntity):
+            return NotImplemented
+        # the _id of different kinds of entities, such as Synset and
+        # Sense, can be the same, so make sure they are the same type
+        # of object first
+        return (self._ENTITY_TYPE == other._ENTITY_TYPE
+                and self._id == other._id)
+
+    def __hash__(self):
+        return hash((self._ENTITY_TYPE, self._id))
+
+
+class Lexicon(_DatabaseEntity):
+    __slots__ = ('id', 'label', 'language', 'email', 'license',
                  'version', 'url', 'citation', 'metadata')
+
+    _ENTITY_TYPE = 'lexicons'
 
     def __init__(
             self,
@@ -25,7 +48,7 @@ class Lexicon:
             metadata: Dict[str, Any] = None,
             _id: int = _db.NON_ROWID,
     ):
-        self._id = _id
+        super().__init__(_id=_id)
         self.id = id
         self.label = label
         self.language = language
@@ -37,10 +60,8 @@ class Lexicon:
         self.metadata = metadata
 
 
-class _LexiconElement:
-    __slots__ = '_lexid', '_id', '_wordnet'
-
-    _ENTITY_TYPE = ''
+class _LexiconElement(_DatabaseEntity):
+    __slots__ = '_lexid', '_wordnet'
 
     def __init__(
             self,
@@ -48,21 +69,10 @@ class _LexiconElement:
             _id: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
+        super().__init__(_id=_id)
         self._lexid = _lexid  # Database-internal lexicon id
-        self._id = _id        # Database-internal id (e.g., rowid)
         self._wordnet = _wordnet
 
-    def __eq__(self, other):
-        if not isinstance(other, _LexiconElement):
-            return NotImplemented
-        # the _id of different kinds of entities, such as Synset and
-        # Sense, can be the same, so make sure they are the same type
-        # of object first
-        return (self._ENTITY_TYPE == other._ENTITY_TYPE
-                and self._id == other._id)
-
-    def __hash__(self):
-        return hash((self._ENTITY_TYPE, self._id))
 
 
 class Word(_LexiconElement):
