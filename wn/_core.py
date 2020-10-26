@@ -196,8 +196,8 @@ class Synset(_Relatable):
         self.ili = ili
 
     @classmethod
-    def empty(cls, ili: str = None, _wordnet: 'WordNet' = None):
-        return cls('', '', ili=ili, _wordnet=_wordnet)
+    def empty(cls, id: str = '', ili: str = None, _wordnet: 'WordNet' = None):
+        return cls(id, pos='', ili=ili, _wordnet=_wordnet)
 
     def __repr__(self) -> str:
         return f'Synset({self.id!r})'
@@ -250,7 +250,7 @@ class Synset(_Relatable):
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
         paths = self.relation_paths('hypernym', 'instance_hypernym')
         if simulate_root:
-            root = self._simulated_root()
+            root = Synset.empty(id=_FAKE_ROOT, _wordnet=self._wordnet)
             paths = [path + [root] for path in paths]
         return paths
 
@@ -312,9 +312,6 @@ class Synset(_Relatable):
         if not ili:
             return []
         return synsets(ili=ili, lgcode=lgcode, lexicon=lexicon)
-
-    def _simulated_root(self) -> 'Synset':
-        return Synset(_FAKE_ROOT, pos='', _wordnet=self._wordnet)
 
 
 class Sense(_Relatable):
