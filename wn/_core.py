@@ -142,11 +142,11 @@ class _Relatable(_LexiconElement):
     def __init__(
             self,
             id: str,
-            _id: int = _db.NON_ROWID,
             _lexid: int = _db.NON_ROWID,
+            _id: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
-        super().__init__(_id=_id, _lexid=_lexid, _wordnet=_wordnet)
+        super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
 
     def get_related(self: T, relation: str) -> List[T]:
@@ -327,11 +327,11 @@ class Sense(_Relatable):
             id: str,
             entry_id: str,
             synset_id: str,
-            _id: int = _db.NON_ROWID,
             _lexid: int = _db.NON_ROWID,
+            _id: int = _db.NON_ROWID,
             _wordnet: 'WordNet' = None
     ):
-        super().__init__(id=id, _id=_id, _lexid=_lexid, _wordnet=_wordnet)
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self._entry_id = entry_id
         self._synset_id = synset_id
 
