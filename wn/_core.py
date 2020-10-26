@@ -226,20 +226,32 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        lexids: Tuple[int, ...] = ()
-        expids: Tuple[int, ...] = ()
+        lexids: Tuple[int, ...] = (self._lexid,)
+        expids: Tuple[int, ...] = (self._lexid,)
         if self._wordnet:
-            lexids = self._wordnet._lexicon_ids
+            lexids = self._wordnet._lexicon_ids or lexids
             expids = self._wordnet._expanded_ids or lexids
-        iterable = _db.get_synset_relations(
-            self._id,
-            self.ili,
-            args,
-            lexicon_rowids=lexids,
-            expand_rowids=expids
-        )
-        return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                for lexid, rowid, id, pos, ili in iterable]
+        rowids = {self._id} - {_db.NON_ROWID}
+
+        # expand search via ILI if possible
+        if self.ili is not None and expids:
+            expss = _db.find_synsets(ili=self.ili, lexicon_rowids=expids)
+            rowids.update(rowid for _, rowid, _, _, _ in expss)
+
+        related: List['Synset'] = []
+        if rowids:
+            targets = {Synset(id, pos, ili, lexid, rowid, self._wordnet)
+                       for lexid, rowid, id, pos, ili
+                       in _db.get_synset_relations(rowids, args)}
+            ilis = {ss.ili for ss in targets if ss.ili is not None}
+            targets.update(Synset(id, pos, ili, lexid, rowid, self._wordnet)
+                           for lexid, rowid, id, pos, ili
+                           in _db.get_synsets_for_ilis(ilis, lexicon_rowids=lexids))
+            related.extend(ss for ss in targets if ss._lexid in lexids)
+            # add empty synsets for ILIs without a target in lexids
+            for ili in (ilis - {tgt.ili for tgt in related}):
+                related.append(Synset.empty(ili=ili, _wordnet=self._wordnet))
+        return related
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
         paths = self.relation_paths('hypernym', 'instance_hypernym')
