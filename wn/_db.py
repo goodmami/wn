@@ -446,8 +446,8 @@ def get_lexicon(rowid: int) -> _Lexicon:
 
 def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     query = '''
-        SELECT rowid, id, label, language, email, license,
-               version, url, citation, metadata
+        SELECT DISTINCT rowid, id, label, language, email, license,
+                        version, url, citation, metadata
         FROM lexicons
         WHERE rowid = ?
     '''
@@ -461,7 +461,7 @@ def _get_lexicon_rowids(
         lexicon: str = None,
 ) -> Tuple[int, ...]:
     rowids: Set[int] = set()
-    query = '''SELECT rowid, id, version
+    query = '''SELECT DISTINCT rowid, id, version
                  FROM lexicons
                 WHERE :lgcode ISNULL OR :lgcode = language'''
     rows = conn.execute(query, {'lgcode': lgcode})
@@ -499,7 +499,7 @@ def find_entries(
 ) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
-            'SELECT e.lexicon_rowid, e.rowid, e.id, p.pos, f.form',
+            'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, p.pos, f.form',
             '  FROM entries AS e',
             '  JOIN parts_of_speech AS p ON p.rowid = e.pos_rowid',
             '  JOIN forms AS f ON f.entry_rowid = e.rowid',
@@ -540,7 +540,7 @@ def find_senses(
 ) -> Iterator[_Sense]:
     with _connect() as conn:
         query_parts = [
-            'SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id'
+            'SELECT DISTINCT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id'
             '  FROM senses AS s'
             '  JOIN entries AS e ON e.rowid = s.entry_rowid'
             '  JOIN synsets AS ss ON ss.rowid = s.synset_rowid'
@@ -580,7 +580,7 @@ def find_synsets(
 ) -> Iterator[_Synset]:
     with _connect() as conn:
         query_parts = [
-            'SELECT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili',
+            'SELECT DISTINCT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili',
             '  FROM synsets AS ss',
             '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
         ]
@@ -724,7 +724,7 @@ def get_sense_relations(
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
+            SELECT DISTINCT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
               FROM senses AS s
               JOIN entries AS e
                 ON e.rowid = s.entry_rowid
@@ -752,7 +752,7 @@ def get_sense_synset_relations(
         relation_types = (relation_types,)
     with _connect() as conn:
         query = f'''
-            SELECT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili
+            SELECT DISTINCT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili
               FROM (SELECT target_rowid
                       FROM sense_synset_relations
                      WHERE source_rowid = ?
