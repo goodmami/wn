@@ -73,6 +73,8 @@ class _LexiconElement(_DatabaseEntity):
         self._lexid = _lexid  # Database-internal lexicon id
         self._wordnet = _wordnet
 
+    def lexicon(self):
+        return _to_lexicon(_db.get_lexicon(self._lexid))
 
 
 class Word(_LexiconElement):

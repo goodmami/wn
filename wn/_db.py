@@ -439,6 +439,11 @@ def find_lexicons(lgcode: str = None, lexicon: str = None) -> Iterator[_Lexicon]
             yield _get_lexicon(conn, rowid)
 
 
+def get_lexicon(rowid: int) -> _Lexicon:
+    with _connect() as conn:
+        return _get_lexicon(conn, rowid)
+
+
 def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     query = '''
         SELECT rowid, id, label, language, email, license,
@@ -448,11 +453,6 @@ def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     '''
     rows: Iterator[_Lexicon] = conn.execute(query, (rowid,))
     return next(rows)
-
-
-def get_lexicon_rowids(lgcode: str = None, lexicon: str = None) -> Tuple[int, ...]:
-    with _connect() as conn:
-        return _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon)
 
 
 def _get_lexicon_rowids(
@@ -489,25 +489,6 @@ def _get_lexicon_rowids(
             else:
                 rowids.add(lexmap[id][ver])
     return tuple(rowids)
-
-
-def get_lexicon_for_entry(rowid: int) -> _Lexicon:
-    return _get_lexicon_for(rowid, 'entries')
-
-
-def get_lexicon_for_sense(rowid: int) -> _Lexicon:
-    return _get_lexicon_for(rowid, 'senses')
-
-
-def get_lexicon_for_synset(rowid: int) -> _Lexicon:
-    return _get_lexicon_for(rowid, 'synsets')
-
-
-def _get_lexicon_for(rowid: int, table: str) -> _Lexicon:
-    with _connect() as conn:
-        query = f'SELECT lexicon_rowid FROM {table} WHERE rowid = ?'
-        row: Tuple[int] = conn.execute(query, (rowid,)).fetchone()
-        return _get_lexicon(conn, row[0])
 
 
 def find_entries(
