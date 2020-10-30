@@ -51,37 +51,29 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-pygments_style = 'manni'
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-# html_theme = 'sphinx_material'
-# html_theme_options = {
-#     'base_url': 'http://goodmami.github.io/wn/',
-#     'repo_url': 'https://github.com/goodmami/wn/',
-#     'repo_name': 'wn',
-#     # 'google_analytics_account': 'UA-XXXXX',
-#     'html_minify': True,
-#     'css_minify': True,
-#     'nav_title': 'wn',
-#     'logo_icon': '&#xe869',
-#     'color_primary': 'teal',
-#     'color_accent': 'deep-orange',
-#     'globaltoc_depth': 2,
-# }
+# a list of builtin themes.#
 
 html_theme = "furo"
 html_theme_options = {
     "css_variables": {
-        # "color-brand-primary": "red",
-        # "color-brand-content": "#CC3333",
+        "color-brand-primary": "#006699",
+        "color-brand-content": "#CC3333",
+        "color-admonition-background": "orange",
         # "color-background": "#f0f0f0",
         # "color-sidebar-background": "#ddd",
+    },
+    "dark_css_variables": {
+        "color-brand-primary": "#00CCFF",
+        "color-brand-content": "#CC3333",
+        "color-admonition-background": "orange",
     }
 }
+
+pygments_style = 'manni'
+pygments_dark_style = 'manni'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
