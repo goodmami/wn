@@ -77,7 +77,6 @@ The Sense Class
    .. automethod:: get_related_synsets
    .. automethod:: closure
    .. automethod:: relation_paths
-   .. automethod:: derivations
    .. automethod:: translate
 
 The Synset Class
