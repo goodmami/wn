@@ -6,7 +6,7 @@ from wn import _db
 
 
 _FAKE_ROOT = '*ROOT*'
-_EMPTY_SYNSET = '*EMPTY*'
+_INFERRED_SYNSET = '*INFERRED*'
 
 
 class _DatabaseEntity:
@@ -249,7 +249,7 @@ class Synset(_Relatable):
             # add empty synsets for ILIs without a target in lexids
             for ili in (ilis - {tgt.ili for tgt in related}):
                 related.append(
-                    Synset.empty(id=_EMPTY_SYNSET, ili=ili, _wordnet=self._wordnet)
+                    Synset.empty(id=_INFERRED_SYNSET, ili=ili, _wordnet=self._wordnet)
                 )
         return related
 
