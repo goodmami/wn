@@ -33,6 +33,7 @@ class _DatabaseEntity:
 class Lexicon(_DatabaseEntity):
     __slots__ = ('id', 'label', 'language', 'email', 'license',
                  'version', 'url', 'citation', 'metadata')
+    __module__ = 'wn'
 
     _ENTITY_TYPE = 'lexicons'
 
@@ -80,6 +81,7 @@ class _LexiconElement(_DatabaseEntity):
 
 class Word(_LexiconElement):
     __slots__ = 'id', 'pos', '_forms'
+    __module__ = 'wn'
 
     _ENTITY_TYPE = 'entries'
 
@@ -180,6 +182,7 @@ class _Relatable(_LexiconElement):
 
 class Synset(_Relatable):
     __slots__ = 'pos', 'ili'
+    __module__ = 'wn'
 
     _ENTITY_TYPE = 'synsets'
 
@@ -319,6 +322,7 @@ class Synset(_Relatable):
 
 class Sense(_Relatable):
     __slots__ = '_entry_id', '_synset_id'
+    __module__ = 'wn'
 
     _ENTITY_TYPE = 'senses'
 
@@ -367,6 +371,7 @@ class WordNet:
     """
 
     __slots__ = '_lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __module__ = 'wn'
 
     def __init__(self, lgcode: str = None, lexicon: str = None, expand: str = None):
         self._lgcode = lgcode
