@@ -85,9 +85,10 @@ html_show_sourcelink = False
 
 # -- Options for autodoc extension -------------------------------------------
 
-# disable type hints
+autodoc_typehints = 'description'
+# autodoc_typehints = 'signature'
+# autodoc_typehints = 'none'
 
-autodoc_typehints = 'none'
 
 # -- Options for sphinx_copybutton extension ---------------------------------
 
