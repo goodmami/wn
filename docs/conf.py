@@ -60,14 +60,14 @@ html_theme = "furo"
 html_theme_options = {
     "css_variables": {
         "color-brand-primary": "#006699",
-        "color-brand-content": "#CC3333",
+        "color-brand-content": "#006699",
         "color-admonition-background": "orange",
         # "color-background": "#f0f0f0",
         # "color-sidebar-background": "#ddd",
     },
     "dark_css_variables": {
         "color-brand-primary": "#00CCFF",
-        "color-brand-content": "#CC3333",
+        "color-brand-content": "#00CCFF",
         "color-admonition-background": "orange",
     }
 }
