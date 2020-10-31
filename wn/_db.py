@@ -4,12 +4,9 @@ Storage back-end interface.
 
 from typing import Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
 import sys
-from pathlib import Path
-import gzip
-import tempfile
-import shutil
 import json
 import itertools
+import warnings
 import sqlite3
 try:
     import importlib.resources as resources
@@ -20,7 +17,8 @@ except ImportError:
 
 import wn
 from wn._types import AnyPath
-from wn._util import is_gzip, ProgressBar
+from wn._util import ProgressBar
+from wn.project import iterpackages
 from wn import constants
 from wn import lmf
 
@@ -150,19 +148,8 @@ def add(source: AnyPath) -> None:
     Building [###############################] (1337590/1337590)
 
     """
-    source = Path(source)
-
-    if is_gzip(source):
-        try:
-            with tempfile.NamedTemporaryFile(suffix='.xml', delete=False) as tmp:
-                tmp_path = Path(tmp.name)
-                with gzip.open(source, 'rb') as src:
-                    shutil.copyfileobj(src, tmp)
-            _add_lmf(tmp_path)
-        finally:
-            tmp_path.unlink()
-    else:
-        _add_lmf(source)
+    for project in iterpackages(source):
+        _add_lmf(project.resource_file())
 
 
 def _add_lmf(source):
@@ -170,11 +157,15 @@ def _add_lmf(source):
         cur = conn.cursor()
         # abort if any lexicon in *source* is already added
         print(f'Checking {source!s}', file=sys.stderr)
-        all_counts = list(_precheck(source, cur))
+        all_infos = list(_precheck(source, cur))
         # all clear, try to add them
 
         print(f'Reading {source!s}', file=sys.stderr)
-        for lexicon, counts in zip(lmf.load(source), all_counts):
+        for lexicon, info in zip(lmf.load(source), all_infos):
+
+            if info.get('skip', False):
+                continue
+
             sense_ids = lexicon.sense_ids()
             synset_ids = lexicon.synset_ids()
 
@@ -191,6 +182,7 @@ def _add_lmf(source):
                  lexicon.meta))
             lexid = cur.lastrowid
 
+            counts = info['counts']
             count = sum(counts.get(name, 0) for name in
                         ('LexicalEntry', 'Lemma', 'Form',  # 'Tag',
                          'Sense', 'SenseRelation', 'Example',  # 'Count',
@@ -237,8 +229,12 @@ def _precheck(source, cur):
             (id, version)
         ).fetchone()
         if row:
-            raise wn.Error(f'wordnet already added: {id} {version}')
-        yield info['counts']
+            warnings.warn(
+                f'ignoring lexicon {id}:{version} (already added)',
+                wn.Warning
+            )
+            info['skip'] = True
+        yield info
 
 
 def _split(sequence):
