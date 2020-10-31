@@ -50,4 +50,5 @@ API Reference
 
    api/wn.rst
    api/wn.lmf.rst
+   api/wn.project.rst
    api/wn.similarity.rst
