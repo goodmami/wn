@@ -14,6 +14,7 @@ from typing import (
     NamedTuple,
     Optional,
 )
+from pathlib import Path
 import warnings
 import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
@@ -34,6 +35,14 @@ class LMFError(Exception):
 class LMFWarning(Warning):
     """Issued on non-conforming LFM values."""
 
+
+_XMLDECL = '<?xml version="1.0" encoding="UTF-8"?>'
+_SCHEMAS = (
+    'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
+)
+_DOCTYPES = {
+    f'<!DOCTYPE LexicalResource SYSTEM "{schema}">' for schema in _SCHEMAS
+}
 
 _dc_uri = 'http://purl.org/dc/elements/1.1/'
 
@@ -289,6 +298,19 @@ class Lexicon(_HasMeta):
 
 
 LexicalResource = List[Lexicon]
+
+
+def is_lmf(source: AnyPath) -> bool:
+    """Return True if *source* is a WN-LMF XML file."""
+    source = Path(source)
+    if source.suffix.lower() != '.xml':
+        return False
+    with source.open() as fh:
+        xmldecl = fh.readline().rstrip()
+        doctype = fh.readline().rstrip()
+        if not (xmldecl == _XMLDECL and doctype in _DOCTYPES):
+            return False
+    return True
 
 
 def scan_lexicons(source: AnyPath) -> List[Dict]:
