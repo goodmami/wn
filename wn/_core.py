@@ -166,16 +166,21 @@ class _Relatable(_LexiconElement):
 
     def relation_paths(self: T, *args: str) -> List[List[T]]:
         paths: List[List[T]] = []
-        agenda: List[Tuple[List[T], Set[str]]] = [([self], set([self.id]))]
+        agenda: List[Tuple[List[T], Set[int]]] = [
+            ([target], set([self._id, target._id]))
+            for target in self.get_related(*args)
+            if target._id != self._id  # avoid self loops?
+        ]
         while agenda:
             path, visited = agenda.pop()
-            related = [s for s in path[-1].get_related(*args) if s.id not in visited]
+            related = [target for target in path[-1].get_related(*args)
+                       if target._id not in visited]
             if not related:
                 paths.append(path)
             else:
                 for synset in reversed(related):
                     new_path = list(path) + [synset]
-                    new_visited = set(visited) | {synset.id}
+                    new_visited = visited | {synset._id}
                     agenda.append((new_path, new_visited))
         return paths
 
