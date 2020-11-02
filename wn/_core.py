@@ -260,6 +260,16 @@ class Synset(_Relatable):
             paths = [path + [root] for path in paths]
         return paths
 
+    def min_depth(self, simulate_root: bool = False) -> int:
+        return min(
+            len(path) for path in self.hypernym_paths(simulate_root=simulate_root)
+        )
+
+    def max_depth(self, simulate_root: bool = False) -> int:
+        return max(
+            len(path) for path in self.hypernym_paths(simulate_root=simulate_root)
+        )
+
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
