@@ -277,26 +277,66 @@ class Synset(_Relatable):
             len(path) for path in self.hypernym_paths(simulate_root=simulate_root)
         )
 
+    def _shortest_hyp_paths(
+            self, other: 'Synset', simulate_root: bool
+    ) -> Dict[Tuple['Synset', int], List['Synset']]:
+        if self == other:
+            return {(self, 0): []}
+
+        from_self = self.hypernym_paths(simulate_root=simulate_root)
+        from_other = other.hypernym_paths(simulate_root=simulate_root)
+        common = set(flatten(from_self)).intersection(flatten(from_other))
+
+        # Compute depths of common hypernyms from their distances.
+        # Doing this now avoid more expensive lookups later.
+        depths: Dict['Synset', int] = {}
+        for path in from_self:
+            for depth, ss in enumerate(path[::-1] + [self]):
+                if ss in common and (ss not in depths or depths[ss] < depth):
+                    depths[ss] = depth
+
+        subpaths: Dict['Synset', Tuple[List[List['Synset']], List[List['Synset']]]]
+        subpaths = {ss: ([], []) for ss in common}
+        for which, paths in (0, from_self), (1, from_other):
+            for path in paths:
+                for i, ss in enumerate(path):
+                    if ss in common:
+                        subpaths[ss][which].append(path[:i])
+
+        shortest: Dict[Tuple['Synset', int], List['Synset']] = {}
+        for ss in common:
+            from_self_subpaths, from_other_subpaths = subpaths[ss]
+            shortest_from_self = min(from_self_subpaths, key=len)
+            # for the other path, we need to reverse it and add the other synset
+            shortest_from_other = min(from_other_subpaths, key=len)[::-1] + [other]
+            shortest[(ss, depths[ss])] = shortest_from_self + [ss] + shortest_from_other
+
+        return shortest
+
+    def shortest_path(
+            self, other: 'Synset', simulate_root: bool = False
+    ) -> Optional[List['Synset']]:
+        pathmap = self._shortest_hyp_paths(other, simulate_root)
+        key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
+        if key is None:
+            raise wn.Error(f'no path between {self!r} and {other!r}')
+        return pathmap[key]
+
+    def common_hypernyms(
+            self, other: 'Synset', simulate_root: bool = False
+    ) -> List['Synset']:
+        return [ss for ss, _ in self._shortest_hyp_paths(other, simulate_root)]
+
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
-        if not isinstance(other, Synset):
-            raise TypeError(f"argument not a Synset: {other!r}")
-        others = {other}.union(
-            ss
-            for path in other.hypernym_paths(simulate_root=simulate_root)
-            for ss in path
-        )
-        depths: Dict[int, Set['Synset']] = {}
-        for path in self.hypernym_paths(simulate_root=simulate_root):
-            # reverse the path so depth is from root
-            for i, hypernym in enumerate(path[::-1] + [self]):
-                if hypernym in others:
-                    depths.setdefault(i, set()).add(hypernym)
-        lowest: List['Synset'] = []
-        if depths:
-            lowest.extend(depths[max(depths)])
-        return lowest
+        pathmap = self._shortest_hyp_paths(other, simulate_root)
+        # keys of pathmap are (synset, depth_of_synset)
+        max_depth: int = max([depth for _, depth in pathmap], default=-1)
+        if max_depth == -1:
+            return []
+        else:
+            return [ss for ss, d in pathmap if d == max_depth]
 
     def holonyms(self) -> List['Synset']:
         return self.get_related(
