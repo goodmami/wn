@@ -287,21 +287,25 @@ class Synset(_Relatable):
         from_other = other.hypernym_paths(simulate_root=simulate_root)
         common = set(flatten(from_self)).intersection(flatten(from_other))
 
+        if not common:
+            return {}
+
         # Compute depths of common hypernyms from their distances.
         # Doing this now avoid more expensive lookups later.
         depths: Dict['Synset', int] = {}
-        for path in from_self:
-            for depth, ss in enumerate(path[::-1] + [self]):
-                if ss in common and (ss not in depths or depths[ss] < depth):
-                    depths[ss] = depth
-
+        # subpaths accumulates paths to common hypernyms from both sides
         subpaths: Dict['Synset', Tuple[List[List['Synset']], List[List['Synset']]]]
         subpaths = {ss: ([], []) for ss in common}
         for which, paths in (0, from_self), (1, from_other):
             for path in paths:
-                for i, ss in enumerate(path):
+                for dist, ss in enumerate(path):
                     if ss in common:
-                        subpaths[ss][which].append(path[:i])
+                        # self or other subpath to ss (not including ss)
+                        subpaths[ss][which].append(path[:dist])
+                        # keep maximum depth
+                        depth = len(path) - dist
+                        if ss not in depths or depths[ss] < depth:
+                            depths[ss] = depth
 
         shortest: Dict[Tuple['Synset', int], List['Synset']] = {}
         for ss in common:
