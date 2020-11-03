@@ -5,7 +5,7 @@ Thanks for helping to make Wn better!
 **Quick Links:**
 
 - [Report a bug or request a features](https://github.com/goodmami/wn/issues/new)
-- [View documentation]()
+- [View documentation](https://goodmami.github.io/wn)
 
 **Developer Information:**
 

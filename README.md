@@ -4,7 +4,11 @@ Wn is a Python library for using wordnets. For example:
 
 ```python
 >>> import wn
->>> wn.download('ewn:2020')    # Install the English Wordnet 2020
+>>> wn.download('ewn:2020')    # Install the English Wordnet 2020 (only once)
+Download complete (13643357 bytes)
+Checking /tmp/tmpgspkay6m.xml
+Reading /tmp/tmpgspkay6m.xml
+Building: [###############################] (1337590/1337590)
 >>> ss = wn.synsets('win')[0]  # Get the first synset for 'win'
 >>> ss.definition()            # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
@@ -13,7 +17,8 @@ Wn is a Python library for using wordnets. For example:
 Unlike previous implementations, Wn uses a SQLite database to store
 wordnet data, which can make it much faster: Wn is 5x faster than the
 NLTK to list all English synsets, and almost 20x faster if you include
-the startup time.
+the startup time. Some operations, particularly path operations that
+require multiple SQL queries, may be slower.
 
 Wn is also multilingual from the start. English is not the
 default. Instead, all wordnets are searched unless one (or more) are
@@ -37,18 +42,20 @@ Currently Wn is only available via this repository:
 pip install git+https://github.com/goodmami/wn.git
 ```
 
-## Documentation
-
-The documentation is not yet hosted, but you can build it with Sphinx:
+You can also clone the repository and use
+[flit](https://flit.readthedocs.io/) to install it:
 
 ```console
-pip install sphinx sphinx-copybutton furo
-cd docs/
-make html
-cd _build/html
-python -m http.server
+git clone https://github.com/goodmami/wn.git
+cd wn
+pip install flit  # if you don't have it
+flit install
 ```
 
+## Documentation
+
+The documentation is hosted [here](https://goodmami.github.io/wn),
+although it's not very useful yet.
 
 ## Available Wordnets
 
