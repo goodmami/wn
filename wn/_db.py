@@ -2,7 +2,9 @@
 Storage back-end interface.
 """
 
-from typing import Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+from typing import (
+    Optional, Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+)
 import sys
 import json
 import itertools
@@ -447,8 +449,10 @@ def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
         FROM lexicons
         WHERE rowid = ?
     '''
-    rows: Iterator[_Lexicon] = conn.execute(query, (rowid,))
-    return next(rows)
+    row: Optional[_Lexicon] = conn.execute(query, (rowid,)).fetchone()
+    if row is None:
+        raise LookupError(rowid)  # should we have a WnLookupError?
+    return row
 
 
 def _get_lexicon_rowids(
