@@ -166,8 +166,8 @@ class _Relatable(_LexiconElement):
                 queue.extend(relatable.get_related(relation))
 
     def relation_paths(self: T, *args: str, end: T = None) -> Iterator[List[T]]:
-        agenda: List[Tuple[List[T], Set[int]]] = [
-            ([target], set([self._id, target._id]))
+        agenda: List[Tuple[List[T], Set[T]]] = [
+            ([target], {self, target})
             for target in self.get_related(*args)
             if target._id != self._id  # avoid self loops?
         ]
@@ -177,11 +177,11 @@ class _Relatable(_LexiconElement):
                 yield path
             else:
                 related = [target for target in path[-1].get_related(*args)
-                           if target._id not in visited]
+                           if target not in visited]
                 if related:
                     for synset in reversed(related):
                         new_path = list(path) + [synset]
-                        new_visited = visited | {synset._id}
+                        new_visited = visited | {synset}
                         agenda.append((new_path, new_visited))
                 elif end is None:
                     yield path
@@ -207,8 +207,19 @@ class Synset(_Relatable):
         self.ili = ili
 
     @classmethod
-    def empty(cls, id: str = '', ili: str = None, _wordnet: 'WordNet' = None):
-        return cls(id, pos='', ili=ili, _wordnet=_wordnet)
+    def empty(
+            cls,
+            id: str,
+            ili: str = None,
+            _lexid: int = _db.NON_ROWID,
+            _wordnet: 'WordNet' = None
+    ):
+        return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
+
+    def __hash__(self):
+        # include ili and lexid in the hash so inferred synsets don't
+        # hash the same
+        return hash((self._ENTITY_TYPE, self.ili, self._lexid, self._id))
 
     def __repr__(self) -> str:
         return f'Synset({self.id!r})'
@@ -256,14 +267,21 @@ class Synset(_Relatable):
             # add empty synsets for ILIs without a target in lexids
             for ili in (ilis - {tgt.ili for tgt in related}):
                 related.append(
-                    Synset.empty(id=_INFERRED_SYNSET, ili=ili, _wordnet=self._wordnet)
+                    Synset.empty(
+                        id=_INFERRED_SYNSET,
+                        ili=ili,
+                        _lexid=self._lexid,
+                        _wordnet=self._wordnet
+                    )
                 )
         return related
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
         paths = list(self.relation_paths('hypernym', 'instance_hypernym'))
         if simulate_root:
-            root = Synset.empty(id=_FAKE_ROOT, _wordnet=self._wordnet)
+            root = Synset.empty(
+                id=_FAKE_ROOT, _lexid=self._lexid, _wordnet=self._wordnet
+            )
             paths = [path + [root] for path in paths]
         return paths
 
