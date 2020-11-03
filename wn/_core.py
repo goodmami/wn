@@ -2,6 +2,7 @@
 from typing import Any, TypeVar, Optional, List, Tuple, Dict, Set, Iterator
 
 import wn
+from wn._util import flatten
 from wn import _db
 
 

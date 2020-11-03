@@ -1,5 +1,7 @@
 
-from typing import Sequence, TextIO
+from typing import (
+    TypeVar, Hashable, Iterable, Sequence, List, TextIO,
+)
 import sys
 from pathlib import Path
 
@@ -14,6 +16,13 @@ def is_lzma(path: Path) -> bool:
     """Return True if the file at *path* appears to be lzma-compressed."""
     with path.open('rb') as f:
         return f.read(6) == b'\xFD7zXZ\x00'
+
+
+T = TypeVar('T')
+
+
+def flatten(iterable: Iterable[Iterable[T]]) -> List[T]:
+    return [x for xs in iterable for x in xs]
 
 
 class ProgressBar:
