@@ -165,8 +165,7 @@ class _Relatable(_LexiconElement):
                 yield relatable
                 queue.extend(relatable.get_related(relation))
 
-    def relation_paths(self: T, *args: str) -> List[List[T]]:
-        paths: List[List[T]] = []
+    def relation_paths(self: T, *args: str, end: T = None) -> Iterator[List[T]]:
         agenda: List[Tuple[List[T], Set[int]]] = [
             ([target], set([self._id, target._id]))
             for target in self.get_related(*args)
@@ -174,16 +173,18 @@ class _Relatable(_LexiconElement):
         ]
         while agenda:
             path, visited = agenda.pop()
-            related = [target for target in path[-1].get_related(*args)
-                       if target._id not in visited]
-            if not related:
-                paths.append(path)
+            if end is not None and path[-1] == end:
+                yield path
             else:
-                for synset in reversed(related):
-                    new_path = list(path) + [synset]
-                    new_visited = visited | {synset._id}
-                    agenda.append((new_path, new_visited))
-        return paths
+                related = [target for target in path[-1].get_related(*args)
+                           if target._id not in visited]
+                if related:
+                    for synset in reversed(related):
+                        new_path = list(path) + [synset]
+                        new_visited = visited | {synset._id}
+                        agenda.append((new_path, new_visited))
+                elif end is None:
+                    yield path
 
 
 class Synset(_Relatable):
@@ -260,7 +261,7 @@ class Synset(_Relatable):
         return related
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
-        paths = self.relation_paths('hypernym', 'instance_hypernym')
+        paths = list(self.relation_paths('hypernym', 'instance_hypernym'))
         if simulate_root:
             root = Synset.empty(id=_FAKE_ROOT, _wordnet=self._wordnet)
             paths = [path + [root] for path in paths]
