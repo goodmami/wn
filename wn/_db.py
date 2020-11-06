@@ -166,6 +166,7 @@ def _add_lmf(source):
         for lexicon, info in zip(lmf.load(source), all_infos):
 
             if info.get('skip', False):
+                print('Skipping', file=sys.stderr)
                 continue
 
             sense_ids = lexicon.sense_ids()

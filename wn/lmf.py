@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
 
 from wn._types import AnyPath
+from wn._util import is_xml
 from wn.constants import (
     SENSE_RELATIONS,
     SYNSET_RELATIONS,
@@ -303,7 +304,7 @@ LexicalResource = List[Lexicon]
 def is_lmf(source: AnyPath) -> bool:
     """Return True if *source* is a WN-LMF XML file."""
     source = Path(source)
-    if source.suffix.lower() != '.xml':
+    if not is_xml(source):
         return False
     with source.open() as fh:
         xmldecl = fh.readline().rstrip()
