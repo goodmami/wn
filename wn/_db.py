@@ -459,36 +459,45 @@ def _get_lexicon_rowids(
         conn: sqlite3.Connection,
         lgcode: str = None,
         lexicon: str = None,
-) -> Tuple[int, ...]:
-    rowids: Set[int] = set()
-    query = '''SELECT DISTINCT rowid, id, version
-                 FROM lexicons
-                WHERE :lgcode ISNULL OR :lgcode = language'''
-    rows = conn.execute(query, {'lgcode': lgcode})
-    if not lexicon:
-        rowids.update(rowid for rowid, _, _ in rows)
+) -> List[int]:
+    rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
+
+    lg_match: Set[int] = set()
+    if lgcode:
+        lg_match.update(rowid for rowid, _, _, language in rows if language == lgcode)
+        if not lg_match:
+            raise wn.Error(f"no lexicon found with language code '{lgcode}'")
+    else:
+        lg_match.update(row[0] for row in rows)
+
+    lex_match: Set[int] = set()
+    lex_specs = lexicon.split() if lexicon else []
+    if not lex_specs or '*' in lex_specs or '*:' in lex_specs:
+        lex_match.update(row[0] for row in rows)
     else:
         lexmap: Dict[str, Dict[str, int]] = {}
-        for rowid, id, version in rows:
+        for rowid, id, version, _ in rows:
             lexmap.setdefault(id, {})[version] = rowid
-        for id_ver in lexicon.split():
+        for id_ver in lex_specs:
             id, _, ver = id_ver.partition(':')
             if id == '*':
-                assert not ver, "version not allowed on '*'"
-                for proj in lexmap.values():
-                    rowids.update(proj.values())
-                break
-            if id not in lexmap:
-                raise wn.Error(f'invalid lexicon id: {id}')
-            if ver == '*':
-                rowids.update(lexmap[id].values())
-            elif not ver:
-                rowids.add(next(iter(lexmap[id].values())))
+                raise wn.Error("version not allowed when lexicon id is '*'")
+            elif id not in lexmap:
+                raise wn.Error(f"no lexicon found with id '{id}'")
+            if not ver:
+                lex_match.add(next(iter(lexmap[id].values())))
             elif ver not in lexmap[id]:
-                raise wn.Error(f'invalid lexicon version: {ver} ({id})')
+                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
             else:
-                rowids.add(lexmap[id][ver])
-    return tuple(rowids)
+                lex_match.add(lexmap[id][ver])
+
+    result = lg_match & lex_match
+    if not result:
+        raise wn.Error(
+            f'no lexicon found with lgcode={lgcode!r} and lexicon={lexicon!r}'
+        )
+
+    return sorted(result)
 
 
 def find_entries(

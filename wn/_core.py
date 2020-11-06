@@ -242,6 +242,8 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
+        # if no lgcode or lexicon constraints were applied, use _lexid
+        # of current entity
         lexids: Tuple[int, ...] = (self._lexid,)
         expids: Tuple[int, ...] = (self._lexid,)
         if self._wordnet:
