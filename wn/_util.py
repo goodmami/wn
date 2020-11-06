@@ -18,6 +18,12 @@ def is_lzma(path: Path) -> bool:
         return f.read(6) == b'\xFD7zXZ\x00'
 
 
+def is_xml(path: Path) -> bool:
+    """Return True if the file at *path* appears to be an XML file."""
+    with path.open('rb') as f:
+        return f.read(6) == b'<?xml '
+
+
 T = TypeVar('T')
 
 
