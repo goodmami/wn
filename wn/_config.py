@@ -35,7 +35,7 @@ class WNConfig:
 
     @property
     def database_path(self):
-        return self._data_directory / self.database_filename
+        return self.data_directory / self.database_filename
 
     @property
     def downloads_directory(self):

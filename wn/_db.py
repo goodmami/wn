@@ -493,7 +493,7 @@ def _get_lexicon_rowids(
                 lex_match.add(lexmap[id][ver])
 
     result = lg_match & lex_match
-    if not result:
+    if rows and not result:
         raise wn.Error(
             f'no lexicon found with lgcode={lgcode!r} and lexicon={lexicon!r}'
         )
