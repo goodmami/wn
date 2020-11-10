@@ -4,7 +4,8 @@ from wn._core import Synset
 
 def path(synset1, synset2):
     """Return the Path similarity of *synset1* and *synset2*."""
-    pass
+    distance = len(synset1.shortest_path(synset2, simulate_root=True))
+    return 1 / (distance + 1)
 
 
 def wup(synset1: Synset, synset2: Synset) -> float:
