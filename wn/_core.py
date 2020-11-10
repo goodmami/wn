@@ -289,12 +289,14 @@ class Synset(_Relatable):
 
     def min_depth(self, simulate_root: bool = False) -> int:
         return min(
-            len(path) for path in self.hypernym_paths(simulate_root=simulate_root)
+            (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
+            default=0
         )
 
     def max_depth(self, simulate_root: bool = False) -> int:
         return max(
-            len(path) for path in self.hypernym_paths(simulate_root=simulate_root)
+            (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
+            default=0
         )
 
     def _shortest_hyp_paths(
