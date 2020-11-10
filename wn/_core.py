@@ -278,14 +278,21 @@ class Synset(_Relatable):
                 )
         return related
 
-    def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
+    def _hypernym_paths(
+            self, simulate_root: bool, include_self: bool
+    ) -> List[List['Synset']]:
         paths = list(self.relation_paths('hypernym', 'instance_hypernym'))
-        if simulate_root:
+        if include_self:
+            paths = [[self] + path for path in paths] or [[self]]
+        if simulate_root and self.id != _FAKE_ROOT:
             root = Synset.empty(
                 id=_FAKE_ROOT, _lexid=self._lexid, _wordnet=self._wordnet
             )
             paths = [path + [root] for path in paths]
         return paths
+
+    def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
+        return self._hypernym_paths(simulate_root, False)
 
     def min_depth(self, simulate_root: bool = False) -> int:
         return min(
@@ -305,8 +312,8 @@ class Synset(_Relatable):
         if self == other:
             return {(self, 0): []}
 
-        from_self = self.hypernym_paths(simulate_root=simulate_root)
-        from_other = other.hypernym_paths(simulate_root=simulate_root)
+        from_self = self._hypernym_paths(simulate_root, True)
+        from_other = other._hypernym_paths(simulate_root, True)
         common = set(flatten(from_self)).intersection(flatten(from_other))
 
         if not common:
@@ -323,9 +330,9 @@ class Synset(_Relatable):
                 for dist, ss in enumerate(path):
                     if ss in common:
                         # self or other subpath to ss (not including ss)
-                        subpaths[ss][which].append(path[:dist])
+                        subpaths[ss][which].append(path[:dist + 1])
                         # keep maximum depth
-                        depth = len(path) - dist
+                        depth = len(path) - dist - 1
                         if ss not in depths or depths[ss] < depth:
                             depths[ss] = depth
 
@@ -333,15 +340,15 @@ class Synset(_Relatable):
         for ss in common:
             from_self_subpaths, from_other_subpaths = subpaths[ss]
             shortest_from_self = min(from_self_subpaths, key=len)
-            # for the other path, we need to reverse it and add the other synset
-            shortest_from_other = min(from_other_subpaths, key=len)[::-1] + [other]
-            shortest[(ss, depths[ss])] = shortest_from_self + [ss] + shortest_from_other
+            # for the other path, we need to reverse it and remove the pivot synset
+            shortest_from_other = min(from_other_subpaths, key=len)[-2::-1]
+            shortest[(ss, depths[ss])] = shortest_from_self + shortest_from_other
 
         return shortest
 
     def shortest_path(
             self, other: 'Synset', simulate_root: bool = False
-    ) -> Optional[List['Synset']]:
+    ) -> List['Synset']:
         pathmap = self._shortest_hyp_paths(other, simulate_root)
         key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
         if key is None:
