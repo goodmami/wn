@@ -1,4 +1,7 @@
 
+import math
+
+import wn
 from wn._core import Synset
 
 
@@ -17,6 +20,9 @@ def wup(synset1: Synset, synset2: Synset) -> float:
     return (2 * n) / (n1 + n2 + 2 * n)
 
 
-def lch(synset1: Synset, synset2: Synset) -> float:
+def lch(synset1: Synset, synset2: Synset, max_depth: int = 0) -> float:
     """Return the Leacock-Chodorow similarity of *synset1* and *synset2*."""
-    pass
+    distance = len(synset1.shortest_path(synset2, simulate_root=True))
+    if max_depth <= 0:
+        raise wn.Error('max_depth must be greater than 0')
+    return -math.log((distance + 1) / (2 * max_depth))
