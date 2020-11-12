@@ -30,10 +30,11 @@ Quick Start
    [Synset('ewn-04979718-n'), Synset('ewn-07945591-n'), Synset('ewn-07945759-n'), Synset('ewn-12683533-n')]
 
 
-Guides
-------
+Contents
+--------
 
 .. toctree::
+   :caption: Guides
    :maxdepth: 2
 
    guides/setup.rst
@@ -42,11 +43,10 @@ Guides
    guides/interlingual.rst
    guides/wordnet.rst
 
-API Reference
--------------
-
 .. toctree::
+   :caption: API Reference
    :maxdepth: 1
+   :hidden:
 
    api/wn.rst
    api/wn.lmf.rst

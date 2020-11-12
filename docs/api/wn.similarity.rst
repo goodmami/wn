@@ -3,6 +3,6 @@ wn.similarity
 
 .. automodule:: wn.similarity
 
-.. autofunction:: path_similarity
-.. autofunction:: wup_similarity
-.. autofunction:: lch_similarity
+.. autofunction:: path
+.. autofunction:: wup
+.. autofunction:: lch
