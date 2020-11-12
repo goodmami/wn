@@ -303,7 +303,7 @@ LexicalResource = List[Lexicon]
 
 def is_lmf(source: AnyPath) -> bool:
     """Return True if *source* is a WN-LMF XML file."""
-    source = Path(source)
+    source = Path(source).expanduser()
     if not is_xml(source):
         return False
     with source.open() as fh:
@@ -316,6 +316,8 @@ def is_lmf(source: AnyPath) -> bool:
 
 def scan_lexicons(source: AnyPath) -> List[Dict]:
     """Scan *source* and return only the top-level lexicon info."""
+
+    source = Path(source).expanduser()
 
     # this is implemeted with expat as it's much faster than etree for
     # this task
@@ -343,7 +345,7 @@ def load(source: AnyPath) -> LexicalResource:
     Args:
         source: path to an LMF-XML file
     """
-
+    source = Path(source).expanduser()
     events = ET.iterparse(source, events=('start', 'end'))
     root = next(events)[1]
     event, elem = next(events)

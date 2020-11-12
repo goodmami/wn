@@ -28,7 +28,7 @@ class WNConfig:
 
     @data_directory.setter
     def data_directory(self, path):
-        dir = Path(path)
+        dir = Path(path).expanduser()
         if dir.exists() and not dir.is_dir():
             raise Error(f'path exists and is not a directory: {dir}')
         self._data_directory = dir

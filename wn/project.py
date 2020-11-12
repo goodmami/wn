@@ -27,13 +27,13 @@ def is_lexical_resource(path: AnyPath) -> bool:
 
 
 def is_package_directory(path: AnyPath) -> bool:
-    path = Path(path)
+    path = Path(path).expanduser()
     return (path.is_dir()
             and len(list(filter(is_lexical_resource, path.iterdir()))) == 1)
 
 
 def is_collection_directory(path: AnyPath) -> bool:
-    path = Path(path)
+    path = Path(path).expanduser()
     return (path.is_dir()
             and len(list(filter(is_package_directory, path.iterdir()))) >= 1)
 
@@ -42,7 +42,7 @@ class _Project:
     __slots__ = '_path'
 
     def __init__(self, path: AnyPath):
-        self._path: Path = Path(path)
+        self._path: Path = Path(path).expanduser()
 
     def readme(self) -> Optional[Path]:
         return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
@@ -109,7 +109,7 @@ def iterpackages(path: AnyPath) -> Iterator[_Package]:
       - a tar archive containing one of the above
       - a compressed (gzip or lzma) resource file or tar archive
     """
-    path = Path(path)
+    path = Path(path).expanduser()
 
     if path.is_dir():
         if is_package_directory(path):
