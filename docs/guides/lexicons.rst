@@ -1,6 +1,8 @@
 Working with Lexicons
 =====================
 
+.. _lexicon-specifiers:
+
 Lexicon Specifiers
 ------------------
 
