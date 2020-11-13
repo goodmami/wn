@@ -23,12 +23,14 @@ _ADDITIONAL_FILE_SUFFIXES = ('', '.txt', '.md', '.rst')
 
 
 def is_package_directory(path: AnyPath) -> bool:
+    """Return ``True`` if *path* appears to be a Wordnet Package."""
     path = Path(path).expanduser()
     return (path.is_dir()
             and len(list(filter(lmf.is_lmf, path.iterdir()))) == 1)
 
 
 def is_collection_directory(path: AnyPath) -> bool:
+    """Return ``True`` if *path* appears to be a Wordnet Collection."""
     path = Path(path).expanduser()
     return (path.is_dir()
             and len(list(filter(is_package_directory, path.iterdir()))) >= 1)
@@ -41,16 +43,16 @@ class _Project:
         self._path: Path = Path(path).expanduser()
 
     def readme(self) -> Optional[Path]:
+        """Return the path of the README file, or ``None`` if none exists."""
         return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
 
     def license(self) -> Optional[Path]:
+        """Return the path of the license, or ``None`` if none exists."""
         return self._find_file(self._path / 'LICENSE', _ADDITIONAL_FILE_SUFFIXES)
 
     def citation(self) -> Optional[Path]:
-        path = self._path / 'citation.bib'
-        if path.is_file():
-            return path
-        return None
+        """Return the path of the citation, or ``None`` if none exists."""
+        return self._find_file(self._path / 'citation', ('.bib',))
 
     def _find_file(self, base: Path, suffixes: Tuple[str, ...]) -> Optional[Path]:
         for suffix in suffixes:
@@ -60,15 +62,14 @@ class _Project:
         return None
 
 
-class _Package(_Project):
+class Package(_Project):
+    """This class represents a Wordnet Package -- a directory with a
+       resource file and optional metadata.
+
+    """
 
     def resource_file(self) -> Path:
-        raise NotImplementedError()
-
-
-class Package(_Package):
-
-    def resource_file(self) -> Path:
+        """Return the path of the package's resource file."""
         files = list(filter(lmf.is_lmf, self._path.iterdir()))
         if not files:
             raise wn.Error(f'no resource found in package: {self._path!s}')
@@ -77,7 +78,7 @@ class Package(_Package):
         return files[0]
 
 
-class _ResourceOnlyPackage(_Package):
+class _ResourceOnlyPackage(Package):
 
     def resource_file(self) -> Path:
         return self._path
@@ -88,14 +89,19 @@ class _ResourceOnlyPackage(_Package):
 
 
 class Collection(_Project):
+    """This class represents a Wordnet Collection -- a directory with one
+       or more Wordnet Packages and optional metadata.
+
+    """
 
     def packages(self) -> List[Package]:
+        """Return the list of packages in the collection."""
         return [Package(path)
                 for path in self._path.iterdir()
                 if is_package_directory(path)]
 
 
-def iterpackages(path: AnyPath) -> Iterator[_Package]:
+def iterpackages(path: AnyPath) -> Iterator[Package]:
     """Yield any wordnet Packages found at *path*.
 
     The *path* argument can point to one of the following:
