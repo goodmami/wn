@@ -22,14 +22,10 @@ from wn import lmf
 _ADDITIONAL_FILE_SUFFIXES = ('', '.txt', '.md', '.rst')
 
 
-def is_lexical_resource(path: AnyPath) -> bool:
-    return lmf.is_lmf(path)
-
-
 def is_package_directory(path: AnyPath) -> bool:
     path = Path(path).expanduser()
     return (path.is_dir()
-            and len(list(filter(is_lexical_resource, path.iterdir()))) == 1)
+            and len(list(filter(lmf.is_lmf, path.iterdir()))) == 1)
 
 
 def is_collection_directory(path: AnyPath) -> bool:
@@ -73,7 +69,7 @@ class _Package(_Project):
 class Package(_Package):
 
     def resource_file(self) -> Path:
-        files = list(filter(is_lexical_resource, self._path.iterdir()))
+        files = list(filter(lmf.is_lmf, self._path.iterdir()))
         if not files:
             raise wn.Error(f'no resource found in package: {self._path!s}')
         elif len(files) > 1:
@@ -138,7 +134,7 @@ def iterpackages(path: AnyPath) -> Iterator[_Package]:
     else:
         decompressed: Path
         with _get_decompressed(path) as decompressed:
-            if is_lexical_resource(decompressed):
+            if lmf.is_lmf(decompressed):
                 yield _ResourceOnlyPackage(decompressed)
             else:
                 raise wn.Error(

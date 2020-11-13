@@ -4,7 +4,6 @@ wn.project
 .. automodule:: wn.project
 
 .. autofunction:: iterpackages
-.. autofunction:: is_lexical_resource
 .. autofunction:: is_package_directory
 .. autofunction:: is_collection_directory
 
