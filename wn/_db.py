@@ -158,15 +158,23 @@ def _add_lmf(source):
     with _connect() as conn:
         cur = conn.cursor()
         # abort if any lexicon in *source* is already added
-        print(f'Checking {source!s}', file=sys.stderr)
+        print(f'Checking {source!s}', end='', file=sys.stderr)
         all_infos = list(_precheck(source, cur))
-        # all clear, try to add them
 
-        print(f'Reading {source!s}', file=sys.stderr)
+        if not all_infos:
+            print(f'\r\033[K{source}: No lexicons found', file=sys.stderr)
+            return
+        elif all(info.get('skip', False) for info in all_infos):
+            print(f'\r\033[K{source}: No new lexicons found', file=sys.stderr)
+            return
+
+        # all clear, try to add them
+        print(f'\r\033[KReading {source!s}', end='', file=sys.stderr)
         for lexicon, info in zip(lmf.load(source), all_infos):
 
             if info.get('skip', False):
-                print('Skipping', file=sys.stderr)
+                print(f'Skipping {info["id"]:info["version"]} ({info["label"]})',
+                      file=sys.stderr)
                 continue
 
             sense_ids = lexicon.sense_ids()
@@ -220,22 +228,18 @@ def _add_lmf(source):
             _insert_examples(synsets, lexid, 'synset_examples', cur, indicator)
             indicator.update(0, type='')  # clear type string
 
-            print(file=sys.stderr)
+            print(f'\r\033[KAdded {lexicon.id}:{lexicon.version} ({lexicon.label})',
+                  file=sys.stderr)
 
 
 def _precheck(source, cur):
     for info in lmf.scan_lexicons(source):
         id = info['id']
         version = info['version']
-        row = cur.execute(
+        if cur.execute(
             'SELECT * FROM lexicons WHERE id = ? AND version = ?',
             (id, version)
-        ).fetchone()
-        if row:
-            warnings.warn(
-                f'ignoring lexicon {id}:{version} (already added)',
-                wn.Warning
-            )
+        ).fetchone():
             info['skip'] = True
         yield info
 
