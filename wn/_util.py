@@ -8,20 +8,24 @@ from pathlib import Path
 
 def is_gzip(path: Path) -> bool:
     """Return True if the file at *path* appears to be gzipped."""
-    with path.open('rb') as f:
-        return f.read(2) == b'\x1F\x8B'
+    return _inspect_file_signature(path, b'\x1F\x8B')
 
 
 def is_lzma(path: Path) -> bool:
     """Return True if the file at *path* appears to be lzma-compressed."""
-    with path.open('rb') as f:
-        return f.read(6) == b'\xFD7zXZ\x00'
+    return _inspect_file_signature(path, b'\xFD7zXZ\x00')
 
 
 def is_xml(path: Path) -> bool:
     """Return True if the file at *path* appears to be an XML file."""
-    with path.open('rb') as f:
-        return f.read(6) == b'<?xml '
+    return _inspect_file_signature(path, b'<?xml ')
+
+
+def _inspect_file_signature(path: Path, signature: bytes) -> bool:
+    if path.is_file():
+        with path.open('rb') as f:
+            return f.read(len(signature)) == signature
+    return False
 
 
 T = TypeVar('T')
