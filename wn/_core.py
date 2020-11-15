@@ -456,8 +456,24 @@ class Sense(_Relatable):
 
 
 class WordNet:
-    """
-    Class for interacting with WordNet data.
+    """Class for interacting with wordnet data.
+
+    A wordnet object acts essentially as a filter by first selecting
+    matching lexicons and then searching only within those lexicons
+    for later queries. On instantiation, a *lgcode* argument is a
+    BCP47 language code that restricts the selected lexicons to those
+    whose language matches the given code. A *lexicon* argument is a
+    space-separated list of lexicon specifiers that more directly
+    select lexicons by their ID and version; this is preferable when
+    there are multiple lexicons in the same language or multiple
+    version with the same ID.
+
+    Some wordnets were created by translating the words from a larger
+    wordnet, namely the Princeton WordNet, and then relying on the
+    larger wordnet for structural relations. An *expand* argument is a
+    second space-separated list of lexicon specifiers which are used
+    for traversing relations, but not as the results of queries.
+
     """
 
     __slots__ = '_lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
@@ -484,12 +500,19 @@ class WordNet:
 
     @property
     def lgcode(self) -> Optional[str]:
+        """The BCP47 language code of lexicons in the wordnet."""
         return self._lgcode
 
-    def lexicons(self): return self._lexicons
-    def expanded_lexicons(self): return self._expanded
+    def lexicons(self):
+        """Return the list of lexicons covered by this wordnet."""
+        return self._lexicons
+
+    def expanded_lexicons(self):
+        """Return the list of expand lexicons for this wordnet."""
+        return self._expanded
 
     def word(self, id: str) -> Word:
+        """Return the first word in this wordnet with identifier *id*."""
         iterable = _db.find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             lexid, rowid, id, pos, forms = next(iterable)
@@ -498,6 +521,14 @@ class WordNet:
             raise wn.Error(f'no such lexical entry: {id}')
 
     def words(self, form: str = None, pos: str = None) -> List[Word]:
+        """Return the list of matching words in this wordnet.
+
+        Without any arguments, this function returns all words in the
+        wordnet's selected lexicons. A *form* argument restricts the
+        words to those matching the given word form, and *pos*
+        restricts words by their part of speech.
+
+        """
         iterable = _db.find_entries(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
@@ -505,6 +536,7 @@ class WordNet:
                 for lexid, rowid, id, pos, forms in iterable]
 
     def synset(self, id: str) -> Synset:
+        """Return the first synset in this wordnet with identifier *id*."""
         iterable = _db.find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             lexid, rowid, id, pos, ili = next(iterable)
@@ -515,6 +547,17 @@ class WordNet:
     def synsets(
         self, form: str = None, pos: str = None, ili: str = None
     ) -> List[Synset]:
+        """Return the list of matching synsets in this wordnet.
+
+        Without any arguments, this function returns all synsets in
+        the wordnet's selected lexicons. A *form* argument restricts
+        synsets to those whose member words match the given word
+        form. A *pos* argument restricts synsets to those with the
+        given part of speech. An *ili* argument restricts synsets to
+        those with the given interlingual index; generally this should
+        select a unique synset within a single lexicon.
+
+        """
         iterable = _db.find_synsets(
             form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids
         )
@@ -522,6 +565,7 @@ class WordNet:
                 for lexid, rowid, id, pos, ili in iterable]
 
     def sense(self, id: str) -> Sense:
+        """Return the first sense in this wordnet with identifier *id*."""
         iterable = _db.find_senses(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             lexid, rowid, id, entry_id, synset_id = next(iterable)
@@ -530,6 +574,14 @@ class WordNet:
             raise wn.Error(f'no such sense: {id}')
 
     def senses(self, form: str = None, pos: str = None) -> List[Sense]:
+        """Return the list of matching senses in this wordnet.
+
+        Without any arguments, this function returns all senses in the
+        wordnet's selected lexicons. A *form* argument restricts the
+        senses to those whose word matches the given word form, and
+        *pos* restricts senses by their word's part of speech.
+
+        """
         iterable = _db.find_senses(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
