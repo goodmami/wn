@@ -1,0 +1,3 @@
+- Add requirements.txt with requests
+- `word()`, `sense()` and `synset()` throw wn.Error when word is not found, rather than returning None like the doctest claims
+- Some functions return tuples while typing comments claim they should return lists
