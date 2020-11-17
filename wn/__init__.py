@@ -22,7 +22,6 @@ __all__ = (
     'Synset',
     'Error',
     'Warning',
-    'morphy',
 )
 
 from wn._meta import __version__
@@ -37,4 +36,3 @@ from wn._core import (
     synset, synsets, Synset,
     WordNet
 )
-from wn.morphy import morphy
