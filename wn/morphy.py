@@ -150,7 +150,7 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
     - Collocations (eat out, car pool, attorneys general)
     - Single words ending in -ful
     - Single words not ending in -ful
-    - 
+    - Words containing a period
 
     TODO: Preserve capitalisation in some way.
     TODO: Consider replacing `strip` with `preserve_whitespace`.
@@ -244,6 +244,15 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
             if not yielded_previously(lemma) and in_wordnet(lemma, pos):
                 yielded_lemmas.append(lemma)
                 yield reapply_whitespace(lemma, ws_match, strip)
+        
+        # Step 2.1: If none of those matched, recurse with all subwords
+        if no_yields():
+            for sublemmas in expand_gen([morphy(subword, pos) for subword in word.split("-")]):
+                lemma = "-".join(sublemmas)
+                
+                if not yielded_previously(lemma) and in_wordnet(lemma, pos):
+                    yielded_lemmas.append(lemma)
+                    yield reapply_whitespace(lemma, ws_match, strip)
 
     # Step 3: Collocations (eat out, on them)
     if " " in word:
