@@ -147,14 +147,14 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
     """
     These are cases to consider:
     - Hyphenation (mother-in-law)
-    - Collacations (eat out, car pool, attorneys general)
+    - Collocations (eat out, car pool, attorneys general)
     - Single words ending in -ful
     - Single words not ending in -ful
     - 
 
     TODO: Preserve capitalisation in some way.
     TODO: Consider replacing `strip` with `preserve_whitespace`.
-    TODO: Currently, when recursing for subwords in collacations and hypenations, all subwords must
+    TODO: Currently, when recursing for subwords in collocations and hypenations, all subwords must
         : be the same POS as the combined word. This should be changed.
         : "asking for troubles" fails as morphy("troubles", wn.VERB) -> []
 
@@ -245,7 +245,7 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
                 yielded_lemmas.append(lemma)
                 yield reapply_whitespace(lemma, ws_match, strip)
 
-    # Step 3: Collacations (eat out, on them)
+    # Step 3: Collocations (eat out, on them)
     if " " in word:
         for lemma in try_rules(word, COLLOCATION_RULES):
             if not yielded_previously(lemma) and in_wordnet(lemma, pos):
