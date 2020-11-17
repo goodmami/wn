@@ -157,8 +157,6 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
     TODO: Currently, when recursing for subwords in collocations and hypenations, all subwords must
         : be the same POS as the combined word. This should be changed.
         : "asking for troubles" fails as morphy("troubles", wn.VERB) -> []
-
-    # This is where we would check exceptions
     """
 
     def expand_gen(options: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]:
@@ -238,6 +236,8 @@ def morphy(word: str, pos: str, strip:bool = False) -> Generator[str, None, None
     ws_match = WHITESPACE.fullmatch(word)
     word = ws_match.group("word")
 
+    # This is where we would check exceptions
+    
     # Step 2: Hyphenated phrases (mother-in-law)
     if "-" in word:
         for lemma in try_rules(word, HYPHENATED_RULES):
