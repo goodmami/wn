@@ -69,7 +69,7 @@ class WNConfig:
         name, _, version = arg.partition(':')
         project: Dict = self._projects[name]
         versions: Dict = project['versions']
-        if not version:
+        if not version or version == '*':
             version = next(iter(versions))
         if version not in versions:
             raise Error(f'no such version: {version!r} ({project})')
