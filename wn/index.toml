@@ -1,0 +1,274 @@
+[ewn]
+  label = "Open English Wordnet"
+  language = "en"
+  license = "https://creativecommons.org/licenses/by/4.0/"
+  [ewn.versions.2019]
+    url = "https://en-word.net/static/english-wordnet-2019.xml.gz"
+  [ewn.versions.2020]
+    url = "https://en-word.net/static/english-wordnet-2020.xml.gz"
+
+
+[pwn]
+  label = "Princeton WordNet"
+  language = "en"
+  license = "https://wordnet.princeton.edu/license-and-commercial-use"
+  [pwn.versions."3.0"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn30.tar.xz"
+  [pwn.versions."3.1"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn31.tar.xz"
+
+
+[omw]
+  label = "Open Multilingual Wordnet v1.3"
+  language = "mul"
+  license = "Please consult the LICENSE files included with the individual wordnets. Note that all permit redistribution."
+  [omw.versions."1.3"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/omw-1.3.tar.xz"
+
+
+[iwn]
+  label = "Italian Wordnet"
+  language = "it"
+  license = "http://opendefinition.org/licenses/odc-by/"
+  [iwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/iwn.tar.xz"
+
+
+[ronwn]
+  label = "Romanian Wordnet"
+  language = "ro"
+  license = "https://creativecommons.org/licenses/by-sa/"
+  [ronwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ron.tar.xz"
+
+
+[nobwn]
+  label = "Norwegian Wordnet"
+  language = "nb"
+  license = "wordnet"
+  [nobwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nob.tar.xz"
+
+
+[zsmwn]
+  label = "Wordnet Bahasa"
+  language = "zsm"
+  license = "https://opensource.org/licenses/MIT/"
+  [zsmwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/zsm.tar.xz"
+
+
+[hrvwn]
+  label = "Croatian Wordnet"
+  language = "hr"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [hrvwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/hrv.tar.xz"
+
+
+[nnown]
+  label = "Norwegian Wordnet"
+  language = "nn"
+  license = "wordnet"
+  [nnown.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nno.tar.xz"
+
+
+[arbwn]
+  label = "Arabic WordNet (AWN v2)"
+  language = "arb"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [arbwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/arb.tar.xz"
+
+
+[indwn]
+  label = "Wordnet Bahasa"
+  language = "id"
+  license = "https://opensource.org/licenses/MIT/"
+  [indwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ind.tar.xz"
+
+
+[ellwn]
+  label = "Greek Wordnet"
+  language = "el"
+  license = "https://opensource.org/licenses/Apache-2.0"
+  [ellwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ell.tar.xz"
+
+
+[glgwn]
+  label = "Multilingual Central Repository"
+  language = "gl"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [glgwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/glg.tar.xz"
+
+
+[danwn]
+  label = "DanNet"
+  language = "da"
+  license = "wordnet"
+  [danwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/dan.tar.xz"
+
+
+[finwn]
+  label = "FinnWordNet"
+  language = "fi"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [finwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/fin.tar.xz"
+
+
+[thawn]
+  label = "Thai Wordnet"
+  language = "th"
+  license = "wordnet"
+  [thawn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/tha.tar.xz"
+
+
+[catwn]
+  label = "Multilingual Central Repository"
+  language = "ca"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [catwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/cat.tar.xz"
+
+
+[frawn]
+  label = "WOLF (Wordnet Libre du Français)"
+  language = "fr"
+  license = "http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html"
+  [frawn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/fra.tar.xz"
+
+
+[slvwn]
+  label = "sloWNet"
+  language = "sl"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [slvwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/slv.tar.xz"
+
+
+[islwn]
+  label = "IceWordNet"
+  language = "is"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [islwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/isl.tar.xz"
+
+
+[euswn]
+  label = "Multilingual Central Repository"
+  language = "eu"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [euswn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/eus.tar.xz"
+
+
+[slkwn]
+  label = "Slovak WordNet"
+  language = "sk"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [slkwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/slk.tar.xz"
+
+
+[litwn]
+  label = "Lithuanian  WordNet"
+  language = "lt"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [litwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/lit.tar.xz"
+
+
+[bulwn]
+  label = "BulTreeBank Wordnet (BTB-WN)"
+  language = "bg"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [bulwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/bul.tar.xz"
+
+
+[jpnwn]
+  label = "Japanese Wordnet"
+  language = "jp"
+  license = "wordnet"
+  [jpnwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/jpn.tar.xz"
+
+
+[itawn]
+  label = "MultiWordNet"
+  language = "it"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [itawn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ita.tar.xz"
+
+
+[porwn]
+  label = "OpenWN-PT"
+  language = "pt"
+  license = "https://creativecommons.org/licenses/by-sa/"
+  [porwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/por.tar.xz"
+
+
+[swewn]
+  label = "Swedish (SALDO)"
+  language = "sv"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [swewn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/swe.tar.xz"
+
+
+[alswn]
+  label = "Albanet"
+  language = "als"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [alswn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/als.tar.xz"
+
+
+[hebwn]
+  label = "Hebrew Wordnet"
+  language = "he"
+  license = "wordnet"
+  [hebwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/heb.tar.xz"
+
+
+[cmnwn]
+  label = "Chinese Open Wordnet"
+  language = "zh"
+  license = "wordnet"
+  [cmnwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/cmn.tar.xz"
+
+
+[nldwn]
+  label = "Open Dutch WordNet"
+  language = "nl"
+  license = "https://creativecommons.org/licenses/by-sa/4.0/"
+  [nldwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nld.tar.xz"
+
+
+[polwn]
+  label = "plWordNet"
+  language = "pl"
+  license = "wordnet"
+  [polwn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pol.tar.xz"
+
+
+[spawn]
+  label = "Multilingual Central Repository"
+  language = "es"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [spawn.versions."1.3+omw"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/spa.tar.xz"
