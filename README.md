@@ -1,5 +1,9 @@
 # Wn: A Python Library for Wordnets
 
+[![PyPI Version](https://img.shields.io/pypi/v/wn.svg)](https://pypi.org/project/wn/)
+![Python Support](https://img.shields.io/pypi/pyversions/wn.svg)
+[![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest)](https://wn.readthedocs.io/en/latest/?badge=latest)
+
 Wn is a Python library for using wordnets. For example:
 
 ```python
@@ -54,18 +58,59 @@ flit install
 
 ## Documentation
 
-The documentation is hosted [here](https://goodmami.github.io/wn),
-although it's not very useful yet.
+The documentation is hosted [here](https://wn.readthedocs.io/).
 
 ## Available Wordnets
 
 The following wordnets are indexed by Wn and ready to be installed:
 
-| Name            | ID  | Versions   |
-| --------------- | --- | ---------- |
-| English Wordnet | ewn | 2019, 2020 |
+| Name                       | ID    | Versions       | Language         |
+| -------------------------- | ----- | -------------- | ---------------- |
+| Open English Wordnet       | `ewn` | `2019`, `2020` | English [en]     |
+| Princeton WordNet          | `pwn` | `3.0`, `3.1`   | English [en]     |
+| Open Multilingual Wordnet  | `omw` | `1.3`          | multiple [[mul]] |
 
-(more coming soon)
+[mul]: https://iso639-3.sil.org/code/mul
+
+The Open Multilingual Wordnet installs the following lexicons (from
+[here](https://github.com/bond-lab/omw-data/releases/tag/v1.3)) which
+can also be downloaded and installed independently:
+
+| Name                             | ID      | Versions   | Language |
+| -------------------------------- | ------- | ---------- | -------- |
+| Albanet                          | `alswn` | `1.3+omw`  | [als]    |
+| Arabic WordNet (AWN v2)          | `arbwn` | `1.3+omw`  | [arb]    |
+| BulTreeBank Wordnet (BTB-WN)     | `bulwn` | `1.3+omw`  | [bg]     |
+| Chinese Open Wordnet             | `cmnwn` | `1.3+omw`  | [zh]     |
+| Croatian Wordnet                 | `hrvwn` | `1.3+omw`  | [hr]     |
+| DanNet                           | `danwn` | `1.3+omw`  | [da]     |
+| FinnWordNet                      | `finwn` | `1.3+omw`  | [fi]     |
+| Greek Wordnet                    | `ellwn` | `1.3+omw`  | [el]     |
+| Hebrew Wordnet                   | `hebwn` | `1.3+omw`  | [he]     |
+| IceWordNet                       | `islwn` | `1.3+omw`  | [is]     |
+| Italian Wordnet                  | `iwn`   | `1.3+omw`  | [it]     |
+| Japanese Wordnet                 | `jpnwn` | `1.3+omw`  | [jp]     |
+| Lithuanian  WordNet              | `litwn` | `1.3+omw`  | [lt]     |
+| Multilingual Central Repository  | `catwn` | `1.3+omw`  | [ca]     |
+| Multilingual Central Repository  | `euswn` | `1.3+omw`  | [es]     |
+| Multilingual Central Repository  | `glgwn` | `1.3+omw`  | [eu]     |
+| Multilingual Central Repository  | `spawn` | `1.3+omw`  | [gl]     |
+| MultiWordNet                     | `itawn` | `1.3+omw`  | [it]     |
+| Norwegian Wordnet                | `nnown` | `1.3+omw`  | [nb]     |
+| Norwegian Wordnet                | `nobwn` | `1.3+omw`  | [nn]     |
+| Open Dutch WordNet               | `nldwn` | `1.3+omw`  | [nl]     |
+| OpenWN-PT                        | `porwn` | `1.3+omw`  | [pt]     |
+| plWordNet                        | `polwn` | `1.3+omw`  | [pl]     |
+| Romanian Wordnet                 | `ronwn` | `1.3+omw`  | [ro]     |
+| Slovak WordNet                   | `slkwn` | `1.3+omw`  | [sk]     |
+| sloWNet                          | `slvwn` | `1.3+omw`  | [sl]     |
+| Swedish (SALDO)                  | `swewn` | `1.3+omw`  | [sv]     |
+| Thai Wordnet                     | `thawn` | `1.3+omw`  | [th]     |
+| WOLF (Wordnet Libre du Français) | `frawn` | `1.3+omw`  | [fr]     |
+| Wordnet Bahasa                   | `indwn` | `1.3+omw`  | [id]     |
+| Wordnet Bahasa                   | `zsmwn` | `1.3+omw`  | [zsm]    |
+
+The project index list is defined in [wn/index.toml](wn/index.toml).
 
 ## Migrating from the NLTK's wordnet Module
 
