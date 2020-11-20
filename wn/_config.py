@@ -43,13 +43,21 @@ class WNConfig:
         dir.mkdir(exist_ok=True)
         return dir
 
-    def add_project(self, name: str, label: str, language: str) -> None:
+    def add_project(
+            self,
+            name: str,
+            label: str,
+            language: str,
+            license: str = None,
+    ) -> None:
+        """Add a new wordnet project to the index."""
         if name in self._projects:
             raise ValueError(f'project already added: {name}')
         self._projects[name] = {
             'label': label,
             'language': language,
             'versions': {},
+            'license': license
         }
 
     def add_project_version(
@@ -57,13 +65,14 @@ class WNConfig:
             name: str,
             version: str,
             url: str,
-            license: str
+            license: str = None,
     ) -> None:
+        """Add a new resource version for a project."""
+        version_data = {'resource_url': url}
+        if license:
+            version_data['license'] = license
         project = self._projects[name]
-        project['versions'][version] = {
-            'resource_url': url,
-            'license': license,
-        }
+        project['versions'][version] = version_data
 
     def get_project_info(self, arg: str) -> Dict:
         name, _, version = arg.partition(':')
@@ -78,6 +87,7 @@ class WNConfig:
             version=version,
             label=project['label'],
             language=project['language'],
+            license=versions[version].get('license', project.get('license')),
             resource_url=versions[version]['resource_url'],
         )
 
