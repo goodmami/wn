@@ -10,16 +10,10 @@ import json
 import itertools
 import warnings
 import sqlite3
-try:
-    import importlib.resources as resources
-except ImportError:
-    # 3.6 backport
-    # for the mypy error, see: https://github.com/python/mypy/issues/1153
-    import importlib_resources as resources  # type: ignore
 
 import wn
 from wn._types import AnyPath
-from wn._util import ProgressBar
+from wn._util import ProgressBar, resources
 from wn.project import iterpackages
 from wn import constants
 from wn import lmf
