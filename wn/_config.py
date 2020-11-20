@@ -6,7 +6,11 @@ Local configuration settings.
 from typing import Dict
 from pathlib import Path
 
+import toml
+
 from wn import Error
+from wn._types import AnyPath
+from wn._util import resources
 
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
@@ -91,17 +95,37 @@ class WNConfig:
             resource_url=versions[version]['resource_url'],
         )
 
+    def update(self, data: dict) -> None:
+        if 'data_directory' in data:
+            self.data_directory = data['data_directory']
+        for name, project in data.get('index', {}).items():
+            if name in self._projects:
+                # validate that they are the same
+                _project = self._projects[name]
+                for attr in ('label', 'language', 'license'):
+                    if attr in project and project[attr] != _project[attr]:
+                        raise Error(f'{attr} mismatch for {name}')
+            else:
+                self.add_project(
+                    name,
+                    project['label'],
+                    project['language'],
+                    license=project.get('license'),
+                )
+            for version, info in project.get('versions', {}).items():
+                self.add_project_version(
+                    name,
+                    version,
+                    info['url'],
+                    license=project.get('license'),
+                )
+
+    def load_index(self, path: AnyPath) -> None:
+        path = Path(path).expanduser()
+        index = toml.load(path)
+        self.update({'index': index})
+
 
 config = WNConfig()
-
-config.add_project('ewn', 'English WordNet', 'en')
-config.add_project_version(
-    'ewn', '2020',
-    'https://en-word.net/static/english-wordnet-2020.xml.gz',
-    'https://creativecommons.org/licenses/by/4.0/',
-)
-config.add_project_version(
-    'ewn', '2019',
-    'https://en-word.net/static/english-wordnet-2019.xml.gz',
-    'https://creativecommons.org/licenses/by/4.0/',
-)
+with resources.path('wn', 'index.toml') as index_path:
+    config.load_index(index_path)
