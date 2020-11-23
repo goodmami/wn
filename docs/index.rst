@@ -34,6 +34,11 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
+
+   faq.rst
+
+.. toctree::
    :caption: Guides
    :maxdepth: 2
 
