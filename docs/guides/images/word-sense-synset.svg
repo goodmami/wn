@@ -116,9 +116,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.95677609"
      inkscape:cx="294.75974"
-     inkscape:cy="146.21302"
+     inkscape:cy="188.02008"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1301"
@@ -143,6 +143,18 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="图层 2">
+    <rect
+       style="opacity:0.999;fill:#ffffff;stroke-width:0.465;stroke:none"
+       id="rect912"
+       width="147.11732"
+       height="63.050278"
+       x="-1.6592178"
+       y="-2.2122905" />
+  </g>
   <g
      inkscape:label="图层 1"
      inkscape:groupmode="layer"

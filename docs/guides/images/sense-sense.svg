@@ -5,6 +5,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="156.40842mm"
@@ -13,7 +14,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="03.svg">
+   sodipodi:docname="sense-sense.svg">
   <defs
      id="defs2">
     <marker
@@ -56,7 +57,7 @@
      inkscape:cx="369.83781"
      inkscape:cy="269.54551"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1301"
@@ -80,6 +81,18 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="图层 2">
+    <rect
+       style="opacity:0.999;fill:#ffffff;stroke-width:0.465;stroke:none"
+       id="rect869"
+       width="169.33333"
+       height="132.29167"
+       x="-2.2678571"
+       y="-3.7797618" />
+  </g>
   <g
      inkscape:label="图层 1"
      inkscape:groupmode="layer"
@@ -120,36 +133,51 @@
        height="14.585448"
        x="125.11012"
        y="38.364582" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="71.815475"
-       y="128.88988"
-       id="text891"><tspan
-         sodipodi:role="line"
-         id="tspan918"
+    <a
+       id="a43"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/16769"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="71.815475"
-         y="128.88988">behavioral</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="82.776802"
-       y="47.247025"
-       id="text903"><tspan
-         sodipodi:role="line"
-         id="tspan874"
+         y="128.88988"
+         id="text891"><tspan
+           sodipodi:role="line"
+           id="tspan918"
+           x="71.815475"
+           y="128.88988">behavioral</tspan></text>
+    </a>
+    <a
+       id="a39"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/62725"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="82.776802"
-         y="47.247025">conduct</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="129.64583"
-       y="47.247021"
-       id="text907"><tspan
-         sodipodi:role="line"
-         id="tspan872"
+         y="47.247025"
+         id="text903"><tspan
+           sodipodi:role="line"
+           id="tspan874"
+           x="82.776802"
+           y="47.247025">conduct</tspan></text>
+    </a>
+    <a
+       id="a35"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/62725"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="129.64583"
-         y="47.247021">behavior</tspan></text>
+         y="47.247021"
+         id="text907"><tspan
+           sodipodi:role="line"
+           id="tspan872"
+           x="129.64583"
+           y="47.247021">behavior</tspan></text>
+    </a>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -176,5 +204,21 @@
        style="fill:none;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);stroke-miterlimit:4;stroke-dasharray:none"
        d="M 83.888969,119.15798 142.47528,54.146077"
        id="path920" />
+    <a
+       id="a31"
+       xlink:href="https://globalwordnet.github.io/gwadoc/#pertainym"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="86.15683"
+         y="82.116318"
+         id="text29"><tspan
+           sodipodi:role="line"
+           id="tspan27"
+           x="86.15683"
+           y="82.116318"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;stroke-width:0.264583">pertainym</tspan></text>
+    </a>
   </g>
 </svg>

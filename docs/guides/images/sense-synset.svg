@@ -5,6 +5,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="156.40842mm"
@@ -13,7 +14,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="04.svg">
+   sodipodi:docname="sense-synset.svg">
   <defs
      id="defs2">
     <marker
@@ -56,7 +57,7 @@
      inkscape:cx="288.87885"
      inkscape:cy="228.20516"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1366"
@@ -80,6 +81,18 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="图层 2">
+    <rect
+       style="opacity:0.999;fill:#ffffff;stroke-width:0.465;stroke:none"
+       id="rect873"
+       width="166.50891"
+       height="128.55664"
+       x="-2.4054255"
+       y="-2.1381562" />
+  </g>
   <g
      inkscape:label="图层 1"
      inkscape:groupmode="layer"
@@ -127,46 +140,66 @@
        height="14.437297"
        x="112.10835"
        y="38.514637" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="46.517933"
-       y="120.37198"
-       id="text887"><tspan
-         sodipodi:role="line"
-         id="tspan876"
+    <a
+       id="a50"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/52632"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="46.517933"
-         y="120.37198">pointer</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="94.298141"
-       y="122.197"
-       id="text895"><tspan
-         sodipodi:role="line"
-         id="tspan878"
+         y="120.37198"
+         id="text887"><tspan
+           sodipodi:role="line"
+           id="tspan876"
+           x="46.517933"
+           y="120.37198">pointer</tspan></text>
+    </a>
+    <a
+       id="a46"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/52632"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="94.298141"
-         y="122.197">cursor</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="70.719543"
-       y="46.693493"
-       id="text903"><tspan
-         sodipodi:role="line"
-         id="tspan872"
+         y="122.197"
+         id="text895"><tspan
+           sodipodi:role="line"
+           id="tspan878"
+           x="94.298141"
+           y="122.197">cursor</tspan></text>
+    </a>
+    <a
+       id="a42"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/68812"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="70.719543"
-         y="46.693493">computing</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="116.3138"
-       y="46.788456"
-       id="text907"><tspan
-         sodipodi:role="line"
-         id="tspan874"
+         y="46.693493"
+         id="text903"><tspan
+           sodipodi:role="line"
+           id="tspan872"
+           x="70.719543"
+           y="46.693493">computing</tspan></text>
+    </a>
+    <a
+       id="a38"
+       xlink:href="https://www.luismc.com/omw/ili/concepts/68812"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="116.3138"
-         y="46.788456">computer science</tspan></text>
+         y="46.788456"
+         id="text907"><tspan
+           sodipodi:role="line"
+           id="tspan874"
+           x="116.3138"
+           y="46.788456">computer science</tspan></text>
+    </a>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -193,5 +226,21 @@
        style="fill:none;stroke:#000000;stroke-width:0.440805;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Lstart)"
        d="M 107.74619,66.871627 C 99.667765,112.92781 99.667765,112.92781 99.667765,112.92781"
        id="path1249" />
+    <a
+       id="a34"
+       xlink:href="https://globalwordnet.github.io/gwadoc/#has_domain_topic"
+       target="_blank">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="59.58588"
+         y="79.729324"
+         id="text32"><tspan
+           sodipodi:role="line"
+           id="tspan30"
+           x="59.58588"
+           y="79.729324"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;stroke-width:0.264583">has domain topic</tspan></text>
+    </a>
   </g>
 </svg>
