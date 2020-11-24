@@ -13,6 +13,25 @@ requires = [
 ]
 requires-python = ">=3.6"
 description-file = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta"
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[tool.flit.metadata.urls]
+Documentation = "https://wn.readthedocs.io"
 
 [tool.flit.metadata.requires-extra]
 test = [
