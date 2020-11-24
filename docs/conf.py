@@ -55,7 +55,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 rst_prolog = """
 .. role:: python(code)
    :language: python
-
+   :class: highlight
 """
 
 # -- Options for HTML output -------------------------------------------------
