@@ -473,6 +473,7 @@ class Synset(_Relatable):
 
 
 class Sense(_Relatable):
+    """Class for modeling wordnet senses."""
     __slots__ = '_entry_id', '_synset_id'
     __module__ = 'wn'
 
@@ -495,22 +496,67 @@ class Sense(_Relatable):
         return f'Sense({self.id!r})'
 
     def word(self) -> Word:
+        """Return the word of the sense.
+
+        Example:
+
+            >>> wn.senses('spigot')[0].word()
+            Word('pwn-spigot-n')
+
+        """
         return word(id=self._entry_id)
 
     def synset(self) -> Synset:
+        """Return the synset of the sense.
+
+        Example:
+
+            >>> wn.senses('spigot')[0].synset()
+            Synset('pwn-03325088-n')
+
+        """
         return synset(id=self._synset_id)
 
     def get_related(self, *args: str) -> List['Sense']:
+        """Return a list of related senses.
+
+        One or more relation types should be passed as arguments which
+        determine the kind of relations returned.
+
+        Example:
+
+            >>> physics = wn.senses('physics', lexicon='ewn')[0]
+            >>> for sense in physics.get_related('has_domain_topic'):
+            ...     print(sense.word().lemma())
+            ... 
+            coherent
+            chaotic
+            incoherent
+
+        """
         iterable = _db.get_sense_relations(self._id, args)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
+        """Return a list of related synsets."""
         iterable = _db.get_sense_synset_relations(self._id, args)
         return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, pos, ili in iterable]
 
     def translate(self, lgcode: str = None, lexicon: str = None) -> List['Sense']:
+        """Return a list of translated senses.
+
+        Arguments:
+            lgcode: if specified, translate to senses with the language code
+            lexicon: if specified, translate to senses in the target lexicon(s)
+
+        Example:
+
+            >>> wn.senses('petiole', lgcode='en')[0].translate('pt')
+            [Sense('porwn-lex66080--13131618-n')]
+
+        """
         synset = self.synset()
         return [t_sense
                 for t_synset in synset.translate(lgcode=lgcode, lexicon=lexicon)
