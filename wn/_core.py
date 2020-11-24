@@ -86,6 +86,7 @@ class _LexiconElement(_DatabaseEntity):
 
 
 class Word(_LexiconElement):
+    """A class for words (also called lexical entries) in a wordnet."""
     __slots__ = 'id', 'pos', '_forms'
     __module__ = 'wn'
 
@@ -109,20 +110,60 @@ class Word(_LexiconElement):
         return f'Word({self.id!r})'
 
     def lemma(self) -> str:
+        """Return the canonical form of the word.
+
+        Example:
+
+            >>> wn.words('wolves')[0].lemma()
+            'wolf'
+
+        """
         return self._forms[0]
 
     def forms(self) -> List[str]:
+        """Return the list of all encoded forms of the word.
+
+        Example:
+
+            >>> wn.words('wolf')[0].forms()
+            ['wolf', 'wolves']
+
+        """
         return self._forms
 
     def senses(self) -> List['Sense']:
+        """Return the list of senses of the word.
+
+        Example:
+
+            >>> wn.words('zygoma')[0].senses()
+            [Sense('ewn-zygoma-n-05292350-01')]
+
+        """
         iterable = _db.get_senses_for_entry(self._id)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def synsets(self) -> List['Synset']:
+        """Return the list of synsets of the word.
+
+        Example:
+
+            >>> wn.words('addendum')[0].synsets()
+            [Synset('ewn-06411274-n')]
+
+        """
         return [sense.synset() for sense in self.senses()]
 
     def derived_words(self) -> List['Word']:
+        """Return the list of words linked through derivations on the senses.
+
+        Example:
+
+            >>> wn.words('magical')[0].derived_words()
+            [Word('ewn-magic-n'), Word('ewn-magic-n')]
+
+        """
         return [derived_sense.word()
                 for sense in self.senses()
                 for derived_sense in sense.get_related('derivation')]
@@ -132,6 +173,21 @@ class Word(_LexiconElement):
             lgcode: str = None,
             lexicon: str = None
     ) -> Dict['Sense', List['Word']]:
+        """Return a mapping of word senses to lists of translated words.
+
+        Arguments:
+            lgcode: if specified, translate to words with the language code
+            lexicon: if specified, translate to words in the target lexicon(s)
+
+        Example:
+
+            >>> w = wn.words('water bottle', pos='n')[0]
+            >>> for sense, words in w.translate('ja').items():
+            ...     print(sense, [jw.lemma() for jw in words])
+            ... 
+            Sense('ewn-water_bottle-n-04564934-01') ['水筒']
+
+        """
         result = {}
         for sense in self.senses():
             result[sense] = [
