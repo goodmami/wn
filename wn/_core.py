@@ -249,6 +249,7 @@ class _Relatable(_LexiconElement):
 
 
 class Synset(_Relatable):
+    """Class for modeling wordnet synsets."""
     __slots__ = 'pos', 'ili'
     __module__ = 'wn'
 
@@ -667,18 +668,25 @@ def _to_lexicon(data) -> Lexicon:
 
 
 def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
-    """Return the lexicons matching a language or identifier key."""
+    """Return the lexicons matching a language or lexicon specifier.
+
+    Example:
+
+        >>> wn.lexicons('en')
+        [<Lexicon ewn:2020 [en]>, <Lexicon pwn:3.0 [en]>]
+
+    """
     if lexicon is None:
         lexicon = '*'
     return Wordnet(lgcode=lgcode, lexicon=lexicon).lexicons()
 
 
-def word(id: str, lexicon: str = None) -> Word:
+def word(id: str, lgcode: str = None, lexicon: str = None) -> Word:
     """Return the word with *id* in *lexicon*.
 
-    If *lexicon* is not given, all lexicons will be searched, but only
-    the first result, in arbitrary order, will be returned. If no
-    words match, `None` is returned.
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The *id* argument is then passed to the
+    :meth:`Wordnet.word` method.
 
     >>> wn.word('ewn-cell-n')
     Word('ewn-cell-n')
@@ -693,9 +701,9 @@ def words(form: str = None,
           lexicon: str = None) -> List[Word]:
     """Return the list of matching words.
 
-    The *form*, *pos*, *lgcode*, and *lexicon* parameters act as
-    filters---i.e., if all are omitted, all known words will be
-    returned.
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The remaining arguments are passed to the
+    :meth:`Wordnet.words` method.
 
     >>> len(wn.words())
     282902
@@ -708,12 +716,12 @@ def words(form: str = None,
     return Wordnet(lgcode=lgcode, lexicon=lexicon).words(form=form, pos=pos)
 
 
-def synset(id: str, lexicon: str = None) -> Synset:
+def synset(id: str, lgcode: str = None, lexicon: str = None) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
-    If *lexicon* is not given, all lexicons will be searched, but only
-    the first result, in arbitrary order, will be returned. If no
-    words match, `None` is returned.
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The *id* argument is then passed to the
+    :meth:`Wordnet.synset` method.
 
     >>> wn.synset('ewn-03311152-n')
     Synset('ewn-03311152-n')
@@ -728,6 +736,10 @@ def synsets(form: str = None,
             lgcode: str = None,
             lexicon: str = None) -> List[Synset]:
     """Return the list of matching synsets.
+
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The remaining arguments are passed to the
+    :meth:`Wordnet.synsets` method.
 
     >>> len(wn.synsets('couch'))
     4
@@ -744,6 +756,10 @@ def senses(form: str = None,
            lexicon: str = None) -> List[Sense]:
     """Return the list of matching senses.
 
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The remaining arguments are passed to the
+    :meth:`Wordnet.senses` method.
+
     >>> len(wn.senses('twig'))
     3
     >>> wn.senses('twig', pos='n')
@@ -753,12 +769,12 @@ def senses(form: str = None,
     return Wordnet(lgcode=lgcode, lexicon=lexicon).senses(form=form, pos=pos)
 
 
-def sense(id: str, lexicon: str = None) -> Sense:
+def sense(id: str, lgcode: str = None, lexicon: str = None) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
-    If *lexicon* is not given, all lexicons will be searched, but only
-    the first result, in arbitrary order, will be returned. If no
-    words match, `None` is returned.
+    This will create a :class:`Wordnet` object using the *lgcode* and
+    *lexicon* arguments. The *id* argument is then passed to the
+    :meth:`Wordnet.sense` method.
 
     >>> wn.sense('ewn-flutter-v-01903884-02')
     Sense('ewn-flutter-v-01903884-02')
