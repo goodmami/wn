@@ -1,8 +1,14 @@
 # Wn: A Python Library for Wordnets
 
 [![PyPI Version](https://img.shields.io/pypi/v/wn.svg)](https://pypi.org/project/wn/)
-![Python Support](https://img.shields.io/pypi/pyversions/wn.svg)
-[![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest)](https://wn.readthedocs.io/en/latest/?badge=latest)
+![Python Support](https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square)
+[![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square)](https://wn.readthedocs.io/en/latest/?badge=latest)
+
+[Available Wordnets](#available-wordnets)
+| [Documentation](https://wn.readthedocs.io/)
+| [FAQ](https://wn.readthedocs.io/en/latest/faq.html)
+| [Migrating from NLTK](https://wn.readthedocs.io/en/latest/guides/nltk-migration.html)
+| [Roadmap](https://github.com/goodmami/wn/projects)
 
 Wn is a Python library for using wordnets. For example:
 
@@ -10,9 +16,7 @@ Wn is a Python library for using wordnets. For example:
 >>> import wn
 >>> wn.download('ewn:2020')    # Install the English Wordnet 2020 (only once)
 Download complete (13643357 bytes)
-Checking /tmp/tmpgspkay6m.xml
-Reading /tmp/tmpgspkay6m.xml
-Building: [###############################] (1337590/1337590)
+Added ewn:2020 (English WordNet)
 >>> ss = wn.synsets('win')[0]  # Get the first synset for 'win'
 >>> ss.definition()            # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
