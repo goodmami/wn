@@ -428,7 +428,10 @@ class Synset(_Relatable):
     def common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
-        return [ss for ss, _ in self._shortest_hyp_paths(other, simulate_root)]
+        from_self = self._hypernym_paths(simulate_root, True)
+        from_other = other._hypernym_paths(simulate_root, True)
+        common = set(flatten(from_self)).intersection(flatten(from_other))
+        return sorted(common)
 
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
