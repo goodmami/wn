@@ -29,9 +29,6 @@ default. Instead, all wordnets are searched unless one (or more) are
 specified:
 
 ```python
->>> from nltk.corpus import wordnet as nltk_wn
->>> nltk_wn.synsets('chat')                 # only English
->>> nltk_wn.synsets('chat', lang='fra')     # only French
 >>> import wn
 >>> wn.synsets('chat')                      # all installed wordnets
 >>> wn.synsets('chat', lgcode='en')         # limit to one language
@@ -111,16 +108,3 @@ can also be downloaded and installed independently:
 | Wordnet Bahasa                   | `zsmwn` | `1.3+omw`  | Malaysian [zsm]            |
 
 The project index list is defined in [wn/index.toml](wn/index.toml).
-
-## Migrating from the NLTK's wordnet Module
-
-Some operations keep a compatible API with the NLTK's `wordnet`
-module, but most will need some translation.
-
-| Operation                   | `nltk.corpus.wordnet as wn`   | `pwn = wn.Wordnet('pwn', '3.0')` |
-| --------------------------- | ----------------------------- | -------------------------------- |
-| Lookup Synsets by word form | `wn.synsets("chat")`          | `pwn.synsets("chat")`            |
-|                             | `wn.synsets("chat", pos="v")` | `pwn.synsets("chat", pos="v")`   |
-| Lookup Synsets by POS       | `wn.all_synsets(pos="v")`     | `pwn.synsets(pos="v")`           |
-
-(this table is incomplete)

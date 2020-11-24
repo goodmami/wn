@@ -47,6 +47,7 @@ Contents
    guides/basic.rst
    guides/interlingual.rst
    guides/wordnet.rst
+   guides/nltk-migration.rst
 
 .. toctree::
    :caption: API Reference
