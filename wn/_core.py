@@ -27,6 +27,14 @@ class _DatabaseEntity:
         return (self._ENTITY_TYPE == other._ENTITY_TYPE
                 and self._id == other._id)
 
+    def __lt__(self, other):
+        if not isinstance(other, _DatabaseEntity):
+            return NotImplemented
+        elif self._ENTITY_TYPE != other._ENTITY_TYPE:
+            return NotImplemented
+        else:
+            return self._id < other._id
+
     def __hash__(self):
         return hash((self._ENTITY_TYPE, self._id))
 
