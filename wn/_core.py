@@ -32,6 +32,7 @@ class _DatabaseEntity:
 
 
 class Lexicon(_DatabaseEntity):
+    """A class representing a wordnet lexicon."""
     __slots__ = ('id', 'label', 'language', 'email', 'license',
                  'version', 'url', 'citation', 'metadata')
     __module__ = 'wn'
@@ -61,6 +62,10 @@ class Lexicon(_DatabaseEntity):
         self.url = url
         self.citation = citation
         self.metadata = metadata
+
+    def __repr__(self):
+        id, ver, lg = self.id, self.version, self.language
+        return f'<Lexicon {id}:{ver} [{lg}]>'
 
 
 class _LexiconElement(_DatabaseEntity):
