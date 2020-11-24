@@ -22,10 +22,10 @@ Wordnet Query Functions
 .. autofunction:: synsets
 .. autofunction:: lexicons
 
-The WordNet Class
+The Wordnet Class
 -----------------
 
-.. autoclass:: WordNet
+.. autoclass:: Wordnet
 
    .. attribute:: lgcode
 

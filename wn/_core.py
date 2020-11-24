@@ -70,7 +70,7 @@ class _LexiconElement(_DatabaseEntity):
             self,
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         super().__init__(_id=_id)
         self._lexid = _lexid  # Database-internal lexicon id
@@ -93,7 +93,7 @@ class Word(_LexiconElement):
             forms: List[str],
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
@@ -147,7 +147,7 @@ class _Relatable(_LexiconElement):
             id: str,
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
@@ -200,7 +200,7 @@ class Synset(_Relatable):
             ili: str = None,
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.pos = pos
@@ -212,7 +212,7 @@ class Synset(_Relatable):
             id: str,
             ili: str = None,
             _lexid: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
 
@@ -423,7 +423,7 @@ class Sense(_Relatable):
             synset_id: str,
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
-            _wordnet: 'WordNet' = None
+            _wordnet: 'Wordnet' = None
     ):
         super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self._entry_id = entry_id
@@ -455,7 +455,7 @@ class Sense(_Relatable):
                 for t_sense in t_synset.senses()]
 
 
-class WordNet:
+class Wordnet:
     """Class for interacting with wordnet data.
 
     A wordnet object acts essentially as a filter by first selecting
@@ -609,7 +609,7 @@ def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
     """Return the lexicons matching a language or identifier key."""
     if lexicon is None:
         lexicon = '*'
-    return WordNet(lgcode=lgcode, lexicon=lexicon).lexicons()
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).lexicons()
 
 
 def word(id: str, lexicon: str = None) -> Word:
@@ -623,7 +623,7 @@ def word(id: str, lexicon: str = None) -> Word:
     Word('ewn-cell-n')
 
     """
-    return WordNet(lexicon=lexicon).word(id=id)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).word(id=id)
 
 
 def words(form: str = None,
@@ -644,7 +644,7 @@ def words(form: str = None,
     [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
 
     """
-    return WordNet(lgcode=lgcode, lexicon=lexicon).words(form=form, pos=pos)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).words(form=form, pos=pos)
 
 
 def synset(id: str, lexicon: str = None) -> Synset:
@@ -658,7 +658,7 @@ def synset(id: str, lexicon: str = None) -> Synset:
     Synset('ewn-03311152-n')
 
     """
-    return WordNet(lexicon=lexicon).synset(id=id)
+    return Wordnet(lexicon=lexicon).synset(id=id)
 
 
 def synsets(form: str = None,
@@ -674,7 +674,7 @@ def synsets(form: str = None,
     [Synset('ewn-00983308-v')]
 
     """
-    return WordNet(lgcode=lgcode, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
 def senses(form: str = None,
@@ -689,7 +689,7 @@ def senses(form: str = None,
     [Sense('ewn-twig-n-13184889-02')]
 
     """
-    return WordNet(lgcode=lgcode, lexicon=lexicon).senses(form=form, pos=pos)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).senses(form=form, pos=pos)
 
 
 def sense(id: str, lexicon: str = None) -> Sense:
@@ -703,4 +703,4 @@ def sense(id: str, lexicon: str = None) -> Sense:
     Sense('ewn-flutter-v-01903884-02')
 
     """
-    return WordNet(lexicon=lexicon).sense(id=id)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).sense(id=id)

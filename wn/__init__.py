@@ -5,7 +5,7 @@ Wordnet Interface.
 
 __all__ = (
     '__version__',
-    'WordNet',
+    'Wordnet',
     'download',
     'add',
     'remove',
@@ -34,5 +34,5 @@ from wn._core import (
     word, words, Word,
     sense, senses, Sense,
     synset, synsets, Synset,
-    WordNet
+    Wordnet
 )

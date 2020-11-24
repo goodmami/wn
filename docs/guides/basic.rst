@@ -35,18 +35,18 @@ You can specify which language or lexicon you wish to query:
 >>> wn.words('chat', lexicon='frawn')
 [Word('frawn-lex14803'), Word('frawn-lex21897')]
 
-But it might be easier to create a :class:`~wn.WordNet` object and use
+But it might be easier to create a :class:`~wn.Wordnet` object and use
 it for queries:
 
->>> wnja = wn.WordNet(lgcode='ja')
+>>> wnja = wn.Wordnet(lgcode='ja')
 >>> wnja.words('pike')
 [Word('wnja-n-66614')]
->>> frawn = wn.WordNet(lexicon='frawn')
+>>> frawn = wn.Wordnet(lexicon='frawn')
 >>> frawn.words('chat')
 [Word('frawn-lex14803'), Word('frawn-lex21897')]
 
 In fact, the simple queries above implicitly create such a
-:class:`~wn.WordNet` object, but one that includes all installed
+:class:`~wn.Wordnet` object, but one that includes all installed
 lexicons.
 
 
@@ -85,7 +85,7 @@ If you know the word identifier used by a lexicon, you can retrieve
 the word directly with the :func:`wn.word()` function. Identifiers are
 guaranteed to be unique within a single lexicon, but not across
 lexicons, so it's best to call this function from an instantiated
-:class:`~wn.WordNet` object or with the ``lexicon`` parameter
+:class:`~wn.Wordnet` object or with the ``lexicon`` parameter
 specified. If multiple words are found when querying multiple
 lexicons, only the first is returned.
 
@@ -226,7 +226,7 @@ Filtering by Language
 ---------------------
 
 The ``lgcode`` parameter of :func:`wn.words()`, :func:`wn.senses()`,
-:func:`wn.synsets()`, and :class:`~wn.WordNet` allows a single `BCP-47
+:func:`wn.synsets()`, and :class:`~wn.Wordnet` allows a single `BCP-47
 <https://en.wikipedia.org/wiki/IETF_language_tag>`_ language
 code. When this parameter is used, only entries in the specified
 language will be returned.
@@ -245,7 +245,7 @@ Filtering by Lexicon
 --------------------
 
 The ``lexicon`` parameter of :func:`wn.words()`, :func:`wn.senses()`,
-:func:`wn.synsets()`, and :class:`~wn.WordNet` take a string of
+:func:`wn.synsets()`, and :class:`~wn.Wordnet` take a string of
 space-delimited :ref:`lexicon specifiers
 <lexicon-specifiers>`. Entries in a lexicon whose ID matches one of
 the lexicon specifiers will be returned. For these, the following

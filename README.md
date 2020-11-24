@@ -14,7 +14,7 @@ Wn is a Python library for using wordnets. For example:
 
 ```python
 >>> import wn
->>> wn.download('ewn:2020')    # Install the English Wordnet 2020 (only once)
+>>> wn.download('ewn:2020')    # Install the English WordNet 2020 (only once)
 Download complete (13643357 bytes)
 Added ewn:2020 (English WordNet)
 >>> ss = wn.synsets('win')[0]  # Get the first synset for 'win'
