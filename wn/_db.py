@@ -502,6 +502,8 @@ def _get_lexicon_rowids_for_lexicon(
                 raise wn.Error(f"no lexicon found with id '{id}'")
             if not ver:
                 lex_match.add(next(iter(lexmap[id].values())))
+            elif ver == '*':
+                lex_match.update(lexmap[id].values())
             elif ver not in lexmap[id]:
                 raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
             else:
