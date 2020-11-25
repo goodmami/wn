@@ -295,20 +295,60 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     def definition(self) -> Optional[str]:
+        """Return the first definition found for the synset.
+
+        Example:
+
+            >>> wn.synsets('cartwheel', pos='n')[0].definition()
+            'a wheel that has wooden spokes and a metal rim'
+
+        """
         return next(iter(_db.get_definitions_for_synset(self._id)), None)
 
     def examples(self) -> List[str]:
+        """Return the list of examples for the synset.
+
+        Example:
+
+            >>> wn.synsets('orbital', pos='a')[0].examples()
+            ['"orbital revolution"', '"orbital velocity"']
+
+        """
         return _db.get_examples_for_synset(self._id)
 
     def senses(self) -> List['Sense']:
+        """Return the list of sense members of the synset.
+
+        Example:
+
+            >>> wn.synsets('umbrella', pos='n')[0].senses()
+            [Sense('ewn-umbrella-n-04514450-01')]
+
+        """
         iterable = _db.get_senses_for_synset(self._id)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
 
     def words(self) -> List[Word]:
+        """Return the list of words linked by the synset's senses.
+
+        Example:
+
+            >>> wn.synsets('exclusive', pos='n')[0].words()
+            [Word('ewn-scoop-n'), Word('ewn-exclusive-n')]
+
+        """
         return [sense.word() for sense in self.senses()]
 
     def lemmas(self) -> List[str]:
+        """Return the list of lemmas of words for the synset.
+
+        Example:
+
+            >>> wn.synsets('exclusive', pos='n')[0].words()
+            ['scoop', 'exclusive']
+
+        """
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
@@ -362,15 +402,62 @@ class Synset(_Relatable):
         return paths
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
+        """Return the list of hypernym paths to a root synset.
+
+        Example:
+
+            >>> for path in wn.synsets('dog', pos='n')[0].hypernym_paths():
+            ...     for i, ss in enumerate(path):
+            ...         print(' ' * i, ss, ss.lemmas()[0])
+            ...
+             Synset('pwn-02083346-n') canine
+              Synset('pwn-02075296-n') carnivore
+               Synset('pwn-01886756-n') eutherian mammal
+                Synset('pwn-01861778-n') mammalian
+                 Synset('pwn-01471682-n') craniate
+                  Synset('pwn-01466257-n') chordate
+                   Synset('pwn-00015388-n') animal
+                    Synset('pwn-00004475-n') organism
+                     Synset('pwn-00004258-n') animate thing
+                      Synset('pwn-00003553-n') unit
+                       Synset('pwn-00002684-n') object
+                        Synset('pwn-00001930-n') physical entity
+                         Synset('pwn-00001740-n') entity
+             Synset('pwn-01317541-n') domesticated animal
+              Synset('pwn-00015388-n') animal
+               Synset('pwn-00004475-n') organism
+                Synset('pwn-00004258-n') animate thing
+                 Synset('pwn-00003553-n') unit
+                  Synset('pwn-00002684-n') object
+                   Synset('pwn-00001930-n') physical entity
+                    Synset('pwn-00001740-n') entity
+
+        """
         return self._hypernym_paths(simulate_root, False)
 
     def min_depth(self, simulate_root: bool = False) -> int:
+        """Return the minimum taxonomy depth of the synset.
+
+        Example:
+
+            >>> wn.synsets('dog', pos='n')[0].min_depth()
+            8
+
+        """
         return min(
             (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
             default=0
         )
 
     def max_depth(self, simulate_root: bool = False) -> int:
+        """Return the maximum taxonomy depth of the synset.
+
+        Example:
+
+            >>> wn.synsets('dog', pos='n')[0].max_depth()
+            13
+
+        """
         return max(
             (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
             default=0
@@ -419,6 +506,14 @@ class Synset(_Relatable):
     def shortest_path(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
+        """Return the shortest path from the synset to the *other* synset.
+
+        Arguments:
+            other: endpoint synset of the path
+            simulate_root: if :python:`True`, ensure any two synsets
+              are always connected by positing a fake root node
+
+        """
         pathmap = self._shortest_hyp_paths(other, simulate_root)
         key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
         if key is None:
@@ -428,6 +523,14 @@ class Synset(_Relatable):
     def common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
+        """Return the common hypernyms for the current and *other* synsets.
+
+        Arguments:
+            other: synset that is a hyponym of any shared hypernyms
+            simulate_root: if :python:`True`, ensure any two synsets
+              always share a hypernym by positing a fake root node
+
+        """
         from_self = self._hypernym_paths(simulate_root, True)
         from_other = other._hypernym_paths(simulate_root, True)
         common = set(flatten(from_self)).intersection(flatten(from_other))
@@ -436,6 +539,14 @@ class Synset(_Relatable):
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
+        """Return the common hypernyms furthest from the root.
+
+        Arguments:
+            other: synset that is a hyponym of any shared hypernyms
+            simulate_root: if :python:`True`, ensure any two synsets
+              always share a hypernym by positing a fake root node
+
+        """
         pathmap = self._shortest_hyp_paths(other, simulate_root)
         # keys of pathmap are (synset, depth_of_synset)
         max_depth: int = max([depth for _, depth in pathmap], default=-1)
@@ -445,6 +556,13 @@ class Synset(_Relatable):
             return [ss for ss, d in pathmap if d == max_depth]
 
     def holonyms(self) -> List['Synset']:
+        """Return the list of synsets related by any holonym relation.
+
+        Any of the following relations are traversed: ``holonym``,
+        ``holo_location``, ``holo_member``, ``holo_part``,
+        ``holo_portion``, ``holo_substance``.
+
+        """
         return self.get_related(
             'holonym',
             'holo_location',
@@ -455,6 +573,13 @@ class Synset(_Relatable):
         )
 
     def meronyms(self) -> List['Synset']:
+        """Return the list of synsets related by any meronym relation.
+
+        Any of the following relations are traversed: ``meronym``,
+        ``mero_location``, ``mero_member``, ``mero_part``,
+        ``mero_portion``, ``mero_substance``.
+
+        """
         return self.get_related(
             'meronym',
             'mero_location',
@@ -465,18 +590,45 @@ class Synset(_Relatable):
         )
 
     def hypernyms(self) -> List['Synset']:
+        """Return the list of synsets related by any hypernym relation.
+
+        Both the ``hypernym`` and ``instance_hypernym`` relations are
+        traversed.
+
+        """
         return self.get_related(
             'hypernym',
             'instance_hypernym'
         )
 
     def hyponyms(self) -> List['Synset']:
+        """Return the list of synsets related by any hyponym relation.
+
+        Both the ``hyponym`` and ``instance_hyponym`` relations are
+        traversed.
+
+        """
         return self.get_related(
             'hyponym',
             'instance_hyponym'
         )
 
     def translate(self, lgcode: str = None, lexicon: str = None) -> List['Synset']:
+        """Return a list of translated synsets.
+
+        Arguments:
+            lgcode: if specified, translate to synsets with the language code
+            lexicon: if specified, translate to synsets in the target lexicon(s)
+
+        Example:
+
+            >>> es = wn.synsets('araña', lgcode='es')[0]
+            >>> en = es.translate(lexicon='ewn')[0]
+            >>> en.lemmas()
+            ['spider']
+
+        """
+
         ili = self.ili
         if not ili:
             return []
@@ -564,8 +716,10 @@ class Sense(_Relatable):
 
         Example:
 
-            >>> wn.senses('petiole', lgcode='en')[0].translate('pt')
-            [Sense('porwn-lex66080--13131618-n')]
+            >>> en = wn.senses('petiole', lgcode='en')[0]
+            >>> pt = en.translate('pt')[0]
+            >>> pt.word().lemma()
+            'pecíolo'
 
         """
         synset = self.synset()
