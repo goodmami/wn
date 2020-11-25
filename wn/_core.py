@@ -40,7 +40,19 @@ class _DatabaseEntity:
 
 
 class Lexicon(_DatabaseEntity):
-    """A class representing a wordnet lexicon."""
+    """A class representing a wordnet lexicon.
+
+    Attributes:
+        id: The lexicon's identifier.
+        label: The full name of lexicon.
+        language: The BCP 47 language code of lexicon.
+        email: The email address of the wordnet maintainer.
+        license: The URL or name of the wordnet's license.
+        version: The version string of the resource.
+        url: The project URL of the wordnet.
+        citation: The canonical citation for the project.
+        metadata: Any extra metadata for the lexicon.
+    """
     __slots__ = ('id', 'label', 'language', 'email', 'license',
                  'version', 'url', 'citation', 'metadata')
     __module__ = 'wn'

@@ -117,16 +117,6 @@ The Lexicon Class
 
 .. autoclass:: Lexicon
 
-   .. attribute:: id
-   .. attribute:: label
-   .. attribute:: language
-   .. attribute:: email
-   .. attribute:: license
-   .. attribute:: version
-   .. attribute:: url
-   .. attribute:: citation
-   .. attribute:: metadata
-
 
 The wn.config Object
 --------------------
