@@ -39,6 +39,7 @@ test = [
     "pytest",
     "mypy",
     "flake8",
+    "nox",
 ]
 doc = [
     "sphinx",
