@@ -127,6 +127,37 @@ The Lexicon Class
    .. attribute:: citation
    .. attribute:: metadata
 
+
+The wn.config Object
+--------------------
+
+Wn's data storage and retrieval can be configured through the
+:data:`wn.config` object.
+
+.. seealso::
+
+   :doc:`../guides/setup` describes how to configure Wn using the
+   :data:`wn.config` instance.
+
+.. autodata:: config
+
+It is an instance of the :class:`~wn._config.WNConfig` class, which is
+defined in a non-public module and is not meant to be instantiated
+directly. Configuration should occur through the single
+:data:`wn.config` instance.
+
+.. autoclass:: wn._config.WNConfig
+
+   .. autoattribute:: data_directory
+   .. autoattribute:: database_path
+   .. autoattribute:: downloads_directory
+   .. automethod:: add_project
+   .. automethod:: add_project_version
+   .. automethod:: get_project_info
+   .. automethod:: update
+   .. automethod:: load_index
+
+
 Exceptions
 ----------
 

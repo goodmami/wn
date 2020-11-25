@@ -43,7 +43,7 @@ of the URL so that Wn can avoid downloading the same file twice.
 Configuration
 -------------
 
-The :python:`wn.config` object contains the paths Wn uses for local
+The :py:data:`wn.config` object contains the paths Wn uses for local
 storage and information about resources available on the web. To
 change the directory Wn uses for storing data locally, modify the
 :python:`wn.config.data_directory` member:
@@ -66,7 +66,14 @@ There are some things to note:
 You can also add project information for remote resources. First you
 add a project, with a project ID, full name, and language code. Then
 you create one or more versions for that project with a version ID,
-resource URL, and license information.
+resource URL, and license information. This may be done either through
+the :py:data:`wn.config` object's
+:py:meth:`~wn._config.WNConfig.add_project` and
+:py:meth:`~wn._config.WNConfig.add_project_version` methods, or loaded
+from a TOML_ file via the :py:data:`wn.config` object's
+:py:meth:`~wn._config.WNConfig.load_index` method.
+
+.. _TOML: https://toml.io
 
 .. code-block:: python
 

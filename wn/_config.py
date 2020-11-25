@@ -26,6 +26,7 @@ class WNConfig:
 
     @property
     def data_directory(self) -> Path:
+        """The file system directory where Wn's data is stored."""
         dir = self._data_directory
         dir.mkdir(exist_ok=True)
         return dir
@@ -39,10 +40,12 @@ class WNConfig:
 
     @property
     def database_path(self):
+        """The path to the database file."""
         return self.data_directory / self.database_filename
 
     @property
     def downloads_directory(self):
+        """The file system directory where downloads are cached."""
         dir = self.data_directory / 'downloads'
         dir.mkdir(exist_ok=True)
         return dir
@@ -54,7 +57,16 @@ class WNConfig:
             language: str,
             license: str = None,
     ) -> None:
-        """Add a new wordnet project to the index."""
+        """Add a new wordnet project to the index.
+
+        Arguments:
+            name: short identifier of the project
+            label: full name of the project
+            language: `BCP 47`_ language code of the resource
+            license: link or name of the project's default license
+
+        .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
+        """
         if name in self._projects:
             raise ValueError(f'project already added: {name}')
         self._projects[name] = {
@@ -71,7 +83,16 @@ class WNConfig:
             url: str,
             license: str = None,
     ) -> None:
-        """Add a new resource version for a project."""
+        """Add a new resource version for a project.
+
+        Arguments:
+            name: short identifier of the project
+            version: version string of the resource
+            url: web address of the resource
+            license: link or name of the resource's license; if not
+              given, the project's default license will be used.
+
+        """
         version_data = {'resource_url': url}
         if license:
             version_data['license'] = license
@@ -79,6 +100,11 @@ class WNConfig:
         project['versions'][version] = version_data
 
     def get_project_info(self, arg: str) -> Dict:
+        """Return a dictionary of information about an indexed project.
+
+        Arguments:
+            arg: a lexicon specifier
+        """
         name, _, version = arg.partition(':')
         project: Dict = self._projects[name]
         versions: Dict = project['versions']
@@ -96,6 +122,15 @@ class WNConfig:
         )
 
     def update(self, data: dict) -> None:
+        """Update the configuration with items in *data*.
+
+        Items are only inserted or replaced, not deleted. If a project
+        index is provided in the ``"index"`` key, then either the
+        project must not already be indexed or any project fields
+        (label, language, or license) that are specified must be equal
+        to the indexed project.
+
+        """
         if 'data_directory' in data:
             self.data_directory = data['data_directory']
         for name, project in data.get('index', {}).items():
@@ -121,6 +156,25 @@ class WNConfig:
                 )
 
     def load_index(self, path: AnyPath) -> None:
+        """Load and update with the project index at *path*.
+
+        The project index is a TOML_ file containing project and
+        version information. For example:
+
+        .. code-block:: toml
+
+           [ewn]
+             label = "Open English WordNet"
+             language = "en"
+             license = "https://creativecommons.org/licenses/by/4.0/"
+             [ewn.versions.2019]
+               url = "https://en-word.net/static/english-wordnet-2019.xml.gz"
+             [ewn.versions.2020]
+               url = "https://en-word.net/static/english-wordnet-2020.xml.gz"
+
+        .. _TOML: https://toml.io
+
+        """
         path = Path(path).expanduser()
         index = toml.load(path)
         self.update({'index': index})
