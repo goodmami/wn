@@ -192,7 +192,7 @@ class Word(_LexiconElement):
             >>> w = wn.words('water bottle', pos='n')[0]
             >>> for sense, words in w.translate('ja').items():
             ...     print(sense, [jw.lemma() for jw in words])
-            ... 
+            ...
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
         """
@@ -539,7 +539,7 @@ class Sense(_Relatable):
             >>> physics = wn.senses('physics', lexicon='ewn')[0]
             >>> for sense in physics.get_related('has_domain_topic'):
             ...     print(sense.word().lemma())
-            ... 
+            ...
             coherent
             chaotic
             incoherent

@@ -8,7 +8,6 @@ from typing import (
 import sys
 import json
 import itertools
-import warnings
 import sqlite3
 
 import wn
@@ -460,7 +459,20 @@ def _get_lexicon_rowids(
         lexicon: str = None,
 ) -> List[int]:
     rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
+    lg_match = _get_lexicon_rowids_for_lgcode(rows, lgcode)
+    lex_match = _get_lexicon_rowids_for_lexicon(rows, lexicon)
+    result = lg_match & lex_match
+    if rows and not result:
+        raise wn.Error(
+            f'no lexicon found with lgcode={lgcode!r} and lexicon={lexicon!r}'
+        )
 
+    return sorted(result)
+
+
+def _get_lexicon_rowids_for_lgcode(
+        rows: List[Tuple[int, str, str, str]], lgcode: str = None
+) -> Set[int]:
     lg_match: Set[int] = set()
     if lgcode:
         lg_match.update(rowid for rowid, _, _, language in rows if language == lgcode)
@@ -468,7 +480,12 @@ def _get_lexicon_rowids(
             raise wn.Error(f"no lexicon found with language code '{lgcode}'")
     else:
         lg_match.update(row[0] for row in rows)
+    return lg_match
 
+
+def _get_lexicon_rowids_for_lexicon(
+        rows: List[Tuple[int, str, str, str]], lexicon: str = None
+) -> Set[int]:
     lex_match: Set[int] = set()
     lex_specs = lexicon.split() if lexicon else []
     if not lex_specs or '*' in lex_specs or '*:' in lex_specs:
@@ -489,14 +506,7 @@ def _get_lexicon_rowids(
                 raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
             else:
                 lex_match.add(lexmap[id][ver])
-
-    result = lg_match & lex_match
-    if rows and not result:
-        raise wn.Error(
-            f'no lexicon found with lgcode={lgcode!r} and lexicon={lexicon!r}'
-        )
-
-    return sorted(result)
+    return lex_match
 
 
 def find_entries(

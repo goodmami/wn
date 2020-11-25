@@ -1,6 +1,6 @@
 
 from typing import (
-    TypeVar, Hashable, Iterable, Sequence, List, TextIO,
+    TypeVar, Iterable, Sequence, List, TextIO,
 )
 import sys
 from pathlib import Path
