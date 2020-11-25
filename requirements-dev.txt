@@ -1,3 +1,17 @@
-flake8==3.8.2
-mypy==0.780
-pytest==5.4.3
+# The requirements for this project are managed by pyproject.toml.
+# The purpose of this file is only for GitHub's dependency graph
+# tooling which doesn't support pyproject.toml.
+
+# normal requirements
+requests
+toml
+importlib_resources
+
+# testing requirements
+flake8
+mypy
+pytest
+nox
+
+# for documentation requirements, see docs/requirements.txt
+
