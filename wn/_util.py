@@ -5,7 +5,7 @@ from typing import (
 import sys
 from pathlib import Path
 # version check is for mypy; see https://github.com/python/mypy/issues/1153
-if sys.version_info > (3, 6):
+if sys.version_info >= (3, 7):
     import importlib.resources as resources
 else:
     import importlib_resources as resources  # noqa: F401

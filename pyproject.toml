@@ -9,7 +9,8 @@ author-email = "goodman.m.w@gmail.com"
 home-page = "https://github.com/goodmami/wn"
 requires = [
     "requests~=2.25",
-    "toml~=0.10"
+    "toml~=0.10",
+    "importlib_resources; python_version < '3.7'"
 ]
 requires-python = ">=3.6"
 description-file = "README.md"
