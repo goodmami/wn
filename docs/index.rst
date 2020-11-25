@@ -20,7 +20,7 @@ Quick Start
 
 .. code-block:: console
 
-   $ pip install ...
+   $ pip install wn
 
 .. code-block:: python
 
