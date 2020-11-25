@@ -11,6 +11,7 @@ from wn import config
 
 
 CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
+TIMEOUT = 10  # number of seconds to wait for a server response
 
 
 def get_cache_path(url: str) -> Path:
@@ -53,7 +54,7 @@ def download(project_or_url: str) -> None:
     else:
         try:
             with open(path, 'wb') as f:
-                with requests.get(url, stream=True) as response:
+                with requests.get(url, stream=True, timeout=TIMEOUT) as response:
                     size = int(response.headers.get('Content-Length', 0))
                     indicator = ProgressBar('Downloading ', max=size)
                     for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
