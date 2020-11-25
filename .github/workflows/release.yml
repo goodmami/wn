@@ -35,4 +35,5 @@ jobs:
         FLIT_USERNAME: __token__
         FLIT_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
+        flit install
         flit publish
