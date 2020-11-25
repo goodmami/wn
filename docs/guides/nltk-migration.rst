@@ -48,19 +48,19 @@ Wn:
 Primary Queries
 '''''''''''''''
 
-=============================  =========================================
-NLTK                           Wn
-=============================  =========================================
-`wn.langs()`                   `[lex.language for lex in wn.lexicons()]`
-`wn.lemmas("chat")`            --
---                             `pwn.words("chat")`
---                             `pwn.senses("chat")`
-`wn.synsets("chat")`           `pwn.synsets("chat")`
-`wn.synsets("chat", pos="v")`  `pwn.synsets("chat", pos="v")`
-`wn.all_synsets()`             `pwn.synsets()`
-`wn.all_synsets(pos="v")`      `pwn.synsets(pos="v")`
-`wn.all_lemma_names()`         `[w.lemma() for w in pwn.words()]`
-=============================  =========================================
+=========================================  =========================================
+NLTK                                       Wn
+=========================================  =========================================
+`wn.langs()`                               `[lex.language for lex in wn.lexicons()]`
+`wn.lemmas("chat")`                        --
+--                                         `pwn.words("chat")`
+--                                         `pwn.senses("chat")`
+`wn.synsets("chat")`                       `pwn.synsets("chat")`
+`wn.synsets("chat", pos="v")`              `pwn.synsets("chat", pos="v")`
+`wn.all_synsets()`                         `pwn.synsets()`
+`wn.all_synsets(pos="v")`                  `pwn.synsets(pos="v")`
+`wn.all_lemma_names()`                     `[w.lemma() for w in pwn.words()]`
+=========================================  =========================================
 
 Synsets -- Basic
 ''''''''''''''''
@@ -80,15 +80,15 @@ NLTK                 Wn
 Synsets -- Relations
 ''''''''''''''''''''
 
-=====================================  ========================
+=====================================  =====================================
 NLTK                                   Wn
-=====================================  ========================
+=====================================  =====================================
 `ss.hypernyms()`                       `ss.hypernyms()`
 `ss.hyponyms()`                        `ss.hyponyms()`
 `ss.holonyms()`                        `ss.holonyms()`
 `ss.meronyms()`                        `ss.meronyms()`
 `ss.closure(lambda x: x.hypernyms())`  `ss.closure("hypernym")`
-=====================================  ========================
+=====================================  =====================================
 
 Synsets -- Taxonomic Structure
 ''''''''''''''''''''''''''''''

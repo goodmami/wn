@@ -10,7 +10,14 @@
 | [Migrating from NLTK](https://wn.readthedocs.io/en/latest/guides/nltk-migration.html)
 | [Roadmap](https://github.com/goodmami/wn/projects)
 
-Wn is a Python library for using wordnets. For example:
+Wn is a Python library for exploring information in wordnets. Install
+it from PyPI:
+
+```console
+$ pip install wn
+```
+
+Then download some data and start exploring:
 
 ```python
 >>> import wn
@@ -38,28 +45,6 @@ specified:
 >>> wn.synsets('chat', lgcode='en')         # limit to one language
 >>> wn.synsets('chat', lexicon='ewn:2020')  # limit to one wordnet
 ```
-
-## Installation
-
-Currently Wn is only available via this repository:
-
-```console
-pip install git+https://github.com/goodmami/wn.git
-```
-
-You can also clone the repository and use
-[flit](https://flit.readthedocs.io/) to install it:
-
-```console
-git clone https://github.com/goodmami/wn.git
-cd wn
-pip install flit  # if you don't have it
-flit install
-```
-
-## Documentation
-
-The documentation is hosted [here](https://wn.readthedocs.io/).
 
 ## Available Wordnets
 
