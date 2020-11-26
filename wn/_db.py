@@ -99,7 +99,7 @@ sqlite3.register_converter('boolean', _convert_boolean)
 def _connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
     initialized = dbpath.is_file()
-    conn = sqlite3.connect(dbpath)
+    conn = sqlite3.connect(str(dbpath))
     # foreign key support needs to be enabled for each connection
     conn.execute('PRAGMA foreign_keys = ON')
     # uncomment the following to help with debugging
