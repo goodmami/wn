@@ -2,6 +2,7 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/wn.svg)](https://pypi.org/project/wn/)
 ![Python Support](https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square)
+[![Tests](https://github.com/goodmami/wn/workflows/Run%20Checks/badge.svg)](https://github.com/goodmami/wn/actions?query=workflow%3A%22Run+Checks%22)
 [![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square)](https://wn.readthedocs.io/en/latest/?badge=latest)
 
 [Available Wordnets](#available-wordnets)
@@ -9,6 +10,8 @@
 | [FAQ](https://wn.readthedocs.io/en/latest/faq.html)
 | [Migrating from NLTK](https://wn.readthedocs.io/en/latest/guides/nltk-migration.html)
 | [Roadmap](https://github.com/goodmami/wn/projects)
+
+---
 
 Wn is a Python library for exploring information in wordnets. Install
 it from PyPI:

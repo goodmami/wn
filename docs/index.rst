@@ -43,6 +43,7 @@ Contents
    :maxdepth: 2
 
    guides/setup.rst
+   guides/cli.rst
    guides/lexicons.rst
    guides/basic.rst
    guides/interlingual.rst
