@@ -4,20 +4,31 @@ import pytest
 import wn
 
 
-def test_get_project_info():
-    info = wn.get_project_info('ewn')
+@pytest.mark.usefixtures('empty_db')
+def test_lexicons_empty():
+    assert len(wn.lexicons()) == 0
 
-    assert info['project'] == 'ewn'
-    assert info['label'] == 'English WordNet'
-    assert info['language'] == 'en'
 
-    # the following may change as new versions are added
-    assert info['version'] == '2020'
-    assert wn.get_project_info('ewn') == wn.get_project_info('ewn', version='2020')
+@pytest.mark.usefixtures('mini_db')
+def test_lexicons_mini():
+    assert len(wn.lexicons()) == 2
+    assert all(isinstance(lex, wn.Lexicon) for lex in wn.lexicons())
 
-    with pytest.raises(wn.Error):
-        wn.get_project_info('foo')
-    with pytest.raises(wn.Error):
-        wn.get_project_info('ewn', version='1983')
-    with pytest.raises(wn.Error):
-        wn.get_project_info('ewn', version=2020)  # version is string, not int
+    results = wn.lexicons(lgcode='en')
+    assert len(results) == 1 and results[0].language == 'en'
+    results = wn.lexicons(lgcode='es')
+    assert len(results) == 1 and results[0].language == 'es'
+    # results = wn.lexicons(lgcode='pt')
+    # assert len(results) == 0
+
+    results = wn.lexicons(lexicon='*')
+    assert len(results) == 2
+    results = wn.lexicons(lexicon='test-en')
+    assert len(results) == 1 and results[0].language == 'en'
+    results = wn.lexicons(lexicon='test-en:1')
+    assert len(results) == 1 and results[0].language == 'en'
+    results = wn.lexicons(lexicon='test-en:*')
+    assert len(results) == 1 and results[0].language == 'en'
+    # results = wn.lexicons(lexicon='test-pt')
+    # assert len(results) == 0
+
