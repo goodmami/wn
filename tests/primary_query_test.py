@@ -87,3 +87,56 @@ def test_word_mini():
     with pytest.raises(wn.Error):
         assert wn.word('test-es-información-n', lexicon='test-en')
 
+
+@pytest.mark.usefixtures('empty_db')
+def test_senses_empty():
+    assert len(wn.senses()) == 0
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_senses_mini():
+    assert len(wn.senses()) == 10
+    assert all(isinstance(s, wn.Sense) for s in wn.senses())
+
+    senses = wn.senses('information')  # search lemma
+    assert len(senses) == 1
+    assert senses[0].word().lemma() == 'information'
+
+    senses = wn.senses('exemplifies')  # search secondary form
+    assert len(senses) == 1
+    assert senses[0].word().lemma() == 'exemplify'
+
+    assert len(wn.senses(pos='n')) == 6
+    assert len(wn.senses(pos='v')) == 4
+    assert len(wn.senses(pos='q')) == 0  # fake pos
+
+    assert len(wn.senses(lgcode='en')) == 5
+    assert len(wn.senses(lgcode='es')) == 5
+    # assert len(wn.senses(lgcode='pt')) == 0
+
+    assert len(wn.senses(lexicon='test-en')) == 5
+    assert len(wn.senses(lexicon='test-es')) == 5
+    # assert len(wn.senses(lexicon='test-pt')) == 0
+
+    assert len(wn.senses(lgcode='en', lexicon='test-en')) == 5
+    # assert len(wn.senses(lgcode='en', lexicon='test-es')) == 0
+    assert len(wn.senses(pos='v', lgcode='en')) == 2
+    assert len(wn.senses('information', lgcode='en')) == 1
+    assert len(wn.senses('information', lgcode='es')) == 0
+
+
+@pytest.mark.usefixtures('empty_db')
+def test_sense_empty():
+    with pytest.raises(wn.Error):
+        assert wn.sense('test-es-información-n-0001-01')
+
+@pytest.mark.usefixtures('mini_db')
+def test_sense_mini():
+    assert wn.sense('test-es-información-n-0001-01')
+    assert wn.sense('test-es-información-n-0001-01', lgcode='es')
+    assert wn.sense('test-es-información-n-0001-01', lexicon='test-es')
+    with pytest.raises(wn.Error):
+        assert wn.sense('test-es-información-n-0001-01', lgcode='en')
+    with pytest.raises(wn.Error):
+        assert wn.sense('test-es-información-n-0001-01', lexicon='test-en')
+
