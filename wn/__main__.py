@@ -16,6 +16,7 @@ def _lexicons(args):
         specifier = f'{lex.id}:{lex.version}'
         print(f'{specifier:<16} {"[" + lex.language + "]":<5}  {lex.label}')
 
+
 def _path_type(arg):
     return Path(arg)
 
