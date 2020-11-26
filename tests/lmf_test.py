@@ -12,9 +12,16 @@ class TestLexicon:
         assert lex.entry_ids() == set()
 
 
-def test_load(datadir):
-    lexicons = lmf.load(datadir / 'mini-lmf-1.0.xml')
-    assert len(lexicons) == 1
+def test_is_lmf(datadir):
+    assert lmf.is_lmf(datadir / 'mini-lmf-1.0.xml')
+    assert lmf.is_lmf(str(datadir / 'mini-lmf-1.0.xml'))
+    assert not lmf.is_lmf(datadir / 'README.md')
+    assert not lmf.is_lmf(datadir / 'missing.xml')
+
+
+def test_load(mini_lmf_1_0):
+    lexicons = lmf.load(mini_lmf_1_0)
+    assert len(lexicons) == 2
     lexicon = lexicons[0]
 
     assert lexicon.id == 'test-en'
@@ -44,3 +51,5 @@ def test_load(datadir):
     # assert le.senses[0].relations[0].type == 'derivation'
 
     assert len(lexicon.synsets) == 3
+
+    assert lexicons[1].id == 'test-es'
