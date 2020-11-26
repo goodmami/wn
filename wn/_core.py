@@ -950,7 +950,7 @@ def synset(id: str, lgcode: str = None, lexicon: str = None) -> Synset:
     Synset('ewn-03311152-n')
 
     """
-    return Wordnet(lexicon=lexicon).synset(id=id)
+    return Wordnet(lgcode=lgcode, lexicon=lexicon).synset(id=id)
 
 
 def synsets(form: str = None,

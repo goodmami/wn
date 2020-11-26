@@ -1,10 +1,11 @@
 # Change Log
 
-## Unreleased
+## [Unreleased]
 
 ### Fixed
 
 * Cast `pathlib.Path` to `str` for `sqlite3.connect()` ([#58])
+* Pass `lgcode` to `Wordnet` object in `wn.synset()`
 
 
 ## [v0.1.0]
