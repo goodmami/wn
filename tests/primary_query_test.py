@@ -32,3 +32,58 @@ def test_lexicons_mini():
     # results = wn.lexicons(lexicon='test-pt')
     # assert len(results) == 0
 
+
+@pytest.mark.usefixtures('empty_db')
+def test_words_empty():
+    assert len(wn.words()) == 0
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_words_mini():
+    assert len(wn.words()) == 10
+    assert all(isinstance(w, wn.Word) for w in wn.words())
+
+    words = wn.words('information')  # search lemma
+    assert len(words) == 1
+    assert words[0].lemma() == 'information'
+
+    words = wn.words('exemplifies')  # search secondary form
+    assert len(words) == 1
+    assert words[0].lemma() == 'exemplify'
+
+    assert len(wn.words(pos='n')) == 6
+    assert all(w.pos == 'n' for w in wn.words(pos='n'))
+    assert len(wn.words(pos='v')) == 4
+    assert len(wn.words(pos='q')) == 0  # fake pos
+
+    assert len(wn.words(lgcode='en')) == 5
+    assert len(wn.words(lgcode='es')) == 5
+    # assert len(wn.words(lgcode='pt')) == 0
+
+    assert len(wn.words(lexicon='test-en')) == 5
+    assert len(wn.words(lexicon='test-es')) == 5
+    # assert len(wn.words(lexicon='test-pt')) == 0
+
+    assert len(wn.words(lgcode='en', lexicon='test-en')) == 5
+    # assert len(wn.words(lgcode='en', lexicon='test-es')) == 0
+    assert len(wn.words(pos='v', lgcode='en')) == 2
+    assert len(wn.words('information', lgcode='en')) == 1
+    assert len(wn.words('information', lgcode='es')) == 0
+
+
+@pytest.mark.usefixtures('empty_db')
+def test_word_empty():
+    with pytest.raises(wn.Error):
+        assert wn.word('test-es-información-n')
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_word_mini():
+    assert wn.word('test-es-información-n')
+    assert wn.word('test-es-información-n', lgcode='es')
+    assert wn.word('test-es-información-n', lexicon='test-es')
+    with pytest.raises(wn.Error):
+        assert wn.word('test-es-información-n', lgcode='en')
+    with pytest.raises(wn.Error):
+        assert wn.word('test-es-información-n', lexicon='test-en')
+
