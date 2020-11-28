@@ -50,6 +50,11 @@ class WNConfig:
         dir.mkdir(exist_ok=True)
         return dir
 
+    @property
+    def index(self) -> Dict[str, Dict]:
+        """The project index."""
+        return self._projects
+
     def add_project(
             self,
             name: str,
