@@ -152,7 +152,7 @@ class WNConfig:
                     name,
                     version,
                     info['url'],
-                    license=project.get('license'),
+                    license=info.get('license'),
                 )
 
     def load_index(self, path: AnyPath) -> None:
