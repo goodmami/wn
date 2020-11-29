@@ -4,6 +4,7 @@ from typing import (
 )
 import sys
 from pathlib import Path
+import hashlib
 # version check is for mypy; see https://github.com/python/mypy/issues/1153
 if sys.version_info >= (3, 7):
     import importlib.resources as resources
@@ -31,6 +32,13 @@ def _inspect_file_signature(path: Path, signature: bytes) -> bool:
         with path.open('rb') as f:
             return f.read(len(signature)) == signature
     return False
+
+
+def short_hash(string: str) -> str:
+    """Return a short hash of *string*."""
+    b2 = hashlib.blake2b(digest_size=20)
+    b2.update(string.encode('utf-8'))
+    return b2.hexdigest()
 
 
 T = TypeVar('T')

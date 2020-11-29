@@ -1,11 +1,10 @@
 
 import sys
 from pathlib import Path
-import hashlib
 
 import requests
 
-from wn._util import ProgressBar
+from wn._util import short_hash, ProgressBar
 from wn import _db
 from wn import config
 
@@ -17,7 +16,7 @@ TIMEOUT = 10  # number of seconds to wait for a server response
 def get_cache_path(url: str) -> Path:
     """Return the path for caching *url*."""
     # TODO: ETags?
-    filename = hashlib.sha256(url.encode('utf-8')).hexdigest()
+    filename = short_hash(url)
     return config.downloads_directory / filename
 
 
