@@ -1,3 +1,8 @@
+.. raw:: html
+
+    <style>.center {margin-left:20%}</style>
+
+
 The Structure of a Wordnet
 ==========================
 A **wordnet** is an online lexicon which is organized by concepts. 
@@ -22,12 +27,14 @@ two different synsets, although they have the same word form.
 On the other hand, different word forms may also convey the same concept, such as *cab* and *taxi*, 
 these word forms with the same concept are grouped together into one synset.
 
-.. figure:: images/word-sense-synset.svg
-    :width: 400px
-    :height: 200px
-    :alt: the relations between word, sense and synset
+.. raw:: html
+    :file: images/word-sense-synset.svg
 
-    Figure: relations between word, sense and synset
+
+.. role:: center
+    :class: center
+
+:center:`Figure: relations between words, senses and synsets`
 
 
 Synset Relations
@@ -38,13 +45,10 @@ the concept expressed by a synset is more general than a given synset, then it i
 member is the *hypernym* of the other synset with *cab*, *taxi* and *hack*. Such relation which is built on 
 the synset level is categorized as synset relations.
 
-.. figure:: images/synset-synset.svg
-    :width: 400px
-    :height: 200px
-    :alt: example of synset relation
+.. raw:: html
+    :file: images/synset-synset.svg
 
-    Figure: example of synset relation
-
+:center:`Figure: example of synset relations`
 
 Sense Relations
 ---------------
@@ -63,12 +67,10 @@ which is known as in the *pertainym* relation with *behavior*, however, such rel
 *behavioral* and *conduct*, which is a synonym of *behavior* and is in the same synset. Here *pertainym* 
 is a sense-sense relation.
 
-.. figure:: images/sense-sense.svg
-    :width: 400px
-    :height: 200px
-    :alt: example of sense-sense relation
+.. raw:: html
+    :file: images/sense-sense.svg
 
-    Figure: example of sense-sense relation
+:center:`Figure: example of sense-sense relations`
 
 **Sense-Synset**
 
@@ -77,12 +79,10 @@ Sense-synset relations connect a particular sense with a synset. For example, *c
 *computer science* synset, but *pointer*, which is in the same synset with *cursor*, is not a term, thus 
 has no such relation with *computer science* synset.
 
-.. figure:: images/sense-synset.svg
-    :width: 400px
-    :height: 200px
-    :alt: example of sense-synset relation
+.. raw:: html
+    :file: images/sense-synset.svg
 
-    Figure: example of sense-synset relation
+:center:`Figure: example of sense-synset relations`
 
 Other Information
 -----------------

@@ -1,0 +1,12 @@
+svg {
+    width: 500px;
+    height: 300px;
+	
+    position: relative;
+    left: 20%;
+    -webkit-transform: translateX(-20%);
+    -ms-transform: translateX(-20%);
+    transform: translateX(-20%);
+	
+    }
+	

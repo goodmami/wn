@@ -27,7 +27,7 @@
        inkscape:isstock="true">
       <path
          transform="matrix(-0.8,0,0,-0.8,-10,0)"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:1pt;stroke-opacity:1"
          d="M 0,0 5,-5 -12.5,0 5,5 Z"
          id="path926" />
     </marker>
@@ -41,15 +41,15 @@
        inkscape:isstock="true">
       <path
          transform="matrix(0.8,0,0,0.8,10,0)"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:1pt;stroke-opacity:1"
          d="M 0,0 5,-5 -12.5,0 5,5 Z"
          id="path923" />
     </marker>
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
+     pagecolor="currentColor"
+     bordercolor="currentColor"
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
@@ -84,50 +84,42 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="图层 2">
-    <rect
-       style="opacity:0.999;fill:#ffffff;stroke-width:0.465;stroke:none"
-       id="rect869"
-       width="169.33333"
-       height="132.29167"
-       x="-2.2678571"
-       y="-3.7797618" />
-  </g>
+     inkscape:label="图层 2" />
   <g
      inkscape:label="图层 1"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-21.900876,-20.12822)">
     <ellipse
-       style="opacity:0.999;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.617097;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.999;fill:none;stroke:currentColor;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path10"
        cx="84.168602"
        cy="117.06012"
        rx="61.959179"
        ry="24.982647" />
     <ellipse
-       style="opacity:0.999;fill:none;stroke:#000000;stroke-width:0.504848;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.999;fill:none;stroke:currentColor;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path835"
        cx="116.60566"
        cy="43.278278"
        rx="61.451202"
        ry="22.897635" />
     <rect
-       style="opacity:0.999;fill:none;stroke:#000000;stroke-width:0.564999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.999;fill:none;stroke:currentColor;stroke-width:0.564999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect841"
        width="30.994051"
        height="14.36309"
        x="68.413689"
        y="119.44048" />
     <rect
-       style="opacity:0.999;fill:none;stroke:#000000;stroke-width:0.564999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.999;fill:none;stroke:currentColor;stroke-width:0.564999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect839-2-7"
        width="32.505951"
        height="13.985119"
        x="76.351189"
        y="38.742558" />
     <rect
-       style="opacity:0.999;fill:none;stroke:#000000;stroke-width:0.576998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.999;fill:none;stroke:currentColor;stroke-width:0.564999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect839-2-9"
        width="32.505951"
        height="14.585448"
@@ -139,7 +131,7 @@
        target="_blank">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="71.815475"
          y="128.88988"
          id="text891"><tspan
@@ -154,7 +146,7 @@
        target="_blank">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="82.776802"
          y="47.247025"
          id="text903"><tspan
@@ -169,7 +161,7 @@
        target="_blank">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583;"
          x="129.64583"
          y="47.247021"
          id="text907"><tspan
@@ -180,7 +172,7 @@
     </a>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="79.752975"
        y="100.16368"
        id="text915"><tspan
@@ -191,7 +183,7 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">synset</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="109.99107"
        y="28.726189"
        id="text919"><tspan
@@ -201,7 +193,7 @@
          y="28.726189"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">synset</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke:currentColor;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);stroke-miterlimit:4;stroke-dasharray:none"
        d="M 83.888969,119.15798 142.47528,54.146077"
        id="path920" />
     <a
@@ -210,7 +202,7 @@
        target="_blank">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.264583"
          x="86.15683"
          y="82.116318"
          id="text29"><tspan
@@ -218,7 +210,7 @@
            id="tspan27"
            x="86.15683"
            y="82.116318"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;stroke-width:0.264583">pertainym</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:currentColor;stroke-width:0.264583">pertainym</tspan></text>
     </a>
   </g>
 </svg>
