@@ -12,7 +12,7 @@ import sqlite3
 
 import wn
 from wn._types import AnyPath
-from wn._util import ProgressBar, resources
+from wn._util import ProgressBar, resources, short_hash
 from wn.project import iterpackages
 from wn import constants
 from wn import lmf
@@ -23,6 +23,21 @@ from wn import lmf
 DEBUG = False
 BATCH_SIZE = 1000
 NON_ROWID = 0  # imaginary rowid of non-existent row
+
+# This stores hashes of the schema to check for version differences.
+# When the schema changes, the hash will change. If the new hash is
+# not added here, the 'test_schema_compatibility' test will fail. It
+# is the developer's responsibility to only add compatible schema
+# hashes here. If the schema change is not backwards-compatible, they
+# clear all old hashes and only put the latest hash here. A hash can
+# be generated like this:
+#
+# >>> import wn
+# >>> wn._db.schema_hash()
+#
+COMPATIBLE_SCHEMA_HASHES = {
+    '0cbec124b988d08e428b80d2b749563c2dccfa65',
+}
 
 # Common Subqueries
 
@@ -130,6 +145,20 @@ def _initialize(conn: sqlite3.Connection) -> None:
         conn.executemany(
             'INSERT INTO lexicographer_files (id, name) VALUES (?,?)',
             ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))
+
+
+def schema_hash() -> str:
+    query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
+    with _connect() as conn:
+        schema = '\n\n'.join(row[0] for row in conn.execute(query))
+        return short_hash(schema)
+
+
+def is_schema_compatible(create: bool = False) -> bool:
+    if create or wn.config.database_path.exists():
+        return schema_hash() in COMPATIBLE_SCHEMA_HASHES
+    else:
+        return True
 
 
 def add(source: AnyPath) -> None:

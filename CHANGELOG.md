@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+* On import, Wn now raises an error if the database has an outdated
+  schema ([#61])
+
 
 ## [v0.1.1]
 
@@ -31,3 +36,4 @@ abandoned, but this is an entirely new codebase.
 
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
+[#61]: https://github.com/goodmami/wn/issues/61
