@@ -5,6 +5,7 @@
 ### Added
 
 * `wn.config.get_cache_path()` returns the path of a cached resource
+* `wn.projects()` returns the info about known projects ([#60])
 
 ### Changed
 
@@ -41,4 +42,5 @@ abandoned, but this is an entirely new codebase.
 
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
+[#60]: https://github.com/goodmami/wn/issues/60
 [#61]: https://github.com/goodmami/wn/issues/61

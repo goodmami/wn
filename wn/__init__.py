@@ -9,6 +9,7 @@ __all__ = (
     'download',
     'add',
     'remove',
+    'projects',
     'lexicons',
     'Lexicon',
     'word',
@@ -29,6 +30,7 @@ from wn._config import config  # noqa: F401
 from wn._db import add, remove, is_schema_compatible
 from wn._download import download
 from wn._core import (
+    projects,
     lexicons, Lexicon,
     word, words, Word,
     sense, senses, Sense,

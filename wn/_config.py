@@ -114,6 +114,12 @@ class WNConfig:
         Arguments:
             arg: a project specifier
 
+        Example:
+
+            >>> info = wn.config.get_project_info('pwn:3.0')
+            >>> info['label']
+            'Princeton WordNet'
+
         """
         id, _, version = arg.partition(':')
         project: Dict = self._projects[id]

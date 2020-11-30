@@ -890,6 +890,31 @@ def _to_lexicon(data) -> Lexicon:
     )
 
 
+def projects() -> List[Dict]:
+    """Return the list of indexed projects.
+
+    This returns the same dictionaries of information as
+    :meth:`wn.config.get_project_info
+    <wn._config.WNConfig.get_project_info>`, but for all indexed
+    projects.
+
+    Example:
+
+        >>> infos = wn.projects()
+        >>> len(infos)
+        36
+        >>> infos[0]['label']
+        'Open English WordNet'
+
+    """
+    index = wn.config.index
+    return [
+        wn.config.get_project_info(f'{project_id}:{version}')
+        for project_id, project_info in index.items()
+        for version in project_info['versions']
+    ]
+
+
 def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 

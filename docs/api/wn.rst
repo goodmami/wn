@@ -4,12 +4,13 @@ wn
 
 .. automodule:: wn
 
-Lexicon Management Functions
+Project Management Functions
 ----------------------------
 
 .. autofunction:: download
 .. autofunction:: add
 .. autofunction:: remove
+.. autofunction:: projects
 
 Wordnet Query Functions
 -----------------------
