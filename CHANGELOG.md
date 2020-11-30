@@ -13,6 +13,7 @@
 * On import, Wn now raises an error if the database has an outdated
   schema ([#61])
 * `wn.config.get_project_info()` now includes a `cache` key
+* Output of `lexicons` CLI subcommand now tab-delimited
 
 
 ## [v0.1.1]

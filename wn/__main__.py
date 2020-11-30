@@ -13,8 +13,7 @@ def _download(args):
 
 def _lexicons(args):
     for lex in wn.lexicons(lgcode=args.lgcode, lexicon=args.lexicon):
-        specifier = f'{lex.id}:{lex.version}'
-        print(f'{specifier:<16} {"[" + lex.language + "]":<5}  {lex.label}')
+        print('\t'.join((lex.id, lex.version, f'[{lex.language}]', lex.label)))
 
 
 def _projects(args):
