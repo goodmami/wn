@@ -1,23 +1,15 @@
 
 import sys
-from pathlib import Path
 
 import requests
 
-from wn._util import short_hash, ProgressBar
+from wn._util import ProgressBar, is_url
 from wn import _db
 from wn import config
 
 
 CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
 TIMEOUT = 10  # number of seconds to wait for a server response
-
-
-def get_cache_path(url: str) -> Path:
-    """Return the path for caching *url*."""
-    # TODO: ETags?
-    filename = short_hash(url)
-    return config.downloads_directory / filename
 
 
 def download(project_or_url: str) -> None:
@@ -41,13 +33,13 @@ def download(project_or_url: str) -> None:
     Building [###############################] (1337590/1337590)
 
     """
-    if any(project_or_url.startswith(scheme) for scheme in ('http://', 'https://')):
+    if is_url(project_or_url):
         url = project_or_url
     else:
         info = config.get_project_info(project_or_url)
         url = info['resource_url']
 
-    path = get_cache_path(url)
+    path = config.get_cache_path(url)
     if path.exists():
         print(f'Cached file found: {path!s}', file=sys.stderr)
     else:

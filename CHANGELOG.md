@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.config.get_cache_path()` returns the path of a cached resource
+
 ### Changed
 
 * On import, Wn now raises an error if the database has an outdated

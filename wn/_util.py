@@ -12,6 +12,13 @@ else:
     import importlib_resources as resources  # noqa: F401
 
 
+def is_url(string: str) -> bool:
+    """Return True if *string* appears to be a URL."""
+    # TODO: ETags?
+    return any(string.startswith(scheme)
+               for scheme in ('http://', 'https://'))
+
+
 def is_gzip(path: Path) -> bool:
     """Return True if the file at *path* appears to be gzipped."""
     return _inspect_file_signature(path, b'\x1F\x8B')

@@ -144,6 +144,7 @@ directly. Configuration should occur through the single
    .. automethod:: add_project
    .. automethod:: add_project_version
    .. automethod:: get_project_info
+   .. automethod:: get_cache_path
    .. automethod:: update
    .. automethod:: load_index
 

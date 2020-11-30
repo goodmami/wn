@@ -10,7 +10,7 @@ import toml
 
 from wn import Error
 from wn._types import AnyPath
-from wn._util import resources
+from wn._util import is_url, resources, short_hash
 
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
@@ -125,6 +125,20 @@ class WNConfig:
             license=versions[version].get('license', project.get('license')),
             resource_url=versions[version]['resource_url'],
         )
+
+    def get_cache_path(self, arg: str) -> Path:
+        """Return the path for caching *arg*.
+
+        The *arg* argument may be either a URL or a project specifier
+        that gets passed to :meth:`get_project_info`. Note that this
+        is just a path operation and does not signify that the file
+        exists in the file system.
+
+        """
+        if not is_url(arg):
+            arg = self.get_project_info(arg)['resource_url']
+        filename = short_hash(arg)
+        return self.downloads_directory / filename
 
     def update(self, data: dict) -> None:
         """Update the configuration with items in *data*.
