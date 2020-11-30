@@ -2,6 +2,7 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/wn.svg)](https://pypi.org/project/wn/)
 ![Python Support](https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square)
+![Downloads](https://img.shields.io/pypi/dm/wn?style=flat-square)
 [![Tests](https://github.com/goodmami/wn/workflows/Run%20Checks/badge.svg)](https://github.com/goodmami/wn/actions?query=workflow%3A%22Run+Checks%22)
 [![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square)](https://wn.readthedocs.io/en/latest/?badge=latest)
 
