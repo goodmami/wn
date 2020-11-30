@@ -57,7 +57,7 @@ class WNConfig:
 
     def add_project(
             self,
-            name: str,
+            id: str,
             label: str,
             language: str,
             license: str = None,
@@ -65,16 +65,16 @@ class WNConfig:
         """Add a new wordnet project to the index.
 
         Arguments:
-            name: short identifier of the project
+            id: short identifier of the project
             label: full name of the project
             language: `BCP 47`_ language code of the resource
             license: link or name of the project's default license
 
         .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
         """
-        if name in self._projects:
-            raise ValueError(f'project already added: {name}')
-        self._projects[name] = {
+        if id in self._projects:
+            raise ValueError(f'project already added: {id}')
+        self._projects[id] = {
             'label': label,
             'language': language,
             'versions': {},
@@ -83,7 +83,7 @@ class WNConfig:
 
     def add_project_version(
             self,
-            name: str,
+            id: str,
             version: str,
             url: str,
             license: str = None,
@@ -91,7 +91,7 @@ class WNConfig:
         """Add a new resource version for a project.
 
         Arguments:
-            name: short identifier of the project
+            id: short identifier of the project
             version: version string of the resource
             url: web address of the resource
             license: link or name of the resource's license; if not
@@ -101,7 +101,7 @@ class WNConfig:
         version_data = {'resource_url': url}
         if license:
             version_data['license'] = license
-        project = self._projects[name]
+        project = self._projects[id]
         project['versions'][version] = version_data
 
     def get_project_info(self, arg: str) -> Dict:
@@ -162,23 +162,23 @@ class WNConfig:
         """
         if 'data_directory' in data:
             self.data_directory = data['data_directory']
-        for name, project in data.get('index', {}).items():
-            if name in self._projects:
+        for id, project in data.get('index', {}).items():
+            if id in self._projects:
                 # validate that they are the same
-                _project = self._projects[name]
+                _project = self._projects[id]
                 for attr in ('label', 'language', 'license'):
                     if attr in project and project[attr] != _project[attr]:
-                        raise Error(f'{attr} mismatch for {name}')
+                        raise Error(f'{attr} mismatch for {id}')
             else:
                 self.add_project(
-                    name,
+                    id,
                     project['label'],
                     project['language'],
                     license=project.get('license'),
                 )
             for version, info in project.get('versions', {}).items():
                 self.add_project_version(
-                    name,
+                    id,
                     version,
                     info['url'],
                     license=info.get('license'),
