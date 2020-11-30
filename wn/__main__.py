@@ -17,6 +17,22 @@ def _lexicons(args):
         print(f'{specifier:<16} {"[" + lex.language + "]":<5}  {lex.label}')
 
 
+def _projects(args):
+    for info in wn.projects():
+        key = 'i'
+        key += 'c' if info['cache'] else '-'
+        key += 'a' if False else '-'  # TODO: check if project is added to db
+        print(
+            '\t'.join((
+                key,
+                info['id'],
+                info['version'],
+                f"[{info['language']}]",
+                info['label'],
+            ))
+        )
+
+
 def _path_type(arg):
     return Path(arg)
 
@@ -67,6 +83,13 @@ parser_lexicons.add_argument(
     '--lexicon', help='lexicon specifiers'
 )
 parser_lexicons.set_defaults(func=_lexicons)
+
+
+parser_projects = sub_parsers.add_parser(
+    'projects',
+    description="Display a list of known projects."
+)
+parser_projects.set_defaults(func=_projects)
 
 
 args = parser.parse_args()

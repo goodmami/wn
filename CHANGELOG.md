@@ -6,6 +6,7 @@
 
 * `wn.config.get_cache_path()` returns the path of a cached resource
 * `wn.projects()` returns the info about known projects ([#60])
+* `projects` subcommand to command-line interface ([#60])
 
 ### Changed
 
