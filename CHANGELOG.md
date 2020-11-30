@@ -10,6 +10,7 @@
 
 * On import, Wn now raises an error if the database has an outdated
   schema ([#61])
+* `wn.config.get_project_info()` now includes a `cache` key
 
 
 ## [v0.1.1]

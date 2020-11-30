@@ -107,23 +107,33 @@ class WNConfig:
     def get_project_info(self, arg: str) -> Dict:
         """Return a dictionary of information about an indexed project.
 
+        If the project has been downloaded and cached, the ``"cache"``
+        key will point to the path of the cached file, otherwise its
+        value is ``None``.
+
         Arguments:
-            arg: a lexicon specifier
+            arg: a project specifier
+
         """
-        name, _, version = arg.partition(':')
-        project: Dict = self._projects[name]
+        id, _, version = arg.partition(':')
+        project: Dict = self._projects[id]
         versions: Dict = project['versions']
         if not version or version == '*':
             version = next(iter(versions))
         if version not in versions:
             raise Error(f'no such version: {version!r} ({project})')
+
+        url = versions[version]['resource_url']
+        cache_path = self.get_cache_path(url)
+
         return dict(
-            project=name,
+            id=id,
             version=version,
             label=project['label'],
             language=project['language'],
             license=versions[version].get('license', project.get('license')),
-            resource_url=versions[version]['resource_url'],
+            resource_url=url,
+            cache=cache_path if cache_path.exists() else None
         )
 
     def get_cache_path(self, arg: str) -> Path:
