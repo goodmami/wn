@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.2.0]
+
+**Release date: 2020-12-02**
+
 ### Added
 
 * `wn.config.get_cache_path()` returns the path of a cached resource
@@ -39,6 +44,7 @@ This is the initial release of the new Wn library. On PyPI it replaces
 the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
+[v0.2.0]: ../../releases/tag/v0.2.0
 [v0.1.1]: ../../releases/tag/v0.1.1
 [v0.1.0]: ../../releases/tag/v0.1.0
 [unreleased]: ../../tree/main
