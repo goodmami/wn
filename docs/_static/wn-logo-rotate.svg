@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <style type="text/css"><![CDATA[
+    .path {
+      stroke-width: 10;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform-origin: 50% 100%;
+    }
+    @keyframes rotate-45-clockwise {
+      0% { transform: rotate(-45deg); }
+      25% { transform: rotate(-45deg); }
+      30% { transform: rotate(0); }
+      95% { transform: rotate(0); }
+      100% { transform: rotate(-45deg); }
+    }
+    @keyframes rotate-45-anticlockwise {
+      0% { transform: rotate(45deg); }
+      25% { transform: rotate(45deg); }
+      30% { transform: rotate(0); }
+      95% { transform: rotate(0); }
+      100% { transform: rotate(45deg); }
+    }
+    #w { stroke: #671d5b; stroke-opacity: 1; animation: 20s rotate-45-clockwise 0s ease-in-out infinite; }
+    #n { stroke: #2656a6; stroke-opacity: 1; animation: 20s rotate-45-anticlockwise 0s ease-in-out infinite; }
+  ]]></style>
+  <path id="n" class="path" d="M100,90 L60,50 140,50 100,10" />
+  <path id="w" class="path" d="M100,10 L60,50 100,50 100,90 140,50" />
+</svg>

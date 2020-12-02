@@ -77,6 +77,8 @@ html_theme_options = {
     }
 }
 
+html_logo = "_static/wn-logo.svg"
+
 pygments_style = 'manni'
 pygments_dark_style = 'manni'
 

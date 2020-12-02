@@ -1,16 +1,22 @@
-# Wn: A Python Library for Wordnets
 
-[![PyPI Version](https://img.shields.io/pypi/v/wn.svg?style=flat-square)](https://pypi.org/project/wn/)
-![Python Support](https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square)
-![Downloads](https://img.shields.io/pypi/dm/wn?style=flat-square)
-[![tests](https://github.com/goodmami/wn/workflows/tests/badge.svg)](https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22)
-[![Documentation Status](https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square)](https://wn.readthedocs.io/en/latest/?badge=latest)
 
-[Available Wordnets](#available-wordnets)
-| [Documentation](https://wn.readthedocs.io/)
-| [FAQ](https://wn.readthedocs.io/en/latest/faq.html)
-| [Migrating from NLTK](https://wn.readthedocs.io/en/latest/guides/nltk-migration.html)
-| [Roadmap](https://github.com/goodmami/wn/projects)
+<p align="center">
+  <img src="docs/_static/wn-logo-rotate.svg" alt="Wn logo">
+  <br>
+  <strong>a Python library for wordnets</strong>
+  <br>
+  <a href="https://pypi.org/project/wn/"><img src="https://img.shields.io/pypi/v/wn.svg?style=flat-square" alt="PyPI link"></a>
+  <img src="https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square" alt="Python Support">
+  <img src="https://img.shields.io/pypi/dm/wn?style=flat-square" alt="Downloads">
+  <a href="https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22"><img src="https://github.com/goodmami/wn/workflows/tests/badge.svg" alt="tests"></a>
+  <a href="https://wn.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square" alt="Documentation Status"></a>
+  <br>
+  <a href="#available-wordnets">Available Wordnets</a>
+  | <a href="https://wn.readthedocs.io/">Documentation</a>
+  | <a href="https://wn.readthedocs.io/en/latest/faq.html">FAQ</a>
+  | <a href="https://wn.readthedocs.io/en/latest/guides/nltk-migration.html">Migrating from NLTK</a>
+  | <a href="https://github.com/goodmami/wn/projects">Roadmap</a>
+</p>
 
 ---
 
