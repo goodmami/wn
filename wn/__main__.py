@@ -20,7 +20,7 @@ def _projects(args):
     for info in wn.projects():
         key = 'i'
         key += 'c' if info['cache'] else '-'
-        key += 'a' if False else '-'  # TODO: check if project is added to db
+        # key += 'a' if False else '-'  # TODO: check if project is added to db
         print(
             '\t'.join((
                 key,
@@ -86,7 +86,10 @@ parser_lexicons.set_defaults(func=_lexicons)
 
 parser_projects = sub_parsers.add_parser(
     'projects',
-    description="Display a list of known projects."
+    description=(
+        "Display a list of known projects. The first column shows the "
+        "status for a project (i=indexed, c=cached)."
+    )
 )
 parser_projects.set_defaults(func=_projects)
 
