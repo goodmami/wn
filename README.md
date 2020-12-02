@@ -54,11 +54,12 @@ specified:
 
 The following wordnets are indexed by Wn and ready to be installed:
 
-| Name                       | ID    | Versions       | Language         |
-| -------------------------- | ----- | -------------- | ---------------- |
-| Open English Wordnet       | `ewn` | `2019`, `2020` | English [en]     |
-| Princeton WordNet          | `pwn` | `3.0`, `3.1`   | English [en]     |
-| Open Multilingual Wordnet  | `omw` | `1.3`          | multiple [[mul]] |
+| Name                       | ID       | Versions       | Language         |
+| -------------------------- | -------- | -------------- | ---------------- |
+| Open English Wordnet       | `ewn`    | `2019`, `2020` | English [en]     |
+| Princeton WordNet          | `pwn`    | `3.0`, `3.1`   | English [en]     |
+| Open Multilingual Wordnet  | `omw`    | `1.3`          | multiple [[mul]] |
+| Open German WordNet        | `odenet` | `1.3`          | German [de]      |
 
 [mul]: https://iso639-3.sil.org/code/mul
 

@@ -18,6 +18,14 @@
     url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn31.tar.xz"
 
 
+[odenet]
+  label = "Open German WordNet"
+  language = "de"
+  license = "https://creativecommons.org/licenses/by-sa/4.0/"
+  [odenet.versions."1.3"]
+    url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.3/odenet-1.3.tar.xz"
+
+
 [omw]
   label = "Open Multilingual Wordnet v1.3"
   language = "mul"
