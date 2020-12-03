@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="docs/_static/wn-logo-rotate.svg" alt="Wn logo">
+  <img src="https://raw.githubusercontent.com/goodmami/wn/main/docs/_static/wn-logo-rotate.svg" alt="Wn logo">
   <br>
   <strong>a Python library for wordnets</strong>
   <br>
@@ -11,7 +11,7 @@
   <a href="https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22"><img src="https://github.com/goodmami/wn/workflows/tests/badge.svg" alt="tests"></a>
   <a href="https://wn.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square" alt="Documentation Status"></a>
   <br>
-  <a href="#available-wordnets">Available Wordnets</a>
+  <a href="https://github.com/goodmami/wn#available-wordnets">Available Wordnets</a>
   | <a href="https://wn.readthedocs.io/">Documentation</a>
   | <a href="https://wn.readthedocs.io/en/latest/faq.html">FAQ</a>
   | <a href="https://wn.readthedocs.io/en/latest/guides/nltk-migration.html">Migrating from NLTK</a>
@@ -60,13 +60,17 @@ specified:
 
 The following wordnets are indexed by Wn and ready to be installed:
 
-| Name                       | ID       | Versions       | Language         |
-| -------------------------- | -------- | -------------- | ---------------- |
-| Open English Wordnet       | `ewn`    | `2019`, `2020` | English [en]     |
-| Princeton WordNet          | `pwn`    | `3.0`, `3.1`   | English [en]     |
-| Open Multilingual Wordnet  | `omw`    | `1.3`          | multiple [[mul]] |
-| Open German WordNet        | `odenet` | `1.3`          | German [de]      |
+| Name                        | ID       | Versions       | Language         |
+| --------------------------- | -------- | -------------- | ---------------- |
+| [Open English WordNet]      | `ewn`    | `2019`, `2020` | English [en]     |
+| [Princeton WordNet]         | `pwn`    | `3.0`, `3.1`   | English [en]     |
+| [Open Multilingual Wordnet] | `omw`    | `1.3`          | multiple [[mul]] |
+| [Open German WordNet]       | `odenet` | `1.3`          | German [de]      |
 
+[Open English WordNet]: https://github.com/globalwordnet/english-wordnet
+[Princeton WordNet]: https://wordnet.princeton.edu/
+[Open Multilingual Wordnet]: https://lr.soh.ntu.edu.sg/omw/omw
+[Open German WordNet]: https://github.com/hdaSprachtechnologie/odenet
 [mul]: https://iso639-3.sil.org/code/mul
 
 The Open Multilingual Wordnet installs the following lexicons (from
@@ -107,4 +111,5 @@ can also be downloaded and installed independently:
 | Wordnet Bahasa                   | `indwn` | `1.3+omw`  | Indonesian [id]            |
 | Wordnet Bahasa                   | `zsmwn` | `1.3+omw`  | Malaysian [zsm]            |
 
-The project index list is defined in [wn/index.toml](wn/index.toml).
+The project index list is defined in [wn/index.toml](https://github.com/goodmami/wn/blob/main/wn/index.toml).
+
