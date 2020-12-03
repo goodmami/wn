@@ -458,9 +458,9 @@ def remove(lexicon: str) -> None:
             conn.execute('DELETE FROM lexicons WHERE rowid = ?', (rowid,))
 
 
-def find_lexicons(lgcode: str = None, lexicon: str = None) -> Iterator[_Lexicon]:
+def find_lexicons(lang: str = None, lexicon: str = None) -> Iterator[_Lexicon]:
     with _connect() as conn:
-        for rowid in _get_lexicon_rowids(conn, lgcode=lgcode, lexicon=lexicon):
+        for rowid in _get_lexicon_rowids(conn, lang=lang, lexicon=lexicon):
             yield _get_lexicon(conn, rowid)
 
 
@@ -484,29 +484,29 @@ def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
 
 def _get_lexicon_rowids(
         conn: sqlite3.Connection,
-        lgcode: str = None,
+        lang: str = None,
         lexicon: str = None,
 ) -> List[int]:
     rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
-    lg_match = _get_lexicon_rowids_for_lgcode(rows, lgcode)
+    lg_match = _get_lexicon_rowids_for_lang(rows, lang)
     lex_match = _get_lexicon_rowids_for_lexicon(rows, lexicon)
     result = lg_match & lex_match
     if rows and not result:
         raise wn.Error(
-            f'no lexicon found with lgcode={lgcode!r} and lexicon={lexicon!r}'
+            f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
         )
 
     return sorted(result)
 
 
-def _get_lexicon_rowids_for_lgcode(
-        rows: List[Tuple[int, str, str, str]], lgcode: str = None
+def _get_lexicon_rowids_for_lang(
+        rows: List[Tuple[int, str, str, str]], lang: str = None
 ) -> Set[int]:
     lg_match: Set[int] = set()
-    if lgcode:
-        lg_match.update(rowid for rowid, _, _, language in rows if language == lgcode)
+    if lang:
+        lg_match.update(rowid for rowid, _, _, language in rows if language == lang)
         if not lg_match:
-            raise wn.Error(f"no lexicon found with language code '{lgcode}'")
+            raise wn.Error(f"no lexicon found with language code '{lang}'")
     else:
         lg_match.update(row[0] for row in rows)
     return lg_match

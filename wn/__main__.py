@@ -12,7 +12,7 @@ def _download(args):
 
 
 def _lexicons(args):
-    for lex in wn.lexicons(lgcode=args.lgcode, lexicon=args.lexicon):
+    for lex in wn.lexicons(lang=args.lang, lexicon=args.lexicon):
         print('\t'.join((lex.id, lex.version, f'[{lex.language}]', lex.label)))
 
 
@@ -76,7 +76,7 @@ parser_lexicons = sub_parsers.add_parser(
     description="Display a list of installed lexicons."
 )
 parser_lexicons.add_argument(
-    '-l', '--lgcode', help='BCP 47 language codes'
+    '-l', '--lang', help='BCP 47 language code'
 )
 parser_lexicons.add_argument(
     '--lexicon', help='lexicon specifiers'

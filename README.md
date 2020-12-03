@@ -52,7 +52,7 @@ specified:
 ```python
 >>> import wn
 >>> wn.synsets('chat')                      # all installed wordnets
->>> wn.synsets('chat', lgcode='en')         # limit to one language
+>>> wn.synsets('chat', lang='en')           # limit to one language
 >>> wn.synsets('chat', lexicon='ewn:2020')  # limit to one wordnet
 ```
 

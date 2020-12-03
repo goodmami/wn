@@ -30,7 +30,7 @@ may return more than desired:
 
 You can specify which language or lexicon you wish to query:
 
->>> wn.words('pike', lgcode='ja')
+>>> wn.words('pike', lang='ja')
 [Word('wnja-n-66614')]
 >>> wn.words('chat', lexicon='frawn')
 [Word('frawn-lex14803'), Word('frawn-lex21897')]
@@ -38,7 +38,7 @@ You can specify which language or lexicon you wish to query:
 But it might be easier to create a :class:`~wn.Wordnet` object and use
 it for queries:
 
->>> wnja = wn.Wordnet(lgcode='ja')
+>>> wnja = wn.Wordnet(lang='ja')
 >>> wnja.words('pike')
 [Word('wnja-n-66614')]
 >>> frawn = wn.Wordnet(lexicon='frawn')
@@ -225,7 +225,7 @@ hierarchical relations and metrics.
 Filtering by Language
 ---------------------
 
-The ``lgcode`` parameter of :func:`wn.words()`, :func:`wn.senses()`,
+The ``lang`` parameter of :func:`wn.words()`, :func:`wn.senses()`,
 :func:`wn.synsets()`, and :class:`~wn.Wordnet` allows a single `BCP-47
 <https://en.wikipedia.org/wiki/IETF_language_tag>`_ language
 code. When this parameter is used, only entries in the specified
@@ -234,7 +234,7 @@ language will be returned.
 >>> import wn
 >>> wn.words('chat')
 [Word('ewn-chat-n'), Word('ewn-chat-v'), Word('frawn-lex14803'), Word('frawn-lex21897')]
->>> wn.words('chat', lgcode='fr')
+>>> wn.words('chat', lang='fr')
 [Word('frawn-lex14803'), Word('frawn-lex21897')]
 
 If a language code not used by any lexicon is specified, a

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+* Renamed `lgcode` parameter to `lang` throughout ([#66])
+* Renamed `Wordnet.lgcode` property to `Wordnet.lang` ([#66])
+* Renamed `--lgcode` command-line option to `--lang` ([#66])
+
 
 ## [v0.2.0]
 
@@ -53,3 +59,4 @@ abandoned, but this is an entirely new codebase.
 [#58]: https://github.com/goodmami/wn/issues/58
 [#60]: https://github.com/goodmami/wn/issues/60
 [#61]: https://github.com/goodmami/wn/issues/61
+[#66]: https://github.com/goodmami/wn/issues/66

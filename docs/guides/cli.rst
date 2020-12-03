@@ -52,15 +52,15 @@ The ``lexicons`` subcommand lets you quickly see what is installed:
    pwn:3.0          [en]   Princeton WordNet 3.0
    pwn:3.1          [en]   Princeton WordNet 3.1
 
-.. option:: -l LG, --lgcode LG
+.. option:: -l LG, --lang LG
 .. option:: --lexicon SPEC
 
-   The ``--lgcode`` or ``--lexicon`` option can help you narrow down
+   The ``--lang`` or ``--lexicon`` option can help you narrow down
    the results:
 
    .. code-block:: console
 
-      $ python -m wn lexicons --lgcode en
+      $ python -m wn lexicons --lang en
       pwn:3.0          [en]   Princeton WordNet 3.0
       pwn:3.1          [en]   Princeton WordNet 3.1
       $ python -m wn lexicons --lexicon "litwn pwn:* jpnwn:1.3+omw"

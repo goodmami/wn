@@ -28,7 +28,7 @@ The Wordnet Class
 
 .. autoclass:: Wordnet
 
-   .. attribute:: lgcode
+   .. attribute:: lang
 
       The value of the language-code filter used in object
       instantiation, if any.

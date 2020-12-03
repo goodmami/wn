@@ -190,13 +190,13 @@ class Word(_LexiconElement):
 
     def translate(
             self,
-            lgcode: str = None,
+            lang: str = None,
             lexicon: str = None
     ) -> Dict['Sense', List['Word']]:
         """Return a mapping of word senses to lists of translated words.
 
         Arguments:
-            lgcode: if specified, translate to words with the language code
+            lang: if specified, translate to words with the language code
             lexicon: if specified, translate to words in the target lexicon(s)
 
         Example:
@@ -212,7 +212,7 @@ class Word(_LexiconElement):
         for sense in self.senses():
             result[sense] = [
                 t_sense.word()
-                for t_sense in sense.translate(lgcode=lgcode, lexicon=lexicon)
+                for t_sense in sense.translate(lang=lang, lexicon=lexicon)
             ]
         return result
 
@@ -364,7 +364,7 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        # if no lgcode or lexicon constraints were applied, use _lexid
+        # if no lang or lexicon constraints were applied, use _lexid
         # of current entity
         lexids: Tuple[int, ...] = (self._lexid,)
         expids: Tuple[int, ...] = (self._lexid,)
@@ -625,16 +625,16 @@ class Synset(_Relatable):
             'instance_hyponym'
         )
 
-    def translate(self, lgcode: str = None, lexicon: str = None) -> List['Synset']:
+    def translate(self, lang: str = None, lexicon: str = None) -> List['Synset']:
         """Return a list of translated synsets.
 
         Arguments:
-            lgcode: if specified, translate to synsets with the language code
+            lang: if specified, translate to synsets with the language code
             lexicon: if specified, translate to synsets in the target lexicon(s)
 
         Example:
 
-            >>> es = wn.synsets('araña', lgcode='es')[0]
+            >>> es = wn.synsets('araña', lang='es')[0]
             >>> en = es.translate(lexicon='ewn')[0]
             >>> en.lemmas()
             ['spider']
@@ -644,7 +644,7 @@ class Synset(_Relatable):
         ili = self.ili
         if not ili:
             return []
-        return synsets(ili=ili, lgcode=lgcode, lexicon=lexicon)
+        return synsets(ili=ili, lang=lang, lexicon=lexicon)
 
 
 class Sense(_Relatable):
@@ -719,16 +719,16 @@ class Sense(_Relatable):
         return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, pos, ili in iterable]
 
-    def translate(self, lgcode: str = None, lexicon: str = None) -> List['Sense']:
+    def translate(self, lang: str = None, lexicon: str = None) -> List['Sense']:
         """Return a list of translated senses.
 
         Arguments:
-            lgcode: if specified, translate to senses with the language code
+            lang: if specified, translate to senses with the language code
             lexicon: if specified, translate to senses in the target lexicon(s)
 
         Example:
 
-            >>> en = wn.senses('petiole', lgcode='en')[0]
+            >>> en = wn.senses('petiole', lang='en')[0]
             >>> pt = en.translate('pt')[0]
             >>> pt.word().lemma()
             'pecíolo'
@@ -736,7 +736,7 @@ class Sense(_Relatable):
         """
         synset = self.synset()
         return [t_sense
-                for t_synset in synset.translate(lgcode=lgcode, lexicon=lexicon)
+                for t_synset in synset.translate(lang=lang, lexicon=lexicon)
                 for t_sense in t_synset.senses()]
 
 
@@ -745,9 +745,9 @@ class Wordnet:
 
     A wordnet object acts essentially as a filter by first selecting
     matching lexicons and then searching only within those lexicons
-    for later queries. On instantiation, a *lgcode* argument is a
-    BCP47 language code that restricts the selected lexicons to those
-    whose language matches the given code. A *lexicon* argument is a
+    for later queries. On instantiation, a *lang* argument is a BCP47
+    language code that restricts the selected lexicons to those whose
+    language matches the given code. A *lexicon* argument is a
     space-separated list of lexicon specifiers that more directly
     select lexicons by their ID and version; this is preferable when
     there are multiple lexicons in the same language or multiple
@@ -761,16 +761,16 @@ class Wordnet:
 
     """
 
-    __slots__ = '_lgcode', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __slots__ = '_lang', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
     __module__ = 'wn'
 
-    def __init__(self, lgcode: str = None, lexicon: str = None, expand: str = None):
-        self._lgcode = lgcode
+    def __init__(self, lang: str = None, lexicon: str = None, expand: str = None):
+        self._lang = lang
 
         self._lexicons: Tuple[Lexicon, ...] = ()
-        if lgcode or lexicon:
+        if lang or lexicon:
             self._lexicons = tuple(
-                map(_to_lexicon, _db.find_lexicons(lgcode=lgcode, lexicon=lexicon))
+                map(_to_lexicon, _db.find_lexicons(lang=lang, lexicon=lexicon))
             )
         self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
@@ -784,9 +784,9 @@ class Wordnet:
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
     @property
-    def lgcode(self) -> Optional[str]:
+    def lang(self) -> Optional[str]:
         """The BCP47 language code of lexicons in the wordnet."""
-        return self._lgcode
+        return self._lang
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
@@ -915,7 +915,7 @@ def projects() -> List[Dict]:
     ]
 
 
-def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
+def lexicons(lang: str = None, lexicon: str = None) -> List[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
@@ -926,13 +926,13 @@ def lexicons(lgcode: str = None, lexicon: str = None) -> List[Lexicon]:
     """
     if lexicon is None:
         lexicon = '*'
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).lexicons()
+    return Wordnet(lang=lang, lexicon=lexicon).lexicons()
 
 
-def word(id: str, lgcode: str = None, lexicon: str = None) -> Word:
+def word(id: str, lang: str = None, lexicon: str = None) -> Word:
     """Return the word with *id* in *lexicon*.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.word` method.
 
@@ -940,16 +940,16 @@ def word(id: str, lgcode: str = None, lexicon: str = None) -> Word:
     Word('ewn-cell-n')
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).word(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).word(id=id)
 
 
 def words(form: str = None,
           pos: str = None,
-          lgcode: str = None,
+          lang: str = None,
           lexicon: str = None) -> List[Word]:
     """Return the list of matching words.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.words` method.
 
@@ -961,13 +961,13 @@ def words(form: str = None,
     [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).words(form=form, pos=pos)
+    return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
 
-def synset(id: str, lgcode: str = None, lexicon: str = None) -> Synset:
+def synset(id: str, lang: str = None, lexicon: str = None) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.synset` method.
 
@@ -975,17 +975,17 @@ def synset(id: str, lgcode: str = None, lexicon: str = None) -> Synset:
     Synset('ewn-03311152-n')
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).synset(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
 
 def synsets(form: str = None,
             pos: str = None,
             ili: str = None,
-            lgcode: str = None,
+            lang: str = None,
             lexicon: str = None) -> List[Synset]:
     """Return the list of matching synsets.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.synsets` method.
 
@@ -995,16 +995,16 @@ def synsets(form: str = None,
     [Synset('ewn-00983308-v')]
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
+    return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
 def senses(form: str = None,
            pos: str = None,
-           lgcode: str = None,
+           lang: str = None,
            lexicon: str = None) -> List[Sense]:
     """Return the list of matching senses.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.senses` method.
 
@@ -1014,13 +1014,13 @@ def senses(form: str = None,
     [Sense('ewn-twig-n-13184889-02')]
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).senses(form=form, pos=pos)
+    return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
-def sense(id: str, lgcode: str = None, lexicon: str = None) -> Sense:
+def sense(id: str, lang: str = None, lexicon: str = None) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
-    This will create a :class:`Wordnet` object using the *lgcode* and
+    This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.sense` method.
 
@@ -1028,4 +1028,4 @@ def sense(id: str, lgcode: str = None, lexicon: str = None) -> Sense:
     Sense('ewn-flutter-v-01903884-02')
 
     """
-    return Wordnet(lgcode=lgcode, lexicon=lexicon).sense(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
