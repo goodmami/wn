@@ -3,7 +3,7 @@ Storage back-end interface.
 """
 
 from typing import (
-    Optional, Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+    Optional, Any, Dict, Set, List, TextIO, Tuple, Collection, Iterator, Sequence
 )
 import sys
 import json
@@ -161,7 +161,7 @@ def is_schema_compatible(create: bool = False) -> bool:
         return True
 
 
-def add(source: AnyPath) -> None:
+def add(source: AnyPath, output_file: TextIO = sys.stderr) -> None:
     """Add the LMF file at *source* to the database.
 
     The file at *source* may be gzip-compressed or plain text XML.
@@ -173,30 +173,30 @@ def add(source: AnyPath) -> None:
 
     """
     for project in iterpackages(source):
-        _add_lmf(project.resource_file())
+        _add_lmf(project.resource_file(), output_file)
 
 
-def _add_lmf(source):
+def _add_lmf(source, output_file: TextIO = sys.stderr):
     with _connect() as conn:
         cur = conn.cursor()
         # abort if any lexicon in *source* is already added
-        print(f'Checking {source!s}', end='', file=sys.stderr)
+        print(f'Checking {source!s}', end='', file=output_file)
         all_infos = list(_precheck(source, cur))
 
         if not all_infos:
-            print(f'\r\033[K{source}: No lexicons found', file=sys.stderr)
+            print(f'\r\033[K{source}: No lexicons found', file=output_file)
             return
         elif all(info.get('skip', False) for info in all_infos):
-            print(f'\r\033[K{source}: No new lexicons found', file=sys.stderr)
+            print(f'\r\033[K{source}: No new lexicons found', file=output_file)
             return
 
         # all clear, try to add them
-        print(f'\r\033[KReading {source!s}', end='', file=sys.stderr)
+        print(f'\r\033[KReading {source!s}', end='', file=output_file)
         for lexicon, info in zip(lmf.load(source), all_infos):
 
             if info.get('skip', False):
                 print(f'Skipping {info["id"]:info["version"]} ({info["label"]})',
-                      file=sys.stderr)
+                      file=output_file)
                 continue
 
             sense_ids = lexicon.sense_ids()
@@ -227,6 +227,7 @@ def _add_lmf(source):
                 max=count,
                 fmt='\rBuilding: [{fill:<{width}}] ({count}/{max}) {type}',
                 type='',
+                file=output_file,
             )
 
             synsets = lexicon.synsets
@@ -251,7 +252,7 @@ def _add_lmf(source):
             indicator.update(0, type='')  # clear type string
 
             print(f'\r\033[KAdded {lexicon.id}:{lexicon.version} ({lexicon.label})',
-                  file=sys.stderr)
+                  file=output_file)
 
 
 def _precheck(source, cur):
