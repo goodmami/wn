@@ -5,6 +5,7 @@ from pathlib import Path
 
 import requests
 
+import wn
 from wn._util import get_progress_handler, is_url
 from wn import _db
 from wn import config
@@ -65,8 +66,6 @@ def download(
         url = info['resource_url']
 
     path = config.get_cache_path(url)
-    callback = get_progress_handler(progress_handler, 'Download', 'bytes', '')
-    callback(0, count=0, max=0, status='Initializing')
 
     if path.exists():
         print(f'Cached file found: {path!s}', file=sys.stderr)
@@ -74,6 +73,8 @@ def download(
     else:
         size: int = 0
         try:
+            callback = get_progress_handler(progress_handler, 'Download', 'bytes', '')
+            callback(0, count=0, max=0, status='Initializing')
             with open(path, 'wb') as f:
                 callback(0, status='Requesting')
                 with requests.get(url, stream=True, timeout=TIMEOUT) as response:
@@ -84,10 +85,9 @@ def download(
                             f.write(chunk)
                         callback(len(chunk))
                     callback(0, status='Complete\n')
-        except:  # noqa: E722 (exception is reraised)
-            print(f'\r\x1b[KDownload failed at {size} bytes', file=sys.stderr)
+        except (Exception, KeyboardInterrupt) as exc:
             path.unlink()
-            raise
+            raise wn.Error(f'Download failed at {size} bytes') from exc
 
     if add:
         _db.add(path, progress_handler=progress_handler)
