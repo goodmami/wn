@@ -4,6 +4,8 @@
 
 ### Added
 
+* `add` parameter to `wn.download()` ([#73])
+* `--no-add` option to `wn download` command ([#73])
 * `progress_handler` parameter to `wn.download()` ([#70])
 * `progress_handler` parameter to `wn.add()` ([#70])
 
@@ -66,3 +68,4 @@ abandoned, but this is an entirely new codebase.
 [#61]: https://github.com/goodmami/wn/issues/61
 [#66]: https://github.com/goodmami/wn/issues/66
 [#70]: https://github.com/goodmami/wn/issues/70
+[#73]: https://github.com/goodmami/wn/issues/73

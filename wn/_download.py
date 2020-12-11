@@ -1,5 +1,7 @@
 
+from typing import Callable, Optional
 import sys
+from pathlib import Path
 
 import requests
 
@@ -12,19 +14,29 @@ CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
 TIMEOUT = 10  # number of seconds to wait for a server response
 
 
-def download(project_or_url: str, progress_handler=get_progress_handler) -> None:
-    """Download the wordnet specified by *project_or_url*.
+def download(
+        project_or_url: str,
+        add: bool = True,
+        progress_handler: Optional[Callable] = get_progress_handler,
+) -> Path:
+    """Download the resource specified by *project_or_url*.
+
+    First the URL of the resource is determined and then, depending on
+    the parameters, the resource is downloaded and added to the
+    database.  The function then returns the path of the cached file.
 
     If *project_or_url* starts with `'http://'` or `'https://'`, then
-    it is taken to be a URL and the relevant project information
-    (code, label, version, etc.) will be extracted from the retrieved
-    file. Otherwise, *project_or_url* must be a known project id,
-    optionally followed by `':'` and a known version. If the version
-    is unspecified, the latest known version is retrieved.
+    it is taken to be the URL for the resource. Otherwise,
+    *project_or_url* is taken as a :ref:`project specifier
+    <lexicon-specifiers>` and the URL is taken from a matching entry
+    in Wn's project index. If no project matches the specifier,
+    :exc:`wn.Error` is raised.
 
-    The retrieved file is cached locally and added to the wordnet
-    database. If the URL was previously downloaded, a cached version
-    will be used instead.
+    If the URL has been downloaded and cached before, the cached file
+    is used. Otherwise the URL is retrieved and stored in the cache.
+
+    If the *add* paramter is ``True`` (default), the downloaded
+    resource is added to the database.
 
     >>> wn.download('ewn:2020')
     Added ewn:2020 (English WordNet)
@@ -53,12 +65,13 @@ def download(project_or_url: str, progress_handler=get_progress_handler) -> None
         url = info['resource_url']
 
     path = config.get_cache_path(url)
+    callback = get_progress_handler(progress_handler, 'Download', 'bytes', '')
+    callback(0, count=0, max=0, status='Initializing')
 
     if path.exists():
         print(f'Cached file found: {path!s}', file=sys.stderr)
 
     else:
-        callback = get_progress_handler(progress_handler, 'Download', 'bytes', '')
         size: int = 0
         try:
             with open(path, 'wb') as f:
@@ -70,9 +83,13 @@ def download(project_or_url: str, progress_handler=get_progress_handler) -> None
                         if chunk:
                             f.write(chunk)
                         callback(len(chunk))
-                    callback(0, status='Complete')
+                    callback(0, status='Complete\n')
         except:  # noqa: E722 (exception is reraised)
             print(f'\r\x1b[KDownload failed at {size} bytes', file=sys.stderr)
             path.unlink()
             raise
-    _db.add(path)
+
+    if add:
+        _db.add(path, progress_handler=progress_handler)
+
+    return path

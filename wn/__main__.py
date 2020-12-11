@@ -8,7 +8,7 @@ def _download(args):
     if args.index:
         wn.config.load_index(args.index)
     for target in args.target:
-        wn.download(target)
+        wn.download(target, add=args.add)
 
 
 def _lexicons(args):
@@ -67,6 +67,10 @@ parser_download.add_argument(
 )
 parser_download.add_argument(
     '--index', type=_file_path_type, help='project index to use for downloading'
+)
+parser_download.add_argument(
+    '--no-add', action='store_false', dest='add',
+    help='download and cache without adding to the database'
 )
 parser_download.set_defaults(func=_download)
 

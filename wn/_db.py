@@ -185,13 +185,13 @@ def add(source: AnyPath, progress_handler=get_progress_handler) -> None:
     indicates the total number of rows to insert.
 
     """
-    callback = get_progress_handler(progress_handler, 'Database', 'rows', '')
-    callback(0, status='Inspecting')
     for project in iterpackages(source):
-        _add_lmf(project.resource_file(), callback)
+        _add_lmf(project.resource_file(), progress_handler)
 
 
-def _add_lmf(source, callback):
+def _add_lmf(source, progress_handler):
+    callback = get_progress_handler(progress_handler, 'Database', '\b', '')
+
     with _connect() as conn:
         cur = conn.cursor()
         # abort if any lexicon in *source* is already added
@@ -238,7 +238,7 @@ def _add_lmf(source, callback):
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
             count += counts.get('Synset', 0)  # again for ILIs
-            callback(0, max=count)
+            callback(0, count=0, max=count)
 
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
