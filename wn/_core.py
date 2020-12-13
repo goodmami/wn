@@ -530,7 +530,7 @@ class Synset(_Relatable):
         key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
         if key is None:
             raise wn.Error(f'no path between {self!r} and {other!r}')
-        return pathmap[key]
+        return pathmap[key][1:]
 
     def common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False

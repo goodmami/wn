@@ -9,6 +9,10 @@
 * `progress_handler` parameter to `wn.download()` ([#70])
 * `progress_handler` parameter to `wn.add()` ([#70])
 
+### Fixed
+
+* `Synset.shortest_path()` no longer includes starting node ([#63])
+
 ### Changed
 
 * Renamed `lgcode` parameter to `lang` throughout ([#66])
@@ -66,6 +70,7 @@ abandoned, but this is an entirely new codebase.
 [#58]: https://github.com/goodmami/wn/issues/58
 [#60]: https://github.com/goodmami/wn/issues/60
 [#61]: https://github.com/goodmami/wn/issues/61
+[#63]: https://github.com/goodmami/wn/issues/63
 [#66]: https://github.com/goodmami/wn/issues/66
 [#70]: https://github.com/goodmami/wn/issues/70
 [#73]: https://github.com/goodmami/wn/issues/73
