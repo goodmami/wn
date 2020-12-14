@@ -80,32 +80,33 @@ NLTK                 Wn
 Synsets -- Relations
 ''''''''''''''''''''
 
-=====================================  =====================================
-NLTK                                   Wn
-=====================================  =====================================
-`ss.hypernyms()`                       `ss.hypernyms()`
-`ss.hyponyms()`                        `ss.hyponyms()`
-`ss.holonyms()`                        `ss.holonyms()`
-`ss.meronyms()`                        `ss.meronyms()`
-`ss.closure(lambda x: x.hypernyms())`  `ss.closure("hypernym")`
-=====================================  =====================================
+==========================================  =====================================
+NLTK                                        Wn
+==========================================  =====================================
+`ss.hypernyms()`                            `ss.get_related("hypernym")`
+`ss.instance_hypernyms()`                   `ss.get_related("instance_hypernym")`
+`ss.hypernyms() + ss.instance_hypernyms()`  `ss.hypernyms()`
+`ss.hyponyms()`                             `ss.get_related("hyponym")`
+`ss.member_holonyms()`                      `ss.get_related("holo_member")`
+`ss.member_meronyms()`                      `ss.get_related("mero_member")`
+`ss.closure(lambda x: x.hypernyms())`       `ss.closure("hypernym")`
+==========================================  =====================================
 
 Synsets -- Taxonomic Structure
 ''''''''''''''''''''''''''''''
 
-================================  ========================================================
+================================  =========================================================
 NLTK                              Wn
-================================  ========================================================
+================================  =========================================================
 `ss.min_depth()`                  `ss.min_depth()`
 `ss.max_depth()`                  `ss.max_depth()`
-`ss.hypernym_paths()`             `[list(reversed(path)) for path in ss.hypernym_paths()]`
+`ss.hypernym_paths()`             `[list(reversed([ss] + p)) for p in ss.hypernym_paths()]`
 `ss.common_hypernyms(ss)`         `ss.common_hypernyms(ss)`
 `ss.lowest_common_hypernyms(ss)`  `ss.lowest_common_hypernyms(ss)`
 `ss.shortest_path_distance(ss)`   `len(ss.shortest_path(ss))`
-================================  ========================================================
+================================  =========================================================
 
 .. reset default role
 .. default-role::
 
 (these tables are incomplete)
-

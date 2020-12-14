@@ -8,14 +8,15 @@ In Wn, the following terminology is used:
 
 :lexicon: An inventory of words, senses, synsets, relations, etc. that
           share a namespace (i.e., that can refer to each other).
-:wordnet: A group of lexicons.
+:wordnet: A group of lexicons (but usually just one).
 :resource: A file containing lexicons.
 :package: A directory containing a resource and optionally some
           metadata files.
 :collection: A directory containing packages and optionally some
              metadata files.
-:project: A resource, package, or collection, particularly pertaining
-          to its creation, maintenance, and distribution.
+:project: A general term for a resource, package, or collection,
+          particularly pertaining to its creation, maintenance, and
+          distribution.
 
 In general, each resource contains one lexicon. For large projects
 like the `Open English WordNet`_, that lexicon is also a wordnet on
@@ -31,8 +32,8 @@ WordNet's lexicon.
 
 .. _lexicon-specifiers:
 
-Lexicon Specifiers
-------------------
+Lexicon and Project Specifiers
+------------------------------
 
 Wn uses *lexicon specifiers* to deal with the possibility of having
 multiple lexicons and multiple versions of lexicons loaded in the same
@@ -51,6 +52,15 @@ English Wordnet`_ were installed, in that
 order, then ``ewn`` would specify the ``2019`` version, ``ewn:*``
 would specify both versions, and ``ewn:2020`` would specify the
 ``2020`` version.
+
+The same format is used for *project specifiers*, which refer to
+projects. In most cases the project specifier is the same as the
+lexicon specifier (e.g., ``ewn:2020`` refers both to the project to be
+downloaded and the lexicon that is installed), but sometimes it is
+not. The 1.3 release of the `Open Multilingual Wordnet`_, for
+instance, has the project specifier ``omw:1.3`` but it installs a
+number of lexicons with their own lexicon specifiers
+(``zsmwn:1.3+omw``, ``cmnwn:1.3+omw``, etc.).
 
 Downloading Lexicons
 --------------------
