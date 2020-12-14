@@ -233,18 +233,18 @@ class _Relatable(_LexiconElement):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
 
-    def get_related(self: T, relation: str) -> List[T]:
+    def get_related(self: T, *args: str) -> List[T]:
         raise NotImplementedError
 
-    def closure(self: T, relation: str) -> Iterator[T]:
+    def closure(self: T, *args: str) -> Iterator[T]:
         visited = set()
-        queue = self.get_related(relation)
+        queue = self.get_related(*args)
         while queue:
             relatable = queue.pop(0)
             if relatable.id not in visited:
                 visited.add(relatable.id)
                 yield relatable
-                queue.extend(relatable.get_related(relation))
+                queue.extend(relatable.get_related(*args))
 
     def relation_paths(self: T, *args: str, end: T = None) -> Iterator[List[T]]:
         agenda: List[Tuple[List[T], Set[T]]] = [

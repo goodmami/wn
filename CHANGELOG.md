@@ -12,6 +12,8 @@
 ### Fixed
 
 * `Synset.shortest_path()` no longer includes starting node ([#63])
+* `Synset.closure()`/`Sense.closure()` may take multiple relations
+  ([#74])
 
 ### Changed
 
@@ -74,3 +76,4 @@ abandoned, but this is an entirely new codebase.
 [#66]: https://github.com/goodmami/wn/issues/66
 [#70]: https://github.com/goodmami/wn/issues/70
 [#73]: https://github.com/goodmami/wn/issues/73
+[#74]: https://github.com/goodmami/wn/issues/74
