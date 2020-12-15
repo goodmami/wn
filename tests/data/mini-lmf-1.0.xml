@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<!--
+This sample document provides small lexicons in English and Spanish
+with the following words and hypernym/derivation relations:
+
+English:
+- information ⊃ (example, illustration) ⊃ sample ⊃ random sample
+- example ⊳ exemplify
+- illustration ⊳ illustrate
+
+Spanish:
+- información, ejemplo, ilustración, muestra aleatoria
+- ejemplo ⊳ ejemplificar
+- ilustración ⊳ ilustrar
+
+-->
 <LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
 
   <Lexicon id="test-en"
@@ -20,6 +35,16 @@
       <Sense id="test-en-example-n-0002-01" synset="test-en-0002-n" >
         <SenseRelation relType="derivation" target="test-en-exemplify-v-0003-01" />
       </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-sample-n">
+      <Lemma partOfSpeech="n" writtenForm="sample" />
+      <Sense id="test-en-sample-n-0004-01" synset="test-en-0004-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-en-random_sample-n">
+      <Lemma partOfSpeech="n" writtenForm="random sample" />
+      <Sense id="test-en-random_sample-n-0005-01" synset="test-en-0005-n" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-exemplify-v">
@@ -46,19 +71,43 @@
       </Sense>
     </LexicalEntry>
 
+    <LexicalEntry id="test-en-datum-n">
+      <Lemma partOfSpeech="n" writtenForm="datum" />
+      <Sense id="test-en-datum-n-0006-01" synset="test-en-0006-n" />
+    </LexicalEntry>
+
     <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition>something that informs</Definition>
+      <SynsetRelation relType="hyponym" target="test-en-0002-n" />
+      <SynsetRelation relType="hyponym" target="test-en-0006-n" />
       <Example>"this is information"</Example>
     </Synset>
 
     <Synset id="test-en-0002-n" ili="i67469" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition>something that exemplifies</Definition>
       <SynsetRelation relType="hypernym" target="test-en-0001-n" />
+      <SynsetRelation relType="hyponym" target="test-en-0004-n" />
       <Example>"this is an example"</Example>
     </Synset>
 
     <Synset id="test-en-0003-v" ili="i26682" partOfSpeech="v" dc:subject="verb.communication">
       <Definition>providing an example</Definition>
+    </Synset>
+
+    <Synset id="test-en-0004-n" ili="i67474" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>a subset of exemplars from some population</Definition>
+      <SynsetRelation relType="hypernym" target="test-en-0002-n" />
+      <SynsetRelation relType="hyponym" target="test-en-0005-n" />
+    </Synset>
+
+    <Synset id="test-en-0005-n" ili="i67479" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>a sample randomly drawn from some population</Definition>
+      <SynsetRelation relType="hypernym" target="test-en-0004-n" />
+    </Synset>
+
+    <Synset id="test-en-0006-n" ili="i67448" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>a measured or recorded piece of information</Definition>
+      <SynsetRelation relType="hypernym" target="test-en-0001-n" />
     </Synset>
 
   </Lexicon>
@@ -81,6 +130,11 @@
       <Sense id="test-es-ejemplo-n-0002-01" synset="test-es-0002-n" >
         <SenseRelation relType="derivation" target="test-es-ejemplificar-v-0003-01" />
       </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-es-muestra_aleatoria-n">
+      <Lemma partOfSpeech="n" writtenForm="muestra aleatoria" />
+      <Sense id="test-es-muestra_aleatoria-n-0005-01" synset="test-es-0005-n" />
     </LexicalEntry>
 
     <LexicalEntry id="test-es-ejemplificar-v">
@@ -116,6 +170,10 @@
 
     <Synset id="test-es-0003-v" ili="i26682" partOfSpeech="v" dc:subject="verb.communication">
       <Definition>dar un ejemplo</Definition>
+    </Synset>
+
+    <Synset id="test-es-0005-n" ili="i67479" partOfSpeech="n" dc:subject="noun.cognition">
+      <Definition>una muestra extraída aleatoriamente de alguna población</Definition>
     </Synset>
 
   </Lexicon>

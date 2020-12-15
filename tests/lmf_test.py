@@ -32,7 +32,7 @@ def test_load(mini_lmf_1_0):
     assert lexicon.version == '1'
     assert lexicon.url == 'https://example.com/test-en'
 
-    assert len(lexicon.lexical_entries) == 5
+    assert len(lexicon.lexical_entries) == 8
     le = lexicon.lexical_entries[0]
     assert le.id == 'test-en-information-n'
 
@@ -50,6 +50,6 @@ def test_load(mini_lmf_1_0):
     # assert le.senses[0].relations[0].target == 'test-en-exemplify-v-01023137-01'
     # assert le.senses[0].relations[0].type == 'derivation'
 
-    assert len(lexicon.synsets) == 3
+    assert len(lexicon.synsets) == 6
 
     assert lexicons[1].id == 'test-es'
