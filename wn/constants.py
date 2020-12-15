@@ -106,16 +106,16 @@ ADJPOSITIONS = frozenset((
 
 # Parts of Speech
 
-NOUN = 'n'
-VERB = 'v'
-ADJ = ADJECTIVE = 'a'
-ADV = ADVERB = 'r'
-ADJ_SAT = ADJECTIVE_SATELLITE = 's'
-PHRASE = 't'
-CONJ = CONJUNCTION = 'c'
-ADP = ADPOSITION = 'p'
-OTHER = 'x'
-UNKNOWN = 'u'
+NOUN = 'n'  #:
+VERB = 'v'  #:
+ADJ = ADJECTIVE = 'a'  #:
+ADV = ADVERB = 'r'  #:
+ADJ_SAT = ADJECTIVE_SATELLITE = 's'  #:
+PHRASE = 't'  #:
+CONJ = CONJUNCTION = 'c'  #:
+ADP = ADPOSITION = 'p'  #:
+OTHER = 'x'  #:
+UNKNOWN = 'u'  #:
 
 PARTS_OF_SPEECH = frozenset((
     NOUN,

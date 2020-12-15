@@ -56,6 +56,7 @@ Contents
    :hidden:
 
    api/wn.rst
+   api/wn.constants.rst
    api/wn.lmf.rst
    api/wn.project.rst
    api/wn.similarity.rst
