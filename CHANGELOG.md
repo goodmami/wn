@@ -14,6 +14,8 @@
 * `Synset.shortest_path()` no longer includes starting node ([#63])
 * `Synset.closure()`/`Sense.closure()` may take multiple relations
   ([#74])
+* `Synset.hypernym_paths(simulate_root=True)` returns just the fake
+  root node if no paths were found
 
 ### Changed
 

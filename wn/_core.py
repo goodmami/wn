@@ -410,7 +410,7 @@ class Synset(_Relatable):
             root = Synset.empty(
                 id=_FAKE_ROOT, _lexid=self._lexid, _wordnet=self._wordnet
             )
-            paths = [path + [root] for path in paths]
+            paths = [path + [root] for path in paths] or [[root]]
         return paths
 
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
