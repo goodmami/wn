@@ -194,6 +194,12 @@ def _add_lmf(source, progress_handler):
 
     with _connect() as conn:
         cur = conn.cursor()
+        # these two settings increase the risk of database corruption
+        # if the system crashes during a write, but they should also
+        # make inserts much faster
+        cur.execute('PRAGMA synchronous = OFF')
+        cur.execute('PRAGMA journal_mode = MEMORY')
+
         # abort if any lexicon in *source* is already added
         print(f'Checking {source!s}', end='', file=sys.stderr)
         all_infos = list(_precheck(source, cur))

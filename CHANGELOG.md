@@ -15,13 +15,15 @@
 * `Synset.closure()`/`Sense.closure()` may take multiple relations
   ([#74])
 * `Synset.hypernym_paths(simulate_root=True)` returns just the fake
-  root node if no paths were found
+  root node if no paths were found (related to [#64])
 
 ### Changed
 
 * Renamed `lgcode` parameter to `lang` throughout ([#66])
 * Renamed `Wordnet.lgcode` property to `Wordnet.lang` ([#66])
 * Renamed `--lgcode` command-line option to `--lang` ([#66])
+* Use better-performing/less-safe database options when adding
+  lexicons ([#69])
 
 
 ## [v0.2.0]
@@ -75,7 +77,9 @@ abandoned, but this is an entirely new codebase.
 [#60]: https://github.com/goodmami/wn/issues/60
 [#61]: https://github.com/goodmami/wn/issues/61
 [#63]: https://github.com/goodmami/wn/issues/63
+[#64]: https://github.com/goodmami/wn/issues/64
 [#66]: https://github.com/goodmami/wn/issues/66
+[#69]: https://github.com/goodmami/wn/issues/69
 [#70]: https://github.com/goodmami/wn/issues/70
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
