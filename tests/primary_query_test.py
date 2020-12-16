@@ -18,8 +18,6 @@ def test_lexicons_mini():
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lang='es')
     assert len(results) == 1 and results[0].language == 'es'
-    # results = wn.lexicons(lang='pt')
-    # assert len(results) == 0
 
     results = wn.lexicons(lexicon='*')
     assert len(results) == 2
@@ -29,8 +27,14 @@ def test_lexicons_mini():
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:*')
     assert len(results) == 1 and results[0].language == 'en'
-    # results = wn.lexicons(lexicon='test-pt')
-    # assert len(results) == 0
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_lexicons_unknown():
+    results = wn.lexicons(lang='unk')
+    assert len(results) == 0
+    results = wn.lexicons(lexicon='test-unk')
+    assert len(results) == 0
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -58,17 +62,19 @@ def test_words_mini():
 
     assert len(wn.words(lang='en')) == 8
     assert len(wn.words(lang='es')) == 6
-    # assert len(wn.words(lang='pt')) == 0
 
     assert len(wn.words(lexicon='test-en')) == 8
     assert len(wn.words(lexicon='test-es')) == 6
-    # assert len(wn.words(lexicon='test-pt')) == 0
 
     assert len(wn.words(lang='en', lexicon='test-en')) == 8
-    # assert len(wn.words(lang='en', lexicon='test-es')) == 0
     assert len(wn.words(pos='v', lang='en')) == 2
     assert len(wn.words('information', lang='en')) == 1
     assert len(wn.words('information', lang='es')) == 0
+
+    with pytest.raises(wn.Error):
+        wn.words(lang='unk')
+    with pytest.raises(wn.Error):
+        wn.words(lexicon='test-unk')
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -86,6 +92,10 @@ def test_word_mini():
         assert wn.word('test-es-información-n', lang='en')
     with pytest.raises(wn.Error):
         assert wn.word('test-es-información-n', lexicon='test-en')
+    with pytest.raises(wn.Error):
+        assert wn.word('test-es-información-n', lang='unk')
+    with pytest.raises(wn.Error):
+        assert wn.word('test-es-información-n', lexicon='test-unk')
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -112,17 +122,19 @@ def test_senses_mini():
 
     assert len(wn.senses(lang='en')) == 8
     assert len(wn.senses(lang='es')) == 6
-    # assert len(wn.senses(lang='pt')) == 0
 
     assert len(wn.senses(lexicon='test-en')) == 8
     assert len(wn.senses(lexicon='test-es')) == 6
-    # assert len(wn.senses(lexicon='test-pt')) == 0
 
     assert len(wn.senses(lang='en', lexicon='test-en')) == 8
-    # assert len(wn.senses(lang='en', lexicon='test-es')) == 0
     assert len(wn.senses(pos='v', lang='en')) == 2
     assert len(wn.senses('information', lang='en')) == 1
     assert len(wn.senses('information', lang='es')) == 0
+
+    with pytest.raises(wn.Error):
+        wn.senses(lang='unk')
+    with pytest.raises(wn.Error):
+        wn.senses(lexicon='test-unk')
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -140,6 +152,10 @@ def test_sense_mini():
         assert wn.sense('test-es-información-n-0001-01', lang='en')
     with pytest.raises(wn.Error):
         assert wn.sense('test-es-información-n-0001-01', lexicon='test-en')
+    with pytest.raises(wn.Error):
+        assert wn.sense('test-es-información-n-0001-01', lang='unk')
+    with pytest.raises(wn.Error):
+        assert wn.sense('test-es-información-n-0001-01', lexicon='test-unk')
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -169,18 +185,20 @@ def test_synsets_mini():
 
     assert len(wn.synsets(lang='en')) == 6
     assert len(wn.synsets(lang='es')) == 4
-    # assert len(wn.synsets(lang='pt')) == 0
 
     assert len(wn.synsets(lexicon='test-en')) == 6
     assert len(wn.synsets(lexicon='test-es')) == 4
-    # assert len(wn.synsets(lexicon='test-pt')) == 0
 
     assert len(wn.synsets(lang='en', lexicon='test-en')) == 6
-    # assert len(wn.synsets(lang='en', lexicon='test-es')) == 0
     assert len(wn.synsets(pos='v', lang='en')) == 1
     assert len(wn.synsets('information', lang='en')) == 1
     assert len(wn.synsets('information', lang='es')) == 0
     assert len(wn.synsets(ili='i67469', lang='es')) == 1
+
+    with pytest.raises(wn.Error):
+        wn.synsets(lang='unk')
+    with pytest.raises(wn.Error):
+        wn.synsets(lexicon='test-unk')
 
 
 @pytest.mark.usefixtures('empty_db')
@@ -198,3 +216,7 @@ def test_synset_mini():
         assert wn.synset('test-es-0001-n', lang='en')
     with pytest.raises(wn.Error):
         assert wn.synset('test-es-0001-n', lexicon='test-en')
+    with pytest.raises(wn.Error):
+        assert wn.synset('test-es-0001-n', lang='unk')
+    with pytest.raises(wn.Error):
+        assert wn.synset('test-es-0001-n', lexicon='test-unk')

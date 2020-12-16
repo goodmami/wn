@@ -926,7 +926,12 @@ def lexicons(lang: str = None, lexicon: str = None) -> List[Lexicon]:
     """
     if lexicon is None:
         lexicon = '*'
-    return Wordnet(lang=lang, lexicon=lexicon).lexicons()
+    try:
+        w = Wordnet(lang=lang, lexicon=lexicon)
+    except wn.Error:
+        return []
+    else:
+        return w.lexicons()
 
 
 def word(id: str, lang: str = None, lexicon: str = None) -> Word:

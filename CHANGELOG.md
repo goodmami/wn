@@ -16,6 +16,7 @@
   ([#74])
 * `Synset.hypernym_paths(simulate_root=True)` returns just the fake
   root node if no paths were found (related to [#64])
+* `wn.lexicons()` returns empty list on unknown lang/lexicon ([#59])
 
 ### Changed
 
@@ -74,6 +75,7 @@ abandoned, but this is an entirely new codebase.
 
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
+[#59]: https://github.com/goodmami/wn/issues/59
 [#60]: https://github.com/goodmami/wn/issues/60
 [#61]: https://github.com/goodmami/wn/issues/61
 [#63]: https://github.com/goodmami/wn/issues/63
