@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.projects.iterpackages()` tries harder to prevent potential race
+  condition when reading temporary files ([#76])
+
 
 ## [v0.3.0]
 
@@ -92,3 +97,4 @@ abandoned, but this is an entirely new codebase.
 [#70]: https://github.com/goodmami/wn/issues/70
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
+[#76]: https://github.com/goodmami/wn/issues/76

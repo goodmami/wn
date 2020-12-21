@@ -150,22 +150,24 @@ def iterpackages(path: AnyPath) -> Iterator[Package]:
 
 @contextmanager
 def _get_decompressed(source: Path) -> Iterator[Path]:
-    tmp = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
-    path = Path(tmp.name)
-    try:
-        if is_gzip(source):
-            with gzip.open(source, 'rb') as gzip_src:
-                shutil.copyfileobj(gzip_src, tmp)
-                yield path
-        elif is_lzma(source):
-            with lzma.open(source, 'rb') as lzma_src:
-                shutil.copyfileobj(lzma_src, tmp)
-                yield path
-        else:
-            yield source
-    finally:
-        tmp.close()
-        path.unlink()
+    gzipped = is_gzip(source)
+    xzipped = is_lzma(source)
+    if not (gzipped or xzipped):
+        yield source
+    else:
+        tmp = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
+        path = Path(tmp.name)
+        try:
+            if gzipped:
+                with gzip.open(source, 'rb') as gzip_src:
+                    shutil.copyfileobj(gzip_src, tmp)
+            else:  # xzipped
+                with lzma.open(source, 'rb') as lzma_src:
+                    shutil.copyfileobj(lzma_src, tmp)
+            tmp.close()  # Windows cannot reliably reopen until it's closed
+            yield path
+        finally:
+            path.unlink()
 
 
 def _check_tar(tar: tarfile.TarFile) -> None:
