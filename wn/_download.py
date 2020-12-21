@@ -2,6 +2,7 @@
 from typing import Callable, Optional
 import sys
 from pathlib import Path
+import logging
 
 import requests
 
@@ -13,6 +14,9 @@ from wn import config
 
 CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
 TIMEOUT = 10  # number of seconds to wait for a server response
+
+
+logger = logging.getLogger('wn')
 
 
 def download(
@@ -64,8 +68,10 @@ def download(
     else:
         info = config.get_project_info(project_or_url)
         url = info['resource_url']
+    logger.info('download url: %s', url)
 
     path = config.get_cache_path(url)
+    logger.info('download cache path: %s', path)
 
     if path.exists():
         print(f'Cached file found: {path!s}', file=sys.stderr)

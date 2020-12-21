@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* `--verbose` / `-v` option for the command-line interface ([#71])
+
 ### Changed
 
 * `wn.project.iterpackages()` raises `wn.Error` on decompression
@@ -13,6 +17,7 @@
   message ([#77])
 * `wn.add()` improve error message when lexicons are already added
   ([#77])
+* Basic logging added for `wn.download()` and `wn.add()` ([#71])
 
 ### Fixed
 
@@ -107,6 +112,7 @@ abandoned, but this is an entirely new codebase.
 [#66]: https://github.com/goodmami/wn/issues/66
 [#69]: https://github.com/goodmami/wn/issues/69
 [#70]: https://github.com/goodmami/wn/issues/70
+[#71]: https://github.com/goodmami/wn/issues/71
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
 [#76]: https://github.com/goodmami/wn/issues/76

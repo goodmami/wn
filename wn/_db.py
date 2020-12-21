@@ -9,6 +9,7 @@ import sys
 import json
 import itertools
 import sqlite3
+import logging
 
 import wn
 from wn._types import AnyPath
@@ -16,6 +17,9 @@ from wn._util import get_progress_handler, resources, short_hash
 from wn.project import iterpackages
 from wn import constants
 from wn import lmf
+
+
+logger = logging.getLogger('wn')
 
 
 # Module Constants
@@ -121,6 +125,7 @@ def _connect() -> sqlite3.Connection:
     if DEBUG:
         conn.set_trace_callback(print)
     if not initialized:
+        logger.info('initializing database: %s', dbpath)
         _initialize(conn)
     return conn
 
@@ -185,8 +190,11 @@ def add(source: AnyPath, progress_handler=get_progress_handler) -> None:
     indicates the total number of rows to insert.
 
     """
-    for project in iterpackages(source):
-        _add_lmf(project.resource_file(), progress_handler)
+    logger.info('adding project to database')
+    logger.info('  database: %s', wn.config.database_path)
+    logger.info('  project file: %s', source)
+    for package in iterpackages(source):
+        _add_lmf(package.resource_file(), progress_handler)
 
 
 def _add_lmf(source, progress_handler):

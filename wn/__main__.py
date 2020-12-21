@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+import logging
 
 import wn
 
@@ -51,6 +52,10 @@ parser.add_argument(
     '-V', '--version', action='version', version=f'Wn {wn.__version__}'
 )
 parser.add_argument(
+    '-v', '--verbose', action='count', dest='verbosity', default=0,
+    help='increase verbosity (can repeat: -vv, -vvv)'
+)
+parser.add_argument(
     '-d', '--dir',
     type=_path_type,
     help="data directory for Wn's database and cache",
@@ -99,6 +104,10 @@ parser_projects.set_defaults(func=_projects)
 
 
 args = parser.parse_args()
+
+logging.basicConfig(level=logging.ERROR - (min(args.verbosity, 3) * 10))
+
 if args.dir:
     wn.config.data_directory = args.dir
+
 args.func(args)
