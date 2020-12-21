@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+### Changed
+
+* `wn.project.iterpackages()` raises `wn.Error` on decompression
+  problems ([#77])
+* `wn.lmf.LMFError` now inherits from `wn.Error`
+* `wn.lmf.scan_lexicons()` raises `LMFError` on XML parsing errors
+  ([#77])
+* `wn.download()` reraises caught `wn.Error` with more informative
+  message ([#77])
+* `wn.add()` improve error message when lexicons are already added
+  ([#77])
+
 ### Fixed
 
 * `wn.projects.iterpackages()` tries harder to prevent potential race
@@ -98,3 +110,4 @@ abandoned, but this is an entirely new codebase.
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
 [#76]: https://github.com/goodmami/wn/issues/76
+[#77]: https://github.com/goodmami/wn/issues/77

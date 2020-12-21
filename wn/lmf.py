@@ -19,6 +19,7 @@ import warnings
 import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
 
+import wn
 from wn._types import AnyPath
 from wn._util import is_xml
 from wn.constants import (
@@ -29,7 +30,7 @@ from wn.constants import (
 )
 
 
-class LMFError(Exception):
+class LMFError(wn.Error):
     """Raised on invalid LMF-XML documents."""
 
 
@@ -334,7 +335,10 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     p = xml.parsers.expat.ParserCreate()
     p.StartElementHandler = start
     with open(source, 'rb') as fh:
-        p.ParseFile(fh)
+        try:
+            p.ParseFile(fh)
+        except xml.parsers.expat.ExpatError as exc:
+            raise LMFError('invalid or ill-formed WN-LMF file') from exc
 
     return infos
 

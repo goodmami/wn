@@ -90,6 +90,12 @@ def download(
             raise wn.Error(f'Download failed at {size} bytes') from exc
 
     if add:
-        _db.add(path, progress_handler=progress_handler)
+        try:
+            _db.add(path, progress_handler=progress_handler)
+        except wn.Error as exc:
+            raise wn.Error(
+                f'could not add downloaded file: {path}\n  You might try '
+                'deleting the cached file and trying the download again.'
+            ) from exc
 
     return path

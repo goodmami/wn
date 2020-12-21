@@ -166,6 +166,8 @@ def _get_decompressed(source: Path) -> Iterator[Path]:
                     shutil.copyfileobj(lzma_src, tmp)
             tmp.close()  # Windows cannot reliably reopen until it's closed
             yield path
+        except (OSError, EOFError, lzma.LZMAError) as exc:
+            raise wn.Error(f'could not decompress file: {source}') from exc
         finally:
             path.unlink()
 

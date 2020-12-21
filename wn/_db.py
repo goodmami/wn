@@ -208,7 +208,8 @@ def _add_lmf(source, progress_handler):
             print(f'\r\033[K{source}: No lexicons found', file=sys.stderr)
             return
         elif all(info.get('skip', False) for info in all_infos):
-            print(f'\r\033[K{source}: No new lexicons found', file=sys.stderr)
+            print(f'\r\033[K{source}: Some or all lexicons already added',
+                  file=sys.stderr)
             return
 
         # all clear, try to add them
