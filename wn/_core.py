@@ -105,6 +105,28 @@ class _LexiconElement(_DatabaseEntity):
         return _to_lexicon(_db.get_lexicon(self._lexid))
 
 
+class Form(str):
+    """A word-form string with additional attributes."""
+    __slots__ = '_id', 'script',
+    __module__ = 'wn'
+
+    def __new__(cls, form: str, script: str = None, _id: int = _db.NON_ROWID):
+        obj = str.__new__(cls, form)  # type: ignore
+        obj.script = script
+        obj._id = _id
+        return obj
+
+    def __eq__(self, other):
+        return (str.__eq__(self, other)
+                and self.script == getattr(other, 'script', None))
+
+    def __hash__(self):
+        script = self.script
+        if script is None:
+            return str.__hash__(self)
+        return hash((str(self), self.script))
+
+
 class Word(_LexiconElement):
     """A class for words (also called lexical entries) in a wordnet."""
     __slots__ = 'id', 'pos', '_forms'
@@ -116,7 +138,7 @@ class Word(_LexiconElement):
             self,
             id: str,
             pos: str,
-            forms: List[str],
+            forms: List[Tuple[str, Optional[str], int]],
             _lexid: int = _db.NON_ROWID,
             _id: int = _db.NON_ROWID,
             _wordnet: 'Wordnet' = None
@@ -129,7 +151,7 @@ class Word(_LexiconElement):
     def __repr__(self) -> str:
         return f'Word({self.id!r})'
 
-    def lemma(self) -> str:
+    def lemma(self) -> Form:
         """Return the canonical form of the word.
 
         Example:
@@ -138,9 +160,9 @@ class Word(_LexiconElement):
             'wolf'
 
         """
-        return self._forms[0]
+        return Form(*self._forms[0])
 
-    def forms(self) -> List[str]:
+    def forms(self) -> List[Form]:
         """Return the list of all encoded forms of the word.
 
         Example:
@@ -149,7 +171,7 @@ class Word(_LexiconElement):
             ['wolf', 'wolves']
 
         """
-        return self._forms
+        return [Form(*form_data) for form_data in self._forms]
 
     def senses(self) -> List['Sense']:
         """Return the list of senses of the word.
@@ -352,7 +374,7 @@ class Synset(_Relatable):
         """
         return [sense.word() for sense in self.senses()]
 
-    def lemmas(self) -> List[str]:
+    def lemmas(self) -> List[Form]:
         """Return the list of lemmas of words for the synset.
 
         Example:

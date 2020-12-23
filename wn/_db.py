@@ -75,9 +75,10 @@ SYNSET_QUERY = '''
 
 # Local Types
 
-_Word = Tuple[int, int, str, str, List[str]]  # lexid, rowid, id, pos, forms
-_Synset = Tuple[int, int, str, str, str]      # lexid, rowid, id, pos, ili
-_Sense = Tuple[int, int, str, str, str]       # lexid, rowid, id, entry_id, synset_id
+_Form = Tuple[str, Optional[str], int]          # form, [script]
+_Word = Tuple[int, int, str, str, List[_Form]]  # lexid, rowid, id, pos, forms
+_Synset = Tuple[int, int, str, str, str]        # lexid, rowid, id, pos, ili
+_Sense = Tuple[int, int, str, str, str]         # lexid, rowid, id, entry_id, synset_id
 _Lexicon = Tuple[
     int,  # rowid
     str,  # id
@@ -573,7 +574,8 @@ def find_entries(
 ) -> Iterator[_Word]:
     with _connect() as conn:
         query_parts = [
-            'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, p.pos, f.form',
+            'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, p.pos,'
+            '                f.form, f.script, f.rowid',
             '  FROM entries AS e',
             '  JOIN parts_of_speech AS p ON p.rowid = e.pos_rowid',
             '  JOIN forms AS f ON f.entry_rowid = e.rowid',
@@ -599,10 +601,13 @@ def find_entries(
         query_parts.append(' ORDER BY e.rowid, e.id, f.rank')
 
         query = '\n'.join(query_parts)
-        rows: Iterator[Tuple[int, int, str, str, str]] = conn.execute(query, params)
-        for key, group in itertools.groupby(rows, lambda row: row[0:4]):
+        rows: Iterator[
+            Tuple[int, int, str, str, str, Optional[str], int]
+        ] = conn.execute(query, params)
+        groupby = itertools.groupby
+        for key, group in groupby(rows, lambda row: row[0:4]):
             lexid, rowid, id, pos = key
-            forms = [row[4] for row in group]
+            forms = [(row[4], row[5], row[6]) for row in group]
             yield (lexid, rowid, id, pos, forms)
 
 

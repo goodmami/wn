@@ -63,6 +63,36 @@ The Word Class
    .. automethod:: translate
 
 
+The Form Class
+--------------
+
+.. class:: Form
+
+   The return value of :meth:`Word.lemma` and the members of the list
+   returned by :meth:`Word.forms` are :class:`Form` objects. These are
+   a basic subclass of Python's :class:`str` class with an additional
+   attribute, :attr:`script`. Form objects without any specified
+   script behave exactly as a regular string (they are equal and hash
+   to the same value), but if they have different script values they
+   are unequal and hash differently, even if the string itself is
+   identical.
+
+   >>> inu = wn.words('犬', lexicon='wnja')[0]
+   >>> inu.forms()[3]
+   'いぬ'
+   >>> inu.forms()[3].script
+   'hira'
+
+   The :attr:`script` is often unspecified (i.e., ``None``) and this
+   carries the implicit meaning that the form uses the canonical
+   script for the word's language or wordnet, whatever it may be.
+
+   .. attribute:: script
+
+      The script of the word form. This should be an `ISO 15924
+      <https://en.wikipedia.org/wiki/ISO_15924>`_ code, or ``None``.
+
+
 The Sense Class
 ---------------
 

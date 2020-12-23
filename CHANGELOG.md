@@ -4,10 +4,13 @@
 
 ### Added
 
+* `wn.Form` class ([#79])
 * `--verbose` / `-v` option for the command-line interface ([#71])
 
 ### Changed
 
+* `wn.Word.lemma()` returns a `wn.Form` object ([#79])
+* `wn.Word.forms()` returns a list of `wn.Form` objects ([#79])
 * `wn.project.iterpackages()` raises `wn.Error` on decompression
   problems ([#77])
 * `wn.lmf.LMFError` now inherits from `wn.Error`
@@ -119,3 +122,4 @@ abandoned, but this is an entirely new codebase.
 [#76]: https://github.com/goodmami/wn/issues/76
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
+[#79]: https://github.com/goodmami/wn/issues/79
