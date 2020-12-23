@@ -99,9 +99,8 @@ def _adapt_metadata(meta: lmf.Metadata) -> bytes:
     return json.dumps(d).encode('utf-8')
 
 
-def _convert_metadata(s: bytes) -> lmf.Metadata:
-    d = json.loads(s)
-    return lmf.Metadata(*(d.get(key) for key in lmf.Metadata._fields))
+def _convert_metadata(s: bytes) -> Dict:
+    return json.loads(s)
 
 
 def _convert_boolean(s: bytes) -> bool:
@@ -118,7 +117,7 @@ sqlite3.register_converter('boolean', _convert_boolean)
 def _connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
     initialized = dbpath.is_file()
-    conn = sqlite3.connect(str(dbpath))
+    conn = sqlite3.connect(str(dbpath), detect_types=sqlite3.PARSE_DECLTYPES)
     # foreign key support needs to be enabled for each connection
     conn.execute('PRAGMA foreign_keys = ON')
     # uncomment the following to help with debugging

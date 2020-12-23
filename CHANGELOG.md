@@ -22,7 +22,8 @@
 ### Fixed
 
 * `wn.projects.iterpackages()` tries harder to prevent potential race
-  condition when reading temporary files ([#76])
+  conditions when reading temporary files ([#76])
+* `wn.Lexicon.metadata` now returns a dictionary ([#78])
 
 
 ## [v0.3.0]
@@ -117,3 +118,4 @@ abandoned, but this is an entirely new codebase.
 [#74]: https://github.com/goodmami/wn/issues/74
 [#76]: https://github.com/goodmami/wn/issues/76
 [#77]: https://github.com/goodmami/wn/issues/77
+[#78]: https://github.com/goodmami/wn/issues/78
