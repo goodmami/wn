@@ -417,7 +417,7 @@ class Synset(_Relatable):
         related: List['Synset'] = []
         if rowids:
             targets = {Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                       for lexid, rowid, id, pos, ili
+                       for _, lexid, rowid, id, pos, ili
                        in _db.get_synset_relations(rowids, args)}
             ilis = {ss.ili for ss in targets if ss.ili is not None}
             targets.update(Synset(id, pos, ili, lexid, rowid, self._wordnet)
@@ -754,13 +754,13 @@ class Sense(_Relatable):
         """
         iterable = _db.get_sense_relations(self._id, args)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
-                for lexid, rowid, id, entry_id, synset_id in iterable]
+                for _, lexid, rowid, id, entry_id, synset_id in iterable]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         """Return a list of related synsets."""
         iterable = _db.get_sense_synset_relations(self._id, args)
         return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                for lexid, rowid, id, pos, ili in iterable]
+                for _, lexid, rowid, id, pos, ili in iterable]
 
     def translate(self, lang: str = None, lexicon: str = None) -> List['Sense']:
         """Return a list of translated senses.
