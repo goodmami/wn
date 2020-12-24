@@ -24,6 +24,8 @@
 * `wn.add()` improve error message when lexicons are already added
   ([#77])
 * Basic logging added for `wn.download()` and `wn.add()` ([#71])
+* `Synset.get_related()` and `Sense.get_related()` may take a `'*'`
+  parameter to get all relations
 
 ### Fixed
 

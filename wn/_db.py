@@ -743,15 +743,18 @@ def get_synset_relations(
         source_rowids: Collection[int],
         relation_types: Collection[str],
 ) -> Iterator[_Synset]:
-    if isinstance(relation_types, str):
-        relation_types = (relation_types,)
-
+    params: List = []
+    constraint = ''
+    if '*' not in relation_types:
+        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
+    params.extend(source_rowids)
     with _connect() as conn:
         query = f'''
               WITH relation_types(type_rowid) AS  -- relation type lookup
                    (SELECT t.rowid
                       FROM synset_relation_types AS t
-                     WHERE t.type IN ({_qs(relation_types)}))
+                    {constraint})
             SELECT DISTINCT tgt.lexicon_rowid, tgt.rowid, tgt.id, p.pos, tgt.ili
               FROM (SELECT target_rowid
                       FROM synset_relations
@@ -762,7 +765,6 @@ def get_synset_relations(
               JOIN parts_of_speech AS p
                 ON p.rowid = tgt.pos_rowid
         '''
-        params = *relation_types, *source_rowids
         result_rows: Iterator[_Synset] = conn.execute(query, params)
         yield from result_rows
 
@@ -821,8 +823,11 @@ def get_sense_relations(
         source_rowid: int,
         relation_types: Collection[str],
 ) -> Iterator[_Sense]:
-    if isinstance(relation_types, str):
-        relation_types = (relation_types,)
+    params: List = [source_rowid]
+    constraint = ''
+    if '*' not in relation_types:
+        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
     with _connect() as conn:
         query = f'''
             SELECT DISTINCT s.lexicon_rowid, s.rowid, s.id, e.id, ss.id
@@ -838,9 +843,8 @@ def get_sense_relations(
                        AND type_rowid IN
                            (SELECT t.rowid
                               FROM sense_relation_types AS t
-                             WHERE t.type IN ({_qs(relation_types)})))
+                            {constraint}))
         '''
-        params = source_rowid, *relation_types
         rows: Iterator[_Sense] = conn.execute(query, params)
         yield from rows
 
@@ -849,8 +853,11 @@ def get_sense_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
 ) -> Iterator[_Synset]:
-    if isinstance(relation_types, str):
-        relation_types = (relation_types,)
+    params: List = [source_rowid]
+    constraint = ''
+    if '*' not in relation_types:
+        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
     with _connect() as conn:
         query = f'''
             SELECT DISTINCT ss.lexicon_rowid, ss.rowid, ss.id, p.pos, ss.ili
@@ -860,13 +867,12 @@ def get_sense_synset_relations(
                        AND type_rowid IN
                            (SELECT t.rowid
                               FROM synset_relation_types AS t
-                             WHERE t.type IN ({_qs(relation_types)}))) AS r
+                            {constraint})) AS r
               JOIN synsets AS ss
                 ON ss.rowid = r.target_rowid
               JOIN parts_of_speech AS p
                 ON p.rowid = s.pos_rowid
         '''
-        params = source_rowid, *relation_types
         rows: Iterator[_Synset] = conn.execute(query, params)
         yield from rows
 
