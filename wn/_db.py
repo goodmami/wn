@@ -882,5 +882,18 @@ def get_entry_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'entries
 def get_sense_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'senses')
 def get_synset_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'synsets')
 
+
+def _lexicalized(rowid: int, table: str) -> bool:
+    if rowid == NON_ROWID:
+        return False
+    with _connect() as conn:
+        query = f'SELECT lexicalized FROM {table} WHERE rowid=?'
+        return conn.execute(query, (rowid,)).fetchone()[0]
+
+
+def get_sense_lexicalized(rowid: int) -> bool: return _lexicalized(rowid, 'senses')
+def get_synset_lexicalized(rowid: int) -> bool: return _lexicalized(rowid, 'synsets')
+
+
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)

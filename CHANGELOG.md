@@ -5,6 +5,7 @@
 ### Added
 
 * `metadata` method on `wn.Word`, `wn.Sense`, and `wn.Synset`
+* `lexicalized` method on `wn.Sense` and `wn.Synset`
 * `wn.Form` class ([#79])
 * `--verbose` / `-v` option for the command-line interface ([#71])
 

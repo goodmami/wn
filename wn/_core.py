@@ -370,6 +370,9 @@ class Synset(_Relatable):
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
 
+    def lexicalized(self) -> bool:
+        return _db.get_synset_lexicalized(self._id)
+
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
         return _db.get_synset_metadata(self._id)
@@ -724,6 +727,9 @@ class Sense(_Relatable):
 
         """
         return synset(id=self._synset_id)
+
+    def lexicalized(self) -> bool:
+        return _db.get_sense_lexicalized(self._id)
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
