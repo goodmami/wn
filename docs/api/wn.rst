@@ -59,6 +59,7 @@ The Word Class
    .. automethod:: forms
    .. automethod:: senses
    .. automethod:: synsets
+   .. automethod:: metadata
    .. automethod:: derived_words
    .. automethod:: translate
 
@@ -104,6 +105,7 @@ The Sense Class
 
    .. automethod:: word
    .. automethod:: synset
+   .. automethod:: metadata
    .. automethod:: get_related
    .. automethod:: get_related_synsets
    .. automethod:: closure
@@ -130,6 +132,7 @@ The Synset Class
    .. automethod:: definition
    .. automethod:: examples
    .. automethod:: senses
+   .. automethod:: metadata
    .. automethod:: words
    .. automethod:: lemmas
    .. automethod:: hypernyms
@@ -148,6 +151,7 @@ The Lexicon Class
 
 .. autoclass:: Lexicon
 
+   .. automethod:: metadata
 
 The wn.config Object
 --------------------

@@ -12,7 +12,7 @@ import sqlite3
 import logging
 
 import wn
-from wn._types import AnyPath
+from wn._types import AnyPath, Metadata
 from wn._util import get_progress_handler, resources, short_hash
 from wn.project import iterpackages
 from wn import constants
@@ -75,21 +75,43 @@ SYNSET_QUERY = '''
 
 # Local Types
 
-_Form = Tuple[str, Optional[str], int]          # form, [script]
-_Word = Tuple[int, int, str, str, List[_Form]]  # lexid, rowid, id, pos, forms
-_Synset = Tuple[int, int, str, str, str]        # lexid, rowid, id, pos, ili
-_Sense = Tuple[int, int, str, str, str]         # lexid, rowid, id, entry_id, synset_id
-_Lexicon = Tuple[
+_Form = Tuple[
+    str,            # form
+    Optional[str],  # script
+    int             # rowid
+]
+_Word = Tuple[
+    int,         # lexid
+    int,         # rowid
+    str,         # id
+    str,         # pos
+    List[_Form]  # forms
+]
+_Synset = Tuple[
+    int,  # lexid
     int,  # rowid
     str,  # id
-    str,  # label
-    str,  # language
-    str,  # email
-    str,  # license
-    str,  # version
-    str,  # url
-    str,  # citation
-    Dict[str, Any],  # metadata
+    str,  # pos
+    str,  # ili
+]
+_Sense = Tuple[
+    int,  # lexid
+    int,  # rowid
+    str,  # id
+    str,  # entry_id
+    str,  # synset_id
+]
+_Lexicon = Tuple[
+    int,       # rowid
+    str,       # id
+    str,       # label
+    str,       # language
+    str,       # email
+    str,       # license
+    str,       # version
+    str,       # url
+    str,       # citation
+    Metadata,  # metadata
 ]
 
 
@@ -848,6 +870,17 @@ def get_sense_synset_relations(
         rows: Iterator[_Synset] = conn.execute(query, params)
         yield from rows
 
+
+def _metadata(rowid: int, table: str) -> Metadata:
+    with _connect() as conn:
+        query = f'SELECT metadata FROM {table} WHERE rowid=?'
+        return conn.execute(query, (rowid,)).fetchone()[0]
+
+
+def get_lexicon_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'lexicons')
+def get_entry_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'entries')
+def get_sense_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'senses')
+def get_synset_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'synsets')
 
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)

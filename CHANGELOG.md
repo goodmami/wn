@@ -4,11 +4,13 @@
 
 ### Added
 
+* `metadata` method on `wn.Word`, `wn.Sense`, and `wn.Synset`
 * `wn.Form` class ([#79])
 * `--verbose` / `-v` option for the command-line interface ([#71])
 
 ### Changed
 
+* `wn.Lexicon.metadata` is now a method
 * `wn.Word.lemma()` returns a `wn.Form` object ([#79])
 * `wn.Word.forms()` returns a list of `wn.Form` objects ([#79])
 * `wn.project.iterpackages()` raises `wn.Error` on decompression

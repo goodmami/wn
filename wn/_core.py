@@ -2,6 +2,7 @@
 from typing import Any, TypeVar, Optional, List, Tuple, Dict, Set, Iterator
 
 import wn
+from wn._types import Metadata
 from wn._util import flatten
 from wn import _db
 
@@ -51,10 +52,9 @@ class Lexicon(_DatabaseEntity):
         version: The version string of the resource.
         url: The project URL of the wordnet.
         citation: The canonical citation for the project.
-        metadata: Any extra metadata for the lexicon.
     """
     __slots__ = ('id', 'label', 'language', 'email', 'license',
-                 'version', 'url', 'citation', 'metadata')
+                 'version', 'url', 'citation')
     __module__ = 'wn'
 
     _ENTITY_TYPE = 'lexicons'
@@ -81,11 +81,14 @@ class Lexicon(_DatabaseEntity):
         self.version = version
         self.url = url
         self.citation = citation
-        self.metadata = metadata
 
     def __repr__(self):
         id, ver, lg = self.id, self.version, self.language
         return f'<Lexicon {id}:{ver} [{lg}]>'
+
+    def metadata(self) -> Metadata:
+        """Return the lexicon's metadata."""
+        return _db.get_lexicon_metadata(self._id)
 
 
 class _LexiconElement(_DatabaseEntity):
@@ -185,6 +188,10 @@ class Word(_LexiconElement):
         iterable = _db.get_senses_for_entry(self._id)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
+
+    def metadata(self) -> Metadata:
+        """Return the word's metadata."""
+        return _db.get_entry_metadata(self._id)
 
     def synsets(self) -> List['Synset']:
         """Return the list of synsets of the word.
@@ -362,6 +369,10 @@ class Synset(_Relatable):
         iterable = _db.get_senses_for_synset(self._id)
         return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
                 for lexid, rowid, id, entry_id, synset_id in iterable]
+
+    def metadata(self) -> Metadata:
+        """Return the synset's metadata."""
+        return _db.get_synset_metadata(self._id)
 
     def words(self) -> List[Word]:
         """Return the list of words linked by the synset's senses.
@@ -713,6 +724,10 @@ class Sense(_Relatable):
 
         """
         return synset(id=self._synset_id)
+
+    def metadata(self) -> Metadata:
+        """Return the sense's metadata."""
+        return _db.get_sense_metadata(self._id)
 
     def get_related(self, *args: str) -> List['Sense']:
         """Return a list of related senses.
