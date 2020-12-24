@@ -186,8 +186,7 @@ class Word(_LexiconElement):
 
         """
         iterable = _db.get_senses_for_entry(self._id)
-        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
-                for lexid, rowid, id, entry_id, synset_id in iterable]
+        return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
@@ -367,8 +366,7 @@ class Synset(_Relatable):
 
         """
         iterable = _db.get_senses_for_synset(self._id)
-        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
-                for lexid, rowid, id, entry_id, synset_id in iterable]
+        return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
         return _db.get_synset_lexicalized(self._id)
@@ -412,16 +410,16 @@ class Synset(_Relatable):
         # expand search via ILI if possible
         if self.ili is not None and expids:
             expss = _db.find_synsets(ili=self.ili, lexicon_rowids=expids)
-            rowids.update(rowid for _, rowid, _, _, _ in expss)
+            rowids.update(rowid for _, _, _, _, rowid in expss)
 
         related: List['Synset'] = []
         if rowids:
-            targets = {Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                       for _, lexid, rowid, id, pos, ili
+            targets = {Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
+                       for _, ssid, pos, ili, lexid, rowid
                        in _db.get_synset_relations(rowids, args)}
             ilis = {ss.ili for ss in targets if ss.ili is not None}
-            targets.update(Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                           for lexid, rowid, id, pos, ili
+            targets.update(Synset(*synset_data, self._wordnet)
+                           for synset_data
                            in _db.get_synsets_for_ilis(ilis, lexicon_rowids=lexids))
             related.extend(ss for ss in targets if ss._lexid in lexids)
             # add empty synsets for ILIs without a target in lexids
@@ -753,14 +751,14 @@ class Sense(_Relatable):
 
         """
         iterable = _db.get_sense_relations(self._id, args)
-        return [Sense(id, entry_id, synset_id, lexid, rowid, self._wordnet)
-                for _, lexid, rowid, id, entry_id, synset_id in iterable]
+        return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
+                for _, sid, eid, ssid, lexid, rowid in iterable]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         """Return a list of related synsets."""
         iterable = _db.get_sense_synset_relations(self._id, args)
-        return [Synset(id, pos, ili, lexid, rowid, self._wordnet)
-                for _, lexid, rowid, id, pos, ili in iterable]
+        return [Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
+                for _, ssid, pos, ili, lexid, rowid in iterable]
 
     def translate(self, lang: str = None, lexicon: str = None) -> List['Sense']:
         """Return a list of translated senses.
@@ -843,8 +841,7 @@ class Wordnet:
         """Return the first word in this wordnet with identifier *id*."""
         iterable = _db.find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            lexid, rowid, id, pos, forms = next(iterable)
-            return Word(id, pos, forms, lexid, rowid, self)
+            return Word(*next(iterable), self)
         except StopIteration:
             raise wn.Error(f'no such lexical entry: {id}')
 
@@ -860,15 +857,13 @@ class Wordnet:
         iterable = _db.find_entries(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
-        return [Word(id, pos, forms, lexid, rowid, self)
-                for lexid, rowid, id, pos, forms in iterable]
+        return [Word(*word_data, self) for word_data in iterable]
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
         iterable = _db.find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            lexid, rowid, id, pos, ili = next(iterable)
-            return Synset(id, pos, ili, lexid, rowid, self)
+            return Synset(*next(iterable), self)
         except StopIteration:
             raise wn.Error(f'no such synset: {id}')
 
@@ -889,15 +884,13 @@ class Wordnet:
         iterable = _db.find_synsets(
             form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids
         )
-        return [Synset(id, pos, ili, lexid, rowid, self)
-                for lexid, rowid, id, pos, ili in iterable]
+        return [Synset(*synset_data, self) for synset_data in iterable]
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
         iterable = _db.find_senses(id=id, lexicon_rowids=self._lexicon_ids)
         try:
-            lexid, rowid, id, entry_id, synset_id = next(iterable)
-            return Sense(id, entry_id, synset_id, lexid, rowid, self)
+            return Sense(*next(iterable), self)
         except StopIteration:
             raise wn.Error(f'no such sense: {id}')
 
@@ -913,8 +906,7 @@ class Wordnet:
         iterable = _db.find_senses(
             form=form, pos=pos, lexicon_rowids=self._lexicon_ids
         )
-        return [Sense(id, entry_id, synset_id, lexid, rowid, self)
-                for lexid, rowid, id, entry_id, synset_id in iterable]
+        return [Sense(*sense_data, self) for sense_data in iterable]
 
 
 def _to_lexicon(data) -> Lexicon:
