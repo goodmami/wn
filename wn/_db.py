@@ -772,54 +772,55 @@ def get_synset_relations(
         yield from result_rows
 
 
-def get_definitions_for_synset(rowid: int) -> List[str]:
+def get_definitions(synset_rowid: int) -> List[Tuple[str, str, int]]:
     with _connect() as conn:
         query = '''
-            SELECT definition
+            SELECT definition, language, rowid
               FROM definitions
              WHERE synset_rowid = ?
         '''
-        return [row[0] for row in conn.execute(query, (rowid,)).fetchall()]
+        return conn.execute(query, (synset_rowid,)).fetchall()
 
 
-def get_examples_for_synset(rowid: int) -> List[str]:
+_SANITIZED_EXAMPLE_PREFIXES = {
+    'senses': 'sense',
+    'synsets': 'synset',
+}
+
+
+def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
+    prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
+    if prefix is None:
+        raise wn.Error(f"'{table}' does not have examples")
     with _connect() as conn:
-        query = '''
-            SELECT example
-              FROM synset_examples
-             WHERE synset_rowid = ?
+        query = f'''
+            SELECT example, language, rowid
+              FROM {prefix}_examples
+             WHERE {prefix}_rowid = ?
         '''
-        return [row[0] for row in conn.execute(query, (rowid,)).fetchall()]
+        return conn.execute(query, (rowid,)).fetchall()
 
 
-def get_senses_for_entry(rowid: int) -> Iterator[_Sense]:
+def _get_senses(rowid: int, sourcetype: str) -> Iterator[_Sense]:
     with _connect() as conn:
-        query = '''
+        query = f'''
             SELECT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
               FROM senses AS s
               JOIN entries AS e
                 ON e.rowid = s.entry_rowid
               JOIN synsets AS ss
                 ON ss.rowid = s.synset_rowid
-             WHERE s.entry_rowid = ?
+             WHERE s.{sourcetype}_rowid = ?
         '''
-        rows: Iterator[_Sense] = conn.execute(query, (rowid,))
-        yield from rows
+        return conn.execute(query, (rowid,))
 
 
-def get_senses_for_synset(rowid: int) -> Iterator[_Sense]:
-    with _connect() as conn:
-        query = '''
-            SELECT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
-              FROM senses AS s
-              JOIN entries AS e
-                ON e.rowid = s.entry_rowid
-              JOIN synsets AS ss
-                ON ss.rowid = s.synset_rowid
-             WHERE s.synset_rowid = ?
-        '''
-        rows: Iterator[_Sense] = conn.execute(query, (rowid,))
-        yield from rows
+def get_entry_senses(rowid: int) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'entry')
+
+
+def get_synset_members(rowid: int) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'synset')
 
 
 def get_sense_relations(
@@ -883,28 +884,43 @@ def get_sense_synset_relations(
         yield from rows
 
 
-def _metadata(rowid: int, table: str) -> Metadata:
+_SANITIZED_METADATA_TABLES = {
+    'lexicons': 'lexicons',
+    'entries': 'entries',
+    'senses': 'senses',
+    'synsets': 'synsets',
+    'sense_relations': 'sense_relations',
+    'sense_synset_relations': 'sense_synset_relations',
+    'synset_relations': 'synset_relations',
+    'sense_examples': 'sense_examples',
+    'synset_examples': 'synset_examples',
+}
+
+
+def get_metadata(rowid: int, table: str) -> Metadata:
+    tablename = _SANITIZED_METADATA_TABLES.get(table)
+    if tablename is None:
+        raise wn.Error(f"'{table}' does not contain metadata")
     with _connect() as conn:
-        query = f'SELECT metadata FROM {table} WHERE rowid=?'
+        query = f'SELECT metadata FROM {tablename} WHERE rowid=?'
         return conn.execute(query, (rowid,)).fetchone()[0]
 
 
-def get_lexicon_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'lexicons')
-def get_entry_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'entries')
-def get_sense_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'senses')
-def get_synset_metadata(rowid: int) -> Metadata: return _metadata(rowid, 'synsets')
+_SANITIZED_LEXICALIZED_TABLES = {
+    'senses': 'senses',
+    'synsets': 'synsets',
+}
 
 
-def _lexicalized(rowid: int, table: str) -> bool:
+def get_lexicalized(rowid: int, table: str) -> bool:
+    tablename = _SANITIZED_LEXICALIZED_TABLES.get(table)
+    if tablename is None:
+        raise wn.Error(f"'{table}' does not mark lexicalization")
     if rowid == NON_ROWID:
         return False
     with _connect() as conn:
-        query = f'SELECT lexicalized FROM {table} WHERE rowid=?'
+        query = f'SELECT lexicalized FROM {tablename} WHERE rowid=?'
         return conn.execute(query, (rowid,)).fetchone()[0]
-
-
-def get_sense_lexicalized(rowid: int) -> bool: return _lexicalized(rowid, 'senses')
-def get_synset_lexicalized(rowid: int) -> bool: return _lexicalized(rowid, 'synsets')
 
 
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))

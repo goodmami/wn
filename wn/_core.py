@@ -88,7 +88,7 @@ class Lexicon(_DatabaseEntity):
 
     def metadata(self) -> Metadata:
         """Return the lexicon's metadata."""
-        return _db.get_lexicon_metadata(self._id)
+        return _db.get_metadata(self._id, 'lexicons')
 
 
 class _LexiconElement(_DatabaseEntity):
@@ -185,12 +185,12 @@ class Word(_LexiconElement):
             [Sense('ewn-zygoma-n-05292350-01')]
 
         """
-        iterable = _db.get_senses_for_entry(self._id)
+        iterable = _db.get_entry_senses(self._id)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
-        return _db.get_entry_metadata(self._id)
+        return _db.get_metadata(self._id, 'entries')
 
     def synsets(self) -> List['Synset']:
         """Return the list of synsets of the word.
@@ -343,7 +343,10 @@ class Synset(_Relatable):
             'a wheel that has wooden spokes and a metal rim'
 
         """
-        return next(iter(_db.get_definitions_for_synset(self._id)), None)
+        return next(
+            (text for text, _, _ in _db.get_definitions(self._id)),
+            None
+        )
 
     def examples(self) -> List[str]:
         """Return the list of examples for the synset.
@@ -354,7 +357,7 @@ class Synset(_Relatable):
             ['"orbital revolution"', '"orbital velocity"']
 
         """
-        return _db.get_examples_for_synset(self._id)
+        return [ex for ex, _, _ in _db.get_examples(self._id, 'synsets')]
 
     def senses(self) -> List['Sense']:
         """Return the list of sense members of the synset.
@@ -365,15 +368,15 @@ class Synset(_Relatable):
             [Sense('ewn-umbrella-n-04514450-01')]
 
         """
-        iterable = _db.get_senses_for_synset(self._id)
+        iterable = _db.get_synset_members(self._id)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
-        return _db.get_synset_lexicalized(self._id)
+        return _db.get_lexicalized(self._id, 'synsets')
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
-        return _db.get_synset_metadata(self._id)
+        return _db.get_metadata(self._id, 'synsets')
 
     def words(self) -> List[Word]:
         """Return the list of words linked by the synset's senses.
@@ -726,12 +729,16 @@ class Sense(_Relatable):
         """
         return synset(id=self._synset_id)
 
+    def examples(self) -> List[str]:
+        """Return the list of examples for the sense."""
+        return [ex for ex, _, _ in _db.get_examples(self._id, 'senses')]
+
     def lexicalized(self) -> bool:
-        return _db.get_sense_lexicalized(self._id)
+        return _db.get_lexicalized(self._id, 'senses')
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
-        return _db.get_sense_metadata(self._id)
+        return _db.get_metadata(self._id, 'senses')
 
     def get_related(self, *args: str) -> List['Sense']:
         """Return a list of related senses.
