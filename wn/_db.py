@@ -94,7 +94,7 @@ _Synset = Tuple[
     int,  # lexid
     int,  # rowid
 ]
-_Synset_Relation = Tuple[str, str, str, str, int, int]  # relname, *_Synset
+_Synset_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid, *_Synset
 _Sense = Tuple[
     str,  # id
     str,  # entry_id
@@ -102,7 +102,7 @@ _Sense = Tuple[
     int,  # lexid
     int,  # rowid
 ]
-_Sense_Relation = Tuple[str, str, str, str, int, int]  # relname, *_Sense
+_Sense_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
 _Lexicon = Tuple[
     int,       # rowid
     str,       # id
@@ -757,10 +757,11 @@ def get_synset_relations(
                    (SELECT t.rowid, t.type
                       FROM synset_relation_types AS t
                     {constraint})
-            SELECT DISTINCT rel.type, tgt.id, p.pos, tgt.ili,
+            SELECT DISTINCT rel.type, rel.rowid,
+                            tgt.id, p.pos, tgt.ili,
                             tgt.lexicon_rowid, tgt.rowid
-              FROM (SELECT type, target_rowid
-                      FROM synset_relations
+              FROM (SELECT type, target_rowid, srel.rowid
+                      FROM synset_relations AS srel
                       JOIN relation_types USING (type_rowid)
                      WHERE source_rowid IN ({_qs(source_rowids)})) AS rel
               JOIN synsets AS tgt
@@ -839,9 +840,11 @@ def get_sense_relations(
                    (SELECT t.rowid, t.type
                       FROM sense_relation_types AS t
                     {constraint})
-            SELECT DISTINCT rel.type, s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
-              FROM (SELECT type, target_rowid
-                      FROM sense_relations
+            SELECT DISTINCT rel.type, rel.rowid,
+                            s.id, e.id, ss.id,
+                            s.lexicon_rowid, s.rowid
+              FROM (SELECT type, target_rowid, srel.rowid
+                      FROM sense_relations AS srel
                       JOIN relation_types USING (type_rowid)
                      WHERE source_rowid = ?) AS rel
               JOIN senses AS s
@@ -870,9 +873,11 @@ def get_sense_synset_relations(
                    (SELECT t.rowid, t.type
                       FROM sense_relation_types AS t
                     {constraint})
-            SELECT DISTINCT rel.type, ss.id, p.pos, ss.ili, ss.lexicon_rowid, ss.rowid
-              FROM (SELECT type, target_rowid
-                      FROM sense_synset_relations
+            SELECT DISTINCT rel.type, rel.rowid,
+                            ss.id, p.pos, ss.ili,
+                            ss.lexicon_rowid, ss.rowid
+              FROM (SELECT type, target_rowid, srel.rowid
+                      FROM sense_synset_relations AS srel
                       JOIN relation_types USING (type_rowid)
                      WHERE source_rowid = ?) AS rel
               JOIN synsets AS ss
