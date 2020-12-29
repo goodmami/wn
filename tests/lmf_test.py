@@ -53,3 +53,10 @@ def test_load(mini_lmf_1_0):
     assert len(lexicon.synsets) == 6
 
     assert lexicons[1].id == 'test-es'
+
+
+def test_dump(mini_lmf_1_0, tmp_path):
+    lexicons = lmf.load(mini_lmf_1_0)
+    tmpdir = tmp_path / 'test_dump'
+    tmpdir.mkdir()
+    lmf.dump(lexicons, tmpdir / 'mini_lmf_dump.xml')

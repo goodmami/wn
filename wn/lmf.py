@@ -13,11 +13,13 @@ from typing import (
     Set,
     NamedTuple,
     Optional,
+    TextIO,
 )
 from pathlib import Path
 import warnings
 import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
+from xml.sax.saxutils import quoteattr
 
 import wn
 from wn._types import AnyPath
@@ -39,32 +41,40 @@ class LMFWarning(Warning):
 
 
 _XMLDECL = '<?xml version="1.0" encoding="UTF-8"?>'
-_SCHEMAS = (
-    'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
-)
+_DOCTYPE = '<!DOCTYPE LexicalResource SYSTEM "{schema}">'
+_SCHEMAS = {
+    '1.0': 'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
+    '1.1': 'http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd',
+}
 _DOCTYPES = {
-    f'<!DOCTYPE LexicalResource SYSTEM "{schema}">' for schema in _SCHEMAS
+    _DOCTYPE.format(schema=schema): version for version, schema in _SCHEMAS.items()
 }
 
-_dc_uri = 'http://purl.org/dc/elements/1.1/'
-
-_dc_qname_pairs = (
-    # dublin-core metadata needs the namespace uri prefixed
-    (f'{{{_dc_uri}}}contributor', 'contributor'),
-    (f'{{{_dc_uri}}}coverage', 'coverage'),
-    (f'{{{_dc_uri}}}creator', 'creator'),
-    (f'{{{_dc_uri}}}date', 'date'),
-    (f'{{{_dc_uri}}}description', 'description'),
-    (f'{{{_dc_uri}}}format', 'format'),
-    (f'{{{_dc_uri}}}identifier', 'identifier'),
-    (f'{{{_dc_uri}}}publisher', 'publisher'),
-    (f'{{{_dc_uri}}}relation', 'relation'),
-    (f'{{{_dc_uri}}}rights', 'rights'),
-    (f'{{{_dc_uri}}}source', 'source'),
-    (f'{{{_dc_uri}}}subject', 'subject'),
-    (f'{{{_dc_uri}}}title', 'title'),
-    (f'{{{_dc_uri}}}type', 'type'),
-)
+_DC_URIS = {
+    '1.0': 'http://purl.org/dc/elements/1.1/',
+    '1.1': 'http://globalwordnet.github.io/schemas/dc/',
+}
+_DC_ATTRS = [
+    'contributor',
+    'coverage',
+    'creator',
+    'date',
+    'description',
+    'format',
+    'identifier',
+    'publisher',
+    'relation',
+    'rights',
+    'source',
+    'subject',
+    'title',
+    'type',
+]
+# dublin-core metadata needs the namespace uri prefixed
+_DC_QNAME_PAIRS = {
+    version: [(f'{{{uri}}}{attr}', attr) for attr in _DC_ATTRS]
+    for version, uri in _DC_URIS.items()
+}
 
 
 class Metadata(NamedTuple):
@@ -303,7 +313,7 @@ LexicalResource = List[Lexicon]
 
 
 def is_lmf(source: AnyPath) -> bool:
-    """Return True if *source* is a WN-LMF XML file."""
+    """Return True if *source* is a WN-LMF file."""
     source = Path(source).expanduser()
     if not is_xml(source):
         return False
@@ -344,19 +354,25 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
 
 
 def load(source: AnyPath) -> LexicalResource:
-    """Load wordnets encoded in the LMF-XML format.
+    """Load wordnets encoded in the WN-LMF format.
 
     Args:
-        source: path to an LMF-XML file
+        source: path to a WN-LMF file
     """
     source = Path(source).expanduser()
+
+    with source.open('rt') as fh:
+        assert fh.readline().rstrip() == _XMLDECL
+        doctype = fh.readline().rstrip()
+        version = _DOCTYPES[doctype]
+
     events = ET.iterparse(source, events=('start', 'end'))
     root = next(events)[1]
     event, elem = next(events)
 
     lexicons: List[Lexicon] = []
     while event == 'start' and elem.tag == 'Lexicon':
-        lexicons.append(_load_lexicon(elem, events))
+        lexicons.append(_load_lexicon(elem, events, version))
         root.clear()
         event, elem = next(events)
 
@@ -366,14 +382,34 @@ def load(source: AnyPath) -> LexicalResource:
     return lexicons
 
 
-def _load_lexicon(local_root, events) -> Lexicon:
+def dump(
+        lexicons: LexicalResource, destination: AnyPath, version: str = '1.0'
+) -> None:
+    """Write wordnets in the WN-LMF format.
+
+    Args:
+        lexicons: a list of :class:`Lexicon` objects
+    """
+    destination = Path(destination).expanduser()
+    doctype = _DOCTYPE.format(schema=_SCHEMAS[version])
+    dc_uri = _DC_URIS[version]
+    with destination.open('wt', encoding='utf-8') as out:
+        print(_XMLDECL, file=out)
+        print(doctype, file=out)
+        print(f'<LexicalResource xmlns:dc="{dc_uri}">', file=out)
+        for lexicon in lexicons:
+            _dump_lexicon(lexicon, out, version)
+        print('</LexicalResource>', file=out)
+
+
+def _load_lexicon(local_root, events, version) -> Lexicon:
     attrs = local_root.attrib
     event, elem = next(events)
 
     syntactic_behaviours: List[SyntacticBehaviour] = []
     lexical_entries: List[LexicalEntry] = []
     while event == 'start' and elem.tag == 'LexicalEntry':
-        entry, sbs = _load_lexical_entry(elem, events)
+        entry, sbs = _load_lexical_entry(elem, events, version)
         lexical_entries.append(entry)
         syntactic_behaviours.extend(sbs)
         local_root.clear()
@@ -381,7 +417,7 @@ def _load_lexicon(local_root, events) -> Lexicon:
 
     synsets: List[Synset] = []
     while event == 'start' and elem.tag == 'Synset':
-        synsets.append(_load_synset(elem, events))
+        synsets.append(_load_synset(elem, events, version))
         local_root.clear()
         event, elem = next(events)
 
@@ -399,13 +435,14 @@ def _load_lexicon(local_root, events) -> Lexicon:
         lexical_entries=lexical_entries,
         synsets=synsets,
         syntactic_behaviours=syntactic_behaviours,
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
 def _load_lexical_entry(
         local_root,
-        events
+        events,
+        version,
 ) -> Tuple[LexicalEntry, List[SyntacticBehaviour]]:
     attrs = local_root.attrib
     lemma: Lemma = _load_lemma(events)
@@ -418,7 +455,7 @@ def _load_lexical_entry(
 
     senses: List[Sense] = []
     while event == 'start' and elem.tag == 'Sense':
-        senses.append(_load_sense(elem, events))
+        senses.append(_load_sense(elem, events, version))
         event, elem = next(events)
 
     syntactic_behaviours: List[SyntacticBehaviour] = []
@@ -435,7 +472,7 @@ def _load_lexical_entry(
         lemma,
         forms=forms,
         senses=senses,
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
     return entry, syntactic_behaviours
@@ -476,7 +513,7 @@ def _load_tags_until(events, terminus) -> List[Tag]:
     return tags
 
 
-def _load_sense(local_root, events) -> Sense:
+def _load_sense(local_root, events, version) -> Sense:
     attrs = local_root.attrib
     event, elem = next(events)
 
@@ -484,21 +521,23 @@ def _load_sense(local_root, events) -> Sense:
     while event == 'start' and elem.tag == 'SenseRelation':
         event, elem = next(events)
         _assert_closed(event, elem, 'SenseRelation')
-        relations.append(_load_relation(elem, SenseRelation, SENSE_RELATIONS))
+        relations.append(
+            _load_relation(elem, SenseRelation, SENSE_RELATIONS, version)
+        )
         event, elem = next(events)
 
     examples: List[Example] = []
     while event == 'start' and elem.tag == 'Example':
         event, elem = next(events)
         _assert_closed(event, elem, 'Example')
-        examples.append(_load_example(elem))
+        examples.append(_load_example(elem, version))
         event, elem = next(events)
 
     counts: List[Count] = []
     while event == 'start' and elem.tag == 'Count':
         event, elem = next(events)
         _assert_closed(event, elem, 'Count')
-        counts.append(_load_count(elem))
+        counts.append(_load_count(elem, version))
         event, elem = next(events)
 
     _assert_closed(event, elem, 'Sense')
@@ -511,33 +550,33 @@ def _load_sense(local_root, events) -> Sense:
         counts=counts,
         lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
         adjposition=_get_optional_literal(attrs.get('adjposition'), ADJPOSITIONS),
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
 _R = TypeVar('_R', SynsetRelation, SenseRelation)
 
 
-def _load_relation(elem, cls: Type[_R], choices: Container[str]) -> _R:
+def _load_relation(elem, cls: Type[_R], choices: Container[str], version: str) -> _R:
     attrs = elem.attrib
     return cls(
         attrs['target'],
         _get_literal
         (attrs['relType'], choices),
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
-def _load_example(elem) -> Example:
+def _load_example(elem, version) -> Example:
     attrs = elem.attrib
     return Example(
         elem.text,
         language=attrs.get('language'),
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
-def _load_count(elem) -> Count:
+def _load_count(elem, version) -> Count:
     attrs = elem.attrib
     value: int = -1
     try:
@@ -546,7 +585,7 @@ def _load_count(elem) -> Count:
         warnings.warn(f'count must be an integer: {elem.text}', LMFWarning)
     return Count(
         value,
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
@@ -558,7 +597,7 @@ def _load_syntactic_behaviour(elem) -> SyntacticBehaviour:
     )
 
 
-def _load_synset(local_root, events) -> Synset:
+def _load_synset(local_root, events, version) -> Synset:
     attrs = local_root.attrib
     event, elem = next(events)
 
@@ -566,28 +605,30 @@ def _load_synset(local_root, events) -> Synset:
     while event == 'start' and elem.tag == 'Definition':
         event, elem = next(events)
         _assert_closed(event, elem, 'Definition')
-        definitions.append(_load_definition(elem))
+        definitions.append(_load_definition(elem, version))
         event, elem = next(events)
 
     ili_definition = None
     if event == 'start' and elem.tag == 'ILIDefinition':
         event, elem = next(events)
         _assert_closed(event, elem, 'ILIDefinition')
-        ili_definition = _load_ilidefinition(elem)
+        ili_definition = _load_ilidefinition(elem, version)
         event, elem = next(events)
 
     relations: List[SynsetRelation] = []
     while event == 'start' and elem.tag == 'SynsetRelation':
         event, elem = next(events)
         _assert_closed(event, elem, 'SynsetRelation')
-        relations.append(_load_relation(elem, SynsetRelation, SYNSET_RELATIONS))
+        relations.append(
+            _load_relation(elem, SynsetRelation, SYNSET_RELATIONS, version)
+        )
         event, elem = next(events)
 
     examples: List[Example] = []
     while event == 'start' and elem.tag == 'Example':
         event, elem = next(events)
         _assert_closed(event, elem, 'Example')
-        examples.append(_load_example(elem))
+        examples.append(_load_example(elem, version))
         event, elem = next(events)
 
     _assert_closed(event, elem, 'Synset')
@@ -595,31 +636,31 @@ def _load_synset(local_root, events) -> Synset:
     return Synset(
         attrs['id'],
         attrs['ili'],
-        pos=_get_optional_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
+        pos=_get_optional_literal(attrs.get('partOfSpeech'), PARTS_OF_SPEECH),
         definitions=definitions,
         ili_definition=ili_definition,
         relations=relations,
         examples=examples,
         lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
-def _load_definition(elem) -> Definition:
+def _load_definition(elem, version) -> Definition:
     attrs = elem.attrib
     return Definition(
         elem.text,
         language=attrs.get('language'),
         source_sense=attrs.get('sourceSense'),
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
-def _load_ilidefinition(elem) -> ILIDefinition:
+def _load_ilidefinition(elem, version) -> ILIDefinition:
     attrs = elem.attrib
     return ILIDefinition(
         elem.text,
-        meta=_get_metadata(attrs),
+        meta=_get_metadata(attrs, version),
     )
 
 
@@ -643,8 +684,8 @@ def _get_literal(value: str, choices: Container[str]) -> str:
     return value
 
 
-def _get_metadata(attrs: Dict) -> Optional[Metadata]:
-    metas = [attrs.get(qname) for qname, _ in _dc_qname_pairs]
+def _get_metadata(attrs: Dict, version: str) -> Optional[Metadata]:
+    metas = [attrs.get(qname) for qname, _ in _DC_QNAME_PAIRS[version]]
     metas.append(attrs.get('status'))
     metas.append(attrs.get('note'))
     if 'confidenceScore' in attrs:
@@ -670,3 +711,199 @@ def _assert_closed(event, elem, tag) -> None:
 
 def _unexpected(elem) -> LMFError:
     return LMFError(f'unexpected element: {elem.tag}')
+
+
+def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
+    attrib = {
+        'id': lexicon.id,
+        'label': lexicon.label,
+        'language': lexicon.language,
+        'email': lexicon.email,
+        'license': lexicon.license,
+        'version': lexicon.version,
+    }
+    if lexicon.url:
+        attrib['url'] = lexicon.url
+    if lexicon.citation:
+        attrib['citation'] = lexicon.citation
+    attrib.update(_meta_dict(lexicon.meta))
+    attrdelim = '\n' + (' ' * 11)
+    attrs = attrdelim.join(f'{attr}={quoteattr(val)}' for attr, val in attrib.items())
+    print(f'  <Lexicon {attrs}>', file=out)
+
+    for entry in lexicon.lexical_entries:
+        # TODO: 1.0 SyntacticBehaviour
+        _dump_lexical_entry(entry, out, version)
+
+    for synset in lexicon.synsets:
+        _dump_synset(synset, out, version)
+
+    # TODO: 1.1 SyntacticBehaviour
+
+    print('  </Lexicon>', file=out)
+
+
+def _dump_lexical_entry(
+        entry: LexicalEntry, out: TextIO, version: str
+) -> None:
+    attrib = {'id': entry.id}
+    attrib.update(_meta_dict(entry.meta))
+    elem = ET.Element('LexicalEntry', attrib=attrib)
+    elem.append(_build_lemma(entry.lemma))
+    elem.extend(_build_form(form) for form in entry.forms)
+    elem.extend(_build_sense(sense) for sense in entry.senses)
+    # TODO: 1.0 SyntacticBehaviour
+    print(_tostring(elem, 2), file=out)
+
+
+def _build_lemma(lemma: Lemma) -> ET.Element:
+    attrib = {'writtenForm': lemma.form}
+    if lemma.script:
+        attrib['script'] = lemma.script
+    attrib['partOfSpeech'] = lemma.pos
+    elem = ET.Element('Lemma', attrib=attrib)
+    # TODO: Pronunciation
+    for tag in lemma.tags:
+        elem.append(_build_tag(tag))
+    return elem
+
+
+def _build_form(form: Form) -> ET.Element:
+    attrib = {'writtenForm': form.form}
+    if form.script:
+        attrib['script'] = form.script
+    elem = ET.Element('Form', attrib=attrib)
+    # TODO: Pronunciation
+    for tag in form.tags:
+        elem.append(_build_tag(tag))
+    return elem
+
+
+def _build_tag(tag: Tag) -> ET.Element:
+    elem = ET.Element('Tag', category=tag.category)
+    elem.text = tag.text
+    return elem
+
+
+def _build_sense(sense: Sense) -> ET.Element:
+    attrib = {'id': sense.id, 'synset': sense.synset}
+    attrib.update(_meta_dict(sense.meta))
+    if not sense.lexicalized:
+        attrib['lexicalized'] = 'false'
+    if sense.adjposition:
+        attrib['adjposition'] = sense.adjposition
+    # TODO: subcat
+    elem = ET.Element('Sense', attrib=attrib)
+    elem.extend(_build_sense_relation(rel) for rel in sense.relations)
+    elem.extend(_build_example(ex) for ex in sense.examples)
+    elem.extend(_build_count(cnt) for cnt in sense.counts)
+    return elem
+
+
+def _build_sense_relation(relation: SenseRelation) -> ET.Element:
+    attrib = {'target': relation.target, 'relType': relation.type}
+    attrib.update(_meta_dict(relation.meta))
+    return ET.Element('SenseRelation', attrib=attrib)
+
+
+def _build_example(example: Example) -> ET.Element:
+    elem = ET.Element('Example')
+    elem.text = example.text
+    if example.language:
+        elem.set('language', example.language)
+    return elem
+
+
+def _build_count(count: Count) -> ET.Element:
+    elem = ET.Element('Count', attrib=_meta_dict(count.meta))
+    elem.text = str(count.value)
+    return elem
+
+
+def _dump_synset(synset: Synset, out: TextIO, version: str) -> None:
+    attrib = {'id': synset.id, 'ili': synset.ili}
+    if synset.pos:
+        attrib['partOfSpeech'] = synset.pos
+    attrib.update(_meta_dict(synset.meta))
+    if not synset.lexicalized:
+        attrib['lexicalized'] = 'false'
+    elem = ET.Element('Synset', attrib=attrib)
+    elem.extend(_build_definition(defn) for defn in synset.definitions)
+    if synset.ili_definition:
+        elem.append(_build_ili_definition(synset.ili_definition))
+    elem.extend(_build_synset_relation(rel) for rel in synset.relations)
+    elem.extend(_build_example(ex) for ex in synset.examples)
+    print(_tostring(elem, 2), file=out)
+
+
+def _build_definition(definition: Definition) -> ET.Element:
+    attrib = {}
+    if definition.language:
+        attrib['language'] = definition.language
+    if definition.source_sense:
+        attrib['sourceSense'] = definition.source_sense
+    attrib.update(_meta_dict(definition.meta))
+    elem = ET.Element('Definition', attrib=attrib)
+    elem.text = definition.text
+    return elem
+
+
+def _build_ili_definition(ili_definition: ILIDefinition) -> ET.Element:
+    elem = ET.Element('ILIDefinition', attrib=_meta_dict(ili_definition.meta))
+    elem.text = ili_definition.text
+    return elem
+
+
+def _build_synset_relation(relation: SynsetRelation) -> ET.Element:
+    attrib = {'target': relation.target, 'relType': relation.type}
+    attrib.update(_meta_dict(relation.meta))
+    return ET.Element('SynsetRelation', attrib=attrib)
+
+
+def _dump_syntactic_behaviour(
+        syntactic_behaviour: SyntacticBehaviour, out: TextIO, version: str
+) -> None:
+    elem = _build_syntactic_behaviour(syntactic_behaviour)
+    print('    ' + _tostring(elem, 2), file=out)
+
+
+def _build_syntactic_behaviour(syntactic_behaviour: SyntacticBehaviour) -> ET.Element:
+    elem = ET.Element('SyntacticBehaviour')
+    # if getattr(syntactic_behaviour, 'id', None):
+    #     elem.set('id', syntactic_behaviour.id)
+    elem.set('subcategorizationFrame', syntactic_behaviour.frame)
+    if syntactic_behaviour.senses:
+        elem.set('senses', ' '.join(syntactic_behaviour.senses))
+    return elem
+
+
+def _tostring(
+        elem: ET.Element, level: int, short_empty_elements: bool = True
+) -> str:
+    _indent(elem, level)
+    return ('  ' * level) + ET.tostring(
+        elem,
+        encoding='unicode',
+        short_empty_elements=short_empty_elements
+    )
+
+
+def _indent(elem: ET.Element, level: int) -> None:
+    self_indent = '\n' + '  ' * level
+    child_indent = self_indent + '  '
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = child_indent
+        for child in elem[:-1]:
+            _indent(child, level + 1)
+            child.tail = child_indent
+        _indent(elem[-1], level + 1)
+        elem[-1].tail = self_indent
+
+
+def _meta_dict(m: Optional[Metadata]) -> Dict:
+    if m:
+        d = {f'dc:{key}': val for key, val in zip(m._fields, m) if val is not None}
+    else:
+        d = {}
+    return d
