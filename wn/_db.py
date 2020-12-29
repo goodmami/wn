@@ -2,9 +2,11 @@
 Storage back-end interface.
 """
 
+from typing import Callable, TypeVar, Any, cast
 import json
 import sqlite3
 import logging
+from functools import wraps
 
 import wn
 from wn._types import Metadata
@@ -57,9 +59,9 @@ sqlite3.register_converter('meta', _convert_metadata)
 sqlite3.register_converter('boolean', _convert_boolean)
 
 
-# The _connect() function should be used for all connections
+# The connect() function should be used for all connections
 
-def _connect() -> sqlite3.Connection:
+def connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
     initialized = dbpath.is_file()
     conn = sqlite3.connect(str(dbpath), detect_types=sqlite3.PARSE_DECLTYPES)
@@ -72,6 +74,44 @@ def _connect() -> sqlite3.Connection:
         logger.info('initializing database: %s', dbpath)
         _initialize(conn)
     return conn
+
+
+F = TypeVar('F', bound=Callable[..., Any])
+
+
+def connects(f: F) -> F:
+    """Wrapper for a function that establishes a database connection."""
+
+    @wraps(f)
+    def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
+        if conn is None:
+            try:
+                _conn = connect()
+                value = f(*args, conn=_conn, **kwargs)
+            finally:
+                _conn.close()
+        else:
+            value = f(*args, conn=conn, **kwargs)
+        return value
+
+    return cast(F, connect_wrapper)
+
+
+def connects_generator(f: F) -> F:
+    """Wrapper for a generator that establishes a database connection."""
+
+    @wraps(f)
+    def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
+        if conn is None:
+            try:
+                _conn = connect()
+                yield from f(*args, conn=_conn, **kwargs)
+            finally:
+                _conn.close()
+        else:
+            yield from f(*args, conn=conn, **kwargs)
+
+    return cast(F, connect_wrapper)
 
 
 def _initialize(conn: sqlite3.Connection) -> None:
@@ -98,9 +138,12 @@ def _initialize(conn: sqlite3.Connection) -> None:
 
 def schema_hash() -> str:
     query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
-    with _connect() as conn:
+    try:
+        conn = connect()
         schema = '\n\n'.join(row[0] for row in conn.execute(query))
-        return short_hash(schema)
+    finally:
+        conn.close()
+    return short_hash(schema)
 
 
 def is_schema_compatible(create: bool = False) -> bool:

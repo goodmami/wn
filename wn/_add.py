@@ -4,10 +4,11 @@ Adding and removing lexicons to/from the database.
 
 import sys
 import logging
+import sqlite3
 
 import wn
 from wn._types import AnyPath
-from wn._db import _connect
+from wn._db import connects
 from wn._queries import find_lexicons
 from wn._util import get_progress_handler
 from wn.project import iterpackages
@@ -75,10 +76,16 @@ def add(source: AnyPath, progress_handler=get_progress_handler) -> None:
         _add_lmf(package.resource_file(), progress_handler)
 
 
-def _add_lmf(source, progress_handler):
+@connects
+def _add_lmf(
+    source,
+    progress_handler,
+    conn: sqlite3.Connection = None
+) -> None:
+    assert conn is not None  # provided by decorator
     callback = get_progress_handler(progress_handler, 'Database', '\b', '')
 
-    with _connect() as conn:
+    with conn:
         cur = conn.cursor()
         # these two settings increase the risk of database corruption
         # if the system crashes during a write, but they should also
@@ -353,7 +360,13 @@ def _insert_examples(objs, lexid, table, cur, callback):
 
 
 def remove(lexicon: str) -> None:
-    with _connect() as conn:
+    _remove(lexicon)
+
+
+@connects
+def _remove(lexicon: str, conn: sqlite3.Connection = None) -> None:
+    assert conn is not None  # provided by decorator
+    with conn:
         for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
             conn.execute('DELETE FROM entries WHERE lexicon_rowid = ?', (rowid,))
             conn.execute('DELETE FROM synsets WHERE lexicon_rowid = ?', (rowid,))
