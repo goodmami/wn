@@ -26,6 +26,7 @@
 * Basic logging added for `wn.download()` and `wn.add()` ([#71])
 * `Synset.get_related()` and `Sense.get_related()` may take a `'*'`
   parameter to get all relations
+* `wn.Wordnet` objects keep an open connection to the database ([#81])
 
 ### Fixed
 
@@ -128,3 +129,4 @@ abandoned, but this is an entirely new codebase.
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
+[#81]: https://github.com/goodmami/wn/issues/81
