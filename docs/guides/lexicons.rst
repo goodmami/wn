@@ -99,7 +99,20 @@ pwn:3.0	Princeton WordNet 3.0
 ewn:2020	English WordNet
 ewn:2019	English WordNet
 
+Removing Lexicons
+-----------------
 
+Lexicons can be removed from the database with :py:func:`wn.remove`:
+
+>>> wn.remove('nobwn:1.3+omw')
+
+Note that this removes a single lexicon and not a project, so if, for
+instance, you've installed a multi-lexicon project like ``omw``, you
+will need to remove each lexicon individually:
+
+>>> for lex in wn.lexicons():
+...     if lex.version == '1.3+omw':
+...         wn.remove(f'{lex.id}:{lex.version}')
 
 WN-LMF Files, Packages, and Collections
 ---------------------------------------

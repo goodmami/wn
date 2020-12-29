@@ -360,6 +360,16 @@ def _insert_examples(objs, lexid, table, cur, callback):
 
 
 def remove(lexicon: str) -> None:
+    """Remove lexicon(s) from the database.
+
+    The *lexicon* argument is a :ref:`lexicon specifier
+    <lexicon-specifiers>`. Note that this removes a lexicon and not a
+    project, so the lexicons of projects containing multiple lexicons
+    will need to be removed individually.
+
+    >>> wn.remove('ewn:2019')
+
+    """
     _remove(lexicon)
 
 
