@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.4.0]
+
+**Release date: 2020-12-29**
+
 ### Added
 
 * `wn.export()` to export lexicon(s) from the database ([#15])
@@ -108,6 +113,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.4.0]: ../../releases/tag/v0.4.0
 [v0.3.0]: ../../releases/tag/v0.3.0
 [v0.2.0]: ../../releases/tag/v0.2.0
 [v0.1.1]: ../../releases/tag/v0.1.1
