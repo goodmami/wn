@@ -124,7 +124,7 @@ def _adapt_metadata(meta: lmf.Metadata) -> bytes:
     return json.dumps(d).encode('utf-8')
 
 
-def _convert_metadata(s: bytes) -> Dict:
+def _convert_metadata(s: bytes) -> Metadata:  # note: wn._types.Metadata
     return json.loads(s)
 
 
@@ -522,7 +522,7 @@ def get_lexicon(rowid: int) -> _Lexicon:
 def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     query = '''
         SELECT DISTINCT rowid, id, label, language, email, license,
-                        version, url, citation, metadata
+                        version, url, citation
         FROM lexicons
         WHERE rowid = ?
     '''
@@ -903,7 +903,7 @@ def get_metadata(rowid: int, table: str) -> Metadata:
         raise wn.Error(f"'{table}' does not contain metadata")
     with _connect() as conn:
         query = f'SELECT metadata FROM {tablename} WHERE rowid=?'
-        return conn.execute(query, (rowid,)).fetchone()[0]
+        return conn.execute(query, (rowid,)).fetchone()[0] or {}
 
 
 _SANITIZED_LEXICALIZED_TABLES = {

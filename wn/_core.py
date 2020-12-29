@@ -69,7 +69,6 @@ class Lexicon(_DatabaseEntity):
             version: str,
             url: str = None,
             citation: str = None,
-            metadata: Dict[str, Any] = None,
             _id: int = _db.NON_ROWID,
     ):
         super().__init__(_id=_id)
@@ -917,7 +916,7 @@ class Wordnet:
 
 
 def _to_lexicon(data) -> Lexicon:
-    rowid, id, label, language, email, license, version, url, citation, metadata = data
+    rowid, id, label, language, email, license, version, url, citation = data
     return Lexicon(
         id,
         label,
@@ -927,7 +926,6 @@ def _to_lexicon(data) -> Lexicon:
         version,
         url=url,
         citation=citation,
-        metadata=metadata,
         _id=rowid
     )
 
