@@ -28,7 +28,8 @@ __all__ = (
 from wn._meta import __version__
 from wn._exceptions import Error
 from wn._config import config  # noqa: F401
-from wn._db import add, remove, is_schema_compatible
+from wn._db import is_schema_compatible
+from wn._add import add, remove
 from wn._download import download
 from wn._core import (
     projects,
