@@ -4,6 +4,8 @@
 
 ### Added
 
+* `wn.export()` to export lexicon(s) from the database ([#15])
+* `wn.lmf.dump()` to dump WN-LMF lexicons to disk ([#15])
 * `metadata` method on `wn.Word`, `wn.Sense`, and `wn.Synset`
 * `lexicalized` method on `wn.Sense` and `wn.Synset`
 * `wn.Form` class ([#79])
@@ -112,6 +114,7 @@ abandoned, but this is an entirely new codebase.
 [v0.1.0]: ../../releases/tag/v0.1.0
 [unreleased]: ../../tree/main
 
+[#15]: https://github.com/goodmami/wn/issues/15
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59

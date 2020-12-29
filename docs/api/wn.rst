@@ -10,6 +10,7 @@ Project Management Functions
 .. autofunction:: download
 .. autofunction:: add
 .. autofunction:: remove
+.. autofunction:: export
 .. autofunction:: projects
 
 Wordnet Query Functions
