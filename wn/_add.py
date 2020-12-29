@@ -7,7 +7,8 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn._db import _connect, find_lexicons
+from wn._db import _connect
+from wn._queries import find_lexicons
 from wn._util import get_progress_handler
 from wn.project import iterpackages
 from wn import lmf

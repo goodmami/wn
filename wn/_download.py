@@ -8,7 +8,7 @@ import requests
 
 import wn
 from wn._util import get_progress_handler, is_url
-from wn import _db
+from wn._add import add as add_to_db
 from wn import config
 
 
@@ -97,7 +97,7 @@ def download(
 
     if add:
         try:
-            _db.add(path, progress_handler=progress_handler)
+            add_to_db(path, progress_handler=progress_handler)
         except wn.Error as exc:
             raise wn.Error(
                 f'could not add downloaded file: {path}\n  You might try '
