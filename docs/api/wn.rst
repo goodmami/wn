@@ -133,6 +133,7 @@ The Synset Class
    .. automethod:: definition
    .. automethod:: examples
    .. automethod:: senses
+   .. automethod:: lexicalized
    .. automethod:: metadata
    .. automethod:: words
    .. automethod:: lemmas
@@ -141,6 +142,10 @@ The Synset Class
    .. automethod:: holonyms
    .. automethod:: meronyms
    .. automethod:: hypernym_paths
+   .. automethod:: min_depth
+   .. automethod:: max_depth
+   .. automethod:: shortest_path
+   .. automethod:: common_hypernyms
    .. automethod:: lowest_common_hypernyms
    .. automethod:: get_related
    .. automethod:: closure
