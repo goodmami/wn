@@ -60,12 +60,14 @@ parser.add_argument(
     type=_path_type,
     help="data directory for Wn's database and cache",
 )
-sub_parsers = parser.add_subparsers()
+parser.set_defaults(func=lambda _: parser.print_help())
+sub_parsers = parser.add_subparsers(title='subcommands')
 
 
 parser_download = sub_parsers.add_parser(
     'download',
-    description="Download wordnets and add them to Wn's database."
+    description="Download wordnets and add them to Wn's database.",
+    help='download wordnets',
 )
 parser_download.add_argument(
     'target', nargs='+', help='project specifiers or URLs'
@@ -82,7 +84,8 @@ parser_download.set_defaults(func=_download)
 
 parser_lexicons = sub_parsers.add_parser(
     'lexicons',
-    description="Display a list of installed lexicons."
+    description="Display a list of installed lexicons.",
+    help='list installed lexicons',
 )
 parser_lexicons.add_argument(
     '-l', '--lang', help='BCP 47 language code'
@@ -98,7 +101,8 @@ parser_projects = sub_parsers.add_parser(
     description=(
         "Display a list of known projects. The first column shows the "
         "status for a project (i=indexed, c=cached)."
-    )
+    ),
+    help='list known projects',
 )
 parser_projects.set_defaults(func=_projects)
 
