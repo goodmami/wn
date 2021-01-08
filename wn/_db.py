@@ -37,8 +37,12 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    '0cbec124b988d08e428b80d2b749563c2dccfa65',
+    '2b953c8d6a9f5b86b4b154769cfa2f2e39e69366',
 }
+
+
+relmap = {rel: id for rel, id in constants.RELATION_INFO.items()}
+inv_relmap = {id: rel for rel, id in relmap.items()}
 
 
 # Optional metadata is stored as a JSON string
@@ -101,12 +105,6 @@ def _initialize(conn: sqlite3.Connection) -> None:
         conn.executemany(
             'INSERT INTO adjpositions (position) VALUES (?)',
             ((adj,) for adj in constants.ADJPOSITIONS))
-        conn.executemany(
-            'INSERT INTO synset_relation_types (type) VALUES (?)',
-            ((typ,) for typ in constants.SYNSET_RELATIONS))
-        conn.executemany(
-            'INSERT INTO sense_relation_types (type) VALUES (?)',
-            ((typ,) for typ in constants.SENSE_RELATIONS))
         conn.executemany(
             'INSERT INTO lexicographer_files (id, name) VALUES (?,?)',
             ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))

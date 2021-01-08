@@ -96,7 +96,7 @@ CREATE INDEX synset_ili_index ON synsets (ili);
 CREATE TABLE synset_relations (
     source_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
-    type_rowid INTEGER NOT NULL REFERENCES synset_relation_types (rowid),
+    type INTEGER NOT NULL,
     metadata META
 );
 CREATE INDEX synset_relation_source_index ON synset_relations (source_rowid);
@@ -142,7 +142,7 @@ CREATE INDEX sense_synset_rowid_index ON senses (synset_rowid);
 CREATE TABLE sense_relations (
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
-    type_rowid TEXT NOT NULL REFERENCES sense_relation_types (rowid),
+    type INTEGER NOT NULL,
     metadata META
 );
 CREATE INDEX sense_relation_source_index ON sense_relations (source_rowid);
@@ -151,8 +151,7 @@ CREATE INDEX sense_relation_target_index ON sense_relations (target_rowid);
 CREATE TABLE sense_synset_relations (
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
-    -- limit the type to ('domain_topic', 'domain_region', 'exemplifies') ?
-    type_rowid TEXT NOT NULL REFERENCES sense_relation_types (rowid),
+    type INTEGER NOT NULL,
     metadata META
 );
 CREATE INDEX sense_synset_relation_source_index ON sense_synset_relations (source_rowid);
@@ -186,18 +185,6 @@ CREATE TABLE adjpositions (
     position TEXT NOT NULL UNIQUE
 );
 CREATE UNIQUE INDEX adposition_index ON adjpositions (position);
-
-CREATE TABLE synset_relation_types (
-    rowid INTEGER PRIMARY KEY,
-    type TEXT NOT NULL UNIQUE
-);
-CREATE UNIQUE INDEX synset_relation_type_index ON synset_relation_types (type);
-
-CREATE TABLE sense_relation_types (
-    rowid INTEGER PRIMARY KEY,
-    type TEXT NOT NULL UNIQUE
-);
-CREATE UNIQUE INDEX sense_relation_type_index ON sense_relation_types (type);
 
 CREATE TABLE lexicographer_files (
     id INTEGER PRIMARY KEY,  -- this is actually an ID, not just a rowid

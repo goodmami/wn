@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID
+from wn._db import connect, NON_ROWID, relmap, inv_relmap
 
 
 # Local Types
@@ -294,31 +294,27 @@ def get_synset_relations(
         relation_types: Collection[str],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
-    params: List = []
+    params: List = list(source_rowids)
     constraint = ''
-    if '*' not in relation_types:
-        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
-        params.extend(relation_types)
-    params.extend(source_rowids)
+    if relation_types and '*' not in relation_types:
+        constraint = f'AND srel.type IN ({_qs(relation_types)})'
+        params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
-          WITH relation_types(type_rowid, type) AS  -- relation type lookup
-               (SELECT t.rowid, t.type
-                  FROM synset_relation_types AS t
-                {constraint})
         SELECT DISTINCT rel.type, rel.rowid,
                         tgt.id, p.pos, tgt.ili,
                         tgt.lexicon_rowid, tgt.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM synset_relations AS srel
-                  JOIN relation_types USING (type_rowid)
-                 WHERE source_rowid IN ({_qs(source_rowids)})) AS rel
+                 WHERE source_rowid IN ({_qs(source_rowids)}) {constraint}
+               ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
           JOIN parts_of_speech AS p
             ON p.rowid = tgt.pos_rowid
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
-    yield from result_rows
+    for row in result_rows:
+        yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
 
 def get_definitions(synset_rowid: int) -> List[Tuple[str, str, int]]:
@@ -377,24 +373,19 @@ def get_sense_relations(
         relation_types: Collection[str],
 ) -> Iterator[_Sense_Relation]:
     conn = connect()
-    params: List = []
+    params: List = [source_rowid]
     constraint = ''
     if '*' not in relation_types:
-        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
-        params.extend(relation_types)
-    params.append(source_rowid)
+        constraint = f'AND srel.type IN ({_qs(relation_types)})'
+        params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
-          WITH relation_types(type_rowid, type) AS  -- relation type lookup
-               (SELECT t.rowid, t.type
-                  FROM sense_relation_types AS t
-                {constraint})
         SELECT DISTINCT rel.type, rel.rowid,
                         s.id, e.id, ss.id,
                         s.lexicon_rowid, s.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM sense_relations AS srel
-                  JOIN relation_types USING (type_rowid)
-                 WHERE source_rowid = ?) AS rel
+                 WHERE source_rowid = ? {constraint}
+               ) AS rel
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
           JOIN entries AS e
@@ -403,7 +394,8 @@ def get_sense_relations(
             ON ss.rowid = s.synset_rowid
     '''
     rows: Iterator[_Sense_Relation] = conn.execute(query, params)
-    yield from rows
+    for row in rows:
+        yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
 
 def get_sense_synset_relations(
@@ -414,27 +406,24 @@ def get_sense_synset_relations(
     params: List = [source_rowid]
     constraint = ''
     if '*' not in relation_types:
-        constraint = f'WHERE t.type IN ({_qs(relation_types)})'
-        params.extend(relation_types)
+        constraint = f'AND srel.type IN ({_qs(relation_types)})'
+        params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
-          WITH relation_types(type_rowid, type) AS  -- relation type lookup
-               (SELECT t.rowid, t.type
-                  FROM sense_relation_types AS t
-                {constraint})
         SELECT DISTINCT rel.type, rel.rowid,
                         ss.id, p.pos, ss.ili,
                         ss.lexicon_rowid, ss.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM sense_synset_relations AS srel
-                  JOIN relation_types USING (type_rowid)
-                 WHERE source_rowid = ?) AS rel
+                 WHERE source_rowid = ? {constraint}
+               ) AS rel
           JOIN synsets AS ss
             ON ss.rowid = rel.target_rowid
           JOIN parts_of_speech AS p
             ON p.rowid = ss.pos_rowid
     '''
     rows: Iterator[_Synset_Relation] = conn.execute(query, params)
-    yield from rows
+    for row in rows:
+        yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
 
 _SANITIZED_METADATA_TABLES = {

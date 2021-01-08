@@ -7,7 +7,7 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn._db import connect
+from wn._db import connect, relmap
 from wn._queries import find_lexicons
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -217,7 +217,6 @@ def _insert_synset_definitions(synsets, lexid, cur, progress):
              definition.text,
              definition.language,
              # definition.source_sense,
-             # lexid,
              definition.meta)
             for synset in batch
             for definition in synset.definitions
@@ -228,19 +227,15 @@ def _insert_synset_definitions(synsets, lexid, cur, progress):
 
 def _insert_synset_relations(synsets, lexid, cur, progress):
     progress.set(status='Synset Relations')
-    type_query = 'SELECT r.rowid FROM synset_relation_types AS r WHERE r.type = ?'
     query = f'''
         INSERT INTO synset_relations
-        VALUES (({SYNSET_QUERY}),
-                ({SYNSET_QUERY}),
-                ({type_query}),
-                ?)
+        VALUES (({SYNSET_QUERY}), ({SYNSET_QUERY}), ?, ?)
     '''
     for batch in _split(synsets):
         data = [
             (synset.id, lexid,
              relation.target, lexid,
-             relation.type,
+             relmap[relation.type],
              relation.meta)
             for synset in batch
             for relation in synset.relations
@@ -311,19 +306,15 @@ def _insert_senses(entries, lexid, cur, progress):
 def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
     progress.set(status='Sense Relations')
     target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
-    type_query = 'SELECT r.rowid FROM sense_relation_types AS r WHERE r.type = ?'
     query = f'''
         INSERT INTO {table}
-        VALUES (({SENSE_QUERY}),
-                ({target_query}),
-                ({type_query}),
-                ?)
+        VALUES (({SENSE_QUERY}), ({target_query}), ?, ?)
     '''
     for batch in _split(entries):
         data = [
             (sense.id, lexid,
              relation.target, lexid,
-             relation.type,
+             relmap[relation.type],
              relation.meta)
             for entry in batch
             for sense in entry.senses
