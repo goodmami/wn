@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.constants.RELATION_INFO` ([#75])
+* `wn.constants.SENSE_SYNSET_RELATIONS`
+
+### Schema
+
+* Removed all constant lookup tables and related foreign key
+  references ([#75])
+* Parts of speech are stored as text
+
 
 ## [v0.5.1]
 
@@ -24,8 +35,6 @@
 * `wn.util` module for public-API utilities
 * `wn.util.ProgressHandler` ([#87])
 * `wn.util.ProgressBar` ([#87])
-* `wn.constants.RELATION_INFO` ([#75])
-* `wn.constants.SENSE_SYNSET_RELATIONS`
 
 ### Removed
 

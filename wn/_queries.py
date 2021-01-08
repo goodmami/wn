@@ -148,10 +148,9 @@ def find_entries(
 ) -> Iterator[_Word]:
     conn = connect()
     query_parts = [
-        'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, p.pos,'
+        'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, e.pos,'
         '                f.form, f.script, f.rowid',
         '  FROM entries AS e',
-        '  JOIN parts_of_speech AS p ON p.rowid = e.pos_rowid',
         '  JOIN forms AS f ON f.entry_rowid = e.rowid',
     ]
 
@@ -163,7 +162,7 @@ def find_entries(
         conditions.append('e.rowid IN'
                           ' (SELECT entry_rowid FROM forms WHERE form = :form)')
     if pos:
-        conditions.append('p.pos = :pos')
+        conditions.append('e.pos = :pos')
     if lexicon_rowids:
         kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
         params.update(kws)
@@ -207,10 +206,7 @@ def find_senses(
         conditions.append('s.entry_rowid IN'
                           ' (SELECT entry_rowid FROM forms WHERE form = :form)')
     if pos:
-        conditions.append('e.pos_rowid IN'
-                          ' (SELECT p.rowid'
-                          '    FROM parts_of_speech AS p'
-                          '   WHERE p.pos = :pos)')
+        conditions.append('e.pos = :pos')
     if lexicon_rowids:
         kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
         params.update(kws)
@@ -233,9 +229,8 @@ def find_synsets(
 ) -> Iterator[_Synset]:
     conn = connect()
     query_parts = [
-        'SELECT DISTINCT ss.id, p.pos, ss.ili, ss.lexicon_rowid, ss.rowid',
+        'SELECT DISTINCT ss.id, ss.pos, ss.ili, ss.lexicon_rowid, ss.rowid',
         '  FROM synsets AS ss',
-        '  JOIN parts_of_speech AS p ON p.rowid = ss.pos_rowid',
     ]
 
     params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos, 'ili': ili}
@@ -252,7 +247,7 @@ def find_synsets(
             '    ON s.synset_rowid = ss.rowid'
         )
     if pos:
-        conditions.append('p.pos = :pos')
+        conditions.append('ss.pos = :pos')
     if ili:
         conditions.append('ss.ili = :ili')
     if lexicon_rowids:
@@ -277,10 +272,8 @@ def get_synsets_for_ilis(
 ) -> Iterator[_Synset]:
     conn = connect()
     query = f'''
-        SELECT DISTINCT ss.id, p.pos, ss.ili, ss.lexicon_rowid, ss.rowid
+        SELECT DISTINCT ss.id, ss.pos, ss.ili, ss.lexicon_rowid, ss.rowid
           FROM synsets as ss
-          JOIN parts_of_speech AS p
-            ON p.rowid = ss.pos_rowid
          WHERE ss.ili IN ({_qs(ilis)})
            AND ss.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
@@ -301,7 +294,7 @@ def get_synset_relations(
         params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
         SELECT DISTINCT rel.type, rel.rowid,
-                        tgt.id, p.pos, tgt.ili,
+                        tgt.id, tgt.pos, tgt.ili,
                         tgt.lexicon_rowid, tgt.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM synset_relations AS srel
@@ -309,8 +302,6 @@ def get_synset_relations(
                ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
-          JOIN parts_of_speech AS p
-            ON p.rowid = tgt.pos_rowid
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     for row in result_rows:
@@ -410,7 +401,7 @@ def get_sense_synset_relations(
         params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
         SELECT DISTINCT rel.type, rel.rowid,
-                        ss.id, p.pos, ss.ili,
+                        ss.id, ss.pos, ss.ili,
                         ss.lexicon_rowid, ss.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM sense_synset_relations AS srel
@@ -418,8 +409,6 @@ def get_sense_synset_relations(
                ) AS rel
           JOIN synsets AS ss
             ON ss.rowid = rel.target_rowid
-          JOIN parts_of_speech AS p
-            ON p.rowid = ss.pos_rowid
     '''
     rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     for row in rows:

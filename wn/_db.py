@@ -37,7 +37,7 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    '2b953c8d6a9f5b86b4b154769cfa2f2e39e69366',
+    'f480eeb487ee0f69dae012a27e45f1b047d91618',
 }
 
 
@@ -87,27 +87,12 @@ def connect() -> sqlite3.Connection:
             conn.set_trace_callback(print)
         if not initialized:
             logger.info('initializing database: %s', dbpath)
-            _initialize(conn)
+            schema = resources.read_text('wn', 'schema.sql')
+            conn.executescript(schema)
         _check_schema_compatibility(conn, dbpath)
 
         pool[dbpath] = conn
     return pool[dbpath]
-
-
-def _initialize(conn: sqlite3.Connection) -> None:
-    schema = resources.read_text('wn', 'schema.sql')
-    with conn:
-        conn.executescript(schema)
-        # prepare lookup tables
-        conn.executemany(
-            'INSERT INTO parts_of_speech (pos) VALUES (?)',
-            ((pos,) for pos in constants.PARTS_OF_SPEECH))
-        conn.executemany(
-            'INSERT INTO adjpositions (position) VALUES (?)',
-            ((adj,) for adj in constants.ADJPOSITIONS))
-        conn.executemany(
-            'INSERT INTO lexicographer_files (id, name) VALUES (?,?)',
-            ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))
 
 
 def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:

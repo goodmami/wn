@@ -39,7 +39,7 @@ CREATE TABLE entries (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
-    pos_rowid INTEGER NOT NULL REFERENCES parts_of_speech (rowid),
+    pos TEXT NOT NULL,
     metadata META,
     UNIQUE (id, lexicon_rowid)
 );
@@ -85,7 +85,7 @@ CREATE TABLE synsets (
     id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
     ili TEXT,
-    pos_rowid INTEGER NOT NULL REFERENCES parts_of_speech (rowid),
+    pos TEXT,
     -- lexfile_id INTEGER REFERENCES lexicographer_files (id),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
@@ -171,23 +171,3 @@ CREATE TABLE counts (
     metadata META
 );
 CREATE INDEX count_index ON counts(sense_rowid);
-
--- Lookup tables
-
-CREATE TABLE parts_of_speech (
-    rowid INTEGER PRIMARY KEY,
-    pos TEXT NOT NULL UNIQUE
-);
-CREATE UNIQUE INDEX pos_index ON parts_of_speech (pos);
-
-CREATE TABLE adjpositions (
-    rowid INTEGER PRIMARY KEY,
-    position TEXT NOT NULL UNIQUE
-);
-CREATE UNIQUE INDEX adposition_index ON adjpositions (position);
-
-CREATE TABLE lexicographer_files (
-    id INTEGER PRIMARY KEY,  -- this is actually an ID, not just a rowid
-    name TEXT NOT NULL UNIQUE
-);
-CREATE UNIQUE INDEX lexicographer_file_index ON lexicographer_files (name);
