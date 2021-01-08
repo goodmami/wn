@@ -4,8 +4,6 @@ Reader for the Lexical Markup Framework (LMF) format.
 """
 
 from typing import (
-    TypeVar,
-    Type,
     Container,
     List,
     Tuple,
@@ -27,6 +25,7 @@ from wn._types import AnyPath
 from wn._util import is_xml
 from wn.constants import (
     SENSE_RELATIONS,
+    SENSE_SYNSET_RELATIONS,
     SYNSET_RELATIONS,
     ADJPOSITIONS,
     PARTS_OF_SPEECH,
@@ -536,9 +535,7 @@ def _load_sense(local_root, events, version) -> Sense:
     while event == 'start' and elem.tag == 'SenseRelation':
         event, elem = next(events)
         _assert_closed(event, elem, 'SenseRelation')
-        relations.append(
-            _load_relation(elem, SenseRelation, SENSE_RELATIONS, version)
-        )
+        relations.append(_load_sense_relation(elem, version))
         event, elem = next(events)
 
     examples: List[Example] = []
@@ -569,15 +566,26 @@ def _load_sense(local_root, events, version) -> Sense:
     )
 
 
-_R = TypeVar('_R', SynsetRelation, SenseRelation)
-
-
-def _load_relation(elem, cls: Type[_R], choices: Container[str], version: str) -> _R:
+def _load_sense_relation(elem, version: str) -> SenseRelation:
     attrs = elem.attrib
-    return cls(
+    reltype = attrs['relType']
+    if not (reltype in SENSE_RELATIONS or reltype in SENSE_SYNSET_RELATIONS):
+        raise LMFError(f'invalid sense relation: {reltype}')
+    return SenseRelation(
         attrs['target'],
-        _get_literal
-        (attrs['relType'], choices),
+        reltype,
+        meta=_get_metadata(attrs, version),
+    )
+
+
+def _load_synset_relation(elem, version: str) -> SynsetRelation:
+    attrs = elem.attrib
+    reltype = attrs['relType']
+    if reltype not in SYNSET_RELATIONS:
+        raise LMFError(f'invalid synset relation: {reltype}')
+    return SynsetRelation(
+        attrs['target'],
+        reltype,
         meta=_get_metadata(attrs, version),
     )
 
@@ -634,9 +642,7 @@ def _load_synset(local_root, events, version) -> Synset:
     while event == 'start' and elem.tag == 'SynsetRelation':
         event, elem = next(events)
         _assert_closed(event, elem, 'SynsetRelation')
-        relations.append(
-            _load_relation(elem, SynsetRelation, SYNSET_RELATIONS, version)
-        )
+        relations.append(_load_synset_relation(elem, version))
         event, elem = next(events)
 
     examples: List[Example] = []
