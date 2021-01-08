@@ -101,6 +101,14 @@ Sense Relations
    - ``other``
 
 
+.. data:: SENSE_SYNSET_RELATIONS
+
+   - ``domain_topic``
+   - ``domain_region``
+   - ``exemplifies``
+   - ``other``
+
+
 Parts of Speech
 ---------------
 

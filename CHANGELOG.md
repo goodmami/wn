@@ -24,6 +24,8 @@
 * `wn.util` module for public-API utilities
 * `wn.util.ProgressHandler` ([#87])
 * `wn.util.ProgressBar` ([#87])
+* `wn.constants.RELATION_INFO` ([#75])
+* `wn.constants.SENSE_SYNSET_RELATIONS`
 
 ### Removed
 
@@ -206,6 +208,7 @@ abandoned, but this is an entirely new codebase.
 [#71]: https://github.com/goodmami/wn/issues/71
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
+[#75]: https://github.com/goodmami/wn/issues/75
 [#76]: https://github.com/goodmami/wn/issues/76
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
