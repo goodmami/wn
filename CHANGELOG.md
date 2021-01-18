@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Removed
+
+* `wn.config.database_filename` (only `wn.config.data_directory` is
+  configurable now)
+
 
 ## [v0.4.0]
 
