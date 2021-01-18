@@ -7,6 +7,11 @@
 * `wn.config.database_filename` (only `wn.config.data_directory` is
   configurable now)
 
+### Changed
+
+* Schema validation is now done when creating a new connection,
+  instead of on import of `wn`
+
 
 ## [v0.4.0]
 

@@ -2,14 +2,15 @@
 Storage back-end interface.
 """
 
-from typing import Callable, TypeVar, Any, cast
+from typing import Callable, TypeVar, Dict, Any, cast
+from pathlib import Path
 import json
 import sqlite3
 import logging
 from functools import wraps
 
 import wn
-from wn._types import Metadata
+from wn._types import Metadata, AnyPath
 from wn._util import resources, short_hash
 from wn import constants
 from wn import lmf
@@ -27,12 +28,14 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # When the schema changes, the hash will change. If the new hash is
 # not added here, the 'test_schema_compatibility' test will fail. It
 # is the developer's responsibility to only add compatible schema
-# hashes here. If the schema change is not backwards-compatible, they
+# hashes here. If the schema change is not backwards-compatible, then
 # clear all old hashes and only put the latest hash here. A hash can
 # be generated like this:
 #
+# >>> import sqlite3
 # >>> import wn
-# >>> wn._db.schema_hash()
+# >>> conn = sqlite3.connect(wn.config.database_path)
+# >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
     '0cbec124b988d08e428b80d2b749563c2dccfa65',
@@ -59,21 +62,29 @@ sqlite3.register_converter('meta', _convert_metadata)
 sqlite3.register_converter('boolean', _convert_boolean)
 
 
+# The pool is a cache of open connections. Unless the database path is
+# changed, there should only be zero or one.
+pool: Dict[AnyPath, sqlite3.Connection] = {}
+
+
 # The connect() function should be used for all connections
 
 def connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
-    initialized = dbpath.is_file()
-    conn = sqlite3.connect(str(dbpath), detect_types=sqlite3.PARSE_DECLTYPES)
-    # foreign key support needs to be enabled for each connection
-    conn.execute('PRAGMA foreign_keys = ON')
-    # uncomment the following to help with debugging
-    if DEBUG:
-        conn.set_trace_callback(print)
-    if not initialized:
-        logger.info('initializing database: %s', dbpath)
-        _initialize(conn)
-    return conn
+    if dbpath not in pool:
+        initialized = dbpath.is_file()
+        conn = sqlite3.connect(str(dbpath), detect_types=sqlite3.PARSE_DECLTYPES)
+        # foreign key support needs to be enabled for each connection
+        conn.execute('PRAGMA foreign_keys = ON')
+        if DEBUG:
+            conn.set_trace_callback(print)
+        if not initialized:
+            logger.info('initializing database: %s', dbpath)
+            _initialize(conn)
+        _check_schema_compatibility(conn, dbpath)
+
+        pool[dbpath] = conn
+    return pool[dbpath]
 
 
 F = TypeVar('F', bound=Callable[..., Any])
@@ -136,18 +147,30 @@ def _initialize(conn: sqlite3.Connection) -> None:
             ((id, name) for name, id in constants.LEXICOGRAPHER_FILES.items()))
 
 
-def schema_hash() -> str:
-    query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
+def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
+    hash = schema_hash(conn)
+
+    # if the hash is known, then we're all good here
+    if hash in COMPATIBLE_SCHEMA_HASHES:
+        return
+
+    # otherwise, try to raise a helpful error message
+    msg = ("Wn's schema has changed and is no longer compatible with the "
+           f"database. Please move or delete {dbpath} and rebuild it.")
     try:
-        conn = connect()
-        schema = '\n\n'.join(row[0] for row in conn.execute(query))
-    finally:
-        conn.close()
-    return short_hash(schema)
-
-
-def is_schema_compatible(create: bool = False) -> bool:
-    if create or wn.config.database_path.exists():
-        return schema_hash() in COMPATIBLE_SCHEMA_HASHES
+        specs = conn.execute('SELECT id, version FROM lexicons').fetchall()
+    except sqlite3.OperationalError as exc:
+        raise wn.Error(msg) from exc
     else:
-        return True
+        if specs:
+            installed = '\n  '.join(f'{id}:{ver}' for id, ver in specs)
+            msg += f" Lexicons currently installed:\n  {installed}"
+        else:
+            msg += ' No lexicons are currently installed.'
+        raise wn.Error(msg)
+
+
+def schema_hash(conn: sqlite3.Connection) -> str:
+    query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
+    schema = '\n\n'.join(row[0] for row in conn.execute(query))
+    return short_hash(schema)
