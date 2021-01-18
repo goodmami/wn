@@ -158,6 +158,7 @@ The Lexicon Class
 .. autoclass:: Lexicon
 
    .. automethod:: metadata
+   .. automethod:: specifier
 
 The wn.config Object
 --------------------

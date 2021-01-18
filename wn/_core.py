@@ -105,6 +105,10 @@ class Lexicon(_DatabaseEntity):
         """Return the lexicon's metadata."""
         return get_metadata(self._id, 'lexicons')
 
+    def specifier(self) -> str:
+        """Return the *id:version* lexicon specifier."""
+        return f'{self.id}:{self.version}'
+
 
 class _LexiconElement(_DatabaseEntity):
     __slots__ = '_lexid', '_wordnet'

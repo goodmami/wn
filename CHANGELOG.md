@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.Lexicon.specifier()`
+
 
 ## [v0.4.1]
 
