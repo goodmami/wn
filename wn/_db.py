@@ -96,14 +96,8 @@ def connects(f: F) -> F:
     @wraps(f)
     def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
         if conn is None:
-            try:
-                _conn = connect()
-                value = f(*args, conn=_conn, **kwargs)
-            finally:
-                _conn.close()
-        else:
-            value = f(*args, conn=conn, **kwargs)
-        return value
+            conn = connect()
+        return f(*args, conn=conn, **kwargs)
 
     return cast(F, connect_wrapper)
 
@@ -114,13 +108,8 @@ def connects_generator(f: F) -> F:
     @wraps(f)
     def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
         if conn is None:
-            try:
-                _conn = connect()
-                yield from f(*args, conn=_conn, **kwargs)
-            finally:
-                _conn.close()
-        else:
-            yield from f(*args, conn=conn, **kwargs)
+            conn = connect()
+        yield from f(*args, conn=conn, **kwargs)
 
     return cast(F, connect_wrapper)
 

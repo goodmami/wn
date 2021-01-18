@@ -11,6 +11,8 @@
 
 * Schema validation is now done when creating a new connection,
   instead of on import of `wn`
+* One connection is shared per database path, rather than storing
+  connections on the modeling classes ([#81])
 
 
 ## [v0.4.0]

@@ -1,11 +1,10 @@
 
 from typing import TypeVar, Optional, List, Tuple, Dict, Set, Iterator
-import sqlite3
 
 import wn
 from wn._types import Metadata
 from wn._util import flatten
-from wn._db import NON_ROWID, connect
+from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
     find_entries,
@@ -120,11 +119,6 @@ class _LexiconElement(_DatabaseEntity):
         self._lexid = _lexid  # Database-internal lexicon id
         self._wordnet = _wordnet
 
-    def _connection(self) -> Optional[sqlite3.Connection]:
-        if self._wordnet:
-            return self._wordnet._conn
-        return None
-
     def lexicon(self):
         return _to_lexicon(get_lexicon(self._lexid))
 
@@ -206,12 +200,12 @@ class Word(_LexiconElement):
             [Sense('ewn-zygoma-n-05292350-01')]
 
         """
-        iterable = get_entry_senses(self._id, conn=self._connection())
+        iterable = get_entry_senses(self._id)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
-        return get_metadata(self._id, 'entries', conn=self._connection())
+        return get_metadata(self._id, 'entries')
 
     def synsets(self) -> List['Synset']:
         """Return the list of synsets of the word.
@@ -365,7 +359,7 @@ class Synset(_Relatable):
 
         """
         return next(
-            (text for text, _, _ in get_definitions(self._id, conn=self._connection())),
+            (text for text, _, _ in get_definitions(self._id)),
             None
         )
 
@@ -378,7 +372,7 @@ class Synset(_Relatable):
             ['"orbital revolution"', '"orbital velocity"']
 
         """
-        exs = get_examples(self._id, 'synsets', conn=self._connection())
+        exs = get_examples(self._id, 'synsets')
         return [ex for ex, _, _ in exs]
 
     def senses(self) -> List['Sense']:
@@ -390,15 +384,15 @@ class Synset(_Relatable):
             [Sense('ewn-umbrella-n-04514450-01')]
 
         """
-        iterable = get_synset_members(self._id, conn=self._connection())
+        iterable = get_synset_members(self._id)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
-        return get_lexicalized(self._id, 'synsets', conn=self._connection())
+        return get_lexicalized(self._id, 'synsets')
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
-        return get_metadata(self._id, 'synsets', conn=self._connection())
+        return get_metadata(self._id, 'synsets')
 
     def words(self) -> List[Word]:
         """Return the list of words linked by the synset's senses.
@@ -423,7 +417,6 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        conn = self._connection()
         # if no lang or lexicon constraints were applied, use _lexid
         # of current entity
         lexids: Tuple[int, ...] = (self._lexid,)
@@ -435,19 +428,19 @@ class Synset(_Relatable):
 
         # expand search via ILI if possible
         if self.ili is not None and expids:
-            expss = find_synsets(ili=self.ili, lexicon_rowids=expids, conn=conn)
+            expss = find_synsets(ili=self.ili, lexicon_rowids=expids)
             rowids.update(rowid for _, _, _, _, rowid in expss)
 
         related: List['Synset'] = []
         if rowids:
             targets = {Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
                        for _, _, ssid, pos, ili, lexid, rowid
-                       in get_synset_relations(rowids, args, conn=conn)}
+                       in get_synset_relations(rowids, args)}
             ilis = {ss.ili for ss in targets if ss.ili is not None}
             targets.update(
                 Synset(*synset_data, self._wordnet)
                 for synset_data
-                in get_synsets_for_ilis(ilis, lexicon_rowids=lexids, conn=conn)
+                in get_synsets_for_ilis(ilis, lexicon_rowids=lexids)
             )
             related.extend(ss for ss in targets if ss._lexid in lexids)
             # add empty synsets for ILIs without a target in lexids
@@ -756,15 +749,15 @@ class Sense(_Relatable):
 
     def examples(self) -> List[str]:
         """Return the list of examples for the sense."""
-        exs = get_examples(self._id, 'senses', conn=self._connection())
+        exs = get_examples(self._id, 'senses')
         return [ex for ex, _, _ in exs]
 
     def lexicalized(self) -> bool:
-        return get_lexicalized(self._id, 'senses', conn=self._connection())
+        return get_lexicalized(self._id, 'senses')
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
-        return get_metadata(self._id, 'senses', conn=self._connection())
+        return get_metadata(self._id, 'senses')
 
     def get_related(self, *args: str) -> List['Sense']:
         """Return a list of related senses.
@@ -783,13 +776,13 @@ class Sense(_Relatable):
             incoherent
 
         """
-        iterable = get_sense_relations(self._id, args, conn=self._connection())
+        iterable = get_sense_relations(self._id, args)
         return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
                 for _, _, sid, eid, ssid, lexid, rowid in iterable]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         """Return a list of related synsets."""
-        iterable = get_sense_synset_relations(self._id, args, conn=self._connection())
+        iterable = get_sense_synset_relations(self._id, args)
         return [Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
                 for _, _, ssid, pos, ili, lexid, rowid in iterable]
 
@@ -833,26 +826,17 @@ class Wordnet:
     second space-separated list of lexicon specifiers which are used
     for traversing relations, but not as the results of queries.
 
-    .. warning::
-
-       A :class:`Wordnet` instance maintains an open connection to the
-       sqlite3 database backend, so instances should not be shared
-       across threads or processes. Create another instance in each
-       thread/process instead.
-
     """
 
-    __slots__ = ('_lang', '_lexicons', '_lexicon_ids',
-                 '_expanded', '_expanded_ids', '_conn')
+    __slots__ = '_lang', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
     __module__ = 'wn'
 
     def __init__(self, lang: str = None, lexicon: str = None, expand: str = None):
         self._lang = lang
-        self._conn: Optional[sqlite3.Connection] = connect()
 
         self._lexicons: Tuple[Lexicon, ...] = ()
         if lang or lexicon:
-            lexs = find_lexicons(lang=lang, lexicon=lexicon, conn=self._conn)
+            lexs = find_lexicons(lang=lang, lexicon=lexicon)
             self._lexicons = tuple(map(_to_lexicon, lexs))
         self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
@@ -860,12 +844,9 @@ class Wordnet:
         if expand is None:
             expand = '*'  # TODO: use project-specific settings
         if expand:
-            lexs = find_lexicons(lexicon=expand, conn=self._conn)
+            lexs = find_lexicons(lexicon=expand)
             self._expanded = tuple(map(_to_lexicon, lexs))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
-
-    def __del__(self):
-        self._conn.close()
 
     @property
     def lang(self) -> Optional[str]:
@@ -882,9 +863,7 @@ class Wordnet:
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
-        iterable = find_entries(
-            id=id, lexicon_rowids=self._lexicon_ids, conn=self._conn
-        )
+        iterable = find_entries(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             return Word(*next(iterable), self)
         except StopIteration:
@@ -899,16 +878,12 @@ class Wordnet:
         restricts words by their part of speech.
 
         """
-        iterable = find_entries(
-            form=form, pos=pos, lexicon_rowids=self._lexicon_ids, conn=self._conn
-        )
+        iterable = find_entries(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
         return [Word(*word_data, self) for word_data in iterable]
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
-        iterable = find_synsets(
-            id=id, lexicon_rowids=self._lexicon_ids, conn=self._conn
-        )
+        iterable = find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             return Synset(*next(iterable), self)
         except StopIteration:
@@ -930,15 +905,12 @@ class Wordnet:
         """
         iterable = find_synsets(
             form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids,
-            conn=self._conn
         )
         return [Synset(*synset_data, self) for synset_data in iterable]
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
-        iterable = find_senses(
-            id=id, lexicon_rowids=self._lexicon_ids, conn=self._conn
-        )
+        iterable = find_senses(id=id, lexicon_rowids=self._lexicon_ids)
         try:
             return Sense(*next(iterable), self)
         except StopIteration:
@@ -953,9 +925,7 @@ class Wordnet:
         *pos* restricts senses by their word's part of speech.
 
         """
-        iterable = find_senses(
-            form=form, pos=pos, lexicon_rowids=self._lexicon_ids, conn=self._conn
-        )
+        iterable = find_senses(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
         return [Sense(*sense_data, self) for sense_data in iterable]
 
 
