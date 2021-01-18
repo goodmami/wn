@@ -832,12 +832,10 @@ class Wordnet:
 
     """
 
-    __slots__ = '_lang', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __slots__ = '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
     __module__ = 'wn'
 
     def __init__(self, lang: str = None, lexicon: str = None, expand: str = None):
-        self._lang = lang
-
         self._lexicons: Tuple[Lexicon, ...] = ()
         if lang or lexicon:
             lexs = find_lexicons(lang=lang, lexicon=lexicon)
@@ -851,11 +849,6 @@ class Wordnet:
             lexs = find_lexicons(lexicon=expand)
             self._expanded = tuple(map(_to_lexicon, lexs))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
-
-    @property
-    def lang(self) -> Optional[str]:
-        """The BCP47 language code of lexicons in the wordnet."""
-        return self._lang
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""

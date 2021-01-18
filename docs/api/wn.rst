@@ -29,11 +29,6 @@ The Wordnet Class
 
 .. autoclass:: Wordnet
 
-   .. attribute:: lang
-
-      The value of the language-code filter used in object
-      instantiation, if any.
-
    .. automethod:: word
    .. automethod:: words
    .. automethod:: sense

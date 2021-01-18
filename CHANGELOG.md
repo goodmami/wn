@@ -7,6 +7,11 @@
 * `wn.Lexicon.specifier()`
 
 
+### Removed
+
+* `wn.Wordnet.lang`
+
+
 ## [v0.4.1]
 
 **Release date: 2021-01-19**
