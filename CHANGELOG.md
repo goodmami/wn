@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.4.1]
+
+**Release date: 2021-01-19**
+
 ### Removed
 
 * `wn.config.database_filename` (only `wn.config.data_directory` is
