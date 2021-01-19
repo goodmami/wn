@@ -2,12 +2,11 @@
 Storage back-end interface.
 """
 
-from typing import Callable, TypeVar, Dict, Any, cast
+from typing import Dict
 from pathlib import Path
 import json
 import sqlite3
 import logging
-from functools import wraps
 
 import wn
 from wn._types import Metadata, AnyPath
@@ -85,33 +84,6 @@ def connect() -> sqlite3.Connection:
 
         pool[dbpath] = conn
     return pool[dbpath]
-
-
-F = TypeVar('F', bound=Callable[..., Any])
-
-
-def connects(f: F) -> F:
-    """Wrapper for a function that establishes a database connection."""
-
-    @wraps(f)
-    def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
-        if conn is None:
-            conn = connect()
-        return f(*args, conn=conn, **kwargs)
-
-    return cast(F, connect_wrapper)
-
-
-def connects_generator(f: F) -> F:
-    """Wrapper for a generator that establishes a database connection."""
-
-    @wraps(f)
-    def connect_wrapper(*args, conn: sqlite3.Connection = None, **kwargs):
-        if conn is None:
-            conn = connect()
-        yield from f(*args, conn=conn, **kwargs)
-
-    return cast(F, connect_wrapper)
 
 
 def _initialize(conn: sqlite3.Connection) -> None:

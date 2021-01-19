@@ -1,11 +1,9 @@
 
 from typing import List, Set, Sequence
-import sqlite3
 
 import wn
 from wn._types import AnyPath
 from wn import lmf
-from wn._db import connects
 from wn._queries import (
     find_entries,
     find_senses,
@@ -47,25 +45,21 @@ def export(
     lmf.dump(_lexicons, destination, version=version)
 
 
-@connects
-def _precheck(lexicons: Sequence[Lexicon], conn: sqlite3.Connection = None) -> None:
-    assert conn is not None  # provided by decorator
+def _precheck(lexicons: Sequence[Lexicon]) -> None:
     all_ids: Set[str] = set()
     for lex in lexicons:
         lexids = (lex._id,)
         idset = {lex.id}
-        idset.update(row[0] for row in find_entries(lexicon_rowids=lexids, conn=conn))
-        idset.update(row[0] for row in find_senses(lexicon_rowids=lexids, conn=conn))
-        idset.update(row[0] for row in find_synsets(lexicon_rowids=lexids, conn=conn))
+        idset.update(row[0] for row in find_entries(lexicon_rowids=lexids))
+        idset.update(row[0] for row in find_senses(lexicon_rowids=lexids))
+        idset.update(row[0] for row in find_synsets(lexicon_rowids=lexids))
         # TODO: syntactic behaviours
         if all_ids.intersection(idset):
             raise wn.Error('cannot export: non-unique identifiers in lexicons')
         all_ids |= idset
 
 
-@connects
-def _export_lexicon(lexicon: Lexicon, conn: sqlite3.Connection = None) -> lmf.Lexicon:
-    assert conn is not None  # provided by decorator
+def _export_lexicon(lexicon: Lexicon) -> lmf.Lexicon:
     lexids = (lexicon._id,)
     return lmf.Lexicon(
         id=lexicon.id,
@@ -76,16 +70,14 @@ def _export_lexicon(lexicon: Lexicon, conn: sqlite3.Connection = None) -> lmf.Le
         version=lexicon.version,
         url=lexicon.url or '',
         citation=lexicon.citation or '',
-        lexical_entries=_export_lexical_entries(conn, lexids),
-        synsets=_export_synsets(conn, lexids),
-        syntactic_behaviours=_export_syntactic_behaviours(conn, lexids),
+        lexical_entries=_export_lexical_entries(lexids),
+        synsets=_export_synsets(lexids),
+        syntactic_behaviours=_export_syntactic_behaviours(lexids),
         meta=lmf.Metadata(**lexicon.metadata())
     )
 
 
-def _export_lexical_entries(
-    conn: sqlite3.Connection, lexids: Sequence[int]
-) -> List[lmf.LexicalEntry]:
+def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
     LexicalEntry = lmf.LexicalEntry
     Lemma = lmf.Lemma
     Form = lmf.Form
@@ -95,133 +87,117 @@ def _export_lexical_entries(
             Lemma(forms[0][0], pos, script=forms[0][1] or ''),  # TODO: tags
             forms=[Form(form, script or '')
                    for form, script, _ in forms[1:]],  # TODO: tags
-            senses=_export_senses(conn, rowid),
-            meta=_export_metadata(conn, rowid, 'entries'),
+            senses=_export_senses(rowid),
+            meta=_export_metadata(rowid, 'entries'),
         )
         for id, pos, forms, _, rowid
-        in find_entries(lexicon_rowids=lexids, conn=conn)
+        in find_entries(lexicon_rowids=lexids)
     ]
 
 
-def _export_senses(
-    conn: sqlite3.Connection, entry_rowid: int
-) -> List[lmf.Sense]:
+def _export_senses(entry_rowid: int) -> List[lmf.Sense]:
     Sense = lmf.Sense
     return [
         Sense(
             id,
             synset,
-            relations=_export_sense_relations(conn, rowid),
-            examples=_export_examples(conn, rowid, 'senses'),
+            relations=_export_sense_relations(rowid),
+            examples=_export_examples(rowid, 'senses'),
             # TODO: counts
-            lexicalized=get_lexicalized(rowid, 'senses', conn=conn),
+            lexicalized=get_lexicalized(rowid, 'senses'),
             # TODO: adjposition
-            meta=_export_metadata(conn, rowid, 'senses'),
+            meta=_export_metadata(rowid, 'senses'),
         )
         for id, _, synset, _, rowid
-        in get_entry_senses(entry_rowid, conn=conn)
+        in get_entry_senses(entry_rowid)
     ]
 
 
-def _export_sense_relations(
-    conn: sqlite3.Connection, sense_rowid: int
-) -> List[lmf.SenseRelation]:
+def _export_sense_relations(sense_rowid: int) -> List[lmf.SenseRelation]:
     SenseRelation = lmf.SenseRelation
     relations = [
         SenseRelation(
             id,
             type,
-            meta=_export_metadata(conn, rowid, 'sense_relations')
+            meta=_export_metadata(rowid, 'sense_relations')
         )
         for type, rowid, id, *_
-        in get_sense_relations(sense_rowid, '*', conn=conn)
+        in get_sense_relations(sense_rowid, '*')
     ]
     relations.extend(
         SenseRelation(
             id,
             type,
-            meta=_export_metadata(conn, rowid, 'sense_synset_relations')
+            meta=_export_metadata(rowid, 'sense_synset_relations')
         )
         for type, rowid, id, *_
-        in get_sense_synset_relations(sense_rowid, '*', conn=conn)
+        in get_sense_synset_relations(sense_rowid, '*')
     )
     return relations
 
 
-def _export_examples(
-    conn: sqlite3.Connection, rowid: int, table: str
-) -> List[lmf.Example]:
+def _export_examples(rowid: int, table: str) -> List[lmf.Example]:
     Example = lmf.Example
     return [
         Example(
             text,
             language,
-            meta=_export_metadata(conn, rowid, f'{table[:-1]}_examples')
+            meta=_export_metadata(rowid, f'{table[:-1]}_examples')
         )
         for text, language, rowid
-        in get_examples(rowid, table, conn=conn)
+        in get_examples(rowid, table)
     ]
 
 
-def _export_synsets(
-    conn: sqlite3.Connection, lexids: Sequence[int]
-) -> List[lmf.Synset]:
+def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
     Synset = lmf.Synset
     return [
         Synset(
             id,
             ili or '',
             pos,
-            definitions=_export_definitions(conn, rowid),
+            definitions=_export_definitions(rowid),
             # TODO: ili_definition,
-            relations=_export_synset_relations(conn, rowid),
-            examples=_export_examples(conn, rowid, 'synsets'),
-            lexicalized=get_lexicalized(rowid, 'synsets', conn=conn),
-            meta=_export_metadata(conn, rowid, 'synsets'),
+            relations=_export_synset_relations(rowid),
+            examples=_export_examples(rowid, 'synsets'),
+            lexicalized=get_lexicalized(rowid, 'synsets'),
+            meta=_export_metadata(rowid, 'synsets'),
         )
         for id, pos, ili, _, rowid
-        in find_synsets(lexicon_rowids=lexids, conn=conn)
+        in find_synsets(lexicon_rowids=lexids)
     ]
 
 
-def _export_definitions(
-    conn: sqlite3.Connection, rowid: int
-) -> List[lmf.Definition]:
+def _export_definitions(rowid: int) -> List[lmf.Definition]:
     Definition = lmf.Definition
     return [
         Definition(
             text,
             language,
-            meta=_export_metadata(conn, rowid, 'definitions')
+            meta=_export_metadata(rowid, 'definitions')
         )
         for text, language, rowid
-        in get_definitions(rowid, conn=conn)
+        in get_definitions(rowid)
     ]
 
 
-def _export_synset_relations(
-    conn: sqlite3.Connection, synset_rowid: int
-) -> List[lmf.SynsetRelation]:
+def _export_synset_relations(synset_rowid: int) -> List[lmf.SynsetRelation]:
     SynsetRelation = lmf.SynsetRelation
     relations = [
         SynsetRelation(
             id,
             type,
-            meta=_export_metadata(conn, rowid, 'synset_relations')
+            meta=_export_metadata(rowid, 'synset_relations')
         )
         for type, rowid, id, *_
-        in get_synset_relations((synset_rowid,), '*', conn=conn)
+        in get_synset_relations((synset_rowid,), '*')
     ]
     return relations
 
 
-def _export_syntactic_behaviours(
-    conn: sqlite3.Connection, lexids: Sequence[int]
-) -> List[lmf.SyntacticBehaviour]:
+def _export_syntactic_behaviours(lexids: Sequence[int]) -> List[lmf.SyntacticBehaviour]:
     return []  # TODO
 
 
-def _export_metadata(
-    conn: sqlite3.Connection, rowid: int, table: str
-) -> lmf.Metadata:
-    return lmf.Metadata(**get_metadata(rowid, table, conn=conn))
+def _export_metadata(rowid: int, table: str) -> lmf.Metadata:
+    return lmf.Metadata(**get_metadata(rowid, table))
