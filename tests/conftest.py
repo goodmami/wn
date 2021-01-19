@@ -31,6 +31,9 @@ def mini_db_dir(mini_lmf_1_0):
         wn.add(mini_lmf_1_0)
         wn.config.data_directory = old_data_dir
         yield Path(dir)
+        # close any open DB connections before teardown
+        for conn in wn._db.pool.values():
+            conn.close()
 
 
 @pytest.fixture

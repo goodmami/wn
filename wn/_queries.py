@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connects, connects_generator, NON_ROWID
+from wn._db import connect, NON_ROWID
 
 
 # Local Types
@@ -57,20 +57,14 @@ _Lexicon = Tuple[
 ]
 
 
-@connects_generator
-def find_lexicons(
-    lang: str = None,
-    lexicon: str = None,
-    conn: sqlite3.Connection = None
-) -> Iterator[_Lexicon]:
-    assert conn is not None  # provided by decorator
+def find_lexicons(lang: str = None, lexicon: str = None,) -> Iterator[_Lexicon]:
+    conn = connect()
     for rowid in _get_lexicon_rowids(conn, lang=lang, lexicon=lexicon):
         yield _get_lexicon(conn, rowid)
 
 
-@connects
-def get_lexicon(rowid: int, conn: sqlite3.Connection = None) -> _Lexicon:
-    assert conn is not None  # provided by decorator
+def get_lexicon(rowid: int) -> _Lexicon:
+    conn = connect()
     return _get_lexicon(conn, rowid)
 
 
@@ -145,15 +139,13 @@ def _get_lexicon_rowids_for_lexicon(
     return lex_match
 
 
-@connects_generator
 def find_entries(
         id: str = None,
         form: str = None,
         pos: str = None,
         lexicon_rowids: Sequence[int] = None,
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Word]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     query_parts = [
         'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, p.pos,'
         '                f.form, f.script, f.rowid',
@@ -192,15 +184,13 @@ def find_entries(
         yield (id, pos, forms, lexid, rowid)
 
 
-@connects_generator
 def find_senses(
         id: str = None,
         form: str = None,
         pos: str = None,
         lexicon_rowids: Sequence[int] = None,
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Sense]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     query_parts = [
         'SELECT DISTINCT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid'
         '  FROM senses AS s'
@@ -233,16 +223,14 @@ def find_senses(
     yield from rows
 
 
-@connects_generator
 def find_synsets(
         id: str = None,
         form: str = None,
         pos: str = None,
         ili: str = None,
         lexicon_rowids: Sequence[int] = None,
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Synset]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     query_parts = [
         'SELECT DISTINCT ss.id, p.pos, ss.ili, ss.lexicon_rowid, ss.rowid',
         '  FROM synsets AS ss',
@@ -282,13 +270,11 @@ def find_synsets(
     yield from rows
 
 
-@connects_generator
 def get_synsets_for_ilis(
         ilis: Collection[str],
         lexicon_rowids: Sequence[int] = None,
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Synset]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     if lexicon_rowids is None:
         lexicon_rowids = _get_lexicon_rowids(conn)
     query = f'''
@@ -304,13 +290,11 @@ def get_synsets_for_ilis(
     yield from result_rows
 
 
-@connects_generator
 def get_synset_relations(
         source_rowids: Collection[int],
         relation_types: Collection[str],
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Synset_Relation]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     params: List = []
     constraint = ''
     if '*' not in relation_types:
@@ -338,11 +322,8 @@ def get_synset_relations(
     yield from result_rows
 
 
-@connects
-def get_definitions(
-    synset_rowid: int, conn: sqlite3.Connection = None
-) -> List[Tuple[str, str, int]]:
-    assert conn is not None  # provided by decorator
+def get_definitions(synset_rowid: int) -> List[Tuple[str, str, int]]:
+    conn = connect()
     query = '''
         SELECT definition, language, rowid
           FROM definitions
@@ -357,11 +338,8 @@ _SANITIZED_EXAMPLE_PREFIXES = {
 }
 
 
-@connects
-def get_examples(
-    rowid: int, table: str, conn: sqlite3.Connection = None
-) -> List[Tuple[str, str, int]]:
-    assert conn is not None  # provided by decorator
+def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
+    conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
     if prefix is None:
         raise wn.Error(f"'{table}' does not have examples")
@@ -373,9 +351,8 @@ def get_examples(
     return conn.execute(query, (rowid,)).fetchall()
 
 
-def _get_senses(
-    conn: sqlite3.Connection, rowid: int, sourcetype: str
-) -> Iterator[_Sense]:
+def _get_senses(rowid: int, sourcetype: str) -> Iterator[_Sense]:
+    conn = connect()
     query = f'''
         SELECT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
           FROM senses AS s
@@ -388,29 +365,19 @@ def _get_senses(
     return conn.execute(query, (rowid,))
 
 
-@connects_generator
-def get_entry_senses(
-    rowid: int, conn: sqlite3.Connection = None
-) -> Iterator[_Sense]:
-    assert conn is not None  # provided by decorator
-    yield from _get_senses(conn, rowid, 'entry')
+def get_entry_senses(rowid: int) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'entry')
 
 
-@connects_generator
-def get_synset_members(
-    rowid: int, conn: sqlite3.Connection = None
-) -> Iterator[_Sense]:
-    assert conn is not None  # provided by decorator
-    yield from _get_senses(conn, rowid, 'synset')
+def get_synset_members(rowid: int) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'synset')
 
 
-@connects_generator
 def get_sense_relations(
         source_rowid: int,
         relation_types: Collection[str],
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Sense_Relation]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     params: List = []
     constraint = ''
     if '*' not in relation_types:
@@ -440,13 +407,11 @@ def get_sense_relations(
     yield from rows
 
 
-@connects_generator
 def get_sense_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
-        conn: sqlite3.Connection = None
 ) -> Iterator[_Synset_Relation]:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     params: List = [source_rowid]
     constraint = ''
     if '*' not in relation_types:
@@ -487,11 +452,10 @@ _SANITIZED_METADATA_TABLES = {
 }
 
 
-@connects
 def get_metadata(
-    rowid: int, table: str, conn: sqlite3.Connection = None
+    rowid: int, table: str
 ) -> Metadata:
-    assert conn is not None  # provided by decorator
+    conn = connect()
     tablename = _SANITIZED_METADATA_TABLES.get(table)
     if tablename is None:
         raise wn.Error(f"'{table}' does not contain metadata")
@@ -505,11 +469,8 @@ _SANITIZED_LEXICALIZED_TABLES = {
 }
 
 
-@connects
-def get_lexicalized(
-    rowid: int, table: str, conn: sqlite3.Connection = None
-) -> bool:
-    assert conn is not None  # provided by decorator
+def get_lexicalized(rowid: int, table: str) -> bool:
+    conn = connect()
     tablename = _SANITIZED_LEXICALIZED_TABLES.get(table)
     if tablename is None:
         raise wn.Error(f"'{table}' does not mark lexicalization")

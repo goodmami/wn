@@ -3,6 +3,27 @@
 ## [Unreleased]
 
 
+## [v0.4.1]
+
+**Release date: 2021-01-19**
+
+### Removed
+
+* `wn.config.database_filename` (only `wn.config.data_directory` is
+  configurable now)
+
+### Changed
+
+* Schema validation is now done when creating a new connection,
+  instead of on import of `wn`
+* One connection is shared per database path, rather than storing
+  connections on the modeling classes ([#81])
+
+### Fixed
+
+* More robustly check for LMF validity ([#83])
+
+
 ## [v0.4.0]
 
 **Release date: 2020-12-29**
@@ -113,6 +134,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.4.1]: ../../releases/tag/v0.4.1
 [v0.4.0]: ../../releases/tag/v0.4.0
 [v0.3.0]: ../../releases/tag/v0.3.0
 [v0.2.0]: ../../releases/tag/v0.2.0
@@ -139,3 +161,4 @@ abandoned, but this is an entirely new codebase.
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
+[#83]: https://github.com/goodmami/wn/issues/83
