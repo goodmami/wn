@@ -14,6 +14,10 @@
 * One connection is shared per database path, rather than storing
   connections on the modeling classes ([#81])
 
+### Fixed
+
+* More robustly check for LMF validity ([#83])
+
 
 ## [v0.4.0]
 
@@ -151,3 +155,4 @@ abandoned, but this is an entirely new codebase.
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
+[#83]: https://github.com/goodmami/wn/issues/83

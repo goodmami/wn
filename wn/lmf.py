@@ -318,11 +318,15 @@ def is_lmf(source: AnyPath) -> bool:
     if not is_xml(source):
         return False
     with source.open() as fh:
-        xmldecl = fh.readline().rstrip()
-        doctype = fh.readline().rstrip()
+        xmldecl, doctype = _read_header(fh)
         if not (xmldecl == _XMLDECL and doctype in _DOCTYPES):
             return False
     return True
+
+
+def _read_header(fh: TextIO) -> Tuple[str, str]:
+    return (fh.readline().rstrip().replace("'", '"'),  # XML declaration
+            fh.readline().rstrip().replace("'", '"'))  # DOCTYPE declaration
 
 
 def scan_lexicons(source: AnyPath) -> List[Dict]:
@@ -362,8 +366,8 @@ def load(source: AnyPath) -> LexicalResource:
     source = Path(source).expanduser()
 
     with source.open('rt') as fh:
-        assert fh.readline().rstrip() == _XMLDECL
-        doctype = fh.readline().rstrip()
+        xmldecl, doctype = _read_header(fh)
+        assert xmldecl == _XMLDECL
         version = _DOCTYPES[doctype]
 
     events = ET.iterparse(source, events=('start', 'end'))
