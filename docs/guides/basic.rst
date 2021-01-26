@@ -158,7 +158,7 @@ Since translations of a word into another language depend on the sense
 used, :meth:`Word.translate <wn.Word.translate>` returns a dictionary
 mapping each sense to words in the target language:
 
->>> for sense, ja_words in w.translate('ja').items():
+>>> for sense, ja_words in w.translate(lang='ja').items():
 ...     print(sense, ja_words)
 ... 
 Sense('ewn-goose-n-01858313-01') [Word('wnja-n-1254'), Word('wnja-n-33090'), Word('wnja-n-38995')]
@@ -183,9 +183,9 @@ Synset('ewn-14007000-n')
 [Sense('ewn-light-n-14006789-01')]
 >>> s.get_related('derivation')
 [Sense('ewn-dark-a-00273948-01')]
->>> s.translate('fr')  # translation returns a list of senses
+>>> s.translate(lang='fr')  # translation returns a list of senses
 [Sense('frawn-lex52992--13983515-n')]
->>> s.translate('fr')[0].word().lemma()
+>>> s.translate(lang='fr')[0].word().lemma()
 'obscurité'
 
 
@@ -216,9 +216,9 @@ hierarchical relations and metrics.
 15
 >>> ss.shortest_path(wn.synsets('dog', pos='n')[0])
 [Synset('ewn-02090203-n'), Synset('ewn-02089774-n'), Synset('ewn-02086723-n')]
->>> ss.translate('fr')  # translation returns a list of synsets
+>>> ss.translate(lang='fr')  # translation returns a list of synsets
 [Synset('frawn-02087551-n')]
->>> ss.translate('fr')[0].lemmas()
+>>> ss.translate(lang='fr')[0].lemmas()
 ['chien', 'chien de chasse']
 
 

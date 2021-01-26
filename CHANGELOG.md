@@ -25,6 +25,12 @@
   specified and no expand set is specified ([#92])
 * `wn.Wordnet` now allows versions in lexicon specifiers when the id
   is `*` (e.g., `*:1.3+omw`)
+* `wn.Wordnet` class signature has `lexicon` first, `lang` is
+  keyword-only ([#93])
+* `lang` and `lexicon` parameters are keyword-only on `wn.lexicons()`,
+  `wn.word()`, `wn.words()`, `wn.sense()`, `wn.senses()`,
+  `wn.synset()`, `wn.synsets()`, and the `translate()` methods of
+  `wn.Word`, `wn.Sense`, and `wn.Synset` ([#93])
 
 
 ## [v0.4.1]
@@ -188,3 +194,4 @@ abandoned, but this is an entirely new codebase.
 [#83]: https://github.com/goodmami/wn/issues/83
 [#90]: https://github.com/goodmami/wn/issues/90
 [#92]: https://github.com/goodmami/wn/issues/92
+[#93]: https://github.com/goodmami/wn/issues/93

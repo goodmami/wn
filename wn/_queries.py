@@ -58,12 +58,13 @@ _Lexicon = Tuple[
 
 
 def find_lexicons(
+    lexicon: str,
     lang: str = None,
-    lexicon: str = None,
 ) -> Iterator[_Lexicon]:
     conn = connect()
     rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
     rowids = _get_lexicon_rowids_for_lang(rows, lang)
+    # the next call is somewhat expensive, so try to skip it in a common case
     if lexicon != '*':
         rowids &= _get_lexicon_rowids_for_lexicon(rows, lexicon)
     if rows and not rowids:
@@ -107,14 +108,14 @@ def _get_lexicon_rowids_for_lang(
 
 def _get_lexicon_rowids_for_lexicon(
     rows: List[Tuple[int, str, str, str]],
-    lexicon: Optional[str],
+    lexicon: str,
 ) -> Set[int]:
     lexmap: Dict[str, Dict[str, int]] = {}
     for rowid, id, version, _ in rows:
         lexmap.setdefault(id, {})[version] = rowid
 
     lex_match: Set[int] = set()
-    for id_ver in (lexicon or '*').split():
+    for id_ver in lexicon.split():
         id, _, ver = id_ver.partition(':')
 
         if id == '*':
