@@ -13,6 +13,12 @@
 
 ### Changed
 
+* `wn.Wordnet` has a "default mode", when no lexicon or language is
+  selected, which searches any lexicon but relation traversals only
+  target the lexicon of the source synset ([#92]) is used for the
+  lexicon id ([#92])
+* `wn.Wordnet` has an empty expand set when a lexicon or language is
+  specified and no expand set is specified ([#92])
 * `wn.Wordnet` now allows versions in lexicon specifiers when the id
   is `*` (e.g., `*:1.3+omw`)
 
@@ -176,3 +182,4 @@ abandoned, but this is an entirely new codebase.
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
 [#83]: https://github.com/goodmami/wn/issues/83
+[#92]: https://github.com/goodmami/wn/issues/92

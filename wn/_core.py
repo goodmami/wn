@@ -832,22 +832,26 @@ class Wordnet:
 
     """
 
-    __slots__ = '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
+                 '_default_mode')
     __module__ = 'wn'
 
     def __init__(self, lang: str = None, lexicon: str = None, expand: str = None):
-        self._lexicons: Tuple[Lexicon, ...] = ()
-        if lang or lexicon:
-            lexs = find_lexicons(lang=lang, lexicon=lexicon)
-            self._lexicons = tuple(map(_to_lexicon, lexs))
+        # default mode means any lexicon is searched or expanded upon,
+        # but relation traversals only target the source's lexicon
+        self._default_mode = (not lexicon and not lang)
+
+        lexs = list(find_lexicons(lang=lang, lexicon=lexicon or '*'))
+        self._lexicons: Tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
         self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
         self._expanded: Tuple[Lexicon, ...] = ()
         if expand is None:
-            expand = '*'  # TODO: use project-specific settings
+            if self._default_mode:
+                expand = '*'
+            # TODO: use project-specific settings
         if expand:
-            lexs = find_lexicons(lexicon=expand)
-            self._expanded = tuple(map(_to_lexicon, lexs))
+            self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
     def lexicons(self):
