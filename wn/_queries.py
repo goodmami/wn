@@ -112,30 +112,36 @@ def _get_lexicon_rowids_for_lang(
 
 
 def _get_lexicon_rowids_for_lexicon(
-        rows: List[Tuple[int, str, str, str]], lexicon: str = None
+    rows: List[Tuple[int, str, str, str]],
+    lexicon: Optional[str],
 ) -> Set[int]:
+    lexmap: Dict[str, Dict[str, int]] = {}
+    for rowid, id, version, _ in rows:
+        lexmap.setdefault(id, {})[version] = rowid
+
     lex_match: Set[int] = set()
-    lex_specs = lexicon.split() if lexicon else []
-    if not lex_specs or '*' in lex_specs or '*:' in lex_specs:
-        lex_match.update(row[0] for row in rows)
-    else:
-        lexmap: Dict[str, Dict[str, int]] = {}
-        for rowid, id, version, _ in rows:
-            lexmap.setdefault(id, {})[version] = rowid
-        for id_ver in lex_specs:
-            id, _, ver = id_ver.partition(':')
-            if id == '*':
-                raise wn.Error("version not allowed when lexicon id is '*'")
-            elif id not in lexmap:
-                raise wn.Error(f"no lexicon found with id '{id}'")
-            if not ver:
-                lex_match.add(next(iter(lexmap[id].values())))
-            elif ver == '*':
-                lex_match.update(lexmap[id].values())
-            elif ver not in lexmap[id]:
-                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
-            else:
+    for id_ver in (lexicon or '*').split():
+        id, _, ver = id_ver.partition(':')
+
+        if id == '*':
+            for vermap in lexmap.values():
+                for version, rowid in vermap.items():
+                    if ver in ('', '*', version):
+                        lex_match.add(rowid)
+
+        elif id in lexmap:
+            if ver == '*':
+                lex_match.update(rowid for rowid in lexmap[id].values())
+            elif ver == '':
+                lex_match.add(max(lexmap[id].values()))  # last installed version
+            elif ver in lexmap[id]:
                 lex_match.add(lexmap[id][ver])
+            else:
+                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
+
+        else:
+            raise wn.Error(f"no lexicon found with id '{id}'")
+
     return lex_match
 
 

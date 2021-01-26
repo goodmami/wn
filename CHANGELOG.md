@@ -11,6 +11,11 @@
 
 * `wn.Wordnet.lang`
 
+### Changed
+
+* `wn.Wordnet` now allows versions in lexicon specifiers when the id
+  is `*` (e.g., `*:1.3+omw`)
+
 
 ## [v0.4.1]
 
