@@ -421,35 +421,34 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        # if no lang or lexicon constraints were applied, use _lexid
-        # of current entity
-        lexids: Tuple[int, ...] = (self._lexid,)
-        expids: Tuple[int, ...] = (self._lexid,)
-        if self._wordnet:
-            lexids = self._wordnet._lexicon_ids or lexids
-            expids = self._wordnet._expanded_ids or lexids
-        rowids = {self._id} - {NON_ROWID}
+        targets: List['Synset'] = []
+        # first get relations from the current lexicon(s)
+        if self._id != NON_ROWID:
+            targets.extend(Synset(*row[2:], self._wordnet)
+                           for row in get_synset_relations({self._id}, args))
 
-        # expand search via ILI if possible
-        if self.ili is not None and expids:
+        # then attempt to expand via ILI
+        if self.ili is not None and self._wordnet and self._wordnet._expanded_ids:
+            if self._wordnet._default_mode:
+                lexids = (self._lexid,)
+            else:
+                lexids = self._wordnet._lexicon_ids
+            expids = self._wordnet._expanded_ids
+
+            # get expanded relation
             expss = find_synsets(ili=self.ili, lexicon_rowids=expids)
-            rowids.update(rowid for _, _, _, _, rowid in expss)
+            rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
+            ilis = {row[4] for row in get_synset_relations(rowids, args)} - {None}
 
-        related: List['Synset'] = []
-        if rowids:
-            targets = {Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
-                       for _, _, ssid, pos, ili, lexid, rowid
-                       in get_synset_relations(rowids, args)}
-            ilis = {ss.ili for ss in targets if ss.ili is not None}
-            targets.update(
-                Synset(*synset_data, self._wordnet)
-                for synset_data
-                in get_synsets_for_ilis(ilis, lexicon_rowids=lexids)
-            )
-            related.extend(ss for ss in targets if ss._lexid in lexids)
+            # map back to target lexicons
+            seen = {ss._id for ss in targets}
+            for row in get_synsets_for_ilis(ilis, lexicon_rowids=lexids):
+                if row[-1] not in seen:
+                    targets.append(Synset(*row, self._wordnet))
+
             # add empty synsets for ILIs without a target in lexids
-            for ili in (ilis - {tgt.ili for tgt in related}):
-                related.append(
+            for ili in (ilis - {tgt.ili for tgt in targets}):
+                targets.append(
                     Synset.empty(
                         id=_INFERRED_SYNSET,
                         ili=ili,
@@ -457,7 +456,8 @@ class Synset(_Relatable):
                         _wordnet=self._wordnet
                     )
                 )
-        return related
+
+        return targets
 
     def _hypernym_paths(
             self, simulate_root: bool, include_self: bool

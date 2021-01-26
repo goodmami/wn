@@ -13,6 +13,10 @@
 
 ### Changed
 
+* `wn.Synset.get_related()` does same-lexicon traversals first, then
+  ILI expansions ([#90])
+* `wn.Synset.get_related()` only targets the source synset lexicon in
+  default mode ([#90], [#92])
 * `wn.Wordnet` has a "default mode", when no lexicon or language is
   selected, which searches any lexicon but relation traversals only
   target the lexicon of the source synset ([#92]) is used for the
@@ -182,4 +186,5 @@ abandoned, but this is an entirely new codebase.
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
 [#83]: https://github.com/goodmami/wn/issues/83
+[#90]: https://github.com/goodmami/wn/issues/90
 [#92]: https://github.com/goodmami/wn/issues/92
