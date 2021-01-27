@@ -132,6 +132,9 @@ class Form(str):
     __slots__ = '_id', 'script',
     __module__ = 'wn'
 
+    _id: int
+    script: Optional[str]
+
     def __new__(cls, form: str, script: str = None, _id: int = NON_ROWID):
         obj = str.__new__(cls, form)  # type: ignore
         obj.script = script
@@ -1002,11 +1005,12 @@ def word(id: str, *, lexicon: str = None, lang: str = None) -> Word:
     return Wordnet(lang=lang, lexicon=lexicon).word(id=id)
 
 
-def words(form: str = None,
-          pos: str = None,
-          *,
-          lexicon: str = None,
-          lang: str = None,
+def words(
+    form: str = None,
+    pos: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
 ) -> List[Word]:
     """Return the list of matching words.
 
@@ -1039,12 +1043,13 @@ def synset(id: str, *, lexicon: str = None, lang: str = None) -> Synset:
     return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
 
-def synsets(form: str = None,
-            pos: str = None,
-            ili: str = None,
-            *,
-            lexicon: str = None,
-            lang: str = None,
+def synsets(
+    form: str = None,
+    pos: str = None,
+    ili: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
 ) -> List[Synset]:
     """Return the list of matching synsets.
 
@@ -1061,11 +1066,12 @@ def synsets(form: str = None,
     return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
-def senses(form: str = None,
-           pos: str = None,
-           *,
-           lexicon: str = None,
-           lang: str = None,
+def senses(
+    form: str = None,
+    pos: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
 ) -> List[Sense]:
     """Return the list of matching senses.
 
