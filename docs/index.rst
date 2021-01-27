@@ -60,3 +60,4 @@ Contents
    api/wn.lmf.rst
    api/wn.project.rst
    api/wn.similarity.rst
+   api/wn.util.rst

@@ -2,14 +2,14 @@
 Adding and removing lexicons to/from the database.
 """
 
-import sys
+from typing import Optional, Type
 import logging
 
 import wn
 from wn._types import AnyPath
 from wn._db import connect
 from wn._queries import find_lexicons
-from wn._util import get_progress_handler
+from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
 
@@ -44,7 +44,10 @@ SYNSET_QUERY = '''
 '''
 
 
-def add(source: AnyPath, progress_handler=get_progress_handler) -> None:
+def add(
+    source: AnyPath,
+    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar,
+) -> None:
     """Add the LMF file at *source* to the database.
 
     The file at *source* may be gzip-compressed or plain text XML.
@@ -66,21 +69,26 @@ def add(source: AnyPath, progress_handler=get_progress_handler) -> None:
     status of adding the lexicon (``Inspecting``, ``ILI``, ``Synset``,
     etc.). After inspecting the file, a ``max`` keyword on *kwargs*
     indicates the total number of rows to insert.
-
     """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+    progress = progress_handler(message='Database', unit='\b')
+
     logger.info('adding project to database')
     logger.info('  database: %s', wn.config.database_path)
     logger.info('  project file: %s', source)
-    for package in iterpackages(source):
-        _add_lmf(package.resource_file(), progress_handler)
+
+    try:
+        for package in iterpackages(source):
+            _add_lmf(package.resource_file(), progress)
+    finally:
+        progress.close()
 
 
 def _add_lmf(
     source,
-    progress_handler,
+    progress: ProgressHandler,
 ) -> None:
-    callback = get_progress_handler(progress_handler, 'Database', '\b', '')
-
     with connect() as conn:
         cur = conn.cursor()
         # these two settings increase the risk of database corruption
@@ -90,24 +98,24 @@ def _add_lmf(
         cur.execute('PRAGMA journal_mode = MEMORY')
 
         # abort if any lexicon in *source* is already added
-        print(f'Checking {source!s}', end='', file=sys.stderr)
+        progress.flash(f'Checking {source!s}')
         all_infos = list(_precheck(source, cur))
 
         if not all_infos:
-            print(f'\r\033[K{source}: No lexicons found', file=sys.stderr)
+            progress.flash(f'{source}: No lexicons found')
             return
         elif all(info.get('skip', False) for info in all_infos):
-            print(f'\r\033[K{source}: Some or all lexicons already added',
-                  file=sys.stderr)
+            progress.flash(f'{source}: Some or all lexicons already added')
             return
 
         # all clear, try to add them
-        print(f'\r\033[KReading {source!s}', end='', file=sys.stderr)
+        progress.flash(f'Reading {source!s}')
         for lexicon, info in zip(lmf.load(source), all_infos):
 
             if info.get('skip', False):
-                print(f'Skipping {info["id"]:info["version"]} ({info["label"]})',
-                      file=sys.stderr)
+                progress.flash(
+                    f'Skipping {info["id"]:info["version"]} ({info["label"]})\n',
+                )
                 continue
 
             sense_ids = lexicon.sense_ids()
@@ -134,31 +142,29 @@ def _add_lmf(
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
             count += counts.get('Synset', 0)  # again for ILIs
-            callback(0, count=0, max=count)
+            progress.set(count=0, total=count)
 
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
 
-            _insert_ilis(synsets, cur, callback)
-            _insert_synsets(synsets, lexid, cur, callback)
-            _insert_entries(entries, lexid, cur, callback)
-            _insert_forms(entries, lexid, cur, callback)
-            _insert_senses(entries, lexid, cur, callback)
+            _insert_ilis(synsets, cur, progress)
+            _insert_synsets(synsets, lexid, cur, progress)
+            _insert_entries(entries, lexid, cur, progress)
+            _insert_forms(entries, lexid, cur, progress)
+            _insert_senses(entries, lexid, cur, progress)
 
-            _insert_synset_relations(synsets, lexid, cur, callback)
+            _insert_synset_relations(synsets, lexid, cur, progress)
             _insert_sense_relations(entries, lexid, 'sense_relations',
-                                    sense_ids, cur, callback)
+                                    sense_ids, cur, progress)
             _insert_sense_relations(entries, lexid, 'sense_synset_relations',
-                                    synset_ids, cur, callback)
+                                    synset_ids, cur, progress)
 
-            _insert_synset_definitions(synsets, lexid, cur, callback)
+            _insert_synset_definitions(synsets, lexid, cur, progress)
             _insert_examples([sense for entry in entries for sense in entry.senses],
-                             lexid, 'sense_examples', cur, callback)
-            _insert_examples(synsets, lexid, 'synset_examples', cur, callback)
-            callback(0, status='')  # clear type string
-
-            print(f'\r\033[KAdded {lexicon.id}:{lexicon.version} ({lexicon.label})',
-                  file=sys.stderr)
+                             lexid, 'sense_examples', cur, progress)
+            _insert_examples(synsets, lexid, 'synset_examples', cur, progress)
+            progress.set(status='')  # clear type string
+            progress.flash(f'Added {lexicon.id}:{lexicon.version} ({lexicon.label})')
 
 
 def _precheck(source, cur):
@@ -181,8 +187,8 @@ def _split(sequence):
     yield sequence[i:]
 
 
-def _insert_ilis(synsets, cur, callback):
-    callback(0, status='ILI')
+def _insert_ilis(synsets, cur, progress):
+    progress.set(status='ILI')
     for batch in _split(synsets):
         data = (
             (synset.ili,
@@ -191,11 +197,11 @@ def _insert_ilis(synsets, cur, callback):
             for synset in batch if synset.ili and synset.ili != 'in'
         )
         cur.executemany('INSERT OR IGNORE INTO ilis VALUES (?,?,?)', data)
-        callback(len(batch))
+        progress.update(len(batch))
 
 
-def _insert_synsets(synsets, lex_id, cur, callback):
-    callback(0, status='Synsets')
+def _insert_synsets(synsets, lex_id, cur, progress):
+    progress.set(status='Synsets')
     query = f'INSERT INTO synsets VALUES (null,?,?,?,({POS_QUERY}),?,?)'
     for batch in _split(synsets):
         data = (
@@ -209,11 +215,11 @@ def _insert_synsets(synsets, lex_id, cur, callback):
             for synset in batch
         )
         cur.executemany(query, data)
-        callback(len(batch))
+        progress.update(len(batch))
 
 
-def _insert_synset_definitions(synsets, lexid, cur, callback):
-    callback(0, status='Definitions')
+def _insert_synset_definitions(synsets, lexid, cur, progress):
+    progress.set(status='Definitions')
     query = f'INSERT INTO definitions VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(synsets):
         data = [
@@ -227,11 +233,11 @@ def _insert_synset_definitions(synsets, lexid, cur, callback):
             for definition in synset.definitions
         ]
         cur.executemany(query, data)
-        callback(len(data))
+        progress.update(len(data))
 
 
-def _insert_synset_relations(synsets, lexid, cur, callback):
-    callback(0, status='Synset Relations')
+def _insert_synset_relations(synsets, lexid, cur, progress):
+    progress.set(status='Synset Relations')
     type_query = 'SELECT r.rowid FROM synset_relation_types AS r WHERE r.type = ?'
     query = f'''
         INSERT INTO synset_relations
@@ -250,11 +256,11 @@ def _insert_synset_relations(synsets, lexid, cur, callback):
             for relation in synset.relations
         ]
         cur.executemany(query, data)
-        callback(len(data))
+        progress.update(len(data))
 
 
-def _insert_entries(entries, lex_id, cur, callback):
-    callback(0, status='Words')
+def _insert_entries(entries, lex_id, cur, progress):
+    progress.set(status='Words')
     query = f'INSERT INTO entries VALUES (null,?,?,({POS_QUERY}),?)'
     for batch in _split(entries):
         data = (
@@ -265,11 +271,11 @@ def _insert_entries(entries, lex_id, cur, callback):
             for entry in batch
         )
         cur.executemany(query, data)
-        callback(len(batch))
+        progress.update(len(batch))
 
 
-def _insert_forms(entries, lexid, cur, callback):
-    callback(0, status='Word Forms')
+def _insert_forms(entries, lexid, cur, progress):
+    progress.set(status='Word Forms')
     query = f'INSERT INTO forms VALUES (null,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
         forms = []
@@ -278,11 +284,11 @@ def _insert_forms(entries, lexid, cur, callback):
             forms.extend((entry.id, lexid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
-        callback(len(forms))
+        progress.update(len(forms))
 
 
-def _insert_senses(entries, lexid, cur, callback):
-    callback(0, status='Senses')
+def _insert_senses(entries, lexid, cur, progress):
+    progress.set(status='Senses')
     query = f'''
         INSERT INTO senses
         VALUES (null,
@@ -309,11 +315,11 @@ def _insert_senses(entries, lexid, cur, callback):
             for i, sense in enumerate(entry.senses)
         ]
         cur.executemany(query, data)
-        callback(len(data))
+        progress.update(len(data))
 
 
-def _insert_sense_relations(entries, lexid, table, ids, cur, callback):
-    callback(0, status='Sense Relations')
+def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
+    progress.set(status='Sense Relations')
     target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
     type_query = 'SELECT r.rowid FROM sense_relation_types AS r WHERE r.type = ?'
     query = f'''
@@ -335,11 +341,11 @@ def _insert_sense_relations(entries, lexid, table, ids, cur, callback):
         ]
         # be careful of SQL injection here
         cur.executemany(query, data)
-        callback(len(data))
+        progress.update(len(data))
 
 
-def _insert_examples(objs, lexid, table, cur, callback):
-    callback(0, status='Examples')
+def _insert_examples(objs, lexid, table, cur, progress):
+    progress.set(status='Examples')
     query = f'INSERT INTO {table} VALUES (({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
@@ -352,7 +358,7 @@ def _insert_examples(objs, lexid, table, cur, callback):
         ]
         # be careful of SQL injection here
         cur.executemany(query, data)
-        callback(len(data))
+        progress.update(len(data))
 
 
 def remove(lexicon: str) -> None:

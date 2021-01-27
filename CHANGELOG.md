@@ -6,6 +6,9 @@
 
 * `wn.Lexicon.specifier()`
 * `wn.config.allow_multithreading` ([#86])
+* `wn.util` module for public-API utilities
+* `wn.util.ProgressHandler` ([#87])
+* `wn.util.ProgressBar` ([#87])
 
 ### Removed
 
@@ -193,6 +196,7 @@ abandoned, but this is an entirely new codebase.
 [#81]: https://github.com/goodmami/wn/issues/81
 [#83]: https://github.com/goodmami/wn/issues/83
 [#86]: https://github.com/goodmami/wn/issues/86
+[#87]: https://github.com/goodmami/wn/issues/87
 [#90]: https://github.com/goodmami/wn/issues/90
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
