@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.5.0]
+
+**Release date: 2021-01-28**
+
 ### Added
 
 * `wn.Lexicon.specifier()`

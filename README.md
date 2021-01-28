@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/goodmami/wn/main/docs/_static/wn-logo-rotate.svg" alt="Wn logo">
+  <img src="https://raw.githubusercontent.com/goodmami/wn/main/docs/_static/wn-logo.svg" alt="Wn logo">
   <br>
   <strong>a Python library for wordnets</strong>
   <br>
