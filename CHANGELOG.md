@@ -172,6 +172,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.5.0]: ../../releases/tag/v0.5.0
 [v0.4.1]: ../../releases/tag/v0.4.1
 [v0.4.0]: ../../releases/tag/v0.4.0
 [v0.3.0]: ../../releases/tag/v0.3.0
