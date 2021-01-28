@@ -72,7 +72,11 @@ def connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
     if dbpath not in pool:
         initialized = dbpath.is_file()
-        conn = sqlite3.connect(str(dbpath), detect_types=sqlite3.PARSE_DECLTYPES)
+        conn = sqlite3.connect(
+            str(dbpath),
+            detect_types=sqlite3.PARSE_DECLTYPES,
+            check_same_thread=not wn.config.allow_multithreading,
+        )
         # foreign key support needs to be enabled for each connection
         conn.execute('PRAGMA foreign_keys = ON')
         if DEBUG:

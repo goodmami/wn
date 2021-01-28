@@ -23,6 +23,7 @@ class WNConfig:
         self._data_directory = DEFAULT_DATA_DIRECTORY
         self._projects = {}
         self._dbpath = self._data_directory / DATABASE_FILENAME
+        self.allow_multithreading = False
 
     @property
     def data_directory(self) -> Path:

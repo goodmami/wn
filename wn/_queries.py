@@ -57,9 +57,21 @@ _Lexicon = Tuple[
 ]
 
 
-def find_lexicons(lang: str = None, lexicon: str = None,) -> Iterator[_Lexicon]:
+def find_lexicons(
+    lexicon: str,
+    lang: str = None,
+) -> Iterator[_Lexicon]:
     conn = connect()
-    for rowid in _get_lexicon_rowids(conn, lang=lang, lexicon=lexicon):
+    rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
+    rowids = _get_lexicon_rowids_for_lang(rows, lang)
+    # the next call is somewhat expensive, so try to skip it in a common case
+    if lexicon != '*':
+        rowids &= _get_lexicon_rowids_for_lexicon(rows, lexicon)
+    if rows and not rowids:
+        raise wn.Error(
+            f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
+        )
+    for rowid in sorted(rowids):
         yield _get_lexicon(conn, rowid)
 
 
@@ -81,25 +93,8 @@ def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     return row
 
 
-def _get_lexicon_rowids(
-        conn: sqlite3.Connection,
-        lang: str = None,
-        lexicon: str = None,
-) -> List[int]:
-    rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
-    lg_match = _get_lexicon_rowids_for_lang(rows, lang)
-    lex_match = _get_lexicon_rowids_for_lexicon(rows, lexicon)
-    result = lg_match & lex_match
-    if rows and not result:
-        raise wn.Error(
-            f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
-        )
-
-    return sorted(result)
-
-
 def _get_lexicon_rowids_for_lang(
-        rows: List[Tuple[int, str, str, str]], lang: str = None
+        rows: List[Tuple[int, str, str, str]], lang: Optional[str]
 ) -> Set[int]:
     lg_match: Set[int] = set()
     if lang:
@@ -112,30 +107,36 @@ def _get_lexicon_rowids_for_lang(
 
 
 def _get_lexicon_rowids_for_lexicon(
-        rows: List[Tuple[int, str, str, str]], lexicon: str = None
+    rows: List[Tuple[int, str, str, str]],
+    lexicon: str,
 ) -> Set[int]:
+    lexmap: Dict[str, Dict[str, int]] = {}
+    for rowid, id, version, _ in rows:
+        lexmap.setdefault(id, {})[version] = rowid
+
     lex_match: Set[int] = set()
-    lex_specs = lexicon.split() if lexicon else []
-    if not lex_specs or '*' in lex_specs or '*:' in lex_specs:
-        lex_match.update(row[0] for row in rows)
-    else:
-        lexmap: Dict[str, Dict[str, int]] = {}
-        for rowid, id, version, _ in rows:
-            lexmap.setdefault(id, {})[version] = rowid
-        for id_ver in lex_specs:
-            id, _, ver = id_ver.partition(':')
-            if id == '*':
-                raise wn.Error("version not allowed when lexicon id is '*'")
-            elif id not in lexmap:
-                raise wn.Error(f"no lexicon found with id '{id}'")
-            if not ver:
-                lex_match.add(next(iter(lexmap[id].values())))
-            elif ver == '*':
-                lex_match.update(lexmap[id].values())
-            elif ver not in lexmap[id]:
-                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
-            else:
+    for id_ver in lexicon.split():
+        id, _, ver = id_ver.partition(':')
+
+        if id == '*':
+            for vermap in lexmap.values():
+                for version, rowid in vermap.items():
+                    if ver in ('', '*', version):
+                        lex_match.add(rowid)
+
+        elif id in lexmap:
+            if ver == '*':
+                lex_match.update(rowid for rowid in lexmap[id].values())
+            elif ver == '':
+                lex_match.add(max(lexmap[id].values()))  # last installed version
+            elif ver in lexmap[id]:
                 lex_match.add(lexmap[id][ver])
+            else:
+                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
+
+        else:
+            raise wn.Error(f"no lexicon found with id '{id}'")
+
     return lex_match
 
 
@@ -272,11 +273,9 @@ def find_synsets(
 
 def get_synsets_for_ilis(
         ilis: Collection[str],
-        lexicon_rowids: Sequence[int] = None,
+        lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset]:
     conn = connect()
-    if lexicon_rowids is None:
-        lexicon_rowids = _get_lexicon_rowids(conn)
     query = f'''
         SELECT DISTINCT ss.id, p.pos, ss.ili, ss.lexicon_rowid, ss.rowid
           FROM synsets as ss

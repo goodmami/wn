@@ -29,11 +29,6 @@ The Wordnet Class
 
 .. autoclass:: Wordnet
 
-   .. attribute:: lang
-
-      The value of the language-code filter used in object
-      instantiation, if any.
-
    .. automethod:: word
    .. automethod:: words
    .. automethod:: sense
@@ -158,6 +153,7 @@ The Lexicon Class
 .. autoclass:: Lexicon
 
    .. automethod:: metadata
+   .. automethod:: specifier
 
 The wn.config Object
 --------------------
@@ -181,6 +177,13 @@ directly. Configuration should occur through the single
 
    .. autoattribute:: data_directory
    .. autoattribute:: database_path
+   .. attribute:: allow_multithreading
+
+      If set to :python:`True`, the database connection may be shared
+      across threads. In this case, it is the user's responsibility to
+      ensure that multiple threads don't try to write to the database
+      at the same time. The default is :python:`False`.
+
    .. autoattribute:: downloads_directory
    .. automethod:: add_project
    .. automethod:: add_project_version

@@ -105,6 +105,10 @@ class Lexicon(_DatabaseEntity):
         """Return the lexicon's metadata."""
         return get_metadata(self._id, 'lexicons')
 
+    def specifier(self) -> str:
+        """Return the *id:version* lexicon specifier."""
+        return f'{self.id}:{self.version}'
+
 
 class _LexiconElement(_DatabaseEntity):
     __slots__ = '_lexid', '_wordnet'
@@ -127,6 +131,9 @@ class Form(str):
     """A word-form string with additional attributes."""
     __slots__ = '_id', 'script',
     __module__ = 'wn'
+
+    _id: int
+    script: Optional[str]
 
     def __new__(cls, form: str, script: str = None, _id: int = NON_ROWID):
         obj = str.__new__(cls, form)  # type: ignore
@@ -232,20 +239,18 @@ class Word(_LexiconElement):
                 for derived_sense in sense.get_related('derivation')]
 
     def translate(
-            self,
-            lang: str = None,
-            lexicon: str = None
+        self, lexicon: str = None, *, lang: str = None,
     ) -> Dict['Sense', List['Word']]:
         """Return a mapping of word senses to lists of translated words.
 
         Arguments:
-            lang: if specified, translate to words with the language code
             lexicon: if specified, translate to words in the target lexicon(s)
+            lang: if specified, translate to words with the language code
 
         Example:
 
             >>> w = wn.words('water bottle', pos='n')[0]
-            >>> for sense, words in w.translate('ja').items():
+            >>> for sense, words in w.translate(lang='ja').items():
             ...     print(sense, [jw.lemma() for jw in words])
             ...
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
@@ -417,35 +422,35 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def get_related(self, *args: str) -> List['Synset']:
-        # if no lang or lexicon constraints were applied, use _lexid
-        # of current entity
-        lexids: Tuple[int, ...] = (self._lexid,)
-        expids: Tuple[int, ...] = (self._lexid,)
-        if self._wordnet:
-            lexids = self._wordnet._lexicon_ids or lexids
-            expids = self._wordnet._expanded_ids or lexids
-        rowids = {self._id} - {NON_ROWID}
+        targets: List['Synset'] = []
+        # first get relations from the current lexicon(s)
+        if self._id != NON_ROWID:
+            targets.extend(Synset(*row[2:], self._wordnet)
+                           for row in get_synset_relations({self._id}, args))
 
-        # expand search via ILI if possible
-        if self.ili is not None and expids:
+        # then attempt to expand via ILI
+        if self.ili is not None and self._wordnet and self._wordnet._expanded_ids:
+            lexids: Tuple[int, ...]
+            if self._wordnet._default_mode:
+                lexids = (self._lexid,)
+            else:
+                lexids = self._wordnet._lexicon_ids
+            expids = self._wordnet._expanded_ids
+
+            # get expanded relation
             expss = find_synsets(ili=self.ili, lexicon_rowids=expids)
-            rowids.update(rowid for _, _, _, _, rowid in expss)
+            rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
+            ilis = {row[4] for row in get_synset_relations(rowids, args)} - {None}
 
-        related: List['Synset'] = []
-        if rowids:
-            targets = {Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
-                       for _, _, ssid, pos, ili, lexid, rowid
-                       in get_synset_relations(rowids, args)}
-            ilis = {ss.ili for ss in targets if ss.ili is not None}
-            targets.update(
-                Synset(*synset_data, self._wordnet)
-                for synset_data
-                in get_synsets_for_ilis(ilis, lexicon_rowids=lexids)
-            )
-            related.extend(ss for ss in targets if ss._lexid in lexids)
+            # map back to target lexicons
+            seen = {ss._id for ss in targets}
+            for row in get_synsets_for_ilis(ilis, lexicon_rowids=lexids):
+                if row[-1] not in seen:
+                    targets.append(Synset(*row, self._wordnet))
+
             # add empty synsets for ILIs without a target in lexids
-            for ili in (ilis - {tgt.ili for tgt in related}):
-                related.append(
+            for ili in (ilis - {tgt.ili for tgt in targets}):
+                targets.append(
                     Synset.empty(
                         id=_INFERRED_SYNSET,
                         ili=ili,
@@ -453,7 +458,8 @@ class Synset(_Relatable):
                         _wordnet=self._wordnet
                     )
                 )
-        return related
+
+        return targets
 
     def _hypernym_paths(
             self, simulate_root: bool, include_self: bool
@@ -680,12 +686,12 @@ class Synset(_Relatable):
             'instance_hyponym'
         )
 
-    def translate(self, lang: str = None, lexicon: str = None) -> List['Synset']:
+    def translate(self, lexicon: str = None, *, lang: str = None) -> List['Synset']:
         """Return a list of translated synsets.
 
         Arguments:
-            lang: if specified, translate to synsets with the language code
             lexicon: if specified, translate to synsets in the target lexicon(s)
+            lang: if specified, translate to synsets with the language code
 
         Example:
 
@@ -786,17 +792,17 @@ class Sense(_Relatable):
         return [Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
                 for _, _, ssid, pos, ili, lexid, rowid in iterable]
 
-    def translate(self, lang: str = None, lexicon: str = None) -> List['Sense']:
+    def translate(self, lexicon: str = None, *, lang: str = None) -> List['Sense']:
         """Return a list of translated senses.
 
         Arguments:
-            lang: if specified, translate to senses with the language code
             lexicon: if specified, translate to senses in the target lexicon(s)
+            lang: if specified, translate to senses with the language code
 
         Example:
 
             >>> en = wn.senses('petiole', lang='en')[0]
-            >>> pt = en.translate('pt')[0]
+            >>> pt = en.translate(lang='pt')[0]
             >>> pt.word().lemma()
             'pecíolo'
 
@@ -828,30 +834,27 @@ class Wordnet:
 
     """
 
-    __slots__ = '_lang', '_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids'
+    __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
+                 '_default_mode')
     __module__ = 'wn'
 
-    def __init__(self, lang: str = None, lexicon: str = None, expand: str = None):
-        self._lang = lang
+    def __init__(self, lexicon: str = None, *, lang: str = None, expand: str = None):
+        # default mode means any lexicon is searched or expanded upon,
+        # but relation traversals only target the source's lexicon
+        self._default_mode = (not lexicon and not lang)
 
-        self._lexicons: Tuple[Lexicon, ...] = ()
-        if lang or lexicon:
-            lexs = find_lexicons(lang=lang, lexicon=lexicon)
-            self._lexicons = tuple(map(_to_lexicon, lexs))
+        lexs = list(find_lexicons(lexicon or '*', lang=lang))
+        self._lexicons: Tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
         self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
         self._expanded: Tuple[Lexicon, ...] = ()
         if expand is None:
-            expand = '*'  # TODO: use project-specific settings
+            if self._default_mode:
+                expand = '*'
+            # TODO: use project-specific settings
         if expand:
-            lexs = find_lexicons(lexicon=expand)
-            self._expanded = tuple(map(_to_lexicon, lexs))
+            self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
-
-    @property
-    def lang(self) -> Optional[str]:
-        """The BCP47 language code of lexicons in the wordnet."""
-        return self._lang
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
@@ -969,12 +972,12 @@ def projects() -> List[Dict]:
     ]
 
 
-def lexicons(lang: str = None, lexicon: str = None) -> List[Lexicon]:
+def lexicons(*, lexicon: str = None, lang: str = None) -> List[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
 
-        >>> wn.lexicons('en')
+        >>> wn.lexicons(lang='en')
         [<Lexicon ewn:2020 [en]>, <Lexicon pwn:3.0 [en]>]
 
     """
@@ -988,7 +991,7 @@ def lexicons(lang: str = None, lexicon: str = None) -> List[Lexicon]:
         return w.lexicons()
 
 
-def word(id: str, lang: str = None, lexicon: str = None) -> Word:
+def word(id: str, *, lexicon: str = None, lang: str = None) -> Word:
     """Return the word with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1002,10 +1005,13 @@ def word(id: str, lang: str = None, lexicon: str = None) -> Word:
     return Wordnet(lang=lang, lexicon=lexicon).word(id=id)
 
 
-def words(form: str = None,
-          pos: str = None,
-          lang: str = None,
-          lexicon: str = None) -> List[Word]:
+def words(
+    form: str = None,
+    pos: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
+) -> List[Word]:
     """Return the list of matching words.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1023,7 +1029,7 @@ def words(form: str = None,
     return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
 
-def synset(id: str, lang: str = None, lexicon: str = None) -> Synset:
+def synset(id: str, *, lexicon: str = None, lang: str = None) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1037,11 +1043,14 @@ def synset(id: str, lang: str = None, lexicon: str = None) -> Synset:
     return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
 
-def synsets(form: str = None,
-            pos: str = None,
-            ili: str = None,
-            lang: str = None,
-            lexicon: str = None) -> List[Synset]:
+def synsets(
+    form: str = None,
+    pos: str = None,
+    ili: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
+) -> List[Synset]:
     """Return the list of matching synsets.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1057,10 +1066,13 @@ def synsets(form: str = None,
     return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
-def senses(form: str = None,
-           pos: str = None,
-           lang: str = None,
-           lexicon: str = None) -> List[Sense]:
+def senses(
+    form: str = None,
+    pos: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
+) -> List[Sense]:
     """Return the list of matching senses.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1076,7 +1088,7 @@ def senses(form: str = None,
     return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
-def sense(id: str, lang: str = None, lexicon: str = None) -> Sense:
+def sense(id: str, *, lexicon: str = None, lang: str = None) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and

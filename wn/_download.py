@@ -1,13 +1,13 @@
 
-from typing import Callable, Optional
-import sys
+from typing import Optional, Type
 from pathlib import Path
 import logging
 
 import requests
 
 import wn
-from wn._util import get_progress_handler, is_url
+from wn._util import is_url
+from wn.util import ProgressHandler, ProgressBar
 from wn._add import add as add_to_db
 from wn import config
 
@@ -22,7 +22,7 @@ logger = logging.getLogger('wn')
 def download(
         project_or_url: str,
         add: bool = True,
-        progress_handler: Optional[Callable] = get_progress_handler,
+        progress_handler: Optional[Type[ProgressHandler]] = ProgressBar,
 ) -> Path:
     """Download the resource specified by *project_or_url*.
 
@@ -73,27 +73,17 @@ def download(
     path = config.get_cache_path(url)
     logger.info('download cache path: %s', path)
 
-    if path.exists():
-        print(f'Cached file found: {path!s}', file=sys.stderr)
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+    progress = progress_handler(message='Download', unit='bytes')
 
-    else:
-        size: int = 0
-        try:
-            callback = get_progress_handler(progress_handler, 'Download', 'bytes', '')
-            callback(0, count=0, max=0, status='Initializing')
-            with open(path, 'wb') as f:
-                callback(0, status='Requesting')
-                with requests.get(url, stream=True, timeout=TIMEOUT) as response:
-                    size = int(response.headers.get('Content-Length', 0))
-                    callback(0, max=size, status='Receiving')
-                    for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-                        if chunk:
-                            f.write(chunk)
-                        callback(len(chunk))
-                    callback(0, status='Complete\n')
-        except (Exception, KeyboardInterrupt) as exc:
-            path.unlink()
-            raise wn.Error(f'Download failed at {size} bytes') from exc
+    try:
+        if path.exists():
+            progress.flash(f'Cached file found: {path!s}')
+        else:
+            _download(url, path, progress)
+    finally:
+        progress.close()
 
     if add:
         try:
@@ -105,3 +95,27 @@ def download(
             ) from exc
 
     return path
+
+
+def _download(url: str, path: Path, progress: ProgressHandler) -> None:
+    size: int = 0
+    try:
+        with open(path, 'wb') as f:
+            progress.set(status='Requesting')
+            with requests.get(url, stream=True, timeout=TIMEOUT) as response:
+                size = int(response.headers.get('Content-Length', 0))
+                progress.set(total=size, status='Receiving')
+                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                    if chunk:
+                        f.write(chunk)
+                    progress.update(len(chunk))
+                progress.set(status='Complete')
+    except requests.exceptions.RequestException as exc:
+        path.unlink()
+        raise wn.Error(f'Download failed at {size} bytes') from exc
+    except KeyboardInterrupt as exc:
+        path.unlink()
+        raise wn.Error(f'Download cancelled at {size} bytes') from exc
+    except Exception:
+        path.unlink()
+        raise

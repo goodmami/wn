@@ -3,6 +3,44 @@
 ## [Unreleased]
 
 
+## [v0.5.0]
+
+**Release date: 2021-01-28**
+
+### Added
+
+* `wn.Lexicon.specifier()`
+* `wn.config.allow_multithreading` ([#86])
+* `wn.util` module for public-API utilities
+* `wn.util.ProgressHandler` ([#87])
+* `wn.util.ProgressBar` ([#87])
+
+### Removed
+
+* `wn.Wordnet.lang`
+
+### Changed
+
+* `wn.Synset.get_related()` does same-lexicon traversals first, then
+  ILI expansions ([#90])
+* `wn.Synset.get_related()` only targets the source synset lexicon in
+  default mode ([#90], [#92])
+* `wn.Wordnet` has a "default mode", when no lexicon or language is
+  selected, which searches any lexicon but relation traversals only
+  target the lexicon of the source synset ([#92]) is used for the
+  lexicon id ([#92])
+* `wn.Wordnet` has an empty expand set when a lexicon or language is
+  specified and no expand set is specified ([#92])
+* `wn.Wordnet` now allows versions in lexicon specifiers when the id
+  is `*` (e.g., `*:1.3+omw`)
+* `wn.Wordnet` class signature has `lexicon` first, `lang` is
+  keyword-only ([#93])
+* `lang` and `lexicon` parameters are keyword-only on `wn.lexicons()`,
+  `wn.word()`, `wn.words()`, `wn.sense()`, `wn.senses()`,
+  `wn.synset()`, `wn.synsets()`, and the `translate()` methods of
+  `wn.Word`, `wn.Sense`, and `wn.Synset` ([#93])
+
+
 ## [v0.4.1]
 
 **Release date: 2021-01-19**
@@ -162,3 +200,8 @@ abandoned, but this is an entirely new codebase.
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
 [#83]: https://github.com/goodmami/wn/issues/83
+[#86]: https://github.com/goodmami/wn/issues/86
+[#87]: https://github.com/goodmami/wn/issues/87
+[#90]: https://github.com/goodmami/wn/issues/90
+[#92]: https://github.com/goodmami/wn/issues/92
+[#93]: https://github.com/goodmami/wn/issues/93
