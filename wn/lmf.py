@@ -14,6 +14,7 @@ from typing import (
     NamedTuple,
     Optional,
     TextIO,
+    BinaryIO
 )
 from pathlib import Path
 import warnings
@@ -40,7 +41,7 @@ class LMFWarning(Warning):
     """Issued on non-conforming LFM values."""
 
 
-_XMLDECL = '<?xml version="1.0" encoding="UTF-8"?>'
+_XMLDECL = b'<?xml version="1.0" encoding="UTF-8"?>'
 _DOCTYPE = '<!DOCTYPE LexicalResource SYSTEM "{schema}">'
 _SCHEMAS = {
     '1.0': 'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
@@ -317,16 +318,28 @@ def is_lmf(source: AnyPath) -> bool:
     source = Path(source).expanduser()
     if not is_xml(source):
         return False
-    with source.open() as fh:
-        xmldecl, doctype = _read_header(fh)
-        if not (xmldecl == _XMLDECL and doctype in _DOCTYPES):
+    with source.open(mode='rb') as fh:
+        try:
+            _read_header(fh)
+        except LMFError:
             return False
     return True
 
 
-def _read_header(fh: TextIO) -> Tuple[str, str]:
-    return (fh.readline().rstrip().replace("'", '"'),  # XML declaration
-            fh.readline().rstrip().replace("'", '"'))  # DOCTYPE declaration
+def _read_header(fh: BinaryIO) -> str:
+    xmldecl = fh.readline().rstrip().replace(b"'", b'"')
+    doctype = fh.readline().rstrip().replace(b"'", b'"')
+
+    if xmldecl != _XMLDECL:
+        raise LMFError('invalid or missing XML declaration')
+
+    # the XML declaration states that the file is UTF-8 (other
+    # encodings are not allowed)
+    doctype_decoded = doctype.decode('utf-8')
+    if doctype_decoded not in _DOCTYPES:
+        raise LMFError('invalid or missing DOCTYPE declaration')
+
+    return _DOCTYPES[doctype_decoded]
 
 
 def scan_lexicons(source: AnyPath) -> List[Dict]:
@@ -365,10 +378,8 @@ def load(source: AnyPath) -> LexicalResource:
     """
     source = Path(source).expanduser()
 
-    with source.open('rt') as fh:
-        xmldecl, doctype = _read_header(fh)
-        assert xmldecl == _XMLDECL
-        version = _DOCTYPES[doctype]
+    with source.open('rb') as fh:
+        version = _read_header(fh)
 
     events = ET.iterparse(source, events=('start', 'end'))
     root = next(events)[1]
@@ -398,7 +409,7 @@ def dump(
     doctype = _DOCTYPE.format(schema=_SCHEMAS[version])
     dc_uri = _DC_URIS[version]
     with destination.open('wt', encoding='utf-8') as out:
-        print(_XMLDECL, file=out)
+        print(_XMLDECL.decode('utf-8'), file=out)
         print(doctype, file=out)
         print(f'<LexicalResource xmlns:dc="{dc_uri}">', file=out)
         for lexicon in lexicons:

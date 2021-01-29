@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.lmf` specifies `utf-8` when opening files ([#95])
+
 
 ## [v0.5.0]
 
@@ -206,3 +210,4 @@ abandoned, but this is an entirely new codebase.
 [#90]: https://github.com/goodmami/wn/issues/90
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
+[#95]: https://github.com/goodmami/wn/issues/95
