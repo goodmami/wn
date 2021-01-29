@@ -743,7 +743,9 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
         attrib['citation'] = lexicon.citation
     attrib.update(_meta_dict(lexicon.meta))
     attrdelim = '\n' + (' ' * 11)
-    attrs = attrdelim.join(f'{attr}={quoteattr(val)}' for attr, val in attrib.items())
+    attrs = attrdelim.join(
+        f'{attr}={quoteattr(str(val))}' for attr, val in attrib.items()
+    )
     print(f'  <Lexicon {attrs}>', file=out)
 
     for entry in lexicon.lexical_entries:
@@ -918,7 +920,9 @@ def _indent(elem: ET.Element, level: int) -> None:
 
 def _meta_dict(m: Optional[Metadata]) -> Dict:
     if m:
-        d = {f'dc:{key}': val for key, val in zip(m._fields, m) if val is not None}
+        d = {f'dc:{key}': str(val)
+             for key, val in zip(m._fields, m)
+             if val is not None}
     else:
         d = {}
     return d

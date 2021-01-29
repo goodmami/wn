@@ -5,6 +5,7 @@
 ### Fixed
 
 * `wn.lmf` specifies `utf-8` when opening files ([#95])
+* `wn.lmf.dump()` casts attribute values to strings
 
 
 ## [v0.5.0]
