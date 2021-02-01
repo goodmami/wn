@@ -128,7 +128,6 @@ CREATE TABLE senses (
     entry_rank INTEGER DEFAULT 1,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     -- sense_key TEXT,  -- not actually UNIQUE ?
-    -- adjposition_rowid INTEGER REFERENCES adjpositions (rowid),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
     -- FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
@@ -155,6 +154,11 @@ CREATE TABLE sense_synset_relations (
 );
 CREATE INDEX sense_synset_relation_source_index ON sense_synset_relations (source_rowid);
 CREATE INDEX sense_synset_relation_target_index ON sense_synset_relations (target_rowid);
+
+CREATE TABLE adjpositions (
+    sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
+    adjposition TEXT NOT NULL
+);
 
 CREATE TABLE sense_examples (
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,

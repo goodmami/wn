@@ -7,11 +7,13 @@
 * `wn.constants.RELATION_INFO` ([#75])
 * `wn.constants.SENSE_SYNSET_RELATIONS`
 * `wn.Sense.frames()` ([#65])
+* `wn.Sense.adjposition()` ([#65])
 
 ### Changed
 
 * Syntactic behaviour is now stored in the database, and exported to
   XML ([#65])
+* Adjpositions are now stored in the database, and exported to XML ([#65])
 
 ### Schema
 
@@ -20,6 +22,7 @@
 * Parts of speech are stored as text
 * SyntacticBehaviour (previously unused) no longer requires an ID and
   does not use it in the primary key
+* Added table for adjposition values ([#65])
 
 
 ## [v0.5.1]

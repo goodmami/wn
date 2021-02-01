@@ -22,6 +22,7 @@ from wn._queries import (
     get_syntactic_behaviours,
     get_metadata,
     get_lexicalized,
+    get_adjposition,
 )
 
 _FAKE_ROOT = '*ROOT*'
@@ -761,6 +762,19 @@ class Sense(_Relatable):
 
     def lexicalized(self) -> bool:
         return get_lexicalized(self._id, 'senses')
+
+    def adjposition(self) -> str:
+        """Return the adjective position of the sense.
+
+        Values include :python:`"a"` (attributive), :python:`"p"`
+        (predicative), and :python:`"ip"` (immediate
+        postnominal). Note that this is only relevant for adjectival
+        senses. Senses for other parts of speech, or for adjectives
+        that are not annotated with this feature, will return
+        ``None``.
+
+        """
+        return get_adjposition(self._id)
 
     def frames(self) -> List[str]:
         """Return the list of subcategorization frames for the sense."""

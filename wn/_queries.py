@@ -469,5 +469,14 @@ def get_lexicalized(rowid: int, table: str) -> bool:
     return conn.execute(query, (rowid,)).fetchone()[0]
 
 
+def get_adjposition(rowid: int) -> Optional[str]:
+    conn = connect()
+    query = 'SELECT adjposition FROM adjpositions WHERE sense_rowid = ?'
+    row = conn.execute(query, (rowid,)).fetchone()
+    if row:
+        return row[0]
+    return None
+
+
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)

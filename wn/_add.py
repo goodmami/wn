@@ -138,6 +138,7 @@ def _add_lmf(
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, cur, progress)
             _insert_senses(entries, lexid, cur, progress)
+            _insert_adjpositions(entries, lexid, cur, progress)
             _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
 
             _insert_synset_relations(synsets, lexid, cur, progress)
@@ -290,7 +291,6 @@ def _insert_senses(entries, lexid, cur, progress):
              i,
              sense.synset, lexid,
              # sense.meta.identifier if sense.meta else None,
-             # adjmap.get(sense.adjposition),
              sense.lexicalized,
              sense.meta)
             for entry in batch
@@ -298,6 +298,16 @@ def _insert_senses(entries, lexid, cur, progress):
         ]
         cur.executemany(query, data)
         progress.update(len(data))
+
+
+def _insert_adjpositions(entries, lexid, cur, progress):
+    progress.set(status='Sense Adjpositions')
+    data = [(s.id, lexid, s.adjposition)
+            for e in entries
+            for s in e.senses
+            if s.adjposition]
+    query = f'INSERT INTO adjpositions VALUES (({SENSE_QUERY}),?)'
+    cur.executemany(query, data)
 
 
 def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):

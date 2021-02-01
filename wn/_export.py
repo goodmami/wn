@@ -16,6 +16,7 @@ from wn._queries import (
     get_definitions,
     get_metadata,
     get_lexicalized,
+    get_adjposition,
 )
 from wn._core import Lexicon
 
@@ -105,7 +106,7 @@ def _export_senses(entry_rowid: int) -> List[lmf.Sense]:
             examples=_export_examples(rowid, 'senses'),
             # TODO: counts
             lexicalized=get_lexicalized(rowid, 'senses'),
-            # TODO: adjposition
+            adjposition=get_adjposition(rowid) or '',
             meta=_export_metadata(rowid, 'senses'),
         )
         for id, _, synset, _, rowid
