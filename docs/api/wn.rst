@@ -101,6 +101,7 @@ The Sense Class
 
    .. automethod:: word
    .. automethod:: synset
+   .. automethod:: frames
    .. automethod:: metadata
    .. automethod:: get_related
    .. automethod:: get_related_synsets

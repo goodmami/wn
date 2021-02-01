@@ -754,9 +754,14 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
     )
     print(f'  <Lexicon {attrs}>', file=out)
 
+    sbmap: Dict[str, List[SyntacticBehaviour]] = {}
+    if version == '1.0':
+        for sb in lexicon.syntactic_behaviours:
+            for sense_id in sb.senses:
+                sbmap.setdefault(sense_id, []).append(sb)
+
     for entry in lexicon.lexical_entries:
-        # TODO: 1.0 SyntacticBehaviour
-        _dump_lexical_entry(entry, out, version)
+        _dump_lexical_entry(entry, out, sbmap, version)
 
     for synset in lexicon.synsets:
         _dump_synset(synset, out, version)
@@ -767,7 +772,10 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
 
 
 def _dump_lexical_entry(
-        entry: LexicalEntry, out: TextIO, version: str
+    entry: LexicalEntry,
+    out: TextIO,
+    sbmap: Dict[str, List[SyntacticBehaviour]],
+    version: str,
 ) -> None:
     attrib = {'id': entry.id}
     attrib.update(_meta_dict(entry.meta))
@@ -775,8 +783,24 @@ def _dump_lexical_entry(
     elem.append(_build_lemma(entry.lemma))
     elem.extend(_build_form(form) for form in entry.forms)
     elem.extend(_build_sense(sense) for sense in entry.senses)
+    if version == '1.0':
+        senses = set(sense.id for sense in entry.senses)
+        for sense_id in senses:
+            for sb in sbmap.get(sense_id, []):
+                elem.append(
+                    _build_syntactic_behaviour_1_0(
+                        sb.frame, senses.intersection(sb.senses)
+                    )
+                )
     # TODO: 1.0 SyntacticBehaviour
     print(_tostring(elem, 2), file=out)
+
+
+def _build_syntactic_behaviour_1_0(frame: str, senses: List[str]) -> ET.Element:
+    return ET.Element(
+        'SyntacticBehaviour',
+        attrib={'subcategorizationFrame': frame, 'senses': ' '.join(senses)}
+    )
 
 
 def _build_lemma(lemma: Lemma) -> ET.Element:

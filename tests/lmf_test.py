@@ -1,4 +1,6 @@
 
+from xml.etree import ElementTree as ET
+
 from wn import lmf
 
 
@@ -50,6 +52,10 @@ def test_load(mini_lmf_1_0):
     # assert le.senses[0].relations[0].target == 'test-en-exemplify-v-01023137-01'
     # assert le.senses[0].relations[0].type == 'derivation'
 
+    assert len(lexicon.syntactic_behaviours) == 2
+    assert lexicon.syntactic_behaviours[0].frame == 'Somebody ----s something'
+    assert lexicon.syntactic_behaviours[0].senses == ['test-en-illustrate-v-0004-01']
+
     assert len(lexicon.synsets) == 6
 
     assert lexicons[1].id == 'test-es'
@@ -59,4 +65,9 @@ def test_dump(mini_lmf_1_0, tmp_path):
     lexicons = lmf.load(mini_lmf_1_0)
     tmpdir = tmp_path / 'test_dump'
     tmpdir.mkdir()
-    lmf.dump(lexicons, tmpdir / 'mini_lmf_dump.xml')
+    tmppath = tmpdir / 'mini_lmf_dump.xml'
+    lmf.dump(lexicons, tmppath)
+    if hasattr(ET, 'canonicalize'):  # available from Python 3.8
+        orig = ET.canonicalize(from_file=mini_lmf_1_0, strip_text=True)
+        temp = ET.canonicalize(from_file=tmppath, strip_text=True)
+        assert orig == temp

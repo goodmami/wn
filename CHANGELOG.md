@@ -6,12 +6,20 @@
 
 * `wn.constants.RELATION_INFO` ([#75])
 * `wn.constants.SENSE_SYNSET_RELATIONS`
+* `wn.Sense.frames()` ([#65])
+
+### Changed
+
+* Syntactic behaviour is now stored in the database, and exported to
+  XML ([#65])
 
 ### Schema
 
 * Removed all constant lookup tables and related foreign key
   references ([#75])
 * Parts of speech are stored as text
+* SyntacticBehaviour (previously unused) no longer requires an ID and
+  does not use it in the primary key
 
 
 ## [v0.5.1]
@@ -211,6 +219,7 @@ abandoned, but this is an entirely new codebase.
 [#61]: https://github.com/goodmami/wn/issues/61
 [#63]: https://github.com/goodmami/wn/issues/63
 [#64]: https://github.com/goodmami/wn/issues/64
+[#65]: https://github.com/goodmami/wn/issues/65
 [#66]: https://github.com/goodmami/wn/issues/66
 [#69]: https://github.com/goodmami/wn/issues/69
 [#70]: https://github.com/goodmami/wn/issues/70

@@ -337,6 +337,18 @@ def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
     return conn.execute(query, (rowid,)).fetchall()
 
 
+def get_syntactic_behaviours(rowid: int) -> List[str]:
+    conn = connect()
+    query = '''
+        SELECT sb.frame
+          FROM syntactic_behaviours AS sb
+          JOIN syntactic_behaviour_senses AS sbs
+            ON sbs.syntactic_behaviour_rowid = sb.rowid
+         WHERE sbs.sense_rowid = ?
+    '''
+    return [row[0] for row in conn.execute(query, (rowid,))]
+
+
 def _get_senses(rowid: int, sourcetype: str) -> Iterator[_Sense]:
     conn = connect()
     query = f'''

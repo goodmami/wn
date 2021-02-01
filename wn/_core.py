@@ -19,6 +19,7 @@ from wn._queries import (
     get_synsets_for_ilis,
     get_examples,
     get_definitions,
+    get_syntactic_behaviours,
     get_metadata,
     get_lexicalized,
 )
@@ -760,6 +761,10 @@ class Sense(_Relatable):
 
     def lexicalized(self) -> bool:
         return get_lexicalized(self._id, 'senses')
+
+    def frames(self) -> List[str]:
+        """Return the list of subcategorization frames for the sense."""
+        return get_syntactic_behaviours(self._id)
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""

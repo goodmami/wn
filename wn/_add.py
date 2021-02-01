@@ -123,7 +123,7 @@ def _add_lmf(
             count = sum(counts.get(name, 0) for name in
                         ('LexicalEntry', 'Lemma', 'Form',  # 'Tag',
                          'Sense', 'SenseRelation', 'Example',  # 'Count',
-                         # 'SyntacticBehaviour',
+                         'SyntacticBehaviour',
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
             count += counts.get('Synset', 0)  # again for ILIs
@@ -131,12 +131,14 @@ def _add_lmf(
 
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
+            synbhrs = lexicon.syntactic_behaviours
 
             _insert_ilis(synsets, cur, progress)
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, cur, progress)
             _insert_senses(entries, lexid, cur, progress)
+            _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
 
             _insert_synset_relations(synsets, lexid, cur, progress)
             _insert_sense_relations(entries, lexid, 'sense_relations',
@@ -296,6 +298,31 @@ def _insert_senses(entries, lexid, cur, progress):
         ]
         cur.executemany(query, data)
         progress.update(len(data))
+
+
+def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):
+    progress.set(status='Syntactic Behaviours')
+    # syntactic behaviours don't have a required ID; index on frame
+    framemap = {}
+    for sb in synbhrs:
+        framemap.setdefault(sb.frame, []).extend(sb.senses)
+
+    query = 'INSERT INTO syntactic_behaviours VALUES (null,?,?,?)'
+    cur.executemany(query, [(None, lexid, frame) for frame in framemap])
+
+    query = f'''
+        INSERT INTO syntactic_behaviour_senses
+        VALUES ((SELECT rowid
+                   FROM syntactic_behaviours
+                  WHERE lexicon_rowid=? AND frame=?),
+                ({SENSE_QUERY}))
+    '''
+    data = [(lexid, frame, sid, lexid)
+            for frame in framemap
+            for sid in framemap[frame]]
+    cur.executemany(query, data)
+
+    progress.update(len(synbhrs))
 
 
 def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
