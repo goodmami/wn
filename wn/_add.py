@@ -55,20 +55,10 @@ def add(
     >>> wn.add('english-wordnet-2020.xml')
     Added ewn:2020 (English WordNet)
 
-    The *progress_handler* parameter takes a callable that is called
-    after every block of rows is inserted. The handler function
-    should have the following signature:
+    The *progress_handler* parameter takes a subclass of
+    :class:`wn.util.ProgressHandler`. An instance of the class will be
+    created, used, and closed by this function.
 
-    .. code-block:: python
-
-       def progress_handler(n: int, **kwargs) -> str:
-           ...
-
-    The *n* parameter is the number of rows last inserted into the
-    database.  A ``status`` key on the *kwargs* indicates the current
-    status of adding the lexicon (``Inspecting``, ``ILI``, ``Synset``,
-    etc.). After inspecting the file, a ``max`` keyword on *kwargs*
-    indicates the total number of rows to insert.
     """
     if progress_handler is None:
         progress_handler = ProgressHandler

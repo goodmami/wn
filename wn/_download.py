@@ -46,21 +46,9 @@ def download(
     >>> wn.download('ewn:2020')
     Added ewn:2020 (English WordNet)
 
-    The *progress_handler* parameter takes a callable that is called
-    after every chunk of bytes is received. The handler function
-    should have the following signature:
-
-    .. code-block:: python
-
-       def progress_handler(n: int, **kwargs) -> str:
-           ...
-
-    The *n* parameter is the number of bytes received in a chunk. When
-    a request is sent, the handler function is called with ``max`` key
-    in *kwargs* mapped to the total number of bytes (taken from the
-    response's ``Content-Length`` header). A ``status`` key may also
-    indicate the current status (``Requesting``, ``Receiving``,
-    ``Completed``).
+    The *progress_handler* parameter takes a subclass of
+    :class:`wn.util.ProgressHandler`. An instance of the class will be
+    created, used, and closed by this function.
 
     """
     if is_url(project_or_url):
