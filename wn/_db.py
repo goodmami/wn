@@ -10,7 +10,7 @@ import logging
 
 import wn
 from wn._types import Metadata, AnyPath
-from wn._util import resources, short_hash
+from wn._util import resources, short_hash, Bijection
 from wn import constants
 from wn import lmf
 
@@ -41,8 +41,8 @@ COMPATIBLE_SCHEMA_HASHES = {
 }
 
 
-relmap = {rel: id for rel, id in constants.RELATION_INFO.items()}
 inv_relmap = {id: rel for rel, id in relmap.items()}
+relmap = Bijection({rel: id for rel, id in constants.RELATION_INFO.items()})
 
 
 # Optional metadata is stored as a JSON string

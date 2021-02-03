@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID, relmap, inv_relmap
+from wn._db import connect, NON_ROWID, relmap
 
 
 # Local Types
@@ -304,6 +304,7 @@ def get_synset_relations(
             ON tgt.rowid = rel.target_rowid
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
+    inv_relmap = relmap.inverse
     for row in result_rows:
         yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
@@ -397,6 +398,7 @@ def get_sense_relations(
             ON ss.rowid = s.synset_rowid
     '''
     rows: Iterator[_Sense_Relation] = conn.execute(query, params)
+    inv_relmap = relmap.inverse
     for row in rows:
         yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
@@ -423,11 +425,13 @@ def get_sense_synset_relations(
             ON ss.rowid = rel.target_rowid
     '''
     rows: Iterator[_Synset_Relation] = conn.execute(query, params)
+    inv_relmap = relmap.inverse
     for row in rows:
         yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
 
 _SANITIZED_METADATA_TABLES = {
+    'ilis': 'ilis',
     'lexicons': 'lexicons',
     'entries': 'entries',
     'senses': 'senses',
