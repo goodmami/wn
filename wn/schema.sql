@@ -16,17 +16,23 @@ CREATE TABLE lexicons (
 -- ILI : Interlingual Index
 
 CREATE TABLE ilis (
-    ili TEXT PRIMARY KEY,
+    rowid INTEGER PRIMARY KEY,
+    id TEXT NOT NULL,
+    status INTEGER NOT NULL,
     definition TEXT,
-    metadata META
+    metadata META,
+    UNIQUE (id)
 );
+CREATE INDEX ili_id_index ON ilis (id);
 
 CREATE TABLE proposed_ilis (
-    synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
+    rowid INTEGER PRIMARY KEY,
+    synset_rowid INTEGER REFERENCES synsets (rowid) ON DELETE CASCADE,
     definition TEXT,
-    metadata META
+    metadata META,
+    UNIQUE (synset_rowid)
 );
-CREATE INDEX proposed_ili_synset_index ON proposed_ilis(synset_rowid);
+CREATE INDEX proposed_ili_synset_rowid_index ON proposed_ilis (synset_rowid);
 
 -- Lexical Entries
 
@@ -83,14 +89,14 @@ CREATE TABLE synsets (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
-    ili TEXT,
+    ili_rowid INTEGER REFERENCES ilis (rowid),
     pos TEXT,
     -- lexfile_id INTEGER REFERENCES lexicographer_files (id),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
 );
 CREATE INDEX synset_id_index ON synsets (id);
-CREATE INDEX synset_ili_index ON synsets (ili);
+CREATE INDEX synset_ili_rowid_index ON synsets (ili_rowid);
 
 CREATE TABLE synset_relations (
     source_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,

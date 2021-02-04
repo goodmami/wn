@@ -8,12 +8,19 @@
 * `wn.constants.SENSE_SYNSET_RELATIONS`
 * `wn.Sense.frames()` ([#65])
 * `wn.Sense.adjposition()` ([#65])
+* `wn.ILI` class ([#23])
+* `wn.Wordnet.ili()` ([#23])
+* `wn.Wordnet.ilis()` ([#23])
+* `wn.ili()` ([#23])
+* `wn.ilis()` ([#23])
+* `wn.constants.ILI_STATUSES` ([#23])
 
 ### Changed
 
 * Syntactic behaviour is now stored in the database, and exported to
   XML ([#65])
 * Adjpositions are now stored in the database, and exported to XML ([#65])
+* `wn.Synset.ili` now returns an `ILI` object
 
 ### Schema
 
@@ -23,6 +30,8 @@
 * SyntacticBehaviour (previously unused) no longer requires an ID and
   does not use it in the primary key
 * Added table for adjposition values ([#65])
+* ILIs now have an integer rowid and a status ([#23])
+* Proposed ILIs also have an integer rowid for metadata access
 
 
 ## [v0.5.1]
@@ -215,6 +224,7 @@ abandoned, but this is an entirely new codebase.
 [unreleased]: ../../tree/main
 
 [#15]: https://github.com/goodmami/wn/issues/15
+[#23]: https://github.com/goodmami/wn/issues/23
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59

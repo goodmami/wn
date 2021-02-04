@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID, relmap
+from wn._db import connect, NON_ROWID, relmap, ilistatmap
 
 
 # Local Types
@@ -43,6 +43,12 @@ _Sense = Tuple[
     int,  # rowid
 ]
 _Sense_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
+_ILI = Tuple[
+    Optional[str],  # id
+    int,            # status
+    str,            # definition
+    int,            # rowid
+]
 _Lexicon = Tuple[
     int,       # rowid
     str,       # id
@@ -140,6 +146,71 @@ def _get_lexicon_rowids_for_lexicon(
     return lex_match
 
 
+def find_ilis(
+    id: str = None,
+    status: str = None,
+    lexicon_rowids: Sequence[int] = None,
+) -> Iterator[_ILI]:
+    if status != 'proposed':
+        yield from _find_existing_ilis(
+            id=id, status=status, lexicon_rowids=lexicon_rowids
+        )
+    if not id and (not status or status == 'proposed'):
+        yield from find_proposed_ilis(lexicon_rowids=lexicon_rowids)
+
+
+def _find_existing_ilis(
+    id: str = None,
+    status: str = None,
+    lexicon_rowids: Sequence[int] = None,
+) -> Iterator[_ILI]:
+    query = 'SELECT DISTINCT i.id, i.status, i.definition, i.rowid FROM ilis AS i'
+    conditions: List[str] = []
+    params: List = []
+    if id:
+        conditions.append('i.id = ?')
+        params.append(id)
+    if status:
+        conditions.append('i.status = ?')
+        params.append(ilistatmap[status])
+    if lexicon_rowids:
+        conditions.append(f'''
+            i.rowid IN
+            (SELECT ss.ili_rowid
+               FROM synsets AS ss
+              WHERE ss.lexicon_rowid IN ({_qs(lexicon_rowids)}))
+        ''')
+        params.extend(lexicon_rowids)
+    if conditions:
+        query += '\n WHERE ' + '\n   AND '.join(conditions)
+    yield from connect().execute(query, params)
+
+
+def find_proposed_ilis(
+    synset_rowid: int = None,
+    lexicon_rowids: Sequence[int] = None,
+) -> Iterator[_ILI]:
+    query = f'''
+        SELECT null, "{ilistatmap["proposed"]}", definition, rowid
+          FROM proposed_ilis
+    '''
+    conditions = []
+    params = []
+    if synset_rowid is not None:
+        conditions.append('synset_rowid = ?')
+        params.append(synset_rowid)
+    if lexicon_rowids:
+        conditions.append(f'''
+            synset_rowid IN
+            (SELECT ss.rowid FROM synsets AS ss
+              WHERE ss.lexicon_rowid IN ({_qs(lexicon_rowids)}))
+        ''')
+        params.extend(lexicon_rowids)
+    if conditions:
+        query += '\n WHERE ' + '\n   AND '.join(conditions)
+    yield from connect().execute(query, params)
+
+
 def find_entries(
         id: str = None,
         form: str = None,
@@ -229,7 +300,9 @@ def find_synsets(
 ) -> Iterator[_Synset]:
     conn = connect()
     query_parts = [
-        'SELECT DISTINCT ss.id, ss.pos, ss.ili, ss.lexicon_rowid, ss.rowid',
+        'SELECT DISTINCT ss.id, ss.pos,',
+        '                (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),',
+        '                ss.lexicon_rowid, ss.rowid',
         '  FROM synsets AS ss',
     ]
 
@@ -249,7 +322,10 @@ def find_synsets(
     if pos:
         conditions.append('ss.pos = :pos')
     if ili:
-        conditions.append('ss.ili = :ili')
+        query_parts.extend([
+            '  JOIN (SELECT _i.rowid FROM ilis AS _i WHERE _i.id=:ili) AS ili',
+            '    ON ss.ili_rowid = ili.rowid',
+        ])
     if lexicon_rowids:
         kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
         params.update(kws)
@@ -272,9 +348,10 @@ def get_synsets_for_ilis(
 ) -> Iterator[_Synset]:
     conn = connect()
     query = f'''
-        SELECT DISTINCT ss.id, ss.pos, ss.ili, ss.lexicon_rowid, ss.rowid
+        SELECT DISTINCT ss.id, ss.pos, ili.id, ss.lexicon_rowid, ss.rowid
           FROM synsets as ss
-         WHERE ss.ili IN ({_qs(ilis)})
+          JOIN ilis as ili ON ss.ili_rowid = ili.rowid
+         WHERE ili.id IN ({_qs(ilis)})
            AND ss.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
     params = *ilis, *lexicon_rowids
@@ -293,8 +370,8 @@ def get_synset_relations(
         constraint = f'AND srel.type IN ({_qs(relation_types)})'
         params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
-        SELECT DISTINCT rel.type, rel.rowid,
-                        tgt.id, tgt.pos, tgt.ili,
+        SELECT DISTINCT rel.type, rel.rowid, tgt.id, tgt.pos,
+                        (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
                         tgt.lexicon_rowid, tgt.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM synset_relations AS srel
@@ -414,8 +491,8 @@ def get_sense_synset_relations(
         constraint = f'AND srel.type IN ({_qs(relation_types)})'
         params.extend(relmap[rtype] for rtype in relation_types)
     query = f'''
-        SELECT DISTINCT rel.type, rel.rowid,
-                        ss.id, ss.pos, ss.ili,
+        SELECT DISTINCT rel.type, rel.rowid, ss.id, ss.pos,
+                        (SELECT ilis.id FROM ilis WHERE ilis.rowid = ss.ili_rowid),
                         ss.lexicon_rowid, ss.rowid
           FROM (SELECT type, target_rowid, srel.rowid
                   FROM sense_synset_relations AS srel
@@ -432,6 +509,7 @@ def get_sense_synset_relations(
 
 _SANITIZED_METADATA_TABLES = {
     'ilis': 'ilis',
+    'proposed_ilis': 'proposed_ilis',
     'lexicons': 'lexicons',
     'entries': 'entries',
     'senses': 'senses',

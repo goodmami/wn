@@ -285,3 +285,12 @@ LEXICOGRAPHER_FILES = {
     'verb.weather': 43,
     'adj.ppl': 44,
 }
+
+ILI_STATUSES = {
+    'active': 1,
+    'provisional': 2,
+    'deprecated': 3,
+    # 4-9 reserved for CILI statuses
+    'presupposed': 10,
+    'proposed': 11,
+}

@@ -22,6 +22,8 @@ Wordnet Query Functions
 .. autofunction:: senses
 .. autofunction:: synset
 .. autofunction:: synsets
+.. autofunction:: ili
+.. autofunction:: ilis
 .. autofunction:: lexicons
 
 The Wordnet Class
@@ -35,6 +37,8 @@ The Wordnet Class
    .. automethod:: senses
    .. automethod:: synset
    .. automethod:: synsets
+   .. automethod:: ili
+   .. automethod:: ilis
    .. automethod:: lexicons
    .. automethod:: expanded_lexicons
 
@@ -148,6 +152,40 @@ The Synset Class
    .. automethod:: closure
    .. automethod:: relation_paths
    .. automethod:: translate
+
+The ILI Class
+-------------
+
+.. autoclass:: ILI
+
+   .. attribute:: id
+
+      The interlingual index identifier. Unlike ``id`` attributes for
+      :class:`Word`, :class:`Sense`, and :class:`Synset`, ILI
+      identifers may be ``None`` (see the *proposed* :attr:`status`).
+
+   .. attribute:: status
+
+      The known status of the interlingual index. Loading an
+      interlingual index into the database provides the following
+      explicit, authoritative status values:
+
+      - ``active`` -- the ILI is in use
+      - ``provisional`` -- the ILI is being staged for permanent
+        inclusion
+      - ``deprecated`` -- the ILI is, or should be, no longer in use
+
+      Without an interlingual index loaded, ILIs present in loaded
+      lexicons get an implicit, temporary status from the following:
+
+      - ``presupposed`` -- a synset uses the ILI, assuming it exists
+        in an ILI file
+      - ``proposed`` -- a synset introduces a concept not yet in an
+        ILI and is suggesting that one should be added for it in the
+        future
+
+   .. automethod:: definition
+   .. automethod:: metadata
 
 The Lexicon Class
 -----------------

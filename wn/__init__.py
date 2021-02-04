@@ -23,6 +23,9 @@ __all__ = (
     'synset',
     'synsets',
     'Synset',
+    'ili',
+    'ilis',
+    'ILI',
     'Error',
 )
 
@@ -38,5 +41,6 @@ from wn._core import (
     word, words, Word, Form,
     sense, senses, Sense,
     synset, synsets, Synset,
+    ili, ilis, ILI,
     Wordnet
 )

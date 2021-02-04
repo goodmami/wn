@@ -4,9 +4,11 @@ from typing import TypeVar, Optional, List, Tuple, Dict, Set, Iterator
 import wn
 from wn._types import Metadata
 from wn._util import flatten
-from wn._db import NON_ROWID
+from wn._db import NON_ROWID, ilistatmap
 from wn._queries import (
     find_lexicons,
+    find_ilis,
+    find_proposed_ilis,
     find_entries,
     find_senses,
     find_synsets,
@@ -56,6 +58,39 @@ class _DatabaseEntity:
 
     def __hash__(self):
         return hash((self._ENTITY_TYPE, self._id))
+
+
+class ILI(_DatabaseEntity):
+    """A class for interlingual indices."""
+    __slots__ = 'id', '_status', '_definition'
+    __module__ = 'wn'
+
+    def __init__(
+        self,
+        id: Optional[str],
+        status: int,
+        definition: str = None,
+        _id: int = NON_ROWID,
+    ):
+        super().__init__(_id=_id)
+        self.id = id
+        self._status = status
+        self._definition = definition
+
+    def __repr__(self) -> str:
+        return f'ILI({repr(self.id) if self.id else "*PROPOSED*"})'
+
+    @property
+    def status(self) -> Optional[str]:
+        return ilistatmap.inverse[self._status]
+
+    def definition(self) -> Optional[str]:
+        return self._definition
+
+    def metadata(self) -> Metadata:
+        """Return the ILI's metadata."""
+        table = 'proposed_ilis' if self.status == 'proposed' else 'ilis'
+        return get_metadata(self._id, table)
 
 
 class Lexicon(_DatabaseEntity):
@@ -320,7 +355,7 @@ class _Relatable(_LexiconElement):
 
 class Synset(_Relatable):
     """Class for modeling wordnet synsets."""
-    __slots__ = 'pos', 'ili'
+    __slots__ = 'pos', '_ili'
     __module__ = 'wn'
 
     _ENTITY_TYPE = 'synsets'
@@ -336,7 +371,7 @@ class Synset(_Relatable):
     ):
         super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.pos = pos
-        self.ili = ili
+        self._ili = ili
 
     @classmethod
     def empty(
@@ -348,10 +383,20 @@ class Synset(_Relatable):
     ):
         return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
 
+    @property
+    def ili(self):
+        if self._ili:
+            row = next(find_ilis(id=self._ili), None)
+        else:
+            row = next(find_proposed_ilis(synset_id=self._id), None)
+        if row is not None:
+            return ILI(*row)
+        return None
+
     def __hash__(self):
         # include ili and lexid in the hash so inferred synsets don't
         # hash the same
-        return hash((self._ENTITY_TYPE, self.ili, self._lexid, self._id))
+        return hash((self._ENTITY_TYPE, self._ili, self._lexid, self._id))
 
     def __repr__(self) -> str:
         return f'Synset({self.id!r})'
@@ -431,7 +476,7 @@ class Synset(_Relatable):
                            for row in get_synset_relations({self._id}, args))
 
         # then attempt to expand via ILI
-        if self.ili is not None and self._wordnet and self._wordnet._expanded_ids:
+        if self._ili is not None and self._wordnet and self._wordnet._expanded_ids:
             lexids: Tuple[int, ...]
             if self._wordnet._default_mode:
                 lexids = (self._lexid,)
@@ -440,7 +485,7 @@ class Synset(_Relatable):
             expids = self._wordnet._expanded_ids
 
             # get expanded relation
-            expss = find_synsets(ili=self.ili, lexicon_rowids=expids)
+            expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
             ilis = {row[4] for row in get_synset_relations(rowids, args)} - {None}
 
@@ -451,7 +496,7 @@ class Synset(_Relatable):
                     targets.append(Synset(*row, self._wordnet))
 
             # add empty synsets for ILIs without a target in lexids
-            for ili in (ilis - {tgt.ili for tgt in targets}):
+            for ili in (ilis - {tgt._ili for tgt in targets}):
                 targets.append(
                     Synset.empty(
                         id=_INFERRED_SYNSET,
@@ -704,7 +749,7 @@ class Synset(_Relatable):
 
         """
 
-        ili = self.ili
+        ili = self._ili
         if not ili:
             return []
         return synsets(ili=ili, lang=lang, lexicon=lexicon)
@@ -950,6 +995,18 @@ class Wordnet:
         iterable = find_senses(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
         return [Sense(*sense_data, self) for sense_data in iterable]
 
+    def ili(self, id: str) -> ILI:
+        """Return the first ILI in this wordnet with identifer *id*."""
+        iterable = find_ilis(id=id, lexicon_rowids=self._lexicon_ids)
+        try:
+            return ILI(*next(iterable))
+        except StopIteration:
+            raise wn.Error(f'no such ILI: {id}')
+
+    def ilis(self, status: str = None) -> List[ILI]:
+        iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
+        return [ILI(*ili_data) for ili_data in iterable]
+
 
 def _to_lexicon(data) -> Lexicon:
     rowid, id, label, language, email, license, version, url, citation = data
@@ -1119,3 +1176,44 @@ def sense(id: str, *, lexicon: str = None, lang: str = None) -> Sense:
 
     """
     return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
+
+
+def ili(id: str, *, lexicon: str = None, lang: str = None) -> ILI:
+    """Return the interlingual index with *id*.
+
+    This will create a :class:`Wordnet` object using the *lang* and
+    *lexicon* arguments. The *id* argument is then passed to the
+    :meth:`Wordnet.ili` method.
+
+    >>> wn.ili(id='i1234')
+    ILI('i1234')
+    >>> wn.ili(id='i1234').status
+    'presupposed'
+
+    """
+    return Wordnet(lang=lang, lexicon=lexicon).ili(id=id)
+
+
+def ilis(
+    status: str = None,
+    *,
+    lexicon: str = None,
+    lang: str = None,
+) -> List[ILI]:
+    """Return the list of matching interlingual indices.
+
+    This will create a :class:`Wordnet` object using the *lang* and
+    *lexicon* arguments. The remaining arguments are passed to the
+    :meth:`Wordnet.ilis` method.
+
+    >>> len(wn.ilis())
+    120071
+    >>> len(wn.ilis(status='proposed'))
+    2573
+    >>> wn.ilis(status='proposed')[-1].definition()
+    'the neutrino associated with the tau lepton.'
+    >>> len(wn.ilis(lang='de'))
+    13818
+
+    """
+    return Wordnet(lang=lang, lexicon=lexicon).ilis(status=status)

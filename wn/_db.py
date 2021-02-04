@@ -37,12 +37,12 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    'b0446b130e56eed6c3cd054d749ce1f76460d730',
+    '79edf014ceb8d632115567d667bcd5b85758e927',
 }
 
 
-inv_relmap = {id: rel for rel, id in relmap.items()}
 relmap = Bijection({rel: id for rel, id in constants.RELATION_INFO.items()})
+ilistatmap = Bijection({stat: id for stat, id in constants.ILI_STATUSES.items()})
 
 
 # Optional metadata is stored as a JSON string

@@ -7,7 +7,7 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn._db import connect, relmap
+from wn._db import connect, relmap, ilistatmap
 from wn._queries import find_lexicons
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -126,14 +126,12 @@ def _add_lmf(
                          'SyntacticBehaviour',
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
-            count += counts.get('Synset', 0)  # again for ILIs
             progress.set(count=0, total=count)
 
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
             synbhrs = lexicon.syntactic_behaviours
 
-            _insert_ilis(synsets, cur, progress)
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, cur, progress)
@@ -175,34 +173,59 @@ def _split(sequence):
     yield sequence[i:]
 
 
-def _insert_ilis(synsets, cur, progress):
-    progress.set(status='ILI')
-    for batch in _split(synsets):
-        data = (
-            (synset.ili,
-             synset.ili_definition.text if synset.ili_definition else None,
-             synset.ili_definition.meta if synset.ili_definition else None)
-            for synset in batch if synset.ili and synset.ili != 'in'
-        )
-        cur.executemany('INSERT OR IGNORE INTO ilis VALUES (?,?,?)', data)
-        progress.update(len(batch))
-
-
 def _insert_synsets(synsets, lex_id, cur, progress):
     progress.set(status='Synsets')
-    query = 'INSERT INTO synsets VALUES (null,?,?,?,?,?,?)'
+    # synsets
+    ss_query = '''
+        INSERT INTO synsets
+        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,?)
+    '''
+    # presupposed ILIs
+    presupposed = ilistatmap['presupposed']
+    pre_ili_query = 'INSERT OR IGNORE INTO ilis VALUES (null,?,?,?,?)'
+    # proposed ILIs
+    pro_ili_query = '''
+        INSERT INTO proposed_ilis
+        VALUES (null,(SELECT ss.rowid FROM synsets AS ss WHERE ss.id=?),?,?)
+    '''
+
     for batch in _split(synsets):
+
+        # first add presupposed ILIs
+        data = []
+        for ss in batch:
+            ili = ss.ili
+            if ili and ili != 'in':
+                defn = ss.ili_definition
+                text = defn.text if defn else None
+                meta = defn.meta if defn else None
+                data.append((ili, presupposed, text, meta))
+        cur.executemany(pre_ili_query, data)
+
+        # then add synsets
         data = (
-            (synset.id,
+            (ss.id,
              lex_id,
-             synset.ili if synset.ili and synset.ili != 'in' else None,
-             synset.pos,
-             # lexfile_map.get(synset.meta.subject) if synset.meta else None,
-             synset.lexicalized,
-             synset.meta)
-            for synset in batch
+             ss.ili if ss.ili and ss.ili != 'in' else None,
+             ss.pos,
+             # lexfile_map.get(ss.meta.subject) if ss.meta else None,
+             ss.lexicalized,
+             ss.meta)
+            for ss in batch
         )
-        cur.executemany(query, data)
+        cur.executemany(ss_query, data)
+
+        # finally add proposed ILIs
+        data = []
+        for ss in batch:
+            ili = ss.ili
+            if ili == 'in':
+                defn = ss.ili_definition
+                text = defn.text if defn else None
+                meta = defn.meta if defn else None
+                data.append((ss.id, text, meta))
+        cur.executemany(pro_ili_query, data)
+
         progress.update(len(batch))
 
 
