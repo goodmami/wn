@@ -105,6 +105,8 @@ The Sense Class
 
    .. automethod:: word
    .. automethod:: synset
+   .. automethod:: examples
+   .. automethod:: lexicalized
    .. automethod:: adjposition
    .. automethod:: frames
    .. automethod:: metadata

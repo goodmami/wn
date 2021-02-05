@@ -311,14 +311,14 @@ def find_synsets(
     if id:
         conditions.append('ss.id = :id')
     if form:
-        query_parts.append(
-            '  JOIN (SELECT _s.synset_rowid, _s.entry_rowid, _s.entry_rank'
-            '          FROM senses AS _s'
-            '          JOIN forms AS f'
-            '            ON f.entry_rowid = _s.entry_rowid'
-            '         WHERE f.form = :form) AS s'
-            '    ON s.synset_rowid = ss.rowid'
-        )
+        query_parts.extend([
+            '  JOIN (SELECT _s.synset_rowid, _s.entry_rowid, _s.entry_rank',
+            '          FROM senses AS _s',
+            '          JOIN forms AS f',
+            '            ON f.entry_rowid = _s.entry_rowid',
+            '         WHERE f.form = :form) AS s',
+            '    ON s.synset_rowid = ss.rowid',
+        ])
     if pos:
         conditions.append('ss.pos = :pos')
     if ili:

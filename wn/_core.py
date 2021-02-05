@@ -440,6 +440,7 @@ class Synset(_Relatable):
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
+        """Return True if the synset is lexicalized."""
         return get_lexicalized(self._id, 'synsets')
 
     def metadata(self) -> Metadata:
@@ -806,6 +807,7 @@ class Sense(_Relatable):
         return [ex for ex, _, _ in exs]
 
     def lexicalized(self) -> bool:
+        """Return True if the sense is lexicalized."""
         return get_lexicalized(self._id, 'senses')
 
     def adjposition(self) -> Optional[str]:
