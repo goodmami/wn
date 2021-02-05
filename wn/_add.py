@@ -231,10 +231,11 @@ def _insert_synsets(synsets, lex_id, cur, progress):
 
 def _insert_synset_definitions(synsets, lexid, cur, progress):
     progress.set(status='Definitions')
-    query = f'INSERT INTO definitions VALUES (({SYNSET_QUERY}),?,?,?)'
+    query = f'INSERT INTO definitions VALUES (?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(synsets):
         data = [
-            (synset.id, lexid,
+            (lexid,
+             synset.id, lexid,
              definition.text,
              definition.language,
              # definition.source_sense,
@@ -250,11 +251,12 @@ def _insert_synset_relations(synsets, lexid, cur, progress):
     progress.set(status='Synset Relations')
     query = f'''
         INSERT INTO synset_relations
-        VALUES (({SYNSET_QUERY}), ({SYNSET_QUERY}), ?, ?)
+        VALUES (?,({SYNSET_QUERY}),({SYNSET_QUERY}),?,?)
     '''
     for batch in _split(synsets):
         data = [
-            (synset.id, lexid,
+            (lexid,
+             synset.id, lexid,
              relation.target, lexid,
              relmap[relation.type],
              relation.meta)
@@ -282,12 +284,14 @@ def _insert_entries(entries, lex_id, cur, progress):
 
 def _insert_forms(entries, lexid, cur, progress):
     progress.set(status='Word Forms')
-    query = f'INSERT INTO forms VALUES (null,({ENTRY_QUERY}),?,?,?)'
+    query = f'INSERT INTO forms VALUES (null,?,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
         forms = []
         for entry in batch:
-            forms.append((entry.id, lexid, entry.lemma.form, entry.lemma.script, 0))
-            forms.extend((entry.id, lexid, form.form, form.script, i)
+            eid = entry.id
+            lemma = entry.lemma
+            forms.append((lexid, eid, lexid, lemma.form, lemma.script, 0))
+            forms.extend((lexid, eid, lexid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
         progress.update(len(forms))
@@ -363,11 +367,12 @@ def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
     target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
     query = f'''
         INSERT INTO {table}
-        VALUES (({SENSE_QUERY}), ({target_query}), ?, ?)
+        VALUES (?,({SENSE_QUERY}), ({target_query}), ?, ?)
     '''
     for batch in _split(entries):
         data = [
-            (sense.id, lexid,
+            (lexid,
+             sense.id, lexid,
              relation.target, lexid,
              relmap[relation.type],
              relation.meta)
@@ -382,10 +387,11 @@ def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
 
 def _insert_examples(objs, lexid, table, cur, progress):
     progress.set(status='Examples')
-    query = f'INSERT INTO {table} VALUES (({SYNSET_QUERY}),?,?,?)'
+    query = f'INSERT INTO {table} VALUES (?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
-            (obj.id, lexid,
+            (lexid,
+             obj.id, lexid,
              example.text,
              example.language,
              example.meta)

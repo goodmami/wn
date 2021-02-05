@@ -53,6 +53,7 @@ CREATE INDEX entry_id_index ON entries (id);
 
 CREATE TABLE forms (
     rowid INTEGER PRIMARY KEY,
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     entry_rowid INTEGER NOT NULL REFERENCES entries(rowid) ON DELETE CASCADE,
     form TEXT NOT NULL,
     script TEXT,
@@ -105,6 +106,7 @@ CREATE INDEX synset_id_index ON synsets (id);
 CREATE INDEX synset_ili_rowid_index ON synsets (ili_rowid);
 
 CREATE TABLE synset_relations (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     type INTEGER NOT NULL,
@@ -114,6 +116,7 @@ CREATE INDEX synset_relation_source_index ON synset_relations (source_rowid);
 CREATE INDEX synset_relation_target_index ON synset_relations (target_rowid);
 
 CREATE TABLE definitions (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     definition TEXT,
     language TEXT,  -- bcp-47 language tag
@@ -123,6 +126,7 @@ CREATE TABLE definitions (
 CREATE INDEX definition_rowid_index ON definitions (synset_rowid);
 
 CREATE TABLE synset_examples (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     example TEXT,
     language TEXT,  -- bcp-47 language tag
@@ -147,6 +151,7 @@ CREATE INDEX sense_entry_rowid_index ON senses (entry_rowid);
 CREATE INDEX sense_synset_rowid_index ON senses (synset_rowid);
 
 CREATE TABLE sense_relations (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     type INTEGER NOT NULL,
@@ -156,6 +161,7 @@ CREATE INDEX sense_relation_source_index ON sense_relations (source_rowid);
 CREATE INDEX sense_relation_target_index ON sense_relations (target_rowid);
 
 CREATE TABLE sense_synset_relations (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     type INTEGER NOT NULL,
@@ -171,6 +177,7 @@ CREATE TABLE adjpositions (
 CREATE INDEX adjposition_sense_index ON adjpositions (sense_rowid);
 
 CREATE TABLE sense_examples (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     example TEXT,
     language TEXT,  -- bcp-47 language tag
@@ -179,6 +186,7 @@ CREATE TABLE sense_examples (
 CREATE INDEX sense_example_index ON sense_examples (sense_rowid);
 
 CREATE TABLE counts (
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     count INTEGER NOT NULL,
     metadata META

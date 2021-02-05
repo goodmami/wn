@@ -36,6 +36,7 @@
 * ILIs now have an integer rowid and a status ([#23])
 * Proposed ILIs also have an integer rowid for metadata access
 * Added more indexes and `ON DELETE` actions to speed up `wn.remove()`
+* All extendable tables are now linked to their lexicon ([#91])
 
 
 ## [v0.5.1]
@@ -253,6 +254,7 @@ abandoned, but this is an entirely new codebase.
 [#86]: https://github.com/goodmami/wn/issues/86
 [#87]: https://github.com/goodmami/wn/issues/87
 [#90]: https://github.com/goodmami/wn/issues/90
+[#91]: https://github.com/goodmami/wn/issues/91
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
