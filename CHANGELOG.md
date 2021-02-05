@@ -21,6 +21,7 @@
   XML ([#65])
 * Adjpositions are now stored in the database, and exported to XML ([#65])
 * `wn.Synset.ili` now returns an `ILI` object
+* `wn.remove()` now takes a `progess_handler` parameter
 
 ### Schema
 

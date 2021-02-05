@@ -397,7 +397,10 @@ def _insert_examples(objs, lexid, table, cur, progress):
         progress.update(len(data))
 
 
-def remove(lexicon: str) -> None:
+def remove(
+    lexicon: str,
+    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
+) -> None:
     """Remove lexicon(s) from the database.
 
     The *lexicon* argument is a :ref:`lexicon specifier
@@ -405,11 +408,25 @@ def remove(lexicon: str) -> None:
     project, so the lexicons of projects containing multiple lexicons
     will need to be removed individually.
 
+    The *progress_handler* parameter takes a subclass of
+    :class:`wn.util.ProgressHandler`. An instance of the class will be
+    created, used, and closed by this function.
+
     >>> wn.remove('ewn:2019')
 
     """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+    progress = progress_handler(message='Removing', unit='\be5 operations')
+
     conn = connect()
+    conn.set_progress_handler(progress.update, 100000)
     try:
         for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
+            progress.set(status=f'{id}:{version}', count=0)
             with conn:
                 conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
+            progress.flash(f'Removed {id}:{version}')
+
+    finally:
+        progress.close()
