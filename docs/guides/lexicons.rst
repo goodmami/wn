@@ -46,6 +46,7 @@ version, delimited by ``:``. Here are the possible forms:
     id          -- the most recently added lexicon with the given id
     id:*        -- all lexicons with the given id
     id:version  -- the lexicon with the given id and version
+    *:version   -- all lexicons with the given version
 
 For example, if both the ``2020`` and ``2019`` versions of the `Open
 English Wordnet`_ were installed, in that
@@ -60,7 +61,10 @@ downloaded and the lexicon that is installed), but sometimes it is
 not. The 1.3 release of the `Open Multilingual Wordnet`_, for
 instance, has the project specifier ``omw:1.3`` but it installs a
 number of lexicons with their own lexicon specifiers
-(``zsmwn:1.3+omw``, ``cmnwn:1.3+omw``, etc.).
+(``zsmwn:1.3+omw``, ``cmnwn:1.3+omw``, etc.). When only an id is given
+(e.g., ``ewn``), a project specifier gets the *first* version listed
+in the index (in the default index, the first version is the latest
+release).
 
 Downloading Lexicons
 --------------------

@@ -253,7 +253,7 @@ rules are used:
 
 - A full ``id:version`` string (e.g., ``ewn:2020``) selects a specific
   lexicon
-- Only the a lexicon ``id`` (e.g., ``ewn``) selects the most recently
+- Only a lexicon ``id`` (e.g., ``ewn``) selects the most recently
   added lexicon with that ID
 - A star ``*`` may be used to match any lexicon; a star may not
   include a version
