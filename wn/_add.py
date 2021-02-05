@@ -408,10 +408,8 @@ def remove(lexicon: str) -> None:
     >>> wn.remove('ewn:2019')
 
     """
-    with connect() as conn:
+    conn = connect()
+    try:
         for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
-            conn.execute('DELETE FROM entries WHERE lexicon_rowid = ?', (rowid,))
-            conn.execute('DELETE FROM synsets WHERE lexicon_rowid = ?', (rowid,))
-            conn.execute('DELETE FROM syntactic_behaviours WHERE lexicon_rowid = ?',
-                         (rowid,))
-            conn.execute('DELETE FROM lexicons WHERE rowid = ?', (rowid,))
+            with conn:
+                conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))

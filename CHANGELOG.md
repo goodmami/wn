@@ -32,6 +32,7 @@
 * Added table for adjposition values ([#65])
 * ILIs now have an integer rowid and a status ([#23])
 * Proposed ILIs also have an integer rowid for metadata access
+* Added more indexes and `ON DELETE` actions to speed up `wn.remove()`
 
 
 ## [v0.5.1]

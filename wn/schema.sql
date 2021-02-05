@@ -44,7 +44,7 @@ CREATE INDEX proposed_ili_synset_rowid_index ON proposed_ilis (synset_rowid);
 CREATE TABLE entries (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     pos TEXT NOT NULL,
     metadata META,
     UNIQUE (id, lexicon_rowid)
@@ -68,27 +68,33 @@ CREATE TABLE tags (
     tag TEXT,
     category TEXT
 );
+CREATE INDEX tag_form_index ON tags (form_rowid);
 
 CREATE TABLE syntactic_behaviours (
     rowid INTEGER PRIMARY KEY,
     id TEXT,
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     frame TEXT NOT NULL,
     UNIQUE (lexicon_rowid, id),
     UNIQUE (lexicon_rowid, frame)
 );
+CREATE INDEX syntactic_behaviour_id_index ON syntactic_behaviours (id);
 
 CREATE TABLE syntactic_behaviour_senses (
     syntactic_behaviour_rowid INTEGER NOT NULL REFERENCES syntactic_behaviours (rowid) ON DELETE CASCADE,
     sense_rowid INTEGER NOT NULL REFERENCES senses (rowid) ON DELETE CASCADE
 );
+CREATE INDEX syntactic_behaviour_sense_sb_index
+    ON syntactic_behaviour_senses (syntactic_behaviour_rowid);
+CREATE INDEX syntactic_behaviour_sense_sense_index
+    ON syntactic_behaviour_senses (sense_rowid);
 
 -- Synsets
 
 CREATE TABLE synsets (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     ili_rowid INTEGER REFERENCES ilis (rowid),
     pos TEXT,
     -- lexfile_id INTEGER REFERENCES lexicographer_files (id),
@@ -129,15 +135,12 @@ CREATE INDEX synset_example_rowid_index ON synset_examples(synset_rowid);
 CREATE TABLE senses (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid),
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     entry_rowid INTEGER NOT NULL REFERENCES entries(rowid) ON DELETE CASCADE,
     entry_rank INTEGER DEFAULT 1,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
-    -- sense_key TEXT,  -- not actually UNIQUE ?
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
-    -- FOREIGN KEY (synset_id, lexicon_rowid) REFERENCES synsets (id, lexicon_rowid),
-    -- UNIQUE (id, lexicon_rowid)
 );
 CREATE INDEX sense_id_index ON senses(id);
 CREATE INDEX sense_entry_rowid_index ON senses (entry_rowid);
@@ -165,6 +168,7 @@ CREATE TABLE adjpositions (
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     adjposition TEXT NOT NULL
 );
+CREATE INDEX adjposition_sense_index ON adjpositions (sense_rowid);
 
 CREATE TABLE sense_examples (
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
