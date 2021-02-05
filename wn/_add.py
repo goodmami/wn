@@ -57,7 +57,7 @@ def add(
     """
     if progress_handler is None:
         progress_handler = ProgressHandler
-    progress = progress_handler(message='Database', unit='\b')
+    progress = progress_handler(message='Database')
 
     logger.info('adding project to database')
     logger.info('  database: %s', wn.config.database_path)

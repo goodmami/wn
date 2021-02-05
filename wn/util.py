@@ -88,26 +88,45 @@ class ProgressBar(ProgressHandler):
     """A :class:`ProgressHandler` subclass for printing a progress bar.
 
     Example:
-        >>> p = ProgressBar(message='Progress: ', total=10, unit='units')
+        >>> p = ProgressBar(message='Progress: ', total=10, unit=' units')
         >>> p.update(3)
         Progress: [#########                     ] (3/10 units)
 
+    See :meth:`format` for a description of how the progress bar is
+    formatted.
+
     """
 
-    FMT = '\r{message} [{fill:<{width}}] ({count}/{total} {unit}) {status}'
+    #: The default formatting template.
+    FMT = '\r{message}{bar}{counter}{status}'
 
     def update(self, n: int = 1) -> None:
+        """Increment the count by *n* and print the reformatted bar."""
         self.kwargs['count'] += n  # type: ignore
         s = self.format()
         if self.file:
             print('\r\033[K', end='', file=self.file)
             print(s, end='', file=self.file)
 
-    def set(self, **kwargs) -> None:
-        self.kwargs.update(**kwargs)
-        self.update(0)
-
     def format(self) -> str:
+        """Format and return the progress bar.
+
+        The bar is is formatted according to :attr:`FMT`, using
+        variables from :attr:`kwargs` and two computed variables:
+
+        - ``bar``: visualization of the progress bar, empty when
+          ``total`` is 0
+
+        - ``counter``: display of ``count``, ``total``, and ``units``
+
+        >>> p = ProgressBar(message='Progress', count=2, total=10, unit='K')
+        >>> p.format()
+        '\\rProgress [######                        ] (2/10K) '
+        >>> p = ProgressBar(count=2, status='Counting...')
+        >>> p.format()
+        '\\r (2) Counting...'
+
+        """
         _kw = self.kwargs
         width = 30
         total: int = _kw['total']  # type: ignore
@@ -119,13 +138,18 @@ class ProgressBar(ProgressHandler):
             part = ((num % total) * 3) // total
             if part:
                 fill += '-='[part-1]
+            bar = f' [{fill:<{width}}]'
+            counter = f' ({count}/{total}{_kw["unit"]}) '
         else:
-            fill = '-' * width
+            bar = ''
+            counter = f' ({count}{_kw["unit"]}) '
 
-        return self.FMT.format(fill=fill, width=width, **_kw)
+        return self.FMT.format(bar=bar, counter=counter, **_kw)
 
     def flash(self, message: str) -> None:
+        """Overwrite the progress bar with *message*."""
         print(f'\r\033[K{message}', end='', file=self.file)
 
     def close(self) -> None:
+        """Print a newline so the last printed bar remains on screen."""
         print(file=self.file)
