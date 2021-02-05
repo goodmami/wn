@@ -15,6 +15,7 @@ from wn._db import connect, NON_ROWID, relmap, ilistatmap
 
 # Local Types
 
+_Tag = Tuple[str, str]  # tag, category
 _Form = Tuple[
     str,            # form
     Optional[str],  # script
@@ -558,6 +559,14 @@ def get_adjposition(rowid: int) -> Optional[str]:
     if row:
         return row[0]
     return None
+
+
+def get_form_tags(form_rowid: int) -> List[_Tag]:
+    conn = connect()
+    query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
+    rows: List[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
+    return rows
+    return rows
 
 
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))

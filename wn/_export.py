@@ -17,6 +17,7 @@ from wn._queries import (
     get_metadata,
     get_lexicalized,
     get_adjposition,
+    get_form_tags,
 )
 from wn._core import Lexicon
 
@@ -85,15 +86,25 @@ def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
     return [
         LexicalEntry(
             id,
-            Lemma(forms[0][0], pos, script=forms[0][1] or ''),  # TODO: tags
-            forms=[Form(form, script or '')
-                   for form, script, _ in forms[1:]],  # TODO: tags
+            Lemma(
+                forms[0][0],
+                pos,
+                script=forms[0][1] or '',
+                tags=_export_tags(forms[0][2])
+            ),
+            forms=[Form(form, script or '', tags=_export_tags(frowid))
+                   for form, script, frowid in forms[1:]],
             senses=_export_senses(rowid),
             meta=_export_metadata(rowid, 'entries'),
         )
         for id, pos, forms, _, rowid
         in find_entries(lexicon_rowids=lexids)
     ]
+
+
+def _export_tags(rowid: int) -> List[lmf.Tag]:
+    Tag = lmf.Tag
+    return [Tag(text, category) for text, category in get_form_tags(rowid)]
 
 
 def _export_senses(entry_rowid: int) -> List[lmf.Sense]:

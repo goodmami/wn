@@ -13,6 +13,7 @@ from wn._queries import (
     find_senses,
     find_synsets,
     get_lexicon,
+    get_form_tags,
     get_entry_senses,
     get_sense_relations,
     get_sense_synset_relations,
@@ -164,6 +165,21 @@ class _LexiconElement(_DatabaseEntity):
         return _to_lexicon(get_lexicon(self._lexid))
 
 
+class Tag:
+    """A general-purpose tag class for word forms."""
+    __slots__ = 'tag', 'category',
+    __module__ = 'wn'
+
+    def __init__(self, tag: str, category: str):
+        self.tag = tag
+        self.category = category
+
+    def __eq__(self, other):
+        if not isinstance(other, Tag):
+            return NotImplemented
+        return self.tag == other.tag and self.category == other.category
+
+
 class Form(str):
     """A word-form string with additional attributes."""
     __slots__ = '_id', 'script',
@@ -179,14 +195,18 @@ class Form(str):
         return obj
 
     def __eq__(self, other):
-        return (str.__eq__(self, other)
-                and self.script == getattr(other, 'script', None))
+        if isinstance(other, Form) and self.script != other.script:
+            return False
+        return str.__eq__(self, other)
 
     def __hash__(self):
         script = self.script
         if script is None:
             return str.__hash__(self)
         return hash((str(self), self.script))
+
+    def tags(self) -> List[Tag]:
+        return [Tag(tag, category) for tag, category in get_form_tags(self._id)]
 
 
 class Word(_LexiconElement):

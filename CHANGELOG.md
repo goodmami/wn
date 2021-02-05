@@ -14,6 +14,8 @@
 * `wn.ili()` ([#23])
 * `wn.ilis()` ([#23])
 * `wn.constants.ILI_STATUSES` ([#23])
+* `wn.Tag` ([#65])
+* `wn.Form.tags()` ([#65])
 
 ### Changed
 
@@ -24,6 +26,8 @@
 * `wn.remove()` now takes a `progess_handler` parameter
 * `wn.util.ProgressBar` uses a simpler formatting string with two new
   computed variables
+* Wordform tags are now stored in the database (the table was already
+  present in the schema, just unused), and exported to XML ([#65])
 
 ### Schema
 

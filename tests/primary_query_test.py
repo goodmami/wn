@@ -51,6 +51,9 @@ def test_words_mini():
     assert len(words) == 1
     assert words[0].lemma() == 'information'
 
+    assert words[0].lemma().script == 'Latn'
+    assert words[0].lemma().tags() == [wn.Tag('tag-text', 'tag-category')]
+
     words = wn.words('exemplifies')  # search secondary form
     assert len(words) == 1
     assert words[0].lemma() == 'exemplify'

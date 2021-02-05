@@ -40,8 +40,8 @@ def test_load(mini_lmf_1_0):
 
     assert le.lemma.form == 'information'
     assert le.lemma.pos == 'n'
-    assert le.lemma.script is None
-    assert len(le.lemma.tags) == 0
+    assert le.lemma.script == 'Latn'
+    assert len(le.lemma.tags) == 1
 
     assert len(le.forms) == 0
 

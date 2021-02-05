@@ -72,11 +72,13 @@ The Form Class
    The return value of :meth:`Word.lemma` and the members of the list
    returned by :meth:`Word.forms` are :class:`Form` objects. These are
    a basic subclass of Python's :class:`str` class with an additional
-   attribute, :attr:`script`. Form objects without any specified
-   script behave exactly as a regular string (they are equal and hash
-   to the same value), but if they have different script values they
-   are unequal and hash differently, even if the string itself is
-   identical.
+   attribute, :attr:`script`, and a method :meth:`tags`. Form objects
+   without any specified script behave exactly as a regular string
+   (they are equal and hash to the same value), but if two Form
+   objects are compared and they have different script values, then
+   they are unequal and hash differently, even if the string itself is
+   identical. When comparing a Form object to a regular string, the
+   script value is ignored.
 
    >>> inu = wn.words('犬', lexicon='wnja')[0]
    >>> inu.forms()[3]
@@ -92,6 +94,24 @@ The Form Class
 
       The script of the word form. This should be an `ISO 15924
       <https://en.wikipedia.org/wiki/ISO_15924>`_ code, or ``None``.
+
+   .. method:: tags
+
+      Return the list of :class:`Tag` objects.
+
+
+The Tag Class
+-------------
+
+.. autoclass:: Tag
+
+   .. attribute:: tag
+
+      The text value of the tag.
+
+   .. attribute:: category
+
+      The category, or kind, of the tag.
 
 
 The Sense Class

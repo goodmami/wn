@@ -17,6 +17,7 @@ __all__ = (
     'words',
     'Word',
     'Form',
+    'Tag',
     'sense',
     'senses',
     'Sense',
@@ -38,8 +39,8 @@ from wn._download import download
 from wn._core import (
     projects,
     lexicons, Lexicon,
-    word, words, Word, Form,
     sense, senses, Sense,
+    word, words, Word, Form, Tag,
     synset, synsets, Synset,
     ili, ilis, ILI,
     Wordnet

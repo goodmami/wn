@@ -121,7 +121,7 @@ def _add_lmf(
 
             counts = info['counts']
             count = sum(counts.get(name, 0) for name in
-                        ('LexicalEntry', 'Lemma', 'Form',  # 'Tag',
+                        ('LexicalEntry', 'Lemma', 'Form', 'Tag',
                          'Sense', 'SenseRelation', 'Example',  # 'Count',
                          'SyntacticBehaviour',
                          'Synset', 'Definition',  # 'ILIDefinition',
@@ -135,6 +135,7 @@ def _add_lmf(
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, cur, progress)
+            _insert_tags(entries, lexid, cur, progress)
             _insert_senses(entries, lexid, cur, progress)
             _insert_adjpositions(entries, lexid, cur, progress)
             _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
@@ -295,6 +296,37 @@ def _insert_forms(entries, lexid, cur, progress):
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
         progress.update(len(forms))
+
+
+def _insert_tags(entries, lexid, cur, progress):
+    progress.set(status='Word Form Tags')
+    query = '''
+        INSERT INTO tags VALUES (
+            (SELECT f.rowid
+               FROM forms AS f
+               JOIN entries AS e ON f.entry_rowid = e.rowid
+              WHERE e.lexicon_rowid = ?
+                AND e.id = ?
+                AND f.form = ?
+                AND f.script IS ?),
+            ?,?)
+    '''
+    for batch in _split(entries):
+        tags = []
+        for entry in batch:
+            eid = entry.id
+            lemma = entry.lemma
+            for tag in entry.lemma.tags:
+                tags.append(
+                    (lexid, eid, lemma.form, lemma.script, tag.text, tag.category)
+                )
+            for form in entry.forms:
+                for tag in form.tags:
+                    tags.append(
+                        (lexid, eid, form.form, form.script, tag.text, tag.category)
+                    )
+        cur.executemany(query, tags)
+        progress.update(len(tags))
 
 
 def _insert_senses(entries, lexid, cur, progress):
