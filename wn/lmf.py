@@ -789,7 +789,7 @@ def _dump_lexical_entry(
             for sb in sbmap.get(sense_id, []):
                 elem.append(
                     _build_syntactic_behaviour_1_0(
-                        sb.frame, senses.intersection(sb.senses)
+                        sb.frame, sorted(senses.intersection(sb.senses))
                     )
                 )
     # TODO: 1.0 SyntacticBehaviour

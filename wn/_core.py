@@ -808,7 +808,7 @@ class Sense(_Relatable):
     def lexicalized(self) -> bool:
         return get_lexicalized(self._id, 'senses')
 
-    def adjposition(self) -> str:
+    def adjposition(self) -> Optional[str]:
         """Return the adjective position of the sense.
 
         Values include :python:`"a"` (attributive), :python:`"p"`
