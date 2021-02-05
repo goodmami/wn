@@ -150,7 +150,7 @@ def _add_lmf(
                              lexid, 'sense_examples', cur, progress)
             _insert_examples(synsets, lexid, 'synset_examples', cur, progress)
             progress.set(status='')  # clear type string
-            progress.flash(f'Added {lexicon.id}:{lexicon.version} ({lexicon.label})')
+            progress.flash(f'Added {lexicon.id}:{lexicon.version} ({lexicon.label})\n')
 
 
 def _precheck(source, cur):

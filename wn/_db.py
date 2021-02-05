@@ -102,6 +102,9 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
     if hash in COMPATIBLE_SCHEMA_HASHES:
         return
 
+    logger.debug('current schema hash:\n  %s', hash)
+    logger.debug('compatible schema hashes:\n  %s',
+                 '\n  '.join(COMPATIBLE_SCHEMA_HASHES))
     # otherwise, try to raise a helpful error message
     msg = ("Wn's schema has changed and is no longer compatible with the "
            f"database. Please move or delete {dbpath} and rebuild it.")
