@@ -16,6 +16,8 @@
 * `wn.constants.ILI_STATUSES` ([#23])
 * `wn.Tag` ([#65])
 * `wn.Form.tags()` ([#65])
+* `wn.Count` ([#65])
+* `wn.Sense.counts()` ([#65])
 
 ### Changed
 
@@ -28,6 +30,8 @@
   computed variables
 * Wordform tags are now stored in the database (the table was already
   present in the schema, just unused), and exported to XML ([#65])
+* Sense counts are now stored in the database (the table was already
+  present in the schema, just unused) and exported to XML ([#65])
 
 ### Schema
 
@@ -41,6 +45,7 @@
 * Proposed ILIs also have an integer rowid for metadata access
 * Added more indexes and `ON DELETE` actions to speed up `wn.remove()`
 * All extendable tables are now linked to their lexicon ([#91])
+* Added rowid to tables with metadata
 
 
 ## [v0.5.1]

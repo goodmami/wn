@@ -122,7 +122,7 @@ def _add_lmf(
             counts = info['counts']
             count = sum(counts.get(name, 0) for name in
                         ('LexicalEntry', 'Lemma', 'Form', 'Tag',
-                         'Sense', 'SenseRelation', 'Example',  # 'Count',
+                         'Sense', 'SenseRelation', 'Example', 'Count',
                          'SyntacticBehaviour',
                          'Synset', 'Definition',  # 'ILIDefinition',
                          'SynsetRelation'))
@@ -138,6 +138,7 @@ def _add_lmf(
             _insert_tags(entries, lexid, cur, progress)
             _insert_senses(entries, lexid, cur, progress)
             _insert_adjpositions(entries, lexid, cur, progress)
+            _insert_counts(entries, lexid, cur, progress)
             _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
 
             _insert_synset_relations(synsets, lexid, cur, progress)
@@ -367,6 +368,17 @@ def _insert_adjpositions(entries, lexid, cur, progress):
             if s.adjposition]
     query = f'INSERT INTO adjpositions VALUES (({SENSE_QUERY}),?)'
     cur.executemany(query, data)
+
+
+def _insert_counts(entries, lexid, cur, progress):
+    progress.set(status='Counts')
+    data = [(lexid, sense.id, lexid, count.value, count.meta)
+            for entry in entries
+            for sense in entry.senses
+            for count in sense.counts]
+    query = f'INSERT INTO counts VALUES (null,?,({SENSE_QUERY}),?,?)'
+    cur.executemany(query, data)
+    progress.update(len(data))
 
 
 def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):

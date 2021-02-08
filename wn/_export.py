@@ -18,6 +18,7 @@ from wn._queries import (
     get_lexicalized,
     get_adjposition,
     get_form_tags,
+    get_sense_counts,
 )
 from wn._core import Lexicon
 
@@ -115,7 +116,7 @@ def _export_senses(entry_rowid: int) -> List[lmf.Sense]:
             synset,
             relations=_export_sense_relations(rowid),
             examples=_export_examples(rowid, 'senses'),
-            # TODO: counts
+            counts=_export_counts(rowid),
             lexicalized=get_lexicalized(rowid, 'senses'),
             adjposition=get_adjposition(rowid) or '',
             meta=_export_metadata(rowid, 'senses'),
@@ -158,6 +159,14 @@ def _export_examples(rowid: int, table: str) -> List[lmf.Example]:
         )
         for text, language, rowid
         in get_examples(rowid, table)
+    ]
+
+
+def _export_counts(rowid: int) -> List[lmf.Count]:
+    Count = lmf.Count
+    return [
+        Count(val, meta=_export_metadata(id, 'counts'))
+        for val, id in get_sense_counts(rowid)
     ]
 
 

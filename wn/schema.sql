@@ -186,6 +186,7 @@ CREATE TABLE sense_examples (
 CREATE INDEX sense_example_index ON sense_examples (sense_rowid);
 
 CREATE TABLE counts (
+    rowid INTEGER PRIMARY KEY,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     sense_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     count INTEGER NOT NULL,

@@ -30,7 +30,7 @@ Spanish:
         <Tag category="tag-category">tag-text</Tag>
       </Lemma>
       <Sense id="test-en-information-n-0001-01" synset="test-en-0001-n">
-        <Count>3</Count>
+        <Count dc:source="some corpus">3</Count>
       </Sense>
     </LexicalEntry>
 

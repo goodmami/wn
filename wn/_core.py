@@ -26,6 +26,7 @@ from wn._queries import (
     get_metadata,
     get_lexicalized,
     get_adjposition,
+    get_sense_counts,
 )
 
 _FAKE_ROOT = '*ROOT*'
@@ -776,6 +777,22 @@ class Synset(_Relatable):
         return synsets(ili=ili, lang=lang, lexicon=lexicon)
 
 
+class Count(int):
+    """A count of sense occurrences in some corpus."""
+    __module__ = 'wn'
+
+    _id: int
+
+    def __new__(cls, value, _id: int = NON_ROWID):
+        obj = int.__new__(cls, value)  # type: ignore
+        obj._id = _id
+        return obj
+
+    def metadata(self) -> Metadata:
+        """Return the count's metadata."""
+        return get_metadata(self._id, 'counts')
+
+
 class Sense(_Relatable):
     """Class for modeling wordnet senses."""
     __slots__ = '_entry_id', '_synset_id'
@@ -846,6 +863,10 @@ class Sense(_Relatable):
     def frames(self) -> List[str]:
         """Return the list of subcategorization frames for the sense."""
         return get_syntactic_behaviours(self._id)
+
+    def counts(self) -> List[Count]:
+        """Return the corpus counts stored for this sense."""
+        return [Count(value, _id=_id) for value, _id in get_sense_counts(self._id)]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""

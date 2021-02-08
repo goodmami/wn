@@ -44,6 +44,7 @@ _Sense = Tuple[
     int,  # rowid
 ]
 _Sense_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
+_Count = Tuple[int, int]  # count, count_id
 _ILI = Tuple[
     Optional[str],  # id
     int,            # status
@@ -519,6 +520,7 @@ _SANITIZED_METADATA_TABLES = {
     'sense_synset_relations': 'sense_synset_relations',
     'synset_relations': 'synset_relations',
     'sense_examples': 'sense_examples',
+    'counts': 'counts',
     'synset_examples': 'synset_examples',
     'definitions': 'definitions',
 }
@@ -566,6 +568,12 @@ def get_form_tags(form_rowid: int) -> List[_Tag]:
     query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
     rows: List[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
     return rows
+
+
+def get_sense_counts(sense_rowid: int) -> List[_Count]:
+    conn = connect()
+    query = 'SELECT count, rowid FROM counts WHERE sense_rowid = ?'
+    rows: List[_Count] = conn.execute(query, (sense_rowid,)).fetchall()
     return rows
 
 

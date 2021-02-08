@@ -65,7 +65,7 @@ The Word Class
 
 
 The Form Class
---------------
+''''''''''''''
 
 .. class:: Form
 
@@ -101,7 +101,7 @@ The Form Class
 
 
 The Tag Class
--------------
+'''''''''''''
 
 .. autoclass:: Tag
 
@@ -135,6 +135,21 @@ The Sense Class
    .. automethod:: closure
    .. automethod:: relation_paths
    .. automethod:: translate
+
+
+The Count Class
+'''''''''''''''
+
+.. autoclass:: Count
+
+   Some wordnets store computed counts of senses across some corpus or
+   corpora. This class models those counts. It is a subtype of
+   :class:`int` with one additional method, :meth:`metadata`, which
+   may be used to give information about the source of the count (if
+   provided by the wordnet).
+
+   .. automethod:: metadata
+
 
 The Synset Class
 ----------------

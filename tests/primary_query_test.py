@@ -114,6 +114,7 @@ def test_senses_mini():
     senses = wn.senses('information')  # search lemma
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'information'
+    assert senses[0].counts() == [3]
 
     senses = wn.senses('exemplifies')  # search secondary form
     assert len(senses) == 1

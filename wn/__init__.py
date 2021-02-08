@@ -21,6 +21,7 @@ __all__ = (
     'sense',
     'senses',
     'Sense',
+    'Count',
     'synset',
     'synsets',
     'Synset',
@@ -39,8 +40,8 @@ from wn._download import download
 from wn._core import (
     projects,
     lexicons, Lexicon,
-    sense, senses, Sense,
     word, words, Word, Form, Tag,
+    sense, senses, Sense, Count,
     synset, synsets, Synset,
     ili, ilis, ILI,
     Wordnet
