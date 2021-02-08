@@ -299,15 +299,6 @@ class Lexicon(_HasMeta):
         self.synsets = synsets or []
         self.syntactic_behaviours = syntactic_behaviours or []
 
-    def entry_ids(self) -> Set[str]:
-        return {entry.id for entry in self.lexical_entries}
-
-    def sense_ids(self) -> Set[str]:
-        return {sense.id for entry in self.lexical_entries for sense in entry.senses}
-
-    def synset_ids(self) -> Set[str]:
-        return {synset.id for synset in self.synsets}
-
 
 LexicalResource = List[Lexicon]
 

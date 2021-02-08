@@ -103,9 +103,6 @@ def _add_lmf(
                 )
                 continue
 
-            sense_ids = lexicon.sense_ids()
-            synset_ids = lexicon.synset_ids()
-
             cur.execute(
                 'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?)',
                 (lexicon.id,
@@ -142,10 +139,7 @@ def _add_lmf(
             _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
 
             _insert_synset_relations(synsets, lexid, cur, progress)
-            _insert_sense_relations(entries, lexid, 'sense_relations',
-                                    sense_ids, cur, progress)
-            _insert_sense_relations(entries, lexid, 'sense_synset_relations',
-                                    synset_ids, cur, progress)
+            _insert_sense_relations(lexicon, lexid, cur, progress)
 
             _insert_synset_definitions(synsets, lexid, cur, progress)
             _insert_examples([sense for entry in entries for sense in entry.senses],
@@ -406,27 +400,45 @@ def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):
     progress.update(len(synbhrs))
 
 
-def _insert_sense_relations(entries, lexid, table, ids, cur, progress):
+def _insert_sense_relations(lexicon, lexid, cur, progress):
     progress.set(status='Sense Relations')
-    target_query = SENSE_QUERY if table == 'sense_relations' else SYNSET_QUERY
-    query = f'''
-        INSERT INTO {table}
-        VALUES (?,({SENSE_QUERY}), ({target_query}), ?, ?)
-    '''
-    for batch in _split(entries):
-        data = [
-            (lexid,
-             sense.id, lexid,
-             relation.target, lexid,
-             relmap[relation.type],
-             relation.meta)
-            for entry in batch
-            for sense in entry.senses
-            for relation in sense.relations if relation.target in ids
-        ]
-        # be careful of SQL injection here
-        cur.executemany(query, data)
-        progress.update(len(data))
+    # need to separate relations into those targeting senses vs synsets
+    synset_ids = {ss.id for ss in lexicon.synsets}
+    sense_ids = {s.id for e in lexicon.lexical_entries for s in e.senses}
+    s_s_rels = []
+    s_ss_rels = []
+    for entry in lexicon.lexical_entries:
+        for sense in entry.senses:
+            for relation in sense.relations:
+                target_id = relation.target
+                if target_id in sense_ids:
+                    s_s_rels.append((sense.id, relation))
+                elif target_id in synset_ids:
+                    s_ss_rels.append((sense.id, relation))
+                else:
+                    raise wn.Error(
+                        f'relation target is not a known sense or synset: {target_id}'
+                    )
+    hyperparams = [
+        ('sense_relations', SENSE_QUERY, s_s_rels),
+        ('sense_synset_relations', SYNSET_QUERY, s_ss_rels),
+    ]
+    for table, target_query, rels in hyperparams:
+        query = f'''
+            INSERT INTO {table}
+            VALUES (?,({SENSE_QUERY}),({target_query}),?,?)
+        '''
+        for batch in _split(rels):
+            data = [
+                (lexid,
+                 sense_id, lexid,
+                 relation.target, lexid,
+                 relmap[relation.type],
+                 relation.meta)
+                for sense_id, relation in batch
+            ]
+            cur.executemany(query, data)
+            progress.update(len(data))
 
 
 def _insert_examples(objs, lexid, table, cur, progress):

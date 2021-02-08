@@ -19,6 +19,11 @@
 * `wn.Count` ([#65])
 * `wn.Sense.counts()` ([#65])
 
+### Fixed
+
+* Adding a wordnet with sense relations with invalid target IDs now
+  raises an error instead of ignoring the relation.
+
 ### Changed
 
 * Syntactic behaviour is now stored in the database, and exported to

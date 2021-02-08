@@ -4,16 +4,6 @@ from xml.etree import ElementTree as ET
 from wn import lmf
 
 
-class TestLexicon:
-
-    def test_entry_ids(self):
-        lex = lmf.Lexicon(
-            'id', 'Test', 'tst', 'test@example.com', 'CC-BY 4.0', '1',
-            lexical_entries=[],
-            synsets=[])
-        assert lex.entry_ids() == set()
-
-
 def test_is_lmf(datadir):
     assert lmf.is_lmf(datadir / 'mini-lmf-1.0.xml')
     assert lmf.is_lmf(str(datadir / 'mini-lmf-1.0.xml'))

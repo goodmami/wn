@@ -57,7 +57,7 @@ Spanish:
       <Form writtenForm="exemplified" />
       <Form writtenForm="exemplifying" />
       <Sense id="test-en-exemplify-v-0003-01" synset="test-en-0003-v" >
-        <SenseRelation relType="derivation" target="test-en-example-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-en-example-n-0002-01" />
       </Sense>
     </LexicalEntry>
 
@@ -71,7 +71,7 @@ Spanish:
     <LexicalEntry id="test-en-illustrate-v">
       <Lemma partOfSpeech="v" writtenForm="illustrate" />
       <Sense id="test-en-illustrate-v-0004-01" synset="test-en-0003-v" >
-        <SenseRelation relType="derivation" target="test-en-illustration-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-en-illustration-n-0002-01" />
       </Sense>
       <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Somebody ----s something" />
       <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Something ----s something" />
@@ -146,7 +146,7 @@ Spanish:
     <LexicalEntry id="test-es-ejemplificar-v">
       <Lemma partOfSpeech="v" writtenForm="ejemplificar" />
       <Sense id="test-es-ejemplificar-v-0003-01" synset="test-es-0003-v" >
-        <SenseRelation relType="derivation" target="test-es-ejemplo-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-es-ejemplo-n-0002-01" />
       </Sense>
     </LexicalEntry>
 
@@ -160,7 +160,7 @@ Spanish:
     <LexicalEntry id="test-es-ilustrar-v">
       <Lemma partOfSpeech="v" writtenForm="ilustrar" />
       <Sense id="test-es-ilustrar-v-0004-01" synset="test-es-0003-v" >
-        <SenseRelation relType="derivation" target="test-es-ilustración-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-es-ilustración-n-0002-01" />
       </Sense>
     </LexicalEntry>
 
