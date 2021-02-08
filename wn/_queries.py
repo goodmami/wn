@@ -45,6 +45,11 @@ _Sense = Tuple[
 ]
 _Sense_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
 _Count = Tuple[int, int]  # count, count_id
+_SyntacticBehaviour = Tuple[
+    str,       # id
+    str,       # frame
+    List[str]  # sense ids
+]
 _ILI = Tuple[
     Optional[str],  # id
     int,            # status
@@ -415,6 +420,36 @@ def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
          WHERE {prefix}_rowid = ?
     '''
     return conn.execute(query, (rowid,)).fetchall()
+
+
+def find_syntactic_behaviours(
+    id: str = None,
+    lexicon_rowids: Sequence[int] = None,
+) -> Iterator[_SyntacticBehaviour]:
+    conn = connect()
+    query = '''
+        SELECT sb.id, sb.frame, s.id
+          FROM syntactic_behaviours AS sb
+          JOIN syntactic_behaviour_senses AS sbs
+            ON sbs.syntactic_behaviour_rowid = sb.rowid
+          JOIN senses AS s
+            ON s.rowid = sbs.sense_rowid
+    '''
+    conditions: List[str] = []
+    params: List = []
+    if id:
+        conditions.append('sb.id = ?')
+        params.append(id)
+    if lexicon_rowids:
+        conditions.append(f'sb.lexicon_rowid IN ({_qs(lexicon_rowids)})')
+        params.extend(lexicon_rowids)
+    if conditions:
+        query += '\n WHERE ' + '\n   AND '.join(conditions)
+    rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
+    for key, group in itertools.groupby(rows, lambda row: row[0:2]):
+        id, frame = key
+        sense_ids = [row[2] for row in group]
+        yield id, frame, sense_ids
 
 
 def get_syntactic_behaviours(rowid: int) -> List[str]:

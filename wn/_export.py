@@ -8,6 +8,7 @@ from wn._queries import (
     find_entries,
     find_senses,
     find_synsets,
+    find_syntactic_behaviours,
     get_entry_senses,
     get_sense_relations,
     get_sense_synset_relations,
@@ -217,7 +218,11 @@ def _export_synset_relations(synset_rowid: int) -> List[lmf.SynsetRelation]:
 
 
 def _export_syntactic_behaviours(lexids: Sequence[int]) -> List[lmf.SyntacticBehaviour]:
-    return []  # TODO
+    SyntacticBehaviour = lmf.SyntacticBehaviour
+    return [
+        SyntacticBehaviour(frame, senses)
+        for _, frame, senses in find_syntactic_behaviours(lexicon_rowids=lexids)
+    ]
 
 
 def _export_metadata(rowid: int, table: str) -> lmf.Metadata:

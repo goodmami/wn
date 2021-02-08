@@ -32,6 +32,7 @@
   present in the schema, just unused), and exported to XML ([#65])
 * Sense counts are now stored in the database (the table was already
   present in the schema, just unused) and exported to XML ([#65])
+* Syntactic Behaviours are now exported to XML ([#65])
 
 ### Schema
 
