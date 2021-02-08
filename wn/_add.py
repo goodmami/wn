@@ -227,7 +227,7 @@ def _insert_synsets(synsets, lex_id, cur, progress):
 
 def _insert_synset_definitions(synsets, lexid, cur, progress):
     progress.set(status='Definitions')
-    query = f'INSERT INTO definitions VALUES (?,({SYNSET_QUERY}),?,?,?)'
+    query = f'INSERT INTO definitions VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(synsets):
         data = [
             (lexid,
@@ -247,7 +247,7 @@ def _insert_synset_relations(synsets, lexid, cur, progress):
     progress.set(status='Synset Relations')
     query = f'''
         INSERT INTO synset_relations
-        VALUES (?,({SYNSET_QUERY}),({SYNSET_QUERY}),?,?)
+        VALUES (null,?,({SYNSET_QUERY}),({SYNSET_QUERY}),?,?)
     '''
     for batch in _split(synsets):
         data = [
@@ -426,7 +426,7 @@ def _insert_sense_relations(lexicon, lexid, cur, progress):
     for table, target_query, rels in hyperparams:
         query = f'''
             INSERT INTO {table}
-            VALUES (?,({SENSE_QUERY}),({target_query}),?,?)
+            VALUES (null,?,({SENSE_QUERY}),({target_query}),?,?)
         '''
         for batch in _split(rels):
             data = [
@@ -443,7 +443,7 @@ def _insert_sense_relations(lexicon, lexid, cur, progress):
 
 def _insert_examples(objs, lexid, table, cur, progress):
     progress.set(status='Examples')
-    query = f'INSERT INTO {table} VALUES (?,({SYNSET_QUERY}),?,?,?)'
+    query = f'INSERT INTO {table} VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
             (lexid,
