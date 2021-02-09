@@ -40,6 +40,7 @@
 * Syntactic Behaviours are now exported to XML ([#65])
 * Definition source senses are now stored in the database and exported
   to XML ([#65])
+* ILI definitions are now exported to XML ([#65])
 
 ### Schema
 

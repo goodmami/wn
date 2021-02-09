@@ -1,5 +1,5 @@
 
-from typing import List, Set, Sequence
+from typing import List, Set, Sequence, Optional
 
 import wn
 from wn._types import AnyPath
@@ -9,6 +9,7 @@ from wn._queries import (
     find_senses,
     find_synsets,
     find_syntactic_behaviours,
+    find_proposed_ilis,
     get_entry_senses,
     get_sense_relations,
     get_sense_synset_relations,
@@ -173,21 +174,25 @@ def _export_counts(rowid: int) -> List[lmf.Count]:
 
 def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
     Synset = lmf.Synset
-    return [
-        Synset(
-            id,
-            ili or '',
-            pos,
-            definitions=_export_definitions(rowid),
-            # TODO: ili_definition,
-            relations=_export_synset_relations(rowid),
-            examples=_export_examples(rowid, 'synsets'),
-            lexicalized=get_lexicalized(rowid, 'synsets'),
-            meta=_export_metadata(rowid, 'synsets'),
+    synsets = []
+    for id, pos, ili, _, rowid in find_synsets(lexicon_rowids=lexids):
+        ilidef = _export_ili_definition(rowid)
+        if ilidef and not ili:
+            ili = 'in'  # special case for proposed ILIs
+        synsets.append(
+            Synset(
+                id,
+                ili or '',
+                pos,
+                definitions=_export_definitions(rowid),
+                ili_definition=ilidef,
+                relations=_export_synset_relations(rowid),
+                examples=_export_examples(rowid, 'synsets'),
+                lexicalized=get_lexicalized(rowid, 'synsets'),
+                meta=_export_metadata(rowid, 'synsets'),
+            )
         )
-        for id, pos, ili, _, rowid
-        in find_synsets(lexicon_rowids=lexids)
-    ]
+    return synsets
 
 
 def _export_definitions(rowid: int) -> List[lmf.Definition]:
@@ -202,6 +207,18 @@ def _export_definitions(rowid: int) -> List[lmf.Definition]:
         for text, language, sense_id, rowid
         in get_definitions(rowid)
     ]
+
+
+def _export_ili_definition(synset_rowid: int) -> Optional[lmf.ILIDefinition]:
+    _, _, defn, rowid = next(find_proposed_ilis(synset_rowid=synset_rowid),
+                             (None, None, None, None))
+    ilidef = None
+    if defn:
+        meta = None
+        if rowid is not None:
+            meta = _export_metadata(rowid, 'proposed_ilis')
+        ilidef = lmf.ILIDefinition(defn or '', meta=meta)
+    return ilidef
 
 
 def _export_synset_relations(synset_rowid: int) -> List[lmf.SynsetRelation]:

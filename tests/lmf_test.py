@@ -24,7 +24,7 @@ def test_load(mini_lmf_1_0):
     assert lexicon.version == '1'
     assert lexicon.url == 'https://example.com/test-en'
 
-    assert len(lexicon.lexical_entries) == 8
+    assert len(lexicon.lexical_entries) == 9
     le = lexicon.lexical_entries[0]
     assert le.id == 'test-en-information-n'
 
@@ -46,7 +46,7 @@ def test_load(mini_lmf_1_0):
     assert lexicon.syntactic_behaviours[0].frame == 'Somebody ----s something'
     assert lexicon.syntactic_behaviours[0].senses == ['test-en-illustrate-v-0004-01']
 
-    assert len(lexicon.synsets) == 7
+    assert len(lexicon.synsets) == 8
 
     assert lexicons[1].id == 'test-es'
 

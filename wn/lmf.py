@@ -782,7 +782,6 @@ def _dump_lexical_entry(
                         sb.frame, sorted(senses.intersection(sb.senses))
                     )
                 )
-    # TODO: 1.0 SyntacticBehaviour
     print(_tostring(elem, 2), file=out)
 
 

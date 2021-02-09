@@ -44,7 +44,7 @@ def test_words_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_words_mini():
-    assert len(wn.words()) == 14
+    assert len(wn.words()) == 15
     assert all(isinstance(w, wn.Word) for w in wn.words())
 
     words = wn.words('information')  # search lemma
@@ -60,17 +60,17 @@ def test_words_mini():
 
     assert len(wn.words(pos='n')) == 10
     assert all(w.pos == 'n' for w in wn.words(pos='n'))
-    assert len(wn.words(pos='v')) == 4
+    assert len(wn.words(pos='v')) == 5
     assert len(wn.words(pos='q')) == 0  # fake pos
 
-    assert len(wn.words(lang='en')) == 8
+    assert len(wn.words(lang='en')) == 9
     assert len(wn.words(lang='es')) == 6
 
-    assert len(wn.words(lexicon='test-en')) == 8
+    assert len(wn.words(lexicon='test-en')) == 9
     assert len(wn.words(lexicon='test-es')) == 6
 
-    assert len(wn.words(lang='en', lexicon='test-en')) == 8
-    assert len(wn.words(pos='v', lang='en')) == 2
+    assert len(wn.words(lang='en', lexicon='test-en')) == 9
+    assert len(wn.words(pos='v', lang='en')) == 3
     assert len(wn.words('information', lang='en')) == 1
     assert len(wn.words('information', lang='es')) == 0
 
@@ -108,7 +108,7 @@ def test_senses_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_senses_mini():
-    assert len(wn.senses()) == 15
+    assert len(wn.senses()) == 16
     assert all(isinstance(s, wn.Sense) for s in wn.senses())
 
     senses = wn.senses('information')  # search lemma
@@ -121,17 +121,17 @@ def test_senses_mini():
     assert senses[0].word().lemma() == 'exemplify'
 
     assert len(wn.senses(pos='n')) == 11
-    assert len(wn.senses(pos='v')) == 4
+    assert len(wn.senses(pos='v')) == 5
     assert len(wn.senses(pos='q')) == 0  # fake pos
 
-    assert len(wn.senses(lang='en')) == 9
+    assert len(wn.senses(lang='en')) == 10
     assert len(wn.senses(lang='es')) == 6
 
-    assert len(wn.senses(lexicon='test-en')) == 9
+    assert len(wn.senses(lexicon='test-en')) == 10
     assert len(wn.senses(lexicon='test-es')) == 6
 
-    assert len(wn.senses(lang='en', lexicon='test-en')) == 9
-    assert len(wn.senses(pos='v', lang='en')) == 2
+    assert len(wn.senses(lang='en', lexicon='test-en')) == 10
+    assert len(wn.senses(pos='v', lang='en')) == 3
     assert len(wn.senses('information', lang='en')) == 1
     assert len(wn.senses('information', lang='es')) == 0
 
@@ -169,7 +169,7 @@ def test_synsets_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_synsets_mini():
-    assert len(wn.synsets()) == 11
+    assert len(wn.synsets()) == 12
     assert all(isinstance(ss, wn.Synset) for ss in wn.synsets())
 
     synsets = wn.synsets('information')  # search lemma
@@ -181,20 +181,20 @@ def test_synsets_mini():
     assert 'exemplify' in synsets[0].lemmas()
 
     assert len(wn.synsets(pos='n')) == 9
-    assert len(wn.synsets(pos='v')) == 2
+    assert len(wn.synsets(pos='v')) == 3
     assert len(wn.synsets(pos='q')) == 0  # fake pos
 
     assert len(wn.synsets(ili='i67469')) == 2
     assert len(wn.synsets(ili='i67468')) == 0
 
-    assert len(wn.synsets(lang='en')) == 7
+    assert len(wn.synsets(lang='en')) == 8
     assert len(wn.synsets(lang='es')) == 4
 
-    assert len(wn.synsets(lexicon='test-en')) == 7
+    assert len(wn.synsets(lexicon='test-en')) == 8
     assert len(wn.synsets(lexicon='test-es')) == 4
 
-    assert len(wn.synsets(lang='en', lexicon='test-en')) == 7
-    assert len(wn.synsets(pos='v', lang='en')) == 1
+    assert len(wn.synsets(lang='en', lexicon='test-en')) == 8
+    assert len(wn.synsets(pos='v', lang='en')) == 2
     assert len(wn.synsets('information', lang='en')) == 1
     assert len(wn.synsets('information', lang='es')) == 0
     assert len(wn.synsets(ili='i67469', lang='es')) == 1

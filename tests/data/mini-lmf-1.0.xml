@@ -8,6 +8,7 @@ English:
 - information ⊃ (example, illustration) ⊃ sample ⊃ random sample
 - example ⊳ exemplify
 - illustration ⊳ illustrate
+- resignate
 
 Spanish:
 - información, ejemplo, ilustración, muestra aleatoria
@@ -83,6 +84,11 @@ Spanish:
       <Sense id="test-en-datum-n-0006-01" synset="test-en-0006-n" />
     </LexicalEntry>
 
+    <LexicalEntry id="test-en-resignate-v">
+      <Lemma partOfSpeech="v" writtenForm="resignate" />
+      <Sense id="test-en-resignate-v-0007-01" synset="test-en-0007-v" />
+    </LexicalEntry>
+
     <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition sourceSense="test-en-information-n-0001-01">something that informs</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0002-n" />
@@ -119,6 +125,11 @@ Spanish:
     <Synset id="test-en-0006-n" ili="i67448" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition>a measured or recorded piece of information</Definition>
       <SynsetRelation relType="hypernym" target="test-en-0001-n" />
+    </Synset>
+
+    <Synset id="test-en-0007-v" ili="in" partOfSpeech="v" dc:subject="verb.social">
+      <!-- should probably be a hyponym of i33760 -->
+      <ILIDefinition>to fire someone while making it look like it was their idea</ILIDefinition>
     </Synset>
 
   </Lexicon>
