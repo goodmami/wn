@@ -46,7 +46,7 @@ def test_load(mini_lmf_1_0):
     assert lexicon.syntactic_behaviours[0].frame == 'Somebody ----s something'
     assert lexicon.syntactic_behaviours[0].senses == ['test-en-illustrate-v-0004-01']
 
-    assert len(lexicon.synsets) == 6
+    assert len(lexicon.synsets) == 7
 
     assert lexicons[1].id == 'test-es'
 

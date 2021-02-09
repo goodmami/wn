@@ -49,6 +49,7 @@ Spanish:
     <LexicalEntry id="test-en-random_sample-n">
       <Lemma partOfSpeech="n" writtenForm="random sample" />
       <Sense id="test-en-random_sample-n-0005-01" synset="test-en-0005-n" />
+      <Sense id="test-en-random_sample-n-0005-02" synset="test-en-0005-n-fake" lexicalized="false" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-exemplify-v">
@@ -109,6 +110,10 @@ Spanish:
     <Synset id="test-en-0005-n" ili="i67479" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition>a sample randomly drawn from some population</Definition>
       <SynsetRelation relType="hypernym" target="test-en-0004-n" />
+    </Synset>
+
+    <Synset id="test-en-0005-n-fake" ili="" partOfSpeech="n" lexicalized="false" dc:subject="noun.cognition">
+      <Definition>a sample that is random</Definition>
     </Synset>
 
     <Synset id="test-en-0006-n" ili="i67448" partOfSpeech="n" dc:subject="noun.cognition">

@@ -108,7 +108,7 @@ def test_senses_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_senses_mini():
-    assert len(wn.senses()) == 14
+    assert len(wn.senses()) == 15
     assert all(isinstance(s, wn.Sense) for s in wn.senses())
 
     senses = wn.senses('information')  # search lemma
@@ -120,17 +120,17 @@ def test_senses_mini():
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'exemplify'
 
-    assert len(wn.senses(pos='n')) == 10
+    assert len(wn.senses(pos='n')) == 11
     assert len(wn.senses(pos='v')) == 4
     assert len(wn.senses(pos='q')) == 0  # fake pos
 
-    assert len(wn.senses(lang='en')) == 8
+    assert len(wn.senses(lang='en')) == 9
     assert len(wn.senses(lang='es')) == 6
 
-    assert len(wn.senses(lexicon='test-en')) == 8
+    assert len(wn.senses(lexicon='test-en')) == 9
     assert len(wn.senses(lexicon='test-es')) == 6
 
-    assert len(wn.senses(lang='en', lexicon='test-en')) == 8
+    assert len(wn.senses(lang='en', lexicon='test-en')) == 9
     assert len(wn.senses(pos='v', lang='en')) == 2
     assert len(wn.senses('information', lang='en')) == 1
     assert len(wn.senses('information', lang='es')) == 0
@@ -169,7 +169,7 @@ def test_synsets_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_synsets_mini():
-    assert len(wn.synsets()) == 10
+    assert len(wn.synsets()) == 11
     assert all(isinstance(ss, wn.Synset) for ss in wn.synsets())
 
     synsets = wn.synsets('information')  # search lemma
@@ -180,20 +180,20 @@ def test_synsets_mini():
     assert len(synsets) == 1
     assert 'exemplify' in synsets[0].lemmas()
 
-    assert len(wn.synsets(pos='n')) == 8
+    assert len(wn.synsets(pos='n')) == 9
     assert len(wn.synsets(pos='v')) == 2
     assert len(wn.synsets(pos='q')) == 0  # fake pos
 
     assert len(wn.synsets(ili='i67469')) == 2
     assert len(wn.synsets(ili='i67468')) == 0
 
-    assert len(wn.synsets(lang='en')) == 6
+    assert len(wn.synsets(lang='en')) == 7
     assert len(wn.synsets(lang='es')) == 4
 
-    assert len(wn.synsets(lexicon='test-en')) == 6
+    assert len(wn.synsets(lexicon='test-en')) == 7
     assert len(wn.synsets(lexicon='test-es')) == 4
 
-    assert len(wn.synsets(lang='en', lexicon='test-en')) == 6
+    assert len(wn.synsets(lang='en', lexicon='test-en')) == 7
     assert len(wn.synsets(pos='v', lang='en')) == 1
     assert len(wn.synsets('information', lang='en')) == 1
     assert len(wn.synsets('information', lang='es')) == 0
