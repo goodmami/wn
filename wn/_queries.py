@@ -393,12 +393,15 @@ def get_synset_relations(
         yield inv_relmap[row[0]], *row[1:]  # type: ignore
 
 
-def get_definitions(synset_rowid: int) -> List[Tuple[str, str, int]]:
+def get_definitions(synset_rowid: int) -> List[Tuple[str, str, str, int]]:
     conn = connect()
     query = '''
-        SELECT definition, language, rowid
-          FROM definitions
-         WHERE synset_rowid = ?
+        SELECT d.definition,
+               d.language,
+               (SELECT s.id FROM senses AS s WHERE s.rowid=d.sense_rowid),
+               d.rowid
+          FROM definitions AS d
+         WHERE d.synset_rowid = ?
     '''
     return conn.execute(query, (synset_rowid,)).fetchall()
 

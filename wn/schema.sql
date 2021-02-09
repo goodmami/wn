@@ -122,7 +122,7 @@ CREATE TABLE definitions (
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     definition TEXT,
     language TEXT,  -- bcp-47 language tag
-    -- sense_rowid INTEGER NOT NULL REFERENCES senses(rowid),
+    sense_rowid INTEGER REFERENCES senses(rowid) ON DELETE SET NULL,
     metadata META
 );
 CREATE INDEX definition_rowid_index ON definitions (synset_rowid);

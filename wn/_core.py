@@ -432,7 +432,7 @@ class Synset(_Relatable):
 
         """
         return next(
-            (text for text, _, _ in get_definitions(self._id)),
+            (text for text, _, _, _ in get_definitions(self._id)),
             None
         )
 

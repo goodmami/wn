@@ -37,7 +37,7 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    '5fdd8913661986c47f4ff82122720eb980a2e0ed',
+    'd2cc6989a7a13dc76a7e332841d5f51d9a54368a',
 }
 
 

@@ -227,14 +227,17 @@ def _insert_synsets(synsets, lex_id, cur, progress):
 
 def _insert_synset_definitions(synsets, lexid, cur, progress):
     progress.set(status='Definitions')
-    query = f'INSERT INTO definitions VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
+    query = f'''
+        INSERT INTO definitions
+        VALUES (null,?,({SYNSET_QUERY}),?,?,({SENSE_QUERY}),?)
+    '''
     for batch in _split(synsets):
         data = [
             (lexid,
              synset.id, lexid,
              definition.text,
              definition.language,
-             # definition.source_sense,
+             definition.source_sense, lexid,
              definition.meta)
             for synset in batch
             for definition in synset.definitions

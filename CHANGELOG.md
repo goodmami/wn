@@ -38,6 +38,8 @@
 * Sense counts are now stored in the database (the table was already
   present in the schema, just unused) and exported to XML ([#65])
 * Syntactic Behaviours are now exported to XML ([#65])
+* Definition source senses are now stored in the database and exported
+  to XML ([#65])
 
 ### Schema
 
@@ -52,6 +54,7 @@
 * Added more indexes and `ON DELETE` actions to speed up `wn.remove()`
 * All extendable tables are now linked to their lexicon ([#91])
 * Added rowid to tables with metadata
+* Added source-sense to definitions table ([#65])
 
 
 ## [v0.5.1]

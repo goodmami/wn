@@ -196,9 +196,10 @@ def _export_definitions(rowid: int) -> List[lmf.Definition]:
         Definition(
             text,
             language,
+            source_sense=sense_id,
             meta=_export_metadata(rowid, 'definitions')
         )
-        for text, language, rowid
+        for text, language, sense_id, rowid
         in get_definitions(rowid)
     ]
 
