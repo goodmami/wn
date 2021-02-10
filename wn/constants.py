@@ -294,3 +294,8 @@ ILI_STATUSES = {
     'presupposed': 10,
     'proposed': 11,
 }
+
+# resource types
+
+_WORDNET = 'wordnet'
+_ILI = 'ili'

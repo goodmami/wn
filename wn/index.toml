@@ -1,3 +1,10 @@
+[cili]
+  type = "ili"
+  label = "Collaborative Interlingual Index"
+  license = "https://creativecommons.org/licenses/by/4.0/"
+  [cili.versions."1.0"]
+    url = "https://github.com/globalwordnet/cili/releases/download/v1.0/cili.tsv.xz"
+
 [ewn]
   label = "Open English WordNet"
   language = "en"

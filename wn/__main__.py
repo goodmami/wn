@@ -27,8 +27,8 @@ def _projects(args):
                 key,
                 info['id'],
                 info['version'],
-                f"[{info['language']}]",
-                info['label'],
+                f"[{info['language'] or '---'}]",
+                info['label'] or '---',
             ))
         )
 

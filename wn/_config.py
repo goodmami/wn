@@ -10,6 +10,7 @@ import toml
 
 from wn import Error
 from wn._types import AnyPath
+from wn.constants import _WORDNET
 from wn._util import is_url, resources, short_hash
 
 # The directory where downloaded and added data will be stored.
@@ -58,11 +59,12 @@ class WNConfig:
         return self._projects
 
     def add_project(
-            self,
-            id: str,
-            label: str,
-            language: str,
-            license: str = None,
+        self,
+        id: str,
+        type: str = _WORDNET,
+        label: str = None,
+        language: str = None,
+        license: str = None,
     ) -> None:
         """Add a new wordnet project to the index.
 
@@ -77,6 +79,7 @@ class WNConfig:
         if id in self._projects:
             raise ValueError(f'project already added: {id}')
         self._projects[id] = {
+            'type': type,
             'label': label,
             'language': language,
             'versions': {},
@@ -137,6 +140,7 @@ class WNConfig:
         return dict(
             id=id,
             version=version,
+            type=project['type'],
             label=project['label'],
             language=project['language'],
             license=versions[version].get('license', project.get('license')),
@@ -180,8 +184,9 @@ class WNConfig:
             else:
                 self.add_project(
                     id,
-                    project['label'],
-                    project['language'],
+                    type=project.get('type', _WORDNET),
+                    label=project.get('label'),
+                    language=project.get('language'),
                     license=project.get('license'),
                 )
             for version, info in project.get('versions', {}).items():

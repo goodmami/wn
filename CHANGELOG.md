@@ -18,6 +18,9 @@
 * `wn.Form.tags()` ([#65])
 * `wn.Count` ([#65])
 * `wn.Sense.counts()` ([#65])
+* Index entries of different types; default is `'wordnet'`, `'ili'` is
+  also available ([#23])
+* A CILI index entry ([#23])
 
 ### Fixed
 
