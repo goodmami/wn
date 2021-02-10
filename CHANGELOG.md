@@ -21,6 +21,9 @@
 * Index entries of different types; default is `'wordnet'`, `'ili'` is
   also available ([#23])
 * A CILI index entry ([#23])
+* `wn.project.Package.type` property ([#23])
+* Support for detecting and loading ILI tab-separated-value exports;
+  not directly accessible through the public API at this time ([#23])
 
 ### Fixed
 
@@ -44,6 +47,10 @@
 * Definition source senses are now stored in the database and exported
   to XML ([#65])
 * ILI definitions are now exported to XML ([#65])
+* `wn.project.is_package_directory()` and
+  `wn.project.is_collection_directory()` now detect
+  packages/collection with ILI resource files ([#23])
+* `wn.project.iterpackages()` now includes ILI packages
 
 ### Schema
 
