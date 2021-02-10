@@ -24,6 +24,7 @@
 * `wn.project.Package.type` property ([#23])
 * Support for detecting and loading ILI tab-separated-value exports;
   not directly accessible through the public API at this time ([#23])
+* Support for adding ILI resources to the database ([#23])
 
 ### Fixed
 

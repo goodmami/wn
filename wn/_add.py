@@ -3,15 +3,18 @@ Adding and removing lexicons to/from the database.
 """
 
 from typing import Optional, Type
+from itertools import islice
 import logging
 
 import wn
 from wn._types import AnyPath
+from wn.constants import _WORDNET, _ILI
 from wn._db import connect, relmap, ilistatmap
 from wn._queries import find_lexicons
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
+from wn import _ili
 
 
 logger = logging.getLogger('wn')
@@ -65,7 +68,12 @@ def add(
 
     try:
         for package in iterpackages(source):
-            _add_lmf(package.resource_file(), progress)
+            if package.type == _WORDNET:
+                _add_lmf(package.resource_file(), progress)
+            elif package.type == _ILI:
+                _add_ili(package.resource_file(), progress)
+            else:
+                raise wn.Error(f'unknown package type: {package.type}')
     finally:
         progress.close()
 
@@ -162,11 +170,11 @@ def _precheck(source, cur):
 
 
 def _split(sequence):
-    i = 0
-    for j in range(0, len(sequence), BATCH_SIZE):
-        yield sequence[i:j]
-        i = j
-    yield sequence[i:]
+    it = iter(sequence)
+    batch = list(islice(it, 0, BATCH_SIZE))
+    while len(batch):
+        yield batch
+        batch = list(islice(it, 0, BATCH_SIZE))
 
 
 def _insert_synsets(synsets, lex_id, cur, progress):
@@ -460,6 +468,34 @@ def _insert_examples(objs, lexid, table, cur, progress):
         # be careful of SQL injection here
         cur.executemany(query, data)
         progress.update(len(data))
+
+
+def _add_ili(
+    source,
+    progress: ProgressHandler,
+) -> None:
+    query = '''
+        INSERT INTO ilis
+        VALUES (null,?,?,?,null)
+            ON CONFLICT(id) DO
+               UPDATE SET status=excluded.status,
+                          definition=excluded.definition
+    '''
+    with connect() as conn:
+        cur = conn.cursor()
+
+        progress.flash(f'Reading ILI file: {source!s}')
+        ili = list(_ili.load(source))
+        progress.set(count=0, total=len(ili), status='ILI')
+        for batch in _split(ili):
+            data = [
+                (info['ili'],
+                 ilistatmap[info.get('status', 'active')],
+                 info.get('definition'))
+                for info in batch
+            ]
+            cur.executemany(query, data)
+            progress.update(len(data))
 
 
 def remove(
