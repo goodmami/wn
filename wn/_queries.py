@@ -153,6 +153,11 @@ def _get_lexicon_rowids_for_lexicon(
     return lex_match
 
 
+def get_modified(rowid: int) -> bool:
+    query = 'SELECT modified FROM lexicons WHERE rowid = ?'
+    return connect().execute(query, (rowid,)).fetchone()[0]
+
+
 def find_ilis(
     id: str = None,
     status: str = None,

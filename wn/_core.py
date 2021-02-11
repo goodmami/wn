@@ -13,6 +13,7 @@ from wn._queries import (
     find_senses,
     find_synsets,
     get_lexicon,
+    get_modified,
     get_form_tags,
     get_entry_senses,
     get_sense_relations,
@@ -115,16 +116,16 @@ class Lexicon(_DatabaseEntity):
     _ENTITY_TYPE = 'lexicons'
 
     def __init__(
-            self,
-            id: str,
-            label: str,
-            language: str,
-            email: str,
-            license: str,
-            version: str,
-            url: str = None,
-            citation: str = None,
-            _id: int = NON_ROWID,
+        self,
+        id: str,
+        label: str,
+        language: str,
+        email: str,
+        license: str,
+        version: str,
+        url: str = None,
+        citation: str = None,
+        _id: int = NON_ROWID,
     ):
         super().__init__(_id=_id)
         self.id = id
@@ -147,6 +148,10 @@ class Lexicon(_DatabaseEntity):
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
         return f'{self.id}:{self.version}'
+
+    def modified(self) -> bool:
+        """Return True if the lexicon has local modifications."""
+        return get_modified(self._id)
 
 
 class _LexiconElement(_DatabaseEntity):

@@ -112,7 +112,7 @@ def _add_lmf(
                 continue
 
             cur.execute(
-                'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?)',
+                'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?)',
                 (lexicon.id,
                  lexicon.label,
                  lexicon.language,
@@ -121,7 +121,8 @@ def _add_lmf(
                  lexicon.version,
                  lexicon.url,
                  lexicon.citation,
-                 lexicon.meta))
+                 lexicon.meta,
+                 False))
             lexid = cur.lastrowid
 
             counts = info['counts']

@@ -10,6 +10,7 @@ CREATE TABLE lexicons (
     url TEXT,
     citation TEXT,
     metadata META,
+    modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
     UNIQUE (id, version)
 );
 

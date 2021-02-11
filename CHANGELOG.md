@@ -25,6 +25,7 @@
 * Support for detecting and loading ILI tab-separated-value exports;
   not directly accessible through the public API at this time ([#23])
 * Support for adding ILI resources to the database ([#23])
+* `wn.Lexicon.modified()` ([#17])
 
 ### Fixed
 
@@ -67,6 +68,7 @@
 * All extendable tables are now linked to their lexicon ([#91])
 * Added rowid to tables with metadata
 * Added source-sense to definitions table ([#65])
+* Preemptively added a `modified` column to `lexicons` table ([#17])
 
 
 ## [v0.5.1]
@@ -259,6 +261,7 @@ abandoned, but this is an entirely new codebase.
 [unreleased]: ../../tree/main
 
 [#15]: https://github.com/goodmami/wn/issues/15
+[#17]: https://github.com/goodmami/wn/issues/17
 [#23]: https://github.com/goodmami/wn/issues/23
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
