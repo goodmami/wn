@@ -1,19 +1,4 @@
 
-CREATE TABLE lexicons (
-    rowid INTEGER PRIMARY KEY,  -- unique database-internal id
-    id TEXT NOT NULL,           -- user-facing id
-    label TEXT NOT NULL,
-    language TEXT NOT NULL,     -- bcp-47 language tag
-    email TEXT NOT NULL,
-    license TEXT NOT NULL,
-    version TEXT NOT NULL,
-    url TEXT,
-    citation TEXT,
-    metadata META,
-    modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
-    UNIQUE (id, version)
-);
-
 -- ILI : Interlingual Index
 
 CREATE TABLE ilis (
@@ -34,6 +19,25 @@ CREATE TABLE proposed_ilis (
     UNIQUE (synset_rowid)
 );
 CREATE INDEX proposed_ili_synset_rowid_index ON proposed_ilis (synset_rowid);
+
+
+-- Wordnet lexicons
+
+CREATE TABLE lexicons (
+    rowid INTEGER PRIMARY KEY,  -- unique database-internal id
+    id TEXT NOT NULL,           -- user-facing id
+    label TEXT NOT NULL,
+    language TEXT NOT NULL,     -- bcp-47 language tag
+    email TEXT NOT NULL,
+    license TEXT NOT NULL,
+    version TEXT NOT NULL,
+    url TEXT,
+    citation TEXT,
+    metadata META,
+    modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
+    UNIQUE (id, version)
+);
+
 
 -- Lexical Entries
 
@@ -72,24 +76,6 @@ CREATE TABLE tags (
 );
 CREATE INDEX tag_form_index ON tags (form_rowid);
 
-CREATE TABLE syntactic_behaviours (
-    rowid INTEGER PRIMARY KEY,
-    id TEXT,
-    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
-    frame TEXT NOT NULL,
-    UNIQUE (lexicon_rowid, id),
-    UNIQUE (lexicon_rowid, frame)
-);
-CREATE INDEX syntactic_behaviour_id_index ON syntactic_behaviours (id);
-
-CREATE TABLE syntactic_behaviour_senses (
-    syntactic_behaviour_rowid INTEGER NOT NULL REFERENCES syntactic_behaviours (rowid) ON DELETE CASCADE,
-    sense_rowid INTEGER NOT NULL REFERENCES senses (rowid) ON DELETE CASCADE
-);
-CREATE INDEX syntactic_behaviour_sense_sb_index
-    ON syntactic_behaviour_senses (syntactic_behaviour_rowid);
-CREATE INDEX syntactic_behaviour_sense_sense_index
-    ON syntactic_behaviour_senses (sense_rowid);
 
 -- Synsets
 
@@ -137,6 +123,7 @@ CREATE TABLE synset_examples (
     metadata META
 );
 CREATE INDEX synset_example_rowid_index ON synset_examples(synset_rowid);
+
 
 -- Senses
 
@@ -200,3 +187,25 @@ CREATE TABLE counts (
     metadata META
 );
 CREATE INDEX count_index ON counts(sense_rowid);
+
+
+-- Syntactic Behaviours
+
+CREATE TABLE syntactic_behaviours (
+    rowid INTEGER PRIMARY KEY,
+    id TEXT,
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
+    frame TEXT NOT NULL,
+    UNIQUE (lexicon_rowid, id),
+    UNIQUE (lexicon_rowid, frame)
+);
+CREATE INDEX syntactic_behaviour_id_index ON syntactic_behaviours (id);
+
+CREATE TABLE syntactic_behaviour_senses (
+    syntactic_behaviour_rowid INTEGER NOT NULL REFERENCES syntactic_behaviours (rowid) ON DELETE CASCADE,
+    sense_rowid INTEGER NOT NULL REFERENCES senses (rowid) ON DELETE CASCADE
+);
+CREATE INDEX syntactic_behaviour_sense_sb_index
+    ON syntactic_behaviour_senses (syntactic_behaviour_rowid);
+CREATE INDEX syntactic_behaviour_sense_sense_index
+    ON syntactic_behaviour_senses (sense_rowid);
