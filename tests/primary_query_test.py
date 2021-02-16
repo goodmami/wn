@@ -21,12 +21,20 @@ def test_lexicons_mini():
 
     results = wn.lexicons(lexicon='*')
     assert len(results) == 2
+    results = wn.lexicons(lexicon='*:1')
+    assert len(results) == 2
     results = wn.lexicons(lexicon='test-en')
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:1')
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:*')
     assert len(results) == 1 and results[0].language == 'en'
+
+    assert wn.lexicons(lexicon='test-en')[0].specifier() == 'test-en:1'
+    assert wn.lexicons(lexicon='test-es')[0].specifier() == 'test-es:1'
+
+    assert wn.lexicons(lexicon='test-en')[0].requires() == {}
+    assert wn.lexicons(lexicon='test-es')[0].requires() == {}
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -224,3 +232,24 @@ def test_synset_mini():
         assert wn.synset('test-es-0001-n', lang='unk')
     with pytest.raises(wn.Error):
         assert wn.synset('test-es-0001-n', lexicon='test-unk')
+
+
+@pytest.mark.usefixtures('mini_db_1_1')
+def test_mini_1_1():
+    assert len(wn.lexicons()) == 3
+    assert len(wn.lexicons(lang='en')) == 1
+    assert len(wn.lexicons(lang='ja')) == 1
+
+    w = wn.Wordnet(lang='en')
+    assert len(w.lexicons()) == 1
+    assert len(w.expanded_lexicons()) == 0
+
+    w = wn.Wordnet(lang='ja')
+    assert len(w.lexicons()) == 1
+    assert len(w.expanded_lexicons()) == 1
+    assert len(w.synsets('例え')[0].hypernyms()) == 1
+
+    w = wn.Wordnet(lang='ja', expand='')
+    assert len(w.lexicons()) == 1
+    assert len(w.expanded_lexicons()) == 0
+    assert len(w.synsets('例え')[0].hypernyms()) == 0

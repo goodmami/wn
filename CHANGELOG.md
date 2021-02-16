@@ -27,6 +27,7 @@
 * Support for adding ILI resources to the database ([#23])
 * `wn.Lexicon.modified()` ([#17])
 * `wn.WnWarning` (related to [#92])
+* `wn.Lexicon.requires()`
 
 ### Fixed
 
@@ -54,6 +55,8 @@
   `wn.project.is_collection_directory()` now detect
   packages/collection with ILI resource files ([#23])
 * `wn.project.iterpackages()` now includes ILI packages
+* `wn.Wordnet` now sets the default `expand` value to a lexicon's
+  dependencies if they are specified (related to [#92])
 
 ### Schema
 
@@ -70,6 +73,7 @@
 * Added rowid to tables with metadata
 * Added source-sense to definitions table ([#65])
 * Preemptively added a `modified` column to `lexicons` table ([#17])
+* Added a table for lexicon dependencies ([#7], [#89])
 
 
 ## [v0.5.1]
@@ -261,6 +265,7 @@ abandoned, but this is an entirely new codebase.
 [v0.1.0]: ../../releases/tag/v0.1.0
 [unreleased]: ../../tree/main
 
+[#7]: https://github.com/goodmami/wn/issues/7
 [#15]: https://github.com/goodmami/wn/issues/15
 [#17]: https://github.com/goodmami/wn/issues/17
 [#23]: https://github.com/goodmami/wn/issues/23
@@ -287,6 +292,7 @@ abandoned, but this is an entirely new codebase.
 [#83]: https://github.com/goodmami/wn/issues/83
 [#86]: https://github.com/goodmami/wn/issues/86
 [#87]: https://github.com/goodmami/wn/issues/87
+[#89]: https://github.com/goodmami/wn/issues/89
 [#90]: https://github.com/goodmami/wn/issues/90
 [#91]: https://github.com/goodmami/wn/issues/91
 [#92]: https://github.com/goodmami/wn/issues/92

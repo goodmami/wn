@@ -158,6 +158,15 @@ def get_modified(rowid: int) -> bool:
     return connect().execute(query, (rowid,)).fetchone()[0]
 
 
+def get_lexicon_dependencies(rowid: int) -> List[Tuple[str, str, str, Optional[int]]]:
+    query = '''
+        SELECT provider_id, provider_version, provider_url, provider_rowid
+          FROM lexicon_dependencies
+         WHERE dependent_rowid = ?
+    '''
+    return connect().execute(query, (rowid,)).fetchall()
+
+
 def find_ilis(
     id: str = None,
     status: str = None,

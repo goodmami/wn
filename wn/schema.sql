@@ -38,6 +38,14 @@ CREATE TABLE lexicons (
     UNIQUE (id, version)
 );
 
+CREATE TABLE lexicon_dependencies (
+    dependent_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
+    provider_id TEXT NOT NULL,
+    provider_version TEXT NOT NULL,
+    provider_url TEXT,
+    provider_rowid INTEGER REFERENCES lexicons (rowid) ON DELETE SET NULL
+);
+
 
 -- Lexical Entries
 

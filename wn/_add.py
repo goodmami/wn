@@ -104,39 +104,18 @@ def _add_lmf(
         # all clear, try to add them
         progress.flash(f'Reading {source!s}')
         for lexicon, info in zip(lmf.load(source), all_infos):
-
             if info.get('skip', False):
                 progress.flash(
                     f'Skipping {info["id"]:info["version"]} ({info["label"]})\n',
                 )
                 continue
 
-            cur.execute(
-                'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?)',
-                (lexicon.id,
-                 lexicon.label,
-                 lexicon.language,
-                 lexicon.email,
-                 lexicon.license,
-                 lexicon.version,
-                 lexicon.url,
-                 lexicon.citation,
-                 lexicon.meta,
-                 False))
-            lexid = cur.lastrowid
-
-            counts = info['counts']
-            count = sum(counts.get(name, 0) for name in
-                        ('LexicalEntry', 'Lemma', 'Form', 'Tag',
-                         'Sense', 'SenseRelation', 'Example', 'Count',
-                         'SyntacticBehaviour',
-                         'Synset', 'Definition',  # 'ILIDefinition',
-                         'SynsetRelation'))
-            progress.set(count=0, total=count)
-
+            progress.set(count=0, total=_sum_counts(info))
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
             synbhrs = lexicon.syntactic_behaviours
+
+            lexid = _insert_lexicon(lexicon, info, cur, progress)
 
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
@@ -154,6 +133,7 @@ def _add_lmf(
             _insert_examples([sense for entry in entries for sense in entry.senses],
                              lexid, 'sense_examples', cur, progress)
             _insert_examples(synsets, lexid, 'synset_examples', cur, progress)
+
             progress.set(status='')  # clear type string
             progress.flash(f'Added {lexicon.id}:{lexicon.version} ({lexicon.label})\n')
 
@@ -168,6 +148,53 @@ def _precheck(source, cur):
         ).fetchone():
             info['skip'] = True
         yield info
+
+
+def _sum_counts(info) -> int:
+    counts = info['counts']
+    return sum(counts.get(name, 0) for name in
+               ('LexicalEntry', 'Lemma', 'Form', 'Tag',
+                'Sense', 'SenseRelation', 'Example', 'Count',
+                'SyntacticBehaviour',
+                'Synset', 'Definition',  # 'ILIDefinition',
+                'SynsetRelation'))
+
+
+def _insert_lexicon(lexicon, info, cur, progress) -> int:
+    progress.set(status='Lexicon Info')
+    cur.execute(
+        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?)',
+        (lexicon.id,
+         lexicon.label,
+         lexicon.language,
+         lexicon.email,
+         lexicon.license,
+         lexicon.version,
+         lexicon.url,
+         lexicon.citation,
+         lexicon.meta,
+         False))
+    lexid = cur.lastrowid
+
+    query = '''
+        UPDATE lexicon_dependencies
+           SET provider_rowid = ?
+         WHERE provider_id = ? AND provider_version = ?
+    '''
+    cur.execute(query, (lexid, lexicon.id, lexicon.version))
+
+    query = '''
+        INSERT INTO lexicon_dependencies
+        VALUES (?,?,?,?,(SELECT rowid FROM lexicons WHERE id=? AND version=?))
+    '''
+    params = []
+    for dep in lexicon.requires:
+        _id, ver, url = dep['id'], dep['version'], dep.get('url')
+        params.append((lexid, _id, ver, url, _id, ver))
+    if params:
+        cur.executemany(query, params)
+
+    return lexid
 
 
 def _split(sequence):

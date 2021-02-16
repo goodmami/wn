@@ -1,5 +1,6 @@
 
 from typing import TypeVar, Optional, List, Tuple, Dict, Set, Iterator
+import warnings
 
 import wn
 from wn._types import Metadata
@@ -14,6 +15,7 @@ from wn._queries import (
     find_synsets,
     get_lexicon,
     get_modified,
+    get_lexicon_dependencies,
     get_form_tags,
     get_entry_senses,
     get_sense_relations,
@@ -152,6 +154,14 @@ class Lexicon(_DatabaseEntity):
     def modified(self) -> bool:
         """Return True if the lexicon has local modifications."""
         return get_modified(self._id)
+
+    def requires(self) -> Dict[str, Optional['Lexicon']]:
+        """Return the lexicon dependencies."""
+        return dict(
+            (f'{id}:{version}',
+             None if _id is None else _to_lexicon(get_lexicon(_id)))
+            for id, version, _, _id in get_lexicon_dependencies(self._id)
+        )
 
 
 class _LexiconElement(_DatabaseEntity):
@@ -963,7 +973,19 @@ class Wordnet:
         if expand is None:
             if self._default_mode:
                 expand = '*'
-            # TODO: use project-specific settings
+            else:
+                deps = [(id, ver, _id)
+                        for lex in self._lexicons
+                        for id, ver, _, _id in get_lexicon_dependencies(lex._id)]
+                for id, ver, _id in deps:
+                    if _id is None:
+                        warnings.warn(
+                            f'dependent lexicon not available: {id}:{ver}',
+                            wn.WnWarning
+                        )
+                expand = ' '.join(
+                    f'{id}:{ver}' for id, ver, _id in deps if _id is not None
+                )
         if expand:
             self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
