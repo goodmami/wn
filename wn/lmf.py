@@ -11,7 +11,8 @@ from typing import (
     NamedTuple,
     Optional,
     TextIO,
-    BinaryIO
+    BinaryIO,
+    Iterator,
 )
 from pathlib import Path
 import warnings
@@ -373,17 +374,15 @@ def load(source: AnyPath) -> LexicalResource:
     with source.open('rb') as fh:
         version = _read_header(fh)
 
-    events = ET.iterparse(source, events=('start', 'end'))
-    root = next(events)[1]
-    event, elem = next(events)
+    events = XMLEventIterator(ET.iterparse(source, events=('start', 'end')))
+    root = events.start('LexicalResource')
 
     lexicons: List[Lexicon] = []
-    while event == 'start' and elem.tag == 'Lexicon':
-        lexicons.append(_load_lexicon(elem, events, version))
+    while events.starts('Lexicon'):
+        lexicons.append(_load_lexicon(events, version))
         root.clear()
-        event, elem = next(events)
 
-    _assert_closed(event, elem, 'LexicalResource')
+    events.end(root.tag)
     list(events)  # consume remaining events, if any
 
     return lexicons
@@ -409,37 +408,34 @@ def dump(
         print('</LexicalResource>', file=out)
 
 
-def _load_lexicon(local_root, events, version) -> Lexicon:
+def _load_lexicon(events, version) -> Lexicon:
+    local_root = next(events)[1]
     attrs = local_root.attrib
-    event, elem = next(events)
 
     requires: List[Dict[str, str]] = []
     syntactic_behaviours: List[SyntacticBehaviour] = []
     lexical_entries: List[LexicalEntry] = []
 
     if version == '1.1':
-        while event == 'start' and elem.tag == 'Requires':
+        while events.starts('Requires'):
+            elem = next(events)[1]
             requires.append({'id': elem.attrib['id'],
                              'version': elem.attrib['version'],
                              'url': elem.attrib.get('url')})
-            event, elem = next(events)
-            _assert_closed(event, elem, 'Requires')
-            event, elem = next(events)
+            events.end('Requires')
 
-    while event == 'start' and elem.tag == 'LexicalEntry':
-        entry, sbs = _load_lexical_entry(elem, events, version)
+    while events.starts('LexicalEntry'):
+        entry, sbs = _load_lexical_entry(events, version)
         lexical_entries.append(entry)
         syntactic_behaviours.extend(sbs)
         local_root.clear()
-        event, elem = next(events)
 
     synsets: List[Synset] = []
-    while event == 'start' and elem.tag == 'Synset':
-        synsets.append(_load_synset(elem, events, version))
+    while events.starts('Synset'):
+        synsets.append(_load_synset(events, version))
         local_root.clear()
-        event, elem = next(events)
 
-    _assert_closed(event, elem, 'Lexicon')
+    events.end('Lexicon')
 
     return Lexicon(
         attrs['id'],
@@ -459,32 +455,27 @@ def _load_lexicon(local_root, events, version) -> Lexicon:
 
 
 def _load_lexical_entry(
-        local_root,
         events,
         version,
 ) -> Tuple[LexicalEntry, List[SyntacticBehaviour]]:
-    attrs = local_root.attrib
+    attrs = events.start('LexicalEntry').attrib
     lemma: Lemma = _load_lemma(events)
-    event, elem = next(events)
 
     forms: List[Form] = []
-    while event == 'start' and elem.tag == 'Form':
-        forms.append(_load_form(elem, events))
-        event, elem = next(events)
+    while events.starts('Form'):
+        forms.append(_load_form(events))
 
     senses: List[Sense] = []
-    while event == 'start' and elem.tag == 'Sense':
-        senses.append(_load_sense(elem, events, version))
-        event, elem = next(events)
+    while events.starts('Sense'):
+        senses.append(_load_sense(events, version))
 
     syntactic_behaviours: List[SyntacticBehaviour] = []
-    while event == 'start' and elem.tag == 'SyntacticBehaviour':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'SyntacticBehaviour')
+    while events.starts('SyntacticBehaviour'):
+        next(events)
+        elem = events.end('SyntacticBehaviour')
         syntactic_behaviours.append(_load_syntactic_behaviour(elem))
-        event, elem = next(events)
 
-    _assert_closed(event, elem, 'LexicalEntry')
+    events.end('LexicalEntry')
 
     entry = LexicalEntry(
         attrs['id'],
@@ -498,66 +489,59 @@ def _load_lexical_entry(
 
 
 def _load_lemma(events) -> Lemma:
-    event, elem = next(events)
-    if event != 'start' or elem.tag != 'Lemma':
-        raise LMFError('expected a Lemma element')
-    attrs = elem.attrib
-    return Lemma(
+    attrs = events.start('Lemma').attrib
+    lemma = Lemma(
         attrs['writtenForm'],
         _get_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
         script=attrs.get('script'),
-        tags=_load_tags_until(events, 'Lemma'))
+        tags=_load_tags(events)
+    )
+    events.end('Lemma')
+    return lemma
 
 
-def _load_form(local_root, events) -> Form:
-    attrs = local_root.attrib
-    return Form(
+def _load_form(events) -> Form:
+    attrs = events.start('Form').attrib
+    form = Form(
         attrs['writtenForm'],
         script=attrs.get('script'),
-        tags=_load_tags_until(events, 'Form'))
+        tags=_load_tags(events)
+    )
+    events.end('Form')
+    return form
 
 
-def _load_tags_until(events, terminus) -> List[Tag]:
-    event, elem = next(events)
-
+def _load_tags(events) -> List[Tag]:
     tags: List[Tag] = []
-    while event == 'start' and elem.tag == 'Tag':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'Tag')
+    while events.starts('Tag'):
+        next(events)
+        elem = events.end('Tag')
         tags.append(Tag(elem.text, elem.attrib['category']))
-        event, elem = next(events)
-
-    _assert_closed(event, elem, terminus)
-
     return tags
 
 
-def _load_sense(local_root, events, version) -> Sense:
-    attrs = local_root.attrib
-    event, elem = next(events)
+def _load_sense(events, version) -> Sense:
+    attrs = events.start('Sense').attrib
 
     relations: List[SenseRelation] = []
-    while event == 'start' and elem.tag == 'SenseRelation':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'SenseRelation')
+    while events.starts('SenseRelation'):
+        next(events)
+        elem = events.end('SenseRelation')
         relations.append(_load_sense_relation(elem, version))
-        event, elem = next(events)
 
     examples: List[Example] = []
-    while event == 'start' and elem.tag == 'Example':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'Example')
+    while events.starts('Example'):
+        next(events)
+        elem = events.end('Example')
         examples.append(_load_example(elem, version))
-        event, elem = next(events)
 
     counts: List[Count] = []
-    while event == 'start' and elem.tag == 'Count':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'Count')
+    while events.starts('Count'):
+        next(events)
+        elem = events.end('Count')
         counts.append(_load_count(elem, version))
-        event, elem = next(events)
 
-    _assert_closed(event, elem, 'Sense')
+    events.end('Sense')
 
     return Sense(
         attrs['id'],
@@ -625,39 +609,34 @@ def _load_syntactic_behaviour(elem) -> SyntacticBehaviour:
     )
 
 
-def _load_synset(local_root, events, version) -> Synset:
-    attrs = local_root.attrib
-    event, elem = next(events)
+def _load_synset(events, version) -> Synset:
+    attrs = events.start('Synset').attrib
 
     definitions: List[Definition] = []
-    while event == 'start' and elem.tag == 'Definition':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'Definition')
+    while events.starts('Definition'):
+        next(events)
+        elem = events.end('Definition')
         definitions.append(_load_definition(elem, version))
-        event, elem = next(events)
 
     ili_definition = None
-    if event == 'start' and elem.tag == 'ILIDefinition':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'ILIDefinition')
+    if events.starts('ILIDefinition'):
+        next(events)
+        elem = events.end('ILIDefinition')
         ili_definition = _load_ilidefinition(elem, version)
-        event, elem = next(events)
 
     relations: List[SynsetRelation] = []
-    while event == 'start' and elem.tag == 'SynsetRelation':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'SynsetRelation')
+    while events.starts('SynsetRelation'):
+        next(events)
+        elem = events.end('SynsetRelation')
         relations.append(_load_synset_relation(elem, version))
-        event, elem = next(events)
 
     examples: List[Example] = []
-    while event == 'start' and elem.tag == 'Example':
-        event, elem = next(events)
-        _assert_closed(event, elem, 'Example')
+    while events.starts('Example'):
+        next(events)
+        elem = events.end('Example')
         examples.append(_load_example(elem, version))
-        event, elem = next(events)
 
-    _assert_closed(event, elem, 'Synset')
+    events.end('Synset')
 
     return Synset(
         attrs['id'],
@@ -728,15 +707,6 @@ def _get_metadata(attrs: Dict, version: str) -> Optional[Metadata]:
         return Metadata(*metas)
     else:
         return None
-
-
-def _assert_closed(event, elem, tag) -> None:
-    if event != 'end' or elem.tag != tag:
-        raise _unexpected(elem)
-
-
-def _unexpected(elem) -> LMFError:
-    return LMFError(f'unexpected element: {elem.tag}')
 
 
 def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
@@ -960,3 +930,42 @@ def _meta_dict(m: Optional[Metadata]) -> Dict:
     else:
         d = {}
     return d
+
+
+class XMLEventIterator:
+    """etree.iterparse() event iterator with lookahead"""
+    def __init__(self, iterator: Iterator[Tuple[str, ET.Element]]):
+        self.iterator = iterator
+        self._next = next(iterator, (None, None))
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        _next = self._next
+        if _next == (None, None):
+            raise StopIteration
+        self._next = next(self.iterator, (None, None))
+        return _next
+
+    def starts(self, *tags: str) -> bool:
+        event, elem = self._next
+        if elem is None:
+            return False
+        return event == 'start' and elem.tag in tags
+
+    def start(self, *tags: str) -> ET.Element:
+        event, elem = next(self)
+        if event != 'start':
+            raise LMFError(f'expected <{"|".join(tags)}>, got </{elem.tag}>')
+        if elem.tag not in tags:
+            raise LMFError(f'expected <{"|".join(tags)}>, got <{elem.tag}>')
+        return elem
+
+    def end(self, *tags: str) -> ET.Element:
+        event, elem = next(self)
+        if event != 'end':
+            raise LMFError(f'expected </{"|".join(tags)}>, got <{elem.tag}>')
+        if elem.tag not in tags:
+            raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
+        return elem
