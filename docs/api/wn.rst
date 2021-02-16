@@ -275,3 +275,4 @@ Exceptions
 ----------
 
 .. autoexception:: Error
+.. autoexception:: WnWarning

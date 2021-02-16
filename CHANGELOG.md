@@ -26,6 +26,7 @@
   not directly accessible through the public API at this time ([#23])
 * Support for adding ILI resources to the database ([#23])
 * `wn.Lexicon.modified()` ([#17])
+* `wn.WnWarning` (related to [#92])
 
 ### Fixed
 
