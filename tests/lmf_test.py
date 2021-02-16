@@ -9,6 +9,7 @@ def test_is_lmf(datadir):
     assert lmf.is_lmf(str(datadir / 'mini-lmf-1.0.xml'))
     assert not lmf.is_lmf(datadir / 'README.md')
     assert not lmf.is_lmf(datadir / 'missing.xml')
+    assert lmf.is_lmf(datadir / 'mini-lmf-1.1.xml')
 
 
 def test_load(mini_lmf_1_0):
@@ -49,6 +50,16 @@ def test_load(mini_lmf_1_0):
     assert len(lexicon.synsets) == 8
 
     assert lexicons[1].id == 'test-es'
+
+
+def test_load_1_1(mini_lmf_1_1):
+    lexicons = lmf.load(mini_lmf_1_1)
+    assert len(lexicons) == 1
+    lexicon = lexicons[0]
+    assert lexicon.id == 'test-ja'
+    assert lexicon.version == '1'
+    # assert lexicon.logo == 'logo.svg'
+    assert lexicon.requires == [{'id': 'test-en', 'version': '1', 'url': None}]
 
 
 def test_dump(mini_lmf_1_0, tmp_path):

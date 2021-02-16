@@ -18,6 +18,11 @@ def mini_lmf_1_0(datadir):
 
 
 @pytest.fixture(scope='session')
+def mini_lmf_1_1(datadir):
+    return datadir / 'mini-lmf-1.1.xml'
+
+
+@pytest.fixture(scope='session')
 def empty_db_dir():
     with tempfile.TemporaryDirectory('wn_data_empty') as dir:
         yield Path(dir)

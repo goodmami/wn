@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd">
+
+<LexicalResource xmlns:dc="http://globalwordnet.github.io/schemas/dc/">
+
+  <Lexicon id="test-ja"
+           label="Testing Japanese WordNet"
+           language="ja"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1"
+           url="https://example.com/test-ja"
+           logo="logo.svg">
+
+    <Requires id="test-en" version="1" />
+
+    <LexicalEntry id="test-ja-情報-n">
+      <Lemma partOfSpeech="n" writtenForm="情報" script="Jpan" />
+      <Form writtenForm="じょうほう" script="Hira" />
+      <Form writtenForm="ジョウホウ" script="Kana" />
+      <Form writtenForm="zyouhou" script="Latn-kunrei" />
+      <Sense id="test-ja-情報-n-0001-01" synset="test-ja-0001-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-ja-例え-n">
+      <Lemma partOfSpeech="n" writtenForm="例え" />
+      <Form writtenForm="たとえ" script="Hira" />
+      <Form writtenForm="タトエ" script="Kana" />
+      <Form writtenForm="tatoe" script="Latn-kunrei" />
+      <Sense id="test-ja-例え-n-0002-01" synset="test-ja-0002-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-ja-事例-n">
+      <Lemma partOfSpeech="n" writtenForm="事例" />
+      <Form writtenForm="じれい" script="Hira" />
+      <Form writtenForm="ジレイ" script="Kana" />
+      <Form writtenForm="zirei" script="Latn-kunrei" />
+      <Sense id="test-ja-事例-n-0002-01" synset="test-ja-0002-n" />
+    </LexicalEntry>
+
+    <Synset id="test-ja-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition"
+            members="test-ja-情報-n-0001-01" />
+
+    <Synset id="test-ja-0002-n" ili="i67469" partOfSpeech="n" dc:subject="noun.cognition"
+            members="test-ja-事例-n-0002-01 test-ja-例え-n-0002-01" />
+
+  </Lexicon>
+
+</LexicalResource>

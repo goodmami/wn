@@ -269,7 +269,8 @@ class LexicalEntry(_HasMeta):
 class Lexicon(_HasMeta):
     __slots__ = ('id', 'label', 'language',
                  'email', 'license', 'version', 'url', 'citation',
-                 'lexical_entries', 'synsets', 'syntactic_behaviours')
+                 'lexical_entries', 'synsets', 'syntactic_behaviours',
+                 'requires')
 
     def __init__(
             self,
@@ -284,6 +285,7 @@ class Lexicon(_HasMeta):
             lexical_entries: List[LexicalEntry] = None,
             synsets: List[Synset] = None,
             syntactic_behaviours: List[SyntacticBehaviour] = None,
+            requires: List[Dict[str, str]] = None,
             meta: Metadata = None):
         super().__init__(meta)
         self.id = id
@@ -297,6 +299,7 @@ class Lexicon(_HasMeta):
         self.lexical_entries = lexical_entries or []
         self.synsets = synsets or []
         self.syntactic_behaviours = syntactic_behaviours or []
+        self.requires = requires or []
 
 
 LexicalResource = List[Lexicon]
@@ -410,8 +413,19 @@ def _load_lexicon(local_root, events, version) -> Lexicon:
     attrs = local_root.attrib
     event, elem = next(events)
 
+    requires: List[Dict[str, str]] = []
     syntactic_behaviours: List[SyntacticBehaviour] = []
     lexical_entries: List[LexicalEntry] = []
+
+    if version == '1.1':
+        while event == 'start' and elem.tag == 'Requires':
+            requires.append({'id': elem.attrib['id'],
+                             'version': elem.attrib['version'],
+                             'url': elem.attrib.get('url')})
+            event, elem = next(events)
+            _assert_closed(event, elem, 'Requires')
+            event, elem = next(events)
+
     while event == 'start' and elem.tag == 'LexicalEntry':
         entry, sbs = _load_lexical_entry(elem, events, version)
         lexical_entries.append(entry)
@@ -439,6 +453,7 @@ def _load_lexicon(local_root, events, version) -> Lexicon:
         lexical_entries=lexical_entries,
         synsets=synsets,
         syntactic_behaviours=syntactic_behaviours,
+        requires=requires,
         meta=_get_metadata(attrs, version),
     )
 
