@@ -46,4 +46,47 @@
 
   </Lexicon>
 
+  <LexiconExtension id="test-en-ext"
+                    label="Testing English Extension"
+                    language="en"
+                    email="maintainer@example.com"
+                    license="https://creativecommons.org/licenses/by/4.0/"
+                    version="1"
+                    url="https://example.com/test-en-ext">
+
+    <Extends id="test-en" version="1" />
+
+    <!-- add a new entry for an existing synset -->
+    <LexicalEntry id="test-en-ext-info-n">
+      <Lemma partOfSpeech="n" writtenForm="info" />
+      <Sense id="test-en-ext-info-n-0001-01" synset="test-en-0001-n" />
+    </LexicalEntry>
+
+    <!-- add a sense to an existing entry -->
+    <ExternalLexicalEntry id="test-en-illustrate-v">
+      <Sense id="test-en-ext-illustrate-v-0008-01" synset="test-en-ext-0008-v" />
+    </ExternalLexicalEntry>
+
+    <!-- add a new entry with a new synset -->
+    <LexicalEntry id="test-en-ext-fire-v">
+      <Lemma partOfSpeech="v" writtenForm="fire" />
+      <Sense id="test-en-ext-fire-v-0009-01" synset="test-en-ext-0009-v" />
+    </LexicalEntry>
+
+    <!-- add a relation to an existing synset -->
+    <ExternalSynset id="test-en-0007-v">
+      <SynsetRelation relType="hypernym" target="test-en-ext-0009-v" />
+    </ExternalSynset>
+
+    <Synset id="test-en-ext-0008-v" ili="i30181" partOfSpeech="v" dc:subject="verb.creation">
+      <Definition>depict something in a visual medium</Definition>
+    </Synset>
+
+    <Synset id="test-en-ext-0009-v" ili="i33760" partOfSpeech="v" dc:subject="verb.social">
+      <Definition>terminate employment</Definition>
+      <SynsetRelation relType="hyponym" target="test-en-0007-v" />
+    </Synset>
+
+  </LexiconExtension>
+
 </LexicalResource>

@@ -28,6 +28,9 @@
 * `wn.Lexicon.modified()` ([#17])
 * `wn.WnWarning` (related to [#92])
 * `wn.Lexicon.requires()`
+* `wn.lmf` WN-LMF 1.1 support ([#7])
+   - `<Requires>`
+   - `<LexiconExtension>`
 
 ### Fixed
 

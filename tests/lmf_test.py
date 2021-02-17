@@ -54,12 +54,16 @@ def test_load(mini_lmf_1_0):
 
 def test_load_1_1(mini_lmf_1_1):
     lexicons = lmf.load(mini_lmf_1_1)
-    assert len(lexicons) == 1
+    assert len(lexicons) == 2
     lexicon = lexicons[0]
     assert lexicon.id == 'test-ja'
     assert lexicon.version == '1'
     # assert lexicon.logo == 'logo.svg'
     assert lexicon.requires == [{'id': 'test-en', 'version': '1', 'url': None}]
+
+    lexicon = lexicons[1]
+    assert lexicon.id == 'test-en-ext'
+    assert lexicon.extends == {'id': 'test-en', 'version': '1', 'url': None}
 
 
 def test_dump(mini_lmf_1_0, tmp_path):
@@ -71,4 +75,8 @@ def test_dump(mini_lmf_1_0, tmp_path):
     if hasattr(ET, 'canonicalize'):  # available from Python 3.8
         orig = ET.canonicalize(from_file=mini_lmf_1_0, strip_text=True)
         temp = ET.canonicalize(from_file=tmppath, strip_text=True)
+        # additional transformation to help with debugging
+        orig = orig.replace('<', '\n<')
+        temp = temp.replace('<', '\n<')
+
         assert orig == temp
