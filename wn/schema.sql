@@ -33,6 +33,7 @@ CREATE TABLE lexicons (
     version TEXT NOT NULL,
     url TEXT,
     citation TEXT,
+    logo TEXT,
     metadata META,
     modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
     UNIQUE (id, version)

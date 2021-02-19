@@ -112,9 +112,10 @@ class Lexicon(_DatabaseEntity):
         version: The version string of the resource.
         url: The project URL of the wordnet.
         citation: The canonical citation for the project.
+        logo: A URL or path to a project logo.
     """
     __slots__ = ('id', 'label', 'language', 'email', 'license',
-                 'version', 'url', 'citation')
+                 'version', 'url', 'citation', 'logo')
     __module__ = 'wn'
 
     _ENTITY_TYPE = 'lexicons'
@@ -129,6 +130,7 @@ class Lexicon(_DatabaseEntity):
         version: str,
         url: str = None,
         citation: str = None,
+        logo: str = None,
         _id: int = NON_ROWID,
     ):
         super().__init__(_id=_id)
@@ -140,6 +142,7 @@ class Lexicon(_DatabaseEntity):
         self.version = version
         self.url = url
         self.citation = citation
+        self.logo = logo
 
     def __repr__(self):
         id, ver, lg = self.id, self.version, self.language
@@ -1132,7 +1135,7 @@ class Wordnet:
 
 
 def _to_lexicon(data) -> Lexicon:
-    rowid, id, label, language, email, license, version, url, citation = data
+    rowid, id, label, language, email, license, version, url, citation, logo = data
     return Lexicon(
         id,
         label,
@@ -1142,6 +1145,7 @@ def _to_lexicon(data) -> Lexicon:
         version,
         url=url,
         citation=citation,
+        logo=logo,
         _id=rowid
     )
 

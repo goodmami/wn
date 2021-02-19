@@ -239,6 +239,7 @@ def test_mini_1_1():
     assert len(wn.lexicons()) == 4
     assert len(wn.lexicons(lang='en')) == 2
     assert len(wn.lexicons(lang='ja')) == 1
+    assert wn.lexicons(lang='ja')[0].logo == 'logo.svg'
 
     w = wn.Wordnet(lang='en')
     assert len(w.lexicons()) == 2

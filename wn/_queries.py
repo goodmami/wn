@@ -66,6 +66,7 @@ _Lexicon = Tuple[
     str,       # version
     str,       # url
     str,       # citation
+    str,       # logo
     Metadata,  # metadata
 ]
 
@@ -96,7 +97,7 @@ def get_lexicon(rowid: int) -> _Lexicon:
 def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     query = '''
         SELECT DISTINCT rowid, id, label, language, email, license,
-                        version, url, citation
+                        version, url, citation, logo
         FROM lexicons
         WHERE rowid = ?
     '''

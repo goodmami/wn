@@ -34,6 +34,7 @@
    - `<Requires>`
    - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
      `<ExternalLexicalEntry>`, `<ExternalSense>`
+   - `subcat` on `<Sense>`
 
 ### Fixed
 
@@ -83,6 +84,7 @@
 * Preemptively added a `modified` column to `lexicons` table ([#17])
 * Added a table for lexicon dependencies ([#7], [#89])
 * Added a table for lexicon extensions ([#99])
+* Added `logo` column to `lexicons` table ([#89])
 
 
 ## [v0.5.1]

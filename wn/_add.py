@@ -170,7 +170,7 @@ def _sum_counts(info) -> int:
 def _insert_lexicon(lexicon, info, cur, progress) -> Tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
-        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?)',
         (lexicon.id,
          lexicon.label,
          lexicon.language,
@@ -179,6 +179,7 @@ def _insert_lexicon(lexicon, info, cur, progress) -> Tuple[int, int]:
          lexicon.version,
          lexicon.url,
          lexicon.citation,
+         lexicon.logo,
          lexicon.meta,
          False))
     lexid = cur.lastrowid

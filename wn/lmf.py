@@ -368,7 +368,7 @@ class LexicalEntry(_HasMeta):
 
 class Lexicon(_HasMeta):
     __slots__ = ('id', 'label', 'language',
-                 'email', 'license', 'version', 'url', 'citation',
+                 'email', 'license', 'version', 'url', 'citation', 'logo',
                  'lexical_entries', 'synsets', 'syntactic_behaviours',
                  'extends', 'requires')
 
@@ -382,6 +382,7 @@ class Lexicon(_HasMeta):
             version: str,
             url: str = '',
             citation: str = '',
+            logo: str = '',
             lexical_entries: List[LexicalEntry] = None,
             synsets: List[Synset] = None,
             syntactic_behaviours: List[SyntacticBehaviour] = None,
@@ -397,6 +398,7 @@ class Lexicon(_HasMeta):
         self.version = version
         self.url = url
         self.citation = citation
+        self.logo = logo
         self.lexical_entries = lexical_entries or []
         self.synsets = synsets or []
         self.syntactic_behaviours = syntactic_behaviours or []
@@ -526,6 +528,7 @@ def _load_lexicon(events, version) -> Lexicon:
         attrs['version'],
         url=attrs.get('url'),
         citation=attrs.get('citation'),
+        logo=attrs.get('logo'),
         lexical_entries=entries,
         synsets=synsets,
         syntactic_behaviours=frames,
@@ -867,6 +870,8 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
         attrib['url'] = lexicon.url
     if lexicon.citation:
         attrib['citation'] = lexicon.citation
+    if lexicon.logo:
+        attrib['logo'] = lexicon.logo
     attrib.update(_meta_dict(lexicon.meta))
     attrdelim = '\n' + (' ' * len(f'  <{lexicontype} '))
     attrs = attrdelim.join(
