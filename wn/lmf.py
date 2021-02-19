@@ -879,6 +879,12 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
     )
     print(f'  <{lexicontype} {attrs}>', file=out)
 
+    if version != '1.0':
+        if lexicontype == 'LexiconExtension':
+            assert lexicon.extends is not None
+            _dump_dependency(lexicon.extends, 'Extends', out)
+        for req in lexicon.requires:
+            _dump_dependency(req, 'Requires', out)
     sbmap: Dict[str, List[SyntacticBehaviour]] = {}
     for sb in lexicon.syntactic_behaviours:
         for sense_id in sb.senses:
@@ -895,6 +901,16 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
             _dump_syntactic_behaviour(sb, out, version)
 
     print(f'  </{lexicontype}>', file=out)
+
+
+def _dump_dependency(
+    dep: Dict[str, str], deptype: str, out: TextIO
+) -> None:
+    attrib = {'id': dep['id'], 'version': dep['version']}
+    if dep.get('url'):
+        attrib['url'] = dep['url']
+    elem = ET.Element(deptype, attrib=attrib)
+    print(_tostring(elem, 2), file=out)
 
 
 def _dump_lexical_entry(
