@@ -982,15 +982,19 @@ def _build_sense(
     sbmap: Dict[str, List[SyntacticBehaviour]],
     version: str,
 ) -> ET.Element:
-    attrib = {'id': sense.id, 'synset': sense.synset}
-    attrib.update(_meta_dict(sense.meta))
-    if not sense.lexicalized:
-        attrib['lexicalized'] = 'false'
-    if sense.adjposition:
-        attrib['adjposition'] = sense.adjposition
-    if version != '1.0' and sense.id in sbmap:
-        attrib['subcat'] = ' '.join(sb.id for sb in sbmap[sense.id] if sb.id)
-    elem = ET.Element('Sense', attrib=attrib)
+    attrib = {'id': sense.id}
+    if sense.external:
+        elem = ET.Element('ExternalSense', attrib=attrib)
+    else:
+        attrib['synset'] = sense.synset
+        attrib.update(_meta_dict(sense.meta))
+        if not sense.lexicalized:
+            attrib['lexicalized'] = 'false'
+        if sense.adjposition:
+            attrib['adjposition'] = sense.adjposition
+        if version != '1.0' and sense.id in sbmap:
+            attrib['subcat'] = ' '.join(sb.id for sb in sbmap[sense.id] if sb.id)
+        elem = ET.Element('Sense', attrib=attrib)
     elem.extend(_build_sense_relation(rel) for rel in sense.relations)
     elem.extend(_build_example(ex) for ex in sense.examples)
     elem.extend(_build_count(cnt) for cnt in sense.counts)
@@ -1019,15 +1023,18 @@ def _build_count(count: Count) -> ET.Element:
 
 def _dump_synset(synset: Synset, out: TextIO, version: str) -> None:
     attrib: Dict[str, str] = {'id': synset.id}
-    attrib['ili'] = synset.ili or ''
-    if synset.pos:
-        attrib['partOfSpeech'] = synset.pos
-    attrib.update(_meta_dict(synset.meta))
-    if not synset.lexicalized:
-        attrib['lexicalized'] = 'false'
-    elem = ET.Element('Synset', attrib=attrib)
+    if synset.external:
+        elem = ET.Element('ExternalSynset', attrib=attrib)
+    else:
+        attrib['ili'] = synset.ili or ''
+        if synset.pos:
+            attrib['partOfSpeech'] = synset.pos
+        if not synset.lexicalized:
+            attrib['lexicalized'] = 'false'
+        attrib.update(_meta_dict(synset.meta))
+        elem = ET.Element('Synset', attrib=attrib)
     elem.extend(_build_definition(defn) for defn in synset.definitions)
-    if synset.ili_definition:
+    if synset.ili_definition and not synset.external:
         elem.append(_build_ili_definition(synset.ili_definition))
     elem.extend(_build_synset_relation(rel) for rel in synset.relations)
     elem.extend(_build_example(ex) for ex in synset.examples)
