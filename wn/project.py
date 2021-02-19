@@ -163,7 +163,7 @@ def iterpackages(path: AnyPath) -> Iterator[Package]:
     else:
         decompressed: Path
         with _get_decompressed(path) as decompressed:
-            if decompressed.suffix in ('.xml', '.tsv'):
+            if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
                 yield _ResourceOnlyPackage(decompressed)
             else:
                 raise wn.Error(
@@ -190,20 +190,11 @@ def _get_decompressed(source: Path) -> Iterator[Path]:
 
             tmp.close()  # Windows cannot reliably reopen until it's closed
 
-            if lmf.is_lmf(path):
-                yield path
-            elif _ili.is_ili(path):
-                newpath = path.with_suffix('.tsv')
-                path.rename(newpath)
-                path = newpath
-                yield path
-            else:
-                raise wn.Error(
-                    f'decompressed file is not a WN-LMF or ILI file: {source}'
-                )
+            yield path
 
         except (OSError, EOFError, lzma.LZMAError) as exc:
             raise wn.Error(f'could not decompress file: {source}') from exc
+
         finally:
             path.unlink()
 
