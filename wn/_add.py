@@ -564,7 +564,10 @@ def _insert_sense_relations(lexicon, lexid, lexidmap, cur, progress):
 
 def _insert_examples(objs, lexid, lexidmap, table, cur, progress):
     progress.set(status='Examples')
-    query = f'INSERT INTO {table} VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
+    if table == 'sense_examples':
+        query = f'INSERT INTO {table} VALUES (null,?,({SENSE_QUERY}),?,?,?)'
+    else:
+        query = f'INSERT INTO {table} VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
             (lexid,
