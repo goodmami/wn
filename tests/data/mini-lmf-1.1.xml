@@ -56,10 +56,19 @@
 
     <Extends id="test-en" version="1" />
 
+    <!-- add sense relation -->
+    <ExternalLexicalEntry id="test-en-information-n">
+      <ExternalSense id="test-en-information-n-0001-01">
+        <SenseRelation relType="pertainym" target="test-en-ext-info-n-0001-01" />
+      </ExternalSense>
+    </ExternalLexicalEntry>
+
     <!-- add a new entry for an existing synset -->
     <LexicalEntry id="test-en-ext-info-n">
       <Lemma partOfSpeech="n" writtenForm="info" />
-      <Sense id="test-en-ext-info-n-0001-01" synset="test-en-0001-n" />
+      <Sense id="test-en-ext-info-n-0001-01" synset="test-en-0001-n">
+        <SenseRelation relType="pertainym" target="test-en-information-n-0001-01" />
+      </Sense>
     </LexicalEntry>
 
     <!-- add a sense to an existing entry -->
@@ -72,6 +81,9 @@
       <Lemma partOfSpeech="v" writtenForm="fire" />
       <Sense id="test-en-ext-fire-v-0009-01" synset="test-en-ext-0009-v" />
     </LexicalEntry>
+
+    <!-- only needed for ids -->
+    <ExternalSynset id="test-en-0001-n" />
 
     <!-- add a relation to an existing synset -->
     <ExternalSynset id="test-en-0007-v">

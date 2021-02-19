@@ -236,12 +236,12 @@ def test_synset_mini():
 
 @pytest.mark.usefixtures('mini_db_1_1')
 def test_mini_1_1():
-    assert len(wn.lexicons()) == 3
-    assert len(wn.lexicons(lang='en')) == 1
+    assert len(wn.lexicons()) == 4
+    assert len(wn.lexicons(lang='en')) == 2
     assert len(wn.lexicons(lang='ja')) == 1
 
     w = wn.Wordnet(lang='en')
-    assert len(w.lexicons()) == 1
+    assert len(w.lexicons()) == 2
     assert len(w.expanded_lexicons()) == 0
 
     w = wn.Wordnet(lang='ja')
@@ -253,3 +253,8 @@ def test_mini_1_1():
     assert len(w.lexicons()) == 1
     assert len(w.expanded_lexicons()) == 0
     assert len(w.synsets('例え')[0].hypernyms()) == 0
+
+    w = wn.Wordnet(lexicon='test-en test-en-ext')
+    assert len(w.lexicons()) == 2
+    assert len(w.expanded_lexicons()) == 0
+    assert len(w.synsets('fire')[0].hyponyms()) == 1
