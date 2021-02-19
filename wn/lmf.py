@@ -491,26 +491,6 @@ def load(source: AnyPath) -> LexicalResource:
     return lexicons
 
 
-def dump(
-        lexicons: LexicalResource, destination: AnyPath, version: str = '1.0'
-) -> None:
-    """Write wordnets in the WN-LMF format.
-
-    Args:
-        lexicons: a list of :class:`Lexicon` objects
-    """
-    destination = Path(destination).expanduser()
-    doctype = _DOCTYPE.format(schema=_SCHEMAS[version])
-    dc_uri = _DC_URIS[version]
-    with destination.open('wt', encoding='utf-8') as out:
-        print(_XMLDECL.decode('utf-8'), file=out)
-        print(doctype, file=out)
-        print(f'<LexicalResource xmlns:dc="{dc_uri}">', file=out)
-        for lexicon in lexicons:
-            _dump_lexicon(lexicon, out, version)
-        print('</LexicalResource>', file=out)
-
-
 def _load_lexicon(events, version) -> Lexicon:
     extends: Optional[Dict[str, str]] = None
     requires: List[Dict[str, str]] = []
@@ -851,6 +831,26 @@ def _get_metadata(attrs: Dict, version: str) -> Optional[Metadata]:
         return Metadata(*metas)
     else:
         return None
+
+
+def dump(
+        lexicons: LexicalResource, destination: AnyPath, version: str = '1.0'
+) -> None:
+    """Write wordnets in the WN-LMF format.
+
+    Args:
+        lexicons: a list of :class:`Lexicon` objects
+    """
+    destination = Path(destination).expanduser()
+    doctype = _DOCTYPE.format(schema=_SCHEMAS[version])
+    dc_uri = _DC_URIS[version]
+    with destination.open('wt', encoding='utf-8') as out:
+        print(_XMLDECL.decode('utf-8'), file=out)
+        print(doctype, file=out)
+        print(f'<LexicalResource xmlns:dc="{dc_uri}">', file=out)
+        for lexicon in lexicons:
+            _dump_lexicon(lexicon, out, version)
+        print('</LexicalResource>', file=out)
 
 
 def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
