@@ -448,6 +448,8 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
         if name in ('Lexicon', 'LexiconExtension'):
             attrs['counts'] = {}
             infos.append(attrs)
+        elif name == 'Extends':
+            infos[-1]['extends'] = attrs['id'], attrs['version']
         elif infos:
             counts = infos[-1]['counts']
             counts[name] = counts.get(name, 0) + 1

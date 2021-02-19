@@ -186,7 +186,7 @@ def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
                 pos,
                 definitions=_export_definitions(rowid),
                 ili_definition=ilidef,
-                relations=_export_synset_relations(rowid),
+                relations=_export_synset_relations(rowid, lexids),
                 examples=_export_examples(rowid, 'synsets'),
                 lexicalized=get_lexicalized(rowid, 'synsets'),
                 meta=_export_metadata(rowid, 'synsets'),
@@ -221,7 +221,10 @@ def _export_ili_definition(synset_rowid: int) -> Optional[lmf.ILIDefinition]:
     return ilidef
 
 
-def _export_synset_relations(synset_rowid: int) -> List[lmf.SynsetRelation]:
+def _export_synset_relations(
+    synset_rowid: int,
+    lexids: Sequence[int]
+) -> List[lmf.SynsetRelation]:
     SynsetRelation = lmf.SynsetRelation
     relations = [
         SynsetRelation(
@@ -230,7 +233,7 @@ def _export_synset_relations(synset_rowid: int) -> List[lmf.SynsetRelation]:
             meta=_export_metadata(rowid, 'synset_relations')
         )
         for type, rowid, id, *_
-        in get_synset_relations((synset_rowid,), '*')
+        in get_synset_relations((synset_rowid,), '*', lexids)
     ]
     return relations
 

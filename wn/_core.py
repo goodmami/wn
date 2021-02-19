@@ -16,6 +16,8 @@ from wn._queries import (
     get_lexicon,
     get_modified,
     get_lexicon_dependencies,
+    get_lexicon_extension_bases,
+    get_lexicon_extensions,
     get_form_tags,
     get_entry_senses,
     get_sense_relations,
@@ -162,6 +164,30 @@ class Lexicon(_DatabaseEntity):
              None if _id is None else _to_lexicon(get_lexicon(_id)))
             for id, version, _, _id in get_lexicon_dependencies(self._id)
         )
+
+    def extends(self) -> Optional['Lexicon']:
+        """Return the lexicon this lexicon extends, if any.
+
+        If this lexicon is not an extension, return None.
+        """
+        bases = get_lexicon_extension_bases(self._id, depth=1)
+        if bases:
+            return _to_lexicon(get_lexicon(bases[0]))
+        return None
+
+    def extensions(self, depth: int = 1) -> List['Lexicon']:
+        """Return the list of lexicons extending this one.
+
+        By default, only direct extensions are included. This is
+        controlled by the *depth* parameter, which if you view
+        extensions as children in a tree where the current lexicon is
+        the root, *depth=1* are the immediate extensions. Increasing
+        this number gets extensions of extensions, or setting it to a
+        negative number gets all "descendant" extensions.
+
+        """
+        return [_to_lexicon(get_lexicon(rowid))
+                for rowid in get_lexicon_extensions(self._id, depth=depth)]
 
 
 class _LexiconElement(_DatabaseEntity):
@@ -507,24 +533,33 @@ class Synset(_Relatable):
 
     def get_related(self, *args: str) -> List['Synset']:
         targets: List['Synset'] = []
+
+        lexids: Tuple[int, ...]
+        if self._wordnet is None or self._wordnet._default_mode:
+            lexids = tuple(
+                {self._lexid}
+                | set(get_lexicon_extension_bases(self._lexid))
+                | set(get_lexicon_extensions(self._lexid))
+            )
+        else:
+            lexids = self._wordnet._lexicon_ids
+
         # first get relations from the current lexicon(s)
         if self._id != NON_ROWID:
+            relations = get_synset_relations({self._id}, args, lexids)
             targets.extend(Synset(*row[2:], self._wordnet)
-                           for row in get_synset_relations({self._id}, args))
+                           for row in relations
+                           if row[5] in lexids)
 
         # then attempt to expand via ILI
         if self._ili is not None and self._wordnet and self._wordnet._expanded_ids:
-            lexids: Tuple[int, ...]
-            if self._wordnet._default_mode:
-                lexids = (self._lexid,)
-            else:
-                lexids = self._wordnet._lexicon_ids
             expids = self._wordnet._expanded_ids
 
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            ilis = {row[4] for row in get_synset_relations(rowids, args)} - {None}
+            relations = get_synset_relations(rowids, args, expids)
+            ilis = {row[4] for row in relations} - {None}
 
             # map back to target lexicons
             seen = {ss._id for ss in targets}
@@ -904,15 +939,29 @@ class Sense(_Relatable):
             incoherent
 
         """
-        iterable = get_sense_relations(self._id, args)
+        lexids: Optional[Tuple[int, ...]]
+        if self._wordnet is None or self._wordnet._default_mode:
+            lexids = None
+        else:
+            lexids = self._wordnet._lexicon_ids
+
+        iterable = get_sense_relations(self._id, args, lexids)
         return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
-                for _, _, sid, eid, ssid, lexid, rowid in iterable]
+                for _, _, sid, eid, ssid, lexid, rowid in iterable
+                if lexids is None or lexid in lexids]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         """Return a list of related synsets."""
-        iterable = get_sense_synset_relations(self._id, args)
+        lexids: Optional[Tuple[int, ...]]
+        if self._wordnet is None or self._wordnet._default_mode:
+            lexids = None
+        else:
+            lexids = self._wordnet._lexicon_ids
+
+        iterable = get_sense_synset_relations(self._id, args, lexids)
         return [Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
-                for _, _, ssid, pos, ili, lexid, rowid in iterable]
+                for _, _, ssid, pos, ili, lexid, rowid in iterable
+                if lexids is None or lexid in lexids]
 
     def translate(self, lexicon: str = None, *, lang: str = None) -> List['Sense']:
         """Return a list of translated senses.
@@ -977,10 +1026,14 @@ class Wordnet:
                 deps = [(id, ver, _id)
                         for lex in self._lexicons
                         for id, ver, _, _id in get_lexicon_dependencies(lex._id)]
-                for id, ver, _id in deps:
-                    if _id is None:
+                # warn only if a dep is missing and a lexicon was specified
+                if not self._default_mode:
+                    missing = ' '.join(
+                        f'{id}:{ver}' for id, ver, _id in deps if _id is None
+                    )
+                    if missing:
                         warnings.warn(
-                            f'dependent lexicon not available: {id}:{ver}',
+                            f'lexicon dependencies not available: {missing}',
                             wn.WnWarning
                         )
                 expand = ' '.join(

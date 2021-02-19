@@ -2,7 +2,7 @@
 Adding and removing lexicons to/from the database.
 """
 
-from typing import Optional, Type
+from typing import Optional, Type, Tuple, List
 from itertools import islice
 import logging
 
@@ -10,7 +10,7 @@ import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
 from wn._db import connect, relmap, ilistatmap
-from wn._queries import find_lexicons
+from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
@@ -97,17 +97,18 @@ def _add_lmf(
         if not all_infos:
             progress.flash(f'{source}: No lexicons found')
             return
-        elif all(info.get('skip', False) for info in all_infos):
-            progress.flash(f'{source}: Some or all lexicons already added')
+        for info in all_infos:
+            skip = info.get('skip', '')
+            if skip:
+                id, ver, lbl = info['id'], info['version'], info['label']
+                progress.flash(f'Skipping {id}:{ver} ({lbl}); {skip}\n')
+        if all('skip' in info for info in all_infos):
             return
 
         # all clear, try to add them
         progress.flash(f'Reading {source!s}')
         for lexicon, info in zip(lmf.load(source), all_infos):
-            if info.get('skip', False):
-                progress.flash(
-                    f'Skipping {info["id"]:info["version"]} ({info["label"]})\n',
-                )
+            if 'skip' in info:
                 continue
 
             progress.set(count=0, total=_sum_counts(info))
@@ -115,52 +116,58 @@ def _add_lmf(
             entries = lexicon.lexical_entries
             synbhrs = lexicon.syntactic_behaviours
 
-            lexid = _insert_lexicon(lexicon, info, cur, progress)
+            lexid, qryid = _insert_lexicon(lexicon, info, cur, progress)
+
+            lexidmap = _build_lexid_map(lexicon, lexid, qryid)
 
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
-            _insert_forms(entries, lexid, cur, progress)
-            _insert_tags(entries, lexid, cur, progress)
-            _insert_senses(entries, lexid, cur, progress)
-            _insert_adjpositions(entries, lexid, cur, progress)
-            _insert_counts(entries, lexid, cur, progress)
-            _insert_syntactic_behaviours(synbhrs, lexid, cur, progress)
+            _insert_forms(entries, lexid, lexidmap, cur, progress)
+            _insert_tags(entries, lexid, lexidmap, cur, progress)
+            _insert_senses(entries, lexid, lexidmap, cur, progress)
+            _insert_adjpositions(entries, lexid, lexidmap, cur, progress)
+            _insert_counts(entries, lexid, lexidmap, cur, progress)
+            _insert_syntactic_behaviours(synbhrs, lexid, lexidmap, cur, progress)
 
-            _insert_synset_relations(synsets, lexid, cur, progress)
-            _insert_sense_relations(lexicon, lexid, cur, progress)
+            _insert_synset_relations(synsets, lexid, lexidmap, cur, progress)
+            _insert_sense_relations(lexicon, lexid, lexidmap, cur, progress)
 
-            _insert_synset_definitions(synsets, lexid, cur, progress)
+            _insert_synset_definitions(synsets, lexid, lexidmap, cur, progress)
             _insert_examples([sense for entry in entries for sense in entry.senses],
-                             lexid, 'sense_examples', cur, progress)
-            _insert_examples(synsets, lexid, 'synset_examples', cur, progress)
+                             lexid, lexidmap, 'sense_examples', cur, progress)
+            _insert_examples(synsets, lexid, lexidmap, 'synset_examples', cur, progress)
 
             progress.set(status='')  # clear type string
             progress.flash(f'Added {lexicon.id}:{lexicon.version} ({lexicon.label})\n')
 
 
 def _precheck(source, cur):
+    lexqry = 'SELECT * FROM lexicons WHERE id = ? AND version = ?'
     for info in lmf.scan_lexicons(source):
         id = info['id']
         version = info['version']
-        if cur.execute(
-            'SELECT * FROM lexicons WHERE id = ? AND version = ?',
-            (id, version)
-        ).fetchone():
-            info['skip'] = True
+        base = info.get('extends')
+        if cur.execute(lexqry, (id, version)).fetchone():
+            info['skip'] = 'already added'
+        if base and cur.execute(lexqry, base).fetchone() is None:
+            info['skip'] = f'base lexicon ({base[0]}:{base[1]}) not available'
         yield info
 
 
 def _sum_counts(info) -> int:
     counts = info['counts']
     return sum(counts.get(name, 0) for name in
-               ('LexicalEntry', 'Lemma', 'Form', 'Tag',
-                'Sense', 'SenseRelation', 'Example', 'Count',
+               ('LexicalEntry', 'ExternalLexicalEntry',
+                'Lemma', 'Form', 'Tag',
+                'Sense', 'ExternalSense',
+                'SenseRelation', 'Example', 'Count',
                 'SyntacticBehaviour',
-                'Synset', 'Definition',  # 'ILIDefinition',
+                'Synset', 'ExternalSynset',
+                'Definition',  # 'ILIDefinition',
                 'SynsetRelation'))
 
 
-def _insert_lexicon(lexicon, info, cur, progress) -> int:
+def _insert_lexicon(lexicon, info, cur, progress) -> Tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
         'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?)',
@@ -184,17 +191,47 @@ def _insert_lexicon(lexicon, info, cur, progress) -> int:
     cur.execute(query, (lexid, lexicon.id, lexicon.version))
 
     query = '''
-        INSERT INTO lexicon_dependencies
-        VALUES (?,?,?,?,(SELECT rowid FROM lexicons WHERE id=? AND version=?))
+        INSERT INTO {table}
+        VALUES (:lid,
+                :id,
+                :version,
+                :url,
+                (SELECT rowid FROM lexicons WHERE id=:id AND version=:version))
     '''
     params = []
     for dep in lexicon.requires:
-        _id, ver, url = dep['id'], dep['version'], dep.get('url')
-        params.append((lexid, _id, ver, url, _id, ver))
+        param_dict = dict(dep)
+        param_dict.setdefault('url', None)
+        param_dict['lid'] = lexid
+        params.append(param_dict)
     if params:
-        cur.executemany(query, params)
+        cur.executemany(query.format(table='lexicon_dependencies'), params)
 
-    return lexid
+    if lexicon.extends:
+        param_dict = dict(lexicon.extends)
+        param_dict.setdefault('url', None)
+        param_dict['lid'] = lexid
+        cur.execute(query.format(table='lexicon_extensions'), param_dict)
+        qryid = cur.execute(
+            'SELECT rowid FROM lexicons WHERE id=? AND version=?',
+            (param_dict['id'], param_dict['version'])
+        ).fetchone()[0]
+    else:
+        qryid = lexid
+
+    return lexid, qryid
+
+
+def _build_lexid_map(lexicon, lexid, qryid):
+    lexidmap = {}
+    if lexid != qryid:
+        lexidmap.update((e.id, qryid) for e in lexicon.lexical_entries if e.external)
+        lexidmap.update((s.id, qryid)
+                        for e in lexicon.lexical_entries
+                        for s in e.senses
+                        if s.external)
+        lexidmap.update((ss.id, qryid) for ss in lexicon.synsets if ss.external)
+    return lexidmap
 
 
 def _split(sequence):
@@ -205,7 +242,7 @@ def _split(sequence):
         batch = list(islice(it, 0, BATCH_SIZE))
 
 
-def _insert_synsets(synsets, lex_id, cur, progress):
+def _insert_synsets(synsets, lexid, cur, progress):
     progress.set(status='Synsets')
     # synsets
     ss_query = '''
@@ -237,13 +274,13 @@ def _insert_synsets(synsets, lex_id, cur, progress):
         # then add synsets
         data = (
             (ss.id,
-             lex_id,
+             lexid,
              ss.ili if ss.ili and ss.ili != 'in' else None,
              ss.pos,
              # lexfile_map.get(ss.meta.subject) if ss.meta else None,
              ss.lexicalized,
              ss.meta)
-            for ss in batch
+            for ss in batch if not ss.external
         )
         cur.executemany(ss_query, data)
 
@@ -261,7 +298,7 @@ def _insert_synsets(synsets, lex_id, cur, progress):
         progress.update(len(batch))
 
 
-def _insert_synset_definitions(synsets, lexid, cur, progress):
+def _insert_synset_definitions(synsets, lexid, lexidmap, cur, progress):
     progress.set(status='Definitions')
     query = f'''
         INSERT INTO definitions
@@ -270,10 +307,10 @@ def _insert_synset_definitions(synsets, lexid, cur, progress):
     for batch in _split(synsets):
         data = [
             (lexid,
-             synset.id, lexid,
+             synset.id, lexidmap.get(synset.id, lexid),
              definition.text,
              definition.language,
-             definition.source_sense, lexid,
+             definition.source_sense, lexidmap.get(definition.source_sense, lexid),
              definition.meta)
             for synset in batch
             for definition in synset.definitions
@@ -282,7 +319,7 @@ def _insert_synset_definitions(synsets, lexid, cur, progress):
         progress.update(len(data))
 
 
-def _insert_synset_relations(synsets, lexid, cur, progress):
+def _insert_synset_relations(synsets, lexid, lexidmap, cur, progress):
     progress.set(status='Synset Relations')
     query = f'''
         INSERT INTO synset_relations
@@ -291,8 +328,8 @@ def _insert_synset_relations(synsets, lexid, cur, progress):
     for batch in _split(synsets):
         data = [
             (lexid,
-             synset.id, lexid,
-             relation.target, lexid,
+             synset.id, lexidmap.get(synset.id, lexid),
+             relation.target, lexidmap.get(relation.target, lexid),
              relmap[relation.type],
              relation.meta)
             for synset in batch
@@ -302,22 +339,22 @@ def _insert_synset_relations(synsets, lexid, cur, progress):
         progress.update(len(data))
 
 
-def _insert_entries(entries, lex_id, cur, progress):
+def _insert_entries(entries, lexid, cur, progress):
     progress.set(status='Words')
     query = 'INSERT INTO entries VALUES (null,?,?,?,?)'
     for batch in _split(entries):
         data = (
             (entry.id,
-             lex_id,
+             lexid,
              entry.lemma.pos,
              entry.meta)
-            for entry in batch
+            for entry in batch if not entry.external
         )
         cur.executemany(query, data)
         progress.update(len(batch))
 
 
-def _insert_forms(entries, lexid, cur, progress):
+def _insert_forms(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Word Forms')
     query = f'INSERT INTO forms VALUES (null,?,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
@@ -325,14 +362,16 @@ def _insert_forms(entries, lexid, cur, progress):
         for entry in batch:
             eid = entry.id
             lemma = entry.lemma
-            forms.append((lexid, eid, lexid, lemma.form, lemma.script, 0))
-            forms.extend((lexid, eid, lexid, form.form, form.script, i)
+            lid = lexidmap.get(eid, lexid)
+            if not entry.external:
+                forms.append((lexid, eid, lid, lemma.form, lemma.script, 0))
+            forms.extend((lexid, eid, lid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
         progress.update(len(forms))
 
 
-def _insert_tags(entries, lexid, cur, progress):
+def _insert_tags(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Word Form Tags')
     query = '''
         INSERT INTO tags VALUES (
@@ -350,20 +389,22 @@ def _insert_tags(entries, lexid, cur, progress):
         for entry in batch:
             eid = entry.id
             lemma = entry.lemma
-            for tag in entry.lemma.tags:
-                tags.append(
-                    (lexid, eid, lemma.form, lemma.script, tag.text, tag.category)
-                )
+            lid = lexidmap.get(eid, lexid)
+            if not entry.external:
+                for tag in entry.lemma.tags:
+                    tags.append(
+                        (lid, eid, lemma.form, lemma.script, tag.text, tag.category)
+                    )
             for form in entry.forms:
                 for tag in form.tags:
                     tags.append(
-                        (lexid, eid, form.form, form.script, tag.text, tag.category)
+                        (lid, eid, form.form, form.script, tag.text, tag.category)
                     )
         cur.executemany(query, tags)
         progress.update(len(tags))
 
 
-def _insert_senses(entries, lexid, cur, progress):
+def _insert_senses(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Senses')
     query = f'''
         INSERT INTO senses
@@ -380,32 +421,36 @@ def _insert_senses(entries, lexid, cur, progress):
         data = [
             (sense.id,
              lexid,
-             entry.id, lexid,
+             entry.id, lexidmap.get(entry.id, lexid),
              i,
-             sense.synset, lexid,
+             sense.synset, lexidmap.get(sense.synset, lexid),
              # sense.meta.identifier if sense.meta else None,
              sense.lexicalized,
              sense.meta)
             for entry in batch
             for i, sense in enumerate(entry.senses)
+            if not sense.external
         ]
         cur.executemany(query, data)
         progress.update(len(data))
 
 
-def _insert_adjpositions(entries, lexid, cur, progress):
+def _insert_adjpositions(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Sense Adjpositions')
-    data = [(s.id, lexid, s.adjposition)
+    data = [(s.id, lexidmap.get(s.id, lexid), s.adjposition)
             for e in entries
             for s in e.senses
-            if s.adjposition]
+            if s.adjposition and not s.external]
     query = f'INSERT INTO adjpositions VALUES (({SENSE_QUERY}),?)'
     cur.executemany(query, data)
 
 
-def _insert_counts(entries, lexid, cur, progress):
+def _insert_counts(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Counts')
-    data = [(lexid, sense.id, lexid, count.value, count.meta)
+    data = [(lexid,
+             sense.id, lexidmap.get(sense.id, lexid),
+             count.value,
+             count.meta)
             for entry in entries
             for sense in entry.senses
             for count in sense.counts]
@@ -414,7 +459,7 @@ def _insert_counts(entries, lexid, cur, progress):
     progress.update(len(data))
 
 
-def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):
+def _insert_syntactic_behaviours(synbhrs, lexid, lexidmap, cur, progress):
     progress.set(status='Syntactic Behaviours')
     # syntactic behaviours don't have a required ID; index on frame
     framemap = {}
@@ -431,7 +476,7 @@ def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):
                   WHERE lexicon_rowid=? AND frame=?),
                 ({SENSE_QUERY}))
     '''
-    data = [(lexid, frame, sid, lexid)
+    data = [(lexid, frame, sid, lexidmap.get(sid, lexid))
             for frame in framemap
             for sid in framemap[frame]]
     cur.executemany(query, data)
@@ -439,7 +484,7 @@ def _insert_syntactic_behaviours(synbhrs, lexid, cur, progress):
     progress.update(len(synbhrs))
 
 
-def _insert_sense_relations(lexicon, lexid, cur, progress):
+def _insert_sense_relations(lexicon, lexid, lexidmap, cur, progress):
     progress.set(status='Sense Relations')
     # need to separate relations into those targeting senses vs synsets
     synset_ids = {ss.id for ss in lexicon.synsets}
@@ -448,12 +493,14 @@ def _insert_sense_relations(lexicon, lexid, cur, progress):
     s_ss_rels = []
     for entry in lexicon.lexical_entries:
         for sense in entry.senses:
+            slid = lexidmap.get(sense.id, lexid)
             for relation in sense.relations:
                 target_id = relation.target
+                tlid = lexidmap.get(target_id, lexid)
                 if target_id in sense_ids:
-                    s_s_rels.append((sense.id, relation))
+                    s_s_rels.append((sense.id, slid, tlid, relation))
                 elif target_id in synset_ids:
-                    s_ss_rels.append((sense.id, relation))
+                    s_ss_rels.append((sense.id, slid, tlid, relation))
                 else:
                     raise wn.Error(
                         f'relation target is not a known sense or synset: {target_id}'
@@ -470,23 +517,23 @@ def _insert_sense_relations(lexicon, lexid, cur, progress):
         for batch in _split(rels):
             data = [
                 (lexid,
-                 sense_id, lexid,
-                 relation.target, lexid,
+                 sense_id, slid,
+                 relation.target, tlid,
                  relmap[relation.type],
                  relation.meta)
-                for sense_id, relation in batch
+                for sense_id, slid, tlid, relation in batch
             ]
             cur.executemany(query, data)
             progress.update(len(data))
 
 
-def _insert_examples(objs, lexid, table, cur, progress):
+def _insert_examples(objs, lexid, lexidmap, table, cur, progress):
     progress.set(status='Examples')
     query = f'INSERT INTO {table} VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
     for batch in _split(objs):
         data = [
             (lexid,
-             obj.id, lexid,
+             obj.id, lexidmap.get(obj.id, lexid),
              example.text,
              example.language,
              example.meta)
@@ -552,10 +599,28 @@ def remove(
     conn.set_progress_handler(progress.update, 100000)
     try:
         for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
-            progress.set(status=f'{id}:{version}', count=0)
+            extensions = _find_all_extensions(rowid)
+
             with conn:
+
+                for ext_id, ext_spec in reversed(extensions):
+                    progress.set(status=f'{ext_spec} (extension)')
+                    conn.execute('DELETE from lexicons WHERE rowid = ?', (ext_id,))
+                    progress.flash(f'Removed {ext_spec}\n')
+
+                spec = f'{id}:{version}'
+                extra = f' (and {len(extensions)} extension(s))' if extensions else ''
+                progress.set(status=f'{spec}', count=0)
                 conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
-            progress.flash(f'Removed {id}:{version}')
+                progress.flash(f'Removed {spec}{extra}')
 
     finally:
         progress.close()
+
+
+def _find_all_extensions(rowid: int) -> List[Tuple[int, str]]:
+    exts: List[Tuple[int, str]] = []
+    for ext_id in get_lexicon_extensions(rowid):
+        lexinfo = get_lexicon(ext_id)
+        exts.append((ext_id, f'{lexinfo[1]}:{lexinfo[6]}'))
+    return exts

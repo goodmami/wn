@@ -45,6 +45,17 @@ CREATE TABLE lexicon_dependencies (
     provider_url TEXT,
     provider_rowid INTEGER REFERENCES lexicons (rowid) ON DELETE SET NULL
 );
+CREATE INDEX lexicon_dependent_index ON lexicon_dependencies(dependent_rowid);
+
+CREATE TABLE lexicon_extensions (
+    extension_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
+    base_id TEXT NOT NULL,
+    base_version TEXT NOT NULL,
+    base_url TEXT,
+    base_rowid INTEGER REFERENCES lexicons (rowid),
+    UNIQUE (extension_rowid, base_rowid)
+);
+CREATE INDEX lexicon_extension_index ON lexicon_extensions(extension_rowid);
 
 
 -- Lexical Entries
@@ -121,6 +132,7 @@ CREATE TABLE definitions (
     metadata META
 );
 CREATE INDEX definition_rowid_index ON definitions (synset_rowid);
+CREATE INDEX definition_sense_index ON definitions (sense_rowid);
 
 CREATE TABLE synset_examples (
     rowid INTEGER PRIMARY KEY,

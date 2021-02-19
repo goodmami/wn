@@ -28,9 +28,12 @@
 * `wn.Lexicon.modified()` ([#17])
 * `wn.WnWarning` (related to [#92])
 * `wn.Lexicon.requires()`
+* `wn.Lexicon.extends()` ([#99])
+* `wn.Lexicon.extensions()` ([#99])
 * `wn.lmf` WN-LMF 1.1 support ([#7])
    - `<Requires>`
-   - `<LexiconExtension>`
+   - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
+     `<ExternalLexicalEntry>`, `<ExternalSense>`
 
 ### Fixed
 
@@ -60,6 +63,8 @@
 * `wn.project.iterpackages()` now includes ILI packages
 * `wn.Wordnet` now sets the default `expand` value to a lexicon's
   dependencies if they are specified (related to [#92])
+* Lexicon requirements and extensions are now modeled by the database
+  ([#89], [#99])
 
 ### Schema
 
@@ -77,6 +82,7 @@
 * Added source-sense to definitions table ([#65])
 * Preemptively added a `modified` column to `lexicons` table ([#17])
 * Added a table for lexicon dependencies ([#7], [#89])
+* Added a table for lexicon extensions ([#99])
 
 
 ## [v0.5.1]
@@ -301,3 +307,4 @@ abandoned, but this is an entirely new codebase.
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
+[#99]: https://github.com/goodmami/wn/issues/99
