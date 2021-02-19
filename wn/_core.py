@@ -1180,8 +1180,6 @@ def lexicons(*, lexicon: str = None, lang: str = None) -> List[Lexicon]:
         [<Lexicon ewn:2020 [en]>, <Lexicon pwn:3.0 [en]>]
 
     """
-    if lexicon is None:
-        lexicon = '*'
     try:
         w = Wordnet(lang=lang, lexicon=lexicon)
     except wn.Error:
