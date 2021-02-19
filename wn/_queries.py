@@ -546,6 +546,7 @@ def _get_senses(
             ON ss.rowid = s.synset_rowid
          WHERE s.{sourcetype}_rowid = ?
            AND s.lexicon_rowid IN ({_qs(lexicon_rowids)})
+         ORDER BY s.{sourcetype}_rank
     '''
     return conn.execute(query, (rowid, *lexicon_rowids))
 

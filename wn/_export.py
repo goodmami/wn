@@ -14,6 +14,7 @@ from wn._queries import (
     get_sense_relations,
     get_sense_synset_relations,
     get_synset_relations,
+    get_synset_members,
     get_examples,
     get_definitions,
     get_metadata,
@@ -191,6 +192,7 @@ def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
                 relations=_export_synset_relations(rowid, lexids),
                 examples=_export_examples(rowid, 'synsets', lexids),
                 lexicalized=get_lexicalized(rowid, 'synsets'),
+                members=[row[0] for row in get_synset_members(rowid, lexids)],
                 meta=_export_metadata(rowid, 'synsets'),
             )
         )

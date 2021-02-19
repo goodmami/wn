@@ -21,6 +21,7 @@ logger = logging.getLogger('wn')
 
 
 BATCH_SIZE = 1000
+DEFAULT_MEMBER_RANK = 127  # synset member rank when not specified by 'members'
 
 ENTRY_QUERY = '''
     SELECT e.rowid
@@ -124,7 +125,7 @@ def _add_lmf(
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, lexidmap, cur, progress)
             _insert_tags(entries, lexid, lexidmap, cur, progress)
-            _insert_senses(entries, lexid, lexidmap, cur, progress)
+            _insert_senses(entries, synsets, lexid, lexidmap, cur, progress)
             _insert_adjpositions(entries, lexid, lexidmap, cur, progress)
             _insert_counts(entries, lexid, lexidmap, cur, progress)
             _insert_syntactic_behaviours(synbhrs, lexid, lexidmap, cur, progress)
@@ -410,8 +411,9 @@ def _insert_tags(entries, lexid, lexidmap, cur, progress):
         progress.update(len(tags))
 
 
-def _insert_senses(entries, lexid, lexidmap, cur, progress):
+def _insert_senses(entries, synsets, lexid, lexidmap, cur, progress):
     progress.set(status='Senses')
+    ssrank = {s: i for ss in synsets for i, s in enumerate(ss.members)}
     query = f'''
         INSERT INTO senses
         VALUES (null,
@@ -420,6 +422,7 @@ def _insert_senses(entries, lexid, lexidmap, cur, progress):
                 ({ENTRY_QUERY}),
                 ?,
                 ({SYNSET_QUERY}),
+                ?,
                 ?,
                 ?)
     '''
@@ -430,7 +433,7 @@ def _insert_senses(entries, lexid, lexidmap, cur, progress):
              entry.id, lexidmap.get(entry.id, lexid),
              i,
              sense.synset, lexidmap.get(sense.synset, lexid),
-             # sense.meta.identifier if sense.meta else None,
+             ssrank.get(sense.id, DEFAULT_MEMBER_RANK),
              sense.lexicalized,
              sense.meta)
             for entry in batch

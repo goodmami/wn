@@ -155,6 +155,7 @@ CREATE TABLE senses (
     entry_rowid INTEGER NOT NULL REFERENCES entries(rowid) ON DELETE CASCADE,
     entry_rank INTEGER DEFAULT 1,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
+    synset_rank INTEGER DEFAULT 1,
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
 );

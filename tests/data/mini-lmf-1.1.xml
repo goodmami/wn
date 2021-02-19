@@ -90,11 +90,13 @@
       <SynsetRelation relType="hypernym" target="test-en-ext-0009-v" />
     </ExternalSynset>
 
-    <Synset id="test-en-ext-0008-v" ili="i30181" partOfSpeech="v" dc:subject="verb.creation">
+    <Synset id="test-en-ext-0008-v" ili="i30181" partOfSpeech="v"
+            members="test-en-ext-illustrate-v-0008-01" dc:subject="verb.creation">
       <Definition>depict something in a visual medium</Definition>
     </Synset>
 
-    <Synset id="test-en-ext-0009-v" ili="i33760" partOfSpeech="v" dc:subject="verb.social">
+    <Synset id="test-en-ext-0009-v" ili="i33760" partOfSpeech="v"
+            members="test-en-ext-fire-v-0009-01" dc:subject="verb.social">
       <Definition>terminate employment</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0007-v" />
     </Synset>

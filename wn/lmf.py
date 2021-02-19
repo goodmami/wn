@@ -215,7 +215,7 @@ class Definition(_HasMeta):
 
 class Synset(_HasMeta):
     __slots__ = ('id', 'ili', 'pos', 'definitions', 'ili_definition',
-                 'relations', 'examples', 'lexicalized', 'external')
+                 'relations', 'examples', 'lexicalized', 'members', 'external')
 
     def __init__(
         self,
@@ -227,6 +227,7 @@ class Synset(_HasMeta):
         relations: List[SynsetRelation] = None,
         examples: List[Example] = None,
         lexicalized: bool = True,
+        members: List[str] = None,
         meta: Metadata = None
     ):
         super().__init__(meta)
@@ -238,6 +239,7 @@ class Synset(_HasMeta):
         self.relations = relations or []
         self.examples = examples or []
         self.lexicalized = lexicalized
+        self.members = members or []
         self.external = False
 
     @classmethod
@@ -738,6 +740,7 @@ def _load_synsets(
                 relations=_load_synset_relations(events, version),
                 examples=_load_examples(events, version),
                 lexicalized=_get_bool(attrs.get('lexicalized', 'true')),
+                members=attrs.get('members', '').split(),
                 meta=_get_metadata(attrs, version),
             )
             events.end('Synset')
@@ -1031,6 +1034,8 @@ def _dump_synset(synset: Synset, out: TextIO, version: str) -> None:
             attrib['partOfSpeech'] = synset.pos
         if not synset.lexicalized:
             attrib['lexicalized'] = 'false'
+        if version != '1.0' and synset.members:
+            attrib['members'] = ' '.join(synset.members)
         attrib.update(_meta_dict(synset.meta))
         elem = ET.Element('Synset', attrib=attrib)
     elem.extend(_build_definition(defn) for defn in synset.definitions)
