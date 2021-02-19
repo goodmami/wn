@@ -973,7 +973,9 @@ def _build_count(count: Count) -> ET.Element:
 
 
 def _dump_synset(synset: Synset, out: TextIO, version: str) -> None:
-    attrib = {'id': synset.id, 'ili': synset.ili}
+    attrib: Dict[str, str] = {'id': synset.id}
+    if synset.ili:
+        attrib['ili'] = synset.ili
     if synset.pos:
         attrib['partOfSpeech'] = synset.pos
     attrib.update(_meta_dict(synset.meta))
@@ -1053,7 +1055,7 @@ def _indent(elem: ET.Element, level: int) -> None:
         elem[-1].tail = self_indent
 
 
-def _meta_dict(m: Optional[Metadata]) -> Dict:
+def _meta_dict(m: Optional[Metadata]) -> Dict[str, str]:
     if m:
         d = {f'dc:{key}': str(val)
              for key, val in zip(m._fields, m)
