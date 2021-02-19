@@ -974,8 +974,7 @@ def _build_count(count: Count) -> ET.Element:
 
 def _dump_synset(synset: Synset, out: TextIO, version: str) -> None:
     attrib: Dict[str, str] = {'id': synset.id}
-    if synset.ili:
-        attrib['ili'] = synset.ili
+    attrib['ili'] = synset.ili or ''
     if synset.pos:
         attrib['partOfSpeech'] = synset.pos
     attrib.update(_meta_dict(synset.meta))
