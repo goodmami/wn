@@ -193,7 +193,9 @@ def _get_decompressed(source: Path) -> Iterator[Path]:
             if lmf.is_lmf(path):
                 yield path
             elif _ili.is_ili(path):
-                path = path.rename(path.with_suffix('.tsv'))
+                newpath = path.with_suffix('.tsv')
+                path.rename(newpath)
+                path = newpath
                 yield path
             else:
                 raise wn.Error(
