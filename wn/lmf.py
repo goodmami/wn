@@ -899,9 +899,13 @@ def _dump_lexical_entry(
     version: str,
 ) -> None:
     attrib = {'id': entry.id}
-    attrib.update(_meta_dict(entry.meta))
-    elem = ET.Element('LexicalEntry', attrib=attrib)
-    elem.append(_build_lemma(entry.lemma))
+    if entry.external:
+        elem = ET.Element('ExternalLexicalEntry', attrib=attrib)
+    else:
+        attrib.update(_meta_dict(entry.meta))
+        elem = ET.Element('LexicalEntry', attrib=attrib)
+        assert entry.lemma is not None
+        elem.append(_build_lemma(entry.lemma))
     elem.extend(_build_form(form) for form in entry.forms)
     elem.extend(_build_sense(sense, sbmap, version) for sense in entry.senses)
     if version == '1.0':
