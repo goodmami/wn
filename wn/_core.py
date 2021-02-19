@@ -204,10 +204,22 @@ class _LexiconElement(_DatabaseEntity):
     ):
         super().__init__(_id=_id)
         self._lexid = _lexid  # Database-internal lexicon id
-        self._wordnet = _wordnet
+        if _wordnet is None:
+            _wordnet = Wordnet()
+        self._wordnet: 'Wordnet' = _wordnet
 
     def lexicon(self):
         return _to_lexicon(get_lexicon(self._lexid))
+
+    def _get_lexicon_ids(self) -> Tuple[int, ...]:
+        if self._wordnet._default_mode:
+            return tuple(
+                {self._lexid}
+                | set(get_lexicon_extension_bases(self._lexid))
+                | set(get_lexicon_extensions(self._lexid))
+            )
+        else:
+            return self._wordnet._lexicon_ids
 
 
 class Tag:
@@ -309,7 +321,8 @@ class Word(_LexiconElement):
             [Sense('ewn-zygoma-n-05292350-01')]
 
         """
-        iterable = get_entry_senses(self._id)
+        lexids = self._get_lexicon_ids()
+        iterable = get_entry_senses(self._id, lexids)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
@@ -475,8 +488,9 @@ class Synset(_Relatable):
             'a wheel that has wooden spokes and a metal rim'
 
         """
+        lexids = self._get_lexicon_ids()
         return next(
-            (text for text, _, _, _ in get_definitions(self._id)),
+            (text for text, _, _, _ in get_definitions(self._id, lexids)),
             None
         )
 
@@ -489,7 +503,8 @@ class Synset(_Relatable):
             ['"orbital revolution"', '"orbital velocity"']
 
         """
-        exs = get_examples(self._id, 'synsets')
+        lexids = self._get_lexicon_ids()
+        exs = get_examples(self._id, 'synsets', lexids)
         return [ex for ex, _, _ in exs]
 
     def senses(self) -> List['Sense']:
@@ -501,7 +516,8 @@ class Synset(_Relatable):
             [Sense('ewn-umbrella-n-04514450-01')]
 
         """
-        iterable = get_synset_members(self._id)
+        lexids = self._get_lexicon_ids()
+        iterable = get_synset_members(self._id, lexids)
         return [Sense(*sense_data, self._wordnet) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
@@ -537,15 +553,7 @@ class Synset(_Relatable):
     def get_related(self, *args: str) -> List['Synset']:
         targets: List['Synset'] = []
 
-        lexids: Tuple[int, ...]
-        if self._wordnet is None or self._wordnet._default_mode:
-            lexids = tuple(
-                {self._lexid}
-                | set(get_lexicon_extension_bases(self._lexid))
-                | set(get_lexicon_extensions(self._lexid))
-            )
-        else:
-            lexids = self._wordnet._lexicon_ids
+        lexids = self._get_lexicon_ids()
 
         # first get relations from the current lexicon(s)
         if self._id != NON_ROWID:
@@ -893,7 +901,8 @@ class Sense(_Relatable):
 
     def examples(self) -> List[str]:
         """Return the list of examples for the sense."""
-        exs = get_examples(self._id, 'senses')
+        lexids = self._get_lexicon_ids()
+        exs = get_examples(self._id, 'senses', lexids)
         return [ex for ex, _, _ in exs]
 
     def lexicalized(self) -> bool:
@@ -915,11 +924,14 @@ class Sense(_Relatable):
 
     def frames(self) -> List[str]:
         """Return the list of subcategorization frames for the sense."""
-        return get_syntactic_behaviours(self._id)
+        lexids = self._get_lexicon_ids()
+        return get_syntactic_behaviours(self._id, lexids)
 
     def counts(self) -> List[Count]:
         """Return the corpus counts stored for this sense."""
-        return [Count(value, _id=_id) for value, _id in get_sense_counts(self._id)]
+        lexids = self._get_lexicon_ids()
+        return [Count(value, _id=_id)
+                for value, _id in get_sense_counts(self._id, lexids)]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
@@ -942,12 +954,7 @@ class Sense(_Relatable):
             incoherent
 
         """
-        lexids: Optional[Tuple[int, ...]]
-        if self._wordnet is None or self._wordnet._default_mode:
-            lexids = None
-        else:
-            lexids = self._wordnet._lexicon_ids
-
+        lexids = self._get_lexicon_ids()
         iterable = get_sense_relations(self._id, args, lexids)
         return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
                 for _, _, sid, eid, ssid, lexid, rowid in iterable
@@ -955,12 +962,7 @@ class Sense(_Relatable):
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
         """Return a list of related synsets."""
-        lexids: Optional[Tuple[int, ...]]
-        if self._wordnet is None or self._wordnet._default_mode:
-            lexids = None
-        else:
-            lexids = self._wordnet._lexicon_ids
-
+        lexids = self._get_lexicon_ids()
         iterable = get_sense_synset_relations(self._id, args, lexids)
         return [Synset(ssid, pos, ili, lexid, rowid, self._wordnet)
                 for _, _, ssid, pos, ili, lexid, rowid in iterable

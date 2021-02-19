@@ -97,7 +97,7 @@ def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
             ),
             forms=[Form(form, script or '', tags=_export_tags(frowid))
                    for form, script, frowid in forms[1:]],
-            senses=_export_senses(rowid),
+            senses=_export_senses(rowid, lexids),
             meta=_export_metadata(rowid, 'entries'),
         )
         for id, pos, forms, _, rowid
@@ -110,21 +110,21 @@ def _export_tags(rowid: int) -> List[lmf.Tag]:
     return [Tag(text, category) for text, category in get_form_tags(rowid)]
 
 
-def _export_senses(entry_rowid: int) -> List[lmf.Sense]:
+def _export_senses(entry_rowid: int, lexids: Sequence[int]) -> List[lmf.Sense]:
     Sense = lmf.Sense
     return [
         Sense(
             id,
             synset,
             relations=_export_sense_relations(rowid),
-            examples=_export_examples(rowid, 'senses'),
-            counts=_export_counts(rowid),
+            examples=_export_examples(rowid, 'senses', lexids),
+            counts=_export_counts(rowid, lexids),
             lexicalized=get_lexicalized(rowid, 'senses'),
             adjposition=get_adjposition(rowid) or '',
             meta=_export_metadata(rowid, 'senses'),
         )
         for id, _, synset, _, rowid
-        in get_entry_senses(entry_rowid)
+        in get_entry_senses(entry_rowid, lexids)
     ]
 
 
@@ -151,7 +151,9 @@ def _export_sense_relations(sense_rowid: int) -> List[lmf.SenseRelation]:
     return relations
 
 
-def _export_examples(rowid: int, table: str) -> List[lmf.Example]:
+def _export_examples(
+    rowid: int, table: str, lexids: Sequence[int]
+) -> List[lmf.Example]:
     Example = lmf.Example
     return [
         Example(
@@ -160,15 +162,15 @@ def _export_examples(rowid: int, table: str) -> List[lmf.Example]:
             meta=_export_metadata(rowid, f'{table[:-1]}_examples')
         )
         for text, language, rowid
-        in get_examples(rowid, table)
+        in get_examples(rowid, table, lexids)
     ]
 
 
-def _export_counts(rowid: int) -> List[lmf.Count]:
+def _export_counts(rowid: int, lexids: Sequence[int]) -> List[lmf.Count]:
     Count = lmf.Count
     return [
         Count(val, meta=_export_metadata(id, 'counts'))
-        for val, id in get_sense_counts(rowid)
+        for val, id in get_sense_counts(rowid, lexids)
     ]
 
 
@@ -184,10 +186,10 @@ def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
                 id,
                 ili or '',
                 pos,
-                definitions=_export_definitions(rowid),
+                definitions=_export_definitions(rowid, lexids),
                 ili_definition=ilidef,
                 relations=_export_synset_relations(rowid, lexids),
-                examples=_export_examples(rowid, 'synsets'),
+                examples=_export_examples(rowid, 'synsets', lexids),
                 lexicalized=get_lexicalized(rowid, 'synsets'),
                 meta=_export_metadata(rowid, 'synsets'),
             )
@@ -195,7 +197,7 @@ def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
     return synsets
 
 
-def _export_definitions(rowid: int) -> List[lmf.Definition]:
+def _export_definitions(rowid: int, lexids: Sequence[int]) -> List[lmf.Definition]:
     Definition = lmf.Definition
     return [
         Definition(
@@ -205,7 +207,7 @@ def _export_definitions(rowid: int) -> List[lmf.Definition]:
             meta=_export_metadata(rowid, 'definitions')
         )
         for text, language, sense_id, rowid
-        in get_definitions(rowid)
+        in get_definitions(rowid, lexids)
     ]
 
 

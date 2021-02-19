@@ -444,17 +444,21 @@ def get_synset_relations(
         yield (inv_relmap[row[0]], *row[1:])  # type: ignore
 
 
-def get_definitions(synset_rowid: int) -> List[Tuple[str, str, str, int]]:
+def get_definitions(
+    synset_rowid: int,
+    lexicon_rowids: Sequence[int],
+) -> List[Tuple[str, str, str, int]]:
     conn = connect()
-    query = '''
+    query = f'''
         SELECT d.definition,
                d.language,
                (SELECT s.id FROM senses AS s WHERE s.rowid=d.sense_rowid),
                d.rowid
           FROM definitions AS d
          WHERE d.synset_rowid = ?
+           AND d.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
-    return conn.execute(query, (synset_rowid,)).fetchall()
+    return conn.execute(query, (synset_rowid, *lexicon_rowids)).fetchall()
 
 
 _SANITIZED_EXAMPLE_PREFIXES = {
@@ -463,7 +467,11 @@ _SANITIZED_EXAMPLE_PREFIXES = {
 }
 
 
-def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
+def get_examples(
+    rowid: int,
+    table: str,
+    lexicon_rowids: Sequence[int],
+) -> List[Tuple[str, str, int]]:
     conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
     if prefix is None:
@@ -472,8 +480,9 @@ def get_examples(rowid: int, table: str) -> List[Tuple[str, str, int]]:
         SELECT example, language, rowid
           FROM {prefix}_examples
          WHERE {prefix}_rowid = ?
+           AND lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
-    return conn.execute(query, (rowid,)).fetchall()
+    return conn.execute(query, (rowid, *lexicon_rowids)).fetchall()
 
 
 def find_syntactic_behaviours(
@@ -506,19 +515,27 @@ def find_syntactic_behaviours(
         yield id, frame, sense_ids
 
 
-def get_syntactic_behaviours(rowid: int) -> List[str]:
+def get_syntactic_behaviours(
+    rowid: int,
+    lexicon_rowids: Sequence[int],
+) -> List[str]:
     conn = connect()
-    query = '''
+    query = f'''
         SELECT sb.frame
           FROM syntactic_behaviours AS sb
           JOIN syntactic_behaviour_senses AS sbs
             ON sbs.syntactic_behaviour_rowid = sb.rowid
          WHERE sbs.sense_rowid = ?
+           AND sb.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
-    return [row[0] for row in conn.execute(query, (rowid,))]
+    return [row[0] for row in conn.execute(query, (rowid, *lexicon_rowids))]
 
 
-def _get_senses(rowid: int, sourcetype: str) -> Iterator[_Sense]:
+def _get_senses(
+    rowid: int,
+    sourcetype: str,
+    lexicon_rowids: Sequence[int],
+) -> Iterator[_Sense]:
     conn = connect()
     query = f'''
         SELECT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
@@ -528,16 +545,17 @@ def _get_senses(rowid: int, sourcetype: str) -> Iterator[_Sense]:
           JOIN synsets AS ss
             ON ss.rowid = s.synset_rowid
          WHERE s.{sourcetype}_rowid = ?
+           AND s.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
-    return conn.execute(query, (rowid,))
+    return conn.execute(query, (rowid, *lexicon_rowids))
 
 
-def get_entry_senses(rowid: int) -> Iterator[_Sense]:
-    yield from _get_senses(rowid, 'entry')
+def get_entry_senses(rowid: int, lexicon_rowids: Sequence[int]) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'entry', lexicon_rowids)
 
 
-def get_synset_members(rowid: int) -> Iterator[_Sense]:
-    yield from _get_senses(rowid, 'synset')
+def get_synset_members(rowid: int, lexicon_rowids: Sequence[int]) -> Iterator[_Sense]:
+    yield from _get_senses(rowid, 'synset', lexicon_rowids)
 
 
 def get_sense_relations(
@@ -663,16 +681,24 @@ def get_adjposition(rowid: int) -> Optional[str]:
 
 
 def get_form_tags(form_rowid: int) -> List[_Tag]:
+    # TODO: restrict by lexicon ids
     conn = connect()
     query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
     rows: List[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
     return rows
 
 
-def get_sense_counts(sense_rowid: int) -> List[_Count]:
+def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> List[_Count]:
     conn = connect()
-    query = 'SELECT count, rowid FROM counts WHERE sense_rowid = ?'
-    rows: List[_Count] = conn.execute(query, (sense_rowid,)).fetchall()
+    query = f'''
+        SELECT count, rowid
+          FROM counts
+         WHERE sense_rowid = ?
+           AND lexicon_rowid IN ({_qs(lexicon_rowids)})
+    '''
+    rows: List[_Count] = conn.execute(
+        query, (sense_rowid, *lexicon_rowids)
+    ).fetchall()
     return rows
 
 
