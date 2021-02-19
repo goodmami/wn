@@ -255,7 +255,12 @@ def _insert_synsets(synsets, lexid, cur, progress):
     # proposed ILIs
     pro_ili_query = '''
         INSERT INTO proposed_ilis
-        VALUES (null,(SELECT ss.rowid FROM synsets AS ss WHERE ss.id=?),?,?)
+        VALUES (null,
+               (SELECT ss.rowid
+                  FROM synsets AS ss
+                 WHERE ss.id=? AND lexicon_rowid=?),
+               ?,
+               ?)
     '''
 
     for batch in _split(synsets):
@@ -292,7 +297,7 @@ def _insert_synsets(synsets, lexid, cur, progress):
                 defn = ss.ili_definition
                 text = defn.text if defn else None
                 meta = defn.meta if defn else None
-                data.append((ss.id, text, meta))
+                data.append((ss.id, lexid, text, meta))
         cur.executemany(pro_ili_query, data)
 
         progress.update(len(batch))
