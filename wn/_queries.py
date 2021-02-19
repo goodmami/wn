@@ -440,7 +440,7 @@ def get_synset_relations(
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     inv_relmap = relmap.inverse
     for row in result_rows:
-        yield inv_relmap[row[0]], *row[1:]  # type: ignore
+        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
 
 
 def get_definitions(synset_rowid: int) -> List[Tuple[str, str, str, int]]:
@@ -572,7 +572,7 @@ def get_sense_relations(
     rows: Iterator[_Sense_Relation] = conn.execute(query, params)
     inv_relmap = relmap.inverse
     for row in rows:
-        yield inv_relmap[row[0]], *row[1:]  # type: ignore
+        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
 
 
 def get_sense_synset_relations(
@@ -604,7 +604,7 @@ def get_sense_synset_relations(
     rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     inv_relmap = relmap.inverse
     for row in rows:
-        yield inv_relmap[row[0]], *row[1:]  # type: ignore
+        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
 
 
 _SANITIZED_METADATA_TABLES = {
