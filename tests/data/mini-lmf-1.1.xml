@@ -23,7 +23,9 @@
     </LexicalEntry>
 
     <LexicalEntry id="test-ja-例え-n">
-      <Lemma partOfSpeech="n" writtenForm="例え" />
+      <Lemma partOfSpeech="n" writtenForm="例え">
+        <Pronunciation variety="standard" notation="ipa" audio="tatoe.wav">tatoe</Pronunciation>
+      </Lemma>
       <Form writtenForm="たとえ" script="Hira" />
       <Form writtenForm="タトエ" script="Kana" />
       <Form writtenForm="tatoe" script="Latn-kunrei" />

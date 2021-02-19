@@ -88,6 +88,15 @@ CREATE TABLE forms (
 CREATE INDEX form_entry_index ON forms (entry_rowid);
 CREATE INDEX form_index ON forms (form);
 
+CREATE TABLE pronunciations (
+    form_rowid INTEGER NOT NULL REFERENCES forms (rowid) ON DELETE CASCADE,
+    value TEXT,
+    variety TEXT,
+    notation TEXT,
+    phonemic BOOLEAN CHECK( phonemic IN (0, 1) ) DEFAULT 1 NOT NULL,
+    audio TEXT
+);
+CREATE INDEX pronunciation_form_index ON pronunciations (form_rowid);
 
 CREATE TABLE tags (
     form_rowid INTEGER NOT NULL REFERENCES forms (rowid) ON DELETE CASCADE,

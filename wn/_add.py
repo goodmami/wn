@@ -29,6 +29,16 @@ ENTRY_QUERY = '''
      WHERE e.id = ?
        AND e.lexicon_rowid = ?
 '''
+# forms don't have reliable ids
+FORM_QUERY = '''
+    SELECT f.rowid
+      FROM forms AS f
+      JOIN entries AS e ON f.entry_rowid = e.rowid
+     WHERE e.lexicon_rowid = ?
+       AND e.id = ?
+       AND f.form = ?
+       AND f.script IS ?
+'''
 SENSE_QUERY = '''
     SELECT s.rowid
       FROM senses AS s
@@ -124,6 +134,7 @@ def _add_lmf(
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, lexidmap, cur, progress)
+            _insert_pronunciations(entries, lexid, lexidmap, cur, progress)
             _insert_tags(entries, lexid, lexidmap, cur, progress)
             _insert_senses(entries, synsets, lexid, lexidmap, cur, progress)
             _insert_adjpositions(entries, lexid, lexidmap, cur, progress)
@@ -159,7 +170,7 @@ def _sum_counts(info) -> int:
     counts = info['counts']
     return sum(counts.get(name, 0) for name in
                ('LexicalEntry', 'ExternalLexicalEntry',
-                'Lemma', 'Form', 'Tag',
+                'Lemma', 'Form', 'Pronunciation', 'Tag',
                 'Sense', 'ExternalSense',
                 'SenseRelation', 'Example', 'Count',
                 'SyntacticBehaviour',
@@ -378,19 +389,34 @@ def _insert_forms(entries, lexid, lexidmap, cur, progress):
         progress.update(len(forms))
 
 
+def _insert_pronunciations(entries, lexid, lexidmap, cur, progress):
+    progress.set(status='Pronunciations')
+    query = f'INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?)'
+    for batch in _split(entries):
+        prons = []
+        for entry in batch:
+            eid = entry.id
+            lemma = entry.lemma
+            lid = lexidmap.get(eid, lexid)
+            if not entry.external:
+                for p in entry.lemma.pronunciations:
+                    prons.append(
+                        (lid, eid, lemma.form, lemma.script,
+                         p.value, p.variety, p.notation, p.phonemic, p.audio)
+                    )
+            for form in entry.forms:
+                for p in form.pronunciations:
+                    prons.append(
+                        (lid, eid, form.form, form.script,
+                         p.text, p.variety, p.notation, p.phonemic, p.audio)
+                    )
+        cur.executemany(query, prons)
+        progress.update(len(prons))
+
+
 def _insert_tags(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Word Form Tags')
-    query = '''
-        INSERT INTO tags VALUES (
-            (SELECT f.rowid
-               FROM forms AS f
-               JOIN entries AS e ON f.entry_rowid = e.rowid
-              WHERE e.lexicon_rowid = ?
-                AND e.id = ?
-                AND f.form = ?
-                AND f.script IS ?),
-            ?,?)
-    '''
+    query = f'INSERT INTO tags VALUES (({FORM_QUERY}),?,?)'
     for batch in _split(entries):
         tags = []
         for entry in batch:

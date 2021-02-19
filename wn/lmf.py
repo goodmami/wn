@@ -306,6 +306,24 @@ class Sense(_HasMeta):
         return obj
 
 
+class Pronunciation:
+    __slots__ = 'value', 'variety', 'notation', 'phonemic', 'audio'
+
+    def __init__(
+        self,
+        value: str,
+        variety: str = None,
+        notation: str = None,
+        phonemic: bool = True,
+        audio: str = None,
+    ):
+        self.value = value
+        self.variety = variety
+        self.notation = notation
+        self.phonemic = phonemic
+        self.audio = audio
+
+
 class Tag:
     __slots__ = 'text', 'category'
 
@@ -315,21 +333,36 @@ class Tag:
 
 
 class Form:
-    __slots__ = 'form', 'script', 'tags'
+    __slots__ = 'form', 'script', 'pronunciations', 'tags'
 
-    def __init__(self, form: str, script: str, tags: List[Tag] = None):
+    def __init__(
+        self,
+        form: str,
+        script: str,
+        pronunciations: List[Pronunciation] = None,
+        tags: List[Tag] = None,
+    ):
         self.form = form
         self.script = script
+        self.pronunciations = pronunciations or []
         self.tags = tags or []
 
 
 class Lemma:
-    __slots__ = 'form', 'pos', 'script', 'tags'
+    __slots__ = 'form', 'pos', 'script', 'pronunciations', 'tags'
 
-    def __init__(self, form: str, pos: str, script: str = '', tags: List[Tag] = None):
+    def __init__(
+        self,
+        form: str,
+        pos: str,
+        script: str = '',
+        pronunciations: List[Pronunciation] = None,
+        tags: List[Tag] = None,
+    ):
         self.form = form
         self.pos = pos
         self.script = script
+        self.pronunciations = pronunciations or []
         self.tags = tags or []
 
 
@@ -595,6 +628,7 @@ def _load_lemma(events) -> Lemma:
         attrs['writtenForm'],
         _get_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
         script=attrs.get('script'),
+        pronunciations=_load_pronunciations(events),
         tags=_load_tags(events)
     )
     events.end('Lemma')
@@ -607,9 +641,28 @@ def _load_forms(events) -> List[Form]:
         attrs = next(events)[1].attrib
         forms.append(Form(attrs['writtenForm'],
                           script=attrs.get('script'),
+                          pronunciations=_load_pronunciations(events),
                           tags=_load_tags(events)))
         events.end('Form')
     return forms
+
+
+def _load_pronunciations(events) -> List[Pronunciation]:
+    pronunciations: List[Pronunciation] = []
+    while events.starts('Pronunciation'):
+        next(events)
+        elem = events.end('Pronunciation')
+        attrs = elem.attrib
+        pronunciations.append(
+            Pronunciation(
+                elem.text,
+                variety=attrs.get('variety'),
+                notation=attrs.get('notation'),
+                phonemic=_get_bool(attrs.get('phonemic', 'true')),
+                audio=attrs.get('audio'),
+            )
+        )
+    return pronunciations
 
 
 def _load_tags(events) -> List[Tag]:
@@ -957,7 +1010,8 @@ def _build_lemma(lemma: Lemma) -> ET.Element:
         attrib['script'] = lemma.script
     attrib['partOfSpeech'] = lemma.pos
     elem = ET.Element('Lemma', attrib=attrib)
-    # TODO: Pronunciation
+    for pron in lemma.pronunciations:
+        elem.append(_build_pronunciation(pron))
     for tag in lemma.tags:
         elem.append(_build_tag(tag))
     return elem
@@ -968,9 +1022,25 @@ def _build_form(form: Form) -> ET.Element:
     if form.script:
         attrib['script'] = form.script
     elem = ET.Element('Form', attrib=attrib)
-    # TODO: Pronunciation
+    for pron in form.pronunciations:
+        elem.append(_build_pronunciation(pron))
     for tag in form.tags:
         elem.append(_build_tag(tag))
+    return elem
+
+
+def _build_pronunciation(pron) -> ET.Element:
+    attrib = {}
+    if pron.variety:
+        attrib['variety'] = pron.variety
+    if pron.notation:
+        attrib['notation'] = pron.notation
+    if not pron.phonemic:
+        attrib['phonemic'] = 'false'
+    if pron.audio:
+        attrib['audio'] = pron.audio
+    elem = ET.Element('Pronunciation', attrib=attrib)
+    elem.text = pron.value
     return elem
 
 
