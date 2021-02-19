@@ -12,7 +12,7 @@ def test_is_lmf(datadir):
     assert lmf.is_lmf(datadir / 'mini-lmf-1.1.xml')
 
 
-def test_load(mini_lmf_1_0):
+def test_load_1_0(mini_lmf_1_0):
     lexicons = lmf.load(mini_lmf_1_0)
     assert len(lexicons) == 2
     lexicon = lexicons[0]
@@ -66,17 +66,22 @@ def test_load_1_1(mini_lmf_1_1):
     assert lexicon.extends == {'id': 'test-en', 'version': '1', 'url': None}
 
 
-def test_dump(mini_lmf_1_0, tmp_path):
-    lexicons = lmf.load(mini_lmf_1_0)
+def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
     tmpdir = tmp_path / 'test_dump'
     tmpdir.mkdir()
     tmppath = tmpdir / 'mini_lmf_dump.xml'
-    lmf.dump(lexicons, tmppath)
-    if hasattr(ET, 'canonicalize'):  # available from Python 3.8
-        orig = ET.canonicalize(from_file=mini_lmf_1_0, strip_text=True)
-        temp = ET.canonicalize(from_file=tmppath, strip_text=True)
-        # additional transformation to help with debugging
-        orig = orig.replace('<', '\n<')
-        temp = temp.replace('<', '\n<')
 
-        assert orig == temp
+    def assert_xml_equal(mini_lmf, dump_lmf):
+        if hasattr(ET, 'canonicalize'):  # available from Python 3.8
+            orig = ET.canonicalize(from_file=mini_lmf, strip_text=True)
+            temp = ET.canonicalize(from_file=dump_lmf, strip_text=True)
+            # additional transformation to help with debugging
+            orig = orig.replace('<', '\n<')
+            temp = temp.replace('<', '\n<')
+            assert orig == temp
+
+    lmf.dump(lmf.load(mini_lmf_1_0), tmppath, version='1.0')
+    assert_xml_equal(mini_lmf_1_0, tmppath)
+
+    lmf.dump(lmf.load(mini_lmf_1_1), tmppath, version='1.1')
+    assert_xml_equal(mini_lmf_1_1, tmppath)

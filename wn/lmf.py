@@ -155,9 +155,10 @@ class Count(_HasMeta):
 
 
 class SyntacticBehaviour:
-    __slots__ = 'frame', 'senses'
+    __slots__ = 'id', 'frame', 'senses'
 
-    def __init__(self, frame: str, senses: List[str] = None):
+    def __init__(self, id: str, frame: str, senses: List[str] = None):
+        self.id = id
         self.frame = frame
         self.senses = senses or []
 
@@ -525,8 +526,16 @@ def _load_lexicon(events, version) -> Lexicon:
             requires.append(_load_dependency(events, 'Requires'))
 
     attrs = lex_root.attrib
-    entries, frames = _load_lexical_entries(events, extension, version, lex_root)
-    synsets = _load_synsets(events, extension, version, lex_root)
+    entries, frames, sbmap = _load_lexical_entries(
+        events, extension, version, lex_root
+    )
+    synsets = _load_synsets(
+        events, extension, version, lex_root
+    )
+    if version != '1.0':
+        frames.extend(_load_syntactic_behaviours(events, version))
+        for sb in frames:
+            sb.senses.extend(sbmap.get(sb.id, []))
 
     lex = Lexicon(
         attrs['id'],
@@ -562,9 +571,10 @@ def _load_lexical_entries(
     extension: bool,
     version: str,
     lex_root: ET.Element,
-) -> Tuple[List[LexicalEntry], List[SyntacticBehaviour]]:
+) -> Tuple[List[LexicalEntry], List[SyntacticBehaviour], Dict[str, List[str]]]:
     entries: List[LexicalEntry] = []
     syntactic_behaviours: List[SyntacticBehaviour] = []
+    sbmap: Dict[str, List[str]] = {}
     while True:
         if events.starts('LexicalEntry'):
             attrs = events.start('LexicalEntry').attrib
@@ -572,7 +582,7 @@ def _load_lexical_entries(
                 attrs['id'],
                 _load_lemma(events),
                 forms=_load_forms(events),
-                senses=_load_senses(events, False, version),
+                senses=_load_senses(events, sbmap, False, version),
                 meta=_get_metadata(attrs, version),
             )
             syntactic_behaviours.extend(_load_syntactic_behaviours(events, version))
@@ -582,7 +592,7 @@ def _load_lexical_entries(
             entry = LexicalEntry.as_external(
                 attrs['id'],
                 forms=_load_forms(events),
-                senses=_load_senses(events, True, version)
+                senses=_load_senses(events, sbmap, True, version)
             )
             syntactic_behaviours.extend(_load_syntactic_behaviours(events, version))
             events.end('ExternalLexicalEntry')
@@ -591,7 +601,7 @@ def _load_lexical_entries(
         entries.append(entry)
         lex_root.clear()
 
-    return entries, syntactic_behaviours
+    return entries, syntactic_behaviours, sbmap
 
 
 def _load_lemma(events) -> Lemma:
@@ -626,7 +636,7 @@ def _load_tags(events) -> List[Tag]:
     return tags
 
 
-def _load_senses(events, external, version) -> List[Sense]:
+def _load_senses(events, sbmap, external, version) -> List[Sense]:
     senses: List[Sense] = []
     while True:
         if events.starts('Sense'):
@@ -641,6 +651,8 @@ def _load_senses(events, external, version) -> List[Sense]:
                 adjposition=_get_literal(attrs.get('adjposition'), ADJPOSITIONS),
                 meta=_get_metadata(attrs, version),
             )
+            for sbid in attrs.get('subcat', '').split():
+                sbmap.setdefault(sbid, []).append(attrs['id'])
             events.end('Sense')
         elif external and events.starts('ExternalSense'):
             attrs = events.start('ExternalSense').attrib
@@ -716,6 +728,7 @@ def _load_syntactic_behaviours(events, version) -> List[SyntacticBehaviour]:
         attrs = events.end('SyntacticBehaviour').attrib
         syntactic_behaviours.append(
             SyntacticBehaviour(
+                attrs.get('id'),
                 attrs['subcategorizationFrame'],
                 senses=attrs.get('senses', '').split(),
             )
@@ -841,6 +854,7 @@ def _get_metadata(attrs: Dict, version: str) -> Optional[Metadata]:
 
 
 def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
+    lexicontype = 'LexiconExtension' if lexicon.extends else 'Lexicon'
     attrib = {
         'id': lexicon.id,
         'label': lexicon.label,
@@ -854,17 +868,16 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
     if lexicon.citation:
         attrib['citation'] = lexicon.citation
     attrib.update(_meta_dict(lexicon.meta))
-    attrdelim = '\n' + (' ' * 11)
+    attrdelim = '\n' + (' ' * len(f'  <{lexicontype} '))
     attrs = attrdelim.join(
         f'{attr}={quoteattr(str(val))}' for attr, val in attrib.items()
     )
-    print(f'  <Lexicon {attrs}>', file=out)
+    print(f'  <{lexicontype} {attrs}>', file=out)
 
     sbmap: Dict[str, List[SyntacticBehaviour]] = {}
-    if version == '1.0':
-        for sb in lexicon.syntactic_behaviours:
-            for sense_id in sb.senses:
-                sbmap.setdefault(sense_id, []).append(sb)
+    for sb in lexicon.syntactic_behaviours:
+        for sense_id in sb.senses:
+            sbmap.setdefault(sense_id, []).append(sb)
 
     for entry in lexicon.lexical_entries:
         _dump_lexical_entry(entry, out, sbmap, version)
@@ -872,9 +885,11 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
     for synset in lexicon.synsets:
         _dump_synset(synset, out, version)
 
-    # TODO: 1.1 SyntacticBehaviour
+    if version != '1.0':
+        for sb in lexicon.syntactic_behaviours:
+            _dump_syntactic_behaviour(sb, out, version)
 
-    print('  </Lexicon>', file=out)
+    print(f'  </{lexicontype}>', file=out)
 
 
 def _dump_lexical_entry(
@@ -888,7 +903,7 @@ def _dump_lexical_entry(
     elem = ET.Element('LexicalEntry', attrib=attrib)
     elem.append(_build_lemma(entry.lemma))
     elem.extend(_build_form(form) for form in entry.forms)
-    elem.extend(_build_sense(sense) for sense in entry.senses)
+    elem.extend(_build_sense(sense, sbmap, version) for sense in entry.senses)
     if version == '1.0':
         senses = set(sense.id for sense in entry.senses)
         for sense_id in senses:
@@ -937,14 +952,19 @@ def _build_tag(tag: Tag) -> ET.Element:
     return elem
 
 
-def _build_sense(sense: Sense) -> ET.Element:
+def _build_sense(
+    sense: Sense,
+    sbmap: Dict[str, List[SyntacticBehaviour]],
+    version: str,
+) -> ET.Element:
     attrib = {'id': sense.id, 'synset': sense.synset}
     attrib.update(_meta_dict(sense.meta))
     if not sense.lexicalized:
         attrib['lexicalized'] = 'false'
     if sense.adjposition:
         attrib['adjposition'] = sense.adjposition
-    # TODO: subcat
+    if version != '1.0' and sense.id in sbmap:
+        attrib['subcat'] = ' '.join(sb.id for sb in sbmap[sense.id] if sb.id)
     elem = ET.Element('Sense', attrib=attrib)
     elem.extend(_build_sense_relation(rel) for rel in sense.relations)
     elem.extend(_build_example(ex) for ex in sense.examples)
@@ -1016,16 +1036,18 @@ def _build_synset_relation(relation: SynsetRelation) -> ET.Element:
 def _dump_syntactic_behaviour(
         syntactic_behaviour: SyntacticBehaviour, out: TextIO, version: str
 ) -> None:
-    elem = _build_syntactic_behaviour(syntactic_behaviour)
+    elem = _build_syntactic_behaviour(syntactic_behaviour, version=version)
     print('    ' + _tostring(elem, 2), file=out)
 
 
-def _build_syntactic_behaviour(syntactic_behaviour: SyntacticBehaviour) -> ET.Element:
+def _build_syntactic_behaviour(
+    syntactic_behaviour: SyntacticBehaviour, version: str
+) -> ET.Element:
     elem = ET.Element('SyntacticBehaviour')
-    # if getattr(syntactic_behaviour, 'id', None):
-    #     elem.set('id', syntactic_behaviour.id)
+    if version != '1.0' and syntactic_behaviour.id:
+        elem.set('id', syntactic_behaviour.id)
     elem.set('subcategorizationFrame', syntactic_behaviour.frame)
-    if syntactic_behaviour.senses:
+    if version == '1.0' and syntactic_behaviour.senses:
         elem.set('senses', ' '.join(syntactic_behaviour.senses))
     return elem
 

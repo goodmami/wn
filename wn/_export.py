@@ -241,8 +241,8 @@ def _export_synset_relations(
 def _export_syntactic_behaviours(lexids: Sequence[int]) -> List[lmf.SyntacticBehaviour]:
     SyntacticBehaviour = lmf.SyntacticBehaviour
     return [
-        SyntacticBehaviour(frame, senses)
-        for _, frame, senses in find_syntactic_behaviours(lexicon_rowids=lexids)
+        SyntacticBehaviour(id, frame, senses)
+        for id, frame, senses in find_syntactic_behaviours(lexicon_rowids=lexids)
     ]
 
 

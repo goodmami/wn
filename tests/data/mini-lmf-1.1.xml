@@ -79,7 +79,7 @@
     <!-- add a new entry with a new synset -->
     <LexicalEntry id="test-en-ext-fire-v">
       <Lemma partOfSpeech="v" writtenForm="fire" />
-      <Sense id="test-en-ext-fire-v-0009-01" synset="test-en-ext-0009-v" />
+      <Sense id="test-en-ext-fire-v-0009-01" synset="test-en-ext-0009-v" subcat="social-transitive" />
     </LexicalEntry>
 
     <!-- only needed for ids -->
@@ -98,6 +98,8 @@
       <Definition>terminate employment</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0007-v" />
     </Synset>
+
+    <SyntacticBehaviour id="social-transitive" subcategorizationFrame="Somebody ----s somebody" />
 
   </LexiconExtension>
 
