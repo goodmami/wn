@@ -41,6 +41,7 @@
 
 * Adding a wordnet with sense relations with invalid target IDs now
   raises an error instead of ignoring the relation.
+* Detect LMF-vs-CILI projects even when files are uncompressed ([#104])
 
 ### Changed
 
@@ -312,3 +313,4 @@ abandoned, but this is an entirely new codebase.
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
 [#99]: https://github.com/goodmami/wn/issues/99
+[#104]: https://github.com/goodmami/wn/issues/104

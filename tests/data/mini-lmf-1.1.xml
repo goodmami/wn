@@ -75,7 +75,9 @@
 
     <!-- add a sense to an existing entry -->
     <ExternalLexicalEntry id="test-en-illustrate-v">
-      <Sense id="test-en-ext-illustrate-v-0008-01" synset="test-en-ext-0008-v" />
+      <Sense id="test-en-ext-illustrate-v-0008-01" synset="test-en-ext-0008-v">
+	<Example>"the artist illustrated the story beautifully"</Example>
+      </Sense>
     </ExternalLexicalEntry>
 
     <!-- add a new entry with a new synset -->
