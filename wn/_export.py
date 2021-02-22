@@ -23,6 +23,7 @@ from wn._queries import (
     get_form_pronunciations,
     get_form_tags,
     get_sense_counts,
+    get_lexfile,
 )
 from wn._core import Lexicon
 
@@ -204,6 +205,7 @@ def _export_synsets(lexids: Sequence[int]) -> List[lmf.Synset]:
                 examples=_export_examples(rowid, 'synsets', lexids),
                 lexicalized=get_lexicalized(rowid, 'synsets'),
                 members=[row[0] for row in get_synset_members(rowid, lexids)],
+                lexfile=get_lexfile(rowid),
                 meta=_export_metadata(rowid, 'synsets'),
             )
         )

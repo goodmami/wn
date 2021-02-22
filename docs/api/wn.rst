@@ -204,6 +204,7 @@ The Synset Class
    .. automethod:: examples
    .. automethod:: senses
    .. automethod:: lexicalized
+   .. automethod:: lexfile
    .. automethod:: metadata
    .. automethod:: words
    .. automethod:: lemmas

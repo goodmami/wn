@@ -9,7 +9,7 @@ import logging
 import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
-from wn._db import connect, relmap, ilistatmap
+from wn._db import connect, relmap, ilistatmap, lexfilemap
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -260,7 +260,7 @@ def _insert_synsets(synsets, lexid, cur, progress):
     # synsets
     ss_query = '''
         INSERT INTO synsets
-        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,?)
+        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,?,?)
     '''
     # presupposed ILIs
     presupposed = ilistatmap['presupposed']
@@ -295,8 +295,8 @@ def _insert_synsets(synsets, lexid, cur, progress):
              lexid,
              ss.ili if ss.ili and ss.ili != 'in' else None,
              ss.pos,
-             # lexfile_map.get(ss.meta.subject) if ss.meta else None,
              ss.lexicalized,
+             lexfilemap.get(ss.lexfile),
              ss.meta)
             for ss in batch if not ss.external
         )

@@ -114,8 +114,8 @@ CREATE TABLE synsets (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     ili_rowid INTEGER REFERENCES ilis (rowid),
     pos TEXT,
-    -- lexfile_id INTEGER REFERENCES lexicographer_files (id),
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
+    lexfile INTEGER,
     metadata META
 );
 CREATE INDEX synset_id_index ON synsets (id);

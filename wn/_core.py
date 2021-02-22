@@ -33,6 +33,7 @@ from wn._queries import (
     get_lexicalized,
     get_adjposition,
     get_sense_counts,
+    get_lexfile,
 )
 
 _FAKE_ROOT = '*ROOT*'
@@ -547,6 +548,10 @@ class Synset(_Relatable):
     def lexicalized(self) -> bool:
         """Return True if the synset is lexicalized."""
         return get_lexicalized(self._id, 'synsets')
+
+    def lexfile(self) -> Optional[str]:
+        """Return the lexicographer file name for this synset, if any."""
+        return get_lexfile(self._id)
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""

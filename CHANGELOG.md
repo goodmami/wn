@@ -38,7 +38,9 @@
      `<ExternalLexicalEntry>`, `<ExternalSense>`
    - `subcat` on `<Sense>`
    - `members` on `<Synset>`
+   - `lexfile` on `<Synset>`
    - `<Pronunciation>`
+* `wn.Synset.lexfile()`
 
 ### Fixed
 
@@ -73,6 +75,8 @@
   ([#89], [#99])
 * Wordform pronunciations are now stored in the database and exported
   to XML ([#7])
+* Lexicographer files via the `lexfile` attribute are now stored in
+  the database and exported ([#7])
 
 ### Schema
 
@@ -94,6 +98,7 @@
 * Added `logo` column to `lexicons` table ([#89])
 * Added a `synset_rank` column to `senses` table ([#89])
 * Added a `pronunciations` table ([#89])
+* Added `lexfile` column to `synsets` table ([#89])
 
 
 ## [v0.5.1]

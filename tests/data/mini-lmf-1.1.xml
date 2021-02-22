@@ -40,10 +40,10 @@
       <Sense id="test-ja-事例-n-0002-01" synset="test-ja-0002-n" />
     </LexicalEntry>
 
-    <Synset id="test-ja-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition"
+    <Synset id="test-ja-0001-n" ili="i67447" partOfSpeech="n" lexfile="noun.cognition"
             members="test-ja-情報-n-0001-01" />
 
-    <Synset id="test-ja-0002-n" ili="i67469" partOfSpeech="n" dc:subject="noun.cognition"
+    <Synset id="test-ja-0002-n" ili="i67469" partOfSpeech="n" lexfile="noun.cognition"
             members="test-ja-事例-n-0002-01 test-ja-例え-n-0002-01" />
 
   </Lexicon>
@@ -95,12 +95,12 @@
     </ExternalSynset>
 
     <Synset id="test-en-ext-0008-v" ili="i30181" partOfSpeech="v"
-            members="test-en-ext-illustrate-v-0008-01" dc:subject="verb.creation">
+            members="test-en-ext-illustrate-v-0008-01" lexfile="verb.creation">
       <Definition>depict something in a visual medium</Definition>
     </Synset>
 
     <Synset id="test-en-ext-0009-v" ili="i33760" partOfSpeech="v"
-            members="test-en-ext-fire-v-0009-01" dc:subject="verb.social">
+            members="test-en-ext-fire-v-0009-01" lexfile="verb.social">
       <Definition>terminate employment</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0007-v" />
     </Synset>
