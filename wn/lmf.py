@@ -900,6 +900,8 @@ def dump(
     Args:
         lexicons: a list of :class:`Lexicon` objects
     """
+    if version not in _SCHEMAS:
+        raise LMFError(f'invalid version: {version}')
     destination = Path(destination).expanduser()
     doctype = _DOCTYPE.format(schema=_SCHEMAS[version])
     dc_uri = _DC_URIS[version]
