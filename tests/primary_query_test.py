@@ -249,6 +249,13 @@ def test_mini_1_1():
     assert len(w.lexicons()) == 1
     assert len(w.expanded_lexicons()) == 1
     assert len(w.synsets('例え')[0].hypernyms()) == 1
+    assert len(w.words('例え')[0].lemma().pronunciations()) == 1
+    p = w.words('例え')[0].lemma().pronunciations()[0]
+    assert p.value == 'tatoe'
+    assert p.variety == 'standard'
+    assert p.notation == 'ipa'
+    assert p.phonemic
+    assert p.audio == 'tatoe.wav'
 
     w = wn.Wordnet(lang='ja', expand='')
     assert len(w.lexicons()) == 1

@@ -20,6 +20,7 @@ from wn._queries import (
     get_metadata,
     get_lexicalized,
     get_adjposition,
+    get_form_pronunciations,
     get_form_tags,
     get_sense_counts,
 )
@@ -94,9 +95,13 @@ def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
                 forms[0][0],
                 pos,
                 script=forms[0][1] or '',
+                pronunciations=_export_pronunciations(forms[0][2]),
                 tags=_export_tags(forms[0][2])
             ),
-            forms=[Form(form, script or '', tags=_export_tags(frowid))
+            forms=[Form(form,
+                        script or '',
+                        pronunciations=_export_pronunciations(frowid),
+                        tags=_export_tags(frowid))
                    for form, script, frowid in forms[1:]],
             senses=_export_senses(rowid, lexids),
             meta=_export_metadata(rowid, 'entries'),
@@ -104,6 +109,11 @@ def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
         for id, pos, forms, _, rowid
         in find_entries(lexicon_rowids=lexids)
     ]
+
+
+def _export_pronunciations(rowid: int) -> List[lmf.Pronunciation]:
+    Pron = lmf.Pronunciation
+    return [Pron(*data) for data in get_form_pronunciations(rowid)]
 
 
 def _export_tags(rowid: int) -> List[lmf.Tag]:

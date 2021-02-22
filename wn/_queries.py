@@ -15,6 +15,13 @@ from wn._db import connect, NON_ROWID, relmap, ilistatmap
 
 # Local Types
 
+_Pronunciation = Tuple[
+    str,   # value
+    str,   # variety
+    str,   # notation
+    bool,  # phonemic
+    str,   # audio
+]
 _Tag = Tuple[str, str]  # tag, category
 _Form = Tuple[
     str,            # form
@@ -679,6 +686,18 @@ def get_adjposition(rowid: int) -> Optional[str]:
     if row:
         return row[0]
     return None
+
+
+def get_form_pronunciations(form_rowid: int) -> List[_Pronunciation]:
+    # TODO: restrict by lexicon ids
+    conn = connect()
+    query = '''
+        SELECT value, variety, notation, phonemic, audio
+          FROM pronunciations
+         WHERE form_rowid = ?
+    '''
+    rows: List[_Pronunciation] = conn.execute(query, (form_rowid,)).fetchall()
+    return rows
 
 
 def get_form_tags(form_rowid: int) -> List[_Tag]:

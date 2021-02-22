@@ -14,6 +14,8 @@
 * `wn.ili()` ([#23])
 * `wn.ilis()` ([#23])
 * `wn.constants.ILI_STATUSES` ([#23])
+* `wn.Pronunciation` ([#7])
+* `wn.Form.pronunciations()` ([#7])
 * `wn.Tag` ([#65])
 * `wn.Form.tags()` ([#65])
 * `wn.Count` ([#65])
@@ -35,7 +37,8 @@
    - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
      `<ExternalLexicalEntry>`, `<ExternalSense>`
    - `subcat` on `<Sense>`
-   - `members` on `<Synset>` ([#7])
+   - `members` on `<Synset>`
+   - `<Pronunciation>`
 
 ### Fixed
 
@@ -68,6 +71,8 @@
   dependencies if they are specified (related to [#92])
 * Lexicon requirements and extensions are now modeled by the database
   ([#89], [#99])
+* Wordform pronunciations are now stored in the database and exported
+  to XML ([#7])
 
 ### Schema
 
@@ -88,6 +93,7 @@
 * Added a table for lexicon extensions ([#99])
 * Added `logo` column to `lexicons` table ([#89])
 * Added a `synset_rank` column to `senses` table ([#89])
+* Added a `pronunciations` table ([#89])
 
 
 ## [v0.5.1]

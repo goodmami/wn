@@ -18,6 +18,7 @@ from wn._queries import (
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
     get_lexicon_extensions,
+    get_form_pronunciations,
     get_form_tags,
     get_entry_senses,
     get_sense_relations,
@@ -222,6 +223,26 @@ class _LexiconElement(_DatabaseEntity):
             return self._wordnet._lexicon_ids
 
 
+class Pronunciation:
+    """A class for word form pronunciations."""
+
+    __slots__ = 'value', 'variety', 'notation', 'phonemic', 'audio'
+
+    def __init__(
+        self,
+        value: str,
+        variety: str = None,
+        notation: str = None,
+        phonemic: bool = True,
+        audio: str = None,
+    ):
+        self.value = value
+        self.variety = variety
+        self.notation = notation
+        self.phonemic = phonemic
+        self.audio = audio
+
+
 class Tag:
     """A general-purpose tag class for word forms."""
     __slots__ = 'tag', 'category',
@@ -261,6 +282,9 @@ class Form(str):
         if script is None:
             return str.__hash__(self)
         return hash((str(self), self.script))
+
+    def pronunciations(self) -> List[Pronunciation]:
+        return [Pronunciation(*data) for data in get_form_pronunciations(self._id)]
 
     def tags(self) -> List[Tag]:
         return [Tag(tag, category) for tag, category in get_form_tags(self._id)]

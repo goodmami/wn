@@ -982,8 +982,8 @@ def _dump_lexical_entry(
         attrib.update(_meta_dict(entry.meta))
         elem = ET.Element('LexicalEntry', attrib=attrib)
         assert entry.lemma is not None
-        elem.append(_build_lemma(entry.lemma))
-    elem.extend(_build_form(form) for form in entry.forms)
+        elem.append(_build_lemma(entry.lemma, version))
+    elem.extend(_build_form(form, version) for form in entry.forms)
     elem.extend(_build_sense(sense, sbmap, version) for sense in entry.senses)
     if version == '1.0':
         senses = set(sense.id for sense in entry.senses)
@@ -1004,26 +1004,28 @@ def _build_syntactic_behaviour_1_0(frame: str, senses: List[str]) -> ET.Element:
     )
 
 
-def _build_lemma(lemma: Lemma) -> ET.Element:
+def _build_lemma(lemma: Lemma, version: str) -> ET.Element:
     attrib = {'writtenForm': lemma.form}
     if lemma.script:
         attrib['script'] = lemma.script
     attrib['partOfSpeech'] = lemma.pos
     elem = ET.Element('Lemma', attrib=attrib)
-    for pron in lemma.pronunciations:
-        elem.append(_build_pronunciation(pron))
+    if version != '1.0':
+        for pron in lemma.pronunciations:
+            elem.append(_build_pronunciation(pron))
     for tag in lemma.tags:
         elem.append(_build_tag(tag))
     return elem
 
 
-def _build_form(form: Form) -> ET.Element:
+def _build_form(form: Form, version: str) -> ET.Element:
     attrib = {'writtenForm': form.form}
     if form.script:
         attrib['script'] = form.script
     elem = ET.Element('Form', attrib=attrib)
-    for pron in form.pronunciations:
-        elem.append(_build_pronunciation(pron))
+    if version != '1.0':
+        for pron in form.pronunciations:
+            elem.append(_build_pronunciation(pron))
     for tag in form.tags:
         elem.append(_build_tag(tag))
     return elem
