@@ -77,6 +77,7 @@ def _export_lexicon(lexicon: Lexicon) -> lmf.Lexicon:
         version=lexicon.version,
         url=lexicon.url or '',
         citation=lexicon.citation or '',
+        logo=lexicon.logo or '',
         lexical_entries=_export_lexical_entries(lexids),
         synsets=_export_synsets(lexids),
         syntactic_behaviours=_export_syntactic_behaviours(lexids),

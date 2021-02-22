@@ -926,7 +926,7 @@ def _dump_lexicon(lexicon: Lexicon, out: TextIO, version: str) -> None:
         attrib['url'] = lexicon.url
     if lexicon.citation:
         attrib['citation'] = lexicon.citation
-    if lexicon.logo:
+    if version != '1.0' and lexicon.logo:
         attrib['logo'] = lexicon.logo
     attrib.update(_meta_dict(lexicon.meta))
     attrdelim = '\n' + (' ' * len(f'  <{lexicontype} '))
