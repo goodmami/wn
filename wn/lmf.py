@@ -337,23 +337,43 @@ class Tag:
 
 
 class Form:
-    __slots__ = 'form', 'script', 'pronunciations', 'tags'
+    __slots__ = 'id', 'form', 'script', 'pronunciations', 'tags', 'external'
 
     def __init__(
         self,
+        id: Optional[str],
         form: str,
         script: str,
         pronunciations: List[Pronunciation] = None,
         tags: List[Tag] = None,
     ):
+        self.id = id
         self.form = form
         self.script = script
         self.pronunciations = pronunciations or []
         self.tags = tags or []
+        self.external = False
+
+    @classmethod
+    def as_external(
+        cls,
+        id: str,
+        pronunciations: List[Pronunciation] = None,
+        tags: List[Tag] = None,
+    ):
+        obj = cls(
+            id,
+            '',
+            '',
+            pronunciations=pronunciations,
+            tags=tags,
+        )
+        obj.external = True
+        return obj
 
 
 class Lemma:
-    __slots__ = 'form', 'pos', 'script', 'pronunciations', 'tags'
+    __slots__ = 'form', 'pos', 'script', 'pronunciations', 'tags', 'external'
 
     def __init__(
         self,
@@ -368,6 +388,22 @@ class Lemma:
         self.script = script
         self.pronunciations = pronunciations or []
         self.tags = tags or []
+        self.external = False
+
+    @classmethod
+    def as_external(
+        cls,
+        pronunciations: List[Pronunciation] = None,
+        tags: List[Tag] = None,
+    ):
+        obj = cls(
+            '',
+            '',
+            pronunciations=pronunciations,
+            tags=tags,
+        )
+        obj.external = True
+        return obj
 
 
 class LexicalEntry(_HasMeta):
@@ -392,12 +428,13 @@ class LexicalEntry(_HasMeta):
     def as_external(
         cls,
         id: str,
+        lemma: Lemma = None,
         forms: List[Form] = None,
         senses: List[Sense] = None,
     ):
         obj = cls(
             id,
-            None,
+            lemma,
             forms=forms,
             senses=senses
         )
@@ -602,8 +639,8 @@ def _load_lexical_entries(
             attrs = events.start('LexicalEntry').attrib
             entry = LexicalEntry(
                 attrs['id'],
-                _load_lemma(events),
-                forms=_load_forms(events),
+                _load_lemma(events, False),
+                forms=_load_forms(events, False),
                 senses=_load_senses(events, sbmap, False, version),
                 meta=_get_metadata(attrs, version),
             )
@@ -613,7 +650,8 @@ def _load_lexical_entries(
             attrs = events.start('ExternalLexicalEntry').attrib
             entry = LexicalEntry.as_external(
                 attrs['id'],
-                forms=_load_forms(events),
+                lemma=_load_lemma(events, True),
+                forms=_load_forms(events, True),
                 senses=_load_senses(events, sbmap, True, version)
             )
             syntactic_behaviours.extend(_load_syntactic_behaviours(events, version))
@@ -626,28 +664,53 @@ def _load_lexical_entries(
     return entries, syntactic_behaviours, sbmap
 
 
-def _load_lemma(events) -> Lemma:
-    attrs = events.start('Lemma').attrib
-    lemma = Lemma(
-        attrs['writtenForm'],
-        _get_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
-        script=attrs.get('script'),
-        pronunciations=_load_pronunciations(events),
-        tags=_load_tags(events)
-    )
-    events.end('Lemma')
+def _load_lemma(events, external) -> Optional[Lemma]:
+    lemma: Optional[Lemma] = None
+    if external and events.starts('ExternalLemma'):
+        next(events)
+        lemma = Lemma.as_external(
+            pronunciations=_load_pronunciations(events),
+            tags=_load_tags(events)
+        )
+        events.end('ExternalLemma')
+    elif not external or events.starts('Lemma'):
+        attrs = events.start('Lemma').attrib
+        lemma = Lemma(
+            attrs['writtenForm'],
+            _get_literal(attrs['partOfSpeech'], PARTS_OF_SPEECH),
+            script=attrs.get('script'),
+            pronunciations=_load_pronunciations(events),
+            tags=_load_tags(events)
+        )
+        events.end('Lemma')
     return lemma
 
 
-def _load_forms(events) -> List[Form]:
+def _load_forms(events, external) -> List[Form]:
     forms: List[Form] = []
-    while events.starts('Form'):
-        attrs = next(events)[1].attrib
-        forms.append(Form(attrs['writtenForm'],
-                          script=attrs.get('script'),
-                          pronunciations=_load_pronunciations(events),
-                          tags=_load_tags(events)))
-        events.end('Form')
+    while True:
+        if events.starts('Form'):
+            attrs = next(events)[1].attrib
+            forms.append(
+                Form(attrs.get('id'),
+                     attrs['writtenForm'],
+                     script=attrs.get('script'),
+                     pronunciations=_load_pronunciations(events),
+                     tags=_load_tags(events))
+            )
+            events.end('Form')
+        elif external and events.starts('ExternalForm'):
+            attrs = next(events)[1].attrib
+            forms.append(
+                Form.as_external(
+                    attrs['id'],
+                    pronunciations=_load_pronunciations(events),
+                    tags=_load_tags(events)
+                )
+            )
+            events.end('ExternalForm')
+        else:
+            break
     return forms
 
 
@@ -989,6 +1052,7 @@ def _dump_lexical_entry(
         attrib.update(_meta_dict(entry.meta))
         elem = ET.Element('LexicalEntry', attrib=attrib)
         assert entry.lemma is not None
+    if entry.lemma:
         elem.append(_build_lemma(entry.lemma, version))
     elem.extend(_build_form(form, version) for form in entry.forms)
     elem.extend(_build_sense(sense, sbmap, version) for sense in entry.senses)
@@ -1012,11 +1076,14 @@ def _build_syntactic_behaviour_1_0(frame: str, senses: List[str]) -> ET.Element:
 
 
 def _build_lemma(lemma: Lemma, version: str) -> ET.Element:
-    attrib = {'writtenForm': lemma.form}
-    if lemma.script:
-        attrib['script'] = lemma.script
-    attrib['partOfSpeech'] = lemma.pos
-    elem = ET.Element('Lemma', attrib=attrib)
+    if lemma.external:
+        elem = ET.Element('ExternalLemma')
+    else:
+        attrib = {'writtenForm': lemma.form}
+        if lemma.script:
+            attrib['script'] = lemma.script
+        attrib['partOfSpeech'] = lemma.pos
+        elem = ET.Element('Lemma', attrib=attrib)
     if version != '1.0':
         for pron in lemma.pronunciations:
             elem.append(_build_pronunciation(pron))
@@ -1026,10 +1093,16 @@ def _build_lemma(lemma: Lemma, version: str) -> ET.Element:
 
 
 def _build_form(form: Form, version: str) -> ET.Element:
-    attrib = {'writtenForm': form.form}
-    if form.script:
-        attrib['script'] = form.script
-    elem = ET.Element('Form', attrib=attrib)
+    attrib = {}
+    if version != '1.0' and form.id:
+        attrib['id'] = form.id
+    if form.external:
+        elem = ET.Element('ExternalForm', attrib=attrib)
+    else:
+        attrib['writtenForm'] = form.form
+        if form.script:
+            attrib['script'] = form.script
+        elem = ET.Element('Form', attrib=attrib)
     if version != '1.0':
         for pron in form.pronunciations:
             elem.append(_build_pronunciation(pron))

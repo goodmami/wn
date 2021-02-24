@@ -96,15 +96,16 @@ def _export_lexical_entries(lexids: Sequence[int]) -> List[lmf.LexicalEntry]:
             Lemma(
                 forms[0][0],
                 pos,
-                script=forms[0][1] or '',
-                pronunciations=_export_pronunciations(forms[0][2]),
-                tags=_export_tags(forms[0][2])
+                script=forms[0][2] or '',
+                pronunciations=_export_pronunciations(forms[0][3]),
+                tags=_export_tags(forms[0][3])
             ),
-            forms=[Form(form,
+            forms=[Form(fid,
+                        form,
                         script or '',
                         pronunciations=_export_pronunciations(frowid),
                         tags=_export_tags(frowid))
-                   for form, script, frowid in forms[1:]],
+                   for form, fid, script, frowid in forms[1:]],
             senses=_export_senses(rowid, lexids),
             meta=_export_metadata(rowid, 'entries'),
         )

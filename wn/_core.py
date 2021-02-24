@@ -261,14 +261,22 @@ class Tag:
 
 class Form(str):
     """A word-form string with additional attributes."""
-    __slots__ = '_id', 'script',
+    __slots__ = '_id', 'id', 'script',
     __module__ = 'wn'
 
     _id: int
+    id: Optional[str]
     script: Optional[str]
 
-    def __new__(cls, form: str, script: str = None, _id: int = NON_ROWID):
+    def __new__(
+        cls,
+        form: str,
+        id: str = None,
+        script: str = None,
+        _id: int = NON_ROWID
+    ):
         obj = str.__new__(cls, form)  # type: ignore
+        obj.id = id
         obj.script = script
         obj._id = _id
         return obj
@@ -302,7 +310,7 @@ class Word(_LexiconElement):
             self,
             id: str,
             pos: str,
-            forms: List[Tuple[str, Optional[str], int]],
+            forms: List[Tuple[str, Optional[str], Optional[str], int]],
             _lexid: int = NON_ROWID,
             _id: int = NON_ROWID,
             _wordnet: 'Wordnet' = None

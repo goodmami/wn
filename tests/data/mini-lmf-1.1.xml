@@ -16,9 +16,9 @@
 
     <LexicalEntry id="test-ja-情報-n">
       <Lemma partOfSpeech="n" writtenForm="情報" script="Jpan" />
-      <Form writtenForm="じょうほう" script="Hira" />
-      <Form writtenForm="ジョウホウ" script="Kana" />
-      <Form writtenForm="zyouhou" script="Latn-kunrei" />
+      <Form id="test-ja-情報-n-じょうほう" writtenForm="じょうほう" script="Hira" />
+      <Form id="test-ja-情報-n-ジョウホウ" writtenForm="ジョウホウ" script="Kana" />
+      <Form id="test-ja-情報-n-zyouhou" writtenForm="zyouhou" script="Latn-kunrei" />
       <Sense id="test-ja-情報-n-0001-01" synset="test-ja-0001-n" />
     </LexicalEntry>
 
@@ -26,17 +26,17 @@
       <Lemma partOfSpeech="n" writtenForm="例え">
         <Pronunciation variety="standard" notation="ipa" audio="tatoe.wav">tatoe</Pronunciation>
       </Lemma>
-      <Form writtenForm="たとえ" script="Hira" />
-      <Form writtenForm="タトエ" script="Kana" />
-      <Form writtenForm="tatoe" script="Latn-kunrei" />
+      <Form id="test-ja-例え-n-たとえ" writtenForm="たとえ" script="Hira" />
+      <Form id="test-ja-例え-n-タトエ" writtenForm="タトエ" script="Kana" />
+      <Form id="test-ja-例え-n-tatoe" writtenForm="tatoe" script="Latn-kunrei" />
       <Sense id="test-ja-例え-n-0002-01" synset="test-ja-0002-n" />
     </LexicalEntry>
 
     <LexicalEntry id="test-ja-事例-n">
       <Lemma partOfSpeech="n" writtenForm="事例" />
-      <Form writtenForm="じれい" script="Hira" />
-      <Form writtenForm="ジレイ" script="Kana" />
-      <Form writtenForm="zirei" script="Latn-kunrei" />
+      <Form id="test-ja-事例-n-じれい" writtenForm="じれい" script="Hira" />
+      <Form id="test-ja-事例-n-ジレイ" writtenForm="ジレイ" script="Kana" />
+      <Form id="test-ja-事例-n-zirei" writtenForm="zirei" script="Latn-kunrei" />
       <Sense id="test-ja-事例-n-0002-01" synset="test-ja-0002-n" />
     </LexicalEntry>
 
@@ -76,8 +76,15 @@
     <!-- add a sense to an existing entry -->
     <ExternalLexicalEntry id="test-en-illustrate-v">
       <Sense id="test-en-ext-illustrate-v-0008-01" synset="test-en-ext-0008-v">
-	<Example>"the artist illustrated the story beautifully"</Example>
+	    <Example>"the artist illustrated the story beautifully"</Example>
       </Sense>
+    </ExternalLexicalEntry>
+
+    <!-- add a tag -->
+    <ExternalLexicalEntry id="test-en-exemplify-v">
+      <ExternalLemma>
+        <Tag category="tense">INF</Tag>
+      </ExternalLemma>
     </ExternalLexicalEntry>
 
     <!-- add a new entry with a new synset -->

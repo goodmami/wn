@@ -17,6 +17,7 @@
 * `wn.Pronunciation` ([#7])
 * `wn.Form.pronunciations()` ([#7])
 * `wn.Tag` ([#65])
+* `wn.Form.id` ([#7])
 * `wn.Form.tags()` ([#65])
 * `wn.Count` ([#65])
 * `wn.Sense.counts()` ([#65])
@@ -35,11 +36,13 @@
 * `wn.lmf` WN-LMF 1.1 support ([#7])
    - `<Requires>`
    - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
-     `<ExternalLexicalEntry>`, `<ExternalSense>`
+     `<ExternalLexicalEntry>`, `<ExternalSense>`,
+     `<ExternalLemma>`, `<ExternalForm>`
    - `subcat` on `<Sense>`
    - `members` on `<Synset>`
    - `lexfile` on `<Synset>`
    - `<Pronunciation>`
+   - `id` on `<Form>`
 * `wn.Synset.lexfile()`
 
 ### Fixed
@@ -77,6 +80,8 @@
   to XML ([#7])
 * Lexicographer files via the `lexfile` attribute are now stored in
   the database and exported ([#7])
+* Wordform ids are now stored in the database and exported to XML
+  ([#7])
 
 ### Schema
 
@@ -99,6 +104,7 @@
 * Added a `synset_rank` column to `senses` table ([#89])
 * Added a `pronunciations` table ([#89])
 * Added `lexfile` column to `synsets` table ([#89])
+* Added an `id` column to `forms` table ([#89])
 
 
 ## [v0.5.1]

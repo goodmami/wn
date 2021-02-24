@@ -29,15 +29,16 @@ ENTRY_QUERY = '''
      WHERE e.id = ?
        AND e.lexicon_rowid = ?
 '''
-# forms don't have reliable ids
+# forms don't have reliable ids, so also consider rank; this depends
+# on each form having a unique rank, and this doesn't work for lexicon
+# extensions
 FORM_QUERY = '''
     SELECT f.rowid
       FROM forms AS f
       JOIN entries AS e ON f.entry_rowid = e.rowid
-     WHERE e.lexicon_rowid = ?
-       AND e.id = ?
-       AND f.form = ?
-       AND f.script IS ?
+     WHERE e.id = ?
+       AND e.lexicon_rowid = ?
+       AND (f.id = ? OR f.rank = ?)
 '''
 SENSE_QUERY = '''
     SELECT s.rowid
@@ -374,7 +375,7 @@ def _insert_entries(entries, lexid, cur, progress):
 
 def _insert_forms(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Word Forms')
-    query = f'INSERT INTO forms VALUES (null,?,({ENTRY_QUERY}),?,?,?)'
+    query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?)'
     for batch in _split(entries):
         forms = []
         for entry in batch:
@@ -382,8 +383,8 @@ def _insert_forms(entries, lexid, lexidmap, cur, progress):
             lemma = entry.lemma
             lid = lexidmap.get(eid, lexid)
             if not entry.external:
-                forms.append((lexid, eid, lid, lemma.form, lemma.script, 0))
-            forms.extend((lexid, eid, lid, form.form, form.script, i)
+                forms.append((None, lexid, eid, lid, lemma.form, lemma.script, 0))
+            forms.extend((form.id, lexid, eid, lid, form.form, form.script, i)
                          for i, form in enumerate(entry.forms, 1))
         cur.executemany(query, forms)
         progress.update(len(forms))
@@ -396,18 +397,19 @@ def _insert_pronunciations(entries, lexid, lexidmap, cur, progress):
         prons = []
         for entry in batch:
             eid = entry.id
-            lemma = entry.lemma
             lid = lexidmap.get(eid, lexid)
-            if not entry.external:
+            if entry.lemma:
                 for p in entry.lemma.pronunciations:
                     prons.append(
-                        (lid, eid, lemma.form, lemma.script,
+                        (eid, lid, None, 0,
                          p.value, p.variety, p.notation, p.phonemic, p.audio)
                     )
-            for form in entry.forms:
+            for i, form in enumerate(entry.forms, 1):
+                # rank is not valid in FORM_QUERY for external forms
+                rank = -1 if form.external else i
                 for p in form.pronunciations:
                     prons.append(
-                        (lid, eid, form.form, form.script,
+                        (eid, lid, form.id, rank,
                          p.text, p.variety, p.notation, p.phonemic, p.audio)
                     )
         cur.executemany(query, prons)
@@ -421,18 +423,15 @@ def _insert_tags(entries, lexid, lexidmap, cur, progress):
         tags = []
         for entry in batch:
             eid = entry.id
-            lemma = entry.lemma
             lid = lexidmap.get(eid, lexid)
-            if not entry.external:
+            if entry.lemma:
                 for tag in entry.lemma.tags:
-                    tags.append(
-                        (lid, eid, lemma.form, lemma.script, tag.text, tag.category)
-                    )
-            for form in entry.forms:
+                    tags.append((eid, lid, None, 0, tag.text, tag.category))
+            for i, form in enumerate(entry.forms, 1):
+                # rank is not valid in FORM_QUERY for external forms
+                rank = -1 if form.external else i
                 for tag in form.tags:
-                    tags.append(
-                        (lid, eid, form.form, form.script, tag.text, tag.category)
-                    )
+                    tags.append((eid, lid, form.id, rank, tag.text, tag.category))
         cur.executemany(query, tags)
         progress.update(len(tags))
 

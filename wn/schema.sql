@@ -78,6 +78,7 @@ CREATE INDEX entry_id_index ON entries (id);
 
 CREATE TABLE forms (
     rowid INTEGER PRIMARY KEY,
+    id TEXT,
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     entry_rowid INTEGER NOT NULL REFERENCES entries(rowid) ON DELETE CASCADE,
     form TEXT NOT NULL,

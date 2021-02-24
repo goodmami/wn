@@ -25,6 +25,7 @@ _Pronunciation = Tuple[
 _Tag = Tuple[str, str]  # tag, category
 _Form = Tuple[
     str,            # form
+    Optional[str],  # id
     Optional[str],  # script
     int             # rowid
 ]
@@ -283,7 +284,7 @@ def find_entries(
     conn = connect()
     query_parts = [
         'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, e.pos,'
-        '                f.form, f.script, f.rowid',
+        '                f.form, f.id, f.script, f.rowid',
         '  FROM entries AS e',
         '  JOIN forms AS f ON f.entry_rowid = e.rowid',
     ]
@@ -309,12 +310,12 @@ def find_entries(
 
     query = '\n'.join(query_parts)
     rows: Iterator[
-        Tuple[int, int, str, str, str, Optional[str], int]
+        Tuple[int, int, str, str, str, Optional[str], Optional[str], int]
     ] = conn.execute(query, params)
     groupby = itertools.groupby
     for key, group in groupby(rows, lambda row: row[0:4]):
         lexid, rowid, id, pos = key
-        forms = [(row[4], row[5], row[6]) for row in group]
+        forms = [(row[4], row[5], row[6], row[7]) for row in group]
         yield (id, pos, forms, lexid, rowid)
 
 
