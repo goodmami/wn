@@ -113,14 +113,14 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
     try:
         specs = conn.execute('SELECT id, version FROM lexicons').fetchall()
     except sqlite3.OperationalError as exc:
-        raise wn.Error(msg) from exc
+        raise wn.DatabaseError(msg) from exc
     else:
         if specs:
             installed = '\n  '.join(f'{id}:{ver}' for id, ver in specs)
             msg += f" Lexicons currently installed:\n  {installed}"
         else:
             msg += ' No lexicons are currently installed.'
-        raise wn.Error(msg)
+        raise wn.DatabaseError(msg)
 
 
 def schema_hash(conn: sqlite3.Connection) -> str:

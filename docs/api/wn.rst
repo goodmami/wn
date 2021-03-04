@@ -308,4 +308,5 @@ Exceptions
 ----------
 
 .. autoexception:: Error
+.. autoexception:: DatabaseError
 .. autoexception:: WnWarning

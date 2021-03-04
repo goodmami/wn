@@ -30,11 +30,12 @@ __all__ = (
     'ilis',
     'ILI',
     'Error',
+    'DatabaseError',
     'WnWarning',
 )
 
 from wn._meta import __version__
-from wn._exceptions import Error, WnWarning
+from wn._exceptions import Error, DatabaseError, WnWarning
 from wn._config import config  # noqa: F401
 from wn._add import add, remove
 from wn._export import export

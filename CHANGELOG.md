@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.DatabaseError` as a more specific error type for schema changes
+  ([#106])
+
 
 ## [v0.6.0]
 
@@ -339,3 +344,4 @@ abandoned, but this is an entirely new codebase.
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
+[#106]: https://github.com/goodmami/wn/issues/106
