@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.6.0]
+
+**Release date: 2021-03-04**
+
 ### Added
 
 * For WN-LMF 1.0 support ([#65])
@@ -287,6 +292,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.6.0]: ../../releases/tag/v0.6.0
 [v0.5.1]: ../../releases/tag/v0.5.1
 [v0.5.0]: ../../releases/tag/v0.5.0
 [v0.4.1]: ../../releases/tag/v0.4.1

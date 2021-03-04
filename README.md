@@ -7,7 +7,6 @@
   <br>
   <a href="https://pypi.org/project/wn/"><img src="https://img.shields.io/pypi/v/wn.svg?style=flat-square" alt="PyPI link"></a>
   <img src="https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square" alt="Python Support">
-  <img src="https://img.shields.io/pypi/dm/wn?style=flat-square" alt="Downloads">
   <a href="https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22"><img src="https://github.com/goodmami/wn/workflows/tests/badge.svg" alt="tests"></a>
   <a href="https://wn.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square" alt="Documentation Status"></a>
   <br>
