@@ -52,17 +52,3 @@ T = TypeVar('T')
 
 def flatten(iterable: Iterable[Iterable[T]]) -> List[T]:
     return [x for xs in iterable for x in xs]
-
-
-class Bijection(dict):
-    """Very simple bidirectional one-to-one mapping.
-
-    This does no checks and assumes it will not be changed after
-    creation.
-    """
-
-    __slots__ = 'inverse',
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.inverse = {v: k for k, v in self.items()}
