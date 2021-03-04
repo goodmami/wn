@@ -5,7 +5,7 @@ import warnings
 import wn
 from wn._types import Metadata
 from wn._util import flatten
-from wn._db import NON_ROWID, ilistatmap
+from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
     find_ilis,
@@ -71,27 +71,23 @@ class _DatabaseEntity:
 
 class ILI(_DatabaseEntity):
     """A class for interlingual indices."""
-    __slots__ = 'id', '_status', '_definition'
+    __slots__ = 'id', 'status', '_definition'
     __module__ = 'wn'
 
     def __init__(
         self,
         id: Optional[str],
-        status: int,
+        status: str,
         definition: str = None,
         _id: int = NON_ROWID,
     ):
         super().__init__(_id=_id)
         self.id = id
-        self._status = status
+        self.status = status
         self._definition = definition
 
     def __repr__(self) -> str:
         return f'ILI({repr(self.id) if self.id else "*PROPOSED*"})'
-
-    @property
-    def status(self) -> Optional[str]:
-        return ilistatmap.inverse[self._status]
 
     def definition(self) -> Optional[str]:
         return self._definition

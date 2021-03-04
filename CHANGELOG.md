@@ -12,7 +12,6 @@
 * `wn.Wordnet.ilis()` ([#23])
 * `wn.ili()` ([#23])
 * `wn.ilis()` ([#23])
-* `wn.constants.ILI_STATUSES` ([#23])
 * `wn.Pronunciation` ([#7])
 * `wn.Form.pronunciations()` ([#7])
 * `wn.Tag` ([#65])
@@ -81,7 +80,6 @@
   the database and exported ([#7])
 * Wordform ids are now stored in the database and exported to XML
   ([#7])
-* Relation type tables are combined for synsets and senses ([#75])
 
 ### Schema
 
@@ -103,6 +101,8 @@
 * Added a `pronunciations` table ([#89])
 * Added `lexfile` column to `synsets` table ([#89])
 * Added an `id` column to `forms` table ([#89])
+* Relation type tables are combined for synsets and senses ([#75])
+* Added a table for ILI statuses ([#23])
 
 
 ## [v0.5.1]

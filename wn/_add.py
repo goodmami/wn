@@ -9,7 +9,7 @@ import logging
 import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
-from wn._db import connect, ilistatmap, lexfilemap
+from wn._db import connect, lexfilemap
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -56,6 +56,11 @@ RELTYPE_QUERY = '''
     SELECT rt.rowid
       FROM relation_types AS rt
      WHERE rt.type = ?
+'''
+ILISTAT_QUERY = '''
+    SELECT ist.rowid
+      FROM ili_statuses AS ist
+     WHERE ist.status = ?
 '''
 
 
@@ -278,8 +283,10 @@ def _insert_synsets(synsets, lexid, cur, progress):
         VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,?,?)
     '''
     # presupposed ILIs
-    presupposed = ilistatmap['presupposed']
-    pre_ili_query = 'INSERT OR IGNORE INTO ilis VALUES (null,?,?,?,?)'
+    pre_ili_query = f'''
+        INSERT OR IGNORE INTO ilis
+        VALUES (null,?,({ILISTAT_QUERY}),?,?)
+    '''
     # proposed ILIs
     pro_ili_query = '''
         INSERT INTO proposed_ilis
@@ -301,7 +308,7 @@ def _insert_synsets(synsets, lexid, cur, progress):
                 defn = ss.ili_definition
                 text = defn.text if defn else None
                 meta = defn.meta if defn else None
-                data.append((ili, presupposed, text, meta))
+                data.append((ili, 'presupposed', text, meta))
         cur.executemany(pre_ili_query, data)
 
         # then add synsets
@@ -600,11 +607,11 @@ def _add_ili(
     source,
     progress: ProgressHandler,
 ) -> None:
-    query = '''
+    query = f'''
         INSERT INTO ilis
-        VALUES (null,?,?,?,null)
+        VALUES (null,?,({ILISTAT_QUERY}),?,null)
             ON CONFLICT(id) DO
-               UPDATE SET status=excluded.status,
+               UPDATE SET status_rowid=excluded.status_rowid,
                           definition=excluded.definition
     '''
     with connect() as conn:
@@ -612,11 +619,17 @@ def _add_ili(
 
         progress.flash(f'Reading ILI file: {source!s}')
         ili = list(_ili.load(source))
+
+        progress.flash('Updating ILI Status Names')
+        statuses = set(info.get('status', 'active') for info in ili)
+        cur.executemany('INSERT OR IGNORE INTO ili_statuses VALUES (null,?)',
+                        [(stat,) for stat in sorted(statuses)])
+
         progress.set(count=0, total=len(ili), status='ILI')
         for batch in _split(ili):
             data = [
                 (info['ili'],
-                 ilistatmap[info.get('status', 'active')],
+                 info.get('status', 'active'),
                  info.get('definition'))
                 for info in batch
             ]

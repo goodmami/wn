@@ -37,11 +37,10 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    'e77a3eb55108e7d4d79cde5077ce712d3f82aa56',
+    'c209e0c6956901a2eb3ec05cc265525b6f21c668',
 }
 
 
-ilistatmap = Bijection({stat: id for stat, id in constants.ILI_STATUSES.items()})
 lexfilemap = Bijection({lf: id for lf, id in constants.LEXICOGRAPHER_FILES.items()})
 
 
@@ -87,12 +86,19 @@ def connect() -> sqlite3.Connection:
             conn.set_trace_callback(print)
         if not initialized:
             logger.info('initializing database: %s', dbpath)
-            schema = resources.read_text('wn', 'schema.sql')
-            conn.executescript(schema)
+            _init_db(conn)
         _check_schema_compatibility(conn, dbpath)
 
         pool[dbpath] = conn
     return pool[dbpath]
+
+
+def _init_db(conn: sqlite3.Connection) -> None:
+    schema = resources.read_text('wn', 'schema.sql')
+    conn.executescript(schema)
+    with conn:
+        conn.executemany('INSERT INTO ili_statuses VALUES (null,?)',
+                         [('presupposed',), ('proposed',)])
 
 
 def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:

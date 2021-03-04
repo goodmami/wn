@@ -4,7 +4,7 @@
 CREATE TABLE ilis (
     rowid INTEGER PRIMARY KEY,
     id TEXT NOT NULL,
-    status INTEGER NOT NULL,
+    status_rowid INTEGER NOT NULL REFERENCES ili_statuses (rowid),
     definition TEXT,
     metadata META,
     UNIQUE (id)
@@ -251,3 +251,10 @@ CREATE TABLE relation_types (
     UNIQUE (type)
 );
 CREATE INDEX relation_type_index ON relation_types (type);
+
+CREATE TABLE ili_statuses (
+    rowid INTEGER PRIMARY KEY,
+    status TEXT NOT NULL,
+    UNIQUE (status)
+);
+CREATE INDEX ili_status_index ON ili_statuses (status);

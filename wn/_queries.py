@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID, ilistatmap, lexfilemap
+from wn._db import connect, NON_ROWID, lexfilemap
 
 
 # Local Types
@@ -60,8 +60,8 @@ _SyntacticBehaviour = Tuple[
 ]
 _ILI = Tuple[
     Optional[str],  # id
-    int,            # status
-    str,            # definition
+    str,            # status
+    Optional[str],  # definition
     int,            # rowid
 ]
 _Lexicon = Tuple[
@@ -228,15 +228,19 @@ def _find_existing_ilis(
     status: str = None,
     lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_ILI]:
-    query = 'SELECT DISTINCT i.id, i.status, i.definition, i.rowid FROM ilis AS i'
+    query = '''
+        SELECT DISTINCT i.id, ist.status, i.definition, i.rowid
+          FROM ilis AS i
+          JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
+    '''
     conditions: List[str] = []
     params: List = []
     if id:
         conditions.append('i.id = ?')
         params.append(id)
     if status:
-        conditions.append('i.status = ?')
-        params.append(ilistatmap[status])
+        conditions.append('ist.status = ?')
+        params.append(status)
     if lexicon_rowids:
         conditions.append(f'''
             i.rowid IN
@@ -254,8 +258,8 @@ def find_proposed_ilis(
     synset_rowid: int = None,
     lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_ILI]:
-    query = f'''
-        SELECT null, "{ilistatmap["proposed"]}", definition, rowid
+    query = '''
+        SELECT null, "proposed", definition, rowid
           FROM proposed_ilis
     '''
     conditions = []
