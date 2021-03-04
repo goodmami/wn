@@ -41,6 +41,7 @@
    - `lexfile` on `<Synset>`
    - `<Pronunciation>`
    - `id` on `<Form>`
+   - New relations
 * `wn.Synset.lexfile()`
 
 ### Fixed

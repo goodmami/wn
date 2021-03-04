@@ -79,6 +79,20 @@ Synset Relations
    - ``subevent``
    - ``is_subevent_of``
    - ``antonym``
+   - ``feminine``
+   - ``has_feminine``
+   - ``masculine``
+   - ``has_masculine``
+   - ``young``
+   - ``has_young``
+   - ``diminutive``
+   - ``has_diminutive``
+   - ``augmentative``
+   - ``has_augmentative``
+   - ``anto_gradable``
+   - ``anto_simple``
+   - ``anto_converse``
+   - ``ir_synonym``
 
 
 Sense Relations
@@ -99,6 +113,23 @@ Sense Relations
    - ``is_exemplified_by``
    - ``similar``
    - ``other``
+   - ``feminine``
+   - ``has_feminine``
+   - ``masculine``
+   - ``has_masculine``
+   - ``young``
+   - ``has_young``
+   - ``diminutive``
+   - ``has_diminutive``
+   - ``augmentative``
+   - ``has_augmentative``
+   - ``anto_gradable``
+   - ``anto_simple``
+   - ``anto_converse``
+   - ``simple_aspect_ip``
+   - ``secondary_aspect_ip``
+   - ``simple_aspect_pi``
+   - ``secondary_aspect_pi``
 
 
 .. data:: SENSE_SYNSET_RELATIONS
