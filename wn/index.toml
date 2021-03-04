@@ -1,21 +1,28 @@
+[cili]
+  type = "ili"
+  label = "Collaborative Interlingual Index"
+  license = "https://creativecommons.org/licenses/by/4.0/"
+  [cili.versions."1.0"]
+    url = "https://github.com/globalwordnet/cili/releases/download/v1.0/cili.tsv.xz"
+
 [ewn]
   label = "Open English WordNet"
   language = "en"
   license = "https://creativecommons.org/licenses/by/4.0/"
-  [ewn.versions.2019]
-    url = "https://en-word.net/static/english-wordnet-2019.xml.gz"
   [ewn.versions.2020]
     url = "https://en-word.net/static/english-wordnet-2020.xml.gz"
+  [ewn.versions.2019]
+    url = "https://en-word.net/static/english-wordnet-2019.xml.gz"
 
 
 [pwn]
   label = "Princeton WordNet"
   language = "en"
   license = "https://wordnet.princeton.edu/license-and-commercial-use"
-  [pwn.versions."3.0"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn30.tar.xz"
   [pwn.versions."3.1"]
     url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn31.tar.xz"
+  [pwn.versions."3.0"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn30.tar.xz"
 
 
 [odenet]

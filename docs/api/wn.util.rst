@@ -18,3 +18,4 @@ wn.util
       - ``status`` (:class:`str`) -- the current status of the process
 
 .. autoclass:: ProgressBar
+   :members:

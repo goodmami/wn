@@ -63,7 +63,7 @@ def download(
 
     if progress_handler is None:
         progress_handler = ProgressHandler
-    progress = progress_handler(message='Download', unit='bytes')
+    progress = progress_handler(message='Download', unit=' bytes')
 
     try:
         if path.exists():

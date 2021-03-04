@@ -21,12 +21,20 @@ def test_lexicons_mini():
 
     results = wn.lexicons(lexicon='*')
     assert len(results) == 2
+    results = wn.lexicons(lexicon='*:1')
+    assert len(results) == 2
     results = wn.lexicons(lexicon='test-en')
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:1')
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:*')
     assert len(results) == 1 and results[0].language == 'en'
+
+    assert wn.lexicons(lexicon='test-en')[0].specifier() == 'test-en:1'
+    assert wn.lexicons(lexicon='test-es')[0].specifier() == 'test-es:1'
+
+    assert wn.lexicons(lexicon='test-en')[0].requires() == {}
+    assert wn.lexicons(lexicon='test-es')[0].requires() == {}
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -44,12 +52,15 @@ def test_words_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_words_mini():
-    assert len(wn.words()) == 14
+    assert len(wn.words()) == 15
     assert all(isinstance(w, wn.Word) for w in wn.words())
 
     words = wn.words('information')  # search lemma
     assert len(words) == 1
     assert words[0].lemma() == 'information'
+
+    assert words[0].lemma().script == 'Latn'
+    assert words[0].lemma().tags() == [wn.Tag('tag-text', 'tag-category')]
 
     words = wn.words('exemplifies')  # search secondary form
     assert len(words) == 1
@@ -57,17 +68,17 @@ def test_words_mini():
 
     assert len(wn.words(pos='n')) == 10
     assert all(w.pos == 'n' for w in wn.words(pos='n'))
-    assert len(wn.words(pos='v')) == 4
+    assert len(wn.words(pos='v')) == 5
     assert len(wn.words(pos='q')) == 0  # fake pos
 
-    assert len(wn.words(lang='en')) == 8
+    assert len(wn.words(lang='en')) == 9
     assert len(wn.words(lang='es')) == 6
 
-    assert len(wn.words(lexicon='test-en')) == 8
+    assert len(wn.words(lexicon='test-en')) == 9
     assert len(wn.words(lexicon='test-es')) == 6
 
-    assert len(wn.words(lang='en', lexicon='test-en')) == 8
-    assert len(wn.words(pos='v', lang='en')) == 2
+    assert len(wn.words(lang='en', lexicon='test-en')) == 9
+    assert len(wn.words(pos='v', lang='en')) == 3
     assert len(wn.words('information', lang='en')) == 1
     assert len(wn.words('information', lang='es')) == 0
 
@@ -105,29 +116,30 @@ def test_senses_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_senses_mini():
-    assert len(wn.senses()) == 14
+    assert len(wn.senses()) == 16
     assert all(isinstance(s, wn.Sense) for s in wn.senses())
 
     senses = wn.senses('information')  # search lemma
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'information'
+    assert senses[0].counts() == [3]
 
     senses = wn.senses('exemplifies')  # search secondary form
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'exemplify'
 
-    assert len(wn.senses(pos='n')) == 10
-    assert len(wn.senses(pos='v')) == 4
+    assert len(wn.senses(pos='n')) == 11
+    assert len(wn.senses(pos='v')) == 5
     assert len(wn.senses(pos='q')) == 0  # fake pos
 
-    assert len(wn.senses(lang='en')) == 8
+    assert len(wn.senses(lang='en')) == 10
     assert len(wn.senses(lang='es')) == 6
 
-    assert len(wn.senses(lexicon='test-en')) == 8
+    assert len(wn.senses(lexicon='test-en')) == 10
     assert len(wn.senses(lexicon='test-es')) == 6
 
-    assert len(wn.senses(lang='en', lexicon='test-en')) == 8
-    assert len(wn.senses(pos='v', lang='en')) == 2
+    assert len(wn.senses(lang='en', lexicon='test-en')) == 10
+    assert len(wn.senses(pos='v', lang='en')) == 3
     assert len(wn.senses('information', lang='en')) == 1
     assert len(wn.senses('information', lang='es')) == 0
 
@@ -165,7 +177,7 @@ def test_synsets_empty():
 
 @pytest.mark.usefixtures('mini_db')
 def test_synsets_mini():
-    assert len(wn.synsets()) == 10
+    assert len(wn.synsets()) == 12
     assert all(isinstance(ss, wn.Synset) for ss in wn.synsets())
 
     synsets = wn.synsets('information')  # search lemma
@@ -176,21 +188,21 @@ def test_synsets_mini():
     assert len(synsets) == 1
     assert 'exemplify' in synsets[0].lemmas()
 
-    assert len(wn.synsets(pos='n')) == 8
-    assert len(wn.synsets(pos='v')) == 2
+    assert len(wn.synsets(pos='n')) == 9
+    assert len(wn.synsets(pos='v')) == 3
     assert len(wn.synsets(pos='q')) == 0  # fake pos
 
     assert len(wn.synsets(ili='i67469')) == 2
     assert len(wn.synsets(ili='i67468')) == 0
 
-    assert len(wn.synsets(lang='en')) == 6
+    assert len(wn.synsets(lang='en')) == 8
     assert len(wn.synsets(lang='es')) == 4
 
-    assert len(wn.synsets(lexicon='test-en')) == 6
+    assert len(wn.synsets(lexicon='test-en')) == 8
     assert len(wn.synsets(lexicon='test-es')) == 4
 
-    assert len(wn.synsets(lang='en', lexicon='test-en')) == 6
-    assert len(wn.synsets(pos='v', lang='en')) == 1
+    assert len(wn.synsets(lang='en', lexicon='test-en')) == 8
+    assert len(wn.synsets(pos='v', lang='en')) == 2
     assert len(wn.synsets('information', lang='en')) == 1
     assert len(wn.synsets('information', lang='es')) == 0
     assert len(wn.synsets(ili='i67469', lang='es')) == 1
@@ -220,3 +232,40 @@ def test_synset_mini():
         assert wn.synset('test-es-0001-n', lang='unk')
     with pytest.raises(wn.Error):
         assert wn.synset('test-es-0001-n', lexicon='test-unk')
+
+
+@pytest.mark.usefixtures('mini_db_1_1')
+def test_mini_1_1():
+    assert len(wn.lexicons()) == 4
+    assert len(wn.lexicons(lang='en')) == 2
+    assert len(wn.lexicons(lang='ja')) == 1
+    assert wn.lexicons(lang='ja')[0].logo == 'logo.svg'
+
+    w = wn.Wordnet(lang='en')
+    assert len(w.lexicons()) == 2
+    assert len(w.expanded_lexicons()) == 0
+    assert len(w.word('test-en-exemplify-v').lemma().tags()) == 1
+
+    w = wn.Wordnet(lang='ja')
+    assert len(w.lexicons()) == 1
+    assert len(w.expanded_lexicons()) == 1
+    assert len(w.synsets('例え')[0].hypernyms()) == 1
+    assert w.synsets('例え')[0].lexfile() == 'noun.cognition'
+    assert len(w.word('test-ja-例え-n').lemma().pronunciations()) == 1
+    assert w.word('test-ja-例え-n').forms()[1].id == 'test-ja-例え-n-たとえ'
+    p = w.word('test-ja-例え-n').lemma().pronunciations()[0]
+    assert p.value == 'tatoe'
+    assert p.variety == 'standard'
+    assert p.notation == 'ipa'
+    assert p.phonemic
+    assert p.audio == 'tatoe.wav'
+
+    w = wn.Wordnet(lang='ja', expand='')
+    assert len(w.lexicons()) == 1
+    assert len(w.expanded_lexicons()) == 0
+    assert len(w.synsets('例え')[0].hypernyms()) == 0
+
+    w = wn.Wordnet(lexicon='test-en test-en-ext')
+    assert len(w.lexicons()) == 2
+    assert len(w.expanded_lexicons()) == 0
+    assert len(w.synsets('fire')[0].hyponyms()) == 1

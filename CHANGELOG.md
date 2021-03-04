@@ -3,6 +3,116 @@
 ## [Unreleased]
 
 
+## [v0.6.0]
+
+**Release date: 2021-03-04**
+
+### Added
+
+* For WN-LMF 1.0 support ([#65])
+  - `wn.Sense.frames()`
+  - `wn.Sense.adjposition()`
+  - `wn.Tag`
+  - `wn.Form.tags()`
+  - `wn.Count`
+  - `wn.Sense.counts()`
+* For ILI modeling ([#23])
+  - `wn.ILI` class
+  - `wn.Wordnet.ili()`
+  - `wn.Wordnet.ilis()`
+  - `wn.ili()`
+  - `wn.ilis()`
+  - `wn.project.Package.type` property
+  - Index entries of different types; default is `'wordnet'`, `'ili'`
+    is also available
+  - Support for detecting and loading ILI tab-separated-value exports;
+    not directly accessible through the public API at this time
+  - Support for adding ILI resources to the database
+  - A CILI index entry ([#23])
+* `wn.lmf` WN-LMF 1.1 support ([#7])
+  - `<Requires>`
+  - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
+    `<ExternalLexicalEntry>`, `<ExternalSense>`,
+    `<ExternalLemma>`, `<ExternalForm>`
+  - `subcat` on `<Sense>`
+  - `members` on `<Synset>`
+  - `lexfile` on `<Synset>`
+  - `<Pronunciation>`
+  - `id` on `<Form>`
+  - New relations
+* Other WN-LMF 1.1 support
+  - `wn.Lexicon.requires()`
+  - `wn.Lexicon.extends()` ([#99])
+  - `wn.Lexicon.extensions()` ([#99])
+  - `wn.Pronunciation` ([#7])
+  - `wn.Form.pronunciations()` ([#7])
+  - `wn.Form.id` ([#7])
+  - `wn.Synset.lexfile()`
+* `wn.constants.SENSE_SYNSET_RELATIONS`
+* `wn.WnWarning` (related to [#92])
+* `wn.Lexicon.modified()` ([#17])
+
+### Fixed
+
+* Adding a wordnet with sense relations with invalid target IDs now
+  raises an error instead of ignoring the relation.
+* Detect LMF-vs-CILI projects even when files are uncompressed ([#104])
+
+### Changed
+
+* WN-LMF 1.0 entities now modeled and exported to XML ([#65]):
+  - Syntactic behaviour ([#65])
+  - Adjpositions ([#65])
+  - Form tags
+  - Sense counts
+  - Definition source senses
+  - ILI definitions
+* WN-LMF 1.1 entities now modeled and exported to XML ([#89]):
+  - Lexicon requirements and extensions ([#99])
+  - Form pronunciations
+  - Lexicographer files via the `lexfile` attribute
+  - Form ids
+* `wn.Synset.ili` now returns an `ILI` object
+* `wn.remove()` now takes a `progess_handler` parameter
+* `wn.util.ProgressBar` uses a simpler formatting string with two new
+  computed variables
+* `wn.project.is_package_directory()` and
+  `wn.project.is_collection_directory()` now detect
+  packages/collection with ILI resource files ([#23])
+* `wn.project.iterpackages()` now includes ILI packages
+* `wn.Wordnet` now sets the default `expand` value to a lexicon's
+  dependencies if they are specified (related to [#92])
+
+### Schema
+
+* General changes:
+  - Parts of speech are stored as text
+  - Added indexes and `ON DELETE` actions to speed up `wn.remove()`
+  - All extendable tables are now linked to their lexicon ([#91])
+  - Added rowid to tables with metadata
+  - Preemptively added a `modified` column to `lexicons` table ([#17])
+  - Preemptively added a `normalized_form` column to `forms` ([#105])
+  - Relation type tables are combined for synsets and senses ([#75])
+* ILI-related changes ([#23]):
+  - ILIs now have an integer rowid and a status
+  - Proposed ILIs also have an integer rowid for metadata access
+  - Added a table for ILI statuses
+* WN-LMF 1.0 changes ([#65]):
+  - SyntacticBehaviour (previously unused) no longer requires an ID and
+    does not use it in the primary key
+  - Added table for adjposition values
+  - Added source-sense to definitions table
+* WN-LMF 1.1 changes ([#7], [#89]):
+  - Added a table for lexicon dependencies
+  - Added a table for lexicon extensions ([#99])
+  - Added `logo` column to `lexicons` table
+  - Added a `synset_rank` column to `senses` table
+  - Added a `pronunciations` table
+  - Added column for lexicographer files to the `synsets` table
+  - Added a table for lexicographer file names
+  - Added an `id` column to `forms` table
+
+
 ## [v0.5.1]
 
 **Release date: 2021-01-29**
@@ -182,6 +292,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.6.0]: ../../releases/tag/v0.6.0
 [v0.5.1]: ../../releases/tag/v0.5.1
 [v0.5.0]: ../../releases/tag/v0.5.0
 [v0.4.1]: ../../releases/tag/v0.4.1
@@ -192,7 +303,10 @@ abandoned, but this is an entirely new codebase.
 [v0.1.0]: ../../releases/tag/v0.1.0
 [unreleased]: ../../tree/main
 
+[#7]: https://github.com/goodmami/wn/issues/7
 [#15]: https://github.com/goodmami/wn/issues/15
+[#17]: https://github.com/goodmami/wn/issues/17
+[#23]: https://github.com/goodmami/wn/issues/23
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59
@@ -200,12 +314,14 @@ abandoned, but this is an entirely new codebase.
 [#61]: https://github.com/goodmami/wn/issues/61
 [#63]: https://github.com/goodmami/wn/issues/63
 [#64]: https://github.com/goodmami/wn/issues/64
+[#65]: https://github.com/goodmami/wn/issues/65
 [#66]: https://github.com/goodmami/wn/issues/66
 [#69]: https://github.com/goodmami/wn/issues/69
 [#70]: https://github.com/goodmami/wn/issues/70
 [#71]: https://github.com/goodmami/wn/issues/71
 [#73]: https://github.com/goodmami/wn/issues/73
 [#74]: https://github.com/goodmami/wn/issues/74
+[#75]: https://github.com/goodmami/wn/issues/75
 [#76]: https://github.com/goodmami/wn/issues/76
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
@@ -214,7 +330,12 @@ abandoned, but this is an entirely new codebase.
 [#83]: https://github.com/goodmami/wn/issues/83
 [#86]: https://github.com/goodmami/wn/issues/86
 [#87]: https://github.com/goodmami/wn/issues/87
+[#89]: https://github.com/goodmami/wn/issues/89
 [#90]: https://github.com/goodmami/wn/issues/90
+[#91]: https://github.com/goodmami/wn/issues/91
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
+[#99]: https://github.com/goodmami/wn/issues/99
+[#104]: https://github.com/goodmami/wn/issues/104
+[#105]: https://github.com/goodmami/wn/issues/105

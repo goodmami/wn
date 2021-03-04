@@ -1,6 +1,7 @@
 
 import sqlite3
 import threading
+import tempfile
 
 import pytest
 
@@ -43,3 +44,24 @@ def test_db_multithreading():
     WNThread()  # no error
     wn.config.allow_multithreading = False
     wn._db.pool = {}
+
+
+def test_remove_extension(mini_lmf_1_0, mini_lmf_1_1):
+    with tempfile.TemporaryDirectory('wn_data_1_1_trigger') as dir:
+        old_data_dir = wn.config.data_directory
+        wn.config.data_directory = dir
+        wn.add(mini_lmf_1_0)
+        wn.add(mini_lmf_1_1)
+        assert len(wn.lexicons()) == 4
+        wn.remove('test-en-ext')
+        assert len(wn.lexicons()) == 3
+        wn.remove('test-ja')
+        assert len(wn.lexicons()) == 2
+        wn.add(mini_lmf_1_1)
+        assert len(wn.lexicons()) == 4
+        wn.remove('test-en')
+        assert {lex.id for lex in wn.lexicons()} == {'test-es', 'test-ja'}
+        wn.config.data_directory = old_data_dir
+        # close any open DB connections before teardown
+        for conn in wn._db.pool.values():
+            conn.close()

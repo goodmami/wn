@@ -8,6 +8,7 @@ English:
 - information ⊃ (example, illustration) ⊃ sample ⊃ random sample
 - example ⊳ exemplify
 - illustration ⊳ illustrate
+- resignate
 
 Spanish:
 - información, ejemplo, ilustración, muestra aleatoria
@@ -26,8 +27,12 @@ Spanish:
            url="https://example.com/test-en">
 
     <LexicalEntry id="test-en-information-n">
-      <Lemma partOfSpeech="n" writtenForm="information" />
-      <Sense id="test-en-information-n-0001-01" synset="test-en-0001-n" />
+      <Lemma partOfSpeech="n" writtenForm="information" script="Latn">
+        <Tag category="tag-category">tag-text</Tag>
+      </Lemma>
+      <Sense id="test-en-information-n-0001-01" synset="test-en-0001-n">
+        <Count dc:source="some corpus">3</Count>
+      </Sense>
     </LexicalEntry>
 
     <LexicalEntry id="test-en-example-n">
@@ -45,6 +50,7 @@ Spanish:
     <LexicalEntry id="test-en-random_sample-n">
       <Lemma partOfSpeech="n" writtenForm="random sample" />
       <Sense id="test-en-random_sample-n-0005-01" synset="test-en-0005-n" />
+      <Sense id="test-en-random_sample-n-0005-02" synset="test-en-0005-n-fake" lexicalized="false" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-exemplify-v">
@@ -53,7 +59,7 @@ Spanish:
       <Form writtenForm="exemplified" />
       <Form writtenForm="exemplifying" />
       <Sense id="test-en-exemplify-v-0003-01" synset="test-en-0003-v" >
-        <SenseRelation relType="derivation" target="test-en-example-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-en-example-n-0002-01" />
       </Sense>
     </LexicalEntry>
 
@@ -67,8 +73,10 @@ Spanish:
     <LexicalEntry id="test-en-illustrate-v">
       <Lemma partOfSpeech="v" writtenForm="illustrate" />
       <Sense id="test-en-illustrate-v-0004-01" synset="test-en-0003-v" >
-        <SenseRelation relType="derivation" target="test-en-illustration-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-en-illustration-n-0002-01" />
       </Sense>
+      <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Somebody ----s something" />
+      <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Something ----s something" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-datum-n">
@@ -76,8 +84,13 @@ Spanish:
       <Sense id="test-en-datum-n-0006-01" synset="test-en-0006-n" />
     </LexicalEntry>
 
+    <LexicalEntry id="test-en-resignate-v">
+      <Lemma partOfSpeech="v" writtenForm="resignate" />
+      <Sense id="test-en-resignate-v-0007-01" synset="test-en-0007-v" />
+    </LexicalEntry>
+
     <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition">
-      <Definition>something that informs</Definition>
+      <Definition sourceSense="test-en-information-n-0001-01">something that informs</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0002-n" />
       <SynsetRelation relType="hyponym" target="test-en-0006-n" />
       <Example>"this is information"</Example>
@@ -105,9 +118,18 @@ Spanish:
       <SynsetRelation relType="hypernym" target="test-en-0004-n" />
     </Synset>
 
+    <Synset id="test-en-0005-n-fake" ili="" partOfSpeech="n" lexicalized="false" dc:subject="noun.cognition">
+      <Definition>a sample that is random</Definition>
+    </Synset>
+
     <Synset id="test-en-0006-n" ili="i67448" partOfSpeech="n" dc:subject="noun.cognition">
       <Definition>a measured or recorded piece of information</Definition>
       <SynsetRelation relType="hypernym" target="test-en-0001-n" />
+    </Synset>
+
+    <Synset id="test-en-0007-v" ili="in" partOfSpeech="v" dc:subject="verb.social">
+      <!-- should probably be a hyponym of i33760 -->
+      <ILIDefinition>to fire someone while making it look like it was their idea</ILIDefinition>
     </Synset>
 
   </Lexicon>
@@ -140,7 +162,7 @@ Spanish:
     <LexicalEntry id="test-es-ejemplificar-v">
       <Lemma partOfSpeech="v" writtenForm="ejemplificar" />
       <Sense id="test-es-ejemplificar-v-0003-01" synset="test-es-0003-v" >
-        <SenseRelation relType="derivation" target="test-es-ejemplo-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-es-ejemplo-n-0002-01" />
       </Sense>
     </LexicalEntry>
 
@@ -154,7 +176,7 @@ Spanish:
     <LexicalEntry id="test-es-ilustrar-v">
       <Lemma partOfSpeech="v" writtenForm="ilustrar" />
       <Sense id="test-es-ilustrar-v-0004-01" synset="test-es-0003-v" >
-        <SenseRelation relType="derivation" target="test-es-ilustración-v-0002-01" />
+        <SenseRelation relType="derivation" target="test-es-ilustración-n-0002-01" />
       </Sense>
     </LexicalEntry>
 

@@ -2,9 +2,8 @@
 Constants and literals used in wordnets.
 """
 
-# Relation Types
 
-SENSE_RELATIONS = frozenset((
+SENSE_RELATIONS = frozenset([
     'antonym',
     'also',
     'participle',
@@ -18,9 +17,33 @@ SENSE_RELATIONS = frozenset((
     'is_exemplified_by',
     'similar',
     'other',
-))
+    'feminine',
+    'has_feminine',
+    'masculine',
+    'has_masculine',
+    'young',
+    'has_young',
+    'diminutive',
+    'has_diminutive',
+    'augmentative',
+    'has_augmentative',
+    'anto_gradable',
+    'anto_simple',
+    'anto_converse',
+    'simple_aspect_ip',
+    'secondary_aspect_ip',
+    'simple_aspect_pi',
+    'secondary_aspect_pi',
+])
 
-SYNSET_RELATIONS = frozenset((
+SENSE_SYNSET_RELATIONS = frozenset([
+    'other',
+    'domain_topic',
+    'domain_region',
+    'exemplifies',
+])
+
+SYNSET_RELATIONS = frozenset([
     'agent',
     'also',
     'attribute',
@@ -92,7 +115,21 @@ SYNSET_RELATIONS = frozenset((
     'subevent',
     'is_subevent_of',
     'antonym',
-))
+    'feminine',
+    'has_feminine',
+    'masculine',
+    'has_masculine',
+    'young',
+    'has_young',
+    'diminutive',
+    'has_diminutive',
+    'augmentative',
+    'has_augmentative',
+    'anto_gradable',
+    'anto_simple',
+    'anto_converse',
+    'ir_synonym',
+])
 
 
 # Adjective Positions
@@ -181,3 +218,8 @@ LEXICOGRAPHER_FILES = {
     'verb.weather': 43,
     'adj.ppl': 44,
 }
+
+# resource types
+
+_WORDNET = 'wordnet'
+_ILI = 'ili'

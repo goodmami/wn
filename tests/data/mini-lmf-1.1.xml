@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd">
+
+<LexicalResource xmlns:dc="http://globalwordnet.github.io/schemas/dc/">
+
+  <Lexicon id="test-ja"
+           label="Testing Japanese WordNet"
+           language="ja"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1"
+           url="https://example.com/test-ja"
+           logo="logo.svg">
+
+    <Requires id="test-en" version="1" />
+
+    <LexicalEntry id="test-ja-情報-n">
+      <Lemma partOfSpeech="n" writtenForm="情報" script="Jpan" />
+      <Form id="test-ja-情報-n-じょうほう" writtenForm="じょうほう" script="Hira" />
+      <Form id="test-ja-情報-n-ジョウホウ" writtenForm="ジョウホウ" script="Kana" />
+      <Form id="test-ja-情報-n-zyouhou" writtenForm="zyouhou" script="Latn-kunrei" />
+      <Sense id="test-ja-情報-n-0001-01" synset="test-ja-0001-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-ja-例え-n">
+      <Lemma partOfSpeech="n" writtenForm="例え">
+        <Pronunciation variety="standard" notation="ipa" audio="tatoe.wav">tatoe</Pronunciation>
+      </Lemma>
+      <Form id="test-ja-例え-n-たとえ" writtenForm="たとえ" script="Hira" />
+      <Form id="test-ja-例え-n-タトエ" writtenForm="タトエ" script="Kana" />
+      <Form id="test-ja-例え-n-tatoe" writtenForm="tatoe" script="Latn-kunrei" />
+      <Sense id="test-ja-例え-n-0002-01" synset="test-ja-0002-n" />
+    </LexicalEntry>
+
+    <LexicalEntry id="test-ja-事例-n">
+      <Lemma partOfSpeech="n" writtenForm="事例" />
+      <Form id="test-ja-事例-n-じれい" writtenForm="じれい" script="Hira" />
+      <Form id="test-ja-事例-n-ジレイ" writtenForm="ジレイ" script="Kana" />
+      <Form id="test-ja-事例-n-zirei" writtenForm="zirei" script="Latn-kunrei" />
+      <Sense id="test-ja-事例-n-0002-01" synset="test-ja-0002-n" />
+    </LexicalEntry>
+
+    <Synset id="test-ja-0001-n" ili="i67447" partOfSpeech="n" lexfile="noun.cognition"
+            members="test-ja-情報-n-0001-01" />
+
+    <Synset id="test-ja-0002-n" ili="i67469" partOfSpeech="n" lexfile="noun.cognition"
+            members="test-ja-事例-n-0002-01 test-ja-例え-n-0002-01" />
+
+  </Lexicon>
+
+  <LexiconExtension id="test-en-ext"
+                    label="Testing English Extension"
+                    language="en"
+                    email="maintainer@example.com"
+                    license="https://creativecommons.org/licenses/by/4.0/"
+                    version="1"
+                    url="https://example.com/test-en-ext">
+
+    <Extends id="test-en" version="1" />
+
+    <!-- add sense relation -->
+    <ExternalLexicalEntry id="test-en-information-n">
+      <ExternalSense id="test-en-information-n-0001-01">
+        <SenseRelation relType="pertainym" target="test-en-ext-info-n-0001-01" />
+      </ExternalSense>
+    </ExternalLexicalEntry>
+
+    <!-- add a new entry for an existing synset -->
+    <LexicalEntry id="test-en-ext-info-n">
+      <Lemma partOfSpeech="n" writtenForm="info" />
+      <Sense id="test-en-ext-info-n-0001-01" synset="test-en-0001-n">
+        <SenseRelation relType="pertainym" target="test-en-information-n-0001-01" />
+      </Sense>
+    </LexicalEntry>
+
+    <!-- add a sense to an existing entry -->
+    <ExternalLexicalEntry id="test-en-illustrate-v">
+      <Sense id="test-en-ext-illustrate-v-0008-01" synset="test-en-ext-0008-v">
+	    <Example>"the artist illustrated the story beautifully"</Example>
+      </Sense>
+    </ExternalLexicalEntry>
+
+    <!-- add a tag -->
+    <ExternalLexicalEntry id="test-en-exemplify-v">
+      <ExternalLemma>
+        <Tag category="tense">INF</Tag>
+      </ExternalLemma>
+    </ExternalLexicalEntry>
+
+    <!-- add a new entry with a new synset -->
+    <LexicalEntry id="test-en-ext-fire-v">
+      <Lemma partOfSpeech="v" writtenForm="fire" />
+      <Sense id="test-en-ext-fire-v-0009-01" synset="test-en-ext-0009-v" subcat="social-transitive" />
+    </LexicalEntry>
+
+    <!-- only needed for ids -->
+    <ExternalSynset id="test-en-0001-n" />
+
+    <!-- add a relation to an existing synset -->
+    <ExternalSynset id="test-en-0007-v">
+      <SynsetRelation relType="hypernym" target="test-en-ext-0009-v" />
+    </ExternalSynset>
+
+    <Synset id="test-en-ext-0008-v" ili="i30181" partOfSpeech="v"
+            members="test-en-ext-illustrate-v-0008-01" lexfile="verb.creation">
+      <Definition>depict something in a visual medium</Definition>
+    </Synset>
+
+    <Synset id="test-en-ext-0009-v" ili="i33760" partOfSpeech="v"
+            members="test-en-ext-fire-v-0009-01" lexfile="verb.social">
+      <Definition>terminate employment</Definition>
+      <SynsetRelation relType="hyponym" target="test-en-0007-v" />
+    </Synset>
+
+    <SyntacticBehaviour id="social-transitive" subcategorizationFrame="Somebody ----s somebody" />
+
+  </LexiconExtension>
+
+</LexicalResource>
