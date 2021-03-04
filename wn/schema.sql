@@ -116,7 +116,7 @@ CREATE TABLE synsets (
     ili_rowid INTEGER REFERENCES ilis (rowid),
     pos TEXT,
     lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
-    lexfile INTEGER,
+    lexfile_rowid INTEGER REFERENCES lexfiles (rowid),
     metadata META
 );
 CREATE INDEX synset_id_index ON synsets (id);
@@ -258,3 +258,10 @@ CREATE TABLE ili_statuses (
     UNIQUE (status)
 );
 CREATE INDEX ili_status_index ON ili_statuses (status);
+
+CREATE TABLE lexfiles (
+    rowid INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    UNIQUE (name)
+);
+CREATE INDEX lexfile_index ON lexfiles (name);

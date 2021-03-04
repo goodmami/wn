@@ -99,10 +99,11 @@
 * Added `logo` column to `lexicons` table ([#89])
 * Added a `synset_rank` column to `senses` table ([#89])
 * Added a `pronunciations` table ([#89])
-* Added `lexfile` column to `synsets` table ([#89])
+* Added column for lexicographer files to the `synsets` table ([#89])
 * Added an `id` column to `forms` table ([#89])
 * Relation type tables are combined for synsets and senses ([#75])
 * Added a table for ILI statuses ([#23])
+* Added a table for lexicographer files ([#89])
 
 
 ## [v0.5.1]

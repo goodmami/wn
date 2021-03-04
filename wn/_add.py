@@ -9,7 +9,7 @@ import logging
 import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
-from wn._db import connect, lexfilemap
+from wn._db import connect
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -61,6 +61,11 @@ ILISTAT_QUERY = '''
     SELECT ist.rowid
       FROM ili_statuses AS ist
      WHERE ist.status = ?
+'''
+LEXFILE_QUERY = '''
+    SELECT lf.rowid
+      FROM lexfiles AS lf
+     WHERE lf.name = ?
 '''
 
 
@@ -128,8 +133,8 @@ def _add_lmf(
             return
 
         # all clear, try to add them
-        progress.flash('Updating relation types')
-        _update_relation_types(all_infos, cur)
+        progress.flash('Updating lookup tables')
+        _update_lookup_tables(all_infos, cur)
 
         progress.flash(f'Reading {source!s}')
         for lexicon, info in zip(lmf.load(source), all_infos):
@@ -193,10 +198,13 @@ def _sum_counts(info) -> int:
                 'SynsetRelation'))
 
 
-def _update_relation_types(all_infos, cur):
+def _update_lookup_tables(all_infos, cur):
     reltypes = set(rt for info in all_infos for rt in info['relations'])
     cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
                     [(rt,) for rt in sorted(reltypes)])
+    lexfiles = set(lf for info in all_infos for lf in info['lexfiles'])
+    cur.executemany('INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
+                    [(lf,) for lf in sorted(lexfiles)])
 
 
 def _insert_lexicon(lexicon, info, cur, progress) -> Tuple[int, int]:
@@ -278,9 +286,9 @@ def _split(sequence):
 def _insert_synsets(synsets, lexid, cur, progress):
     progress.set(status='Synsets')
     # synsets
-    ss_query = '''
+    ss_query = f'''
         INSERT INTO synsets
-        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,?,?)
+        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,({LEXFILE_QUERY}),?)
     '''
     # presupposed ILIs
     pre_ili_query = f'''
@@ -318,7 +326,7 @@ def _insert_synsets(synsets, lexid, cur, progress):
              ss.ili if ss.ili and ss.ili != 'in' else None,
              ss.pos,
              ss.lexicalized,
-             lexfilemap.get(ss.lexfile),
+             ss.lexfile,
              ss.meta)
             for ss in batch if not ss.external
         )

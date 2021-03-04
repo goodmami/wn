@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID, lexfilemap
+from wn._db import connect, NON_ROWID
 
 
 # Local Types
@@ -730,10 +730,15 @@ def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> List[_C
 
 def get_lexfile(synset_rowid: int) -> Optional[str]:
     conn = connect()
-    query = 'SELECT lexfile FROM synsets WHERE rowid = ?'
-    lfid = conn.execute(query, (synset_rowid,)).fetchone()
-    if lfid is not None and lfid[0] is not None:
-        return lexfilemap.inverse[lfid[0]]
+    query = '''
+        SELECT lf.name
+          FROM lexfiles AS lf
+          JOIN synsets AS ss ON ss.lexfile_rowid = lf.rowid
+         WHERE ss.rowid = ?
+    '''
+    row = conn.execute(query, (synset_rowid,)).fetchone()
+    if row is not None and row[0] is not None:
+        return row[0]
     return None
 
 

@@ -10,8 +10,7 @@ import logging
 
 import wn
 from wn._types import Metadata, AnyPath
-from wn._util import resources, short_hash, Bijection
-from wn import constants
+from wn._util import resources, short_hash
 from wn import lmf
 
 
@@ -37,11 +36,8 @@ NON_ROWID = 0  # imaginary rowid of non-existent row
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    'c209e0c6956901a2eb3ec05cc265525b6f21c668',
+    'cc3d425b682f0237e7485419f11f68586d60f2f3',
 }
-
-
-lexfilemap = Bijection({lf: id for lf, id in constants.LEXICOGRAPHER_FILES.items()})
 
 
 # Optional metadata is stored as a JSON string

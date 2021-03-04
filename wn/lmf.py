@@ -527,12 +527,15 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
         if name in ('Lexicon', 'LexiconExtension'):
             attrs['counts'] = {}
             attrs['relations'] = set()
+            attrs['lexfiles'] = set()
             infos.append(attrs)
         elif name == 'Extends':
             infos[-1]['extends'] = attrs['id'], attrs['version']
         elif infos:
             if name in ('SynsetRelation', 'SenseRelation'):
                 infos[-1]['relations'].add(attrs['relType'])
+            elif name == 'Synset' and 'lexfile' in attrs:
+                infos[-1]['lexfiles'].add(attrs['lexfile'])
             counts = infos[-1]['counts']
             counts[name] = counts.get(name, 0) + 1
 
