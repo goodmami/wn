@@ -4,45 +4,48 @@
 
 ### Added
 
-* `wn.constants.SENSE_SYNSET_RELATIONS`
-* `wn.Sense.frames()` ([#65])
-* `wn.Sense.adjposition()` ([#65])
-* `wn.ILI` class ([#23])
-* `wn.Wordnet.ili()` ([#23])
-* `wn.Wordnet.ilis()` ([#23])
-* `wn.ili()` ([#23])
-* `wn.ilis()` ([#23])
-* `wn.Pronunciation` ([#7])
-* `wn.Form.pronunciations()` ([#7])
-* `wn.Tag` ([#65])
-* `wn.Form.id` ([#7])
-* `wn.Form.tags()` ([#65])
-* `wn.Count` ([#65])
-* `wn.Sense.counts()` ([#65])
-* Index entries of different types; default is `'wordnet'`, `'ili'` is
-  also available ([#23])
-* A CILI index entry ([#23])
-* `wn.project.Package.type` property ([#23])
-* Support for detecting and loading ILI tab-separated-value exports;
-  not directly accessible through the public API at this time ([#23])
-* Support for adding ILI resources to the database ([#23])
-* `wn.Lexicon.modified()` ([#17])
-* `wn.WnWarning` (related to [#92])
-* `wn.Lexicon.requires()`
-* `wn.Lexicon.extends()` ([#99])
-* `wn.Lexicon.extensions()` ([#99])
+* For WN-LMF 1.0 support ([#65])
+  - `wn.Sense.frames()`
+  - `wn.Sense.adjposition()`
+  - `wn.Tag`
+  - `wn.Form.tags()`
+  - `wn.Count`
+  - `wn.Sense.counts()`
+* For ILI modeling ([#23])
+  - `wn.ILI` class
+  - `wn.Wordnet.ili()`
+  - `wn.Wordnet.ilis()`
+  - `wn.ili()`
+  - `wn.ilis()`
+  - `wn.project.Package.type` property
+  - Index entries of different types; default is `'wordnet'`, `'ili'`
+    is also available
+  - Support for detecting and loading ILI tab-separated-value exports;
+    not directly accessible through the public API at this time
+  - Support for adding ILI resources to the database
+  - A CILI index entry ([#23])
 * `wn.lmf` WN-LMF 1.1 support ([#7])
-   - `<Requires>`
-   - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
-     `<ExternalLexicalEntry>`, `<ExternalSense>`,
-     `<ExternalLemma>`, `<ExternalForm>`
-   - `subcat` on `<Sense>`
-   - `members` on `<Synset>`
-   - `lexfile` on `<Synset>`
-   - `<Pronunciation>`
-   - `id` on `<Form>`
-   - New relations
-* `wn.Synset.lexfile()`
+  - `<Requires>`
+  - `<LexiconExtension>`, `<Extends>`, `<ExternalSynset>`,
+    `<ExternalLexicalEntry>`, `<ExternalSense>`,
+    `<ExternalLemma>`, `<ExternalForm>`
+  - `subcat` on `<Sense>`
+  - `members` on `<Synset>`
+  - `lexfile` on `<Synset>`
+  - `<Pronunciation>`
+  - `id` on `<Form>`
+  - New relations
+* Other WN-LMF 1.1 support
+  - `wn.Lexicon.requires()`
+  - `wn.Lexicon.extends()` ([#99])
+  - `wn.Lexicon.extensions()` ([#99])
+  - `wn.Pronunciation` ([#7])
+  - `wn.Form.pronunciations()` ([#7])
+  - `wn.Form.id` ([#7])
+  - `wn.Synset.lexfile()`
+* `wn.constants.SENSE_SYNSET_RELATIONS`
+* `wn.WnWarning` (related to [#92])
+* `wn.Lexicon.modified()` ([#17])
 
 ### Fixed
 
@@ -52,60 +55,57 @@
 
 ### Changed
 
-* Syntactic behaviour is now stored in the database, and exported to
-  XML ([#65])
-* Adjpositions are now stored in the database, and exported to XML ([#65])
+* WN-LMF 1.0 entities now modeled and exported to XML ([#65]):
+  - Syntactic behaviour ([#65])
+  - Adjpositions ([#65])
+  - Form tags
+  - Sense counts
+  - Definition source senses
+  - ILI definitions
+* WN-LMF 1.1 entities now modeled and exported to XML ([#89]):
+  - Lexicon requirements and extensions ([#99])
+  - Form pronunciations
+  - Lexicographer files via the `lexfile` attribute
+  - Form ids
 * `wn.Synset.ili` now returns an `ILI` object
 * `wn.remove()` now takes a `progess_handler` parameter
 * `wn.util.ProgressBar` uses a simpler formatting string with two new
   computed variables
-* Wordform tags are now stored in the database (the table was already
-  present in the schema, just unused), and exported to XML ([#65])
-* Sense counts are now stored in the database (the table was already
-  present in the schema, just unused) and exported to XML ([#65])
-* Syntactic Behaviours are now exported to XML ([#65])
-* Definition source senses are now stored in the database and exported
-  to XML ([#65])
-* ILI definitions are now exported to XML ([#65])
 * `wn.project.is_package_directory()` and
   `wn.project.is_collection_directory()` now detect
   packages/collection with ILI resource files ([#23])
 * `wn.project.iterpackages()` now includes ILI packages
 * `wn.Wordnet` now sets the default `expand` value to a lexicon's
   dependencies if they are specified (related to [#92])
-* Lexicon requirements and extensions are now modeled by the database
-  ([#89], [#99])
-* Wordform pronunciations are now stored in the database and exported
-  to XML ([#7])
-* Lexicographer files via the `lexfile` attribute are now stored in
-  the database and exported ([#7])
-* Wordform ids are now stored in the database and exported to XML
-  ([#7])
 
 ### Schema
 
-* Parts of speech are stored as text
-* SyntacticBehaviour (previously unused) no longer requires an ID and
-  does not use it in the primary key
-* Added table for adjposition values ([#65])
-* ILIs now have an integer rowid and a status ([#23])
-* Proposed ILIs also have an integer rowid for metadata access
-* Added more indexes and `ON DELETE` actions to speed up `wn.remove()`
-* All extendable tables are now linked to their lexicon ([#91])
-* Added rowid to tables with metadata
-* Added source-sense to definitions table ([#65])
-* Preemptively added a `modified` column to `lexicons` table ([#17])
-* Added a table for lexicon dependencies ([#7], [#89])
-* Added a table for lexicon extensions ([#99])
-* Added `logo` column to `lexicons` table ([#89])
-* Added a `synset_rank` column to `senses` table ([#89])
-* Added a `pronunciations` table ([#89])
-* Added column for lexicographer files to the `synsets` table ([#89])
-* Added an `id` column to `forms` table ([#89])
-* Relation type tables are combined for synsets and senses ([#75])
-* Added a table for ILI statuses ([#23])
-* Added a table for lexicographer files ([#89])
-* Added a `normalized_form` column to `forms` ([#105])
+* General changes:
+  - Parts of speech are stored as text
+  - Added indexes and `ON DELETE` actions to speed up `wn.remove()`
+  - All extendable tables are now linked to their lexicon ([#91])
+  - Added rowid to tables with metadata
+  - Preemptively added a `modified` column to `lexicons` table ([#17])
+  - Preemptively added a `normalized_form` column to `forms` ([#105])
+  - Relation type tables are combined for synsets and senses ([#75])
+* ILI-related changes ([#23]):
+  - ILIs now have an integer rowid and a status
+  - Proposed ILIs also have an integer rowid for metadata access
+  - Added a table for ILI statuses
+* WN-LMF 1.0 changes ([#65]):
+  - SyntacticBehaviour (previously unused) no longer requires an ID and
+    does not use it in the primary key
+  - Added table for adjposition values
+  - Added source-sense to definitions table
+* WN-LMF 1.1 changes ([#7], [#89]):
+  - Added a table for lexicon dependencies
+  - Added a table for lexicon extensions ([#99])
+  - Added `logo` column to `lexicons` table
+  - Added a `synset_rank` column to `senses` table
+  - Added a `pronunciations` table
+  - Added column for lexicographer files to the `synsets` table
+  - Added a table for lexicographer file names
+  - Added an `id` column to `forms` table
 
 
 ## [v0.5.1]
