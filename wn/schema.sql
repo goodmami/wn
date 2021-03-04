@@ -82,12 +82,14 @@ CREATE TABLE forms (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     entry_rowid INTEGER NOT NULL REFERENCES entries(rowid) ON DELETE CASCADE,
     form TEXT NOT NULL,
+    normalized_form TEXT,
     script TEXT,
     rank INTEGER DEFAULT 1,  -- rank 0 is the preferred lemma
     UNIQUE (entry_rowid, form, script)
 );
 CREATE INDEX form_entry_index ON forms (entry_rowid);
 CREATE INDEX form_index ON forms (form);
+CREATE INDEX form_norm_index ON forms (normalized_form);
 
 CREATE TABLE pronunciations (
     form_rowid INTEGER NOT NULL REFERENCES forms (rowid) ON DELETE CASCADE,

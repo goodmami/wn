@@ -4,6 +4,7 @@ from typing import TypeVar, Iterable, List
 import sys
 from pathlib import Path
 import hashlib
+from unicodedata import normalize, combining
 # version check is for mypy; see https://github.com/python/mypy/issues/1153
 if sys.version_info >= (3, 7):
     import importlib.resources as resources
@@ -52,3 +53,7 @@ T = TypeVar('T')
 
 def flatten(iterable: Iterable[Iterable[T]]) -> List[T]:
     return [x for xs in iterable for x in xs]
+
+
+def normalize_form(s: str) -> str:
+    return ''.join(c for c in normalize('NFKD', s.lower()) if not combining(c))

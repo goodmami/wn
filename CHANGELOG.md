@@ -105,6 +105,7 @@
 * Relation type tables are combined for synsets and senses ([#75])
 * Added a table for ILI statuses ([#23])
 * Added a table for lexicographer files ([#89])
+* Added a `normalized_form` column to `forms` ([#105])
 
 
 ## [v0.5.1]
@@ -331,3 +332,4 @@ abandoned, but this is an entirely new codebase.
 [#95]: https://github.com/goodmami/wn/issues/95
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
+[#105]: https://github.com/goodmami/wn/issues/105

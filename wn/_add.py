@@ -11,6 +11,7 @@ from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
 from wn._db import connect
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
+from wn._util import normalize_form
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
@@ -404,7 +405,7 @@ def _insert_entries(entries, lexid, cur, progress):
 
 def _insert_forms(entries, lexid, lexidmap, cur, progress):
     progress.set(status='Word Forms')
-    query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?)'
+    query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?,?)'
     for batch in _split(entries):
         forms = []
         for entry in batch:
@@ -412,9 +413,21 @@ def _insert_forms(entries, lexid, lexidmap, cur, progress):
             lemma = entry.lemma
             lid = lexidmap.get(eid, lexid)
             if not entry.external:
-                forms.append((None, lexid, eid, lid, lemma.form, lemma.script, 0))
-            forms.extend((form.id, lexid, eid, lid, form.form, form.script, i)
-                         for i, form in enumerate(entry.forms, 1))
+                form = lemma.form
+                norm = normalize_form(form)
+                forms.append(
+                    (None, lexid, eid, lid,
+                     form, norm if norm != form else None,
+                     lemma.script, 0)
+                )
+            for i, form in enumerate(entry.forms, 1):
+                _form = form.form
+                norm = normalize_form(_form)
+                forms.append(
+                    (form.id, lexid, eid, lid,
+                     form.form, norm if norm != form else None,
+                     form.script, i)
+                )
         cur.executemany(query, forms)
         progress.update(len(forms))
 
