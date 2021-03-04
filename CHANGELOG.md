@@ -4,7 +4,6 @@
 
 ### Added
 
-* `wn.constants.RELATION_INFO` ([#75])
 * `wn.constants.SENSE_SYNSET_RELATIONS`
 * `wn.Sense.frames()` ([#65])
 * `wn.Sense.adjposition()` ([#65])
@@ -82,11 +81,10 @@
   the database and exported ([#7])
 * Wordform ids are now stored in the database and exported to XML
   ([#7])
+* Relation type tables are combined for synsets and senses ([#75])
 
 ### Schema
 
-* Removed all constant lookup tables and related foreign key
-  references ([#75])
 * Parts of speech are stored as text
 * SyntacticBehaviour (previously unused) no longer requires an ID and
   does not use it in the primary key

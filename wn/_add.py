@@ -9,7 +9,7 @@ import logging
 import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
-from wn._db import connect, relmap, ilistatmap, lexfilemap
+from wn._db import connect, ilistatmap, lexfilemap
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -51,6 +51,11 @@ SYNSET_QUERY = '''
       FROM synsets AS ss
      WHERE ss.id = ?
        AND ss.lexicon_rowid = ?
+'''
+RELTYPE_QUERY = '''
+    SELECT rt.rowid
+      FROM relation_types AS rt
+     WHERE rt.type = ?
 '''
 
 
@@ -118,6 +123,9 @@ def _add_lmf(
             return
 
         # all clear, try to add them
+        progress.flash('Updating relation types')
+        _update_relation_types(all_infos, cur)
+
         progress.flash(f'Reading {source!s}')
         for lexicon, info in zip(lmf.load(source), all_infos):
             if 'skip' in info:
@@ -178,6 +186,12 @@ def _sum_counts(info) -> int:
                 'Synset', 'ExternalSynset',
                 'Definition',  # 'ILIDefinition',
                 'SynsetRelation'))
+
+
+def _update_relation_types(all_infos, cur):
+    reltypes = set(rt for info in all_infos for rt in info['relations'])
+    cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
+                    [(rt,) for rt in sorted(reltypes)])
 
 
 def _insert_lexicon(lexicon, info, cur, progress) -> Tuple[int, int]:
@@ -342,14 +356,14 @@ def _insert_synset_relations(synsets, lexid, lexidmap, cur, progress):
     progress.set(status='Synset Relations')
     query = f'''
         INSERT INTO synset_relations
-        VALUES (null,?,({SYNSET_QUERY}),({SYNSET_QUERY}),?,?)
+        VALUES (null,?,({SYNSET_QUERY}),({SYNSET_QUERY}),({RELTYPE_QUERY}),?)
     '''
     for batch in _split(synsets):
         data = [
             (lexid,
              synset.id, lexidmap.get(synset.id, lexid),
              relation.target, lexidmap.get(relation.target, lexid),
-             relmap[relation.type],
+             relation.type,
              relation.meta)
             for synset in batch
             for relation in synset.relations
@@ -546,14 +560,14 @@ def _insert_sense_relations(lexicon, lexid, lexidmap, cur, progress):
     for table, target_query, rels in hyperparams:
         query = f'''
             INSERT INTO {table}
-            VALUES (null,?,({SENSE_QUERY}),({target_query}),?,?)
+            VALUES (null,?,({SENSE_QUERY}),({target_query}),({RELTYPE_QUERY}),?)
         '''
         for batch in _split(rels):
             data = [
                 (lexid,
                  sense_id, slid,
                  relation.target, tlid,
-                 relmap[relation.type],
+                 relation.type,
                  relation.meta)
                 for sense_id, slid, tlid, relation in batch
             ]

@@ -10,7 +10,7 @@ import sqlite3
 
 import wn
 from wn._types import Metadata
-from wn._db import connect, NON_ROWID, relmap, ilistatmap, lexfilemap
+from wn._db import connect, NON_ROWID, ilistatmap, lexfilemap
 
 
 # Local Types
@@ -429,27 +429,30 @@ def get_synset_relations(
     lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
-    params: List = list(source_rowids) + list(lexicon_rowids)
+    params: List = []
     constraint = ''
     if relation_types and '*' not in relation_types:
-        constraint = f'AND srel.type IN ({_qs(relation_types)})'
-        params.extend(relmap[rtype] for rtype in relation_types)
+        constraint = f'WHERE type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
+    params.extend(source_rowids)
+    params.extend(lexicon_rowids)
     query = f'''
+          WITH rt(rowid, type) AS
+               (SELECT rowid, type FROM relation_types {constraint})
         SELECT DISTINCT rel.type, rel.rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
                         tgt.lexicon_rowid, tgt.rowid
-          FROM (SELECT type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, target_rowid, srel.rowid
                   FROM synset_relations AS srel
+                  JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid IN ({_qs(source_rowids)})
-                   AND lexicon_rowid IN ({_qs(lexicon_rowids)}) {constraint}
+                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
                ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
-    inv_relmap = relmap.inverse
-    for row in result_rows:
-        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
+    yield from result_rows
 
 
 def get_definitions(
@@ -570,25 +573,26 @@ def get_synset_members(rowid: int, lexicon_rowids: Sequence[int]) -> Iterator[_S
 def get_sense_relations(
     source_rowid: int,
     relation_types: Collection[str],
-    lexicon_rowids: Sequence[int] = None,
+    lexicon_rowids: Sequence[int],
 ) -> Iterator[_Sense_Relation]:
-    conn = connect()
-    params: List = [source_rowid]
-    constraints = ['source_rowid = ?']
-    if lexicon_rowids is not None:
-        constraints.append(f'lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    params: List = []
+    constraint = ''
     if '*' not in relation_types:
-        constraints.append(f'srel.type IN ({_qs(relation_types)})')
-        params.extend(relmap[rtype] for rtype in relation_types)
-    constraint = 'WHERE ' + '\n   AND '.join(constraints)
+        constraint = f'WHERE type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
+    params.append(source_rowid)
+    params.extend(lexicon_rowids)
     query = f'''
+          WITH rt(rowid, type) AS
+               (SELECT rowid, type FROM relation_types {constraint})
         SELECT DISTINCT rel.type, rel.rowid,
                         s.id, e.id, ss.id,
                         s.lexicon_rowid, s.rowid
-          FROM (SELECT type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, target_rowid, srel.rowid
                   FROM sense_relations AS srel
-                {constraint}
+                  JOIN rt ON srel.type_rowid = rt.rowid
+                 WHERE source_rowid = ?
+                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
                ) AS rel
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
@@ -597,42 +601,39 @@ def get_sense_relations(
           JOIN synsets AS ss
             ON ss.rowid = s.synset_rowid
     '''
-    rows: Iterator[_Sense_Relation] = conn.execute(query, params)
-    inv_relmap = relmap.inverse
-    for row in rows:
-        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
+    rows: Iterator[_Sense_Relation] = connect().execute(query, params)
+    yield from rows
 
 
 def get_sense_synset_relations(
         source_rowid: int,
         relation_types: Collection[str],
-        lexicon_rowids: Sequence[int] = None,
+        lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset_Relation]:
-    conn = connect()
-    params: List = [source_rowid]
-    constraints = ['source_rowid = ?']
-    if lexicon_rowids is not None:
-        constraints.append(f'lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    params: List = []
+    constraint = ''
     if '*' not in relation_types:
-        constraints.append(f'srel.type IN ({_qs(relation_types)})')
-        params.extend(relmap[rtype] for rtype in relation_types)
-    constraint = 'WHERE ' + '\n   AND '.join(constraints)
+        constraint = f'WHERE type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
+    params.append(source_rowid)
+    params.extend(lexicon_rowids)
     query = f'''
+          WITH rt(rowid, type) AS
+               (SELECT rowid, type FROM relation_types {constraint})
         SELECT DISTINCT rel.type, rel.rowid, ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = ss.ili_rowid),
                         ss.lexicon_rowid, ss.rowid
-          FROM (SELECT type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, target_rowid, srel.rowid
                   FROM sense_synset_relations AS srel
-                {constraint}
+                  JOIN rt ON srel.type_rowid = rt.rowid
+                 WHERE source_rowid = ?
+                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
                ) AS rel
           JOIN synsets AS ss
             ON ss.rowid = rel.target_rowid
     '''
-    rows: Iterator[_Synset_Relation] = conn.execute(query, params)
-    inv_relmap = relmap.inverse
-    for row in rows:
-        yield (inv_relmap[row[0]], *row[1:])  # type: ignore
+    rows: Iterator[_Synset_Relation] = connect().execute(query, params)
+    yield from rows
 
 
 _SANITIZED_METADATA_TABLES = {

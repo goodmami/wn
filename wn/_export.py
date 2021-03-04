@@ -130,7 +130,7 @@ def _export_senses(entry_rowid: int, lexids: Sequence[int]) -> List[lmf.Sense]:
         Sense(
             id,
             synset,
-            relations=_export_sense_relations(rowid),
+            relations=_export_sense_relations(rowid, lexids),
             examples=_export_examples(rowid, 'senses', lexids),
             counts=_export_counts(rowid, lexids),
             lexicalized=get_lexicalized(rowid, 'senses'),
@@ -142,7 +142,10 @@ def _export_senses(entry_rowid: int, lexids: Sequence[int]) -> List[lmf.Sense]:
     ]
 
 
-def _export_sense_relations(sense_rowid: int) -> List[lmf.SenseRelation]:
+def _export_sense_relations(
+    sense_rowid: int,
+    lexids: Sequence[int]
+) -> List[lmf.SenseRelation]:
     SenseRelation = lmf.SenseRelation
     relations = [
         SenseRelation(
@@ -151,7 +154,7 @@ def _export_sense_relations(sense_rowid: int) -> List[lmf.SenseRelation]:
             meta=_export_metadata(rowid, 'sense_relations')
         )
         for type, rowid, id, *_
-        in get_sense_relations(sense_rowid, '*')
+        in get_sense_relations(sense_rowid, '*', lexids)
     ]
     relations.extend(
         SenseRelation(
@@ -160,7 +163,7 @@ def _export_sense_relations(sense_rowid: int) -> List[lmf.SenseRelation]:
             meta=_export_metadata(rowid, 'sense_synset_relations')
         )
         for type, rowid, id, *_
-        in get_sense_synset_relations(sense_rowid, '*')
+        in get_sense_synset_relations(sense_rowid, '*', lexids)
     )
     return relations
 

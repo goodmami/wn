@@ -127,7 +127,7 @@ CREATE TABLE synset_relations (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
-    type INTEGER NOT NULL,
+    type_rowid INTEGER NOT NULL REFERENCES relation_types(rowid),
     metadata META
 );
 CREATE INDEX synset_relation_source_index ON synset_relations (source_rowid);
@@ -178,7 +178,7 @@ CREATE TABLE sense_relations (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
-    type INTEGER NOT NULL,
+    type_rowid INTEGER NOT NULL REFERENCES relation_types(rowid),
     metadata META
 );
 CREATE INDEX sense_relation_source_index ON sense_relations (source_rowid);
@@ -189,7 +189,7 @@ CREATE TABLE sense_synset_relations (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     source_rowid INTEGER NOT NULL REFERENCES senses(rowid) ON DELETE CASCADE,
     target_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
-    type INTEGER NOT NULL,
+    type_rowid INTEGER NOT NULL REFERENCES relation_types(rowid),
     metadata META
 );
 CREATE INDEX sense_synset_relation_source_index ON sense_synset_relations (source_rowid);
@@ -241,3 +241,13 @@ CREATE INDEX syntactic_behaviour_sense_sb_index
     ON syntactic_behaviour_senses (syntactic_behaviour_rowid);
 CREATE INDEX syntactic_behaviour_sense_sense_index
     ON syntactic_behaviour_senses (sense_rowid);
+
+
+-- Lookup Tables
+
+CREATE TABLE relation_types (
+    rowid INTEGER PRIMARY KEY,
+    type TEXT NOT NULL,
+    UNIQUE (type)
+);
+CREATE INDEX relation_type_index ON relation_types (type);
