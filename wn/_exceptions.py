@@ -6,6 +6,12 @@ class Error(Exception):
     __module__ = 'wn'
 
 
+class DatabaseError(Error):
+    """Error class for issues with the database."""
+
+    __module__ = 'wn'
+
+
 class WnWarning(Warning):
     """Generic warning class for dubious worndet operations."""
 

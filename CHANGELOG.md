@@ -3,6 +3,16 @@
 ## [Unreleased]
 
 
+## [v0.6.1]
+
+**Release date: 2021-03-05**
+
+### Added
+
+* `wn.DatabaseError` as a more specific error type for schema changes
+  ([#106])
+
+
 ## [v0.6.0]
 
 **Release date: 2021-03-04**
@@ -292,6 +302,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.6.1]: ../../releases/tag/v0.6.1
 [v0.6.0]: ../../releases/tag/v0.6.0
 [v0.5.1]: ../../releases/tag/v0.5.1
 [v0.5.0]: ../../releases/tag/v0.5.0
@@ -339,3 +350,4 @@ abandoned, but this is an entirely new codebase.
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
+[#106]: https://github.com/goodmami/wn/issues/106
