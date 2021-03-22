@@ -21,12 +21,12 @@ project = 'wn'
 copyright = '2020, Michael Wayne Goodman'
 author = 'Michael Wayne Goodman'
 
-import wn._meta
+import wn
 
 # The short X.Y version
-version = '.'.join(wn._meta.__version__.split('.')[:2])
+version = '.'.join(wn.__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = wn._meta.__version__
+release = wn.__version__
 
 # -- General configuration ---------------------------------------------------
 
