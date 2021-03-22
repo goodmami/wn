@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* Disable `sqlite3` progress reporting after `wn.remove()` ([#108])
+
 
 ## [v0.6.1]
 
@@ -351,3 +355,4 @@ abandoned, but this is an entirely new codebase.
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
+[#108]: https://github.com/goodmami/wn/issues/108

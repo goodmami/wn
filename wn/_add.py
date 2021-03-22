@@ -701,6 +701,7 @@ def remove(
 
     finally:
         progress.close()
+        conn.set_progress_handler(None, 0)
 
 
 def _find_all_extensions(rowid: int) -> List[Tuple[int, str]]:
