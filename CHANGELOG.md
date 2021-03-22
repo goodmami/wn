@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.6.2]
+
+**Release date: 2021-03-22**
+
 ### Fixed
 
 * Disable `sqlite3` progress reporting after `wn.remove()` ([#108])
@@ -306,6 +311,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.6.2]: ../../releases/tag/v0.6.2
 [v0.6.1]: ../../releases/tag/v0.6.1
 [v0.6.0]: ../../releases/tag/v0.6.0
 [v0.5.1]: ../../releases/tag/v0.5.1
