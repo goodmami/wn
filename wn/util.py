@@ -1,5 +1,4 @@
 """Wn utility classes."""
-
 from typing import TextIO
 import sys
 
@@ -31,6 +30,7 @@ class ProgressHandler:
         message: str = '',
         count: int = 0,
         total: int = 0,
+        refresh_interval: int = 1,
         unit: str = '',
         status: str = '',
         file: TextIO = sys.stderr,
@@ -39,10 +39,12 @@ class ProgressHandler:
         self.kwargs = {
             'count': count,
             'total': total,
+            'refresh_interval': refresh_interval,
             'message': message,
             'unit': unit,
             'status': status,
         }
+        self._refresh_quota: int = refresh_interval
 
     def update(self, n: int = 1) -> None:
         """Update the counter with the increment value *n*.
@@ -103,10 +105,13 @@ class ProgressBar(ProgressHandler):
     def update(self, n: int = 1) -> None:
         """Increment the count by *n* and print the reformatted bar."""
         self.kwargs['count'] += n  # type: ignore
-        s = self.format()
-        if self.file:
-            print('\r\033[K', end='', file=self.file)
-            print(s, end='', file=self.file)
+        self._refresh_quota -= n
+        if self._refresh_quota <= 0:
+            self._refresh_quota = self.kwargs['refresh_interval']  # type: ignore
+            s = self.format()
+            if self.file:
+                print('\r\033[K', end='', file=self.file)
+                print(s, end='', file=self.file)
 
     def format(self) -> str:
         """Format and return the progress bar.

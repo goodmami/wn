@@ -31,6 +31,17 @@ from wn.constants import (
     PARTS_OF_SPEECH,
     LEXICOGRAPHER_FILES,
 )
+from wn.util import ProgressHandler
+
+
+LEXICON_INFO_ATTRIBUTES = ('LexicalEntry', 'ExternalLexicalEntry',
+                           'Lemma', 'Form', 'Pronunciation', 'Tag',
+                           'Sense', 'ExternalSense',
+                           'SenseRelation', 'Example', 'Count',
+                           'SyntacticBehaviour',
+                           'Synset', 'ExternalSynset',
+                           'Definition',  # 'ILIDefinition',
+                           'SynsetRelation')
 
 
 class LMFError(wn.Error):
@@ -80,8 +91,11 @@ _DC_QNAME_PAIRS = {
 
 class XMLEventIterator:
     """etree.iterparse() event iterator with lookahead"""
-    def __init__(self, iterator: Iterator[Tuple[str, ET.Element]]):
+    def __init__(self,
+                 iterator: Iterator[Tuple[str, ET.Element]],
+                 progress: Optional[ProgressHandler]):
         self.iterator = iterator
+        self._progress = progress
         self._next = next(iterator, (None, None))
 
     def __iter__(self):
@@ -89,7 +103,10 @@ class XMLEventIterator:
 
     def __next__(self):
         _next = self._next
+        event, elem = _next
         if _next == (None, None):
+            if self._progress:
+                self._progress.set(status="Completed")
             raise StopIteration
         self._next = next(self.iterator, (None, None))
         return _next
@@ -114,6 +131,8 @@ class XMLEventIterator:
             raise LMFError(f'expected </{"|".join(tags)}>, got <{elem.tag}>')
         if elem.tag not in tags:
             raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
+        if self._progress and elem.tag in LEXICON_INFO_ATTRIBUTES:
+            self._progress.update()
         return elem
 
 
@@ -550,7 +569,10 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     return infos
 
 
-def load(source: AnyPath) -> LexicalResource:
+def load(
+    source: AnyPath,
+    progress: Optional[ProgressHandler] = None
+) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
     Args:
@@ -561,7 +583,9 @@ def load(source: AnyPath) -> LexicalResource:
     with source.open('rb') as fh:
         version = _read_header(fh)
 
-    events = XMLEventIterator(ET.iterparse(source, events=('start', 'end')))
+    events = XMLEventIterator(
+        ET.iterparse(source, events=('start', 'end')),
+        progress)
     root = events.start('LexicalResource')
 
     lexicons: List[Lexicon] = []
