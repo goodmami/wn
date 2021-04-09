@@ -89,6 +89,7 @@ def add(
     if progress_handler is None:
         progress_handler = ProgressHandler
     progress = progress_handler(message='Database')
+    progress_lmf = progress_handler(message='Process XML')
 
     logger.info('adding project to database')
     logger.info('  database: %s', wn.config.database_path)
@@ -97,7 +98,7 @@ def add(
     try:
         for package in iterpackages(source):
             if package.type == _WORDNET:
-                _add_lmf(package.resource_file(), progress)
+                _add_lmf(package.resource_file(), progress, progress_lmf)
             elif package.type == _ILI:
                 _add_ili(package.resource_file(), progress)
             else:
@@ -109,6 +110,7 @@ def add(
 def _add_lmf(
     source,
     progress: ProgressHandler,
+    progress_lmf: ProgressHandler,
 ) -> None:
     with connect() as conn:
         cur = conn.cursor()
@@ -138,10 +140,16 @@ def _add_lmf(
         _update_lookup_tables(all_infos, cur)
 
         progress.flash(f'Reading {source!s}')
-        for lexicon, info in zip(lmf.load(source), all_infos):
+
+        total_items = sum(_sum_counts(info) for info in all_infos)
+        progress_lmf.set(count=0,
+                         total=total_items,
+                         refresh_interval=50,
+                         status='Reading XML')
+
+        for lexicon, info in zip(lmf.load(source, progress_lmf), all_infos):
             if 'skip' in info:
                 continue
-
             progress.set(count=0, total=_sum_counts(info))
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
@@ -188,15 +196,7 @@ def _precheck(source, cur):
 
 def _sum_counts(info) -> int:
     counts = info['counts']
-    return sum(counts.get(name, 0) for name in
-               ('LexicalEntry', 'ExternalLexicalEntry',
-                'Lemma', 'Form', 'Pronunciation', 'Tag',
-                'Sense', 'ExternalSense',
-                'SenseRelation', 'Example', 'Count',
-                'SyntacticBehaviour',
-                'Synset', 'ExternalSynset',
-                'Definition',  # 'ILIDefinition',
-                'SynsetRelation'))
+    return sum(counts.get(name, 0) for name in lmf.LEXICON_INFO_ATTRIBUTES)
 
 
 def _update_lookup_tables(all_infos, cur):

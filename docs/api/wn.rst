@@ -4,6 +4,7 @@ wn
 
 .. automodule:: wn
 
+
 Project Management Functions
 ----------------------------
 
@@ -12,6 +13,7 @@ Project Management Functions
 .. autofunction:: remove
 .. autofunction:: export
 .. autofunction:: projects
+
 
 Wordnet Query Functions
 -----------------------
@@ -25,6 +27,7 @@ Wordnet Query Functions
 .. autofunction:: ili
 .. autofunction:: ilis
 .. autofunction:: lexicons
+
 
 The Wordnet Class
 -----------------
@@ -41,6 +44,7 @@ The Wordnet Class
    .. automethod:: ilis
    .. automethod:: lexicons
    .. automethod:: expanded_lexicons
+
 
 The Word Class
 --------------
@@ -132,6 +136,7 @@ The Pronunciation Class
 
       A URI to an associated audio file.
 
+
 The Tag Class
 '''''''''''''
 
@@ -161,6 +166,7 @@ The Sense Class
    .. automethod:: lexicalized
    .. automethod:: adjposition
    .. automethod:: frames
+   .. automethod:: counts
    .. automethod:: metadata
    .. automethod:: get_related
    .. automethod:: get_related_synsets
@@ -223,6 +229,7 @@ The Synset Class
    .. automethod:: relation_paths
    .. automethod:: translate
 
+
 The ILI Class
 -------------
 
@@ -257,6 +264,7 @@ The ILI Class
    .. automethod:: definition
    .. automethod:: metadata
 
+
 The Lexicon Class
 -----------------
 
@@ -265,6 +273,10 @@ The Lexicon Class
    .. automethod:: metadata
    .. automethod:: specifier
    .. automethod:: modified
+   .. automethod:: requires
+   .. automethod:: extends
+   .. automethod:: extensions
+
 
 The wn.config Object
 --------------------
