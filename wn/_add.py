@@ -136,9 +136,6 @@ def _add_lmf(
             return
 
         # all clear, try to add them
-        progress.flash('Updating lookup tables')
-        _update_lookup_tables(all_infos, cur)
-
         progress.flash(f'Reading {source!s}')
 
         total_items = sum(_sum_counts(info) for info in all_infos)
@@ -150,6 +147,10 @@ def _add_lmf(
         for lexicon, info in zip(lmf.load(source, progress_lmf), all_infos):
             if 'skip' in info:
                 continue
+
+            progress.flash('Updating lookup tables')
+            _update_lookup_tables(lexicon, cur)
+
             progress.set(count=0, total=_sum_counts(info))
             synsets = lexicon.synsets
             entries = lexicon.lexical_entries
@@ -199,11 +200,17 @@ def _sum_counts(info) -> int:
     return sum(counts.get(name, 0) for name in lmf.LEXICON_INFO_ATTRIBUTES)
 
 
-def _update_lookup_tables(all_infos, cur):
-    reltypes = set(rt for info in all_infos for rt in info['relations'])
+def _update_lookup_tables(lexicon, cur):
+    reltypes = set(rel.type
+                   for ss in lexicon.synsets
+                   for rel in ss.relations)
+    reltypes.update(rel.type
+                    for e in lexicon.lexical_entries
+                    for s in e.senses
+                    for rel in s.relations)
     cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
                     [(rt,) for rt in sorted(reltypes)])
-    lexfiles = set(lf for info in all_infos for lf in info['lexfiles'])
+    lexfiles = set(ss.lexfile for ss in lexicon.synsets) - {None}
     cur.executemany('INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
                     [(lf,) for lf in sorted(lexfiles)])
 
