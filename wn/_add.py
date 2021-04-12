@@ -141,7 +141,7 @@ def _add_lmf(
         total_items = sum(_sum_counts(info) for info in all_infos)
         progress_lmf.set(count=0,
                          total=total_items,
-                         refresh_interval=50,
+                         refresh_interval=10000,
                          status='Reading XML')
 
         for lexicon, info in zip(lmf.load(source, progress_lmf), all_infos):

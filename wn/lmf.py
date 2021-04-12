@@ -34,14 +34,16 @@ from wn.constants import (
 from wn.util import ProgressHandler
 
 
-LEXICON_INFO_ATTRIBUTES = ('LexicalEntry', 'ExternalLexicalEntry',
-                           'Lemma', 'Form', 'Pronunciation', 'Tag',
-                           'Sense', 'ExternalSense',
-                           'SenseRelation', 'Example', 'Count',
-                           'SyntacticBehaviour',
-                           'Synset', 'ExternalSynset',
-                           'Definition',  # 'ILIDefinition',
-                           'SynsetRelation')
+LEXICON_INFO_ATTRIBUTES = {
+    'LexicalEntry', 'ExternalLexicalEntry',
+    'Lemma', 'Form', 'Pronunciation', 'Tag',
+    'Sense', 'ExternalSense',
+    'SenseRelation', 'Example', 'Count',
+    'SyntacticBehaviour',
+    'Synset', 'ExternalSynset',
+    'Definition',  # 'ILIDefinition',
+    'SynsetRelation'
+}
 
 
 class LMFError(wn.Error):
@@ -91,9 +93,11 @@ _DC_QNAME_PAIRS = {
 
 class XMLEventIterator:
     """etree.iterparse() event iterator with lookahead"""
-    def __init__(self,
-                 iterator: Iterator[Tuple[str, ET.Element]],
-                 progress: Optional[ProgressHandler]):
+    def __init__(
+        self,
+        iterator: Iterator[Tuple[str, ET.Element]],
+        progress: ProgressHandler
+    ):
         self.iterator = iterator
         self._progress = progress
         self._next = next(iterator, (None, None))
@@ -105,8 +109,7 @@ class XMLEventIterator:
         _next = self._next
         event, elem = _next
         if _next == (None, None):
-            if self._progress:
-                self._progress.set(status="Completed")
+            self._progress.set(status="Completed")
             raise StopIteration
         self._next = next(self.iterator, (None, None))
         return _next
@@ -131,7 +134,7 @@ class XMLEventIterator:
             raise LMFError(f'expected </{"|".join(tags)}>, got <{elem.tag}>')
         if elem.tag not in tags:
             raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
-        if self._progress and elem.tag in LEXICON_INFO_ATTRIBUTES:
+        if elem.tag in LEXICON_INFO_ATTRIBUTES:
             self._progress.update()
         return elem
 
