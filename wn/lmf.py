@@ -4,6 +4,7 @@ Reader for the Lexical Markup Framework (LMF) format.
 """
 
 from typing import (
+    Type,
     Container,
     List,
     Tuple,
@@ -31,7 +32,7 @@ from wn.constants import (
     PARTS_OF_SPEECH,
     LEXICOGRAPHER_FILES,
 )
-from wn.util import ProgressHandler
+from wn.util import ProgressHandler, ProgressBar
 
 
 LEXICON_INFO_ATTRIBUTES = {
@@ -134,8 +135,7 @@ class XMLEventIterator:
             raise LMFError(f'expected </{"|".join(tags)}>, got <{elem.tag}>')
         if elem.tag not in tags:
             raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
-        if elem.tag in LEXICON_INFO_ATTRIBUTES:
-            self.progress.update()
+        self.progress.update()
         return elem
 
 
@@ -571,18 +571,27 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
 
 def load(
     source: AnyPath,
-    progress: Optional[ProgressHandler] = None
+    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
 ) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
     Args:
         source: path to a WN-LMF file
     """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+
     source = Path(source).expanduser()
 
     with source.open('rb') as fh:
         version = _read_header(fh)
+        # _read_header() only reads the first 2 lines
+        remainder = fh.read()
+        total_elements = remainder.count(b'</') + remainder.count(b'/>')
 
+    progress = progress_handler(
+        message='Read', total=total_elements, refresh_interval=10000
+    )
     events = XMLEventIterator(
         ET.iterparse(source, events=('start', 'end')),
         progress

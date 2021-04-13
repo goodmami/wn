@@ -89,7 +89,6 @@ def add(
     if progress_handler is None:
         progress_handler = ProgressHandler
     progress = progress_handler(message='Database')
-    progress_lmf = progress_handler(message='Read')
 
     logger.info('adding project to database')
     logger.info('  database: %s', wn.config.database_path)
@@ -98,7 +97,7 @@ def add(
     try:
         for package in iterpackages(source):
             if package.type == _WORDNET:
-                _add_lmf(package.resource_file(), progress, progress_lmf)
+                _add_lmf(package.resource_file(), progress, progress_handler)
             elif package.type == _ILI:
                 _add_ili(package.resource_file(), progress)
             else:
@@ -110,7 +109,7 @@ def add(
 def _add_lmf(
     source,
     progress: ProgressHandler,
-    progress_lmf: ProgressHandler,
+    progress_handler: Type[ProgressHandler],
 ) -> None:
     with connect() as conn:
         cur = conn.cursor()
@@ -138,10 +137,7 @@ def _add_lmf(
         # all clear, try to add them
         progress.flash(f'Reading {source!s}')
 
-        total_items = sum(_sum_counts(info) for info in all_infos)
-        progress_lmf.set(count=0, total=total_items, refresh_interval=10000)
-
-        for lexicon, info in zip(lmf.load(source, progress_lmf), all_infos):
+        for lexicon, info in zip(lmf.load(source, progress_handler), all_infos):
             if 'skip' in info:
                 continue
 
