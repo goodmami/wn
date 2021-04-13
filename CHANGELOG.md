@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Changed
+
+* `wn.lmf.load()` now takes a `progress_handler` parameter ([#46])
+* `wn.lmf.scan_lexicons()` no longer returns sets of relation types or
+  lexfiles; `wn.add()` now gets these from loaded lexicons instead
+* `wn.util.ProgressHandler`
+  - Now has a `refresh_interval` parameter; updates only trigger a
+    refresh after the counter hits the threshold set by the interval
+  - The `update()` method now takes a `force` parameter to trigger a
+    refresh regardless of the refresh interval
+
 
 ## [v0.6.2]
 
