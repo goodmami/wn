@@ -99,7 +99,7 @@ class XMLEventIterator:
         progress: ProgressHandler
     ):
         self.iterator = iterator
-        self._progress = progress
+        self.progress = progress
         self._next = next(iterator, (None, None))
 
     def __iter__(self):
@@ -109,7 +109,7 @@ class XMLEventIterator:
         _next = self._next
         event, elem = _next
         if _next == (None, None):
-            self._progress.set(status="Completed")
+            self.progress.set(status="Complete")
             raise StopIteration
         self._next = next(self.iterator, (None, None))
         return _next
@@ -135,7 +135,7 @@ class XMLEventIterator:
         if elem.tag not in tags:
             raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
         if elem.tag in LEXICON_INFO_ATTRIBUTES:
-            self._progress.update()
+            self.progress.update()
         return elem
 
 
@@ -585,7 +585,8 @@ def load(
 
     events = XMLEventIterator(
         ET.iterparse(source, events=('start', 'end')),
-        progress)
+        progress
+    )
     root = events.start('LexicalResource')
 
     lexicons: List[Lexicon] = []
@@ -614,9 +615,13 @@ def _load_lexicon(events, version) -> Lexicon:
             requires.append(_load_dependency(events, 'Requires'))
 
     attrs = lex_root.attrib
+    events.progress.set(message=f'Read {attrs["id"]}:{attrs["version"]}')
+
+    events.progress.set(status='Lexical Entries')
     entries, frames, sbmap = _load_lexical_entries(
         events, extension, version, lex_root
     )
+    events.progress.set(status='Synsets')
     synsets = _load_synsets(
         events, extension, version, lex_root
     )
