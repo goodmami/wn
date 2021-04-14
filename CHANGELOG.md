@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+* Support for approximate word searches; on by default, configurable
+  only by instantiating a `wn.Wordnet` object ([#105])
+
 ### Changed
 
 * `wn.lmf.load()` now takes a `progress_handler` parameter ([#46])
@@ -12,6 +17,11 @@
     refresh after the counter hits the threshold set by the interval
   - The `update()` method now takes a `force` parameter to trigger a
     refresh regardless of the refresh interval
+* `wn.Wordnet`
+  - Initialization now takes a `normalize` parameter ([#105])
+  - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
+    use a specified normalization function to expand queries on word
+    forms ([#105])
 
 
 ## [v0.6.2]
@@ -339,6 +349,7 @@ abandoned, but this is an entirely new codebase.
 [#15]: https://github.com/goodmami/wn/issues/15
 [#17]: https://github.com/goodmami/wn/issues/17
 [#23]: https://github.com/goodmami/wn/issues/23
+[#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59

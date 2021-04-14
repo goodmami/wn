@@ -3,8 +3,8 @@ from typing import TypeVar, Optional, List, Tuple, Dict, Set, Iterator
 import warnings
 
 import wn
-from wn._types import Metadata
-from wn._util import flatten
+from wn._types import Metadata, NormalizeFunction
+from wn._util import flatten, normalize_form
 from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
@@ -1041,13 +1041,30 @@ class Wordnet:
     second space-separated list of lexicon specifiers which are used
     for traversing relations, but not as the results of queries.
 
+    The *normalize* argument takes a function that normalizes word
+    forms in order to expand the search. The default function
+    downcases the word and removes diacritics via NFKD_ normalization
+    so that, for example, searching for *san josé* in the English
+    WordNet will find the entry for *San Jose*. Setting *normalize* to
+    :python:`None` disables normalization and forces exact-match
+    searching.
+
+    .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
+
     """
 
     __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
-                 '_default_mode')
+                 '_default_mode', '_normalize')
     __module__ = 'wn'
 
-    def __init__(self, lexicon: str = None, *, lang: str = None, expand: str = None):
+    def __init__(
+        self,
+        lexicon: str = None,
+        *,
+        lang: str = None,
+        expand: str = None,
+        normalize: Optional[NormalizeFunction] = normalize_form,
+    ):
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
         self._default_mode = (not lexicon and not lang)
@@ -1081,6 +1098,8 @@ class Wordnet:
             self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
+        self._normalize = normalize
+
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
         return self._lexicons
@@ -1106,7 +1125,10 @@ class Wordnet:
         restricts words by their part of speech.
 
         """
-        iterable = find_entries(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
+        forms = _expand_form(form, self._normalize)
+        iterable = find_entries(
+            forms=forms, pos=pos, lexicon_rowids=self._lexicon_ids
+        )
         return [Word(*word_data, self) for word_data in iterable]
 
     def synset(self, id: str) -> Synset:
@@ -1131,8 +1153,9 @@ class Wordnet:
         select a unique synset within a single lexicon.
 
         """
+        forms = _expand_form(form, self._normalize)
         iterable = find_synsets(
-            form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids,
+            forms=forms, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids,
         )
         return [Synset(*synset_data, self) for synset_data in iterable]
 
@@ -1153,7 +1176,10 @@ class Wordnet:
         *pos* restricts senses by their word's part of speech.
 
         """
-        iterable = find_senses(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
+        forms = _expand_form(form, self._normalize)
+        iterable = find_senses(
+            forms=forms, pos=pos, lexicon_rowids=self._lexicon_ids
+        )
         return [Sense(*sense_data, self) for sense_data in iterable]
 
     def ili(self, id: str) -> ILI:
@@ -1183,6 +1209,18 @@ def _to_lexicon(data) -> Lexicon:
         logo=logo,
         _id=rowid
     )
+
+
+def _expand_form(
+    form: Optional[str],
+    normalize: Optional[NormalizeFunction]
+) -> Optional[List[str]]:
+    if form is None:
+        return None
+    forms = [form]
+    if normalize:
+        forms.extend([normalize(f) for f in forms])
+    return forms
 
 
 def projects() -> List[Dict]:

@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from typing import (
-    Optional, Any, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+    Optional, Dict, Set, List, Tuple, Collection, Iterator, Sequence
 )
 import itertools
 import sqlite3
@@ -281,131 +281,160 @@ def find_proposed_ilis(
 
 def find_entries(
         id: str = None,
-        form: str = None,
+        forms: Sequence[str] = None,
         pos: str = None,
         lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Word]:
     conn = connect()
-    query_parts = [
-        'SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, e.pos,'
-        '                f.form, f.id, f.script, f.rowid',
-        '  FROM entries AS e',
-        '  JOIN forms AS f ON f.entry_rowid = e.rowid',
-    ]
-
-    params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
+    cte = ''
+    params: List = []
     conditions = []
     if id:
-        conditions.append('e.id = :id')
-    if form:
-        conditions.append('e.rowid IN'
-                          ' (SELECT entry_rowid FROM forms WHERE form = :form)')
+        conditions.append('e.id = ?')
+        params.append(id)
+    if forms:
+        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
+        conditions.append('''
+            e.rowid IN
+               (SELECT entry_rowid
+                  FROM forms
+                 WHERE form IN wordforms
+                    OR normalized_form IN wordforms)
+        '''.strip())
+        params.extend(forms)
     if pos:
-        conditions.append('e.pos = :pos')
+        conditions.append('e.pos = ?')
+        params.append(pos)
     if lexicon_rowids:
-        kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
-        params.update(kws)
-        conditions.append(f'e.lexicon_rowid IN ({_kws(kws)})')
+        conditions.append(f'e.lexicon_rowid IN ({_qs(lexicon_rowids)})')
+        params.extend(lexicon_rowids)
 
+    condition = ''
     if conditions:
-        query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
+        condition = 'WHERE ' + '\n           AND '.join(conditions)
 
-    query_parts.append(' ORDER BY e.rowid, e.id, f.rank')
+    query = f'''
+          {cte}
+        SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, e.pos,
+                        f.form, f.id, f.script, f.rowid
+          FROM entries AS e
+          JOIN forms AS f ON f.entry_rowid = e.rowid
+         {condition}
+         ORDER BY e.rowid, e.id, f.rank
+    '''
 
-    query = '\n'.join(query_parts)
     rows: Iterator[
         Tuple[int, int, str, str, str, Optional[str], Optional[str], int]
     ] = conn.execute(query, params)
     groupby = itertools.groupby
     for key, group in groupby(rows, lambda row: row[0:4]):
         lexid, rowid, id, pos = key
-        forms = [(row[4], row[5], row[6], row[7]) for row in group]
-        yield (id, pos, forms, lexid, rowid)
+        wordforms = [(row[4], row[5], row[6], row[7]) for row in group]
+        yield (id, pos, wordforms, lexid, rowid)
 
 
 def find_senses(
-        id: str = None,
-        form: str = None,
-        pos: str = None,
-        lexicon_rowids: Sequence[int] = None,
+    id: str = None,
+    forms: Sequence[str] = None,
+    pos: str = None,
+    lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Sense]:
     conn = connect()
-    query_parts = [
-        'SELECT DISTINCT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid'
-        '  FROM senses AS s'
-        '  JOIN entries AS e ON e.rowid = s.entry_rowid'
-        '  JOIN synsets AS ss ON ss.rowid = s.synset_rowid'
-    ]
-
-    params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos}
+    cte = ''
+    params: List = []
     conditions = []
     if id:
-        conditions.append('s.id = :id')
-    if form:
-        conditions.append('s.entry_rowid IN'
-                          ' (SELECT entry_rowid FROM forms WHERE form = :form)')
+        conditions.append('s.id = ?')
+        params.append(id)
+    if forms:
+        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
+        conditions.append('''
+            s.entry_rowid IN
+               (SELECT entry_rowid
+                  FROM forms
+                 WHERE form IN wordforms
+                    OR normalized_form IN wordforms)
+        '''.strip())
+        params.extend(forms)
     if pos:
-        conditions.append('e.pos = :pos')
+        conditions.append('e.pos = ?')
+        params.append(pos)
     if lexicon_rowids:
-        kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
-        params.update(kws)
-        conditions.append(f's.lexicon_rowid IN ({_kws(kws)})')
+        conditions.append(f's.lexicon_rowid IN ({_qs(lexicon_rowids)})')
+        params.extend(lexicon_rowids)
 
+    condition = ''
     if conditions:
-        query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
+        condition = 'WHERE ' + '\n           AND '.join(conditions)
 
-    query = '\n'.join(query_parts)
+    query = f'''
+          {cte}
+        SELECT DISTINCT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
+          FROM senses AS s
+          JOIN entries AS e ON e.rowid = s.entry_rowid
+          JOIN synsets AS ss ON ss.rowid = s.synset_rowid
+         {condition}
+    '''
+
     rows: Iterator[_Sense] = conn.execute(query, params)
     yield from rows
 
 
 def find_synsets(
-        id: str = None,
-        form: str = None,
-        pos: str = None,
-        ili: str = None,
-        lexicon_rowids: Sequence[int] = None,
+    id: str = None,
+    forms: Sequence[str] = None,
+    pos: str = None,
+    ili: str = None,
+    lexicon_rowids: Sequence[int] = None,
 ) -> Iterator[_Synset]:
     conn = connect()
-    query_parts = [
-        'SELECT DISTINCT ss.id, ss.pos,',
-        '                (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),',
-        '                ss.lexicon_rowid, ss.rowid',
-        '  FROM synsets AS ss',
-    ]
-
-    params: Dict[str, Any] = {'id': id, 'form': form, 'pos': pos, 'ili': ili}
+    cte = ''
+    join = ''
     conditions = []
+    order = ''
+    params: List = []
     if id:
-        conditions.append('ss.id = :id')
-    if form:
-        query_parts.extend([
-            '  JOIN (SELECT _s.synset_rowid, _s.entry_rowid, _s.entry_rank',
-            '          FROM senses AS _s',
-            '          JOIN forms AS f',
-            '            ON f.entry_rowid = _s.entry_rowid',
-            '         WHERE f.form = :form) AS s',
-            '    ON s.synset_rowid = ss.rowid',
-        ])
+        conditions.append('ss.id = ?')
+        params.append(id)
+    if forms:
+        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
+        join = '''\
+          JOIN (SELECT _s.entry_rowid, _s.synset_rowid, _s.entry_rank
+                  FROM forms AS f
+                  JOIN senses AS _s ON _s.entry_rowid = f.entry_rowid
+                 WHERE f.form IN wordforms
+                    OR f.normalized_form IN wordforms) AS s
+            ON s.synset_rowid = ss.rowid
+        '''.strip()
+        params.extend(forms)
+        order = 'ORDER BY s.entry_rowid, s.entry_rank'
     if pos:
-        conditions.append('ss.pos = :pos')
+        conditions.append('ss.pos = ?')
+        params.append(pos)
     if ili:
-        query_parts.extend([
-            '  JOIN (SELECT _i.rowid FROM ilis AS _i WHERE _i.id=:ili) AS ili',
-            '    ON ss.ili_rowid = ili.rowid',
-        ])
+        conditions.append(
+            'ss.ili_rowid IN (SELECT ilis.rowid FROM ilis WHERE ilis.id = ?)'
+        )
+        params.append(ili)
     if lexicon_rowids:
-        kws = {f'lex{i}': rowid for i, rowid in enumerate(lexicon_rowids, 1)}
-        params.update(kws)
-        conditions.append(f'ss.lexicon_rowid IN ({_kws(kws)})')
+        conditions.append(f'ss.lexicon_rowid IN ({_qs(lexicon_rowids)})')
+        params.extend(lexicon_rowids)
 
+    condition = ''
     if conditions:
-        query_parts.append(' WHERE ' + '\n   AND '.join(conditions))
+        condition = 'WHERE ' + '\n           AND '.join(conditions)
 
-    if form:
-        query_parts.append(' ORDER BY s.entry_rowid, s.entry_rank')
+    query = f'''
+          {cte}
+        SELECT DISTINCT ss.id, ss.pos,
+                        (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),
+                        ss.lexicon_rowid, ss.rowid
+          FROM synsets AS ss
+          {join}
+         {condition}
+         {order}
+    '''
 
-    query = '\n'.join(query_parts)
     rows: Iterator[_Synset] = conn.execute(query, params)
     yield from rows
 
@@ -743,4 +772,5 @@ def get_lexfile(synset_rowid: int) -> Optional[str]:
 
 
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
+def _vs(xs: Collection) -> str: return ','.join(['(?)'] * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)
