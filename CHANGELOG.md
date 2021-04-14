@@ -6,6 +6,7 @@
 
 * Support for approximate word searches; on by default, configurable
   only by instantiating a `wn.Wordnet` object ([#105])
+* `wn.morphy` ([#19])
 
 ### Changed
 
@@ -348,6 +349,7 @@ abandoned, but this is an entirely new codebase.
 [#7]: https://github.com/goodmami/wn/issues/7
 [#15]: https://github.com/goodmami/wn/issues/15
 [#17]: https://github.com/goodmami/wn/issues/17
+[#19]: https://github.com/goodmami/wn/issues/19
 [#23]: https://github.com/goodmami/wn/issues/23
 [#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
