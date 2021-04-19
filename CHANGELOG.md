@@ -19,7 +19,7 @@
   - The `update()` method now takes a `force` parameter to trigger a
     refresh regardless of the refresh interval
 * `wn.Wordnet`
-  - Initialization now takes a `normalize` parameter ([#105])
+  - Initialization now takes a `normalizer` parameter ([#105])
   - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
     use a specified normalization function to expand queries on word
     forms ([#105])
