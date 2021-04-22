@@ -29,6 +29,7 @@ __all__ = (
     'ili',
     'ilis',
     'ILI',
+    'Lemmatizer',
     'Error',
     'DatabaseError',
     'WnWarning',
@@ -46,6 +47,7 @@ from wn._core import (
     sense, senses, Sense, Count,
     synset, synsets, Synset,
     ili, ilis, ILI,
+    Lemmatizer,
     Wordnet
 )
 

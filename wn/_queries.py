@@ -285,6 +285,7 @@ def find_entries(
     pos: str = None,
     lexicon_rowids: Sequence[int] = None,
     normalized: bool = False,
+    search_all_forms: bool = False,
 ) -> Iterator[_Word]:
     conn = connect()
     cte = ''
@@ -296,11 +297,12 @@ def find_entries(
     if forms:
         cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
         or_norm = 'OR normalized_form IN wordforms' if normalized else ''
+        and_rank = '' if search_all_forms else 'AND rank = 0'
         conditions.append(f'''
             e.rowid IN
                (SELECT entry_rowid
                   FROM forms
-                 WHERE form IN wordforms {or_norm})
+                 WHERE (form IN wordforms {or_norm}) {and_rank})
         '''.strip())
         params.extend(forms)
     if pos:
@@ -340,6 +342,7 @@ def find_senses(
     pos: str = None,
     lexicon_rowids: Sequence[int] = None,
     normalized: bool = False,
+    search_all_forms: bool = False,
 ) -> Iterator[_Sense]:
     conn = connect()
     cte = ''
@@ -351,11 +354,12 @@ def find_senses(
     if forms:
         cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
         or_norm = 'OR normalized_form IN wordforms' if normalized else ''
+        and_rank = '' if search_all_forms else 'AND rank = 0'
         conditions.append(f'''
             s.entry_rowid IN
                (SELECT entry_rowid
                   FROM forms
-                 WHERE form IN wordforms {or_norm})
+                 WHERE (form IN wordforms {or_norm}) {and_rank})
         '''.strip())
         params.extend(forms)
     if pos:
@@ -389,6 +393,7 @@ def find_synsets(
     ili: str = None,
     lexicon_rowids: Sequence[int] = None,
     normalized: bool = False,
+    search_all_forms: bool = False,
 ) -> Iterator[_Synset]:
     conn = connect()
     cte = ''
@@ -402,11 +407,12 @@ def find_synsets(
     if forms:
         cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
         or_norm = 'OR normalized_form IN wordforms' if normalized else ''
+        and_rank = '' if search_all_forms else 'AND rank = 0'
         join = f'''\
           JOIN (SELECT _s.entry_rowid, _s.synset_rowid, _s.entry_rank
                   FROM forms AS f
                   JOIN senses AS _s ON _s.entry_rowid = f.entry_rowid
-                 WHERE f.form IN wordforms {or_norm}) AS s
+                 WHERE (f.form IN wordforms {or_norm}) {and_rank}) AS s
             ON s.synset_rowid = ss.rowid
         '''.strip()
         params.extend(forms)

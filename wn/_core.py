@@ -1024,11 +1024,48 @@ class Sense(_Relatable):
                 for t_sense in t_synset.senses()]
 
 
+class Lemmatizer:
+    """Class for expanding queries over word forms.
+
+    This class, while intended for morphological lemmatization, is
+    more broadly construed as a tool for expanding word forms so they
+    better match the lemmas in a lexicon. This particular class serves
+    as the default lemmatizer for any wordnet, but users are expected
+    to use a subclass of this one for any custom behavior, such as
+    that provided by :class:`wn.morphy.Morphy`.
+
+    The default behavior provided by this class does two things: (1)
+    yields the original word form unchanged, and (2) declares that
+    the word form may be searched against non-lemmatic forms in the
+    lexicon as well.
+
+    Arguments:
+        wordnet: An instance of a :class:`Wordnet`
+    Attributes:
+        search_all_forms: When :python:`False`, word forms are only
+            searched against lemmas in the database, otherwise they
+            are searched against all word forms.
+
+    """
+
+    __slots__ = '_wordnet',
+    __module__ = 'wn'
+
+    search_all_forms = True
+
+    def __init__(self, wordnet: 'Wordnet'):
+        self._wordnet = wordnet
+
+    def __call__(self, form: str, pos: str = None) -> Iterator[str]:
+        yield form
+
+
 # Useful for factory functions of Word, Sense, or Synset
 C = TypeVar('C', Word, Sense, Synset)
 
 
 class Wordnet:
+
     """Class for interacting with wordnet data.
 
     A wordnet object acts essentially as a filter by first selecting
@@ -1055,12 +1092,29 @@ class Wordnet:
     to :python:`None` disables normalization and forces exact-match
     searching.
 
+    The *lemmatizer_class* argument may be :python:`None`, which
+    disables lemmatizer-based query expansion, or a subclass of
+    :class:`Lemmatizer` which is instantiated with the
+    :class:`Wordnet` object as its argument. During the lemmatizer's
+    instantiation, the :attr:`Wordnet.lemmatizer` attribute will be
+    :python:`None`. That is, the relevant initialization code is
+    equivalent to:
+
+    .. code-block:: python
+
+       self.lemmatizer = None
+       if lemmatizer_class:
+           self.lemmatizer = lemmatizer_class(self)
+
     .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
+
+    Attributes:
+        lemmatizer: A :class:`Lemmatizer` instance or :python:`None`
 
     """
 
     __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
-                 '_default_mode', '_normalizer')
+                 '_default_mode', '_normalizer', 'lemmatizer')
     __module__ = 'wn'
 
     def __init__(
@@ -1070,6 +1124,7 @@ class Wordnet:
         lang: str = None,
         expand: str = None,
         normalizer: Optional[NormalizeFunction] = normalize_form,
+        lemmatizer_class: Optional[Type[Lemmatizer]] = Lemmatizer,
     ):
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
@@ -1105,6 +1160,9 @@ class Wordnet:
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
         self._normalizer = normalizer
+        self.lemmatizer = None  # needs to be initialized before Lemmatizer
+        if lemmatizer_class:
+            self.lemmatizer = lemmatizer_class(self)
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
@@ -1207,8 +1265,17 @@ class Wordnet:
 
         """
         normalize = self._normalizer
-        forms = [form] if form else None
-        kwargs = {'pos': pos, 'lexicon_rowids': self._lexicon_ids}
+        lemmatizer = self.lemmatizer
+        forms: Optional[List[str]] = None
+        if form:
+            forms = list(lemmatizer(form, pos)) if lemmatizer else [form]
+            if not forms:
+                return []  # lemmatizer found nothing
+        kwargs = {
+            'pos': pos,
+            'lexicon_rowids': self._lexicon_ids,
+            'search_all_forms': getattr(lemmatizer, 'search_all_forms', False),
+        }
 
         if ili is not None:
             kwargs['ili'] = ili

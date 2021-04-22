@@ -7,6 +7,8 @@
 * Support for approximate word searches; on by default, configurable
   only by instantiating a `wn.Wordnet` object ([#105])
 * `wn.morphy` ([#19])
+* `wn.Wordnet.lemmatizer` attribute ([#8])
+* `wn.Lemmatizer` class ([#8])
 
 ### Changed
 
@@ -20,9 +22,10 @@
     refresh regardless of the refresh interval
 * `wn.Wordnet`
   - Initialization now takes a `normalizer` parameter ([#105])
+  - Initialization now takes a `lemmatizer_class` parameter ([#8])
   - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
-    use a specified normalization function to expand queries on word
-    forms ([#105])
+    use any specified `wn.Lemmatizer` instance or normalization
+    function to expand queries on word forms ([#105])
 
 
 ## [v0.6.2]
@@ -347,6 +350,7 @@ abandoned, but this is an entirely new codebase.
 [unreleased]: ../../tree/main
 
 [#7]: https://github.com/goodmami/wn/issues/7
+[#8]: https://github.com/goodmami/wn/issues/8
 [#15]: https://github.com/goodmami/wn/issues/15
 [#17]: https://github.com/goodmami/wn/issues/17
 [#19]: https://github.com/goodmami/wn/issues/19
