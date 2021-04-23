@@ -159,7 +159,8 @@ def _iterforms(
     yield from iter(exceptions.get(form, []))
 
     for suffix, repl, _ in rules:
-        if form.endswith(suffix):
+        # avoid applying rules that perform full suppletion
+        if form.endswith(suffix) and len(suffix) < len(form):
             _form = f'{form[:-len(suffix)]}{repl}'
             if _form in pos_lemmas:
                 yield _form
