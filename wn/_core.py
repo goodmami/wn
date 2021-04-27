@@ -6,6 +6,7 @@ import warnings
 
 import wn
 from wn._types import Metadata, NormalizeFunction
+from wn.constants import PARTS_OF_SPEECH
 from wn._util import flatten, normalize_form
 from wn._db import NON_ROWID
 from wn._queries import (
@@ -1052,11 +1053,12 @@ class Lemmatizer:
     __module__ = 'wn'
 
     search_all_forms = True
+    parts_of_speech: Collection[str] = PARTS_OF_SPEECH
 
     def __init__(self, wordnet: 'Wordnet'):
         self._wordnet = wordnet
 
-    def __call__(self, form: str, pos: str = None) -> Iterator[str]:
+    def __call__(self, form: str, pos: str) -> Iterator[str]:
         yield form
 
 

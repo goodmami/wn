@@ -19,9 +19,6 @@ from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV
 POSExceptionMap = Dict[str, Set[str]]
 ExceptionMap = Dict[str, POSExceptionMap]
 
-POS_LIST = [NOUN, VERB, ADJ, ADJ_SAT, ADV]
-ALL_LEMMAS = ''  # assumption: no alternative form should be the empty string
-
 
 class System(Flag):
     """Flags to track suffix rules in various implementations of Morphy.
@@ -87,16 +84,18 @@ class Morphy(wn.Lemmatizer):
     Example:
 
         >>> import wn
+        >>> from wn.constants import NOUN
         >>> from wn.morphy import Morphy
         >>> ewn = wn.Wordnet('ewn:2020')
         >>> m = Morphy(ewn)
-        >>> list(m('axes'))
+        >>> list(m('axes', NOUN))
         ['axe', 'ax', 'axis']
-        >>> list(m('geese'))
+        >>> list(m('geese', NOUN))
         ['goose']
     """
 
     search_all_forms = False
+    parts_of_speech = {NOUN, VERB, ADJ, ADJ_SAT, ADV}
 
     def __init__(self, wordnet: wn.Wordnet, system: System = WN):
         if any(lex.language != 'en' for lex in wordnet.lexicons()):
@@ -106,61 +105,58 @@ class Morphy(wn.Lemmatizer):
             )
         self._wordnet = wordnet
         self._system = system
-        self._rules = {pos: [rule for rule in rules if rule[2] & system]
-                       for pos, rules in DETACHMENT_RULES.items()}
-        self._exceptions = _build_exception_map(wordnet)
+        self._rules = {
+            pos: [rule for rule in rules if rule[2] & system]
+            for pos, rules in DETACHMENT_RULES.items()
+        }
+        self._exceptions: ExceptionMap = {
+            pos: {} for pos in self.parts_of_speech
+        }
+        self._all_lemmas: Dict[str, Set[str]] = {
+            pos: set() for pos in self.parts_of_speech
+        }
+        self._build()
 
-    def __call__(self, form: str, pos: str = None) -> Iterator[str]:
-        if pos is None:
-            poslist = POS_LIST
-        elif pos not in POS_LIST:
-            raise wn.Error(f'unsupported or invalid part of speech: {pos}')
-        else:
-            poslist = [pos]
+    def __call__(self, form: str, pos: str) -> Iterator[str]:
+        if pos not in self.parts_of_speech:
+            return
 
-        seen = set()
-        for p in poslist:
-            forms = _iterforms(form, self._rules[p], self._exceptions[p])
-            # from Python 3.7, the following is simply:
-            #   yield from iter(set(forms))
-            for other in forms:
-                if other not in seen:
-                    seen.add(other)
-                    yield other
+        exceptions = self._exceptions[pos]
+        rules = self._rules[pos]
+        pos_lemmas = self._all_lemmas[pos]
 
+        # original lemma
+        if form in pos_lemmas:
+            yield form
 
-def _build_exception_map(wordnet: wn.Wordnet) -> ExceptionMap:
-    exceptions: ExceptionMap = {pos: {ALL_LEMMAS: set()} for pos in POS_LIST}
-    if wordnet:
-        for word in wordnet.words():
-            pos_exc = exceptions[word.pos]
+        seen = set()  # don't yield the same form more than once per pos
+
+        # lemmas from exceptions
+        for _form in exceptions.get(form, []):
+            seen.add(_form)
+            yield _form
+
+        # lemmas from morphological detachment
+        for suffix, repl, _ in rules:
+            # avoid applying rules that perform full suppletion
+            if form.endswith(suffix) and len(suffix) < len(form):
+                _form = f'{form[:-len(suffix)]}{repl}'
+                if _form in pos_lemmas and _form not in seen:
+                    seen.add(_form)
+                    yield _form
+
+    def _build(self) -> None:
+        exceptions = self._exceptions
+        all_lemmas = self._all_lemmas
+        for word in self._wordnet.words():
+            pos = word.pos
+            pos_exc = exceptions[pos]
             lemma, *others = word.forms()
             # store every lemma whether it has other forms or not
-            pos_exc[ALL_LEMMAS].add(lemma)
+            all_lemmas[pos].add(lemma)
             # those with other forms map to the original lemmas
             for other in others:
                 if other in pos_exc:
                     pos_exc[other].add(lemma)
                 else:
                     pos_exc[other] = {lemma}
-    return exceptions
-
-
-def _iterforms(
-    form: str,
-    rules: List[Rule],
-    exceptions: POSExceptionMap
-) -> Iterator[str]:
-    pos_lemmas = exceptions[ALL_LEMMAS]
-
-    if form in pos_lemmas:
-        yield form
-
-    yield from iter(exceptions.get(form, []))
-
-    for suffix, repl, _ in rules:
-        # avoid applying rules that perform full suppletion
-        if form.endswith(suffix) and len(suffix) < len(form):
-            _form = f'{form[:-len(suffix)]}{repl}'
-            if _form in pos_lemmas:
-                yield _form
