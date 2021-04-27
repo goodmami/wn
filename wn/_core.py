@@ -1,11 +1,11 @@
 
 from typing import (
-    Type, TypeVar, Callable, Optional, List, Tuple, Dict, Set, Iterator
+    Type, TypeVar, Callable, Optional, List, Tuple, Dict, Set, Iterator, Collection
 )
 import warnings
 
 import wn
-from wn._types import Metadata, NormalizeFunction
+from wn._types import Metadata, NormalizeFunction, LemmatizerInstance
 from wn.constants import PARTS_OF_SPEECH
 from wn._util import flatten, normalize_form
 from wn._db import NON_ROWID
@@ -1084,7 +1084,9 @@ class Wordnet:
     wordnet, namely the Princeton WordNet, and then relying on the
     larger wordnet for structural relations. An *expand* argument is a
     second space-separated list of lexicon specifiers which are used
-    for traversing relations, but not as the results of queries.
+    for traversing relations, but not as the results of
+    queries. Setting *expand* to an empty string (:python:`expand=''`)
+    disables expand lexicons.
 
     The *normalizer* argument takes a function that normalizes word
     forms in order to expand the search. The default function
@@ -1162,7 +1164,8 @@ class Wordnet:
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
         self._normalizer = normalizer
-        self.lemmatizer = None  # needs to be initialized before Lemmatizer
+
+        self.lemmatizer: Optional[LemmatizerInstance] = None
         if lemmatizer_class:
             self.lemmatizer = lemmatizer_class(self)
 
@@ -1191,7 +1194,7 @@ class Wordnet:
         restricts words by their part of speech.
 
         """
-        return self._find_helper(Word, find_entries, form, pos)
+        return _find_helper(self, Word, find_entries, form, pos)
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
@@ -1215,7 +1218,7 @@ class Wordnet:
         select a unique synset within a single lexicon.
 
         """
-        return self._find_helper(Synset, find_synsets, form, pos, ili=ili)
+        return _find_helper(self, Synset, find_synsets, form, pos, ili=ili)
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
@@ -1234,7 +1237,7 @@ class Wordnet:
         *pos* restricts senses by their word's part of speech.
 
         """
-        return self._find_helper(Sense, find_senses, form, pos)
+        return _find_helper(self, Sense, find_senses, form, pos)
 
     def ili(self, id: str) -> ILI:
         """Return the first ILI in this wordnet with identifer *id*."""
@@ -1245,55 +1248,13 @@ class Wordnet:
             raise wn.Error(f'no such ILI: {id}')
 
     def ilis(self, status: str = None) -> List[ILI]:
-        iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
-        return [ILI(*ili_data) for ili_data in iterable]
+        """Return the list of ILIs in this wordnet.
 
-    def _find_helper(
-        self,
-        cls: Type[C],
-        query_func: Callable,
-        form: Optional[str],
-        pos: Optional[str],
-        ili: str = None
-    ) -> List[C]:
-        """Return the list of matching wordnet entities.
-
-        If the wordnet has a normalizer and the search includes a word
-        form, the original word form is searched against both the
-        original and normalized columns in the database. Then, if no
-        results are found, the search is repeated with the normalized
-        form. If the wordnet does not have a normalizer, only exact
-        string matches are used.
+        If *status* is given, only return ILIs with a matching status.
 
         """
-        normalize = self._normalizer
-        lemmatizer = self.lemmatizer
-        forms: Optional[List[str]] = None
-        if form:
-            forms = list(lemmatizer(form, pos)) if lemmatizer else [form]
-            if not forms:
-                return []  # lemmatizer found nothing
-        kwargs = {
-            'pos': pos,
-            'lexicon_rowids': self._lexicon_ids,
-            'search_all_forms': getattr(lemmatizer, 'search_all_forms', False),
-        }
-
-        if ili is not None:
-            kwargs['ili'] = ili
-        results = [cls(*data, self)  # type: ignore
-                   for data
-                   in query_func(forms=forms, normalized=bool(normalize), **kwargs)]
-
-        if not results and forms and normalize:
-            normforms = [normalize(f) for f in forms]
-            results.extend(
-                cls(*data, self)  # type: ignore
-                for data
-                in query_func(forms=normforms, normalized=True, **kwargs)
-            )
-
-        return results
+        iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
+        return [ILI(*ili_data) for ili_data in iterable]
 
 
 def _to_lexicon(data) -> Lexicon:
@@ -1310,6 +1271,82 @@ def _to_lexicon(data) -> Lexicon:
         logo=logo,
         _id=rowid
     )
+
+
+def _find_helper(
+    w: Wordnet,
+    cls: Type[C],
+    query_func: Callable,
+    form: Optional[str],
+    pos: Optional[str],
+    ili: str = None
+) -> List[C]:
+    """Return the list of matching wordnet entities.
+
+    If the wordnet has a normalizer and the search includes a word
+    form, the original word form is searched against both the
+    original and normalized columns in the database. Then, if no
+    results are found, the search is repeated with the normalized
+    form. If the wordnet does not have a normalizer, only exact
+    string matches are used.
+
+    """
+    kwargs: Dict = {
+        'lexicon_rowids': w._lexicon_ids,
+    }
+    if ili is not None:
+        kwargs['ili'] = ili
+
+    # easy case is when there is no form
+    if form is None:
+        return [cls(*data, w)  # type: ignore
+                for data in query_func(pos=pos, **kwargs)]
+
+    # if there's a form, we may need to lemmatize and normalize
+    lemmatizer = w.lemmatizer
+    normalize = w._normalizer
+    kwargs['search_all_forms'] = getattr(lemmatizer, 'search_all_forms', False)
+    kwargs['normalized'] = bool(normalize)
+
+    forms = _get_forms(form, pos, lemmatizer)
+
+    results = [
+        cls(*data, w)  # type: ignore
+        for _pos, _forms in forms.items()
+        for data in query_func(forms=_forms, pos=_pos, **kwargs)
+    ]
+    if not results and normalize:
+        results = [
+            cls(*data, w)  # type: ignore
+            for _pos, _forms in forms.items()
+            for data in query_func(
+                forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
+            )
+        ]
+    return results
+
+
+def _get_forms(
+    form: str,
+    pos: Optional[str],
+    lemmatizer: Optional[LemmatizerInstance]
+) -> Dict[Optional[str], List[str]]:
+    # special case for default Lemmatizer class
+    if not lemmatizer or lemmatizer.__class__ is Lemmatizer:
+        return {pos: [form]}
+
+    pos_set: Set[str]
+    if pos is None:
+        pos_set = getattr(lemmatizer, 'parts_of_speech', PARTS_OF_SPEECH)
+    else:
+        pos_set = {pos}
+
+    forms: Dict[Optional[str], List[str]] = {}
+    for _pos in pos_set:
+        _forms = list(lemmatizer(form, _pos))
+        if _forms:
+            forms[_pos] = _forms
+    return forms
 
 
 def projects() -> List[Dict]:
