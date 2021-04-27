@@ -81,6 +81,7 @@ Spanish:
 
     <LexicalEntry id="test-en-datum-n">
       <Lemma partOfSpeech="n" writtenForm="datum" />
+      <Form writtenForm="data" />
       <Sense id="test-en-datum-n-0006-01" synset="test-en-0006-n" />
     </LexicalEntry>
 
