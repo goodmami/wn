@@ -1365,6 +1365,12 @@ def _get_forms(
         _forms = list(lemmatizer(form, _pos))
         if _forms:
             forms[_pos] = _forms
+
+    # if the lemmatizer cannot find anything, just return the original
+    # word and pos as a last resort
+    if not forms:
+        forms[pos] = [form]
+
     return forms
 
 
