@@ -60,7 +60,7 @@ def test_wordnet_lemmatize():
     assert en.words('exemplifying') == en.words('exemplify')
     assert en.words('data') == en.words('datum')
 
-    en = wn.Wordnet('test-en', lemmatizer_class=None)
+    en = wn.Wordnet('test-en', lemmatizer=None)
     assert en.words('examples') == []
     assert en.words('exemplifying') == []
     assert en.words('data') == []
@@ -70,3 +70,16 @@ def test_wordnet_lemmatize():
     assert en.words('examples') == []
     assert en.words('exemplifying') == []
     assert en.words('data') == []
+
+    def morphy_lite(form, pos):
+        yield form
+        if pos == 'n' and form.endswith('s'):
+            yield form[:-1]
+
+    en = wn.Wordnet('test-en', lemmatizer=morphy_lite)
+    assert en.words('examples') == en.words('example')
+    assert en.words('exemplifying') == []
+    assert en.words('data') == []
+
+    morphy_lite.search_all_forms = True
+    assert en.words('data') == en.words('datum')

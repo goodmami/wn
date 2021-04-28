@@ -1,6 +1,16 @@
 
 from typing import (
-    Type, TypeVar, Callable, Optional, List, Tuple, Dict, Set, Iterator, Collection
+    Union,
+    Type,
+    TypeVar,
+    Callable,
+    Optional,
+    List,
+    Tuple,
+    Dict,
+    Set,
+    Iterator,
+    Collection,
 )
 import warnings
 
@@ -1035,6 +1045,12 @@ class Lemmatizer:
     to use a subclass of this one for any custom behavior, such as
     that provided by :class:`wn.morphy.Morphy`.
 
+    Instances of this class and subclasses are callables with a
+    signature equivalent to the following:
+
+        def lemmatize(form: str, pos: str) -> Iterator[str]:
+            ...
+
     The default behavior provided by this class does two things: (1)
     yields the original word form unchanged, and (2) declares that
     the word form may be searched against non-lemmatic forms in the
@@ -1046,6 +1062,8 @@ class Lemmatizer:
         search_all_forms: When :python:`False`, word forms are only
             searched against lemmas in the database, otherwise they
             are searched against all word forms.
+        parts_of_speech: A collection of the parts of speech relevant
+            for the lemmatizer.
 
     """
 
@@ -1096,19 +1114,13 @@ class Wordnet:
     to :python:`None` disables normalization and forces exact-match
     searching.
 
-    The *lemmatizer_class* argument may be :python:`None`, which
-    disables lemmatizer-based query expansion, or a subclass of
-    :class:`Lemmatizer` which is instantiated with the
-    :class:`Wordnet` object as its argument. During the lemmatizer's
+    The *lemmatizer* argument may be :python:`None`, which disables
+    lemmatizer-based query expansion, a subclass of
+    :class:`Lemmatizer` which will be instantiated with the
+    :class:`Wordnet` object as its argument (during this
     instantiation, the :attr:`Wordnet.lemmatizer` attribute will be
-    :python:`None`. That is, the relevant initialization code is
-    equivalent to:
-
-    .. code-block:: python
-
-       self.lemmatizer = None
-       if lemmatizer_class:
-           self.lemmatizer = lemmatizer_class(self)
+    :python:`None`), or a callable matching the call signature of a
+    :class:`Lemmatizer` instance.
 
     .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
 
@@ -1128,7 +1140,9 @@ class Wordnet:
         lang: str = None,
         expand: str = None,
         normalizer: Optional[NormalizeFunction] = normalize_form,
-        lemmatizer_class: Optional[Type[Lemmatizer]] = Lemmatizer,
+        lemmatizer: Optional[
+            Union[Type[Lemmatizer], LemmatizerInstance]
+        ] = Lemmatizer,
     ):
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
@@ -1165,9 +1179,14 @@ class Wordnet:
 
         self._normalizer = normalizer
 
+        # setting the lemmatizer should be done last as its
+        # instantiation may use the Wordnet object
         self.lemmatizer: Optional[LemmatizerInstance] = None
-        if lemmatizer_class:
-            self.lemmatizer = lemmatizer_class(self)
+        if lemmatizer:
+            if isinstance(lemmatizer, type):
+                self.lemmatizer = lemmatizer(self)
+            else:
+                self.lemmatizer = lemmatizer
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""

@@ -22,7 +22,7 @@
     refresh regardless of the refresh interval
 * `wn.Wordnet`
   - Initialization now takes a `normalizer` parameter ([#105])
-  - Initialization now takes a `lemmatizer_class` parameter ([#8])
+  - Initialization now takes a `lemmatizer` parameter ([#8])
   - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
     use any specified `wn.Lemmatizer` instance or normalization
     function to expand queries on word forms ([#105])
