@@ -35,6 +35,9 @@ classifiers = [
 Documentation = "https://wn.readthedocs.io"
 
 [tool.flit.metadata.requires-extra]
+web = [
+    "starlette",
+]
 test = [
     "pytest",
     "mypy",
