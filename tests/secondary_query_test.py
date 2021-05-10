@@ -84,6 +84,16 @@ def test_synset_lemmas():
 
 
 @pytest.mark.usefixtures('mini_db')
+def test_synset_ili():
+    assert isinstance(wn.synset('test-en-0001-n').ili, wn.ILI)
+    assert wn.synset('test-en-0001-n').ili.id == 'i67447'
+    assert wn.synset('test-en-0001-n').ili.status == 'presupposed'
+    assert wn.synset('test-en-0005-n-fake').ili is None
+    assert wn.synset('test-en-0007-v').ili.id is None
+    assert wn.synset('test-en-0007-v').ili.status == 'proposed'
+
+
+@pytest.mark.usefixtures('mini_db')
 def test_synset_definition():
     assert wn.synset('test-en-0001-n').definition() == 'something that informs'
     assert wn.synset('test-es-0001-n').definition() == 'algo que informa'

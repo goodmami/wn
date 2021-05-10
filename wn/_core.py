@@ -508,7 +508,7 @@ class Synset(_Relatable):
         if self._ili:
             row = next(find_ilis(id=self._ili), None)
         else:
-            row = next(find_proposed_ilis(synset_id=self._id), None)
+            row = next(find_proposed_ilis(synset_rowid=self._id), None)
         if row is not None:
             return ILI(*row)
         return None

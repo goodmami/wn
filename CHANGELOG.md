@@ -27,6 +27,10 @@
     use any specified `wn.Lemmatizer` instance or normalization
     function to expand queries on word forms ([#105])
 
+### Fixed
+
+* `wn.Synset.ili` for proposed ILIs now works again (#117)
+
 
 ## [v0.6.2]
 
@@ -390,3 +394,4 @@ abandoned, but this is an entirely new codebase.
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#117]: https://github.com/goodmami/wn/issues/117
