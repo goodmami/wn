@@ -278,12 +278,6 @@ The Lexicon Class
    .. automethod:: extensions
 
 
-The Lemmatizer Class
---------------------
-
-.. autoclass:: Lemmatizer
-
-
 The wn.config Object
 --------------------
 

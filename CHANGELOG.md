@@ -8,7 +8,6 @@
   only by instantiating a `wn.Wordnet` object ([#105])
 * `wn.morphy` ([#19])
 * `wn.Wordnet.lemmatizer` attribute ([#8])
-* `wn.Lemmatizer` class ([#8])
 
 ### Changed
 
@@ -24,8 +23,8 @@
   - Initialization now takes a `normalizer` parameter ([#105])
   - Initialization now takes a `lemmatizer` parameter ([#8])
   - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
-    use any specified `wn.Lemmatizer` instance or normalization
-    function to expand queries on word forms ([#105])
+    use any specified lemmatization or normalization functions to
+    expand queries on word forms ([#105])
 
 ### Fixed
 

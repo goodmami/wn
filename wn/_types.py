@@ -1,5 +1,7 @@
 
-from typing import Union, Callable, Mapping, Sequence, Dict, Any, Iterator
+from typing import (
+    Optional, Union, Callable, Mapping, Sequence, Dict, Set, Any,
+)
 from pathlib import Path
 
 # For functions taking a filesystem path as a str or a pathlib.Path
@@ -11,9 +13,13 @@ RelationMap = Mapping[str, Sequence[str]]
 # User-facing metadata representation
 Metadata = Dict[str, Any]
 
-# A function that returns a normalized word form for a given word form
+# A callable that returns a normalized word form for a given word form
 NormalizeFunction = Callable[[str], str]
 
-# A callable class or function that yields lemmatized words for a
-# given word form and part of speech
-LemmatizerInstance = Callable[[str, str], Iterator[str]]
+# Lemmatization returns a mapping of parts of speech (or None) to
+# lists of wordforms that are potential lemmas for some query word
+LemmatizeResult = Dict[Optional[str], Set[str]]
+
+# A callable that returns a LemmatizationResult for a given word form
+# and optional part of speech
+LemmatizeFunction = Callable[[str, Optional[str]], LemmatizeResult]

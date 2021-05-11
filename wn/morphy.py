@@ -1,53 +1,44 @@
 
-"""An implementation of the Morphy lemmatization system for English.
-
-.. seealso::
-
-   The Princeton WordNet `documentation
-   <https://wordnet.princeton.edu/documentation/morphy7wn>`_ for the
-   original implementation.
+"""A simple English lemmatizer that finds and removes known suffixes.
 
 """
 
-from typing import Iterator, Dict, Set, List, Tuple
-import warnings
+from typing import Optional, Dict, Set, List, Tuple
 from enum import Flag, auto
 
 import wn
-from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV
+from wn._types import LemmatizeResult
+from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV, PARTS_OF_SPEECH
 
 POSExceptionMap = Dict[str, Set[str]]
 ExceptionMap = Dict[str, POSExceptionMap]
 
 
-class System(Flag):
-    """Flags to track suffix rules in various implementations of Morphy.
-
-    These are available at the module level, as well (e.g., `morphy.PWN`).
-    """
+class _System(Flag):
+    """Flags to track suffix rules in various implementations of Morphy."""
     PWN = auto()
     NLTK = auto()
     WN = auto()
     ALL = PWN | NLTK | WN
 
 
-PWN = System.PWN
-NLTK = System.NLTK
-WN = System.WN
-_ALL = System.ALL
+_PWN = _System.PWN
+_NLTK = _System.NLTK
+_WN = _System.WN
+_ALL = _System.ALL
 
 
-Rule = Tuple[str, str, System]
+Rule = Tuple[str, str, _System]
 
 DETACHMENT_RULES: Dict[str, List[Rule]] = {
     NOUN: [
         ("s",    "",    _ALL),
-        ("ces",  "x",   WN),
+        ("ces",  "x",   _WN),
         ("ses",  "s",   _ALL),
-        ("ves",  "f",   NLTK | WN),
-        ("ives", "ife", WN),
+        ("ves",  "f",   _NLTK | _WN),
+        ("ives", "ife", _WN),
         ("xes",  "x",   _ALL),
-        ("xes",  "xis", WN),
+        ("xes",  "xis", _WN),
         ("zes",  "z",   _ALL),
         ("ches", "ch",  _ALL),
         ("shes", "sh",  _ALL),
@@ -75,8 +66,13 @@ DETACHMENT_RULES: Dict[str, List[Rule]] = {
 DETACHMENT_RULES[ADJ_SAT] = DETACHMENT_RULES[ADJ]
 
 
-class Morphy(wn.Lemmatizer):
+class Morphy:
     """The Morphy lemmatizer class.
+
+    Objects of this class are callables that take a wordform and an
+    optional part of speech and return a dictionary mapping parts of
+    speech to lemmas. If objects of this class are not created with a
+    :class:`wn.Wordnet` object, the returned lemmas may be invalid.
 
     Arguments:
         wordnet: optional :class:`wn.Wordnet` instance
@@ -84,79 +80,86 @@ class Morphy(wn.Lemmatizer):
     Example:
 
         >>> import wn
-        >>> from wn.constants import NOUN
         >>> from wn.morphy import Morphy
         >>> ewn = wn.Wordnet('ewn:2020')
         >>> m = Morphy(ewn)
-        >>> list(m('axes', NOUN))
-        ['axe', 'ax', 'axis']
-        >>> list(m('geese', NOUN))
-        ['goose']
+        >>> m('axes', pos='n')
+        {'n': {'axe', 'ax', 'axis'}}
+        >>> m('geese', pos='n')
+        {'n': {'goose'}}
+        >>> m('gooses')
+        {'n': {'goose'}, 'v': {'goose'}}
+        >>> m('goosing')
+        {'v': {'goose'}}
+
     """
 
-    search_all_forms = False
-    parts_of_speech = {NOUN, VERB, ADJ, ADJ_SAT, ADV}
-
-    def __init__(self, wordnet: wn.Wordnet, system: System = WN):
-        if any(lex.language != 'en' for lex in wordnet.lexicons()):
-            warnings.warn(
-                'Morphy is not intended for use with non-English wordnets',
-                wn.WnWarning
-            )
-        self._wordnet = wordnet
-        self._system = system
+    def __init__(self, wordnet: Optional[wn.Wordnet] = None):
         self._rules = {
-            pos: [rule for rule in rules if rule[2] & system]
+            pos: [rule for rule in rules if rule[2] & _System.WN]
             for pos, rules in DETACHMENT_RULES.items()
         }
-        self._exceptions: ExceptionMap = {
-            pos: {} for pos in self.parts_of_speech
-        }
-        self._all_lemmas: Dict[str, Set[str]] = {
-            pos: set() for pos in self.parts_of_speech
-        }
-        self._build()
+        exceptions: ExceptionMap = {pos: {} for pos in PARTS_OF_SPEECH}
+        all_lemmas: Dict[str, Set[str]] = {pos: set() for pos in PARTS_OF_SPEECH}
+        if wordnet:
+            for word in wordnet.words():
+                pos = word.pos
+                pos_exc = exceptions[pos]
+                lemma, *others = word.forms()
+                # store every lemma whether it has other forms or not
+                all_lemmas[pos].add(lemma)
+                # those with other forms map to the original lemmas
+                for other in others:
+                    if other in pos_exc:
+                        pos_exc[other].add(lemma)
+                    else:
+                        pos_exc[other] = {lemma}
+            self._initialized = True
+        else:
+            self._initialized = False
+        self._exceptions = exceptions
+        self._all_lemmas = all_lemmas
 
-    def __call__(self, form: str, pos: str) -> Iterator[str]:
-        if pos not in self.parts_of_speech:
-            return
+    def __call__(self, form: str, pos: Optional[str] = None) -> LemmatizeResult:
+        result = {}
+        if not self._initialized:
+            result[pos] = {form}  # always include original when not initialized
 
-        exceptions = self._exceptions[pos]
-        rules = self._rules[pos]
-        pos_lemmas = self._all_lemmas[pos]
+        if pos is None:
+            pos_list = list(DETACHMENT_RULES)
+        elif pos in DETACHMENT_RULES:
+            pos_list = [pos]
+        else:
+            pos_list = []  # not handled by morphy
 
-        # original lemma
-        if form in pos_lemmas:
-            yield form
+        no_pos_forms = result.get(None, set())  # avoid unnecessary duplicates
+        for _pos in pos_list:
+            candidates = self._morphstr(form, _pos) - no_pos_forms
+            if candidates:
+                result.setdefault(_pos, set()).update(candidates)
 
-        seen = set()  # don't yield the same form more than once per pos
+        return result
 
-        # lemmas from exceptions
-        for _form in exceptions.get(form, []):
-            seen.add(_form)
-            yield _form
+    def _morphstr(self, form: str, pos: str) -> Set[str]:
+        candidates: Set[str] = set()
 
-        # lemmas from morphological detachment
-        for suffix, repl, _ in rules:
+        initialized = self._initialized
+        if initialized:
+            all_lemmas = self._all_lemmas[pos]
+            if form in all_lemmas:
+                candidates.add(form)
+            candidates.update(self._exceptions[pos].get(form, set()))
+        else:
+            all_lemmas = set()
+
+        for suffix, repl, _ in self._rules[pos]:
             # avoid applying rules that perform full suppletion
             if form.endswith(suffix) and len(suffix) < len(form):
-                _form = f'{form[:-len(suffix)]}{repl}'
-                if _form in pos_lemmas and _form not in seen:
-                    seen.add(_form)
-                    yield _form
+                candidate = f'{form[:-len(suffix)]}{repl}'
+                if not initialized or candidate in all_lemmas:
+                    candidates.add(candidate)
 
-    def _build(self) -> None:
-        exceptions = self._exceptions
-        all_lemmas = self._all_lemmas
-        for word in self._wordnet.words():
-            pos = word.pos
-            pos_exc = exceptions[pos]
-            lemma, *others = word.forms()
-            # store every lemma whether it has other forms or not
-            all_lemmas[pos].add(lemma)
-            # those with other forms map to the original lemmas
-            for other in others:
-                if other in pos_exc:
-                    pos_exc[other].add(lemma)
-                else:
-                    pos_exc[other] = {lemma}
+        return candidates
+
+
+morphy = Morphy()

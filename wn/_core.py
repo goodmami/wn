@@ -1,6 +1,5 @@
 
 from typing import (
-    Union,
     Type,
     TypeVar,
     Callable,
@@ -10,13 +9,15 @@ from typing import (
     Dict,
     Set,
     Iterator,
-    Collection,
 )
 import warnings
 
 import wn
-from wn._types import Metadata, NormalizeFunction, LemmatizerInstance
-from wn.constants import PARTS_OF_SPEECH
+from wn._types import (
+    Metadata,
+    NormalizeFunction,
+    LemmatizeFunction,
+)
 from wn._util import flatten, normalize_form
 from wn._db import NON_ROWID
 from wn._queries import (
@@ -1035,51 +1036,6 @@ class Sense(_Relatable):
                 for t_sense in t_synset.senses()]
 
 
-class Lemmatizer:
-    """Class for expanding queries over word forms.
-
-    This class, while intended for morphological lemmatization, is
-    more broadly construed as a tool for expanding word forms so they
-    better match the lemmas in a lexicon. This particular class serves
-    as the default lemmatizer for any wordnet, but users are expected
-    to use a subclass of this one for any custom behavior, such as
-    that provided by :class:`wn.morphy.Morphy`.
-
-    Instances of this class and subclasses are callables with a
-    signature equivalent to the following:
-
-        def lemmatize(form: str, pos: str) -> Iterator[str]:
-            ...
-
-    The default behavior provided by this class does two things: (1)
-    yields the original word form unchanged, and (2) declares that
-    the word form may be searched against non-lemmatic forms in the
-    lexicon as well.
-
-    Arguments:
-        wordnet: An instance of a :class:`Wordnet`
-    Attributes:
-        search_all_forms: When :python:`False`, word forms are only
-            searched against lemmas in the database, otherwise they
-            are searched against all word forms.
-        parts_of_speech: A collection of the parts of speech relevant
-            for the lemmatizer.
-
-    """
-
-    __slots__ = '_wordnet',
-    __module__ = 'wn'
-
-    search_all_forms = True
-    parts_of_speech: Collection[str] = PARTS_OF_SPEECH
-
-    def __init__(self, wordnet: 'Wordnet'):
-        self._wordnet = wordnet
-
-    def __call__(self, form: str, pos: str) -> Iterator[str]:
-        yield form
-
-
 # Useful for factory functions of Word, Sense, or Synset
 C = TypeVar('C', Word, Sense, Synset)
 
@@ -1114,23 +1070,32 @@ class Wordnet:
     to :python:`None` disables normalization and forces exact-match
     searching.
 
-    The *lemmatizer* argument may be :python:`None`, which disables
-    lemmatizer-based query expansion, a subclass of
-    :class:`Lemmatizer` which will be instantiated with the
-    :class:`Wordnet` object as its argument (during this
-    instantiation, the :attr:`Wordnet.lemmatizer` attribute will be
-    :python:`None`), or a callable matching the call signature of a
-    :class:`Lemmatizer` instance.
+    The *lemmatizer* argument may be :python:`None`, which is the
+    default and disables lemmatizer-based query expansion, or a
+    callable that takes a word form and optional part of speech and
+    returns base forms of the original word. To support lemmatizers
+    that use the wordnet for instantiation, such as :mod:`wn.morphy`,
+    the lemmatizer may be assigned to the :attr:`lemmatizer` attribute
+    after creation.
 
+    If the *search_all_forms* argument is :python:`True` (the
+    default), searches of word forms consider all forms in the
+    lexicon; if :python:`False`, only lemmas are searched. Non-lemma
+    forms may include, depending on the lexicon, morphological
+    exceptions, alternate scripts or spellings, etc.
+
+    .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
     .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
 
     Attributes:
-        lemmatizer: A :class:`Lemmatizer` instance or :python:`None`
+
+        lemmatizer: A lemmatization function or :python:`None`.
 
     """
 
     __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
-                 '_default_mode', '_normalizer', 'lemmatizer')
+                 '_default_mode', '_normalizer', 'lemmatizer',
+                 '_search_all_forms',)
     __module__ = 'wn'
 
     def __init__(
@@ -1140,9 +1105,8 @@ class Wordnet:
         lang: str = None,
         expand: str = None,
         normalizer: Optional[NormalizeFunction] = normalize_form,
-        lemmatizer: Optional[
-            Union[Type[Lemmatizer], LemmatizerInstance]
-        ] = Lemmatizer,
+        lemmatizer: Optional[LemmatizeFunction] = None,
+        search_all_forms: bool = True,
     ):
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
@@ -1178,15 +1142,8 @@ class Wordnet:
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
         self._normalizer = normalizer
-
-        # setting the lemmatizer should be done last as its
-        # instantiation may use the Wordnet object
-        self.lemmatizer: Optional[LemmatizerInstance] = None
-        if lemmatizer:
-            if isinstance(lemmatizer, type):
-                self.lemmatizer = lemmatizer(self)
-            else:
-                self.lemmatizer = lemmatizer
+        self.lemmatizer = lemmatizer
+        self._search_all_forms = search_all_forms
 
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
@@ -1312,6 +1269,7 @@ def _find_helper(
     """
     kwargs: Dict = {
         'lexicon_rowids': w._lexicon_ids,
+        'search_all_forms': w._search_all_forms,
     }
     if ili is not None:
         kwargs['ili'] = ili
@@ -1322,12 +1280,15 @@ def _find_helper(
                 for data in query_func(pos=pos, **kwargs)]
 
     # if there's a form, we may need to lemmatize and normalize
-    lemmatizer = w.lemmatizer
+    lemmatize = w.lemmatizer
     normalize = w._normalizer
-    kwargs['search_all_forms'] = getattr(lemmatizer, 'search_all_forms', False)
     kwargs['normalized'] = bool(normalize)
 
-    forms = _get_forms(form, pos, lemmatizer)
+    forms = lemmatize(form, pos) if lemmatize else {}
+    # if no lemmatizer or word not covered by lemmatizer, back off to
+    # the original form and pos
+    if not forms:
+        forms = {pos: {form}}
 
     results = [
         cls(*data, w)  # type: ignore
@@ -1343,35 +1304,6 @@ def _find_helper(
             )
         ]
     return results
-
-
-def _get_forms(
-    form: str,
-    pos: Optional[str],
-    lemmatizer: Optional[LemmatizerInstance]
-) -> Dict[Optional[str], List[str]]:
-    # special case for default Lemmatizer class
-    if not lemmatizer or lemmatizer.__class__ is Lemmatizer:
-        return {pos: [form]}
-
-    pos_set: Set[str]
-    if pos is None:
-        pos_set = getattr(lemmatizer, 'parts_of_speech', PARTS_OF_SPEECH)
-    else:
-        pos_set = {pos}
-
-    forms: Dict[Optional[str], List[str]] = {}
-    for _pos in pos_set:
-        _forms = list(lemmatizer(form, _pos))
-        if _forms:
-            forms[_pos] = _forms
-
-    # if the lemmatizer cannot find anything, just return the original
-    # word and pos as a last resort
-    if not forms:
-        forms[pos] = [form]
-
-    return forms
 
 
 def projects() -> List[Dict]:
