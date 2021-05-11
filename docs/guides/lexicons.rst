@@ -88,7 +88,11 @@ Adding Local Lexicons
 
 Lexicons can be added from local files with :py:func:`wn.add`:
 
->>> wn.add('~/data/omw/nobwn/')
+>>> wn.add('~/data/omw/nob/nobwn.xml')
+
+Or, with the directory as a package:
+
+>>> wn.add('~/data/omw/nob/')
 
 Listing Installed Lexicons
 --------------------------
@@ -112,11 +116,9 @@ Lexicons can be removed from the database with :py:func:`wn.remove`:
 
 Note that this removes a single lexicon and not a project, so if, for
 instance, you've installed a multi-lexicon project like ``omw``, you
-will need to remove each lexicon individually:
+will need to remove each lexicon individually or use a star specifier:
 
->>> for lex in wn.lexicons():
-...     if lex.version == '1.3+omw':
-...         wn.remove(f'{lex.id}:{lex.version}')
+>>> wn.remove('*:1.3+omw')
 
 WN-LMF Files, Packages, and Collections
 ---------------------------------------

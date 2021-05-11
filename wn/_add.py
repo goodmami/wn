@@ -667,13 +667,15 @@ def remove(
     The *lexicon* argument is a :ref:`lexicon specifier
     <lexicon-specifiers>`. Note that this removes a lexicon and not a
     project, so the lexicons of projects containing multiple lexicons
-    will need to be removed individually.
+    will need to be removed individually or, if applicable, a star
+    specifier.
 
     The *progress_handler* parameter takes a subclass of
     :class:`wn.util.ProgressHandler`. An instance of the class will be
     created, used, and closed by this function.
 
-    >>> wn.remove('ewn:2019')
+    >>> wn.remove('ewn:2019')  # removes a single lexicon
+    >>> wn.remove('*:1.3+omw')  # removes all lexicons with version 1.3+omw
 
     """
     if progress_handler is None:
@@ -697,7 +699,7 @@ def remove(
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{spec}', count=0)
                 conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
-                progress.flash(f'Removed {spec}{extra}')
+                progress.flash(f'Removed {spec}{extra}\n')
 
     finally:
         progress.close()

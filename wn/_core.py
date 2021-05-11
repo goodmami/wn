@@ -1046,11 +1046,11 @@ class Wordnet:
 
     A wordnet object acts essentially as a filter by first selecting
     matching lexicons and then searching only within those lexicons
-    for later queries. On instantiation, a *lang* argument is a BCP47
-    language code that restricts the selected lexicons to those whose
-    language matches the given code. A *lexicon* argument is a
+    for later queries. On instantiation, a *lang* argument is a `BCP
+    47`_ language code that restricts the selected lexicons to those
+    whose language matches the given code. A *lexicon* argument is a
     space-separated list of lexicon specifiers that more directly
-    select lexicons by their ID and version; this is preferable when
+    selects lexicons by their ID and version; this is preferable when
     there are multiple lexicons in the same language or multiple
     version with the same ID.
 
@@ -1062,7 +1062,7 @@ class Wordnet:
     queries. Setting *expand* to an empty string (:python:`expand=''`)
     disables expand lexicons.
 
-    The *normalizer* argument takes a function that normalizes word
+    The *normalizer* argument takes a callable that normalizes word
     forms in order to expand the search. The default function
     downcases the word and removes diacritics via NFKD_ normalization
     so that, for example, searching for *san josé* in the English
