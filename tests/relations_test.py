@@ -40,6 +40,15 @@ def test_synset_hypernyms_expand_specified():
     ]
 
 
+@pytest.mark.usefixtures('mini_db')
+def test_synset_relations():
+    w = wn.Wordnet(lang='en')
+    assert w.synset('test-en-0002-n').relations() == {
+        'hypernym': [w.synset('test-en-0001-n')],
+        'hyponym': [w.synset('test-en-0004-n')]
+    }
+
+
 @pytest.mark.usefixtures('mini_db_1_1')
 def test_extension_relations():
     # default mode
