@@ -440,6 +440,9 @@ class _Relatable(_LexiconElement):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
 
+    def relations(self: T, *args: str) -> Dict[str, List[T]]:
+        raise NotImplementedError
+
     def get_related(self: T, *args: str) -> List[T]:
         raise NotImplementedError
 
@@ -599,6 +602,26 @@ class Synset(_Relatable):
         return [w.lemma() for w in self.words()]
 
     def relations(self, *args: str) -> Dict[str, List['Synset']]:
+        """Return a mapping of relation names to lists of synsets.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the synset
+        are returned.
+
+        See :meth:`get_related` for getting a flat list of related
+        synsets.
+
+        Example:
+
+            >>> button_rels = wn.synsets('button')[0].relations()
+            >>> for relname, sslist in button_rels.items():
+            ...     print(relname, [ss.lemmas() for ss in sslist])
+            ...
+            hypernym [['fixing', 'holdfast', 'fastener', 'fastening']]
+            hyponym [['coat button'], ['shirt button']]
+
+        """
         d: Dict[str, List['Synset']] = {}
         for relname, ss in self._get_relations(args):
             if relname in d:
@@ -608,6 +631,23 @@ class Synset(_Relatable):
         return d
 
     def get_related(self, *args: str) -> List['Synset']:
+        """Return the list of related synsets.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the synset
+        are returned.
+
+        This method does not preserve the relation names that lead to
+        the related synsets. For a mapping of relation names to
+        related synsets, see :meth:`relations`.
+
+        Example:
+
+            >>> fulcrum = wn.synsets('fulcrum')[0]
+            >>> [ss.lemmas() for ss in fulcrum.get_related()]
+            [['pin', 'pivot'], ['lever']]
+        """
         return [ss for _, ss in self._get_relations(args)]
 
     def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Synset']]:
@@ -998,6 +1038,26 @@ class Sense(_Relatable):
         """Return the sense's metadata."""
         return get_metadata(self._id, 'senses')
 
+    def relations(self, *args: str) -> Dict[str, List['Sense']]:
+        """Return a mapping of relation names to lists of senses.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the sense
+        are returned.
+
+        See :meth:`get_related` for getting a flat list of related
+        senses.
+
+        """
+        d: Dict[str, List['Sense']] = {}
+        for relname, s in self._get_relations(args):
+            if relname in d:
+                d[relname].append(s)
+            else:
+                d[relname] = [s]
+        return d
+
     def get_related(self, *args: str) -> List['Sense']:
         """Return a list of related senses.
 
@@ -1015,10 +1075,13 @@ class Sense(_Relatable):
             incoherent
 
         """
+        return [s for _, s in self._get_relations(args)]
+
+    def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Sense']]:
         lexids = self._get_lexicon_ids()
         iterable = get_sense_relations(self._id, args, lexids)
-        return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
-                for _, _, sid, eid, ssid, lexid, rowid in iterable
+        return [(relname, Sense(sid, eid, ssid, lexid, rowid, self._wordnet))
+                for relname, _, sid, eid, ssid, lexid, rowid in iterable
                 if lexids is None or lexid in lexids]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
