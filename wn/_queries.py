@@ -619,7 +619,7 @@ def get_sense_relations(
 ) -> Iterator[_Sense_Relation]:
     params: List = []
     constraint = ''
-    if '*' not in relation_types:
+    if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
     params.append(source_rowid)

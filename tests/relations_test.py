@@ -49,6 +49,14 @@ def test_synset_relations():
     }
 
 
+@pytest.mark.usefixtures('mini_db')
+def test_sense_get_related():
+    w = wn.Wordnet('test-en')
+    assert w.sense('test-en-example-n-0002-01').get_related() == [
+        w.sense('test-en-exemplify-v-0003-01')
+    ]
+
+
 @pytest.mark.usefixtures('mini_db_1_1')
 def test_extension_relations():
     # default mode
