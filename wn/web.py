@@ -18,20 +18,23 @@ def paginate(proto):
     def paginate_wrapper(func):
 
         @wraps(func)
-        async def _paginate_wrapper(request):
+        async def _paginate_wrapper(request: Request) -> JSONResponse:
             url = str(request.url)
             query = dict(request.query_params)
-            offset = abs(int(query.pop('offset', 0)))
-            limit = abs(int(query.pop('limit', DEFAULT_PAGINATION_LIMIT)))
+            offset = abs(int(query.pop('page[offset]', 0)))
+            limit = abs(int(query.pop('page[limit]', DEFAULT_PAGINATION_LIMIT)))
 
             obj = await func(request)
             total = len(obj['data'])
+            last = (total//limit)*limit
+            prev = max(0, offset - limit)
+            next = offset + limit
 
             links = {
-                'first': replace_query_params(url, offset=0),
-                'last': replace_query_params(url, offset=(total//limit)*limit),
-                'prev': replace_query_params(url, offset=max(0, offset - limit)),
-                'next': replace_query_params(url, offset=offset + limit),
+                'first': replace_query_params(url, **{'page[offset]': 0}),
+                'last': replace_query_params(url, **{'page[offset]': last}),
+                'prev': replace_query_params(url, **{'page[offset]': prev}),
+                'next': replace_query_params(url, **{'page[offset]': next}),
             }
             obj['data'] = [proto(x, request)
                            for x in obj['data'][offset:offset+limit]]
