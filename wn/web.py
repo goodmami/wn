@@ -1,10 +1,12 @@
 
+from typing import Optional, Union
 from functools import wraps
 from urllib.parse import urlsplit, parse_qs, urlencode
 
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-from starlette.routing import Route
+from starlette.applications import Starlette  # type: ignore
+from starlette.responses import JSONResponse  # type: ignore
+from starlette.routing import Route  # type: ignore
+from starlette.requests import Request  # type: ignore
 
 import wn
 
@@ -53,7 +55,12 @@ def replace_query_params(url: str, **params) -> str:
 
 # Data-making functions
 
-def _url_for_obj(request, name, obj, lexicon=None):
+def _url_for_obj(
+    request: Request,
+    name: str,
+    obj: Union[wn.Word, wn.Sense, wn.Synset],
+    lexicon: Optional[str] = None,
+) -> str:
     if lexicon is None:
         lexicon = obj.lexicon().specifier()
     kwargs = {
@@ -63,7 +70,7 @@ def _url_for_obj(request, name, obj, lexicon=None):
     return request.url_for(name, **kwargs)
 
 
-def make_lexicon(lex, request):
+def make_lexicon(lex: wn.Lexicon, request: Request) -> dict:
     spec = lex.specifier()
     return {
         'id': lex.id,
@@ -91,11 +98,9 @@ def make_lexicon(lex, request):
     }
 
 
-def make_word(w, request):
+def make_word(w: wn.Word, request: Request, basic: bool = False) -> dict:
     lex_spec = w.lexicon().specifier()
-    senses = w.senses()
-    synsets = w.synsets()
-    return {
+    d: dict = {
         'id': w.id,
         'type': 'word',
         'attributes': {
@@ -105,66 +110,60 @@ def make_word(w, request):
         },
         'links': {
             'self': _url_for_obj(request, 'word', w, lexicon=lex_spec)
-        },
-        'relationships': {
-            'senses': {'data': [{'type': 'sense', 'id': s.id} for s in senses]},
-            'synsets': {'data': [{'type': 'synset', 'id': ss.id} for ss in synsets]},
-            'lexicon': {
-                'links': {'related': request.url_for('lexicon', lexicon=lex_spec)}
-            }
-        },
-        'included': [
-            {'type': 'sense',
-             'id': s.id,
-             'links': {'self': _url_for_obj(request, 'sense', s)}}
-            for s in senses
-        ] + [
-            {'type': 'synset',
-             'id': ss.id,
-             'links': {'self': _url_for_obj(request, 'synset', ss)}}
-            for ss in synsets
-        ]
+        }
     }
+    if not basic:
+        senses = w.senses()
+        synsets = w.synsets()
+        lex_link = request.url_for('lexicon', lexicon=lex_spec)
+        d.update({
+            'relationships': {
+                'senses': {'data': [dict(type='sense', id=s.id) for s in senses]},
+                'synsets': {'data': [dict(type='synset', id=ss.id) for ss in synsets]},
+                'lexicon': {'links': {'related': lex_link}}
+            },
+            'included': (
+                [make_sense(s, request, basic=True) for s in senses]
+                + [make_synset(ss, request, basic=True) for ss in synsets]
+            )
+        })
+    return d
 
 
-def make_sense(s, request):
+def make_sense(s: wn.Sense, request: Request, basic: bool = False) -> dict:
     lex_spec = s.lexicon().specifier()
-    w = s.word()
-    ss = s.synset()
-    return {
+    d: dict = {
         'id': s.id,
         'type': 'sense',
         'links': {
             'self': _url_for_obj(request, 'sense', s, lexicon=lex_spec)
-        },
-        'relationships': {
+        }
+    }
+    if not basic:
+        w = s.word()
+        ss = s.synset()
+        lex_link = request.url_for('lexicon', lexicon=lex_spec)
+        relationships: dict = {
             'word': {'data': {'type': 'word', 'id': w.id}},
             'synset': {'data': {'type': 'synset', 'id': ss.id}},
-            'lexicon': {
-                'links': {'related': request.url_for('lexicon', lexicon=lex_spec)}
-            }
-        },
-        'included': [
-            {'type': 'word',
-             'id': w.id,
-             'attributes': {
-                'pos': w.pos,
-                'lemma': w.lemma(),
-                'forms': w.forms(),
-             },
-             'links': {'self': _url_for_obj(request, 'word', w)}},
-            {'type': 'synset',
-             'id': ss.id,
-             'links': {'self': _url_for_obj(request, 'synset', ss)}}
+            'lexicon': {'links': {'related': lex_link}}
+        }
+        included = [
+            make_word(w, request, basic=True),
+            make_synset(ss, request, basic=True)
         ]
-    }
+        for relname, slist in s.relations().items():
+            relationships[relname] = {
+                'data': [dict(type='sense', id=_s.id) for _s in slist]
+            }
+            included.extend([make_sense(_s, request, basic=True) for _s in slist])
+        d.update({'relationships': relationships, 'included': included})
+    return d
 
 
-def make_synset(ss, request):
+def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
     lex_spec = ss.lexicon().specifier()
-    senses = ss.senses()
-    words = ss.words()
-    return {
+    d: dict = {
         'id': ss.id,
         'type': 'synset',
         'attributes': {
@@ -173,26 +172,28 @@ def make_synset(ss, request):
         },
         'links': {
             'self': _url_for_obj(request, 'synset', ss, lexicon=lex_spec)
-        },
-        'relationships': {
-            'members': {'data': [{'type': 'sense', 'id': s.id} for s in senses]},
-            'words': {'data': [{'type': 'word', 'id': w.id} for w in words]},
-            'lexicon': {
-                'links': {'related': request.url_for('lexicon', lexicon=lex_spec)}
-            }
-        },
-        'included': [
-            {'type': 'sense',
-             'id': s.id,
-             'links': {'self': _url_for_obj(request, 'sense', s)}}
-            for s in senses
-        ] + [
-            {'type': 'word',
-             'id': w.id,
-             'links': {'self': _url_for_obj(request, 'word', w)}}
-            for w in words
-        ]
+        }
     }
+    if not basic:
+        senses = ss.senses()
+        words = ss.words()
+        lex_link = request.url_for('lexicon', lexicon=lex_spec)
+        relationships: dict = {
+            'members': {'data': [dict(type='sense', id=s.id) for s in senses]},
+            'words': {'data': [dict(type='word', id=w.id) for w in words]},
+            'lexicon': {'links': {'related': lex_link}}
+        }
+        included = (
+            [make_sense(s, request, basic=True) for s in senses]
+            + [make_word(w, request, basic=True) for w in words]
+        )
+        for relname, sslist in ss.relations().items():
+            relationships[relname] = {
+                'data': [dict(type='synset', id=_s.id) for _s in sslist]
+            }
+            included.extend([make_synset(_s, request, basic=True) for _s in sslist])
+        d.update({'relationships': relationships, 'included': included})
+    return d
 
 
 @paginate(make_lexicon)
