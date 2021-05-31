@@ -8,6 +8,9 @@
   only by instantiating a `wn.Wordnet` object ([#105])
 * `wn.morphy` ([#19])
 * `wn.Wordnet.lemmatizer` attribute ([#8])
+* `wn.web` ([#116])
+* `wn.Sense.relations()` ([#82])
+* `wn.Synset.relations()` ([#82])
 
 ### Changed
 
@@ -379,6 +382,7 @@ abandoned, but this is an entirely new codebase.
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
+[#82]: https://github.com/goodmami/wn/issues/82
 [#83]: https://github.com/goodmami/wn/issues/83
 [#86]: https://github.com/goodmami/wn/issues/86
 [#87]: https://github.com/goodmami/wn/issues/87
@@ -393,4 +397,5 @@ abandoned, but this is an entirely new codebase.
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
