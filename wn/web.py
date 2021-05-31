@@ -26,20 +26,22 @@ def paginate(proto):
 
             obj = await func(request)
             total = len(obj['data'])
-            last = (total//limit)*limit
             prev = max(0, offset - limit)
             next = offset + limit
+            last = (total//limit)*limit
 
-            links = {
-                'first': replace_query_params(url, **{'page[offset]': 0}),
-                'last': replace_query_params(url, **{'page[offset]': last}),
-                'prev': replace_query_params(url, **{'page[offset]': prev}),
-                'next': replace_query_params(url, **{'page[offset]': next}),
-            }
-            obj['data'] = [proto(x, request)
-                           for x in obj['data'][offset:offset+limit]]
+            obj['data'] = [proto(x, request) for x in obj['data'][offset:offset+limit]]
             obj.setdefault('meta', {}).update(total=total)
-            obj.setdefault('links', {}).update(links)
+
+            links = {}
+            if offset > 0:
+                links['first'] = replace_query_params(url, **{'page[offset]': 0})
+                links['prev'] = replace_query_params(url, **{'page[offset]': prev})
+            if next < total:
+                links['next'] = replace_query_params(url, **{'page[offset]': next})
+                links['last'] = replace_query_params(url, **{'page[offset]': last})
+            if links:
+                obj.setdefault('links', {}).update(links)
 
             return JSONResponse(obj)
 
