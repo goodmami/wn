@@ -82,7 +82,7 @@ html_theme_options = {
 html_logo = "_static/wn-logo.svg"
 
 pygments_style = 'manni'
-pygments_dark_style = 'manni'
+pygments_dark_style = 'monokai'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
