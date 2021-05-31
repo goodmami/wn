@@ -1,4 +1,6 @@
 
+"""Web interface for Wn databases."""
+
 from typing import Optional, Union
 from functools import wraps
 from urllib.parse import urlsplit, parse_qs, urlencode

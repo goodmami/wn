@@ -62,3 +62,4 @@ Contents
    api/wn.project.rst
    api/wn.similarity.rst
    api/wn.util.rst
+   api/wn.web.rst

@@ -140,6 +140,8 @@ Sense Relations
    - ``other``
 
 
+.. _parts-of-speech:
+
 Parts of Speech
 ---------------
 
