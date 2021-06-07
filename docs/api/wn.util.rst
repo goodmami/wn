@@ -3,6 +3,8 @@ wn.util
 
 .. automodule:: wn.util
 
+.. autofunction:: synset_id_formatter
+
 .. autoclass:: ProgressHandler
    :members:
 
