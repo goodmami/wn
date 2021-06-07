@@ -50,7 +50,7 @@ Spanish:
     <LexicalEntry id="test-en-random_sample-n">
       <Lemma partOfSpeech="n" writtenForm="random sample" />
       <Sense id="test-en-random_sample-n-0005-01" synset="test-en-0005-n" />
-      <Sense id="test-en-random_sample-n-0005-02" synset="test-en-0005-n-fake" lexicalized="false" />
+      <Sense id="test-en-random_sample-n-0005-02" synset="test-en-0008-n" lexicalized="false" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-exemplify-v">
@@ -119,7 +119,7 @@ Spanish:
       <SynsetRelation relType="hypernym" target="test-en-0004-n" />
     </Synset>
 
-    <Synset id="test-en-0005-n-fake" ili="" partOfSpeech="n" lexicalized="false" dc:subject="noun.cognition">
+    <Synset id="test-en-0008-n" ili="" partOfSpeech="n" lexicalized="false" dc:subject="noun.cognition">
       <Definition>a sample that is random</Definition>
     </Synset>
 
