@@ -4,7 +4,7 @@ Installation and Configuration
 .. seealso::
 
    This guide is for installing and configuring the Wn software. For
-   adding lexicons to the database, see :doc:`lexicons`.
+   adding lexicons to the database, see :doc:`guides/lexicons`.
 
 
 Installation

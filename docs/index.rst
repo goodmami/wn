@@ -36,14 +36,14 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   setup.rst
+   cli.rst
    faq.rst
 
 .. toctree::
    :caption: Guides
    :maxdepth: 2
 
-   guides/setup.rst
-   guides/cli.rst
    guides/lexicons.rst
    guides/basic.rst
    guides/interlingual.rst
