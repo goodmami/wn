@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [v0.7.0]
+
+**Release date: 2021-06-09**
+
 ### Added
 
 * Support for approximate word searches; on by default, configurable
@@ -343,6 +347,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.7.0]: ../../releases/tag/v0.7.0
 [v0.6.2]: ../../releases/tag/v0.6.2
 [v0.6.1]: ../../releases/tag/v0.6.1
 [v0.6.0]: ../../releases/tag/v0.6.0
