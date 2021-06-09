@@ -12,7 +12,7 @@ part-of-speech *v*, we can perform the following query::
 
   /lexicons/ewn:2020/words?form=jet&pos=v
 
-This query would return the following response (abbreviated):
+This query would return the following response:
 
 .. code-block:: javascript
 
@@ -86,8 +86,8 @@ installed and ran separately. Any ASGI-compliant server should
 work.
 
 For example, the `Uvicorn <https://www.uvicorn.org/>`_ server may be
-used directly (preferably with the ``--reload`` option for hot
-reloading) for local development:
+used directly for local development, optionally with the ``--reload``
+option for hot reloading:
 
 .. code-block:: bash
 
@@ -97,11 +97,8 @@ For production, see Uvicorn's `documentation about deployment
 <https://www.uvicorn.org/deployment/>`_.
 
 
-Requests
---------
-
-API Endpoints
-'''''''''''''
+Requests: API Endpoints
+-----------------------
 
 The module provides the following endpoints:
 
@@ -127,11 +124,11 @@ The module provides the following endpoints:
    ======================================  ========================================================
 
 
-Query Parameters
-''''''''''''''''
+Requests: Query Parameters
+--------------------------
 
 ``lang``
-~~~~~~~~
+''''''''
 
 Specifies the language in `BCP 47`_ of the lexicon(s) from which
 results are returned.
@@ -150,7 +147,7 @@ Valid for::
   /synsets
 
 ``form``
-~~~~~~~~
+''''''''
 
 Specifies the word form of the objects that are returned.
 
@@ -168,7 +165,7 @@ Valid for::
   /lexicon/:lex/synsets
 
 ``pos``
-~~~~~~~
+'''''''
 
 Specifies the part-of-speech of the objects that are returned. Valid
 values are given in :ref:`parts-of-speech`.
@@ -187,7 +184,7 @@ Valid for::
   /lexicon/:lex/synsets
 
 ``ili``
-~~~~~~~
+'''''''
 
 Specifies the interlingual index of a synset.
 
@@ -201,7 +198,7 @@ Valid for::
   /lexicon/:lex/synsets
 
 ``page[offset]`` and ``page[limit]``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+''''''''''''''''''''''''''''''''''''
 
 Used for pagination: ``page[offset]`` specifies the starting index of
 a set of results, and ``page[limit]`` specifies how many results from
@@ -248,10 +245,6 @@ includes pagination links:
      "meta": { ... }          // metadata; e.g., total number of results
    }
 
-
-Resource Objects
-''''''''''''''''
-
 Each JSON:API *resource object* (the primary data given by the
 ``data`` key) has the following structure:
 
@@ -268,7 +261,7 @@ Each JSON:API *resource object* (the primary data given by the
 
 
 Lexicons
-~~~~~~~~
+''''''''
 
 .. code-block:: javascript
 
@@ -291,7 +284,7 @@ Lexicons
 
 
 Words
-~~~~~
+'''''
 
 .. code-block:: javascript
 
@@ -317,7 +310,7 @@ Words
 
 
 Senses
-~~~~~~
+''''''
 
 .. code-block:: javascript
 
@@ -352,7 +345,7 @@ Senses
 
 
 Synsets
-~~~~~~~
+'''''''
 
 .. code-block:: javascript
 
