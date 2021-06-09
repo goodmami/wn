@@ -58,7 +58,8 @@ rst_prolog = """
    :class: highlight
 """
 
-smartquotes = False
+# smartquotes = False
+smartquotes_action = 'De'  # D = en- and em-dash; e = ellipsis
 
 # -- Options for HTML output -------------------------------------------------
 
