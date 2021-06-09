@@ -25,6 +25,7 @@
 * `wn.Wordnet`
   - Initialization now takes a `normalizer` parameter ([#105])
   - Initialization now takes a `lemmatizer` parameter ([#8])
+  - Initialization now takes a `search_all_forms` parameter ([#115])
   - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
     use any specified lemmatization or normalization functions to
     expand queries on word forms ([#105])
@@ -397,5 +398,6 @@ abandoned, but this is an entirely new codebase.
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
