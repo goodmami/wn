@@ -43,6 +43,9 @@ test = [
     "mypy",
     "flake8",
     "nox",
+    # typing stubs
+    'types-requests',
+    'types-toml',
 ]
 doc = [
     "sphinx>=3.5,<4",
