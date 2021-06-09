@@ -7,8 +7,11 @@ wn.morphy
 .. seealso::
 
    The Princeton WordNet `documentation
-   <https://wordnet.princeton.edu/documentation/morphy7wn>`_ for the
-   original implementation of Morphy.
+   <https://wordnet.princeton.edu/documentation/morphy7wn>`_ describes
+   the original implementation of Morphy.
+
+   The :doc:`../guides/lemmatization` guide describes how Wn handles
+   lemmatization in general.
 
 
 Initialized and Uninitialized Morphy

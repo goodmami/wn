@@ -48,6 +48,7 @@ Contents
    guides/basic.rst
    guides/interlingual.rst
    guides/wordnet.rst
+   guides/lemmatization.rst
    guides/nltk-migration.rst
 
 .. toctree::
