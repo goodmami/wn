@@ -4,6 +4,7 @@ Reader for the Lexical Markup Framework (LMF) format.
 """
 
 from typing import (
+    Type,
     Container,
     List,
     Tuple,
@@ -31,6 +32,19 @@ from wn.constants import (
     PARTS_OF_SPEECH,
     LEXICOGRAPHER_FILES,
 )
+from wn.util import ProgressHandler, ProgressBar
+
+
+LEXICON_INFO_ATTRIBUTES = {
+    'LexicalEntry', 'ExternalLexicalEntry',
+    'Lemma', 'Form', 'Pronunciation', 'Tag',
+    'Sense', 'ExternalSense',
+    'SenseRelation', 'Example', 'Count',
+    'SyntacticBehaviour',
+    'Synset', 'ExternalSynset',
+    'Definition',  # 'ILIDefinition',
+    'SynsetRelation'
+}
 
 
 class LMFError(wn.Error):
@@ -80,8 +94,13 @@ _DC_QNAME_PAIRS = {
 
 class XMLEventIterator:
     """etree.iterparse() event iterator with lookahead"""
-    def __init__(self, iterator: Iterator[Tuple[str, ET.Element]]):
+    def __init__(
+        self,
+        iterator: Iterator[Tuple[str, ET.Element]],
+        progress: ProgressHandler
+    ):
         self.iterator = iterator
+        self.progress = progress
         self._next = next(iterator, (None, None))
 
     def __iter__(self):
@@ -89,7 +108,9 @@ class XMLEventIterator:
 
     def __next__(self):
         _next = self._next
+        event, elem = _next
         if _next == (None, None):
+            self.progress.set(status="Complete")
             raise StopIteration
         self._next = next(self.iterator, (None, None))
         return _next
@@ -114,6 +135,7 @@ class XMLEventIterator:
             raise LMFError(f'expected </{"|".join(tags)}>, got <{elem.tag}>')
         if elem.tag not in tags:
             raise LMFError(f'expected </{"|".join(tags)}>, got </{elem.tag}>')
+        self.progress.update()
         return elem
 
 
@@ -526,18 +548,15 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     def start(name, attrs):
         if name in ('Lexicon', 'LexiconExtension'):
             attrs['counts'] = {}
-            attrs['relations'] = set()
-            attrs['lexfiles'] = set()
             infos.append(attrs)
         elif name == 'Extends':
             infos[-1]['extends'] = attrs['id'], attrs['version']
         elif infos:
-            if name in ('SynsetRelation', 'SenseRelation'):
-                infos[-1]['relations'].add(attrs['relType'])
-            elif name == 'Synset' and 'lexfile' in attrs:
-                infos[-1]['lexfiles'].add(attrs['lexfile'])
             counts = infos[-1]['counts']
-            counts[name] = counts.get(name, 0) + 1
+            if name in counts:
+                counts[name] += 1
+            else:
+                counts[name] = 1
 
     p = xml.parsers.expat.ParserCreate()
     p.StartElementHandler = start
@@ -550,18 +569,33 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     return infos
 
 
-def load(source: AnyPath) -> LexicalResource:
+def load(
+    source: AnyPath,
+    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
+) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
     Args:
         source: path to a WN-LMF file
     """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+
     source = Path(source).expanduser()
 
     with source.open('rb') as fh:
         version = _read_header(fh)
+        # _read_header() only reads the first 2 lines
+        remainder = fh.read()
+        total_elements = remainder.count(b'</') + remainder.count(b'/>')
 
-    events = XMLEventIterator(ET.iterparse(source, events=('start', 'end')))
+    progress = progress_handler(
+        message='Read', total=total_elements, refresh_interval=10000
+    )
+    events = XMLEventIterator(
+        ET.iterparse(source, events=('start', 'end')),
+        progress
+    )
     root = events.start('LexicalResource')
 
     lexicons: List[Lexicon] = []
@@ -590,9 +624,13 @@ def _load_lexicon(events, version) -> Lexicon:
             requires.append(_load_dependency(events, 'Requires'))
 
     attrs = lex_root.attrib
+    events.progress.set(message=f'Read {attrs["id"]}:{attrs["version"]}')
+
+    events.progress.set(status='Lexical Entries')
     entries, frames, sbmap = _load_lexical_entries(
         events, extension, version, lex_root
     )
+    events.progress.set(status='Synsets')
     synsets = _load_synsets(
         events, extension, version, lex_root
     )

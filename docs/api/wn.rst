@@ -286,7 +286,7 @@ Wn's data storage and retrieval can be configured through the
 
 .. seealso::
 
-   :doc:`../guides/setup` describes how to configure Wn using the
+   :doc:`../setup` describes how to configure Wn using the
    :data:`wn.config` instance.
 
 .. autodata:: config

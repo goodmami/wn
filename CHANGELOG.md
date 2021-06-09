@@ -2,6 +2,42 @@
 
 ## [Unreleased]
 
+## [v0.7.0]
+
+**Release date: 2021-06-09**
+
+### Added
+
+* Support for approximate word searches; on by default, configurable
+  only by instantiating a `wn.Wordnet` object ([#105])
+* `wn.morphy` ([#19])
+* `wn.Wordnet.lemmatizer` attribute ([#8])
+* `wn.web` ([#116])
+* `wn.Sense.relations()` ([#82])
+* `wn.Synset.relations()` ([#82])
+
+### Changed
+
+* `wn.lmf.load()` now takes a `progress_handler` parameter ([#46])
+* `wn.lmf.scan_lexicons()` no longer returns sets of relation types or
+  lexfiles; `wn.add()` now gets these from loaded lexicons instead
+* `wn.util.ProgressHandler`
+  - Now has a `refresh_interval` parameter; updates only trigger a
+    refresh after the counter hits the threshold set by the interval
+  - The `update()` method now takes a `force` parameter to trigger a
+    refresh regardless of the refresh interval
+* `wn.Wordnet`
+  - Initialization now takes a `normalizer` parameter ([#105])
+  - Initialization now takes a `lemmatizer` parameter ([#8])
+  - Initialization now takes a `search_all_forms` parameter ([#115])
+  - `Wordnet.words()`, `Wordnet.senses()` and `Wordnet.synsets()` now
+    use any specified lemmatization or normalization functions to
+    expand queries on word forms ([#105])
+
+### Fixed
+
+* `wn.Synset.ili` for proposed ILIs now works again (#117)
+
 
 ## [v0.6.2]
 
@@ -311,6 +347,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.7.0]: ../../releases/tag/v0.7.0
 [v0.6.2]: ../../releases/tag/v0.6.2
 [v0.6.1]: ../../releases/tag/v0.6.1
 [v0.6.0]: ../../releases/tag/v0.6.0
@@ -325,9 +362,12 @@ abandoned, but this is an entirely new codebase.
 [unreleased]: ../../tree/main
 
 [#7]: https://github.com/goodmami/wn/issues/7
+[#8]: https://github.com/goodmami/wn/issues/8
 [#15]: https://github.com/goodmami/wn/issues/15
 [#17]: https://github.com/goodmami/wn/issues/17
+[#19]: https://github.com/goodmami/wn/issues/19
 [#23]: https://github.com/goodmami/wn/issues/23
+[#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59
@@ -348,6 +388,7 @@ abandoned, but this is an entirely new codebase.
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
 [#81]: https://github.com/goodmami/wn/issues/81
+[#82]: https://github.com/goodmami/wn/issues/82
 [#83]: https://github.com/goodmami/wn/issues/83
 [#86]: https://github.com/goodmami/wn/issues/86
 [#87]: https://github.com/goodmami/wn/issues/87
@@ -362,3 +403,6 @@ abandoned, but this is an entirely new codebase.
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#115]: https://github.com/goodmami/wn/issues/115
+[#116]: https://github.com/goodmami/wn/issues/116
+[#117]: https://github.com/goodmami/wn/issues/117

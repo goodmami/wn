@@ -50,6 +50,8 @@ In fact, the simple queries above implicitly create such a
 lexicons.
 
 
+.. _primary-queries:
+
 Primary Queries
 ---------------
 
@@ -226,7 +228,7 @@ Filtering by Language
 ---------------------
 
 The ``lang`` parameter of :func:`wn.words()`, :func:`wn.senses()`,
-:func:`wn.synsets()`, and :class:`~wn.Wordnet` allows a single `BCP-47
+:func:`wn.synsets()`, and :class:`~wn.Wordnet` allows a single `BCP 47
 <https://en.wikipedia.org/wiki/IETF_language_tag>`_ language
 code. When this parameter is used, only entries in the specified
 language will be returned.

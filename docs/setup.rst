@@ -4,17 +4,24 @@ Installation and Configuration
 .. seealso::
 
    This guide is for installing and configuring the Wn software. For
-   adding lexicons to the database, see :doc:`lexicons`.
+   adding lexicons to the database, see :doc:`guides/lexicons`.
 
 
-Installation
-------------
+Installing from PyPI
+--------------------
 
 Install the latest release from `PyPI <https://pypi.org/project/wn>`_:
 
 .. code-block:: bash
 
    pip install wn
+
+To get the dependencies for the :mod:`wn.web` module, use the ``web``
+installation extra:
+
+.. code-block:: bash
+
+   pip install wn[web]
 
 
 The Data Directory

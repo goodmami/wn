@@ -36,18 +36,19 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   setup.rst
+   cli.rst
    faq.rst
 
 .. toctree::
    :caption: Guides
    :maxdepth: 2
 
-   guides/setup.rst
-   guides/cli.rst
    guides/lexicons.rst
    guides/basic.rst
    guides/interlingual.rst
    guides/wordnet.rst
+   guides/lemmatization.rst
    guides/nltk-migration.rst
 
 .. toctree::
@@ -58,6 +59,8 @@ Contents
    api/wn.rst
    api/wn.constants.rst
    api/wn.lmf.rst
+   api/wn.morphy.rst
    api/wn.project.rst
    api/wn.similarity.rst
    api/wn.util.rst
+   api/wn.web.rst

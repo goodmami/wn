@@ -1,10 +1,25 @@
 
-from typing import TypeVar, Optional, List, Tuple, Dict, Set, Iterator
+from typing import (
+    Type,
+    TypeVar,
+    Callable,
+    Optional,
+    List,
+    Tuple,
+    Dict,
+    Set,
+    Sequence,
+    Iterator,
+)
 import warnings
 
 import wn
-from wn._types import Metadata
-from wn._util import flatten
+from wn._types import (
+    Metadata,
+    NormalizeFunction,
+    LemmatizeFunction,
+)
+from wn._util import flatten, normalize_form
 from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
@@ -425,6 +440,9 @@ class _Relatable(_LexiconElement):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
 
+    def relations(self: T, *args: str) -> Dict[str, List[T]]:
+        raise NotImplementedError
+
     def get_related(self: T, *args: str) -> List[T]:
         raise NotImplementedError
 
@@ -495,7 +513,7 @@ class Synset(_Relatable):
         if self._ili:
             row = next(find_ilis(id=self._ili), None)
         else:
-            row = next(find_proposed_ilis(synset_id=self._id), None)
+            row = next(find_proposed_ilis(synset_rowid=self._id), None)
         if row is not None:
             return ILI(*row)
         return None
@@ -583,15 +601,64 @@ class Synset(_Relatable):
         """
         return [w.lemma() for w in self.words()]
 
+    def relations(self, *args: str) -> Dict[str, List['Synset']]:
+        """Return a mapping of relation names to lists of synsets.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the synset
+        are returned.
+
+        See :meth:`get_related` for getting a flat list of related
+        synsets.
+
+        Example:
+
+            >>> button_rels = wn.synsets('button')[0].relations()
+            >>> for relname, sslist in button_rels.items():
+            ...     print(relname, [ss.lemmas() for ss in sslist])
+            ...
+            hypernym [['fixing', 'holdfast', 'fastener', 'fastening']]
+            hyponym [['coat button'], ['shirt button']]
+
+        """
+        d: Dict[str, List['Synset']] = {}
+        for relname, ss in self._get_relations(args):
+            if relname in d:
+                d[relname].append(ss)
+            else:
+                d[relname] = [ss]
+        return d
+
     def get_related(self, *args: str) -> List['Synset']:
-        targets: List['Synset'] = []
+        """Return the list of related synsets.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the synset
+        are returned.
+
+        This method does not preserve the relation names that lead to
+        the related synsets. For a mapping of relation names to
+        related synsets, see :meth:`relations`.
+
+        Example:
+
+            >>> fulcrum = wn.synsets('fulcrum')[0]
+            >>> [ss.lemmas() for ss in fulcrum.get_related()]
+            [['pin', 'pivot'], ['lever']]
+        """
+        return [ss for _, ss in self._get_relations(args)]
+
+    def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Synset']]:
+        targets: List[Tuple[str, 'Synset']] = []
 
         lexids = self._get_lexicon_ids()
 
         # first get relations from the current lexicon(s)
         if self._id != NON_ROWID:
-            relations = get_synset_relations({self._id}, args, lexids)
-            targets.extend(Synset(*row[2:], self._wordnet)
+            relations = list(get_synset_relations({self._id}, args, lexids))
+            targets.extend((row[0], Synset(*row[2:], self._wordnet))
                            for row in relations
                            if row[5] in lexids)
 
@@ -602,25 +669,26 @@ class Synset(_Relatable):
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            relations = get_synset_relations(rowids, args, expids)
+            relations = list(get_synset_relations(rowids, args, expids))
             ilis = {row[4] for row in relations} - {None}
 
             # map back to target lexicons
-            seen = {ss._id for ss in targets}
+            seen = {ss._id for _, ss in targets}
             for row in get_synsets_for_ilis(ilis, lexicon_rowids=lexids):
                 if row[-1] not in seen:
-                    targets.append(Synset(*row, self._wordnet))
+                    targets.append((row[0], Synset(*row, self._wordnet)))
 
             # add empty synsets for ILIs without a target in lexids
-            for ili in (ilis - {tgt._ili for tgt in targets}):
-                targets.append(
-                    Synset.empty(
+            unseen_ilis = ilis - {tgt._ili for _, tgt in targets}
+            for rel_row in relations:
+                if rel_row[4] in unseen_ilis:
+                    ss = Synset.empty(
                         id=_INFERRED_SYNSET,
-                        ili=ili,
+                        ili=rel_row[4],
                         _lexid=self._lexid,
                         _wordnet=self._wordnet
                     )
-                )
+                    targets.append((rel_row[0], ss))
 
         return targets
 
@@ -970,6 +1038,26 @@ class Sense(_Relatable):
         """Return the sense's metadata."""
         return get_metadata(self._id, 'senses')
 
+    def relations(self, *args: str) -> Dict[str, List['Sense']]:
+        """Return a mapping of relation names to lists of senses.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the sense
+        are returned.
+
+        See :meth:`get_related` for getting a flat list of related
+        senses.
+
+        """
+        d: Dict[str, List['Sense']] = {}
+        for relname, s in self._get_relations(args):
+            if relname in d:
+                d[relname].append(s)
+            else:
+                d[relname] = [s]
+        return d
+
     def get_related(self, *args: str) -> List['Sense']:
         """Return a list of related senses.
 
@@ -987,10 +1075,13 @@ class Sense(_Relatable):
             incoherent
 
         """
+        return [s for _, s in self._get_relations(args)]
+
+    def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Sense']]:
         lexids = self._get_lexicon_ids()
         iterable = get_sense_relations(self._id, args, lexids)
-        return [Sense(sid, eid, ssid, lexid, rowid, self._wordnet)
-                for _, _, sid, eid, ssid, lexid, rowid in iterable
+        return [(relname, Sense(sid, eid, ssid, lexid, rowid, self._wordnet))
+                for relname, _, sid, eid, ssid, lexid, rowid in iterable
                 if lexids is None or lexid in lexids]
 
     def get_related_synsets(self, *args: str) -> List[Synset]:
@@ -1022,16 +1113,21 @@ class Sense(_Relatable):
                 for t_sense in t_synset.senses()]
 
 
+# Useful for factory functions of Word, Sense, or Synset
+C = TypeVar('C', Word, Sense, Synset)
+
+
 class Wordnet:
+
     """Class for interacting with wordnet data.
 
     A wordnet object acts essentially as a filter by first selecting
     matching lexicons and then searching only within those lexicons
-    for later queries. On instantiation, a *lang* argument is a BCP47
-    language code that restricts the selected lexicons to those whose
-    language matches the given code. A *lexicon* argument is a
+    for later queries. On instantiation, a *lang* argument is a `BCP
+    47`_ language code that restricts the selected lexicons to those
+    whose language matches the given code. A *lexicon* argument is a
     space-separated list of lexicon specifiers that more directly
-    select lexicons by their ID and version; this is preferable when
+    selects lexicons by their ID and version; this is preferable when
     there are multiple lexicons in the same language or multiple
     version with the same ID.
 
@@ -1039,15 +1135,56 @@ class Wordnet:
     wordnet, namely the Princeton WordNet, and then relying on the
     larger wordnet for structural relations. An *expand* argument is a
     second space-separated list of lexicon specifiers which are used
-    for traversing relations, but not as the results of queries.
+    for traversing relations, but not as the results of
+    queries. Setting *expand* to an empty string (:python:`expand=''`)
+    disables expand lexicons.
+
+    The *normalizer* argument takes a callable that normalizes word
+    forms in order to expand the search. The default function
+    downcases the word and removes diacritics via NFKD_ normalization
+    so that, for example, searching for *san josé* in the English
+    WordNet will find the entry for *San Jose*. Setting *normalizer*
+    to :python:`None` disables normalization and forces exact-match
+    searching.
+
+    The *lemmatizer* argument may be :python:`None`, which is the
+    default and disables lemmatizer-based query expansion, or a
+    callable that takes a word form and optional part of speech and
+    returns base forms of the original word. To support lemmatizers
+    that use the wordnet for instantiation, such as :mod:`wn.morphy`,
+    the lemmatizer may be assigned to the :attr:`lemmatizer` attribute
+    after creation.
+
+    If the *search_all_forms* argument is :python:`True` (the
+    default), searches of word forms consider all forms in the
+    lexicon; if :python:`False`, only lemmas are searched. Non-lemma
+    forms may include, depending on the lexicon, morphological
+    exceptions, alternate scripts or spellings, etc.
+
+    .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
+    .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
+
+    Attributes:
+
+        lemmatizer: A lemmatization function or :python:`None`.
 
     """
 
     __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
-                 '_default_mode')
+                 '_default_mode', '_normalizer', 'lemmatizer',
+                 '_search_all_forms',)
     __module__ = 'wn'
 
-    def __init__(self, lexicon: str = None, *, lang: str = None, expand: str = None):
+    def __init__(
+        self,
+        lexicon: str = None,
+        *,
+        lang: str = None,
+        expand: str = None,
+        normalizer: Optional[NormalizeFunction] = normalize_form,
+        lemmatizer: Optional[LemmatizeFunction] = None,
+        search_all_forms: bool = True,
+    ):
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
         self._default_mode = (not lexicon and not lang)
@@ -1081,6 +1218,10 @@ class Wordnet:
             self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
         self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
+        self._normalizer = normalizer
+        self.lemmatizer = lemmatizer
+        self._search_all_forms = search_all_forms
+
     def lexicons(self):
         """Return the list of lexicons covered by this wordnet."""
         return self._lexicons
@@ -1106,8 +1247,7 @@ class Wordnet:
         restricts words by their part of speech.
 
         """
-        iterable = find_entries(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
-        return [Word(*word_data, self) for word_data in iterable]
+        return _find_helper(self, Word, find_entries, form, pos)
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
@@ -1131,10 +1271,7 @@ class Wordnet:
         select a unique synset within a single lexicon.
 
         """
-        iterable = find_synsets(
-            form=form, pos=pos, ili=ili, lexicon_rowids=self._lexicon_ids,
-        )
-        return [Synset(*synset_data, self) for synset_data in iterable]
+        return _find_helper(self, Synset, find_synsets, form, pos, ili=ili)
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
@@ -1153,8 +1290,7 @@ class Wordnet:
         *pos* restricts senses by their word's part of speech.
 
         """
-        iterable = find_senses(form=form, pos=pos, lexicon_rowids=self._lexicon_ids)
-        return [Sense(*sense_data, self) for sense_data in iterable]
+        return _find_helper(self, Sense, find_senses, form, pos)
 
     def ili(self, id: str) -> ILI:
         """Return the first ILI in this wordnet with identifer *id*."""
@@ -1165,6 +1301,11 @@ class Wordnet:
             raise wn.Error(f'no such ILI: {id}')
 
     def ilis(self, status: str = None) -> List[ILI]:
+        """Return the list of ILIs in this wordnet.
+
+        If *status* is given, only return ILIs with a matching status.
+
+        """
         iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
         return [ILI(*ili_data) for ili_data in iterable]
 
@@ -1183,6 +1324,63 @@ def _to_lexicon(data) -> Lexicon:
         logo=logo,
         _id=rowid
     )
+
+
+def _find_helper(
+    w: Wordnet,
+    cls: Type[C],
+    query_func: Callable,
+    form: Optional[str],
+    pos: Optional[str],
+    ili: str = None
+) -> List[C]:
+    """Return the list of matching wordnet entities.
+
+    If the wordnet has a normalizer and the search includes a word
+    form, the original word form is searched against both the
+    original and normalized columns in the database. Then, if no
+    results are found, the search is repeated with the normalized
+    form. If the wordnet does not have a normalizer, only exact
+    string matches are used.
+
+    """
+    kwargs: Dict = {
+        'lexicon_rowids': w._lexicon_ids,
+        'search_all_forms': w._search_all_forms,
+    }
+    if ili is not None:
+        kwargs['ili'] = ili
+
+    # easy case is when there is no form
+    if form is None:
+        return [cls(*data, w)  # type: ignore
+                for data in query_func(pos=pos, **kwargs)]
+
+    # if there's a form, we may need to lemmatize and normalize
+    lemmatize = w.lemmatizer
+    normalize = w._normalizer
+    kwargs['normalized'] = bool(normalize)
+
+    forms = lemmatize(form, pos) if lemmatize else {}
+    # if no lemmatizer or word not covered by lemmatizer, back off to
+    # the original form and pos
+    if not forms:
+        forms = {pos: {form}}
+
+    results = [
+        cls(*data, w)  # type: ignore
+        for _pos, _forms in forms.items()
+        for data in query_func(forms=_forms, pos=_pos, **kwargs)
+    ]
+    if not results and normalize:
+        results = [
+            cls(*data, w)  # type: ignore
+            for _pos, _forms in forms.items()
+            for data in query_func(
+                forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
+            )
+        ]
+    return results
 
 
 def projects() -> List[Dict]:

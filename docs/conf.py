@@ -58,6 +58,9 @@ rst_prolog = """
    :class: highlight
 """
 
+# smartquotes = False
+smartquotes_action = 'De'  # D = en- and em-dash; e = ellipsis
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -80,7 +83,7 @@ html_theme_options = {
 html_logo = "_static/wn-logo.svg"
 
 pygments_style = 'manni'
-pygments_dark_style = 'manni'
+pygments_dark_style = 'monokai'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

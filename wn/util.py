@@ -1,5 +1,4 @@
 """Wn utility classes."""
-
 from typing import TextIO
 import sys
 
@@ -31,6 +30,7 @@ class ProgressHandler:
         message: str = '',
         count: int = 0,
         total: int = 0,
+        refresh_interval: int = 0,
         unit: str = '',
         status: str = '',
         file: TextIO = sys.stderr,
@@ -39,17 +39,22 @@ class ProgressHandler:
         self.kwargs = {
             'count': count,
             'total': total,
+            'refresh_interval': refresh_interval,
             'message': message,
             'unit': unit,
             'status': status,
         }
+        self._refresh_quota: int = refresh_interval
 
-    def update(self, n: int = 1) -> None:
+    def update(self, n: int = 1, force: bool = False) -> None:
         """Update the counter with the increment value *n*.
 
         This method should update the ``count`` key of :attr:`kwargs`
         with the increment value *n*. After this, it is expected to
         update some user-facing progress indicator.
+
+        If *force* is :python:`True`, any indicator will be refreshed
+        regardless of the value of the refresh interval.
 
         """
         self.kwargs['count'] += n  # type: ignore
@@ -63,7 +68,7 @@ class ProgressHandler:
 
         """
         self.kwargs.update(**kwargs)
-        self.update(0)
+        self.update(0, force=True)
 
     def flash(self, message: str) -> None:
         """Issue a message unrelated to the current counter.
@@ -100,13 +105,16 @@ class ProgressBar(ProgressHandler):
     #: The default formatting template.
     FMT = '\r{message}{bar}{counter}{status}'
 
-    def update(self, n: int = 1) -> None:
+    def update(self, n: int = 1, force: bool = False) -> None:
         """Increment the count by *n* and print the reformatted bar."""
         self.kwargs['count'] += n  # type: ignore
-        s = self.format()
-        if self.file:
-            print('\r\033[K', end='', file=self.file)
-            print(s, end='', file=self.file)
+        self._refresh_quota -= n
+        if force or self._refresh_quota <= 0:
+            self._refresh_quota = self.kwargs['refresh_interval']  # type: ignore
+            s = self.format()
+            if self.file:
+                print('\r\033[K', end='', file=self.file)
+                print(s, end='', file=self.file)
 
     def format(self) -> str:
         """Format and return the progress bar.

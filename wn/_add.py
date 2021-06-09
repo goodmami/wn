@@ -97,7 +97,7 @@ def add(
     try:
         for package in iterpackages(source):
             if package.type == _WORDNET:
-                _add_lmf(package.resource_file(), progress)
+                _add_lmf(package.resource_file(), progress, progress_handler)
             elif package.type == _ILI:
                 _add_ili(package.resource_file(), progress)
             else:
@@ -109,6 +109,7 @@ def add(
 def _add_lmf(
     source,
     progress: ProgressHandler,
+    progress_handler: Type[ProgressHandler],
 ) -> None:
     with connect() as conn:
         cur = conn.cursor()
@@ -134,13 +135,14 @@ def _add_lmf(
             return
 
         # all clear, try to add them
-        progress.flash('Updating lookup tables')
-        _update_lookup_tables(all_infos, cur)
-
         progress.flash(f'Reading {source!s}')
-        for lexicon, info in zip(lmf.load(source), all_infos):
+
+        for lexicon, info in zip(lmf.load(source, progress_handler), all_infos):
             if 'skip' in info:
                 continue
+
+            progress.flash('Updating lookup tables')
+            _update_lookup_tables(lexicon, cur)
 
             progress.set(count=0, total=_sum_counts(info))
             synsets = lexicon.synsets
@@ -188,22 +190,20 @@ def _precheck(source, cur):
 
 def _sum_counts(info) -> int:
     counts = info['counts']
-    return sum(counts.get(name, 0) for name in
-               ('LexicalEntry', 'ExternalLexicalEntry',
-                'Lemma', 'Form', 'Pronunciation', 'Tag',
-                'Sense', 'ExternalSense',
-                'SenseRelation', 'Example', 'Count',
-                'SyntacticBehaviour',
-                'Synset', 'ExternalSynset',
-                'Definition',  # 'ILIDefinition',
-                'SynsetRelation'))
+    return sum(counts.get(name, 0) for name in lmf.LEXICON_INFO_ATTRIBUTES)
 
 
-def _update_lookup_tables(all_infos, cur):
-    reltypes = set(rt for info in all_infos for rt in info['relations'])
+def _update_lookup_tables(lexicon, cur):
+    reltypes = set(rel.type
+                   for ss in lexicon.synsets
+                   for rel in ss.relations)
+    reltypes.update(rel.type
+                    for e in lexicon.lexical_entries
+                    for s in e.senses
+                    for rel in s.relations)
     cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
                     [(rt,) for rt in sorted(reltypes)])
-    lexfiles = set(lf for info in all_infos for lf in info['lexfiles'])
+    lexfiles = set(ss.lexfile for ss in lexicon.synsets) - {None}
     cur.executemany('INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
                     [(lf,) for lf in sorted(lexfiles)])
 
@@ -667,13 +667,15 @@ def remove(
     The *lexicon* argument is a :ref:`lexicon specifier
     <lexicon-specifiers>`. Note that this removes a lexicon and not a
     project, so the lexicons of projects containing multiple lexicons
-    will need to be removed individually.
+    will need to be removed individually or, if applicable, a star
+    specifier.
 
     The *progress_handler* parameter takes a subclass of
     :class:`wn.util.ProgressHandler`. An instance of the class will be
     created, used, and closed by this function.
 
-    >>> wn.remove('ewn:2019')
+    >>> wn.remove('ewn:2019')  # removes a single lexicon
+    >>> wn.remove('*:1.3+omw')  # removes all lexicons with version 1.3+omw
 
     """
     if progress_handler is None:
@@ -697,7 +699,7 @@ def remove(
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{spec}', count=0)
                 conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
-                progress.flash(f'Removed {spec}{extra}')
+                progress.flash(f'Removed {spec}{extra}\n')
 
     finally:
         progress.close()

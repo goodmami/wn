@@ -35,14 +35,20 @@ classifiers = [
 Documentation = "https://wn.readthedocs.io"
 
 [tool.flit.metadata.requires-extra]
+web = [
+    "starlette",
+]
 test = [
     "pytest",
     "mypy",
     "flake8",
     "nox",
+    # typing stubs
+    'types-requests',
+    'types-toml',
 ]
 doc = [
-    "sphinx",
+    "sphinx>=3.5,<4",
     "furo",
     "sphinx-copybutton",
 ]
