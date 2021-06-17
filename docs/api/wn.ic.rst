@@ -43,6 +43,16 @@ It is common for :math:`\text{freq}` to not contain actual frequencies
 but instead weights. These weights are calculated as the word
 frequency divided by the number of synsets for that word.
 
+.. note::
+
+   The term *information content* can be ambiguous. It sometimes
+   refers to the result of the :func:`information_content` function,
+   but is also used to refer to the corpus frequencies/weights in the
+   data structure returned by :func:`load` or :func:`compute`, as
+   these weights are the basis of the value computed by
+   :func:`information_content`. The Wn documentation tries to
+   consistently refer to former as the *information content value* and
+   the latter as *information content weights*.
 
 .. [RES95] Resnik, Philip. "Using information content to evaluate
    semantic similarity." In Proceedings of the 14th International

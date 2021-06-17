@@ -20,12 +20,26 @@ Freq = Dict[str, Dict[Optional[str], float]]
 
 
 def information_content(synset: Synset, freq: Freq) -> float:
-    """Calculate the Information Content value for a synset."""
+    """Calculate the Information Content value for a synset.
+
+    The information content of a synset is the negative log of the
+    synset probability (see :func:`synset_probability`).
+
+    """
     return -log(synset_probability(synset, freq))
 
 
 def synset_probability(synset: Synset, freq: Freq) -> float:
-    """Calculate the synset probability."""
+    """Calculate the synset probability.
+
+    The synset probability is defined as freq(ss)/N where freq(ss) is
+    the IC weight for the synset and N is the total IC weight for all
+    synsets with the same part of speech.
+
+    Note: this function is not generally used directly, but indirectly
+    through :func:`information_content`.
+
+    """
     pos_freq = freq[synset.pos]
     return pos_freq[synset.id] / pos_freq[None]
 
