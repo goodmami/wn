@@ -16,7 +16,7 @@ from wn.util import synset_id_formatter
 
 # Just use a subset of all available parts of speech
 IC_PARTS_OF_SPEECH = frozenset((NOUN, VERB, ADJ, ADV))
-Freq = Dict[str, Dict[Optional[Synset], float]]
+Freq = Dict[str, Dict[Optional[str], float]]
 
 
 def information_content(synset: Synset, freq: Freq) -> float:
@@ -26,8 +26,8 @@ def information_content(synset: Synset, freq: Freq) -> float:
 
 def synset_probability(synset: Synset, freq: Freq) -> float:
     """Calculate the synset probability."""
-    pos = synset.pos
-    return freq[pos][synset] / freq[pos][None]
+    pos_freq = freq[synset.pos]
+    return pos_freq[synset.id] / pos_freq[None]
 
 
 def _initialize(
@@ -41,12 +41,12 @@ def _initialize(
 
     """
     freq: Freq = {
-        pos: {synset: smoothing for synset in wordnet.synsets(pos=pos)}
+        pos: {synset.id: smoothing for synset in wordnet.synsets(pos=pos)}
         for pos in IC_PARTS_OF_SPEECH
     }
     # pretend ADJ_SAT is just ADJ
     for synset in wordnet.synsets(pos=ADJ_SAT):
-        freq[ADJ][synset] = smoothing
+        freq[ADJ][synset.id] = smoothing
     # also initialize totals (when synset is None) for each part-of-speech
     for pos in IC_PARTS_OF_SPEECH:
         freq[pos][None] = smoothing
@@ -81,14 +81,14 @@ def compute(
         >>> dog = ewn.synsets('dog', pos='n')[0]
         >>> cat = ewn.synsets('cat', pos='n')[0]
         >>> frog = ewn.synsets('frog', pos='n')[0]
-        >>> freq['n'][dog]
+        >>> freq['n'][dog.id]
         1.125
-        >>> freq['n'][cat]
+        >>> freq['n'][cat.id]
         1.1
-        >>> freq['n'][frog]  # no occurrence; smoothing value only
+        >>> freq['n'][frog.id]  # no occurrence; smoothing value only
         1.0
-        >>> ancestor = dog.lowest_common_hypernyms(cat)[0]  # 'carnivore'
-        >>> freq['n'][ancestor]
+        >>> carnivore = dog.lowest_common_hypernyms(cat)[0]
+        >>> freq['n'][carnivore.id]
         1.3250000000000002
     """
     freq = _initialize(wordnet, smoothing=smoothing)
@@ -114,10 +114,10 @@ def compute(
 
             # The following while-loop is equivalent to:
             #
-            # freq[pos][synset] += weight
+            # freq[pos][synset.id] += weight
             # for path in synset.hypernym_paths():
             #     for ss in path:
-            #         freq[pos][ss] += weight
+            #         freq[pos][ss.id] += weight
             #
             # ...but it caches hypernym lookups for speed
 
@@ -129,7 +129,7 @@ def compute(
                 if ss in seen:
                     continue
 
-                freq[pos][ss] += weight
+                freq[pos][ss.id] += weight
 
                 if ss not in hypernym_cache:
                     hypernym_cache[ss] = ss.hypernyms()
@@ -187,8 +187,8 @@ def load(
     with source.open() as icfile:
         for offset, pos, weight, is_root in _parse_ic_file(icfile):
             ssid = get_synset_id(offset=offset, pos=pos)
-            synset = wordnet.synset(ssid)
-            freq[pos][synset] = weight
+            # synset = wordnet.synset(ssid)
+            freq[pos][ssid] = weight
             if is_root:
                 freq[pos][None] += weight
     return freq
