@@ -176,6 +176,7 @@ def load(
         >>> freq = wn.ic.load(path, pwn)
 
     """
+    source = Path(source).expanduser().resolve(strict=True)
     assert len(wordnet.lexicons()) == 1
     lexid = wordnet.lexicons()[0].id
     if get_synset_id is None:
@@ -183,7 +184,6 @@ def load(
 
     freq = _initialize(wordnet, smoothing=0.0)
 
-    source = Path(source).expanduser()
     with source.open() as icfile:
         for offset, pos, weight, is_root in _parse_ic_file(icfile):
             ssid = get_synset_id(offset=offset, pos=pos)
