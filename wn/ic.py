@@ -1,5 +1,8 @@
 
-r"""Information Content"""
+"""Information Content is a corpus-based metrics of synset or sense
+specificity.
+
+"""
 
 from typing import (
     Callable, Optional, Iterator, Iterable, Dict, List, Tuple, Set, TextIO
@@ -46,7 +49,7 @@ def synset_probability(synset: Synset, freq: Freq) -> float:
 
 def _initialize(
     wordnet: Wordnet,
-    smoothing: float = 0.0,
+    smoothing: float,
 ) -> Freq:
     """Populate an Information Content weight mapping to a smoothing value.
 
@@ -71,7 +74,7 @@ def compute(
     corpus: Iterable[str],
     wordnet: Wordnet,
     distribute_weight: bool = True,
-    smoothing: float = 0.0
+    smoothing: float = 1.0
 ) -> Freq:
     """Compute Information Content weights from a corpus.
 
@@ -105,7 +108,7 @@ def compute(
         >>> freq['n'][carnivore.id]
         1.3250000000000002
     """
-    freq = _initialize(wordnet, smoothing=smoothing)
+    freq = _initialize(wordnet, smoothing)
     counts = Counter(corpus)
 
     hypernym_cache: Dict[Synset, List[Synset]] = {}
@@ -159,28 +162,20 @@ def load(
 ) -> Freq:
     """Load an Information Content mapping from a file.
 
-    The *source* argument is a path to an Information Content (IC)
-    file as used by the WordNet::Similarity Perl module or the
-    NLTK. The *wordnet* argument is a :class:`wn.Wordnet` instance
-    **with synset identifiers matching the offsets in the IC file**. A
-    :class:`wn.Error` is raised if *wordnet* does not have exactly one
-    lexicon.
+    Arguments:
 
-    The *get_synset_id* argument should be a callable that returns a
-    valid synset ID when called as follows:
+        source: A path to an information content weights file.
 
-    .. code-block:: python
+        wordnet: A :class:`wn.Wordnet` instance with synset
+            identifiers matching the offsets in the weights file.
 
-       get_synset_id(offset=offset, pos=pos)
+        get_synset_id: A callable that takes a synset offset and part
+            of speech and returns a synset ID valid in *wordnet*.
 
-    The integer ``offset`` and string ``pos`` arguments come from the
-    offsets and parts-of-speech parsed from the IC file. If
-    *get_synset_id* is :python:`None`, a default function is created
-    with :func:`wn.util.synset_id_formatter` as follows:
+    Raises:
 
-    .. code-block:: python
-
-       get_synset_id = synset_id_formatter(prefix=wordnet.lexicons()[0].id)
+        :class:`wn.Error`: If *wordnet* does not have exactly one
+            lexicon.
 
     Example:
 
@@ -196,7 +191,7 @@ def load(
     if get_synset_id is None:
         get_synset_id = synset_id_formatter(prefix=lexid)
 
-    freq = _initialize(wordnet, smoothing=0.0)
+    freq = _initialize(wordnet, 0.0)
 
     with source.open() as icfile:
         for offset, pos, weight, is_root in _parse_ic_file(icfile):
