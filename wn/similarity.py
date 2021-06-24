@@ -185,6 +185,35 @@ def jcn(synset1: Synset, synset2: Synset, ic: Freq) -> float:
         return 1 / (ic1 + ic2 - 2 * ic_lcs)
 
 
+def lin(synset1: Synset, synset2: Synset, ic: Freq) -> float:
+    """Return the Lin similarity of two synsets.
+
+    Arguments:
+        synset1: The first synset to compare.
+        synset2: The second synset to compare.
+        ic: Information Content weights.
+
+    Example:
+        >>> import wn, wn.ic, wn.taxonomy
+        >>> from wn.similarity import lin
+        >>> pwn = wn.Wordnet('pwn:3.0')
+        >>> ic = wn.ic.load('~/nltk_data/corpora/wordnet_ic/ic-brown.dat', pwn)
+        >>> spatula = pwn.synsets('spatula')[0]
+        >>> lin(spatula, pwn.synsets('pancake')[0], ic)
+        0.061148956278604116
+        >>> lin(spatula, pwn.synsets('utensil')[0], ic)
+        0.5592415686750427
+
+    """
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    lcs = _most_informative_lcs(synset1, synset2, ic)
+    ic1 = information_content(synset1, ic)
+    ic2 = information_content(synset2, ic)
+    if ic1 == 0 or ic2 == 0:
+        return 0.0
+    return 2 * information_content(lcs, ic) / (ic1 + ic2)
+
+
 # Helper functions
 
 def _least_common_subsumers(

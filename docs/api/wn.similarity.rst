@@ -135,3 +135,17 @@ often used in practice.
 .. autofunction:: jcn
 
 
+Lin Similarity
+''''''''''''''
+
+Another formulation of information content-based similarity is the Lin
+metric (`Lin 1997 <https://www.aclweb.org/anthology/P97-1009.pdf>`_),
+which is defined as follows, where :math:`c_1` and :math:`c_2` are the
+two synsets being compared and :math:`c_0` is the lowest common
+hypernym with the highest information content weight:
+
+.. math::
+
+   \frac{2(\text{IC}(c_0))}{\text{IC}(c_1) + \text{IC}(c_0)}
+
+.. autofunction:: lin
