@@ -87,11 +87,12 @@ Wu-Palmer similarity is:
 Information Content-based Metrics
 ---------------------------------
 
-The `Resnik <Resnik Similarity_>`_ similarity metric works by
-computing the information content of the lowest common hypernyms of
-the two synsets being compared. It therefore requires information
-content weights (see :mod:`wn.ic`), and the value returned therefore
-changes depending on the weights used.
+The `Resnik <Resnik Similarity_>`_, `Jiang-Conrath <Jiang-Conrath
+Similarity_>`_, and `Lin <Lin Similarity_>`_ similarity metrics work
+by computing the information content of the synsets and/or that of
+their lowest common hypernyms. They therefore require information
+content weights (see :mod:`wn.ic`), and the values returned
+necessarily depend on the weights used.
 
 
 Resnik Similarity
