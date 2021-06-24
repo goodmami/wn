@@ -11,6 +11,8 @@
 
 * Taxonomy methods on `wn.Synset` are moved to `wn.taxonomy`, but
   shortcut methods remain for compatibility ([#125]).
+* Similarity metrics in `wn.similarity` now raise an error when
+  synsets come from different parts of speech.
 
 
 ## [v0.7.0]

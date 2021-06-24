@@ -4,10 +4,11 @@
 import math
 
 import wn
+from wn.constants import ADJ, ADJ_SAT
 from wn._core import Synset
 
 
-def path(synset1, synset2):
+def path(synset1: Synset, synset2: Synset, simulate_root: bool = False) -> float:
     """Return the Path similarity of *synset1* and *synset2*.
 
     Arguments:
@@ -35,10 +36,17 @@ def path(synset1, synset2):
         0.16666666666666666
 
      """
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    try:
+        path = synset1.shortest_path(synset2, simulate_root=simulate_root)
+    except wn.Error:
+        distance = float('inf')
+    else:
+        distance = len(path)
     return 1 / (distance + 1)
 
 
-def wup(synset1: Synset, synset2: Synset) -> float:
+def wup(synset1: Synset, synset2: Synset, simulate_root=False) -> float:
     """Return the Wu-Palmer similarity of *synset1* and *synset2*.
 
     Arguments:
@@ -67,11 +75,15 @@ def wup(synset1: Synset, synset2: Synset) -> float:
         0.2857142857142857
 
     """
-    lch = synset1.lowest_common_hypernyms(synset2, simulate_root=True)[0]
-    n3 = lch.max_depth() + 1
-    n1 = len(synset1.shortest_path(lch, simulate_root=True))
-    n2 = len(synset2.shortest_path(lch, simulate_root=True))
-    return (2 * n3) / (n1 + n2 + 2 * n3)
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    lcs_list = _least_common_subsumers(synset1, synset2, simulate_root)
+    lcs = lcs_list[0]
+    i = len(synset1.shortest_path(lcs, simulate_root=simulate_root))
+    j = len(synset2.shortest_path(lcs, simulate_root=simulate_root))
+    k = lcs.max_depth() + 1
+    return (2*k) / (i + j + 2*k)
+
+
 def lch(
     synset1: Synset,
     synset2: Synset,
@@ -106,6 +118,14 @@ def lch(
         1.3862943611198906
 
     """
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    distance = len(synset1.shortest_path(synset2, simulate_root=simulate_root))
     if max_depth <= 0:
         raise wn.Error('max_depth must be greater than 0')
     return -math.log((distance + 1) / (2 * max_depth))
+
+def _check_if_pos_compatible(pos1: str, pos2: str) -> None:
+    _pos1 = ADJ if pos1 == ADJ_SAT else pos1
+    _pos2 = ADJ if pos2 == ADJ_SAT else pos2
+    if _pos1 != _pos2:
+        raise wn.Error('synsets must have the same part of speech')
