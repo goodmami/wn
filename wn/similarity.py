@@ -152,6 +152,39 @@ def res(synset1: Synset, synset2: Synset, ic: Freq) -> float:
     return information_content(lcs, ic)
 
 
+def jcn(synset1: Synset, synset2: Synset, ic: Freq) -> float:
+    """Return the Jiang-Conrath similarity of two synsets.
+
+    Arguments:
+        synset1: The first synset to compare.
+        synset2: The second synset to compare.
+        ic: Information Content weights.
+
+    Example:
+        >>> import wn, wn.ic, wn.taxonomy
+        >>> from wn.similarity import jcn
+        >>> pwn = wn.Wordnet('pwn:3.0')
+        >>> ic = wn.ic.load('~/nltk_data/corpora/wordnet_ic/ic-brown.dat', pwn)
+        >>> spatula = pwn.synsets('spatula')[0]
+        >>> jcn(spatula, pwn.synsets('pancake')[0], ic)
+        0.04061799236354239
+        >>> jcn(spatula, pwn.synsets('utensil')[0], ic)
+        0.10794048564613007
+
+    """
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    ic1 = information_content(synset1, ic)
+    ic2 = information_content(synset2, ic)
+    lcs = _most_informative_lcs(synset1, synset2, ic)
+    ic_lcs = information_content(lcs, ic)
+    if ic1 == ic2 == ic_lcs == 0:
+        return 0
+    elif ic1 + ic2 == 2 * ic_lcs:
+        return float('inf')
+    else:
+        return 1 / (ic1 + ic2 - 2 * ic_lcs)
+
+
 # Helper functions
 
 def _least_common_subsumers(

@@ -7,6 +7,7 @@
 * `wn.ic` module ([#40]
 * `wn.taxonomy` module ([#125])
 * `wn.similarity.res` Resnik similarity ([#122])
+* `wn.similarity.jcn` Jiang-Conrath similarity ([#123])
 
 ### Changed
 
@@ -422,4 +423,5 @@ abandoned, but this is an entirely new codebase.
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
 [#122]: https://github.com/goodmami/wn/issues/122
+[#123]: https://github.com/goodmami/wn/issues/123
 [#125]: https://github.com/goodmami/wn/issues/125

@@ -114,3 +114,24 @@ all common hypernyms.
 .. autofunction:: res
 
 
+Jiang-Conrath Similarity
+''''''''''''''''''''''''
+
+The Jiang-Conrath similarity metric (`link to paper
+<https://www.aclweb.org/anthology/O97-1002.pdf>`_) combines the ideas
+of the taxonomy-based and information content-based metrics. It is
+defined as follows, where :math:`c_1` and :math:`c_2` are the two
+synsets being compared and :math:`c_0` is the lowest common hypernym
+of the two with the highest information content weight:
+
+.. math::
+
+   \frac{1}{\text{IC}(c_1) + \text{IC}(c_2) + \text{IC}(c_0)}
+
+This equation is the simplified form given in the paper were several
+parameterized terms are cancelled out because the full form is not
+often used in practice.
+
+.. autofunction:: jcn
+
+
