@@ -1,11 +1,13 @@
 
 """Synset similarity metrics."""
 
+from typing import List
 import math
 
 import wn
 from wn.constants import ADJ, ADJ_SAT
 from wn._core import Synset
+from wn.ic import Freq, information_content
 
 
 def path(synset1: Synset, synset2: Synset, simulate_root: bool = False) -> float:
@@ -123,6 +125,51 @@ def lch(
     if max_depth <= 0:
         raise wn.Error('max_depth must be greater than 0')
     return -math.log((distance + 1) / (2 * max_depth))
+
+
+def res(synset1: Synset, synset2: Synset, ic: Freq) -> float:
+    """Return the Resnik similarity between *synset1* and *synset2*.
+
+    Arguments:
+        synset1: The first synset to compare.
+        synset2: The second synset to compare.
+        ic: Information Content weights.
+
+    Example:
+        >>> import wn, wn.ic, wn.taxonomy
+        >>> from wn.similarity import res
+        >>> pwn = wn.Wordnet('pwn:3.0')
+        >>> ic = wn.ic.load('~/nltk_data/corpora/wordnet_ic/ic-brown.dat', pwn)
+        >>> spatula = pwn.synsets('spatula')[0]
+        >>> res(spatula, pwn.synsets('pancake')[0], ic)
+        0.8017591149538994
+        >>> res(spatula, pwn.synsets('utensil')[0], ic)
+        5.87738923441087
+
+    """
+    _check_if_pos_compatible(synset1.pos, synset2.pos)
+    lcs = _most_informative_lcs(synset1, synset2, ic)
+    return information_content(lcs, ic)
+
+
+# Helper functions
+
+def _least_common_subsumers(
+    synset1: Synset,
+    synset2: Synset,
+    simulate_root: bool
+) -> List[Synset]:
+    lcs = synset1.lowest_common_hypernyms(synset2, simulate_root=simulate_root)
+    if not lcs:
+        raise wn.Error(f'no common hypernyms for {synset1!r} and {synset2!r}')
+    return lcs
+
+
+def _most_informative_lcs(synset1: Synset, synset2: Synset, ic: Freq) -> Synset:
+    pos_ic = ic[synset1.pos]
+    lcs = _least_common_subsumers(synset1, synset2, False)
+    return max(lcs, key=lambda ss: pos_ic[ss.id])
+
 
 def _check_if_pos_compatible(pos1: str, pos2: str) -> None:
     _pos1 = ADJ if pos1 == ADJ_SAT else pos1

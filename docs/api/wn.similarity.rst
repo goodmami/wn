@@ -62,7 +62,7 @@ similarity is:
 
 .. math::
 
-   -\text{log}(\frac{p + 1}{2d})
+   -\text{log}\left(\frac{p + 1}{2d}\right)
 
 .. autofunction:: lch
 
@@ -82,4 +82,35 @@ Wu-Palmer similarity is:
    \frac{2k}{i + j + 2k}
 
 .. autofunction:: wup
+
+
+Information Content-based Metrics
+---------------------------------
+
+The `Resnik <Resnik Similarity_>`_ similarity metric works by
+computing the information content of the lowest common hypernyms of
+the two synsets being compared. It therefore requires information
+content weights (see :mod:`wn.ic`), and the value returned therefore
+changes depending on the weights used.
+
+
+Resnik Similarity
+'''''''''''''''''
+
+The Resnik similarity is the maximum information content value of the
+common subsumers (hypernym ancestors) of the two synsets. Formally it
+is defined as follows, where :math:`c_1` and :math:`c_2` are the two
+synsets being compared.
+
+.. math::
+
+   \text{max}_{c \in \text{S}(c_1, c_2)} \text{IC}(c)
+
+Since a synset's information content is always equal or greater than
+the information content of its hypernyms, :math:`S(c_1, c_2)` above is
+more efficiently computed using the lowest common hypernyms instead of
+all common hypernyms.
+
+.. autofunction:: res
+
 
