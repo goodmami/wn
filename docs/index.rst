@@ -63,5 +63,6 @@ Contents
    api/wn.morphy.rst
    api/wn.project.rst
    api/wn.similarity.rst
+   api/wn.taxonomy.rst
    api/wn.util.rst
    api/wn.web.rst

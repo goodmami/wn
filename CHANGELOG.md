@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.ic` module ([#40]
+* `wn.taxonomy` module ([#125])
+
+### Changed
+
+* Taxonomy methods on `wn.Synset` are moved to `wn.taxonomy`, but
+  shortcut methods remain for compatibility ([#125]).
+
+
 ## [v0.7.0]
 
 **Release date: 2021-06-09**
@@ -367,6 +378,7 @@ abandoned, but this is an entirely new codebase.
 [#17]: https://github.com/goodmami/wn/issues/17
 [#19]: https://github.com/goodmami/wn/issues/19
 [#23]: https://github.com/goodmami/wn/issues/23
+[#40]: https://github.com/goodmami/wn/issues/40
 [#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
@@ -406,3 +418,4 @@ abandoned, but this is an entirely new codebase.
 [#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
+[#125]: https://github.com/goodmami/wn/issues/125
