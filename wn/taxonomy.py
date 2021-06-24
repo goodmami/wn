@@ -269,7 +269,7 @@ def shortest_path(
         >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
         >>> for ss in wn.taxonomy.shortest_path(dog, squirrel):
         ...     print(ss.lemmas())
-        ... 
+        ...
         ['canine', 'canid']
         ['carnivore']
         ['eutherian mammal', 'placental', 'placental mammal', 'eutherian']
@@ -301,7 +301,7 @@ def common_hypernyms(
         >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
         >>> for ss in wn.taxonomy.common_hypernyms(dog, squirrel):
         ...     print(ss.lemmas())
-        ... 
+        ...
         ['entity']
         ['physical entity']
         ['object', 'physical object']
