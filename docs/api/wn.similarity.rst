@@ -97,10 +97,11 @@ changes depending on the weights used.
 Resnik Similarity
 '''''''''''''''''
 
-The Resnik similarity is the maximum information content value of the
-common subsumers (hypernym ancestors) of the two synsets. Formally it
-is defined as follows, where :math:`c_1` and :math:`c_2` are the two
-synsets being compared.
+The Resnik similarity (`Resnik 1995
+<https://arxiv.org/pdf/cmp-lg/9511007.pdf>`_) is the maximum
+information content value of the common subsumers (hypernym ancestors)
+of the two synsets. Formally it is defined as follows, where
+:math:`c_1` and :math:`c_2` are the two synsets being compared.
 
 .. math::
 
@@ -117,7 +118,7 @@ all common hypernyms.
 Jiang-Conrath Similarity
 ''''''''''''''''''''''''
 
-The Jiang-Conrath similarity metric (`link to paper
+The Jiang-Conrath similarity metric (`Jiang and Conrath, 1997
 <https://www.aclweb.org/anthology/O97-1002.pdf>`_) combines the ideas
 of the taxonomy-based and information content-based metrics. It is
 defined as follows, where :math:`c_1` and :math:`c_2` are the two
