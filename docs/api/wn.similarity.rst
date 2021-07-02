@@ -128,11 +128,24 @@ of the two with the highest information content weight:
 
 .. math::
 
-   \frac{1}{\text{IC}(c_1) + \text{IC}(c_2) + \text{IC}(c_0)}
+   \frac{1}{\text{IC}(c_1) + \text{IC}(c_2) - 2(\text{IC}(c_0))}
 
 This equation is the simplified form given in the paper were several
 parameterized terms are cancelled out because the full form is not
 often used in practice.
+
+There are two special cases:
+
+1. If the information content of :math:`c_0`, :math:`c_1`, and
+   :math:`c_2` are all zero, the metric returns zero. This occurs when
+   both :math:`c_1` and :math:`c_2` are the root node, but it can also
+   occur if the synsets did not occur in the corpus and the smoothing
+   value was set to zero.
+
+2. Otherwise if :math:`c_1 + c_2 = 2c_0`, the metric returns
+   infinity. This occurs when the two synsets are the same, one is a
+   descendant of the other, etc., such that they have the same
+   frequency as each other and as their lowest common hypernym.
 
 .. autofunction:: jcn
 
@@ -149,5 +162,8 @@ hypernym with the highest information content weight:
 .. math::
 
    \frac{2(\text{IC}(c_0))}{\text{IC}(c_1) + \text{IC}(c_0)}
+
+One special case is if either synset has an information content value
+of zero, in which case the metric returns zero.
 
 .. autofunction:: lin
