@@ -168,6 +168,7 @@ The Sense Class
    .. automethod:: frames
    .. automethod:: counts
    .. automethod:: metadata
+   .. automethod:: relations
    .. automethod:: get_related
    .. automethod:: get_related_synsets
    .. automethod:: closure
@@ -218,6 +219,7 @@ The Synset Class
    .. automethod:: hyponyms
    .. automethod:: holonyms
    .. automethod:: meronyms
+   .. automethod:: relations
    .. automethod:: get_related
    .. automethod:: closure
    .. automethod:: relation_paths
