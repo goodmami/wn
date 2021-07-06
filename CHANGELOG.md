@@ -9,6 +9,7 @@
 * `wn.similarity.res` Resnik similarity ([#122])
 * `wn.similarity.jcn` Jiang-Conrath similarity ([#123])
 * `wn.similarity.lin` Lin similarity ([#124])
+* `wn.util.synset_id_formatter` ([#119])
 
 ### Changed
 
@@ -77,6 +78,10 @@
 ## [v0.6.0]
 
 **Release date: 2021-03-04**
+
+**Notice:** This release introduces backwards-incompatible changes to
+the schema that require users upgrading from previous versions to
+rebuild their database.
 
 ### Added
 
@@ -363,6 +368,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.8.0]: ../../releases/tag/v0.8.0
 [v0.7.0]: ../../releases/tag/v0.7.0
 [v0.6.2]: ../../releases/tag/v0.6.2
 [v0.6.1]: ../../releases/tag/v0.6.1
@@ -423,6 +429,7 @@ abandoned, but this is an entirely new codebase.
 [#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
+[#119]: https://github.com/goodmami/wn/issues/119
 [#122]: https://github.com/goodmami/wn/issues/122
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124

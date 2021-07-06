@@ -19,13 +19,6 @@
 
 ---
 
-**Notice for users upgrading to v0.6:** Version v0.6.0 introduced
-changes to the database schema that require the user to rebuild their
-database. Please [raise an
-issue](https://github.com/goodmami/wn/issues/new) if you need help.
-
----
-
 Wn is a Python library for exploring information in wordnets. Install
 it from PyPI:
 
