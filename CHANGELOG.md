@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [v0.8.0]
+
+**Release date: 2021-07-07**
+
+### Added
+
+* `wn.ic` module ([#40]
+* `wn.taxonomy` module ([#125])
+* `wn.similarity.res` Resnik similarity ([#122])
+* `wn.similarity.jcn` Jiang-Conrath similarity ([#123])
+* `wn.similarity.lin` Lin similarity ([#124])
+* `wn.util.synset_id_formatter` ([#119])
+
+### Changed
+
+* Taxonomy methods on `wn.Synset` are moved to `wn.taxonomy`, but
+  shortcut methods remain for compatibility ([#125]).
+* Similarity metrics in `wn.similarity` now raise an error when
+  synsets come from different parts of speech.
+
+
 ## [v0.7.0]
 
 **Release date: 2021-06-09**
@@ -61,6 +82,10 @@
 ## [v0.6.0]
 
 **Release date: 2021-03-04**
+
+**Notice:** This release introduces backwards-incompatible changes to
+the schema that require users upgrading from previous versions to
+rebuild their database.
 
 ### Added
 
@@ -347,6 +372,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.8.0]: ../../releases/tag/v0.8.0
 [v0.7.0]: ../../releases/tag/v0.7.0
 [v0.6.2]: ../../releases/tag/v0.6.2
 [v0.6.1]: ../../releases/tag/v0.6.1
@@ -367,6 +393,7 @@ abandoned, but this is an entirely new codebase.
 [#17]: https://github.com/goodmami/wn/issues/17
 [#19]: https://github.com/goodmami/wn/issues/19
 [#23]: https://github.com/goodmami/wn/issues/23
+[#40]: https://github.com/goodmami/wn/issues/40
 [#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
 [#58]: https://github.com/goodmami/wn/issues/58
@@ -406,3 +433,8 @@ abandoned, but this is an entirely new codebase.
 [#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
+[#119]: https://github.com/goodmami/wn/issues/119
+[#122]: https://github.com/goodmami/wn/issues/122
+[#123]: https://github.com/goodmami/wn/issues/123
+[#124]: https://github.com/goodmami/wn/issues/124
+[#125]: https://github.com/goodmami/wn/issues/125

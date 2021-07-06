@@ -1,6 +1,37 @@
 """Wn utility classes."""
-from typing import TextIO
+from typing import TextIO, Callable
 import sys
+
+
+def synset_id_formatter(
+    fmt: str = '{prefix}-{offset:08}-{pos}',
+    **kwargs
+) -> Callable:
+    """Return a function for formatting synset ids.
+
+    The *fmt* argument can be customized. It will be formatted using
+    any other keyword arguments given to this function and any given
+    to the resulting function. By default, the format string expects a
+    ``prefix`` string argument for the namespace (such as a lexicon
+    id), an ``offset`` integer argument (such as a WNDB offset), and a
+    ``pos`` string argument.
+
+    Arguments:
+        fmt: A Python format string
+        **kwargs: Keyword arguments for the format string.
+
+    Example:
+
+        >>> pwn_synset_id = synset_id_formatter(prefix='pwn')
+        >>> pwn_synset_id(offset=1174, pos='n')
+        'pwn-00001174-n'
+
+    """
+
+    def format_synset_id(**_kwargs) -> str:
+        return fmt.format(**kwargs, **_kwargs)
+
+    return format_synset_id
 
 
 class ProgressHandler:

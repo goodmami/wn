@@ -168,6 +168,7 @@ The Sense Class
    .. automethod:: frames
    .. automethod:: counts
    .. automethod:: metadata
+   .. automethod:: relations
    .. automethod:: get_related
    .. automethod:: get_related_synsets
    .. automethod:: closure
@@ -218,16 +219,37 @@ The Synset Class
    .. automethod:: hyponyms
    .. automethod:: holonyms
    .. automethod:: meronyms
-   .. automethod:: hypernym_paths
-   .. automethod:: min_depth
-   .. automethod:: max_depth
-   .. automethod:: shortest_path
-   .. automethod:: common_hypernyms
-   .. automethod:: lowest_common_hypernyms
+   .. automethod:: relations
    .. automethod:: get_related
    .. automethod:: closure
    .. automethod:: relation_paths
    .. automethod:: translate
+
+   .. The taxonomy methods below have been moved to wn.taxonomy
+
+   .. method:: hypernym_paths(simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.hypernym_paths`.
+
+   .. method:: min_depth(simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.min_depth`.
+
+   .. method:: max_depth(simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.max_depth`.
+
+   .. method:: shortest_path(other, simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.shortest_path`.
+
+   .. method:: common_hypernyms(other, simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.common_hypernyms`.
+
+   .. method:: lowest_common_hypernyms(other, simulate_root=False)
+
+      Shortcut for :func:`wn.taxonomy.lowest_common_hypernyms`.
 
 
 The ILI Class

@@ -58,9 +58,11 @@ Contents
 
    api/wn.rst
    api/wn.constants.rst
+   api/wn.ic.rst
    api/wn.lmf.rst
    api/wn.morphy.rst
    api/wn.project.rst
    api/wn.similarity.rst
+   api/wn.taxonomy.rst
    api/wn.util.rst
    api/wn.web.rst

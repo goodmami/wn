@@ -19,7 +19,7 @@ from wn._types import (
     NormalizeFunction,
     LemmatizeFunction,
 )
-from wn._util import flatten, normalize_form
+from wn._util import normalize_form
 from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
@@ -50,8 +50,8 @@ from wn._queries import (
     get_sense_counts,
     get_lexfile,
 )
+from wn import taxonomy
 
-_FAKE_ROOT = '*ROOT*'
 _INFERRED_SYNSET = '*INFERRED*'
 
 
@@ -692,172 +692,41 @@ class Synset(_Relatable):
 
         return targets
 
-    def _hypernym_paths(
-            self, simulate_root: bool, include_self: bool
-    ) -> List[List['Synset']]:
-        paths = list(self.relation_paths('hypernym', 'instance_hypernym'))
-        if include_self:
-            paths = [[self] + path for path in paths] or [[self]]
-        if simulate_root and self.id != _FAKE_ROOT:
-            root = Synset.empty(
-                id=_FAKE_ROOT, _lexid=self._lexid, _wordnet=self._wordnet
-            )
-            paths = [path + [root] for path in paths] or [[root]]
-        return paths
-
     def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
-        """Return the list of hypernym paths to a root synset.
-
-        Example:
-
-            >>> for path in wn.synsets('dog', pos='n')[0].hypernym_paths():
-            ...     for i, ss in enumerate(path):
-            ...         print(' ' * i, ss, ss.lemmas()[0])
-            ...
-             Synset('pwn-02083346-n') canine
-              Synset('pwn-02075296-n') carnivore
-               Synset('pwn-01886756-n') eutherian mammal
-                Synset('pwn-01861778-n') mammalian
-                 Synset('pwn-01471682-n') craniate
-                  Synset('pwn-01466257-n') chordate
-                   Synset('pwn-00015388-n') animal
-                    Synset('pwn-00004475-n') organism
-                     Synset('pwn-00004258-n') animate thing
-                      Synset('pwn-00003553-n') unit
-                       Synset('pwn-00002684-n') object
-                        Synset('pwn-00001930-n') physical entity
-                         Synset('pwn-00001740-n') entity
-             Synset('pwn-01317541-n') domesticated animal
-              Synset('pwn-00015388-n') animal
-               Synset('pwn-00004475-n') organism
-                Synset('pwn-00004258-n') animate thing
-                 Synset('pwn-00003553-n') unit
-                  Synset('pwn-00002684-n') object
-                   Synset('pwn-00001930-n') physical entity
-                    Synset('pwn-00001740-n') entity
-
-        """
-        return self._hypernym_paths(simulate_root, False)
+        """Return the list of hypernym paths to a root synset."""
+        return taxonomy.hypernym_paths(self, simulate_root=simulate_root)
 
     def min_depth(self, simulate_root: bool = False) -> int:
-        """Return the minimum taxonomy depth of the synset.
-
-        Example:
-
-            >>> wn.synsets('dog', pos='n')[0].min_depth()
-            8
-
-        """
-        return min(
-            (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
-            default=0
-        )
+        """Return the minimum taxonomy depth of the synset."""
+        return taxonomy.min_depth(self, simulate_root=simulate_root)
 
     def max_depth(self, simulate_root: bool = False) -> int:
-        """Return the maximum taxonomy depth of the synset.
-
-        Example:
-
-            >>> wn.synsets('dog', pos='n')[0].max_depth()
-            13
-
-        """
-        return max(
-            (len(path) for path in self.hypernym_paths(simulate_root=simulate_root)),
-            default=0
-        )
-
-    def _shortest_hyp_paths(
-            self, other: 'Synset', simulate_root: bool
-    ) -> Dict[Tuple['Synset', int], List['Synset']]:
-        if self == other:
-            return {(self, 0): []}
-
-        from_self = self._hypernym_paths(simulate_root, True)
-        from_other = other._hypernym_paths(simulate_root, True)
-        common = set(flatten(from_self)).intersection(flatten(from_other))
-
-        if not common:
-            return {}
-
-        # Compute depths of common hypernyms from their distances.
-        # Doing this now avoid more expensive lookups later.
-        depths: Dict['Synset', int] = {}
-        # subpaths accumulates paths to common hypernyms from both sides
-        subpaths: Dict['Synset', Tuple[List[List['Synset']], List[List['Synset']]]]
-        subpaths = {ss: ([], []) for ss in common}
-        for which, paths in (0, from_self), (1, from_other):
-            for path in paths:
-                for dist, ss in enumerate(path):
-                    if ss in common:
-                        # self or other subpath to ss (not including ss)
-                        subpaths[ss][which].append(path[:dist + 1])
-                        # keep maximum depth
-                        depth = len(path) - dist - 1
-                        if ss not in depths or depths[ss] < depth:
-                            depths[ss] = depth
-
-        shortest: Dict[Tuple['Synset', int], List['Synset']] = {}
-        for ss in common:
-            from_self_subpaths, from_other_subpaths = subpaths[ss]
-            shortest_from_self = min(from_self_subpaths, key=len)
-            # for the other path, we need to reverse it and remove the pivot synset
-            shortest_from_other = min(from_other_subpaths, key=len)[-2::-1]
-            shortest[(ss, depths[ss])] = shortest_from_self + shortest_from_other
-
-        return shortest
+        """Return the maximum taxonomy depth of the synset."""
+        return taxonomy.max_depth(self, simulate_root=simulate_root)
 
     def shortest_path(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
-        """Return the shortest path from the synset to the *other* synset.
-
-        Arguments:
-            other: endpoint synset of the path
-            simulate_root: if :python:`True`, ensure any two synsets
-              are always connected by positing a fake root node
-
-        """
-        pathmap = self._shortest_hyp_paths(other, simulate_root)
-        key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
-        if key is None:
-            raise wn.Error(f'no path between {self!r} and {other!r}')
-        return pathmap[key][1:]
+        """Return the shortest path from the synset to the *other* synset."""
+        return taxonomy.shortest_path(
+            self, other, simulate_root=simulate_root
+        )
 
     def common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
-        """Return the common hypernyms for the current and *other* synsets.
-
-        Arguments:
-            other: synset that is a hyponym of any shared hypernyms
-            simulate_root: if :python:`True`, ensure any two synsets
-              always share a hypernym by positing a fake root node
-
-        """
-        from_self = self._hypernym_paths(simulate_root, True)
-        from_other = other._hypernym_paths(simulate_root, True)
-        common = set(flatten(from_self)).intersection(flatten(from_other))
-        return sorted(common)
+        """Return the common hypernyms for the current and *other* synsets."""
+        return taxonomy.common_hypernyms(
+            self, other, simulate_root=simulate_root
+        )
 
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
     ) -> List['Synset']:
-        """Return the common hypernyms furthest from the root.
-
-        Arguments:
-            other: synset that is a hyponym of any shared hypernyms
-            simulate_root: if :python:`True`, ensure any two synsets
-              always share a hypernym by positing a fake root node
-
-        """
-        pathmap = self._shortest_hyp_paths(other, simulate_root)
-        # keys of pathmap are (synset, depth_of_synset)
-        max_depth: int = max([depth for _, depth in pathmap], default=-1)
-        if max_depth == -1:
-            return []
-        else:
-            return [ss for ss, d in pathmap if d == max_depth]
+        """Return the common hypernyms furthest from the root."""
+        return taxonomy.lowest_common_hypernyms(
+            self, other, simulate_root=simulate_root
+        )
 
     def holonyms(self) -> List['Synset']:
         """Return the list of synsets related by any holonym relation.
@@ -932,7 +801,6 @@ class Synset(_Relatable):
             ['spider']
 
         """
-
         ili = self._ili
         if not ili:
             return []
