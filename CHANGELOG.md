@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [v0.8.0]
+
+**Release date: 2021-07-07**
+
 ### Added
 
 * `wn.ic` module ([#40]
