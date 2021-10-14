@@ -679,6 +679,7 @@ def _load_lexical_entries(
     syntactic_behaviours: List[SyntacticBehaviour] = []
     sbmap: Dict[str, List[str]] = {}
     while True:
+        local_syntactic_behaviours: List[SyntacticBehaviour] = []
         if events.starts('LexicalEntry'):
             attrs = events.start('LexicalEntry').attrib
             entry = LexicalEntry(
@@ -688,7 +689,7 @@ def _load_lexical_entries(
                 senses=_load_senses(events, sbmap, False, version),
                 meta=_get_metadata(attrs, version),
             )
-            syntactic_behaviours.extend(_load_syntactic_behaviours(events, version))
+            local_syntactic_behaviours = _load_syntactic_behaviours(events, version)
             events.end('LexicalEntry')
         elif extension and events.starts('ExternalLexicalEntry'):
             attrs = events.start('ExternalLexicalEntry').attrib
@@ -698,10 +699,17 @@ def _load_lexical_entries(
                 forms=_load_forms(events, True),
                 senses=_load_senses(events, sbmap, True, version)
             )
-            syntactic_behaviours.extend(_load_syntactic_behaviours(events, version))
+            local_syntactic_behaviours = _load_syntactic_behaviours(events, version)
             events.end('ExternalLexicalEntry')
         else:
             break
+
+        for sb in local_syntactic_behaviours:
+            if not sb.senses:
+                sb.senses = [s.id for s in entry.senses]
+            if sb.senses:
+                syntactic_behaviours.append(sb)
+
         entries.append(entry)
         lex_root.clear()
 

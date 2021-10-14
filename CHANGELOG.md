@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* WN-LMF 1.0 Syntactic Behaviours with no `senses` are now assigned to
+  all senses in the lexical entry. If a WN-LMF 1.1 lexicon extension
+  puts Syntactic Behaviour elements on lexical entries (which it
+  shouldn't) it will only be assigned to senses and external senses
+  listed.
+
 
 ## [v0.8.3]
 
