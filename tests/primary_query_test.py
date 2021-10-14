@@ -127,6 +127,8 @@ def test_senses_mini():
     senses = wn.senses('exemplifies')  # search secondary form
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'exemplify'
+    assert senses[0].word().lemma() in {'exemplify'}
+    assert 'exemplify' in {senses[0].word().lemma()}
 
     assert len(wn.senses(pos='n')) == 11
     assert len(wn.senses(pos='v')) == 5

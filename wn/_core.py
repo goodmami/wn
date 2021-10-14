@@ -298,10 +298,7 @@ class Form(str):
         return str.__eq__(self, other)
 
     def __hash__(self):
-        script = self.script
-        if script is None:
-            return str.__hash__(self)
-        return hash((str(self), self.script))
+        return str.__hash__(self)
 
     def pronunciations(self) -> List[Pronunciation]:
         return [Pronunciation(*data) for data in get_form_pronunciations(self._id)]

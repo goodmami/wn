@@ -9,6 +9,9 @@
   puts Syntactic Behaviour elements on lexical entries (which it
   shouldn't) it will only be assigned to senses and external senses
   listed.
+* `wn.Form` now always hashes like `str`, so things like
+  `set.__contains__` works as expected.
+
 
 
 ## [v0.8.3]
