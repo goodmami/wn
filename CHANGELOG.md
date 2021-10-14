@@ -12,6 +12,9 @@
 * `wn.Form` now always hashes like `str`, so things like
   `set.__contains__` works as expected.
 
+### Changed
+
+* `wn.lmf.load()` uses expat instead of ElementTree for parsing XML
 
 
 ## [v0.8.3]

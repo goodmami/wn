@@ -537,13 +537,14 @@ def _insert_counts(entries, lexid, lexidmap, cur, progress):
 
 def _insert_syntactic_behaviours(synbhrs, lexid, lexidmap, cur, progress):
     progress.set(status='Syntactic Behaviours')
+
+    query = 'INSERT INTO syntactic_behaviours VALUES (null,?,?,?)'
+    cur.executemany(query, [(sb.id or None, lexid, sb.frame) for sb in synbhrs])
+
     # syntactic behaviours don't have a required ID; index on frame
     framemap = {}
     for sb in synbhrs:
         framemap.setdefault(sb.frame, []).extend(sb.senses)
-
-    query = 'INSERT INTO syntactic_behaviours VALUES (null,?,?,?)'
-    cur.executemany(query, [(None, lexid, frame) for frame in framemap])
 
     query = f'''
         INSERT INTO syntactic_behaviour_senses
