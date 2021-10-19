@@ -12,6 +12,13 @@ else:
     import importlib_resources as resources  # noqa: F401
 
 
+from wn._types import VersionInfo
+
+
+def version_info(version_string: str) -> VersionInfo:
+    return tuple(map(int, version_string.split('.')))
+
+
 def is_url(string: str) -> bool:
     """Return True if *string* appears to be a URL."""
     # TODO: ETags?

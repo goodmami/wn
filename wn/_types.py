@@ -1,11 +1,14 @@
 
 from typing import (
-    Optional, Union, Callable, Mapping, Sequence, Dict, Set, Any,
+    Optional, Union, Callable, Mapping, Sequence, Tuple, Dict, Set, Any,
 )
 from pathlib import Path
 
 # For functions taking a filesystem path as a str or a pathlib.Path
 AnyPath = Union[str, Path]
+
+# LMF versions for comparison
+VersionInfo = Tuple[int, ...]
 
 # Synset and Sense relations map a relation type to one or more ids
 RelationMap = Mapping[str, Sequence[str]]

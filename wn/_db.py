@@ -9,9 +9,8 @@ import sqlite3
 import logging
 
 import wn
-from wn._types import Metadata, AnyPath
+from wn._types import AnyPath
 from wn._util import resources, short_hash
-from wn import lmf
 
 
 logger = logging.getLogger('wn')
@@ -42,12 +41,11 @@ COMPATIBLE_SCHEMA_HASHES = {
 
 # Optional metadata is stored as a JSON string
 
-def _adapt_metadata(meta: lmf.Metadata) -> bytes:
-    d = {key: val for key, val in zip(meta._fields, meta) if val is not None}
+def _adapt_dict(d: dict) -> bytes:
     return json.dumps(d).encode('utf-8')
 
 
-def _convert_metadata(s: bytes) -> Metadata:  # note: wn._types.Metadata
+def _convert_dict(s: bytes) -> dict:
     return json.loads(s)
 
 
@@ -55,8 +53,8 @@ def _convert_boolean(s: bytes) -> bool:
     return bool(int(s))
 
 
-sqlite3.register_adapter(lmf.Metadata, _adapt_metadata)
-sqlite3.register_converter('meta', _convert_metadata)
+sqlite3.register_adapter(dict, _adapt_dict)
+sqlite3.register_converter('meta', _convert_dict)
 sqlite3.register_converter('boolean', _convert_boolean)
 
 

@@ -12,9 +12,24 @@
 * `wn.Form` now always hashes like `str`, so things like
   `set.__contains__` works as expected.
 
+### Removed
+
+* `wn.lmf.dump()` no longer has the `version` parameter
+
 ### Changed
 
-* `wn.lmf.load()` uses expat instead of ElementTree for parsing XML
+* `wn.lmf.load()`
+  - returns a dictionary for the resource instead of a
+    list of lexicons, now including the WN-LMF version, as below:
+    ```python
+    {
+        'lmf_version': '...',
+        'lexicons': [...]
+    }
+    ```
+  - returned lexicons are modeled with Python lists and dicts instead
+    of custom classes ([#80])
+
 
 
 ## [v0.8.3]
@@ -462,6 +477,7 @@ abandoned, but this is an entirely new codebase.
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
+[#80]: https://github.com/goodmami/wn/issues/80
 [#81]: https://github.com/goodmami/wn/issues/81
 [#82]: https://github.com/goodmami/wn/issues/82
 [#83]: https://github.com/goodmami/wn/issues/83

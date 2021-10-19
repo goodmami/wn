@@ -13,57 +13,62 @@ def test_is_lmf(datadir):
 
 
 def test_load_1_0(mini_lmf_1_0):
-    lexicons = lmf.load(mini_lmf_1_0)
+    resource = lmf.load(mini_lmf_1_0)
+    lexicons = resource['lexicons']
     assert len(lexicons) == 2
     lexicon = lexicons[0]
 
-    assert lexicon.id == 'test-en'
-    assert lexicon.label == 'Testing English WordNet'
-    assert lexicon.language == 'en'
-    assert lexicon.email == 'maintainer@example.com'
-    assert lexicon.license == 'https://creativecommons.org/licenses/by/4.0/'
-    assert lexicon.version == '1'
-    assert lexicon.url == 'https://example.com/test-en'
+    assert lexicon['id'] == 'test-en'
+    assert lexicon['label'] == 'Testing English WordNet'
+    assert lexicon['language'] == 'en'
+    assert lexicon['email'] == 'maintainer@example.com'
+    assert lexicon['license'] == 'https://creativecommons.org/licenses/by/4.0/'
+    assert lexicon['version'] == '1'
+    assert lexicon['url'] == 'https://example.com/test-en'
 
-    assert len(lexicon.lexical_entries) == 9
-    le = lexicon.lexical_entries[0]
-    assert le.id == 'test-en-information-n'
+    assert len(lexicon['entries']) == 9
+    le = lexicon['entries'][0]
+    assert le['id'] == 'test-en-information-n'
 
-    assert le.lemma.form == 'information'
-    assert le.lemma.pos == 'n'
-    assert le.lemma.script == 'Latn'
-    assert len(le.lemma.tags) == 1
+    assert le['lemma']['writtenForm'] == 'information'
+    assert le['lemma']['partOfSpeech'] == 'n'
+    assert le['lemma']['script'] == 'Latn'
+    assert len(le['lemma']['tags']) == 1
 
-    assert len(le.forms) == 0
+    assert len(le.get('forms', [])) == 0
 
-    assert len(le.senses) == 1
-    assert le.senses[0].id == 'test-en-information-n-0001-01'
-    assert le.senses[0].synset == 'test-en-0001-n'
-    assert len(le.senses[0].relations) == 0
-    # assert le.senses[0].relations[0].target == 'test-en-exemplify-v-01023137-01'
-    # assert le.senses[0].relations[0].type == 'derivation'
+    assert len(le['senses']) == 1
+    sense = le['senses'][0]
+    assert sense['id'] == 'test-en-information-n-0001-01'
+    assert sense['synset'] == 'test-en-0001-n'
+    assert len(sense.get('relations', [])) == 0
+    # assert sense['relations'][0]['target'] == 'test-en-exemplify-v-01023137-01'
+    # assert sense['relations'][0]['type'] == 'derivation'
 
-    assert len(lexicon.syntactic_behaviours) == 2
-    assert lexicon.syntactic_behaviours[0].frame == 'Somebody ----s something'
-    assert lexicon.syntactic_behaviours[0].senses == ['test-en-illustrate-v-0004-01']
+    assert len(lexicon.get('frames', [])) == 0  # frames are on lexical entry
+    assert len(lexicon['entries'][6]['frames']) == 2
+    frames = lexicon['entries'][6]['frames']
+    assert frames[0]['subcategorizationFrame'] == 'Somebody ----s something'
+    assert frames[0]['senses'] == ['test-en-illustrate-v-0004-01']
 
-    assert len(lexicon.synsets) == 8
+    assert len(lexicon['synsets']) == 8
 
-    assert lexicons[1].id == 'test-es'
+    assert lexicons[1]['id'] == 'test-es'
 
 
 def test_load_1_1(mini_lmf_1_1):
-    lexicons = lmf.load(mini_lmf_1_1)
+    resource = lmf.load(mini_lmf_1_1)
+    lexicons = resource['lexicons']
     assert len(lexicons) == 2
     lexicon = lexicons[0]
-    assert lexicon.id == 'test-ja'
-    assert lexicon.version == '1'
+    assert lexicon['id'] == 'test-ja'
+    assert lexicon['version'] == '1'
     # assert lexicon.logo == 'logo.svg'
-    assert lexicon.requires == [{'id': 'test-en', 'version': '1', 'url': None}]
+    assert lexicon.get('requires') == [{'id': 'test-en', 'version': '1'}]
 
     lexicon = lexicons[1]
-    assert lexicon.id == 'test-en-ext'
-    assert lexicon.extends == {'id': 'test-en', 'version': '1', 'url': None}
+    assert lexicon['id'] == 'test-en-ext'
+    assert lexicon.get('extends') == {'id': 'test-en', 'version': '1'}
 
 
 def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
@@ -80,8 +85,8 @@ def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
             temp = temp.replace('<', '\n<')
             assert orig == temp
 
-    lmf.dump(lmf.load(mini_lmf_1_0), tmppath, version='1.0')
+    lmf.dump(lmf.load(mini_lmf_1_0), tmppath)
     assert_xml_equal(mini_lmf_1_0, tmppath)
 
-    lmf.dump(lmf.load(mini_lmf_1_1), tmppath, version='1.1')
+    lmf.dump(lmf.load(mini_lmf_1_1), tmppath)
     assert_xml_equal(mini_lmf_1_1, tmppath)
