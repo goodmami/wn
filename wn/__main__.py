@@ -1,8 +1,13 @@
+
+import sys
 import argparse
 from pathlib import Path
 import logging
 
 import wn
+from wn.project import iterpackages
+from wn import lmf
+from wn.validate import validate
 
 
 def _download(args):
@@ -31,6 +36,26 @@ def _projects(args):
                 info['label'] or '---',
             ))
         )
+
+
+def _validate(args):
+    all_valid = True
+    for package in iterpackages(args.FILE):
+        resource = lmf.load(package.resource_file())
+        for lexicon in resource['lexicons']:
+            spec = f'{lexicon["id"]}:{lexicon["version"]}'
+            print(f'{spec:<20}', end='')
+            errors = validate(lexicon)
+            valid = not any(ids for ids in errors.values())
+            print('valid' if valid else 'invalid')
+            for message, report in errors.items():
+                if report:
+                    print(f'  {message}')
+                    for id, context in report.items():
+                        print(f'    {id}: {context}' if context else f'    {id}')
+            all_valid &= valid
+
+    sys.exit(0 if all_valid else 1)
 
 
 def _path_type(arg):
@@ -105,6 +130,19 @@ parser_projects = sub_parsers.add_parser(
     help='list known projects',
 )
 parser_projects.set_defaults(func=_projects)
+
+
+parser_validate = sub_parsers.add_parser(
+    'validate',
+    description=(
+        "Validate a WN-LMF lexicon"
+    ),
+    help='validate a lexicon',
+)
+parser_validate.add_argument(
+    'FILE', type=_file_path_type, help='WN-LMF (XML) lexicon file to validate'
+)
+parser_validate.set_defaults(func=_validate)
 
 
 args = parser.parse_args()

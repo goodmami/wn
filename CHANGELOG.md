@@ -5,6 +5,8 @@
 ### Added
 
 * `wn.constants.REVERSE_RELATIONS`
+* `wn.validate` ([#143])
+* `validate` subcommand ([#143])
 
 ### Fixed
 
@@ -506,4 +508,5 @@ abandoned, but this is an entirely new codebase.
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
+[#143]: https://github.com/goodmami/wn/issues/143
 [#148]: https://github.com/goodmami/wn/issues/148
