@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* `wn.constants.REVERSE_RELATIONS`
+
 ### Fixed
 
 * WN-LMF 1.0 Syntactic Behaviours with no `senses` are now assigned to
