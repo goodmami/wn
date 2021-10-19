@@ -20,7 +20,7 @@ if sys.version_info >= (3, 8):
     from typing import TypedDict, Literal
 else:
     from typing_extensions import TypedDict, Literal
-
+import re
 from pathlib import Path
 import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
@@ -30,18 +30,6 @@ import wn
 from wn._types import AnyPath, VersionInfo
 from wn._util import is_xml, version_info
 from wn.util import ProgressHandler, ProgressBar
-
-
-LEXICON_INFO_ATTRIBUTES = {
-    'LexicalEntry', 'ExternalLexicalEntry',
-    'Lemma', 'Form', 'Pronunciation', 'Tag',
-    'Sense', 'ExternalSense',
-    'SenseRelation', 'Example', 'Count',
-    'SyntacticBehaviour',
-    'Synset', 'ExternalSynset',
-    'Definition',  # 'ILIDefinition',
-    'SynsetRelation'
-}
 
 
 class LMFError(wn.Error):
@@ -392,31 +380,24 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     """Scan *source* and return only the top-level lexicon info."""
 
     source = Path(source).expanduser()
+    infos: List[Dict] = []
 
-    # this is implemented with expat as it's much faster than etree for
-    # this task
-    infos = []
+    lex_re = re.compile(b'<(Lexicon|LexiconExtension|Extends)\\b([^>]*)>', flags=re.M)
+    attr_re = re.compile(b'''\\b(id|version|label)=["']([^"']+)["']''', flags=re.M)
 
-    def start(name, attrs):
-        if name in ('Lexicon', 'LexiconExtension'):
-            attrs['counts'] = {}
-            infos.append(attrs)
-        elif name == 'Extends':
-            infos[-1]['extends'] = attrs['id'], attrs['version']
-        elif infos:
-            counts = infos[-1]['counts']
-            if name in counts:
-                counts[name] += 1
-            else:
-                counts[name] = 1
-
-    p = xml.parsers.expat.ParserCreate()
-    p.StartElementHandler = start
     with open(source, 'rb') as fh:
-        try:
-            p.ParseFile(fh)
-        except xml.parsers.expat.ExpatError as exc:
-            raise LMFError('invalid or ill-formed WN-LMF file') from exc
+        for m in lex_re.finditer(fh.read()):
+            lextype, remainder = m.groups()
+            info = {_m.group(1).decode('utf-8'): _m.group(2).decode('utf-8')
+                    for _m in attr_re.finditer(remainder)}
+            if 'id' not in info or 'version' not in info:
+                raise LMFError(f'<{lextype.decode("utf-8")}> missing id or version')
+            if lextype != b'Extends':
+                infos.append(info)
+            elif len(infos) > 0:
+                infos[-1]['extends'] = info
+            else:
+                raise LMFError('invalid use of <Extends> in WN-LMF file')
 
     return infos
 

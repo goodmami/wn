@@ -35,6 +35,8 @@
     ```
   - returned lexicons are modeled with Python lists and dicts instead
     of custom classes ([#80])
+* `wn.lmf.scan_lexicons()` only returns info about present lexicons,
+  not element counts ([#113])
 
 
 
@@ -500,6 +502,7 @@ abandoned, but this is an entirely new codebase.
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#113]: https://github.com/goodmami/wn/issues/113
 [#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117

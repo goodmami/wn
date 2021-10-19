@@ -133,7 +133,7 @@ def _add_lmf(
 
         # abort if any lexicon in *source* is already added
         progress.flash(f'Checking {source!s}')
-        all_infos = list(_precheck(source, cur))
+        all_infos = _precheck(source, cur)
 
         if not all_infos:
             progress.flash(f'{source}: No lexicons found')
@@ -157,7 +157,7 @@ def _add_lmf(
             progress.flash('Updating lookup tables')
             _update_lookup_tables(lexicon, cur)
 
-            progress.set(count=0, total=_sum_counts(info))
+            progress.set(count=0, total=_sum_counts(lexicon))
             synsets: Sequence[_AnySynset] = _synsets(lexicon)
             entries: Sequence[_AnyEntry] = _entries(lexicon)
             synbhrs: Sequence[lmf.SyntacticBehaviour] = _collect_frames(lexicon)
@@ -190,22 +190,49 @@ def _add_lmf(
             )
 
 
-def _precheck(source: Path, cur: sqlite3.Cursor):
-    lexqry = 'SELECT * FROM lexicons WHERE id = ? AND version = ?'
-    for info in lmf.scan_lexicons(source):
-        id = info['id']
-        version = info['version']
+def _precheck(source: Path, cur: sqlite3.Cursor) -> List[Dict]:
+    lexqry = 'SELECT * FROM lexicons WHERE id = :id AND version = :version'
+    infos = lmf.scan_lexicons(source)
+    for info in infos:
         base = info.get('extends')
-        if cur.execute(lexqry, (id, version)).fetchone():
+        if cur.execute(lexqry, info).fetchone():
             info['skip'] = 'already added'
         if base and cur.execute(lexqry, base).fetchone() is None:
-            info['skip'] = f'base lexicon ({base[0]}:{base[1]}) not available'
-        yield info
+            id_, ver = base['id'], base['version']
+            info['skip'] = f'base lexicon ({id_}:{ver}) not available'
+    return infos
 
 
-def _sum_counts(info: dict) -> int:
-    counts = info['counts']
-    return sum(counts.get(name, 0) for name in lmf.LEXICON_INFO_ATTRIBUTES)
+def _sum_counts(lex: _AnyLexicon) -> int:
+    ents = _entries(lex)
+    locs = _local_entries(ents)
+    lems = [e['lemma'] for e in locs if e.get('lemma')]
+    frms = [f for e in ents for f in _forms(e)]
+    sens = [s for e in ents for s in _senses(e)]
+    syns = _synsets(lex)
+    return sum([
+        # lexical entries
+        len(ents),
+        len(lems),
+        sum(len(lem.get('pronunciations', [])) for lem in lems),
+        sum(len(lem.get('tags', [])) for lem in lems),
+        len(frms),
+        sum(len(frm.get('pronunciations', [])) for frm in frms),
+        sum(len(frm.get('tags', [])) for frm in frms),
+        # senses
+        len(sens),
+        sum(len(sen.get('relations', [])) for sen in sens),
+        sum(len(sen.get('examples', [])) for sen in sens),
+        sum(len(sen.get('counts', [])) for sen in sens),
+        # synsets
+        len(syns),
+        sum(len(syn.get('definitions', [])) for syn in syns),
+        sum(len(syn.get('relations', [])) for syn in syns),
+        sum(len(syn.get('examples', [])) for syn in syns),
+        # syntactic behaviours
+        sum(len(ent.get('frames', [])) for ent in locs),
+        len(lex.get('frames', [])),
+    ])
 
 
 def _update_lookup_tables(
