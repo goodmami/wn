@@ -44,6 +44,7 @@ The Wordnet Class
    .. automethod:: ilis
    .. automethod:: lexicons
    .. automethod:: expanded_lexicons
+   .. automethod:: describe
 
 
 The Word Class
@@ -298,6 +299,7 @@ The Lexicon Class
    .. automethod:: requires
    .. automethod:: extends
    .. automethod:: extensions
+   .. automethod:: describe
 
 
 The wn.config Object

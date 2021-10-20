@@ -5,8 +5,10 @@
 ### Added
 
 * `wn.constants.REVERSE_RELATIONS`
-* `wn.validate` ([#143])
+* `wn.validate` module ([#143])
 * `validate` subcommand ([#143])
+* `wn.Lexicon.describe()` ([#144])
+* `wn.Wordnet.describe()` ([#144])
 
 ### Fixed
 
@@ -512,4 +514,5 @@ abandoned, but this is an entirely new codebase.
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
 [#143]: https://github.com/goodmami/wn/issues/143
+[#144]: https://github.com/goodmami/wn/issues/144
 [#148]: https://github.com/goodmami/wn/issues/148
