@@ -212,6 +212,8 @@ class Lexicon(_DatabaseEntity):
         The *full* argument (default: :python:`True`) may be set to
         :python:`False` to omit word and sense counts.
 
+        Also see: :meth:`Wordnet.describe`
+
         """
         _id = self._id
         substrings: List[str] = [
@@ -1212,7 +1214,23 @@ class Wordnet:
         return [ILI(*ili_data) for ili_data in iterable]
 
     def describe(self) -> str:
-        """Return a formatted string describing the lexicons in this wordnet."""
+        """Return a formatted string describing the lexicons in this wordnet.
+
+        Example:
+
+            >>> oewn = wn.Wordnet('oewn:2021')
+            >>> print(oewn.describe())
+            Primary lexicons:
+              oewn:2021
+                Label  : Open English WordNet
+                URL    : https://github.com/globalwordnet/english-wordnet
+                License: https://creativecommons.org/licenses/by/4.0/
+                Words  : 163161 (a: 8386, n: 123456, r: 4481, s: 15231, v: 11607)
+                Senses : 211865
+                Synsets: 120039 (a: 7494, n: 84349, r: 3623, s: 10727, v: 13846)
+                ILIs   : 120039
+
+        """
         substrings = ['Primary lexicons:']
         for lex in self.lexicons():
             substrings.append(textwrap.indent(lex.describe(), '  '))
