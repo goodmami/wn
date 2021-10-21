@@ -91,6 +91,7 @@ def _download(url: str, path: Path, progress: ProgressHandler) -> None:
         with open(path, 'wb') as f:
             progress.set(status='Requesting')
             with requests.get(url, stream=True, timeout=TIMEOUT) as response:
+                response.raise_for_status()
                 size = int(response.headers.get('Content-Length', 0))
                 progress.set(total=size, status='Receiving')
                 for chunk in response.iter_content(chunk_size=CHUNK_SIZE):

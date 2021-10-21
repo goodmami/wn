@@ -19,6 +19,7 @@
   listed.
 * `wn.Form` now always hashes like `str`, so things like
   `set.__contains__` works as expected.
+* `wn.download()` raises an exception on bad responses ([#147]])
 
 ### Removed
 
@@ -515,4 +516,5 @@ abandoned, but this is an entirely new codebase.
 [#125]: https://github.com/goodmami/wn/issues/125
 [#143]: https://github.com/goodmami/wn/issues/143
 [#144]: https://github.com/goodmami/wn/issues/144
+[#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
