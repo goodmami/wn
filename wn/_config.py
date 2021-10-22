@@ -3,12 +3,12 @@
 Local configuration settings.
 """
 
-from typing import Dict
+from typing import Union, Dict
 from pathlib import Path
 
 import tomli
 
-from wn import Error, ConfigurationError
+from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
 from wn._util import is_url, resources, short_hash
@@ -127,15 +127,26 @@ class WNConfig:
 
         """
         id, _, version = arg.partition(':')
+        if id not in self._projects:
+            raise ProjectError(f'no such project id: {id}')
         project: Dict = self._projects[id]
         versions: Dict = project['versions']
         if not version or version == '*':
-            version = next(iter(versions))
-        if version not in versions:
-            raise Error(f'no such version: {version!r} ({project})')
-
-        url = versions[version]['resource_url']
-        cache_path = self.get_cache_path(url)
+            version = next(iter(versions), '')
+        if not version:
+            raise ProjectError(f'no versions available for {id}')
+        elif version not in versions:
+            raise ProjectError(f'no such version: {version!r} ({id})')
+        info = versions[version]
+        url = info.get('resource_url')
+        cache_path: Union[Path, None]
+        try:
+            cache_path = self.get_cache_path(url or '')
+        except ProjectError:
+            cache_path = None
+        else:
+            if not cache_path.is_file():
+                cache_path = None
 
         return dict(
             id=id,
@@ -143,9 +154,9 @@ class WNConfig:
             type=project['type'],
             label=project['label'],
             language=project['language'],
-            license=versions[version].get('license', project.get('license')),
+            license=info.get('license', project.get('license')),
             resource_url=url,
-            cache=cache_path if cache_path.exists() else None
+            cache=cache_path,
         )
 
     def get_cache_path(self, arg: str) -> Path:
@@ -158,7 +169,10 @@ class WNConfig:
 
         """
         if not is_url(arg):
-            arg = self.get_project_info(arg)['resource_url']
+            try:
+                arg = self.get_project_info(arg)['resource_url']
+            except (ProjectError, KeyError) as exc:
+                raise ProjectError('unable to get cache path') from exc
         filename = short_hash(arg)
         return self.downloads_directory / filename
 

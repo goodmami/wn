@@ -32,6 +32,7 @@ __all__ = (
     'Error',
     'DatabaseError',
     'ConfigurationError',
+    'ProjectError',
     'WnWarning',
 )
 

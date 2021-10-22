@@ -10,6 +10,7 @@
 * `wn.Lexicon.describe()` ([#144])
 * `wn.Wordnet.describe()` ([#144])
 * `wn.ConfigurationError`
+* `wn.ProjectError`
 
 ### Fixed
 
@@ -43,6 +44,10 @@
   not element counts ([#113])
 * Improper configurations (e.g., invalid data directory, malformed
   index) now raise a `wn.ConfigurationError`
+* Attempting to get an unknown project or version now raises
+  `wn.ProjectError` instead of `wn.Error` or `KeyError`
+* `wn.config.get_cache_path()` now raises `wn.ProjectError` if the
+  argument is not a valid URL or project specifier
 
 
 
