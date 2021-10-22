@@ -183,21 +183,14 @@ class WNConfig:
             cache=cache_path,
         )
 
-    def get_cache_path(self, arg: str) -> Path:
-        """Return the path for caching *arg*.
+    def get_cache_path(self, url: str) -> Path:
+        """Return the path for caching *url*.
 
-        The *arg* argument may be either a URL or a project specifier
-        that gets passed to :meth:`get_project_info`. Note that this
-        is just a path operation and does not signify that the file
-        exists in the file system.
+        Note that in general this is just a path operation and does
+        not signify that the file exists in the file system.
 
         """
-        if not is_url(arg):
-            try:
-                arg = self.get_project_info(arg)['resource_url']
-            except (ProjectError, KeyError) as exc:
-                raise ProjectError('unable to get cache path') from exc
-        filename = short_hash(arg)
+        filename = short_hash(url)
         return self.downloads_directory / filename
 
     def update(self, data: dict) -> None:
