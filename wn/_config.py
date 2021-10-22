@@ -65,14 +65,18 @@ class WNConfig:
         label: str = None,
         language: str = None,
         license: str = None,
+        error: str = None,
     ) -> None:
         """Add a new wordnet project to the index.
 
         Arguments:
             id: short identifier of the project
+            type: project type (default 'wordnet')
             label: full name of the project
             language: `BCP 47`_ language code of the resource
             license: link or name of the project's default license
+            error: if set, the error message to use when the project
+              is accessed
 
         .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
         """
@@ -83,17 +87,22 @@ class WNConfig:
             'label': label,
             'language': language,
             'versions': {},
-            'license': license
+            'license': license,
         }
+        if error:
+            self._projects[id]['error'] = error
 
     def add_project_version(
-            self,
-            id: str,
-            version: str,
-            url: str,
-            license: str = None,
+        self,
+        id: str,
+        version: str,
+        url: str = None,
+        error: str = None,
+        license: str = None,
     ) -> None:
         """Add a new resource version for a project.
+
+        Exactly one of *url* or *error* must be specified.
 
         Arguments:
             id: short identifier of the project
@@ -101,16 +110,25 @@ class WNConfig:
             url: web address of the resource
             license: link or name of the resource's license; if not
               given, the project's default license will be used.
+            error: if set, the error message to use when the project
+              is accessed
 
         """
-        version_data = {'resource_url': url}
+        if url and not error:
+            version_data = {'resource_url': url}
+        elif error and not url:
+            version_data = {'error': error}
+        elif url and error:
+            raise ConfigurationError(f'{id}:{version} specifies both url and redirect')
+        else:
+            version_data = {}
         if license:
             version_data['license'] = license
         project = self._projects[id]
         project['versions'][version] = version_data
 
     def get_project_info(self, arg: str) -> Dict:
-        """Return a dictionary of information about an indexed project.
+        """Return information about an indexed project version.
 
         If the project has been downloaded and cached, the ``"cache"``
         key will point to the path of the cached file, otherwise its
@@ -130,6 +148,9 @@ class WNConfig:
         if id not in self._projects:
             raise ProjectError(f'no such project id: {id}')
         project: Dict = self._projects[id]
+        if 'error' in project:
+            raise ProjectError(project['error'])
+
         versions: Dict = project['versions']
         if not version or version == '*':
             version = next(iter(versions), '')
@@ -138,6 +159,9 @@ class WNConfig:
         elif version not in versions:
             raise ProjectError(f'no such version: {version!r} ({id})')
         info = versions[version]
+        if 'error' in info:
+            raise ProjectError(info['error'])
+
         url = info.get('resource_url')
         cache_path: Union[Path, None]
         try:
@@ -202,13 +226,19 @@ class WNConfig:
                     label=project.get('label'),
                     language=project.get('language'),
                     license=project.get('license'),
+                    error=project.get('error'),
                 )
             for version, info in project.get('versions', {}).items():
+                if 'url' in info and 'error' in project:
+                    raise ConfigurationError(
+                        f'{id}:{version} url specified with default error'
+                    )
                 self.add_project_version(
                     id,
                     version,
-                    info['url'],
+                    url=info.get('url'),
                     license=info.get('license'),
+                    error=info.get('error'),
                 )
 
     def load_index(self, path: AnyPath) -> None:

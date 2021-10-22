@@ -48,6 +48,11 @@
   `wn.ProjectError` instead of `wn.Error` or `KeyError`
 * `wn.config.get_cache_path()` now raises `wn.ProjectError` if the
   argument is not a valid URL or project specifier
+* Projects and versions in the index now take an `error` key. Calling
+  `wn.config.get_project_info()` on such an entry will raise
+  `wn.ProjectError`. Such entries may not also specify a url. The
+  entry can still be viewed without triggering the error via
+  `wn.config.index`. ([#146])
 
 
 
@@ -524,5 +529,6 @@ abandoned, but this is an entirely new codebase.
 [#125]: https://github.com/goodmami/wn/issues/125
 [#143]: https://github.com/goodmami/wn/issues/143
 [#144]: https://github.com/goodmami/wn/issues/144
+[#146]: https://github.com/goodmami/wn/issues/146
 [#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
