@@ -8,7 +8,7 @@ from pathlib import Path
 
 import tomli
 
-from wn import Error
+from wn import Error, ConfigurationError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
 from wn._util import is_url, resources, short_hash
@@ -37,7 +37,7 @@ class WNConfig:
     def data_directory(self, path):
         dir = Path(path).expanduser()
         if dir.exists() and not dir.is_dir():
-            raise Error(f'path exists and is not a directory: {dir}')
+            raise ConfigurationError(f'path exists and is not a directory: {dir}')
         self._data_directory = dir
         self._dbpath = dir / DATABASE_FILENAME
 
@@ -180,7 +180,7 @@ class WNConfig:
                 _project = self._projects[id]
                 for attr in ('label', 'language', 'license'):
                     if attr in project and project[attr] != _project[attr]:
-                        raise Error(f'{attr} mismatch for {id}')
+                        raise ConfigurationError(f'{attr} mismatch for {id}')
             else:
                 self.add_project(
                     id,
@@ -219,7 +219,10 @@ class WNConfig:
         """
         path = Path(path).expanduser()
         with path.open('rb') as indexfile:
-            index = tomli.load(indexfile)
+            try:
+                index = tomli.load(indexfile)
+            except tomli.TOMLDecodeError as exc:
+                raise ConfigurationError('malformed index file') from exc
         self.update({'index': index})
 
 

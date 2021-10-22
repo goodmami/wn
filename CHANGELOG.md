@@ -9,6 +9,7 @@
 * `validate` subcommand ([#143])
 * `wn.Lexicon.describe()` ([#144])
 * `wn.Wordnet.describe()` ([#144])
+* `wn.ConfigurationError`
 
 ### Fixed
 
@@ -40,6 +41,8 @@
     of custom classes ([#80])
 * `wn.lmf.scan_lexicons()` only returns info about present lexicons,
   not element counts ([#113])
+* Improper configurations (e.g., invalid data directory, malformed
+  index) now raise a `wn.ConfigurationError`
 
 
 
