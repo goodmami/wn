@@ -3,7 +3,7 @@
 Local configuration settings.
 """
 
-from typing import Union, Dict
+from typing import Optional, Dict, Sequence, Any
 from pathlib import Path
 
 import tomli
@@ -11,7 +11,7 @@ import tomli
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
-from wn._util import is_url, resources, short_hash
+from wn._util import resources, short_hash
 
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
@@ -107,15 +107,16 @@ class WNConfig:
         Arguments:
             id: short identifier of the project
             version: version string of the resource
-            url: web address of the resource
+            url: space-separated list of web addresses for the resource
             license: link or name of the resource's license; if not
               given, the project's default license will be used.
             error: if set, the error message to use when the project
               is accessed
 
         """
+        version_data: Dict[str, Any]
         if url and not error:
-            version_data = {'resource_url': url}
+            version_data = {'resource_urls': url.split()}
         elif error and not url:
             version_data = {'error': error}
         elif url and error:
@@ -162,15 +163,7 @@ class WNConfig:
         if 'error' in info:
             raise ProjectError(info['error'])
 
-        url = info.get('resource_url')
-        cache_path: Union[Path, None]
-        try:
-            cache_path = self.get_cache_path(url or '')
-        except ProjectError:
-            cache_path = None
-        else:
-            if not cache_path.is_file():
-                cache_path = None
+        urls = info.get('resource_urls', [])
 
         return dict(
             id=id,
@@ -179,8 +172,8 @@ class WNConfig:
             label=project['label'],
             language=project['language'],
             license=info.get('license', project.get('license')),
-            resource_url=url,
-            cache=cache_path,
+            resource_urls=urls,
+            cache=_get_cache_path_for_urls(self, urls),
         )
 
     def get_cache_path(self, url: str) -> Path:
@@ -261,6 +254,17 @@ class WNConfig:
             except tomli.TOMLDecodeError as exc:
                 raise ConfigurationError('malformed index file') from exc
         self.update({'index': index})
+
+
+def _get_cache_path_for_urls(
+    config: WNConfig,
+    urls: Sequence[str],
+) -> Optional[Path]:
+    for url in urls:
+        path = config.get_cache_path(url)
+        if path.is_file():
+            return path
+    return None
 
 
 config = WNConfig()

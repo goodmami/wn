@@ -51,6 +51,12 @@
   `wn.ProjectError`. Such entries may not also specify a url. The
   entry can still be viewed without triggering the error via
   `wn.config.index`. ([#146])
+* Project versions in the index may specify multiple, space-separated
+  URLs on the url key. If one fails, the next will be attempted when
+  downloading. ([#142])
+* `wn.config.get_project_info()` now returns a `resource_urls` key
+  mapped to a list of URLs instead of `resource_url` mapped to a
+  single URL. ([#142])
 * `wn.config.get_cache_path()` now only accepts URL arguments
 
 
@@ -526,6 +532,7 @@ abandoned, but this is an entirely new codebase.
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
+[#142]: https://github.com/goodmami/wn/issues/142
 [#143]: https://github.com/goodmami/wn/issues/143
 [#144]: https://github.com/goodmami/wn/issues/144
 [#146]: https://github.com/goodmami/wn/issues/146
