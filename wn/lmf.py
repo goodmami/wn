@@ -560,11 +560,11 @@ def _validate_forms(elems: List[_Elem], extension: bool) -> None:
         if not elem.get('external'):
             assert 'writtenForm' in elem
         for pron in elem.get('pronunciations', []):
-            assert 'text' in pron
+            pron.setdefault('text', '')
             if pron.get('phonemic'):
                 pron['phonemic'] = False if pron['phonemic'] == 'false' else True
         for tag in elem.get('tags', []):
-            assert 'text' in tag
+            tag.setdefault('text', '')
             assert 'category' in tag
 
 
@@ -581,7 +581,7 @@ def _validate_senses(elems: List[_Elem], extension: bool) -> None:
             assert 'relType' in rel
             rel.setdefault('meta')
         for ex in elem.get('examples', []):
-            assert 'text' in ex
+            ex.setdefault('text', '')
             ex.setdefault('meta')
         for cnt in elem.get('counts', []):
             assert 'text' in cnt
@@ -609,14 +609,14 @@ def _validate_synsets(elems: List[_Elem], extension: bool) -> None:
             assert 'ili' in elem
             elem.setdefault('meta')
         for defn in elem.get('definitions', []):
-            assert 'text' in defn
+            defn.setdefault('text', '')
             defn.setdefault('meta')
         for rel in elem.get('relations', []):
             assert 'target' in rel
             assert 'relType' in rel
             rel.setdefault('meta')
         for ex in elem.get('examples', []):
-            assert 'text' in ex
+            ex.setdefault('text', '')
             ex.setdefault('meta')
         if elem.get('lexicalized'):
             elem['lexicalized'] = False if elem['lexicalized'] == 'false' else True
