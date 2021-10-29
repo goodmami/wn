@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.8.1]
+
+**Release date: 2021-10-29**
+
 ### Fixed
 
 * `wn.lmf` uses `https://` for the `dc` namespace instead of
