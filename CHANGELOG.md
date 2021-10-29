@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.lmf` uses `https://` for the `dc` namespace instead of
+  `http://`, following the DTD
+
+
 ## [v0.8.0]
 
 **Release date: 2021-07-07**

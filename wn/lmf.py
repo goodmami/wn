@@ -67,7 +67,7 @@ _DOCTYPES = {
 
 _DC_URIS = {
     '1.0': 'http://purl.org/dc/elements/1.1/',
-    '1.1': 'http://globalwordnet.github.io/schemas/dc/',
+    '1.1': 'https://globalwordnet.github.io/schemas/dc/',
 }
 _DC_ATTRS = [
     'contributor',
