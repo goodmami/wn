@@ -3,9 +3,20 @@
 ## [Unreleased]
 
 
+## [v0.8.2]
+
+**Release date: 2021-11-01**
+
+This release only resolves some dependency issues with the previous
+release.
+
+
 ## [v0.8.1]
 
 **Release date: 2021-10-29**
+
+Note: the release on PyPI was yanked because a dependency was not
+specified properly.
 
 ### Fixed
 
@@ -383,6 +394,8 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.8.2]: ../../releases/tag/v0.8.2
+[v0.8.1]: ../../releases/tag/v0.8.1
 [v0.8.0]: ../../releases/tag/v0.8.0
 [v0.7.0]: ../../releases/tag/v0.7.0
 [v0.6.2]: ../../releases/tag/v0.6.2
