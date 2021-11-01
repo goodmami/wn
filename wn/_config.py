@@ -6,7 +6,7 @@ Local configuration settings.
 from typing import Dict
 from pathlib import Path
 
-import toml
+import tomli
 
 from wn import Error
 from wn._types import AnyPath
@@ -218,7 +218,8 @@ class WNConfig:
 
         """
         path = Path(path).expanduser()
-        index = toml.load(path)
+        with path.open('rb') as indexfile:
+            index = tomli.load(indexfile)
         self.update({'index': index})
 
 
