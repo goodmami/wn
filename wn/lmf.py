@@ -1314,9 +1314,15 @@ def _indent(elem: ET.Element, level: int) -> None:
 
 def _meta_dict(m: Optional[Metadata]) -> Dict[str, str]:
     if m:
-        d = {f'dc:{key}': str(val)
-             for key, val in zip(m._fields, m)
-             if val is not None}
+        d = {f'dc:{key}': str(getattr(m, key))
+             for key in _DC_ATTRS
+             if getattr(m, key, None) is not None}
+        if m.status is not None:
+            d['status'] = m.status
+        if m.note is not None:
+            d['note'] = m.note
+        if m.confidence is not None:
+            d['confidenceScore'] = str(m.confidence)
     else:
         d = {}
     return d

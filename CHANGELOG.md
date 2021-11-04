@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.lmf` now serialized DC and non-DC metadata correctly ([#148])
+
 
 ## [v0.8.2]
 
@@ -462,3 +466,4 @@ abandoned, but this is an entirely new codebase.
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
+[#148]: https://github.com/goodmami/wn/issues/148

@@ -26,7 +26,8 @@ Spanish:
            email="maintainer@example.com"
            license="https://creativecommons.org/licenses/by/4.0/"
            version="1"
-           url="https://example.com/test-en">
+           url="https://example.com/test-en"
+           dc:description="An example lexicon for testing.">
 
     <LexicalEntry id="test-en-information-n">
       <Lemma partOfSpeech="n" writtenForm="information" script="Latn">
@@ -37,7 +38,7 @@ Spanish:
       </Sense>
     </LexicalEntry>
 
-    <LexicalEntry id="test-en-example-n">
+    <LexicalEntry id="test-en-example-n" confidenceScore="1.0">
       <Lemma partOfSpeech="n" writtenForm="example" />
       <Sense id="test-en-example-n-0002-01" synset="test-en-0002-n" >
         <SenseRelation relType="derivation" target="test-en-exemplify-v-0003-01" />
