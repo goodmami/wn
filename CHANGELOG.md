@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.8.3]
+
+**Release date: 2021-11-03**
+
 ### Fixed
 
 * `wn.lmf` now serialized DC and non-DC metadata correctly ([#148])
@@ -398,6 +403,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.8.3]: ../../releases/tag/v0.8.3
 [v0.8.2]: ../../releases/tag/v0.8.2
 [v0.8.1]: ../../releases/tag/v0.8.1
 [v0.8.0]: ../../releases/tag/v0.8.0
