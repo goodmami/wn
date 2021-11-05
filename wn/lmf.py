@@ -490,7 +490,13 @@ def _make_parser(root, version, progress):  # noqa: C901
 
     def char_data(data):
         if has_text:
-            stack[-1]['text'] = data
+            parent = stack[-1]
+            # sometimes the buffering occurs in the middle of text; if
+            # so, append the current data
+            if 'text' in parent:
+                parent['text'] += data
+            else:
+                parent['text'] = data
 
     def end(name):
         nonlocal has_text
