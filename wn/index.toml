@@ -5,24 +5,29 @@
   [cili.versions."1.0"]
     url = "https://github.com/globalwordnet/cili/releases/download/v1.0/cili.tsv.xz"
 
+
+[oewn]
+  label = "Open English WordNet"
+  language = "en"
+  license = "https://creativecommons.org/licenses/by/4.0/"
+  [oewn.versions.2021]
+    url = "https://en-word.net/static/english-wordnet-2021.xml.gz"
+  [oewn.versions.2020]
+    error = "Use 'ewn' as the ID prior to version 2021 ('ewn:2020')"
+  [oewn.versions.2019]
+    error = "Use 'ewn' as the ID prior to version 2021 ('ewn:2019')"
+
+
 [ewn]
   label = "Open English WordNet"
   language = "en"
   license = "https://creativecommons.org/licenses/by/4.0/"
+  [ewn.versions.2021]
+    error = "Use 'oewn' as the ID from version 2021 ('oewn:2021')"
   [ewn.versions.2020]
     url = "https://en-word.net/static/english-wordnet-2020.xml.gz"
   [ewn.versions.2019]
     url = "https://en-word.net/static/english-wordnet-2019.xml.gz"
-
-
-[pwn]
-  label = "Princeton WordNet"
-  language = "en"
-  license = "https://wordnet.princeton.edu/license-and-commercial-use"
-  [pwn.versions."3.1"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn31.tar.xz"
-  [pwn.versions."3.0"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pwn30.tar.xz"
 
 
 [odenet]
@@ -31,259 +36,349 @@
   license = "https://creativecommons.org/licenses/by-sa/4.0/"
   [odenet.versions."1.3"]
     url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.3/odenet-1.3.tar.xz"
+  [odenet.versions."1.4"]
+    url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.4/odenet-1.4.tar.xz"
 
 
 [omw]
-  label = "Open Multilingual Wordnet v1.3"
+  label = "Open Multilingual Wordnet"
   language = "mul"
   license = "Please consult the LICENSE files included with the individual wordnets. Note that all permit redistribution."
+  [omw.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-1.4.tar.xz"
   [omw.versions."1.3"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/omw-1.3.tar.xz"
+    error = "OMW 1.3 is no longer indexed; See https://github.com/goodmami/wn#changes-to-the-index"
 
 
-[iwn]
-  label = "Italian Wordnet"
-  language = "it"
-  license = "http://opendefinition.org/licenses/odc-by/"
-  [iwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/iwn.tar.xz"
+[pwn]
+  error = "Instead of 'pwn:3.0' and 'pwn:3.1', please use 'omw-en' and 'omw-en31'."
 
 
-[ronwn]
-  label = "Romanian Wordnet"
-  language = "ro"
-  license = "https://creativecommons.org/licenses/by-sa/"
-  [ronwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ron.tar.xz"
+[omw-en]
+  label = "OMW English Wordnet based on WordNet 3.0"
+  language = "en"
+  license = "https://wordnet.princeton.edu/license-and-commercial-use"
+  [omw-en.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-en.tar.xz"
 
 
-[nobwn]
-  label = "Norwegian Wordnet"
-  language = "nb"
-  license = "wordnet"
-  [nobwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nob.tar.xz"
+[omw-en31]
+  label = "OMW English Wordnet based on WordNet 3.1"
+  language = "en"
+  license = "https://wordnet.princeton.edu/license-and-commercial-use"
+  [omw-en31.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-en31.tar.xz"
 
 
-[zsmwn]
-  label = "Wordnet Bahasa"
-  language = "zsm"
-  license = "https://opensource.org/licenses/MIT/"
-  [zsmwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/zsm.tar.xz"
-
-
-[hrvwn]
-  label = "Croatian Wordnet"
-  language = "hr"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [hrvwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/hrv.tar.xz"
-
-
-[nnown]
-  label = "Norwegian Wordnet"
-  language = "nn"
-  license = "wordnet"
-  [nnown.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nno.tar.xz"
-
-
-[arbwn]
+[omw-arb]
   label = "Arabic WordNet (AWN v2)"
   language = "arb"
   license = "https://creativecommons.org/licenses/by-sa/3.0/"
-  [arbwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/arb.tar.xz"
+  [omw-arb.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-arb.tar.xz"
 
 
-[indwn]
-  label = "Wordnet Bahasa"
-  language = "id"
-  license = "https://opensource.org/licenses/MIT/"
-  [indwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ind.tar.xz"
-
-
-[ellwn]
-  label = "Greek Wordnet"
-  language = "el"
-  license = "https://opensource.org/licenses/Apache-2.0"
-  [ellwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ell.tar.xz"
-
-
-[glgwn]
-  label = "Multilingual Central Repository"
-  language = "gl"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [glgwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/glg.tar.xz"
-
-
-[danwn]
-  label = "DanNet"
-  language = "da"
-  license = "wordnet"
-  [danwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/dan.tar.xz"
-
-
-[finwn]
-  label = "FinnWordNet"
-  language = "fi"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [finwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/fin.tar.xz"
-
-
-[thawn]
-  label = "Thai Wordnet"
-  language = "th"
-  license = "wordnet"
-  [thawn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/tha.tar.xz"
-
-
-[catwn]
-  label = "Multilingual Central Repository"
-  language = "ca"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [catwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/cat.tar.xz"
-
-
-[frawn]
-  label = "WOLF (Wordnet Libre du Français)"
-  language = "fr"
-  license = "http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html"
-  [frawn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/fra.tar.xz"
-
-
-[slvwn]
-  label = "sloWNet"
-  language = "sl"
-  license = "https://creativecommons.org/licenses/by-sa/3.0/"
-  [slvwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/slv.tar.xz"
-
-
-[islwn]
-  label = "IceWordNet"
-  language = "is"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [islwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/isl.tar.xz"
-
-
-[euswn]
-  label = "Multilingual Central Repository"
-  language = "eu"
-  license = "https://creativecommons.org/licenses/by/3.0/"
-  [euswn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/eus.tar.xz"
-
-
-[slkwn]
-  label = "Slovak WordNet"
-  language = "sk"
-  license = "https://creativecommons.org/licenses/by-sa/3.0/"
-  [slkwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/slk.tar.xz"
-
-
-[litwn]
-  label = "Lithuanian  WordNet"
-  language = "lt"
-  license = "https://creativecommons.org/licenses/by-sa/3.0/"
-  [litwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/lit.tar.xz"
-
-
-[bulwn]
+[omw-bg]
   label = "BulTreeBank Wordnet (BTB-WN)"
   language = "bg"
   license = "https://creativecommons.org/licenses/by/3.0/"
-  [bulwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/bul.tar.xz"
+  [omw-bg.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-bg.tar.xz"
 
 
-[jpnwn]
-  label = "Japanese Wordnet"
-  language = "jp"
+[omw-ca]
+  label = "Multilingual Central Repository (Catalan)"
+  language = "ca"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-ca.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-ca.tar.xz"
+
+
+[omw-cmn]
+  label = "Chinese Open Wordnet"
+  language = "cmn-Hans"
   license = "wordnet"
-  [jpnwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/jpn.tar.xz"
+  [omw-cmn.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-cmn.tar.xz"
 
 
-[itawn]
-  label = "MultiWordNet"
-  language = "it"
+[omw-da]
+  label = "DanNet"
+  language = "da"
+  license = "wordnet"
+  [omw-da.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-da.tar.xz"
+
+
+[omw-el]
+  label = "Greek Wordnet"
+  language = "el"
+  license = "https://opensource.org/licenses/Apache-2.0"
+  [omw-el.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-el.tar.xz"
+
+
+[omw-es]
+  label = "Multilingual Central Repository (Spanish)"
+  language = "es"
   license = "https://creativecommons.org/licenses/by/3.0/"
-  [itawn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/ita.tar.xz"
+  [omw-es.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-es.tar.xz"
 
 
-[porwn]
-  label = "OpenWN-PT"
-  language = "pt"
-  license = "https://creativecommons.org/licenses/by-sa/"
-  [porwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/por.tar.xz"
-
-
-[swewn]
-  label = "Swedish (SALDO)"
-  language = "sv"
+[omw-eu]
+  label = "Multilingual Central Repository (Basque)"
+  language = "eu"
   license = "https://creativecommons.org/licenses/by/3.0/"
-  [swewn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/swe.tar.xz"
+  [omw-eu.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-eu.tar.xz"
 
 
-[alswn]
-  label = "Albanet"
-  language = "als"
+[omw-fi]
+  label = "FinnWordNet"
+  language = "fi"
   license = "https://creativecommons.org/licenses/by/3.0/"
-  [alswn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/als.tar.xz"
+  [omw-fi.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-fi.tar.xz"
 
 
-[hebwn]
+[omw-fr]
+  label = "WOLF (Wordnet Libre du Français)"
+  language = "fr"
+  license = "http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html"
+  [omw-fr.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-fr.tar.xz"
+
+
+[omw-gl]
+  label = "Multilingual Central Repository (Galician)"
+  language = "gl"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-gl.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-gl.tar.xz"
+
+
+[omw-he]
   label = "Hebrew Wordnet"
   language = "he"
   license = "wordnet"
-  [hebwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/heb.tar.xz"
+  [omw-he.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-he.tar.xz"
 
 
-[cmnwn]
-  label = "Chinese Open Wordnet"
-  language = "zh"
+[omw-hr]
+  label = "Croatian Wordnet"
+  language = "hr"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-hr.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-hr.tar.xz"
+
+
+[omw-id]
+  label = "Wordnet Bahasa (Indonesian)"
+  language = "id"
+  license = "https://opensource.org/licenses/MIT/"
+  [omw-id.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-id.tar.xz"
+
+
+[omw-is]
+  label = "IceWordNet"
+  language = "is"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-is.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-is.tar.xz"
+
+
+[omw-it]
+  label = "MultiWordNet (Italian)"
+  language = "it"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-it.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-it.tar.xz"
+
+
+[omw-iwn]
+  label = "ItalWordNet"
+  language = "it"
+  license = "http://opendefinition.org/licenses/odc-by/"
+  [omw-iwn.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-iwn.tar.xz"
+
+
+[omw-ja]
+  label = "Japanese Wordnet"
+  language = "ja"
   license = "wordnet"
-  [cmnwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/cmn.tar.xz"
+  [omw-ja.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-ja.tar.xz"
 
 
-[nldwn]
+[omw-lt]
+  label = "Lithuanian  WordNet"
+  language = "lt"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-lt.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-lt.tar.xz"
+
+
+[omw-nb]
+  label = "Norwegian Wordnet (Bokmål)"
+  language = "nb"
+  license = "wordnet"
+  [omw-nb.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-nb.tar.xz"
+
+
+[omw-nl]
   label = "Open Dutch WordNet"
   language = "nl"
   license = "https://creativecommons.org/licenses/by-sa/4.0/"
-  [nldwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/nld.tar.xz"
+  [omw-nl.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-nl.tar.xz"
 
 
-[polwn]
+[omw-nn]
+  label = "Norwegian Wordnet (Nynorsk)"
+  language = "nn"
+  license = "wordnet"
+  [omw-nn.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-nn.tar.xz"
+
+
+[omw-pl]
   label = "plWordNet"
   language = "pl"
   license = "wordnet"
-  [polwn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/pol.tar.xz"
+  [omw-pl.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-pl.tar.xz"
 
 
-[spawn]
-  label = "Multilingual Central Repository"
-  language = "es"
+[omw-pt]
+  label = "OpenWN-PT"
+  language = "pt"
+  license = "https://creativecommons.org/licenses/by-sa/"
+  [omw-pt.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-pt.tar.xz"
+
+
+[omw-ro]
+  label = "Romanian Wordnet"
+  language = "ro"
+  license = "https://creativecommons.org/licenses/by-sa/"
+  [omw-ro.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-ro.tar.xz"
+
+
+[omw-sk]
+  label = "Slovak WordNet"
+  language = "sk"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-sk.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-sk.tar.xz"
+
+
+[omw-sl]
+  label = "sloWNet"
+  language = "sl"
+  license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-sl.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-sl.tar.xz"
+
+
+[omw-sq]
+  label = "Albanet"
+  language = "sq"
   license = "https://creativecommons.org/licenses/by/3.0/"
-  [spawn.versions."1.3+omw"]
-    url = "https://github.com/bond-lab/omw-data/releases/download/v1.3/spa.tar.xz"
+  [omw-sq.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-sq.tar.xz"
+
+
+[omw-sv]
+  label = "WordNet-SALDO"
+  language = "sv"
+  license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-sv.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-sv.tar.xz"
+
+
+[omw-th]
+  label = "Thai Wordnet"
+  language = "th"
+  license = "wordnet"
+  [omw-th.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-th.tar.xz"
+
+
+[omw-zsm]
+  label = "Wordnet Bahasa (Malaysian)"
+  language = "zsm"
+  license = "https://opensource.org/licenses/MIT/"
+  [omw-zsm.versions."1.4"]
+    url = "https://github.com/bond-lab/omw-data/releases/download/v1.4/omw-zsm.tar.xz"
+
+
+# Dropped wordnets
+
+[alswn]
+  error = "'alswn:1.3+omw' is no longer indexed; use 'omw-sq:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[arbwn]
+  error = "'arbwn:1.3+omw' is no longer indexed; use 'omw-arb:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[bulwn]
+  error = "'bulwn:1.3+omw' is no longer indexed; use 'omw-bg:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[catwn]
+  error = "'catwn:1.3+omw' is no longer indexed; use 'omw-ca:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[cmnwn]
+  error = "'cmnwn:1.3+omw' is no longer indexed; use 'omw-cmn:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[danwn]
+  error = "'danwn:1.3+omw' is no longer indexed; use 'omw-da:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[ellwn]
+  error = "'ellwn:1.3+omw' is no longer indexed; use 'omw-el:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[euswn]
+  error = "'euswn:1.3+omw' is no longer indexed; use 'omw-eu:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[finwn]
+  error = "'finwn:1.3+omw' is no longer indexed; use 'omw-fi:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[frawn]
+  error = "'frawn:1.3+omw' is no longer indexed; use 'omw-fr:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[glgwn]
+  error = "'glgwn:1.3+omw' is no longer indexed; use 'omw-gl:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[hebwn]
+  error = "'hebwn:1.3+omw' is no longer indexed; use 'omw-he:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[hrvwn]
+  error = "'hrvwn:1.3+omw' is no longer indexed; use 'omw-hr:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[indwn]
+  error = "'indwn:1.3+omw' is no longer indexed; use 'omw-id:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[islwn]
+  error = "'islwn:1.3+omw' is no longer indexed; use 'omw-is:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[itawn]
+  error = "'itawn:1.3+omw' is no longer indexed; use 'omw-it:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[iwn]
+  error = "'iwn:1.3+omw' is no longer indexed; use 'omw-iwn:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[jpnwn]
+  error = "'jpnwn:1.3+omw' is no longer indexed; use 'omw-ja:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[litwn]
+  error = "'litwn:1.3+omw' is no longer indexed; use 'omw-lt:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[nldwn]
+  error = "'nldwn:1.3+omw' is no longer indexed; use 'omw-nl:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[nnown]
+  error = "'nnown:1.3+omw' is no longer indexed; use 'omw-nn:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[nobwn]
+  error = "'nobwn:1.3+omw' is no longer indexed; use 'omw-nb:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[polwn]
+  error = "'polwn:1.3+omw' is no longer indexed; use 'omw-pl:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[porwn]
+  error = "'porwn:1.3+omw' is no longer indexed; use 'omw-pt:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[ronwn]
+  error = "'ronwn:1.3+omw' is no longer indexed; use 'omw-ro:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[slkwn]
+  error = "'slkwn:1.3+omw' is no longer indexed; use 'omw-sk:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[slvwn]
+  error = "'slvwn:1.3+omw' is no longer indexed; use 'omw-sl:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[spawn]
+  error = "'spawn:1.3+omw' is no longer indexed; use 'omw-es:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[swewn]
+  error = "'swewn:1.3+omw' is no longer indexed; use 'omw-sv:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[thawn]
+  error = "'thawn:1.3+omw' is no longer indexed; use 'omw-th:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+[zsmwn]
+  error = "'zsmwn:1.3+omw' is no longer indexed; use 'omw-zsm:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"

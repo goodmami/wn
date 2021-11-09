@@ -1336,7 +1336,8 @@ def projects() -> List[Dict]:
     return [
         wn.config.get_project_info(f'{project_id}:{version}')
         for project_id, project_info in index.items()
-        for version in project_info['versions']
+        for version in project_info.get('versions', [])
+        if 'resource_urls' in project_info['versions'][version]
     ]
 
 
