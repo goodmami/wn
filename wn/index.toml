@@ -50,10 +50,6 @@
     error = "OMW 1.3 is no longer indexed; See https://github.com/goodmami/wn#changes-to-the-index"
 
 
-[pwn]
-  error = "Instead of 'pwn:3.0' and 'pwn:3.1', please use 'omw-en' and 'omw-en31'."
-
-
 [omw-en]
   label = "OMW English Wordnet based on WordNet 3.0"
   language = "en"
@@ -318,7 +314,13 @@
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-zsm-1.4.tar.xz"
 
 
-# Dropped wordnets
+# Delisted wordnets
+
+[pwn]
+  [pwn.versions."3.0"]
+    error = "'pwn:3.0' is no longer indexed; use 'omw-en:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
+  [pwn.versions."3.1"]
+    error = "'pwn:3.1' is no longer indexed; use 'omw-en31:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
 
 [alswn]
   error = "'alswn:1.3+omw' is no longer indexed; use 'omw-sq:1.4' instead (https://github.com/goodmami/wn#changes-to-the-index)"
