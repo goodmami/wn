@@ -72,7 +72,7 @@ The following wordnets are indexed by Wn and ready to be installed:
 [mul]: https://iso639-3.sil.org/code/mul
 
 The Open Multilingual Wordnet installs the following lexicons (from
-[here](https://github.com/bond-lab/omw-data/releases/tag/v1.3)) which
+[here](https://github.com/omwn/omw-data/releases/tag/v1.4)) which
 can also be downloaded and installed independently:
 
 | Name                                     | ID         | Versions | Language                         |

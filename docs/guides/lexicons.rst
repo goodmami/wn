@@ -70,18 +70,18 @@ Downloading Lexicons
 --------------------
 
 Use :py:func:`wn.download` to download lexicons from the web given
-either an indexed project identifier (and optionally a version) or the
-URL of a resource, package, or collection.
+either an indexed project specifier or the URL of a resource, package,
+or collection.
 
 >>> import wn
->>> wn.download('ewn')  # get the latest Open English WordNet
->>> wn.download('ewn:2019')  # get the 2019 version
+>>> wn.download('odenet')  # get the latest Open German WordNet
+>>> wn.download('odenet:1.3')  # get the 1.3 version
 >>> # download from a URL
->>> wn.download('https://github.com/bond-lab/omw-data/releases/download/v1.3/omw-1.3.tar.xz')
+>>> wn.download('https://github.com/omwn/omw-data/releases/download/v1.4/omw-1.4.tar.xz')
 
-The resource, package, or collection may contain multiple
-lexicons. The IDs in the lexicons are what's saved to disk, not the
-project identifier.
+The project specifier is only used to retrieve information from Wn's
+index. The lexicon IDs of the corresponding resource files are what is
+stored in the database.
 
 Adding Local Lexicons
 ---------------------
