@@ -34,10 +34,10 @@
   label = "Open German WordNet"
   language = "de"
   license = "https://creativecommons.org/licenses/by-sa/4.0/"
-  [odenet.versions."1.3"]
-    url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.3/odenet-1.3.tar.xz"
   [odenet.versions."1.4"]
     url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.4/odenet-1.4.tar.xz"
+  [odenet.versions."1.3"]
+    url = "https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.3/odenet-1.3.tar.xz"
 
 
 [omw]
