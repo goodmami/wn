@@ -314,6 +314,30 @@
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-zsm-1.4.tar.xz"
 
 
+[own]
+  label = "Open Wordnets for Portuguese and English"
+  language = "mul"
+  license = "Please consult the LICENSE files."
+  [own.versions."1.0.0"]
+    url = "https://github.com/own-pt/openWordnet-PT/releases/download/v1.0.0/own.tar.gz"
+
+
+[own-en]
+  label = "Open Wordnet for English"
+  language = "en"
+  license = "Please consult the LICENSE files."
+  [own-en.versions."1.0.0"]
+    url = "https://github.com/own-pt/openWordnet-PT/releases/download/v1.0.0/own-en.tar.gz"
+
+
+[own-pt]
+  label = "Open Wordnet for Portuguese"
+  language = "pt"
+  license = "Please consult the LICENSE files."
+  [own-pt.versions."1.0.0"]
+    url = "https://github.com/own-pt/openWordnet-PT/releases/download/v1.0.0/own-pt.tar.gz"
+
+
 # Delisted wordnets
 
 [pwn]

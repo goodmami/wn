@@ -59,19 +59,21 @@ specified:
 
 The following wordnets are indexed by Wn and ready to be installed:
 
-| Name                        | ID       | Versions       | Language         |
-| --------------------------- | -------- | -------------- | ---------------- |
-| [Open English WordNet]      | `ewn`    | `2019`, `2020` | English [en]     |
-|                             | `oewn`   | `2021`         | English [en]     |
-| [Open Multilingual Wordnet] | `omw`    | `1.4`          | multiple [[mul]] |
-| [Open German WordNet]       | `odenet` | `1.3`, `1.4`   | German [de]      |
+| Name                                       | ID       | Versions       | Language         |
+| ------------------------------------------ | -------- | -------------- | ---------------- |
+| [Open English WordNet]                     | `ewn`    | `2019`, `2020` | English [en]     |
+|                                            | `oewn`   | `2021`         | English [en]     |
+| [Open Multilingual Wordnet]                | `omw`    | `1.4`          | multiple [[mul]] |
+| [Open German WordNet]                      | `odenet` | `1.3`, `1.4`   | German [de]      |
+| [Open Wordnets for Portuguese and English] | `own`    | `1.0.0`        | multiple [[mul]] |
 
 [Open English WordNet]: https://github.com/globalwordnet/english-wordnet
-[Open Multilingual Wordnet]: https://lr.soh.ntu.edu.sg/omw/omw
+[Open Multilingual Wordnet]: https://github.com/omwn
 [Open German WordNet]: https://github.com/hdaSprachtechnologie/odenet
+[Open Wordnets for Portuguese and English]: https://github.com/own-pt
 [mul]: https://iso639-3.sil.org/code/mul
 
-The Open Multilingual Wordnet installs the following lexicons (from
+The *Open Multilingual Wordnet* installs the following lexicons (from
 [here](https://github.com/omwn/omw-data/releases/tag/v1.4)) which
 can also be downloaded and installed independently:
 
@@ -110,6 +112,15 @@ can also be downloaded and installed independently:
 | WOLF (Wordnet Libre du Français)         | `omw-fr`   | `1.4`    | French [fr]                      |
 | Wordnet Bahasa                           | `omw-id`   | `1.4`    | Indonesian [id]                  |
 | Wordnet Bahasa                           | `omw-zsm`  | `1.4`    | Malaysian [zsm]                  |
+
+The *Open Wordnets for Portuguese and English* installs the following lexicons (from
+[here](https://github.com/own-pt/openWordnet-PT/releases/tag/v1.0.0)) which
+can also be downloaded and installed independently:
+
+| Name           | ID         | Versions | Language        |
+| -------------- | ---------- | -------- | --------------- |
+| OpenWordnet-PT | `own-pt`   | `1.0.0`  | Portuguese [pt] |
+| OpenWordnet-EN | `own-en`   | `1.0.0`  | English [en]    |
 
 The project index list is defined in [wn/index.toml](https://github.com/goodmami/wn/blob/main/wn/index.toml).
 
