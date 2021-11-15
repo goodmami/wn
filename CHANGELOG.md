@@ -59,6 +59,15 @@
   single URL. ([#142])
 * `wn.config.get_cache_path()` now only accepts URL arguments
 
+### Index
+
+* Added `oewn:2021` new ID, previously `ewn` ([#152])
+* Added `own`, `own-pt`, and `own-en` ([#97])
+* Added `odenet:1.4`
+* Added `omw:1.4`, including `omw-en`, formerly `pwn:3.0` ([#152])
+* Added `omw-en31:1.4`, formerly `pwn:3.1` ([#152])
+* Removed `omw:1.3`, `pwn:3.0`, and `pwn:3.1` ([#152])
+* Added `kurdnet:1.0` ([#140])
 
 
 ## [v0.8.3]
@@ -518,6 +527,7 @@ abandoned, but this is an entirely new codebase.
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
+[#97]: https://github.com/goodmami/wn/issues/97
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
@@ -532,9 +542,11 @@ abandoned, but this is an entirely new codebase.
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
+[#140]: https://github.com/goodmami/wn/issues/140
 [#142]: https://github.com/goodmami/wn/issues/142
 [#143]: https://github.com/goodmami/wn/issues/143
 [#144]: https://github.com/goodmami/wn/issues/144
 [#146]: https://github.com/goodmami/wn/issues/146
 [#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
+[#152]: https://github.com/goodmami/wn/issues/152
