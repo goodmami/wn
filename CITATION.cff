@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+title: Wn
+message: >-
+  Please cite this software using the metadata from
+  'preferred-citation'.
+type: software
+authors:
+  - given-names: Michael Wayne
+    family-names: Goodman
+    email: goodman.m.w@gmail.com
+    orcid: 'https://orcid.org/0000-0002-2896-5141'
+  - given-names: Francis
+    family-names: Bond
+    email: bond@ieee.org
+    orcid: 'https://orcid.org/0000-0003-4973-8068'
+repository-code: 'https://github.com/goodmami/wn/'
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: Michael Wayne
+    given-names: Goodman
+    email: goodmami@uw.edu
+    orcid: 'https://orcid.org/0000-0002-2896-5141'
+    affiliation: Nanyang Technological University
+  - given-names: Francis
+    family-names: Bond
+    email: bond@ieee.org
+    orcid: 'https://orcid.org/0000-0003-4973-8068'
+    affiliation: Nanyang Technological University
+  start: 100  # First page number
+  end: 107  # Last page number
+  conference:
+      name: "Proceedings of the 11th Global Wordnet Conference"
+  title: "Intrinsically Interlingual: The Wn Python Library for Wordnets"
+  year: 2021
+  month: 1
+  url: 'https://aclanthology.org/2021.gwc-1.12/'
+  publisher: "Global Wordnet Association"
