@@ -1,5 +1,15 @@
 <?xml version="1.0" standalone="no"?>
 <svg width="200" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <linearGradient id="wgradient" gradientTransform="rotate(90)">
+      <stop offset="0%"   stop-color="#814F92" />
+      <stop offset="100%" stop-color="#41285C" />
+    </linearGradient>
+    <linearGradient id="ngradient" gradientTransform="rotate(90)">
+      <stop offset="0%"   stop-color="#3CD2CC" />
+      <stop offset="100%" stop-color="#176361" />
+    </linearGradient>
+  </defs>
   <style type="text/css"><![CDATA[
     .path {
       stroke-width: 10;
@@ -22,8 +32,8 @@
       95% { transform: rotate(0); }
       100% { transform: rotate(45deg); }
     }
-    #w { stroke: #671d5b; stroke-opacity: 1; animation: 20s rotate-45-clockwise 0s ease-in-out infinite; }
-    #n { stroke: #2656a6; stroke-opacity: 1; animation: 20s rotate-45-anticlockwise 0s ease-in-out infinite; }
+    #w { stroke: url(#wgradient); stroke-opacity: 1; animation: 20s rotate-45-clockwise 0s ease-in-out infinite; }
+    #n { stroke: url(#ngradient); stroke-opacity: 1; animation: 20s rotate-45-anticlockwise 0s ease-in-out infinite; }
   ]]></style>
   <path id="n" class="path" d="M100,90 L60,50 140,50 100,10" />
   <path id="w" class="path" d="M100,10 L60,50 100,50 100,90 140,50" />
