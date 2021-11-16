@@ -1299,20 +1299,21 @@ def _find_helper(
     if not forms:
         forms = {pos: {form}}
 
-    results = [
+    # results is a set to avoid duplicates (mainly when pos is None)
+    results = {
         cls(*data, w)  # type: ignore
         for _pos, _forms in forms.items()
         for data in query_func(forms=_forms, pos=_pos, **kwargs)
-    ]
+    }
     if not results and normalize:
-        results = [
+        results = {
             cls(*data, w)  # type: ignore
             for _pos, _forms in forms.items()
             for data in query_func(
                 forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
             )
-        ]
-    return results
+        }
+    return list(results)
 
 
 def projects() -> List[Dict]:

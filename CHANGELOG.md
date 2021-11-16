@@ -22,6 +22,7 @@
 * `wn.Form` now always hashes like `str`, so things like
   `set.__contains__` works as expected.
 * `wn.download()` raises an exception on bad responses ([#147]])
+* Avoid returning duplicate matches when a lemmatizer is used ([#154])
 
 ### Removed
 
@@ -550,3 +551,4 @@ abandoned, but this is an entirely new codebase.
 [#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
 [#152]: https://github.com/goodmami/wn/issues/152
+[#154]: https://github.com/goodmami/wn/issues/154
