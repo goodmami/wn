@@ -1126,13 +1126,13 @@ class Wordnet:
         self.lemmatizer = lemmatizer
         self._search_all_forms = search_all_forms
 
-    def lexicons(self):
+    def lexicons(self) -> List[Lexicon]:
         """Return the list of lexicons covered by this wordnet."""
-        return self._lexicons
+        return list(self._lexicons)
 
-    def expanded_lexicons(self):
+    def expanded_lexicons(self) -> List[Lexicon]:
         """Return the list of expand lexicons for this wordnet."""
-        return self._expanded
+        return list(self._expanded)
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
