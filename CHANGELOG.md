@@ -59,6 +59,8 @@
   mapped to a list of URLs instead of `resource_url` mapped to a
   single URL. ([#142])
 * `wn.config.get_cache_path()` now only accepts URL arguments
+* The `lexicon` parameter in many functions now allows glob patterns
+  like `omw-*:1.4` ([#155])
 
 ### Index
 
@@ -552,3 +554,4 @@ abandoned, but this is an entirely new codebase.
 [#148]: https://github.com/goodmami/wn/issues/148
 [#152]: https://github.com/goodmami/wn/issues/152
 [#154]: https://github.com/goodmami/wn/issues/154
+[#155]: https://github.com/goodmami/wn/issues/155
