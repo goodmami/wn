@@ -26,8 +26,8 @@ W502  Relation is a self-loop.
 
 """
 
-from typing import (Sequence, Tuple, List, Dict, Any,
-                    Optional, Type, Iterator, Union, Callable, cast)
+from typing import (Sequence, Iterator, Tuple, List, Dict,
+                    Optional, Type, Union, Callable, cast)
 from collections import Counter
 from itertools import chain
 
@@ -44,6 +44,7 @@ from wn.util import ProgressHandler, ProgressBar
 _Ids = Dict[str, Counter]
 _Result = Dict[str, Dict]
 _CheckFunction = Callable[[lmf.Lexicon, _Ids], _Result]
+_Report = Dict[str, Dict[str, Union[str, _Result]]]
 
 
 def _non_unique_id(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -109,7 +110,7 @@ def _repeated_ili(lex: lmf.Lexicon, ids: _Ids) -> _Result:
 
 def _missing_ili_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """proposed ILI is missing a definition"""
-    return {ss['id']: None for ss in _synsets(lex)
+    return {ss['id']: {} for ss in _synsets(lex)
             if ss['ili'] == 'in' and not ss.get('ili_definition')}
 
 
@@ -259,7 +260,7 @@ def validate(
     lex: Union[lmf.Lexicon, lmf.LexiconExtension],
     select: Sequence[str] = ('E', 'W'),
     progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
-) -> Dict[str, _Result]:
+) -> _Report:
     """Check *lex* for validity and return a report of the results.
 
     The *select* argument is a sequence of check codes (e.g.,
@@ -289,7 +290,7 @@ def validate(
 
     progress = progress_handler(message='Validate', total=len(checks))
 
-    report: Dict[str, _Result] = {}
+    report: _Report = {}
     for code, func, message in checks:
         progress.set(status=func.__name__.replace('_', ' '))
         report[code] = {'message': message,
