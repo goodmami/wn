@@ -2,6 +2,7 @@
 import sys
 import argparse
 from pathlib import Path
+import json
 import logging
 
 import wn
@@ -40,20 +41,32 @@ def _projects(args):
 
 def _validate(args):
     all_valid = True
+    selectseq = [check.strip() for check in args.select.split(',')]
     for package in iterpackages(args.FILE):
         resource = lmf.load(package.resource_file())
         for lexicon in resource['lexicons']:
             spec = f'{lexicon["id"]}:{lexicon["version"]}'
             print(f'{spec:<20}', end='')
-            errors = validate(lexicon)
-            valid = not any(ids for ids in errors.values())
-            print('valid' if valid else 'invalid')
-            for message, report in errors.items():
-                if report:
-                    print(f'  {message}')
-                    for id, context in report.items():
-                        print(f'    {id}: {context}' if context else f'    {id}')
-            all_valid &= valid
+            report = validate(lexicon, select=selectseq)
+            if not any(check.get('items', []) for check in report.values()):
+                print('passed')
+            else:
+                print('failed')
+                all_valid = False
+                # clean up report
+                for code in list(report):
+                    if not report[code].get('items'):
+                        del report[code]
+                if args.output_file:
+                    with open(args.output_file, 'w') as outfile:
+                        json.dump(report, outfile, indent=2)
+                else:
+                    for code, check in report.items():
+                        if not check['items']:
+                            continue
+                        print(f'  {check["message"]}')
+                        for id, context in check['items'].items():
+                            print(f'    {id}: {context}' if context else f'    {id}')
 
     sys.exit(0 if all_valid else 1)
 
@@ -141,6 +154,14 @@ parser_validate = sub_parsers.add_parser(
 )
 parser_validate.add_argument(
     'FILE', type=_file_path_type, help='WN-LMF (XML) lexicon file to validate'
+)
+parser_validate.add_argument(
+    '--select', metavar='CHECKS', default='E,W',
+    help='comma-separated list of checks to run (default: E,W)'
+)
+parser_validate.add_argument(
+    '--output-file', metavar='FILE',
+    help='write report to a JSON file'
 )
 parser_validate.set_defaults(func=_validate)
 
