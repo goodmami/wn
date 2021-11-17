@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from typing import (
-    Optional, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+    Optional, List, Tuple, Collection, Iterator, Sequence
 )
 import itertools
 import sqlite3
