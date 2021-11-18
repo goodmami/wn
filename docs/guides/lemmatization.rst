@@ -23,11 +23,11 @@ database generally contains only lemmatic forms, or *lemmas* (or
 *lemmata*, if you prefer irregular plurals).
 
 >>> import wn
->>> ewn = wn.Wordnet('ewn:2020')
->>> ewn.words('plurals')  # no results
+>>> en = wn.Wordnet('oewn:2021')
+>>> en.words('plurals')
 []
->>> ewn.words('plural')
-[Word('ewn-plural-n'), Word('ewn-plural-a')]
+>>> en.words('plural')
+[Word('oewn-plural-a'), Word('oewn-plural-n')]
 
 Lemmas are sometimes called *citation forms* or *dictionary forms* as
 they are often used as the head words in dictionary entries. In
@@ -92,12 +92,11 @@ to a :class:`wn.Wordnet` object. For example, using :mod:`wn.morphy`:
 
 >>> import wn
 >>> from wn.morphy import Morphy
->>> ewn = wn.Wordnet('ewn:2020', lemmatizer=Morphy())
->>> ewn.words('sparrows')
-[Word('ewn-sparrow-n')]
->>> ewn.words('leaves')
-[Word('ewn-leaf-n'), Word('ewn-leave-n'), Word('ewn-leave-v')]
-
+>>> en = wn.Wordnet('oewn:2021', lemmatizer=Morphy())
+>>> en.words('sparrows')
+[Word('oewn-sparrow-n')]
+>>> en.words('leaves')
+[Word('oewn-leave-v'), Word('oewn-leaf-n'), Word('oewn-leave-n')]
 
 Querying Without Lemmatization
 ''''''''''''''''''''''''''''''
@@ -105,25 +104,23 @@ Querying Without Lemmatization
 When lemmatization is not used, inflected terms may not return any
 results:
 
->>> ewn = wn.Wordnet('ewn:2020')
->>> ewn.words('sparrows')
-[]
->>> ewn.words('leaves')
+>>> en = wn.Wordnet('oewn:2021')
+>>> en.words('sparrows')
 []
 
 Depending on the lexicon, there may be situations where results are
 returned for inflected lemmas, such as when the inflected form is
 lexicalized as its own entry:
 
->>> ewn.words('glasses')
-[Word('ewn-glasses-n')]
+>>> en.words('glasses')
+[Word('oewn-glasses-n')]
 
 Or if the lexicon lists the inflected form as an alternative form. For
 example, the English Wordnet lists irregular inflections as
 alternative forms:
 
->>> ewn.words('lemmata')
-[Word('ewn-lemma-n')]
+>>> en.words('lemmata')
+[Word('oewn-lemma-n')]
 
 See below for excluding alternative forms from such queries.
 
@@ -141,21 +138,20 @@ orthographies (original, hiragana, katakana, and two romanizations).
 For the English Wordnet, this means that you might get basic
 lemmatization for irregular forms only:
 
->>> ewn = wn.Wordnet('ewn:2020')
->>> ewn.words('learnt', pos='v')
-[Word('ewn-learn-v')]
->>> ewn.words('learned', pos='v')
+>>> en = wn.Wordnet('oewn:2021')
+>>> en.words('learnt', pos='v')
+[Word('oewn-learn-v')]
+>>> en.words('learned', pos='v')
 []
 
 If this is undesirable, the alternative forms can be excluded from
 queries with the *search_all_forms* parameter:
 
->>> ewn = wn.Wordnet('ewn:2020', search_all_forms=False)
->>> ewn.words('learnt', pos='v')
+>>> en = wn.Wordnet('oewn:2021', search_all_forms=False)
+>>> en.words('learnt', pos='v')
 []
->>> ewn.words('learned', pos='v')
+>>> en.words('learned', pos='v')
 []
-
 
 .. _normalization:
 
@@ -171,13 +167,13 @@ presented to users. For instance, a user might attempt to look up
 form without diacritics: *resume*. With strict string matching, the
 entry would not be found using the wordform in the query. By
 normalizing the query word, the entry can be found. Similarly in the
-Spanish wordnet, *año* (year) and *ano* (anus) are two different
-words. A user who types *año* likely does not want to get results for
-*ano*, but one who types *ano* may be a non-Spanish speaker who is
-unaware of the missing diacritic or does not have an input method that
-allows them to type the diacritic, so this query would return both
-entries by matching against the normalized forms in the database. Wn
-handles all of these use cases.
+Spanish wordnet, *soñar* (to dream) and *sonar* (to ring) are two
+different words. A user who types *soñar* likely does not want to get
+results for *sonar*, but one who types *sonar* may be a non-Spanish
+speaker who is unaware of the missing diacritic or does not have an
+input method that allows them to type the diacritic, so this query
+would return both entries by matching against the normalized forms in
+the database. Wn handles all of these use cases.
 
 When a lexicon is added to the database, potentially two wordforms are
 inserted for every one in the lexicon: the original wordform and a
@@ -212,7 +208,7 @@ as the original, only the original is inserted into the database.
    Original Form  Normalized Form
    =============  ===============
    résumé         resume
-   año            ano
+   soñar          sonar
    San José       san jose
    ハラペーニョ   ハラヘーニョ
    =============  ===============
@@ -228,14 +224,14 @@ check the original wordform in the query against the normalized forms
 in the database and, if no results are returned in the first step, it
 allows the queried wordform to be normalized as a back-off technique.
 
->>> ewn = wn.Wordnet('ewn:2020')
->>> ewn.words('résumé')
-[Word('ewn-resume-v'), Word('ewn-resume-n')]
->>> spa = wn.Wordnet('spawn:1.3+omw')
->>> spa.words('año')
-[Word('spawn-lex57514')]
->>> spa.words('ano')
-[Word('spawn-lex34109'), Word('spawn-lex57514')]
+>>> en = wn.Wordnet('oewn:2021')
+>>> en.words('résumé')
+[Word('oewn-resume-n'), Word('oewn-resume-v')]
+>>> es = wn.Wordnet('omw-es:1.4')
+>>> es.words('soñar')
+[Word('omw-es-soñar-v')]
+>>> es.words('sonar')
+[Word('omw-es-sonar-v'), Word('omw-es-soñar-v')]
 
 .. note::
 
@@ -253,14 +249,14 @@ argument of the *normalizer* parameter of :class:`wn.Wordnet`. The
 queried wordform will not be checked against normalized forms in the
 database and neither will it be normalized as a back-off technique.
 
->>> ewn = wn.Wordnet('ewn:2020', normalizer=None)
->>> ewn.words('résumé')
+>>> en = wn.Wordnet('oewn:2021', normalizer=None)
+>>> en.words('résumé')
 []
->>> spa = wn.Wordnet('spawn:1.3+omw', normalizer=None)
->>> spa.words('año')
-[Word('spawn-lex57514')]
->>> spa.words('ano')
-[Word('spawn-lex34109')]
+>>> es = wn.Wordnet('omw-es:1.4', normalizer=None)
+>>> es.words('soñar')
+[Word('omw-es-soñar-v')]
+>>> es.words('sonar')
+[Word('omw-es-sonar-v')]
 
 .. note::
 

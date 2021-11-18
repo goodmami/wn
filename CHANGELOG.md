@@ -3,6 +3,81 @@
 ## [Unreleased]
 
 
+## [v0.9.0]
+
+**Release date: 2021-11-17**
+
+### Added
+
+* `wn.constants.REVERSE_RELATIONS`
+* `wn.validate` module ([#143])
+* `validate` subcommand ([#143])
+* `wn.Lexicon.describe()` ([#144])
+* `wn.Wordnet.describe()` ([#144])
+* `wn.ConfigurationError`
+* `wn.ProjectError`
+
+### Fixed
+
+* WN-LMF 1.0 Syntactic Behaviours with no `senses` are now assigned to
+  all senses in the lexical entry. If a WN-LMF 1.1 lexicon extension
+  puts Syntactic Behaviour elements on lexical entries (which it
+  shouldn't) it will only be assigned to senses and external senses
+  listed.
+* `wn.Form` now always hashes like `str`, so things like
+  `set.__contains__` works as expected.
+* `wn.download()` raises an exception on bad responses ([#147]])
+* Avoid returning duplicate matches when a lemmatizer is used ([#154])
+
+### Removed
+
+* `wn.lmf.dump()` no longer has the `version` parameter
+
+### Changed
+
+* `wn.lmf.load()`
+  - returns a dictionary for the resource instead of a
+    list of lexicons, now including the WN-LMF version, as below:
+    ```python
+    {
+        'lmf_version': '...',
+        'lexicons': [...]
+    }
+    ```
+  - returned lexicons are modeled with Python lists and dicts instead
+    of custom classes ([#80])
+* `wn.lmf.scan_lexicons()` only returns info about present lexicons,
+  not element counts ([#113])
+* Improper configurations (e.g., invalid data directory, malformed
+  index) now raise a `wn.ConfigurationError`
+* Attempting to get an unknown project or version now raises
+  `wn.ProjectError` instead of `wn.Error` or `KeyError`
+* Projects and versions in the index now take an `error` key. Calling
+  `wn.config.get_project_info()` on such an entry will raise
+  `wn.ProjectError`. Such entries may not also specify a url. The
+  entry can still be viewed without triggering the error via
+  `wn.config.index`. ([#146])
+* Project versions in the index may specify multiple, space-separated
+  URLs on the url key. If one fails, the next will be attempted when
+  downloading. ([#142])
+* `wn.config.get_project_info()` now returns a `resource_urls` key
+  mapped to a list of URLs instead of `resource_url` mapped to a
+  single URL. ([#142])
+* `wn.config.get_cache_path()` now only accepts URL arguments
+* The `lexicon` parameter in many functions now allows glob patterns
+  like `omw-*:1.4` ([#155])
+
+### Index
+
+* Added `oewn:2021` new ID, previously `ewn` ([#152])
+* Added `own`, `own-pt`, and `own-en` ([#97])
+* Added `odenet:1.4`
+* Added `omw:1.4`, including `omw-en`, formerly `pwn:3.0` ([#152])
+* Added `omw-en31:1.4`, formerly `pwn:3.1` ([#152])
+* Removed `omw:1.3`, `pwn:3.0`, and `pwn:3.1` ([#152])
+* Added `kurdnet:1.0` ([#140])
+
+
 ## [v0.8.3]
 
 **Release date: 2021-11-03**
@@ -403,6 +478,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.9.0]: ../../releases/tag/v0.9.0
 [v0.8.3]: ../../releases/tag/v0.8.3
 [v0.8.2]: ../../releases/tag/v0.8.2
 [v0.8.1]: ../../releases/tag/v0.8.1
@@ -448,6 +524,7 @@ abandoned, but this is an entirely new codebase.
 [#77]: https://github.com/goodmami/wn/issues/77
 [#78]: https://github.com/goodmami/wn/issues/78
 [#79]: https://github.com/goodmami/wn/issues/79
+[#80]: https://github.com/goodmami/wn/issues/80
 [#81]: https://github.com/goodmami/wn/issues/81
 [#82]: https://github.com/goodmami/wn/issues/82
 [#83]: https://github.com/goodmami/wn/issues/83
@@ -459,11 +536,13 @@ abandoned, but this is an entirely new codebase.
 [#92]: https://github.com/goodmami/wn/issues/92
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
+[#97]: https://github.com/goodmami/wn/issues/97
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
 [#108]: https://github.com/goodmami/wn/issues/108
+[#113]: https://github.com/goodmami/wn/issues/113
 [#115]: https://github.com/goodmami/wn/issues/115
 [#116]: https://github.com/goodmami/wn/issues/116
 [#117]: https://github.com/goodmami/wn/issues/117
@@ -472,4 +551,13 @@ abandoned, but this is an entirely new codebase.
 [#123]: https://github.com/goodmami/wn/issues/123
 [#124]: https://github.com/goodmami/wn/issues/124
 [#125]: https://github.com/goodmami/wn/issues/125
+[#140]: https://github.com/goodmami/wn/issues/140
+[#142]: https://github.com/goodmami/wn/issues/142
+[#143]: https://github.com/goodmami/wn/issues/143
+[#144]: https://github.com/goodmami/wn/issues/144
+[#146]: https://github.com/goodmami/wn/issues/146
+[#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
+[#152]: https://github.com/goodmami/wn/issues/152
+[#154]: https://github.com/goodmami/wn/issues/154
+[#155]: https://github.com/goodmami/wn/issues/155

@@ -12,6 +12,16 @@ class DatabaseError(Error):
     __module__ = 'wn'
 
 
+class ConfigurationError(Error):
+    """Raised on invalid configurations."""
+    __module__ = 'wn'
+
+
+class ProjectError(Error):
+    """Raised when a project is not found or on errors defined in the index."""
+    __module__ = 'wn'
+
+
 class WnWarning(Warning):
     """Generic warning class for dubious worndet operations."""
 

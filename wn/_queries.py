@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from typing import (
-    Optional, Dict, Set, List, Tuple, Collection, Iterator, Sequence
+    Optional, List, Tuple, Collection, Iterator, Sequence
 )
 import itertools
 import sqlite3
@@ -83,18 +83,29 @@ def find_lexicons(
     lexicon: str,
     lang: str = None,
 ) -> Iterator[_Lexicon]:
-    conn = connect()
-    rows = conn.execute('SELECT rowid, id, version, language FROM lexicons').fetchall()
-    rowids = _get_lexicon_rowids_for_lang(rows, lang)
-    # the next call is somewhat expensive, so try to skip it in a common case
-    if lexicon != '*':
-        rowids &= _get_lexicon_rowids_for_lexicon(rows, lexicon)
-    if rows and not rowids:
+    cur = connect().cursor()
+    found = False
+    for specifier in lexicon.split():
+        limit = '-1' if '*' in lexicon else '1'
+        if ':' not in specifier:
+            specifier += ':*'
+        query = f'''
+            SELECT DISTINCT rowid, id, label, language, email, license,
+                            version, url, citation, logo
+              FROM lexicons
+             WHERE id || ":" || version GLOB :specifier
+               AND (:language ISNULL OR language = :language)
+             LIMIT {limit}
+        '''
+        params = {'specifier': specifier, 'language': lang}
+        for row in cur.execute(query, params):
+            yield row
+            found = True
+    # only raise an error when the query specifies something
+    if not found and (lexicon != '*' or lang is not None):
         raise wn.Error(
             f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
         )
-    for rowid in sorted(rowids):
-        yield _get_lexicon(conn, rowid)
 
 
 def get_lexicon(rowid: int) -> _Lexicon:
@@ -113,53 +124,6 @@ def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
     if row is None:
         raise LookupError(rowid)  # should we have a WnLookupError?
     return row
-
-
-def _get_lexicon_rowids_for_lang(
-        rows: List[Tuple[int, str, str, str]], lang: Optional[str]
-) -> Set[int]:
-    lg_match: Set[int] = set()
-    if lang:
-        lg_match.update(rowid for rowid, _, _, language in rows if language == lang)
-        if not lg_match:
-            raise wn.Error(f"no lexicon found with language code '{lang}'")
-    else:
-        lg_match.update(row[0] for row in rows)
-    return lg_match
-
-
-def _get_lexicon_rowids_for_lexicon(
-    rows: List[Tuple[int, str, str, str]],
-    lexicon: str,
-) -> Set[int]:
-    lexmap: Dict[str, Dict[str, int]] = {}
-    for rowid, id, version, _ in rows:
-        lexmap.setdefault(id, {})[version] = rowid
-
-    lex_match: Set[int] = set()
-    for id_ver in lexicon.split():
-        id, _, ver = id_ver.partition(':')
-
-        if id == '*':
-            for vermap in lexmap.values():
-                for version, rowid in vermap.items():
-                    if ver in ('', '*', version):
-                        lex_match.add(rowid)
-
-        elif id in lexmap:
-            if ver == '*':
-                lex_match.update(rowid for rowid in lexmap[id].values())
-            elif ver == '':
-                lex_match.add(max(lexmap[id].values()))  # last installed version
-            elif ver in lexmap[id]:
-                lex_match.add(lexmap[id][ver])
-            else:
-                raise wn.Error(f"no lexicon with id '{id}' found with version '{ver}'")
-
-        else:
-            raise wn.Error(f"no lexicon found with id '{id}'")
-
-    return lex_match
 
 
 def get_modified(rowid: int) -> bool:

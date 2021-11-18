@@ -38,3 +38,14 @@ def test_morphy_initialized():
     assert m('examples', None) == {'n': {'example'}}
     assert m('exemplifying', None) == {'v': {'exemplify'}}
     assert m('data', None) == {'n': {'datum'}}
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_issue_154():
+    # https://github.com/goodmami/wn/issues/154
+    w = wn.Wordnet('test-en:1')
+    assert w.words('exemplifies') == [w.word('test-en-exemplify-v')]
+    assert w.words('samples') == []
+    w = wn.Wordnet('test-en:1', lemmatizer=morphy.Morphy())
+    assert w.words('exemplifies') == [w.word('test-en-exemplify-v')]
+    assert w.words('samples') == [w.word('test-en-sample-n')]

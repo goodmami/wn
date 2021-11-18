@@ -11,12 +11,16 @@ Similarity_>`_, and `Wu-Palmer <Wu-Palmer Similarity_>`_ similarity
 metrics work by finding path distances in the hypernym/hyponym
 taxonomy. As such, they are most useful when the synsets are, in fact,
 arranged in a taxonomy. For the Princeton WordNet and derivative
-wordnets, synsets for nouns and verbs are arranged taxonomically: the
-nouns mostly form a single structure with a single root while verbs
-form many smaller structures with many roots. Synsets for the other
-parts of speech do not use hypernym/hyponym relations at all. This
-situation may be different for other wordnet projects or future
-versions of the English wordnets.
+wordnets, such as the `Open English Wordnet`_ and `OMW English Wordnet
+based on WordNet 3.0`_ available to Wn, synsets for nouns and verbs
+are arranged taxonomically: the nouns mostly form a single structure
+with a single root while verbs form many smaller structures with many
+roots. Synsets for the other parts of speech do not use
+hypernym/hyponym relations at all. This situation may be different for
+other wordnet projects or future versions of the English wordnets.
+
+.. _Open English Wordnet: https://en-word.net
+.. _OMW English Wordnet based on WordNet 3.0: https://github.com/omwn/omw-data
 
 The similarity metrics tend to fail when the synsets are not connected
 by some path. When the synsets are in different parts of speech, or

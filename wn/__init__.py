@@ -31,10 +31,18 @@ __all__ = (
     'ILI',
     'Error',
     'DatabaseError',
+    'ConfigurationError',
+    'ProjectError',
     'WnWarning',
 )
 
-from wn._exceptions import Error, DatabaseError, WnWarning
+from wn._exceptions import (
+    Error,
+    DatabaseError,
+    ConfigurationError,
+    ProjectError,
+    WnWarning,
+)
 from wn._config import config  # noqa: F401
 from wn._add import add, remove
 from wn._export import export
@@ -49,4 +57,4 @@ from wn._core import (
     Wordnet
 )
 
-__version__ = '0.8.3'
+__version__ = '0.9.0'

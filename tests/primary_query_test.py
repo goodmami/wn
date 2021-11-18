@@ -19,10 +19,10 @@ def test_lexicons_mini():
     results = wn.lexicons(lang='es')
     assert len(results) == 1 and results[0].language == 'es'
 
-    results = wn.lexicons(lexicon='*')
-    assert len(results) == 2
-    results = wn.lexicons(lexicon='*:1')
-    assert len(results) == 2
+    assert len(wn.lexicons(lexicon='*')) == 2
+    assert len(wn.lexicons(lexicon='*:1')) == 2
+    assert len(wn.lexicons(lexicon='test-*')) == 2
+    assert len(wn.lexicons(lexicon='*-en')) == 1
     results = wn.lexicons(lexicon='test-en')
     assert len(results) == 1 and results[0].language == 'en'
     results = wn.lexicons(lexicon='test-en:1')
@@ -127,6 +127,8 @@ def test_senses_mini():
     senses = wn.senses('exemplifies')  # search secondary form
     assert len(senses) == 1
     assert senses[0].word().lemma() == 'exemplify'
+    assert senses[0].word().lemma() in {'exemplify'}
+    assert 'exemplify' in {senses[0].word().lemma()}
 
     assert len(wn.senses(pos='n')) == 11
     assert len(wn.senses(pos='v')) == 5

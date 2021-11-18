@@ -12,6 +12,7 @@ from typing import (
     Iterator,
 )
 import warnings
+import textwrap
 
 import wn
 from wn._types import (
@@ -205,6 +206,44 @@ class Lexicon(_DatabaseEntity):
         return [_to_lexicon(get_lexicon(rowid))
                 for rowid in get_lexicon_extensions(self._id, depth=depth)]
 
+    def describe(self, full: bool = True) -> str:
+        """Return a formatted string describing the lexicon.
+
+        The *full* argument (default: :python:`True`) may be set to
+        :python:`False` to omit word and sense counts.
+
+        Also see: :meth:`Wordnet.describe`
+
+        """
+        _id = self._id
+        substrings: List[str] = [
+            f'{self.specifier()}',
+            f'  Label  : {self.label}',
+            f'  URL    : {self.url}',
+            f'  License: {self.license}',
+        ]
+        if full:
+            substrings.extend([
+                f'  Words  : {_desc_counts(find_entries, _id)}',
+                f'  Senses : {sum(1 for _ in find_senses(lexicon_rowids=(_id,)))}',
+            ])
+        substrings.extend([
+            f'  Synsets: {_desc_counts(find_synsets, _id)}',
+            f'  ILIs   : {sum(1 for ili, *_ in find_ilis(lexicon_rowids=(_id,))):>6}',
+        ])
+        return '\n'.join(substrings)
+
+
+def _desc_counts(query: Callable, lexid: int) -> str:
+    count: Dict[str, int] = {}
+    for _, pos, *_ in query(lexicon_rowids=(lexid,)):
+        if pos not in count:
+            count[pos] = 1
+        else:
+            count[pos] += 1
+    subcounts = ', '.join(f'{pos}: {count[pos]}' for pos in sorted(count))
+    return f'{sum(count.values()):>6} ({subcounts})'
+
 
 class _LexiconElement(_DatabaseEntity):
     __slots__ = '_lexid', '_wordnet'
@@ -298,10 +337,7 @@ class Form(str):
         return str.__eq__(self, other)
 
     def __hash__(self):
-        script = self.script
-        if script is None:
-            return str.__hash__(self)
-        return hash((str(self), self.script))
+        return str.__hash__(self)
 
     def pronunciations(self) -> List[Pronunciation]:
         return [Pronunciation(*data) for data in get_form_pronunciations(self._id)]
@@ -1090,13 +1126,13 @@ class Wordnet:
         self.lemmatizer = lemmatizer
         self._search_all_forms = search_all_forms
 
-    def lexicons(self):
+    def lexicons(self) -> List[Lexicon]:
         """Return the list of lexicons covered by this wordnet."""
-        return self._lexicons
+        return list(self._lexicons)
 
-    def expanded_lexicons(self):
+    def expanded_lexicons(self) -> List[Lexicon]:
         """Return the list of expand lexicons for this wordnet."""
-        return self._expanded
+        return list(self._expanded)
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
@@ -1177,6 +1213,34 @@ class Wordnet:
         iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
         return [ILI(*ili_data) for ili_data in iterable]
 
+    def describe(self) -> str:
+        """Return a formatted string describing the lexicons in this wordnet.
+
+        Example:
+
+            >>> oewn = wn.Wordnet('oewn:2021')
+            >>> print(oewn.describe())
+            Primary lexicons:
+              oewn:2021
+                Label  : Open English WordNet
+                URL    : https://github.com/globalwordnet/english-wordnet
+                License: https://creativecommons.org/licenses/by/4.0/
+                Words  : 163161 (a: 8386, n: 123456, r: 4481, s: 15231, v: 11607)
+                Senses : 211865
+                Synsets: 120039 (a: 7494, n: 84349, r: 3623, s: 10727, v: 13846)
+                ILIs   : 120039
+
+        """
+        substrings = ['Primary lexicons:']
+        for lex in self.lexicons():
+            substrings.append(textwrap.indent(lex.describe(), '  '))
+        expanded = self.expanded_lexicons()
+        if expanded:
+            substrings.append('Expand lexicons:')
+            for lex in self.expanded_lexicons():
+                substrings.append(textwrap.indent(lex.describe(full=False), '  '))
+        return '\n'.join(substrings)
+
 
 def _to_lexicon(data) -> Lexicon:
     rowid, id, label, language, email, license, version, url, citation, logo = data
@@ -1235,6 +1299,8 @@ def _find_helper(
     if not forms:
         forms = {pos: {form}}
 
+    # we want unique results here, but a set can make the order
+    # erratic, so filter manually later
     results = [
         cls(*data, w)  # type: ignore
         for _pos, _forms in forms.items()
@@ -1248,7 +1314,13 @@ def _find_helper(
                 forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
             )
         ]
-    return results
+    unique_results: List[C] = []
+    seen: Set[C] = set()
+    for result in results:
+        if result not in seen:
+            unique_results.append(result)
+            seen.add(result)
+    return unique_results
 
 
 def projects() -> List[Dict]:
@@ -1272,7 +1344,8 @@ def projects() -> List[Dict]:
     return [
         wn.config.get_project_info(f'{project_id}:{version}')
         for project_id, project_info in index.items()
-        for version in project_info['versions']
+        for version in project_info.get('versions', [])
+        if 'resource_urls' in project_info['versions'][version]
     ]
 
 
