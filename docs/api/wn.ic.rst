@@ -73,17 +73,20 @@ the number of synsets for the word:
 Example
 -------
 
-In the Princeton WordNet, the frequency of a concept like **stone
-fruit** is not the number of occurrences of *stone fruit*, but also
-includes the counts of the words for its hyponyms (*almond*, *olive*,
-etc.) and other taxonomic descendants (*Jordan almond*, *green olive*,
-etc.). The word *almond* has two synsets: one for the fruit or nut,
-another for the plant. Thus, if the word *almond* is encountered
-:math:`n` times in a corpus, then the weight (either the frequency
-:math:`n` or distributed weight :math:`\frac{n}{2}`) is added to the
-total weights for both synsets and to those of their ancestors, but
-not for descendant synsets, such as for **Jordan almond**. The fruit/nut
-synset of almond has two hypernym paths which converge on **fruit**:
+In the Princeton WordNet 3.0 (hereafter *WordNet*, but note that the
+equivalent lexicon in Wn is the *OMW English Wordnet based on WordNet
+3.0* with specifier ``omw-en:1.4``), the frequency of a concept like
+**stone fruit** is not just the number of occurrences of *stone
+fruit*, but also includes the counts of the words for its hyponyms
+(*almond*, *olive*, etc.) and other taxonomic descendants (*Jordan
+almond*, *green olive*, etc.). The word *almond* has two synsets: one
+for the fruit or nut, another for the plant. Thus, if the word
+*almond* is encountered :math:`n` times in a corpus, then the weight
+(either the frequency :math:`n` or distributed weight
+:math:`\frac{n}{2}`) is added to the total weights for both synsets
+and to those of their ancestors, but not for descendant synsets, such
+as for **Jordan almond**. The fruit/nut synset of almond has two
+hypernym paths which converge on **fruit**:
 
 1. **almond** ⊃ **stone fruit** ⊃ **fruit**
 2. **almond** ⊃ **nut** ⊃ **seed** ⊃ **fruit**
@@ -110,8 +113,8 @@ The corpus is an iterable of words. For large corpora it may help to
 use a generator for this iterable, but the entire vocabulary (i.e.,
 unique words and counts) will be held at once in memory. Multi-word
 expressions are also possible if they exist in the wordnet. For
-instance, the Princeton WordNet has *stone fruit*, with a single space
-delimiting the words, as an entry.
+instance, WordNet has *stone fruit*, with a single space delimiting
+the words, as an entry.
 
 The :class:`wn.Wordnet` object must be instantiated with a single
 lexicon, although it may have expand-lexicons for relation
@@ -147,17 +150,16 @@ be given another callable with the same signature as shown below:
 .. warning::
 
    The weights files are only valid for the version of wordnet for
-   which they were created. Files created for the Princeton WordNet
-   3.0 do not work for the Princeton WordNet 3.1 because the offsets
-   used in its identifiers are different, although the *get_synset_id*
-   parameter of :func:`load` could be given a function that performs a
-   suitable mapping. Some `Open Multilingual Wordnet
-   <https://github.com/globalwordnet/OMW>`_ wordnets use the Princeton
-   WordNet 3.0 offsets in their identifiers and can therefore
-   technically use the weights, but this usage is discouraged because
-   the distributional properties of text in another language and the
-   structure of the other wordnet will not be compatible with that of
-   the Princeton WordNet. For these cases, it is recommended to
-   compute new weights using :func:`compute`.
+   which they were created. Files created for WordNet 3.0 do not work
+   for WordNet 3.1 because the offsets used in its identifiers are
+   different, although the *get_synset_id* parameter of :func:`load`
+   could be given a function that performs a suitable mapping. Some
+   `Open Multilingual Wordnet <https://github.com/omwn/omw-data>`_
+   wordnets use the WordNet 3.0 offsets in their identifiers and can
+   therefore technically use the weights, but this usage is
+   discouraged because the distributional properties of text in
+   another language and the structure of the other wordnet will not be
+   compatible with that of the English WordNet. For these cases, it is
+   recommended to compute new weights using :func:`compute`.
 
 .. autofunction:: load

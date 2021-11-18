@@ -20,12 +20,12 @@ and ``instance_hyponym``, which encode *is-an-instance-of*
 relationships (e.g., *Oregon* is an instance of *American state*).
 
 The taxonomy forms a multiply-inheriting hierarchy with the synsets as
-nodes. In the English wordnets, such as the Princeton WordNet, nearly
-all nominal synsets form such a hierarchy with single root node, while
-verbal synsets form many smaller hierarchies without a common
-root. Other wordnets may have different properties, but as many are
-based off of the Princeton WordNet, they tend to follow this
-structure.
+nodes. In the English wordnets, such as the Princeton WordNet and its
+derivatives, nearly all nominal synsets form such a hierarchy with
+single root node, while verbal synsets form many smaller hierarchies
+without a common root. Other wordnets may have different properties,
+but as many are based off of the Princeton WordNet, they tend to
+follow this structure.
 
 Functions to find paths within the taxonomies form the basis of all
 :mod:`wordnet similarity measures <wn.similarity>`. For instance, the

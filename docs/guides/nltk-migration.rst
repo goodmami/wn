@@ -22,8 +22,8 @@ database by default where the NLTK would only search the English.
 With Wn it helps to create a :class:`wn.Wordnet` object to pre-filter
 the results by language or lexicon.
 
->>> pwn = wn.Wordnet('pwn', '3.0')
->>> pwn.synsets('chat')                     # only Princeton WordNet 3.0
+>>> pwn = wn.Wordnet('omw-en:1.4')
+>>> pwn.synsets('chat')                     # only the OMW English Wordnet
 
 Equivalent Operations
 ---------------------
@@ -40,7 +40,7 @@ NLTK:
 Wn:
 
 >>> import wn
->>> pwn = wn.Wordnet('pwn', '3.0')
+>>> pwn = wn.Wordnet('omw-en:1.4')
 >>> ss = pwn.synsets("chat", pos="v")[0]
 
 .. default-role:: python

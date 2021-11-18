@@ -48,15 +48,14 @@ The ``lexicons`` subcommand lets you quickly see what is installed:
 .. code-block:: console
 
    $ python -m wn lexicons
-   litwn:1.3+omw    [lt]   Lithuanian  WordNet
-   nnown:1.3+omw    [nn]   Norwegian Wordnet
-   jpnwn:1.3+omw    [jp]   Japanese Wordnet
-   nobwn:1.3+omw    [nb]   Norwegian Wordnet
-   arbwn:1.3+omw    [arb]  Arabic WordNet (AWN v2)
-   porwn:1.3+omw    [pt]   OpenWN-PT
-   cmnwn:1.3+omw    [zh]   Chinese Open Wordnet
-   pwn:3.0          [en]   Princeton WordNet 3.0
-   pwn:3.1          [en]   Princeton WordNet 3.1
+   omw-en	1.4	[en]	OMW English Wordnet based on WordNet 3.0
+   omw-sk	1.4	[sk]	Slovak WordNet
+   omw-pl	1.4	[pl]	plWordNet
+   omw-is	1.4	[is]	IceWordNet
+   omw-zsm	1.4	[zsm]	Wordnet Bahasa (Malaysian)
+   omw-sl	1.4	[sl]	sloWNet
+   omw-ja	1.4	[ja]	Japanese Wordnet
+   ...
 
 .. option:: -l LG, --lang LG
 .. option:: --lexicon SPEC

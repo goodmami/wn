@@ -140,9 +140,9 @@ class WNConfig:
 
         Example:
 
-            >>> info = wn.config.get_project_info('pwn:3.0')
+            >>> info = wn.config.get_project_info('oewn:2021')
             >>> info['label']
-            'Princeton WordNet'
+            'Open English WordNet'
 
         """
         id, _, version = arg.partition(':')
