@@ -17,8 +17,8 @@ repository-code: 'https://github.com/goodmami/wn/'
 preferred-citation:
   type: conference-paper
   authors:
-  - family-names: Michael Wayne
-    given-names: Goodman
+  - given-names: Michael Wayne
+    family-names: Goodman
     email: goodmami@uw.edu
     orcid: 'https://orcid.org/0000-0002-2896-5141'
     affiliation: Nanyang Technological University
