@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.9.0]
+
+**Release date: 2021-11-17**
+
 ### Added
 
 * `wn.constants.REVERSE_RELATIONS`
@@ -473,6 +478,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.9.0]: ../../releases/tag/v0.9.0
 [v0.8.3]: ../../releases/tag/v0.8.3
 [v0.8.2]: ../../releases/tag/v0.8.2
 [v0.8.1]: ../../releases/tag/v0.8.1
