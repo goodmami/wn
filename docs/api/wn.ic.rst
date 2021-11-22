@@ -138,7 +138,7 @@ an identifier that matches those used by the wordnet. By default,
 :func:`load` uses the lexicon identifier from its *wordnet* argument
 with synset offsets (padded with 0s to make 8 digits) and
 parts-of-speech from the weights file to format an identifier, such as
-``pwn-00001174-n``. For wordnets that use a different identifier
+``omw-en-00001174-n``. For wordnets that use a different identifier
 scheme, the *get_synset_id* parameter of :func:`load` can be given a
 callable created with :func:`wn.util.synset_id_formatter`. It can also
 be given another callable with the same signature as shown below:
@@ -146,6 +146,12 @@ be given another callable with the same signature as shown below:
 .. code-block:: python
 
    get_synset_id(*, offset: int, pos: str) -> str
+
+
+When loading pre-computed information content files, it is recommended
+to use the ones with smoothing (i.e., ``*-add1.dat`` or
+``*-resnik-add1.dat``) to avoid math domain errors when computing the
+information content value.
 
 .. warning::
 

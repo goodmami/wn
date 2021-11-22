@@ -181,7 +181,7 @@ def load(
 
         >>> import wn, wn.ic
         >>> pwn = wn.Wordnet('pwn:3.0')
-        >>> path = '~/nltk_data/corpora/wordnet_ic/ic-brown.dat'
+        >>> path = '~/nltk_data/corpora/wordnet_ic/ic-brown-resnik-add1.dat'
         >>> freq = wn.ic.load(path, pwn)
 
     """
