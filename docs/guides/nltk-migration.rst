@@ -40,27 +40,26 @@ NLTK:
 Wn:
 
 >>> import wn
->>> pwn = wn.Wordnet('omw-en:1.4')
->>> ss = pwn.synsets("chat", pos="v")[0]
+>>> en = wn.Wordnet('omw-en:1.4')
+>>> ss = en.synsets("chat", pos="v")[0]
 
 .. default-role:: python
 
 Primary Queries
 '''''''''''''''
 
-=========================================  =========================================
+=========================================  ===============================================
 NLTK                                       Wn
-=========================================  =========================================
+=========================================  ===============================================
 `wn.langs()`                               `[lex.language for lex in wn.lexicons()]`
 `wn.lemmas("chat")`                        --
---                                         `pwn.words("chat")`
---                                         `pwn.senses("chat")`
-`wn.synsets("chat")`                       `pwn.synsets("chat")`
-`wn.synsets("chat", pos="v")`              `pwn.synsets("chat", pos="v")`
-`wn.all_synsets()`                         `pwn.synsets()`
-`wn.all_synsets(pos="v")`                  `pwn.synsets(pos="v")`
-`wn.all_lemma_names()`                     `[w.lemma() for w in pwn.words()]`
-=========================================  =========================================
+--                                         `en.words("chat")`
+--                                         `en.senses("chat")`
+`wn.synsets("chat")`                       `en.synsets("chat")`
+`wn.synsets("chat", pos="v")`              `en.synsets("chat", pos="v")`
+`wn.all_synsets()`                         `en.synsets()`
+`wn.all_synsets(pos="v")`                  `en.synsets(pos="v")`
+=========================================  ===============================================
 
 Synsets -- Basic
 ''''''''''''''''

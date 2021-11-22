@@ -20,21 +20,20 @@
 ---
 
 Wn is a Python library for exploring information in wordnets. Install
-it from PyPI:
+it from PyPI and download some data:
 
 ```console
 $ pip install wn
+$ python -m wn download oewn:2021  # the Open English WordNet 2021
 ```
 
-Then download some data and start exploring:
+Then start exploring:
 
 ```python
 >>> import wn
->>> wn.download('ewn:2020')    # Install the English WordNet 2020 (only once)
-Download complete (13643357 bytes)
-Added ewn:2020 (English WordNet)
->>> ss = wn.synsets('win')[0]  # Get the first synset for 'win'
->>> ss.definition()            # Get the synset's definition
+>>> en = wn.Wordnet('oewn:2021')  # Create Wordnet object to query
+>>> ss = en.synsets('win')[0]     # Get the first synset for 'win'
+>>> ss.definition()               # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
 ```
 
