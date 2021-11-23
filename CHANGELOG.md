@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.9.1]
+
+**Release date: 2021-11-23**
+
 ### Fixed
 
 * Correctly add syntactic behaviours for WN-LMF 1.1 lexicons ([#156])
@@ -482,6 +487,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.9.1]: ../../releases/tag/v0.9.1
 [v0.9.0]: ../../releases/tag/v0.9.0
 [v0.8.3]: ../../releases/tag/v0.8.3
 [v0.8.2]: ../../releases/tag/v0.8.2
