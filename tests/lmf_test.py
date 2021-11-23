@@ -49,7 +49,7 @@ def test_load_1_0(mini_lmf_1_0):
     assert len(lexicon['entries'][6]['frames']) == 2
     frames = lexicon['entries'][6]['frames']
     assert frames[0]['subcategorizationFrame'] == 'Somebody ----s something'
-    assert frames[0]['senses'] == ['test-en-illustrate-v-0004-01']
+    assert frames[0]['senses'] == ['test-en-illustrate-v-0003-01']
 
     assert len(lexicon['synsets']) == 8
 

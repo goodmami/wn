@@ -52,11 +52,11 @@ def test_sense_lexicalized():
 
 @pytest.mark.usefixtures('mini_db')
 def test_sense_frames():
-    assert wn.sense('test-en-illustrate-v-0004-01').frames() == [
+    assert wn.sense('test-en-illustrate-v-0003-01').frames() == [
         'Somebody ----s something',
         'Something ----s something',
     ]
-    assert wn.sense('test-es-ilustrar-v-0004-01').frames() == []
+    assert wn.sense('test-es-ilustrar-v-0003-01').frames() == []
 
 
 @pytest.mark.usefixtures('mini_db')

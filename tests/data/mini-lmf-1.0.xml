@@ -69,17 +69,17 @@ Spanish:
     <LexicalEntry id="test-en-illustration-n">
       <Lemma partOfSpeech="n" writtenForm="illustration" />
       <Sense id="test-en-illustration-n-0002-01" synset="test-en-0002-n" >
-        <SenseRelation relType="derivation" target="test-en-illustrate-v-0004-01" />
+        <SenseRelation relType="derivation" target="test-en-illustrate-v-0003-01" />
       </Sense>
     </LexicalEntry>
 
     <LexicalEntry id="test-en-illustrate-v">
       <Lemma partOfSpeech="v" writtenForm="illustrate" />
-      <Sense id="test-en-illustrate-v-0004-01" synset="test-en-0003-v" >
+      <Sense id="test-en-illustrate-v-0003-01" synset="test-en-0003-v" >
         <SenseRelation relType="derivation" target="test-en-illustration-n-0002-01" />
       </Sense>
-      <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Somebody ----s something" />
-      <SyntacticBehaviour senses="test-en-illustrate-v-0004-01" subcategorizationFrame="Something ----s something" />
+      <SyntacticBehaviour senses="test-en-illustrate-v-0003-01" subcategorizationFrame="Somebody ----s something" />
+      <SyntacticBehaviour senses="test-en-illustrate-v-0003-01" subcategorizationFrame="Something ----s something" />
     </LexicalEntry>
 
     <LexicalEntry id="test-en-datum-n">
@@ -173,13 +173,13 @@ Spanish:
     <LexicalEntry id="test-es-ilustración-n">
       <Lemma partOfSpeech="n" writtenForm="ilustración" />
       <Sense id="test-es-ilustración-n-0002-01" synset="test-es-0002-n" >
-        <SenseRelation relType="derivation" target="test-es-ilustrar-v-0004-01" />
+        <SenseRelation relType="derivation" target="test-es-ilustrar-v-0003-01" />
       </Sense>
     </LexicalEntry>
 
     <LexicalEntry id="test-es-ilustrar-v">
       <Lemma partOfSpeech="v" writtenForm="ilustrar" />
-      <Sense id="test-es-ilustrar-v-0004-01" synset="test-es-0003-v" >
+      <Sense id="test-es-ilustrar-v-0003-01" synset="test-es-0003-v" >
         <SenseRelation relType="derivation" target="test-es-ilustración-n-0002-01" />
       </Sense>
     </LexicalEntry>
