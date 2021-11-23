@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* Correctly add syntactic behaviours for WN-LMF 1.1 lexicons ([#156])
+
 
 ## [v0.9.0]
 
@@ -561,3 +565,4 @@ abandoned, but this is an entirely new codebase.
 [#152]: https://github.com/goodmami/wn/issues/152
 [#154]: https://github.com/goodmami/wn/issues/154
 [#155]: https://github.com/goodmami/wn/issues/155
+[#156]: https://github.com/goodmami/wn/issues/156

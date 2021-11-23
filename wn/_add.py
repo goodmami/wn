@@ -682,11 +682,12 @@ def _collect_frames(lexicon: _AnyLexicon) -> List[lmf.SyntacticBehaviour]:
         frame['subcategorizationFrame']: {
             'id': frame['id'],
             'subcategorizationFrame': frame['subcategorizationFrame'],
+            'senses': frame.get('senses', []),
         }
         for frame in lexicon.get('frames', [])
     }
     # all relevant senses are collected into the 'senses' key
-    id_senses_map = {sb['id']: sb.get('senses', [])
+    id_senses_map = {sb['id']: sb['senses']
                      for sb in synbhrs.values() if sb.get('id')}
     for entry in _entries(lexicon):
         # for WN-LMF 1.1
@@ -701,9 +702,10 @@ def _collect_frames(lexicon: _AnyLexicon) -> List[lmf.SyntacticBehaviour]:
         for frame in entry.get('frames', []):
             subcat_frame = frame['subcategorizationFrame']
             if subcat_frame not in synbhrs:
-                synbhrs[subcat_frame] = {'subcategorizationFrame': subcat_frame}
+                synbhrs[subcat_frame] = {'subcategorizationFrame': subcat_frame,
+                                         'senses': []}
             senses = frame.get('senses', []) or all_senses
-            synbhrs[subcat_frame].setdefault('senses', []).extend(senses)
+            synbhrs[subcat_frame]['senses'].extend(senses)
     return list(synbhrs.values())
 
 

@@ -59,6 +59,15 @@ def test_sense_frames():
     assert wn.sense('test-es-ilustrar-v-0003-01').frames() == []
 
 
+@pytest.mark.usefixtures('mini_db_1_1')
+def test_sense_frames_issue_156():
+    # https://github.com/goodmami/wn/issues/156
+    assert wn.sense('test-ja-示す-v-0003-01').frames() == [
+        'ある人が何かを----',
+    ]
+    assert wn.sense('test-ja-事例-n-0002-01').frames() == []
+
+
 @pytest.mark.usefixtures('mini_db')
 def test_sense_translate():
     assert len(wn.sense('test-en-information-n-0001-01').translate(lang='es')) == 1

@@ -40,12 +40,24 @@
       <Sense id="test-ja-事例-n-0002-01" synset="test-ja-0002-n" />
     </LexicalEntry>
 
+    <LexicalEntry id="test-ja-示す-v">
+      <Lemma partOfSpeech="v" writtenForm="示す" />
+      <Form id="test-ja-示す-v-しめす" writtenForm="しめす" script="Hira" />
+      <Form id="test-ja-示す-v-シメス" writtenForm="シメス" script="Kana" />
+      <Form id="test-ja-示す-v-simesu" writtenForm="simesu" script="Latn-kunrei" />
+      <Sense id="test-ja-示す-v-0003-01" synset="test-ja-0003-v" subcat="frame-1" />
+    </LexicalEntry>
+
     <Synset id="test-ja-0001-n" ili="i67447" partOfSpeech="n" lexfile="noun.cognition"
             members="test-ja-情報-n-0001-01" />
 
     <Synset id="test-ja-0002-n" ili="i67469" partOfSpeech="n" lexfile="noun.cognition"
             members="test-ja-事例-n-0002-01 test-ja-例え-n-0002-01" />
 
+    <Synset id="test-ja-0003-v" ili="i26682" partOfSpeech="v" lexfile="verb.communication"
+            members="test-ja-示す-v-0003-01" />
+
+    <SyntacticBehaviour id="frame-1" subcategorizationFrame="ある人が何かを----" />
   </Lexicon>
 
   <LexiconExtension id="test-en-ext"
