@@ -902,7 +902,7 @@ class Sense(_Relatable):
             Synset('pwn-03325088-n')
 
         """
-        return synset(id=self._synset_id)
+        return self._wordnet.synset(id=self._synset_id)
 
     def examples(self) -> List[str]:
         """Return the list of examples for the sense."""

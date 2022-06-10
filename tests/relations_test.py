@@ -105,3 +105,9 @@ def test_extension_relations():
     w = wn.Wordnet(lexicon='test-en-ext')
     assert w.synset('test-en-ext-0009-v').hyponyms() == []
     assert w.sense('test-en-ext-info-n-0001-01').get_related('pertainym') == []
+
+@pytest.mark.usefixtures('mini_db_1_1')
+def test_sense_synset_issue_168():
+    ja = wn.Wordnet(lexicon='test-ja', expand='')
+    assert ja.synset('test-ja-0001-n').get_related() == []
+    assert ja.sense('test-ja-情報-n-0001-01').synset().get_related() == []
