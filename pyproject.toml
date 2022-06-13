@@ -59,6 +59,7 @@ doc = [
 editor = [
     "wn-editor"
 ]
+
 [project.urls]
 homepage = "https://github.com/goodmami/wn"
 documentation = "https://wn.readthedocs.io"

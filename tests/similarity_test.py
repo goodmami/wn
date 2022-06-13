@@ -51,7 +51,9 @@ def test_path():
     assert sim.path(ss['random sample'], ss['datum']) == 1/5
     assert sim.path(ss['random sample2'], ss['datum']) == 0
     assert sim.path(ss['random sample2'], ss['datum'], simulate_root=True) == 1/4
-    assert sim.path(ss['random sample'], ss['random sample2'], simulate_root=True) == 1/6
+    assert sim.path(
+        ss['random sample'], ss['random sample2'], simulate_root=True
+    ) == 1/6
     with pytest.raises(wn.Error):
         sim.path(ss['example'], ss['exemplify'])
     with pytest.raises(wn.Error):

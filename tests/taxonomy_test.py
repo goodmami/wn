@@ -10,8 +10,8 @@ from wn.taxonomy import (
     min_depth,
     max_depth,
     shortest_path,
-    common_hypernyms,
-    lowest_common_hypernyms,
+    # common_hypernyms,
+    # lowest_common_hypernyms,
 )
 
 
