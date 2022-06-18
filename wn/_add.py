@@ -277,6 +277,9 @@ def _insert_lexicon(
          False))
     lexid = cur.lastrowid
 
+    if not isinstance(lexid, int):
+        raise wn.Error('failed to insert lexicon')
+
     query = '''
         UPDATE lexicon_dependencies
            SET provider_rowid = ?
