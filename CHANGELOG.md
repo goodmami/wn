@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.download()` no longer uses Python features unavailable in 3.7
+  when recovering from download errors
+
 
 ## [v0.9.1]
 
