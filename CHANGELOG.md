@@ -2,10 +2,18 @@
 
 ## [Unreleased]
 
+### Provisional Changes
+
+* The `editor` installation extra installs the `wn-editor`
+  package. This is not a normal way of using extras, as it installs a
+  dependent and not a dependency, and may be removed. ([#17])
+
 ### Fixed
 
 * `wn.download()` no longer uses Python features unavailable in 3.7
   when recovering from download errors
+* `Sense.synset()` now creates a `Synset` properly linked to the same
+  `Wordnet` object ([#168])
 
 
 ## [v0.9.1]
@@ -577,3 +585,4 @@ abandoned, but this is an entirely new codebase.
 [#154]: https://github.com/goodmami/wn/issues/154
 [#155]: https://github.com/goodmami/wn/issues/155
 [#156]: https://github.com/goodmami/wn/issues/156
+[#168]: https://github.com/goodmami/wn/issues/168
