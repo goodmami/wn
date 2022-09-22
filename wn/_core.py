@@ -891,7 +891,7 @@ class Sense(_Relatable):
             Word('pwn-spigot-n')
 
         """
-        return word(id=self._entry_id)
+        return self._wordnet.word(id=self._entry_id)
 
     def synset(self) -> Synset:
         """Return the synset of the sense.
