@@ -13,7 +13,9 @@
 * `wn.download()` no longer uses Python features unavailable in 3.7
   when recovering from download errors
 * `Sense.synset()` now creates a `Synset` properly linked to the same
-  `Wordnet` object ([#168])
+  `Wordnet` object ([#157], [#168])
+* `Sense.word()` now creates a `Word` properly linked to the same
+  `Wordnet` object ([#157])
 
 
 ## [v0.9.1]
@@ -585,4 +587,5 @@ abandoned, but this is an entirely new codebase.
 [#154]: https://github.com/goodmami/wn/issues/154
 [#155]: https://github.com/goodmami/wn/issues/155
 [#156]: https://github.com/goodmami/wn/issues/156
+[#157]: https://github.com/goodmami/wn/issues/157
 [#168]: https://github.com/goodmami/wn/issues/168

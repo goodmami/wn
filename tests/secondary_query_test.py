@@ -39,6 +39,16 @@ def test_sense_synset():
 
 
 @pytest.mark.usefixtures('mini_db')
+def test_sense_issue_157():
+    # https://github.com/goodmami/wn/issues/157
+    sense = wn.sense('test-en-information-n-0001-01')
+    # This test uses non-public members, which is not ideal, but there
+    # is currently no better alternative.
+    assert sense._wordnet is sense.word()._wordnet
+    assert sense._wordnet is sense.synset()._wordnet
+
+
+@pytest.mark.usefixtures('mini_db')
 def test_sense_examples():
     assert wn.sense('test-en-information-n-0001-01').examples() == []
     assert wn.sense('test-es-información-n-0001-01').examples() == []
