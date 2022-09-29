@@ -109,6 +109,18 @@ def test_extension_relations():
 
 @pytest.mark.usefixtures('mini_db_1_1')
 def test_sense_synset_issue_168():
+    # https://github.com/goodmami/wn/issues/168
     ja = wn.Wordnet(lexicon='test-ja', expand='')
     assert ja.synset('test-ja-0001-n').get_related() == []
     assert ja.sense('test-ja-情報-n-0001-01').synset().get_related() == []
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_synset_relations_issue_169():
+    # https://github.com/goodmami/wn/issues/169
+    assert list(
+        wn.synset(id="test-en-0001-n", lexicon='test-en').relations('hyponym')
+    ) == ['hyponym']
+    assert list(
+        wn.Wordnet('test-es', expand='test-en').synset("test-es-0001-n").relations('hyponym')
+    ) == ['hyponym']
