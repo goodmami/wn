@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v0.9.2]
+
+**Release date: 2022-10-02**
+
 ### Provisional Changes
 
 * The `editor` installation extra installs the `wn-editor`
@@ -504,6 +509,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.9.2]: ../../releases/tag/v0.9.2
 [v0.9.1]: ../../releases/tag/v0.9.1
 [v0.9.0]: ../../releases/tag/v0.9.0
 [v0.8.3]: ../../releases/tag/v0.8.3
