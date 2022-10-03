@@ -118,9 +118,7 @@ def test_sense_synset_issue_168():
 @pytest.mark.usefixtures('mini_db')
 def test_synset_relations_issue_169():
     # https://github.com/goodmami/wn/issues/169
-    assert list(
-        wn.synset(id="test-en-0001-n", lexicon='test-en').relations('hyponym')
-    ) == ['hyponym']
-    assert list(
-        wn.Wordnet('test-es', expand='test-en').synset("test-es-0001-n").relations('hyponym')
-    ) == ['hyponym']
+    en = wn.Wordnet('test-en')
+    assert list(en.synset("test-en-0001-n").relations('hyponym')) == ['hyponym']
+    es = wn.Wordnet('test-es', expand='test-en')
+    assert list(es.synset("test-es-0001-n").relations('hyponym')) == ['hyponym']
