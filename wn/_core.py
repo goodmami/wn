@@ -693,10 +693,11 @@ class Synset(_Relatable):
 
         # first get relations from the current lexicon(s)
         if self._id != NON_ROWID:
-            relations = list(get_synset_relations({self._id}, args, lexids))
-            targets.extend((row[0], Synset(*row[2:], self._wordnet))
-                           for row in relations
-                           if row[5] in lexids)
+            targets.extend(
+                (row[0], Synset(*row[2:], self._wordnet))
+                for row in get_synset_relations({self._id}, args, lexids)
+                if row[5] in lexids
+            )
 
         # then attempt to expand via ILI
         if self._ili is not None and self._wordnet and self._wordnet._expanded_ids:
@@ -705,26 +706,31 @@ class Synset(_Relatable):
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            relations = list(get_synset_relations(rowids, args, expids))
-            ilis = {row[4] for row in relations} - {None}
+            relations: Dict[str, Set[str]] = {reltype: set() for reltype in args}
+            for rel_row in get_synset_relations(rowids, args, expids):
+                rel_type, ili = rel_row[0], rel_row[4]
+                if ili is not None:
+                    relations[rel_type].add(ili)
 
             # map back to target lexicons
             seen = {ss._id for _, ss in targets}
-            for row in get_synsets_for_ilis(ilis, lexicon_rowids=lexids):
-                if row[-1] not in seen:
-                    targets.append((row[0], Synset(*row, self._wordnet)))
+            for rel_type, ilis in relations.items():
+                for row in get_synsets_for_ilis(ilis, lexicon_rowids=lexids):
+                    if row[-1] not in seen:
+                        targets.append((rel_type, Synset(*row, self._wordnet)))
 
             # add empty synsets for ILIs without a target in lexids
-            unseen_ilis = ilis - {tgt._ili for _, tgt in targets}
-            for rel_row in relations:
-                if rel_row[4] in unseen_ilis:
+            seen_ilis = {tgt._ili for _, tgt in targets}
+            for rel_type, ilis in relations.items():
+                unseen_ilis = ilis - seen_ilis
+                for ili in unseen_ilis:
                     ss = Synset.empty(
                         id=_INFERRED_SYNSET,
-                        ili=rel_row[4],
+                        ili=ili,
                         _lexid=self._lexid,
                         _wordnet=self._wordnet
                     )
-                    targets.append((rel_row[0], ss))
+                    targets.append((rel_type, ss))
 
         return targets
 

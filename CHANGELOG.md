@@ -16,6 +16,8 @@
   `Wordnet` object ([#157], [#168])
 * `Sense.word()` now creates a `Word` properly linked to the same
   `Wordnet` object ([#157])
+* `Synset.relations()` uses the correct relation type for those
+  obtained from expand lexicons ([#169])
 
 
 ## [v0.9.1]
@@ -589,3 +591,4 @@ abandoned, but this is an entirely new codebase.
 [#156]: https://github.com/goodmami/wn/issues/156
 [#157]: https://github.com/goodmami/wn/issues/157
 [#168]: https://github.com/goodmami/wn/issues/168
+[#169]: https://github.com/goodmami/wn/issues/169
