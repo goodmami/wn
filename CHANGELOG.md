@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* `wn.Synset.relations()` no longer raises a `KeyError` when no
+  relation types are given and relations are found via ILI ([#177])
 
 ## [v0.9.2]
 
@@ -598,3 +602,4 @@ abandoned, but this is an entirely new codebase.
 [#157]: https://github.com/goodmami/wn/issues/157
 [#168]: https://github.com/goodmami/wn/issues/168
 [#169]: https://github.com/goodmami/wn/issues/169
+[#177]: https://github.com/goodmami/wn/issues/177

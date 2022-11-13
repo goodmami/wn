@@ -706,11 +706,11 @@ class Synset(_Relatable):
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            relations: Dict[str, Set[str]] = {reltype: set() for reltype in args}
+            relations: Dict[str, Set[str]] = {}
             for rel_row in get_synset_relations(rowids, args, expids):
                 rel_type, ili = rel_row[0], rel_row[4]
                 if ili is not None:
-                    relations[rel_type].add(ili)
+                    relations.setdefault(rel_type, set()).add(ili)
 
             # map back to target lexicons
             seen = {ss._id for _, ss in targets}
