@@ -62,10 +62,10 @@ class WNConfig:
         self,
         id: str,
         type: str = _WORDNET,
-        label: str = None,
-        language: str = None,
-        license: str = None,
-        error: str = None,
+        label: Optional[str] = None,
+        language: Optional[str] = None,
+        license: Optional[str] = None,
+        error: Optional[str] = None,
     ) -> None:
         """Add a new wordnet project to the index.
 
@@ -96,9 +96,9 @@ class WNConfig:
         self,
         id: str,
         version: str,
-        url: str = None,
-        error: str = None,
-        license: str = None,
+        url: Optional[str] = None,
+        error: Optional[str] = None,
+        license: Optional[str] = None,
     ) -> None:
         """Add a new resource version for a project.
 

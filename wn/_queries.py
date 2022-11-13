@@ -81,7 +81,7 @@ _Lexicon = Tuple[
 
 def find_lexicons(
     lexicon: str,
-    lang: str = None,
+    lang: Optional[str] = None,
 ) -> Iterator[_Lexicon]:
     cur = connect().cursor()
     found = False
@@ -175,9 +175,9 @@ def get_lexicon_extensions(rowid: int, depth: int = -1) -> List[int]:
 
 
 def find_ilis(
-    id: str = None,
-    status: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    status: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
 ) -> Iterator[_ILI]:
     if status != 'proposed':
         yield from _find_existing_ilis(
@@ -188,9 +188,9 @@ def find_ilis(
 
 
 def _find_existing_ilis(
-    id: str = None,
-    status: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    status: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
 ) -> Iterator[_ILI]:
     query = '''
         SELECT DISTINCT i.id, ist.status, i.definition, i.rowid
@@ -219,8 +219,8 @@ def _find_existing_ilis(
 
 
 def find_proposed_ilis(
-    synset_rowid: int = None,
-    lexicon_rowids: Sequence[int] = None,
+    synset_rowid: Optional[int] = None,
+    lexicon_rowids: Sequence[int] = (),
 ) -> Iterator[_ILI]:
     query = '''
         SELECT null, "proposed", definition, rowid
@@ -244,10 +244,10 @@ def find_proposed_ilis(
 
 
 def find_entries(
-    id: str = None,
-    forms: Sequence[str] = None,
-    pos: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    forms: Sequence[str] = (),
+    pos: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Word]:
@@ -301,10 +301,10 @@ def find_entries(
 
 
 def find_senses(
-    id: str = None,
-    forms: Sequence[str] = None,
-    pos: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    forms: Sequence[str] = (),
+    pos: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Sense]:
@@ -351,11 +351,11 @@ def find_senses(
 
 
 def find_synsets(
-    id: str = None,
-    forms: Sequence[str] = None,
-    pos: str = None,
-    ili: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    forms: Sequence[str] = (),
+    pos: Optional[str] = None,
+    ili: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Synset]:
@@ -503,8 +503,8 @@ def get_examples(
 
 
 def find_syntactic_behaviours(
-    id: str = None,
-    lexicon_rowids: Sequence[int] = None,
+    id: Optional[str] = None,
+    lexicon_rowids: Sequence[int] = (),
 ) -> Iterator[_SyntacticBehaviour]:
     conn = connect()
     query = '''
