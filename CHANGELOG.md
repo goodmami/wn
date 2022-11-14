@@ -5,7 +5,7 @@
 
 ## [v0.9.3]
 
-**Release date: 2022-11-12**
+**Release date: 2022-11-13**
 
 ### Fixed
 
