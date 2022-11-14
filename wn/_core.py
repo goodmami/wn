@@ -94,7 +94,7 @@ class ILI(_DatabaseEntity):
         self,
         id: Optional[str],
         status: str,
-        definition: str = None,
+        definition: Optional[str] = None,
         _id: int = NON_ROWID,
     ):
         super().__init__(_id=_id)
@@ -142,9 +142,9 @@ class Lexicon(_DatabaseEntity):
         email: str,
         license: str,
         version: str,
-        url: str = None,
-        citation: str = None,
-        logo: str = None,
+        url: Optional[str] = None,
+        citation: Optional[str] = None,
+        logo: Optional[str] = None,
         _id: int = NON_ROWID,
     ):
         super().__init__(_id=_id)
@@ -249,10 +249,10 @@ class _LexiconElement(_DatabaseEntity):
     __slots__ = '_lexid', '_wordnet'
 
     def __init__(
-            self,
-            _lexid: int = NON_ROWID,
-            _id: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        self,
+        _lexid: int = NON_ROWID,
+        _id: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(_id=_id)
         self._lexid = _lexid  # Database-internal lexicon id
@@ -282,10 +282,10 @@ class Pronunciation:
     def __init__(
         self,
         value: str,
-        variety: str = None,
-        notation: str = None,
+        variety: Optional[str] = None,
+        notation: Optional[str] = None,
         phonemic: bool = True,
-        audio: str = None,
+        audio: Optional[str] = None,
     ):
         self.value = value
         self.variety = variety
@@ -321,8 +321,8 @@ class Form(str):
     def __new__(
         cls,
         form: str,
-        id: str = None,
-        script: str = None,
+        id: Optional[str] = None,
+        script: Optional[str] = None,
         _id: int = NON_ROWID
     ):
         obj = str.__new__(cls, form)  # type: ignore
@@ -354,13 +354,13 @@ class Word(_LexiconElement):
     _ENTITY_TYPE = 'entries'
 
     def __init__(
-            self,
-            id: str,
-            pos: str,
-            forms: List[Tuple[str, Optional[str], Optional[str], int]],
-            _lexid: int = NON_ROWID,
-            _id: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        self,
+        id: str,
+        pos: str,
+        forms: List[Tuple[str, Optional[str], Optional[str], int]],
+        _lexid: int = NON_ROWID,
+        _id: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
@@ -434,7 +434,7 @@ class Word(_LexiconElement):
                 for derived_sense in sense.get_related('derivation')]
 
     def translate(
-        self, lexicon: str = None, *, lang: str = None,
+        self, lexicon: Optional[str] = None, *, lang: Optional[str] = None,
     ) -> Dict['Sense', List['Word']]:
         """Return a mapping of word senses to lists of translated words.
 
@@ -467,11 +467,11 @@ class _Relatable(_LexiconElement):
     __slots__ = 'id',
 
     def __init__(
-            self,
-            id: str,
-            _lexid: int = NON_ROWID,
-            _id: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        self,
+        id: str,
+        _lexid: int = NON_ROWID,
+        _id: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
@@ -492,7 +492,11 @@ class _Relatable(_LexiconElement):
                 yield relatable
                 queue.extend(relatable.get_related(*args))
 
-    def relation_paths(self: T, *args: str, end: T = None) -> Iterator[List[T]]:
+    def relation_paths(
+        self: T,
+        *args: str,
+        end: Optional[T] = None
+    ) -> Iterator[List[T]]:
         agenda: List[Tuple[List[T], Set[T]]] = [
             ([target], {self, target})
             for target in self.get_related(*args)
@@ -522,13 +526,13 @@ class Synset(_Relatable):
     _ENTITY_TYPE = 'synsets'
 
     def __init__(
-            self,
-            id: str,
-            pos: str,
-            ili: str = None,
-            _lexid: int = NON_ROWID,
-            _id: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        self,
+        id: str,
+        pos: str,
+        ili: Optional[str] = None,
+        _lexid: int = NON_ROWID,
+        _id: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.pos = pos
@@ -536,11 +540,11 @@ class Synset(_Relatable):
 
     @classmethod
     def empty(
-            cls,
-            id: str,
-            ili: str = None,
-            _lexid: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        cls,
+        id: str,
+        ili: Optional[str] = None,
+        _lexid: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
 
@@ -706,11 +710,11 @@ class Synset(_Relatable):
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            relations: Dict[str, Set[str]] = {reltype: set() for reltype in args}
+            relations: Dict[str, Set[str]] = {}
             for rel_row in get_synset_relations(rowids, args, expids):
                 rel_type, ili = rel_row[0], rel_row[4]
                 if ili is not None:
-                    relations[rel_type].add(ili)
+                    relations.setdefault(rel_type, set()).add(ili)
 
             # map back to target lexicons
             seen = {ss._id for _, ss in targets}
@@ -828,7 +832,12 @@ class Synset(_Relatable):
             'instance_hyponym'
         )
 
-    def translate(self, lexicon: str = None, *, lang: str = None) -> List['Synset']:
+    def translate(
+        self,
+        lexicon: Optional[str] = None,
+        *,
+        lang: Optional[str] = None
+    ) -> List['Synset']:
         """Return a list of translated synsets.
 
         Arguments:
@@ -873,13 +882,13 @@ class Sense(_Relatable):
     _ENTITY_TYPE = 'senses'
 
     def __init__(
-            self,
-            id: str,
-            entry_id: str,
-            synset_id: str,
-            _lexid: int = NON_ROWID,
-            _id: int = NON_ROWID,
-            _wordnet: 'Wordnet' = None
+        self,
+        id: str,
+        entry_id: str,
+        synset_id: str,
+        _lexid: int = NON_ROWID,
+        _id: int = NON_ROWID,
+        _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self._entry_id = entry_id
@@ -1002,7 +1011,12 @@ class Sense(_Relatable):
                 for _, _, ssid, pos, ili, lexid, rowid in iterable
                 if lexids is None or lexid in lexids]
 
-    def translate(self, lexicon: str = None, *, lang: str = None) -> List['Sense']:
+    def translate(
+        self,
+        lexicon: Optional[str] = None,
+        *,
+        lang: Optional[str] = None
+    ) -> List['Sense']:
         """Return a list of translated senses.
 
         Arguments:
@@ -1087,10 +1101,10 @@ class Wordnet:
 
     def __init__(
         self,
-        lexicon: str = None,
+        lexicon: Optional[str] = None,
         *,
-        lang: str = None,
-        expand: str = None,
+        lang: Optional[str] = None,
+        expand: Optional[str] = None,
         normalizer: Optional[NormalizeFunction] = normalize_form,
         lemmatizer: Optional[LemmatizeFunction] = None,
         search_all_forms: bool = True,
@@ -1148,7 +1162,11 @@ class Wordnet:
         except StopIteration:
             raise wn.Error(f'no such lexical entry: {id}')
 
-    def words(self, form: str = None, pos: str = None) -> List[Word]:
+    def words(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None
+    ) -> List[Word]:
         """Return the list of matching words in this wordnet.
 
         Without any arguments, this function returns all words in the
@@ -1168,7 +1186,10 @@ class Wordnet:
             raise wn.Error(f'no such synset: {id}')
 
     def synsets(
-        self, form: str = None, pos: str = None, ili: str = None
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None,
+        ili: Optional[str] = None
     ) -> List[Synset]:
         """Return the list of matching synsets in this wordnet.
 
@@ -1191,7 +1212,11 @@ class Wordnet:
         except StopIteration:
             raise wn.Error(f'no such sense: {id}')
 
-    def senses(self, form: str = None, pos: str = None) -> List[Sense]:
+    def senses(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None
+    ) -> List[Sense]:
         """Return the list of matching senses in this wordnet.
 
         Without any arguments, this function returns all senses in the
@@ -1210,7 +1235,7 @@ class Wordnet:
         except StopIteration:
             raise wn.Error(f'no such ILI: {id}')
 
-    def ilis(self, status: str = None) -> List[ILI]:
+    def ilis(self, status: Optional[str] = None) -> List[ILI]:
         """Return the list of ILIs in this wordnet.
 
         If *status* is given, only return ILIs with a matching status.
@@ -1270,7 +1295,7 @@ def _find_helper(
     query_func: Callable,
     form: Optional[str],
     pos: Optional[str],
-    ili: str = None
+    ili: Optional[str] = None
 ) -> List[C]:
     """Return the list of matching wordnet entities.
 
@@ -1355,7 +1380,11 @@ def projects() -> List[Dict]:
     ]
 
 
-def lexicons(*, lexicon: str = None, lang: str = None) -> List[Lexicon]:
+def lexicons(
+    *,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None
+) -> List[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
@@ -1372,7 +1401,12 @@ def lexicons(*, lexicon: str = None, lang: str = None) -> List[Lexicon]:
         return w.lexicons()
 
 
-def word(id: str, *, lexicon: str = None, lang: str = None) -> Word:
+def word(
+    id: str,
+    *,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None
+) -> Word:
     """Return the word with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1387,11 +1421,11 @@ def word(id: str, *, lexicon: str = None, lang: str = None) -> Word:
 
 
 def words(
-    form: str = None,
-    pos: str = None,
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
     *,
-    lexicon: str = None,
-    lang: str = None,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
 ) -> List[Word]:
     """Return the list of matching words.
 
@@ -1410,7 +1444,12 @@ def words(
     return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
 
-def synset(id: str, *, lexicon: str = None, lang: str = None) -> Synset:
+def synset(
+    id: str,
+    *,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None
+) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1425,12 +1464,12 @@ def synset(id: str, *, lexicon: str = None, lang: str = None) -> Synset:
 
 
 def synsets(
-    form: str = None,
-    pos: str = None,
-    ili: str = None,
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
+    ili: Optional[str] = None,
     *,
-    lexicon: str = None,
-    lang: str = None,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
 ) -> List[Synset]:
     """Return the list of matching synsets.
 
@@ -1448,11 +1487,11 @@ def synsets(
 
 
 def senses(
-    form: str = None,
-    pos: str = None,
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
     *,
-    lexicon: str = None,
-    lang: str = None,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
 ) -> List[Sense]:
     """Return the list of matching senses.
 
@@ -1469,7 +1508,12 @@ def senses(
     return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
-def sense(id: str, *, lexicon: str = None, lang: str = None) -> Sense:
+def sense(
+    id: str,
+    *,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None
+) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1483,7 +1527,12 @@ def sense(id: str, *, lexicon: str = None, lang: str = None) -> Sense:
     return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
 
 
-def ili(id: str, *, lexicon: str = None, lang: str = None) -> ILI:
+def ili(
+    id: str,
+    *,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None
+) -> ILI:
     """Return the interlingual index with *id*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1500,10 +1549,10 @@ def ili(id: str, *, lexicon: str = None, lang: str = None) -> ILI:
 
 
 def ilis(
-    status: str = None,
+    status: Optional[str] = None,
     *,
-    lexicon: str = None,
-    lang: str = None,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
 ) -> List[ILI]:
     """Return the list of matching interlingual indices.
 

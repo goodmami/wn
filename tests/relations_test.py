@@ -122,3 +122,9 @@ def test_synset_relations_issue_169():
     assert list(en.synset("test-en-0001-n").relations('hyponym')) == ['hyponym']
     es = wn.Wordnet('test-es', expand='test-en')
     assert list(es.synset("test-es-0001-n").relations('hyponym')) == ['hyponym']
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_synset_relations_issue_177():
+    # https://github.com/goodmami/wn/issues/177
+    assert 'hyponym' in wn.synset('test-es-0001-n').relations()
