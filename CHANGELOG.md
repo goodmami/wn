@@ -2,10 +2,16 @@
 
 ## [Unreleased]
 
+
+## [v0.9.3]
+
+**Release date: 2022-11-12**
+
 ### Fixed
 
 * `wn.Synset.relations()` no longer raises a `KeyError` when no
   relation types are given and relations are found via ILI ([#177])
+
 
 ## [v0.9.2]
 
