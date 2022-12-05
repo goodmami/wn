@@ -7,6 +7,11 @@
 
 **Release date: 2022-11-13**
 
+### Python Support
+
+* Removed support for Python 3.6
+* Added support for Python 3.11
+
 ### Fixed
 
 * `wn.Synset.relations()` no longer raises a `KeyError` when no
@@ -519,6 +524,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.9.3]: ../../releases/tag/v0.9.3
 [v0.9.2]: ../../releases/tag/v0.9.2
 [v0.9.1]: ../../releases/tag/v0.9.1
 [v0.9.0]: ../../releases/tag/v0.9.0
