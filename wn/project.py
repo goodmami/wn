@@ -181,12 +181,13 @@ def _get_decompressed(source: Path) -> Iterator[Path]:
         tmp = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
         path = Path(tmp.name)
         try:
+            # for typing issues, see https://github.com/python/mypy/issues/15031
             if gzipped:
                 with gzip.open(source, 'rb') as gzip_src:
-                    shutil.copyfileobj(gzip_src, tmp)
+                    shutil.copyfileobj(gzip_src, tmp)  # type: ignore
             else:  # xzipped
                 with lzma.open(source, 'rb') as lzma_src:
-                    shutil.copyfileobj(lzma_src, tmp)
+                    shutil.copyfileobj(lzma_src, tmp)  # type: ignore
 
             tmp.close()  # Windows cannot reliably reopen until it's closed
 
