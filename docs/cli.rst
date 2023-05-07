@@ -86,6 +86,7 @@ index. This is helpful to see what is available for downloading.
 
    $ python -m wn projects
    ic	cili	1.0	[---]	Collaborative Interlingual Index
+   ic	oewn	2022	[en]	Open English WordNet
    ic	oewn	2021	[en]	Open English WordNet
    ic	ewn	2020	[en]	Open English WordNet
    ic	ewn	2019	[en]	Open English WordNet

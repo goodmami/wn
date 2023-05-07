@@ -24,16 +24,16 @@ it from PyPI and download some data:
 
 ```console
 $ pip install wn
-$ python -m wn download oewn:2021  # the Open English WordNet 2021
+$ python -m wn download oewn:2022  # the Open English WordNet 2022
 ```
 
 Then start exploring:
 
 ```python
 >>> import wn
->>> en = wn.Wordnet('oewn:2021')  # Create Wordnet object to query
->>> ss = en.synsets('win')[0]     # Get the first synset for 'win'
->>> ss.definition()               # Get the synset's definition
+>>> en = wn.Wordnet('oewn:2022')        # Create Wordnet object to query
+>>> ss = en.synsets('win', pos='v')[0]  # Get the first synset for 'win'
+>>> ss.definition()                     # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
 ```
 
@@ -73,7 +73,7 @@ use with the Portuguese wordnet [OpenWordnet-PT]).
 
 | Name                                       | Specifier              | # Synsets | Notes |
 | ------------------------------------------ | ---------------------- | --------: | ----- |
-| [Open English WordNet] | `oewn:2021`<br/> `ewn:2020`<br/> `ewn:2019` | 120039<br/>120053<br/>117791 | Recommended<br/>&nbsp;<br/>&nbsp; |
+| [Open English WordNet] | `oewn:2022`<br/> `oewn:2021`<br/> `ewn:2020`<br/> `ewn:2019` | 120068<br/>120039<br/>120053<br/>117791 | Recommended<br/>&nbsp;<br/>&nbsp;<br/>&nbsp; |
 | [OMW English Wordnet based on WordNet 3.0] | `omw-en:1.4` | 117659 | Included with `omw:1.4` |
 | [OMW English Wordnet based on WordNet 3.1] | `omw-en31:1.4` | 117791 |  |
 | [OpenWordnet-EN] | `own-en:1.0.0` | 117659 | Included with `own:1.0.0` |
