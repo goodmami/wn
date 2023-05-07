@@ -74,7 +74,7 @@ def _url_for_obj(
         'lexicon': lexicon,
         name: obj.id
     }
-    return request.url_for(name, **kwargs)
+    return str(request.url_for(name, **kwargs))
 
 
 def make_lexicon(lex: wn.Lexicon, request: Request) -> dict:
