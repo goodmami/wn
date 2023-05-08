@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square" alt="Python Support">
   <a href="https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22"><img src="https://github.com/goodmami/wn/workflows/tests/badge.svg" alt="tests"></a>
   <a href="https://wn.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square" alt="Documentation Status"></a>
+  <a href="https://anaconda.org/conda-forge/wn"><img src="https://img.shields.io/conda/vn/conda-forge/wn.svg?&style=flat-square" alt="Conda-Forge Version"></a>
   <br>
   <a href="https://github.com/goodmami/wn#available-wordnets">Available Wordnets</a>
   | <a href="https://wn.readthedocs.io/">Documentation</a>
@@ -19,15 +20,51 @@
 
 ---
 
-Wn is a Python library for exploring information in wordnets. Install
-it from PyPI and download some data:
+Wn is a Python library for exploring information in wordnets. 
+
+## Installation
+
+Install it from PyPI using **pip** and download some data:
 
 ```console
 $ pip install wn
 $ python -m wn download oewn:2022  # the Open English WordNet 2022
 ```
 
-Then start exploring:
+Or, install using **conda**, from conda-forge channel:
+
+```sh
+# Method-1
+conda install -c conda-forge wn
+
+# Method-2
+# Using: conda install CHANNELNAME::PACKAGENAME
+conda install conda-forge::wn
+```
+
+> 🔔 Tip: **Speeding up Conda Installations**
+>
+> To speedup conda installations, alternatively, consider installing `mamba` 
+> from conda-forge channel and then replace all `conda` commands with `mamba` 
+> as a drop-in replacement.
+>
+> ```sh
+> conda install -c conda-forge mamba
+> mamba install -c conda-forge wn
+> ```
+
+For more helpful tips on conda, refer to this handy [Conda Cheatsheet ↗️][#conda-cheatsheet]. :fire:
+
+> ℹ️ The conda-forge recipe for this python library is maintained at the 
+> following conda-forge **feedstock** repository.
+>
+> - **Feedstock**: <https://github.com/conda-forge/wn-feedstock>
+
+[#conda-cheatsheet]: https://conda.io/projects/conda/en/latest/_downloads/a35958a2a7fa1e927e7dfb61ebcd69a9/conda-4.14.pdf
+
+## Getting Started
+
+Once installed, then start exploring:
 
 ```python
 >>> import wn
@@ -36,7 +73,6 @@ Then start exploring:
 >>> ss.definition()                     # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
 ```
-
 
 ## Features
 
