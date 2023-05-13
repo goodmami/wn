@@ -65,7 +65,7 @@ For more helpful tips on conda, refer to this handy [Conda Cheatsheet ↗️][#c
 
 ## Getting Started
 
-Once installed, then start exploring:
+Once installed, start exploring:
 
 ```python
 >>> import wn
