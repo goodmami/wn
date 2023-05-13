@@ -26,21 +26,19 @@ Wn is a Python library for exploring information in wordnets.
 
 Install it from PyPI using **pip** and download some data:
 
-```console
-$ pip install wn
-$ python -m wn download oewn:2022  # the Open English WordNet 2022
+```sh
+pip install wn
+python -m wn download oewn:2022  # the Open # English WordNet 2022
 ```
 
 Or, install using **conda**, from conda-forge channel:
 
 ```sh
-# Method-1
 conda install -c conda-forge wn
-
-# Method-2
-# Using: conda install CHANNELNAME::PACKAGENAME
-conda install conda-forge::wn
 ```
+<details>
+<summary><strong>🔔 Click to see useful tips on Conda Installation</strong></summary>
+<p>
 
 > 🔔 Tip: **Speeding up Conda Installations**
 >
@@ -61,6 +59,9 @@ For more helpful tips on conda, refer to this handy [Conda Cheatsheet ↗️][#c
 > - **Feedstock**: <https://github.com/conda-forge/wn-feedstock>
 
 [#conda-cheatsheet]: https://conda.io/projects/conda/en/latest/_downloads/a35958a2a7fa1e927e7dfb61ebcd69a9/conda-4.14.pdf
+  
+</p>
+</details>
 
 ## Getting Started
 
