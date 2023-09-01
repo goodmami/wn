@@ -18,7 +18,7 @@ Thanks for helping to make Wn better!
 - Testing automation: [nox](https://nox.thea.codes)
 - Unit/regression testing: [pytest](https://pytest.org/)
 - Packaging framework: [Flit](https://flit.readthedocs.io/en/latest/)
-- Coding style: [PEP-8](https://www.python.org/dev/peps/pep-0008/) (via [Flake8](https://flake8.pycqa.org/))
+- Coding style: [PEP-8](https://www.python.org/dev/peps/pep-0008/) (via [Ruff](https://beta.ruff.rs/docs/))
 - Type checking: [Mypy](http://mypy-lang.org/)
 
 
