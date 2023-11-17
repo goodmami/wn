@@ -61,7 +61,7 @@ def _validate(args):
                     with open(args.output_file, 'w') as outfile:
                         json.dump(report, outfile, indent=2)
                 else:
-                    for code, check in report.items():
+                    for _code, check in report.items():
                         if not check['items']:
                             continue
                         print(f'  {check["message"]}')
