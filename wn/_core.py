@@ -1134,7 +1134,7 @@ class Wordnet:
                         warnings.warn(
                             f'lexicon dependencies not available: {missing}',
                             wn.WnWarning,
-                            stacklevel=1,
+                            stacklevel=2,
                         )
                 expand = ' '.join(
                     f'{id}:{ver}' for id, ver, _id in deps if _id is not None
