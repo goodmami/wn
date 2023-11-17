@@ -107,7 +107,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
                             progress.update(len(chunk))
                         progress.set(status='Complete')
             except requests.exceptions.RequestException as exc:
-                _unlink_if_exists(path)
+                path.unlink(missing_ok=True)
                 count = progress.kwargs['count']
                 if i == len(urls):
                     raise wn.Error(f'download failed at {count} bytes') from exc
@@ -117,21 +117,11 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
                 break  # success
 
     except KeyboardInterrupt as exc:
-        _unlink_if_exists(path)
+        path.unlink(missing_ok=True)
         count = progress.kwargs['count']
         raise wn.Error(f'download cancelled at {count} bytes') from exc
     except Exception:
-        _unlink_if_exists(path)
+        path.unlink(missing_ok=True)
         raise
 
     return path
-
-
-def _unlink_if_exists(path: Path) -> None:
-    """Unlink *path* if it exists.
-
-    From Python 3.8, this function is unnecessary. Just use:
-        path.unlink(exist_ok=True)
-    """
-    if path.exists():
-        path.unlink()

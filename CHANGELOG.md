@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased][unreleased]
+
+### Python Support
+
+* Removed support for Python 3.7
+* Added support for Python 3.12
+
+
 ## [v0.9.4]
 
 **Release date: 2023-05-07**

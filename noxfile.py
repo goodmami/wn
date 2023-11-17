@@ -5,7 +5,7 @@ import nox
 def lint(session):
     session.install('.[test,web]')
     session.run('ruff', '.')
-    session.run('mypy', '--python-version', '3.7', 'wn')
+    session.run('mypy', '--python-version', '3.8', 'wn')
 
 
 @nox.session

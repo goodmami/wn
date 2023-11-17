@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from typing import (
-    Optional, List, Tuple, Collection, Iterator, Sequence
+    Optional, List, Tuple, Collection, Iterator, Sequence, cast
 )
 import itertools
 import sqlite3
@@ -295,9 +295,9 @@ def find_entries(
     ] = conn.execute(query, params)
     groupby = itertools.groupby
     for key, group in groupby(rows, lambda row: row[0:4]):
-        lexid, rowid, id, pos = key
+        lexid, rowid, _id, _pos = cast(Tuple[int, int, str, str], key)
         wordforms = [(row[4], row[5], row[6], row[7]) for row in group]
-        yield (id, pos, wordforms, lexid, rowid)
+        yield (_id, _pos, wordforms, lexid, rowid)
 
 
 def find_senses(
@@ -527,7 +527,7 @@ def find_syntactic_behaviours(
         query += '\n WHERE ' + '\n   AND '.join(conditions)
     rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
     for key, group in itertools.groupby(rows, lambda row: row[0:2]):
-        id, frame = key
+        id, frame = cast(Tuple[str, str], key)
         sense_ids = [row[2] for row in group]
         yield id, frame, sense_ids
 
