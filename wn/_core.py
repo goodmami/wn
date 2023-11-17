@@ -1161,7 +1161,7 @@ class Wordnet:
         try:
             return Word(*next(iterable), self)
         except StopIteration:
-            raise wn.Error(f'no such lexical entry: {id}')
+            raise wn.Error(f'no such lexical entry: {id}') from None
 
     def words(
         self,
@@ -1184,7 +1184,7 @@ class Wordnet:
         try:
             return Synset(*next(iterable), self)
         except StopIteration:
-            raise wn.Error(f'no such synset: {id}')
+            raise wn.Error(f'no such synset: {id}') from None
 
     def synsets(
         self,
@@ -1211,7 +1211,7 @@ class Wordnet:
         try:
             return Sense(*next(iterable), self)
         except StopIteration:
-            raise wn.Error(f'no such sense: {id}')
+            raise wn.Error(f'no such sense: {id}') from None
 
     def senses(
         self,
@@ -1234,7 +1234,7 @@ class Wordnet:
         try:
             return ILI(*next(iterable))
         except StopIteration:
-            raise wn.Error(f'no such ILI: {id}')
+            raise wn.Error(f'no such ILI: {id}') from None
 
     def ilis(self, status: Optional[str] = None) -> List[ILI]:
         """Return the list of ILIs in this wordnet.
