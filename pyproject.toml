@@ -73,7 +73,6 @@ select = [
   "W",      # pycodestyle
 ]
 ignore = [
-  "B028",
   "B904",
 ]
 target-version = "py38"
