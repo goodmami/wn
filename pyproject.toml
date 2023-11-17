@@ -73,7 +73,6 @@ select = [
   "W",      # pycodestyle
 ]
 ignore = [
-  "B007",
   "B028",
   "B904",
 ]
