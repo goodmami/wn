@@ -8,7 +8,7 @@ dynamic = ['version']
 name = "wn"
 description = "Wordnet interface library"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 keywords = ["wordnet", "interlingual", "linguistics", "language", "library"]
 authors = [
@@ -22,11 +22,11 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Information Analysis",
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Topic :: Text Processing :: Linguistic",
@@ -43,16 +43,16 @@ web = [
     "starlette",
 ]
 test = [
-    "pytest",
     "mypy",
-    "flake8",
     "nox",
+    "pytest",
+    "ruff",
     # typing stubs
     'types-requests',
 ]
 doc = [
-    "sphinx",
     "furo",
+    "sphinx",
     "sphinx-copybutton",
 ]
 editor = [
@@ -63,3 +63,16 @@ editor = [
 homepage = "https://github.com/goodmami/wn"
 documentation = "https://wn.readthedocs.io"
 changelog = "https://github.com/goodmami/wn/blob/main/CHANGELOG.md"
+
+[tool.ruff]
+select = [
+  "B",      # flake8-bugbear
+  "C90",    # McCabe cyclomatic complexity
+  "E",      # pycodestyle
+  "F",      # Pyflakes
+  "W",      # pycodestyle
+]
+target-version = "py38"
+
+[tool.ruff.per-file-ignores]
+"docs/conf.py" = ["E402"]
