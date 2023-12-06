@@ -4,8 +4,12 @@
 
 ### Python Support
 
-* Removed support for Python 3.7
-* Added support for Python 3.12
+* Removed support for Python 3.7 ([#191])
+* Added support for Python 3.12 ([#191])
+
+### Index
+
+* Added `oewn:2023` ([#194])
 
 
 ## [v0.9.4]
@@ -631,3 +635,5 @@ abandoned, but this is an entirely new codebase.
 [#169]: https://github.com/goodmami/wn/issues/169
 [#177]: https://github.com/goodmami/wn/issues/177
 [#181]: https://github.com/goodmami/wn/issues/181
+[#191]: https://github.com/goodmami/wn/issues/191
+[#194]: https://github.com/goodmami/wn/issues/194
