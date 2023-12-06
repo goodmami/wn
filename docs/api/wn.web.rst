@@ -75,7 +75,7 @@ module. Install them with the ``[web]`` extra:
 
 .. code-block:: bash
 
-   $ pip install wn[web]
+   $ pip install "wn[web]"
 
 
 Running and Deploying the Server
