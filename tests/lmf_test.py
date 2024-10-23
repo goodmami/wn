@@ -71,6 +71,20 @@ def test_load_1_1(mini_lmf_1_1):
     assert lexicon.get('extends') == {'id': 'test-en', 'version': '1'}
 
 
+def test_load_1_3(mini_lmf_1_3):
+    resource = lmf.load(mini_lmf_1_3)
+    lexicons = resource['lexicons']
+    assert len(lexicons) == 1
+    lexicon = lexicons[0]
+    synsets = lexicon['synsets']
+    assert synsets[0]['definitions'][0]['text'] == 'one two three'
+    assert synsets[1]['definitions'][0]['text'] == 'one two three'
+    assert synsets[2]['definitions'][0]['text'] == '''
+        one
+          two
+        three
+      '''
+
 def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
     tmpdir = tmp_path / 'test_dump'
     tmpdir.mkdir()
