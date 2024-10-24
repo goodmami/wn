@@ -2,10 +2,8 @@
 Adding and removing lexicons to/from the database.
 """
 
-from typing import (
-    Union, Optional, TypeVar, Type, Tuple, List, Dict, Set,
-    Iterator, Iterable, Sequence, cast
-)
+from collections.abc import Iterable, Iterator, Sequence
+from typing import Optional, TypeVar, Union, cast
 from pathlib import Path
 from itertools import islice
 import sqlite3
@@ -84,7 +82,7 @@ _AnySynset = Union[lmf.Synset, lmf.ExternalSynset]
 
 def add(
     source: AnyPath,
-    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar,
+    progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
 ) -> None:
     """Add the LMF file at *source* to the database.
 
@@ -121,7 +119,7 @@ def add(
 def _add_lmf(
     source: Path,
     progress: ProgressHandler,
-    progress_handler: Type[ProgressHandler],
+    progress_handler: type[ProgressHandler],
 ) -> None:
     with connect() as conn:
         cur = conn.cursor()
@@ -190,7 +188,7 @@ def _add_lmf(
             )
 
 
-def _precheck(source: Path, cur: sqlite3.Cursor) -> List[Dict]:
+def _precheck(source: Path, cur: sqlite3.Cursor) -> list[dict]:
     lexqry = 'SELECT * FROM lexicons WHERE id = :id AND version = :version'
     infos = lmf.scan_lexicons(source)
     for info in infos:
@@ -248,7 +246,7 @@ def _update_lookup_tables(
                     for rel in s.get('relations', []))
     cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
                     [(rt,) for rt in sorted(reltypes)])
-    lexfiles: Set[str] = {ss.get('lexfile', '')
+    lexfiles: set[str] = {ss.get('lexfile', '')
                           for ss in _local_synsets(_synsets(lexicon))
                           if ss.get('lexfile')}
     cur.executemany('INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
@@ -260,7 +258,7 @@ def _insert_lexicon(
     info: dict,
     cur: sqlite3.Cursor,
     progress: ProgressHandler
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
         'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?)',
@@ -320,7 +318,7 @@ def _insert_lexicon(
     return lexid, extid
 
 
-_LexIdMap = Dict[str, int]
+_LexIdMap = dict[str, int]
 
 
 def _build_lexid_map(lexicon: _AnyLexicon, lexid: int, extid: int) -> _LexIdMap:
@@ -343,7 +341,7 @@ def _build_lexid_map(lexicon: _AnyLexicon, lexid: int, extid: int) -> _LexIdMap:
 T = TypeVar('T')
 
 
-def _batch(sequence: Iterable[T]) -> Iterator[List[T]]:
+def _batch(sequence: Iterable[T]) -> Iterator[list[T]]:
     it = iter(sequence)
     batch = list(islice(it, 0, BATCH_SIZE))
     while len(batch):
@@ -504,7 +502,7 @@ def _insert_forms(
     progress.set(status='Word Forms')
     query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?,?)'
     for batch in _batch(entries):
-        forms: List[Tuple[Optional[str], int, str, int,
+        forms: list[tuple[Optional[str], int, str, int,
                           str, Optional[str], Optional[str], int]] = []
         for entry in batch:
             eid = entry['id']
@@ -543,7 +541,7 @@ def _insert_pronunciations(
     progress.set(status='Pronunciations')
     query = f'INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?)'
     for batch in _batch(entries):
-        prons: List[Tuple[str, int, Optional[str], int,
+        prons: list[tuple[str, int, Optional[str], int,
                           str, Optional[str], Optional[str],
                           bool, Optional[str]]] = []
         for entry in batch:
@@ -579,7 +577,7 @@ def _insert_tags(
     progress.set(status='Word Form Tags')
     query = f'INSERT INTO tags VALUES (({FORM_QUERY}),?,?)'
     for batch in _batch(entries):
-        tags: List[Tuple[str, int, Optional[str], int, str, str]] = []
+        tags: list[tuple[str, int, Optional[str], int, str, str]] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
@@ -674,14 +672,14 @@ def _insert_counts(
     progress.update(len(data))
 
 
-def _collect_frames(lexicon: _AnyLexicon) -> List[lmf.SyntacticBehaviour]:
+def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
     # WN-LMF 1.0 syntactic behaviours are on lexical entries, and in
     # WN-LMF 1.1 they are at the lexticon level with IDs. This
     # function normalizes the two variants.
 
     # IDs are not required and frame strings must be unique in a
     # lexicon, so lookup syntactic behaviours by the frame string
-    synbhrs: Dict[str, lmf.SyntacticBehaviour] = {
+    synbhrs: dict[str, lmf.SyntacticBehaviour] = {
         frame['subcategorizationFrame']: {
             'id': frame['id'],
             'subcategorizationFrame': frame['subcategorizationFrame'],
@@ -727,7 +725,7 @@ def _insert_syntactic_behaviours(
     cur.executemany(query, sbdata)
 
     # syntactic behaviours don't have a required ID; index on frame
-    framemap: Dict[str, List[str]] = {
+    framemap: dict[str, list[str]] = {
         sb['subcategorizationFrame']: sb.get('senses', []) for sb in synbhrs
     }
     query = f'''
@@ -860,7 +858,7 @@ def _add_ili(
 
 def remove(
     lexicon: str,
-    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
+    progress_handler: Optional[type[ProgressHandler]] = ProgressBar
 ) -> None:
     """Remove lexicon(s) from the database.
 
@@ -906,8 +904,8 @@ def remove(
         conn.set_progress_handler(None, 0)
 
 
-def _find_all_extensions(rowid: int) -> List[Tuple[int, str]]:
-    exts: List[Tuple[int, str]] = []
+def _find_all_extensions(rowid: int) -> list[tuple[int, str]]:
+    exts: list[tuple[int, str]] = []
     for ext_id in get_lexicon_extensions(rowid):
         lexinfo = get_lexicon(ext_id)
         exts.append((ext_id, f'{lexinfo[1]}:{lexinfo[6]}'))

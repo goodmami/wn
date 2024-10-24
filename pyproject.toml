@@ -33,9 +33,8 @@ classifiers = [
 ]
 
 dependencies = [
-  "requests",
+  "httpx",
   "tomli",
-  "typing-extensions; python_version < '3.8'",
 ]
 
 [project.optional-dependencies]
@@ -62,7 +61,6 @@ exclude = [
 [tool.hatch.envs.mypy]
 dependencies = [
   "mypy",
-  "types-requests",
 ]
 
 [tool.hatch.envs.mypy.scripts]

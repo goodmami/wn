@@ -4,22 +4,15 @@ Reader for the Lexical Markup Framework (LMF) format.
 """
 
 from typing import (
-    Type,
-    List,
-    Tuple,
-    Dict,
+    Any,
+    BinaryIO,
+    Literal,
     Optional,
     TextIO,
-    BinaryIO,
-    Any,
+    TypedDict,
     Union,
     cast
 )
-import sys
-if sys.version_info >= (3, 8):
-    from typing import TypedDict, Literal
-else:
-    from typing_extensions import TypedDict, Literal
 import re
 from pathlib import Path
 import xml.etree.ElementTree as ET  # for general XML parsing
@@ -81,7 +74,7 @@ _NS_ATTRS = {
     for version, uri in _DC_URIS.items()
 }
 
-_LMF_1_0_ELEMS: Dict[str, str] = {
+_LMF_1_0_ELEMS: dict[str, str] = {
     'LexicalResource': 'lexical-resource',
     'Lexicon': 'lexicons',
     'LexicalEntry': 'entries',
@@ -216,18 +209,18 @@ class Example(_HasText, _HasMeta, total=False):
 class Synset(_HasId, _HasILI, _HasMeta, total=False):
     ili_definition: ILIDefinition
     partOfSpeech: str
-    definitions: List[Definition]
-    relations: List[Relation]
-    examples: List[Example]
+    definitions: list[Definition]
+    relations: list[Relation]
+    examples: list[Example]
     lexicalized: bool
-    members: List[str]
+    members: list[str]
     lexfile: str
 
 
 class ExternalSynset(_HasId, _External, total=False):
-    definitions: List[Definition]
-    relations: List[Relation]
-    examples: List[Example]
+    definitions: list[Definition]
+    relations: list[Relation]
+    examples: list[Example]
 
 
 class Count(_HasMeta):
@@ -235,18 +228,18 @@ class Count(_HasMeta):
 
 
 class Sense(_HasId, _HasSynset, _HasMeta, total=False):
-    relations: List[Relation]
-    examples: List[Example]
-    counts: List[Count]
+    relations: list[Relation]
+    examples: list[Example]
+    counts: list[Count]
     lexicalized: bool
     adjposition: str
-    subcat: List[str]
+    subcat: list[str]
 
 
 class ExternalSense(_HasId, _External, total=False):
-    relations: List[Relation]
-    examples: List[Example]
-    counts: List[Count]
+    relations: list[Relation]
+    examples: list[Example]
+    counts: list[Count]
 
 
 class Pronunciation(_HasText, total=False):
@@ -261,8 +254,8 @@ class Tag(_HasText):
 
 
 class _FormChildren(TypedDict, total=False):
-    pronunciations: List[Pronunciation]
-    tags: List[Tag]
+    pronunciations: list[Pronunciation]
+    tags: list[Tag]
 
 
 class Lemma(_MaybeScript, _FormChildren):
@@ -287,13 +280,13 @@ class _SyntacticBehaviourBase(_MaybeId):
 
 
 class SyntacticBehaviour(_SyntacticBehaviourBase, total=False):
-    senses: List[str]
+    senses: list[str]
 
 
 class _LexicalEntryBase(_HasId, _HasMeta, total=False):
-    forms: List[Form]
-    senses: List[Sense]
-    frames: List[SyntacticBehaviour]
+    forms: list[Form]
+    senses: list[Sense]
+    frames: list[SyntacticBehaviour]
 
 
 class LexicalEntry(_LexicalEntryBase):
@@ -302,8 +295,8 @@ class LexicalEntry(_LexicalEntryBase):
 
 class ExternalLexicalEntry(_HasId, _External, total=False):
     lemma: ExternalLemma
-    forms: List[Union[Form, ExternalForm]]
-    senses: List[Union[Sense, ExternalSense]]
+    forms: list[Union[Form, ExternalForm]]
+    senses: list[Union[Sense, ExternalSense]]
 
 
 class Dependency(_HasId, _HasVersion, total=False):
@@ -323,10 +316,10 @@ class Lexicon(_LexiconBase, total=False):
     url: str
     citation: str
     logo: str
-    requires: List[Dependency]
-    entries: List[LexicalEntry]
-    synsets: List[Synset]
-    frames: List[SyntacticBehaviour]
+    requires: list[Dependency]
+    entries: list[LexicalEntry]
+    synsets: list[Synset]
+    frames: list[SyntacticBehaviour]
 
 
 class LexiconExtension(_LexiconBase, total=False):
@@ -334,15 +327,15 @@ class LexiconExtension(_LexiconBase, total=False):
     citation: str
     logo: str
     extends: Dependency
-    requires: List[Dependency]
-    entries: List[Union[LexicalEntry, ExternalLexicalEntry]]
-    synsets: List[Union[Synset, ExternalSynset]]
-    frames: List[SyntacticBehaviour]
+    requires: list[Dependency]
+    entries: list[Union[LexicalEntry, ExternalLexicalEntry]]
+    synsets: list[Union[Synset, ExternalSynset]]
+    frames: list[SyntacticBehaviour]
 
 
 class LexicalResource(TypedDict):
     lmf_version: str
-    lexicons: List[Union[Lexicon, LexiconExtension]]
+    lexicons: list[Union[Lexicon, LexiconExtension]]
 
 
 # Reading ##############################################################
@@ -376,11 +369,11 @@ def _read_header(fh: BinaryIO) -> str:
     return _DOCTYPES[doctype_decoded]
 
 
-def scan_lexicons(source: AnyPath) -> List[Dict]:
+def scan_lexicons(source: AnyPath) -> list[dict]:
     """Scan *source* and return only the top-level lexicon info."""
 
     source = Path(source).expanduser()
-    infos: List[Dict] = []
+    infos: list[dict] = []
 
     lex_re = re.compile(b'<(Lexicon|LexiconExtension|Extends)\\b([^>]*)>', flags=re.M)
     attr_re = re.compile(b'''\\b(id|version|label)=["']([^"']+)["']''', flags=re.M)
@@ -402,12 +395,12 @@ def scan_lexicons(source: AnyPath) -> List[Dict]:
     return infos
 
 
-_Elem = Dict[str, Any]  # basic type for the loaded XML data
+_Elem = dict[str, Any]  # basic type for the loaded XML data
 
 
 def load(
     source: AnyPath,
-    progress_handler: Optional[Type[ProgressHandler]] = ProgressBar
+    progress_handler: Optional[type[ProgressHandler]] = ProgressBar
 ) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
@@ -423,7 +416,7 @@ def load(
         message='Read', total=num_elements, refresh_interval=10000
     )
 
-    root: Dict[str, _Elem] = {}
+    root: dict[str, _Elem] = {}
     parser = _make_parser(root, version, progress)
 
     with open(source, 'rb') as fh:
@@ -443,7 +436,7 @@ def load(
     return resource
 
 
-def _quick_scan(source: Path) -> Tuple[str, int]:
+def _quick_scan(source: Path) -> tuple[str, int]:
     with source.open('rb') as fh:
         version = _read_header(fh)
         # _read_header() only reads the first 2 lines
@@ -540,7 +533,7 @@ def _validate_lexicon(elem: _Elem, extension: bool) -> None:
     _validate_frames(elem.get('frames', []))
 
 
-def _validate_entries(elems: List[_Elem], extension: bool) -> None:
+def _validate_entries(elems: list[_Elem], extension: bool) -> None:
     for elem in elems:
         assert 'id' in elem
         if not extension:
@@ -559,7 +552,7 @@ def _validate_entries(elems: List[_Elem], extension: bool) -> None:
         _validate_frames(elem.get('frames', []))
 
 
-def _validate_forms(elems: List[_Elem], extension: bool) -> None:
+def _validate_forms(elems: list[_Elem], extension: bool) -> None:
     for elem in elems:
         if not extension:
             assert not elem.get('external')
@@ -574,7 +567,7 @@ def _validate_forms(elems: List[_Elem], extension: bool) -> None:
             assert 'category' in tag
 
 
-def _validate_senses(elems: List[_Elem], extension: bool) -> None:
+def _validate_senses(elems: list[_Elem], extension: bool) -> None:
     for elem in elems:
         assert 'id' in elem
         if not extension:
@@ -599,14 +592,14 @@ def _validate_senses(elems: List[_Elem], extension: bool) -> None:
             elem['subcat'] = elem['subcat'].split()
 
 
-def _validate_frames(elems: List[_Elem]) -> None:
+def _validate_frames(elems: list[_Elem]) -> None:
     for elem in elems:
         assert 'subcategorizationFrame' in elem
         if elem.get('senses'):
             elem['senses'] = elem['senses'].split()
 
 
-def _validate_synsets(elems: List[_Elem], extension: bool) -> None:
+def _validate_synsets(elems: list[_Elem], extension: bool) -> None:
     for elem in elems:
         assert 'id' in elem
         if not extension:
@@ -696,7 +689,7 @@ def _dump_lexicon(
 def _build_lexicon_attrib(
     lexicon: Union[Lexicon, LexiconExtension],
     version: VersionInfo
-) -> Dict[str, str]:
+) -> dict[str, str]:
     attrib = {
         'id': lexicon['id'],
         'label': lexicon['label'],
@@ -858,7 +851,7 @@ def _dump_synset(
     out: TextIO,
     version: VersionInfo
 ) -> None:
-    attrib: Dict[str, str] = {'id': synset['id']}
+    attrib: dict[str, str] = {'id': synset['id']}
     if synset.get('external', False):
         elem = ET.Element('ExternalSynset', attrib=attrib)
         elem.extend([_build_definition(defn) for defn in synset.get('definitions', [])])
@@ -954,7 +947,7 @@ def _indent(elem: ET.Element, level: int) -> None:
         elem[-1].tail = self_indent
 
 
-def _meta_dict(meta: Optional[Metadata]) -> Dict[str, str]:
+def _meta_dict(meta: Optional[Metadata]) -> dict[str, str]:
     if meta is not None:
         # Literal keys are required for typing purposes, so first
         # construct the dict and then remove those that weren't specified.

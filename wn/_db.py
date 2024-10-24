@@ -2,7 +2,7 @@
 Storage back-end interface.
 """
 
-from typing import Dict
+from importlib import resources
 from pathlib import Path
 import json
 import sqlite3
@@ -10,7 +10,7 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn._util import resources, short_hash
+from wn._util import short_hash
 
 
 logger = logging.getLogger('wn')
@@ -60,7 +60,7 @@ sqlite3.register_converter('boolean', _convert_boolean)
 
 # The pool is a cache of open connections. Unless the database path is
 # changed, there should only be zero or one.
-pool: Dict[AnyPath, sqlite3.Connection] = {}
+pool: dict[AnyPath, sqlite3.Connection] = {}
 
 
 # The connect() function should be used for all connections
@@ -88,7 +88,7 @@ def connect() -> sqlite3.Connection:
 
 
 def _init_db(conn: sqlite3.Connection) -> None:
-    schema = resources.read_text('wn', 'schema.sql')
+    schema = (resources.files('wn') / 'schema.sql').read_text()
     conn.executescript(schema)
     with conn:
         conn.executemany('INSERT INTO ili_statuses VALUES (null,?)',

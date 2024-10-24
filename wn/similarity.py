@@ -1,7 +1,6 @@
 
 """Synset similarity metrics."""
 
-from typing import List
 import math
 
 import wn
@@ -220,7 +219,7 @@ def _least_common_subsumers(
     synset1: Synset,
     synset2: Synset,
     simulate_root: bool
-) -> List[Synset]:
+) -> list[Synset]:
     lcs = synset1.lowest_common_hypernyms(synset2, simulate_root=simulate_root)
     if not lcs:
         raise wn.Error(f'no common hypernyms for {synset1!r} and {synset2!r}')

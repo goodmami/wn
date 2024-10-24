@@ -1,16 +1,6 @@
 
-from typing import (
-    Type,
-    TypeVar,
-    Callable,
-    Optional,
-    List,
-    Tuple,
-    Dict,
-    Set,
-    Sequence,
-    Iterator,
-)
+from collections.abc import Callable, Iterator, Sequence
+from typing import Optional, TypeVar
 import warnings
 import textwrap
 
@@ -174,7 +164,7 @@ class Lexicon(_DatabaseEntity):
         """Return True if the lexicon has local modifications."""
         return get_modified(self._id)
 
-    def requires(self) -> Dict[str, Optional['Lexicon']]:
+    def requires(self) -> dict[str, Optional['Lexicon']]:
         """Return the lexicon dependencies."""
         return dict(
             (f'{id}:{version}',
@@ -192,7 +182,7 @@ class Lexicon(_DatabaseEntity):
             return _to_lexicon(get_lexicon(bases[0]))
         return None
 
-    def extensions(self, depth: int = 1) -> List['Lexicon']:
+    def extensions(self, depth: int = 1) -> list['Lexicon']:
         """Return the list of lexicons extending this one.
 
         By default, only direct extensions are included. This is
@@ -216,7 +206,7 @@ class Lexicon(_DatabaseEntity):
 
         """
         _id = self._id
-        substrings: List[str] = [
+        substrings: list[str] = [
             f'{self.specifier()}',
             f'  Label  : {self.label}',
             f'  URL    : {self.url}',
@@ -235,7 +225,7 @@ class Lexicon(_DatabaseEntity):
 
 
 def _desc_counts(query: Callable, lexid: int) -> str:
-    count: Dict[str, int] = {}
+    count: dict[str, int] = {}
     for _, pos, *_ in query(lexicon_rowids=(lexid,)):
         if pos not in count:
             count[pos] = 1
@@ -258,12 +248,12 @@ class _LexiconElement(_DatabaseEntity):
         self._lexid = _lexid  # Database-internal lexicon id
         if _wordnet is None:
             _wordnet = Wordnet()
-        self._wordnet: 'Wordnet' = _wordnet
+        self._wordnet: Wordnet = _wordnet
 
     def lexicon(self):
         return _to_lexicon(get_lexicon(self._lexid))
 
-    def _get_lexicon_ids(self) -> Tuple[int, ...]:
+    def _get_lexicon_ids(self) -> tuple[int, ...]:
         if self._wordnet._default_mode:
             return tuple(
                 {self._lexid}
@@ -339,10 +329,10 @@ class Form(str):
     def __hash__(self):
         return str.__hash__(self)
 
-    def pronunciations(self) -> List[Pronunciation]:
+    def pronunciations(self) -> list[Pronunciation]:
         return [Pronunciation(*data) for data in get_form_pronunciations(self._id)]
 
-    def tags(self) -> List[Tag]:
+    def tags(self) -> list[Tag]:
         return [Tag(tag, category) for tag, category in get_form_tags(self._id)]
 
 
@@ -357,7 +347,7 @@ class Word(_LexiconElement):
         self,
         id: str,
         pos: str,
-        forms: List[Tuple[str, Optional[str], Optional[str], int]],
+        forms: list[tuple[str, Optional[str], Optional[str], int]],
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
         _wordnet: Optional['Wordnet'] = None
@@ -381,7 +371,7 @@ class Word(_LexiconElement):
         """
         return Form(*self._forms[0])
 
-    def forms(self) -> List[Form]:
+    def forms(self) -> list[Form]:
         """Return the list of all encoded forms of the word.
 
         Example:
@@ -392,7 +382,7 @@ class Word(_LexiconElement):
         """
         return [Form(*form_data) for form_data in self._forms]
 
-    def senses(self) -> List['Sense']:
+    def senses(self) -> list['Sense']:
         """Return the list of senses of the word.
 
         Example:
@@ -409,7 +399,7 @@ class Word(_LexiconElement):
         """Return the word's metadata."""
         return get_metadata(self._id, 'entries')
 
-    def synsets(self) -> List['Synset']:
+    def synsets(self) -> list['Synset']:
         """Return the list of synsets of the word.
 
         Example:
@@ -420,7 +410,7 @@ class Word(_LexiconElement):
         """
         return [sense.synset() for sense in self.senses()]
 
-    def derived_words(self) -> List['Word']:
+    def derived_words(self) -> list['Word']:
         """Return the list of words linked through derivations on the senses.
 
         Example:
@@ -435,7 +425,7 @@ class Word(_LexiconElement):
 
     def translate(
         self, lexicon: Optional[str] = None, *, lang: Optional[str] = None,
-    ) -> Dict['Sense', List['Word']]:
+    ) -> dict['Sense', list['Word']]:
         """Return a mapping of word senses to lists of translated words.
 
         Arguments:
@@ -476,10 +466,10 @@ class _Relatable(_LexiconElement):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
 
-    def relations(self: T, *args: str) -> Dict[str, List[T]]:
+    def relations(self: T, *args: str) -> dict[str, list[T]]:
         raise NotImplementedError
 
-    def get_related(self: T, *args: str) -> List[T]:
+    def get_related(self: T, *args: str) -> list[T]:
         raise NotImplementedError
 
     def closure(self: T, *args: str) -> Iterator[T]:
@@ -496,8 +486,8 @@ class _Relatable(_LexiconElement):
         self: T,
         *args: str,
         end: Optional[T] = None
-    ) -> Iterator[List[T]]:
-        agenda: List[Tuple[List[T], Set[T]]] = [
+    ) -> Iterator[list[T]]:
+        agenda: list[tuple[list[T], set[T]]] = [
             ([target], {self, target})
             for target in self.get_related(*args)
             if target._id != self._id  # avoid self loops?
@@ -581,7 +571,7 @@ class Synset(_Relatable):
             None
         )
 
-    def examples(self) -> List[str]:
+    def examples(self) -> list[str]:
         """Return the list of examples for the synset.
 
         Example:
@@ -594,7 +584,7 @@ class Synset(_Relatable):
         exs = get_examples(self._id, 'synsets', lexids)
         return [ex for ex, _, _ in exs]
 
-    def senses(self) -> List['Sense']:
+    def senses(self) -> list['Sense']:
         """Return the list of sense members of the synset.
 
         Example:
@@ -619,7 +609,7 @@ class Synset(_Relatable):
         """Return the synset's metadata."""
         return get_metadata(self._id, 'synsets')
 
-    def words(self) -> List[Word]:
+    def words(self) -> list[Word]:
         """Return the list of words linked by the synset's senses.
 
         Example:
@@ -630,7 +620,7 @@ class Synset(_Relatable):
         """
         return [sense.word() for sense in self.senses()]
 
-    def lemmas(self) -> List[Form]:
+    def lemmas(self) -> list[Form]:
         """Return the list of lemmas of words for the synset.
 
         Example:
@@ -641,7 +631,7 @@ class Synset(_Relatable):
         """
         return [w.lemma() for w in self.words()]
 
-    def relations(self, *args: str) -> Dict[str, List['Synset']]:
+    def relations(self, *args: str) -> dict[str, list['Synset']]:
         """Return a mapping of relation names to lists of synsets.
 
         One or more relation names may be given as positional
@@ -662,7 +652,7 @@ class Synset(_Relatable):
             hyponym [['coat button'], ['shirt button']]
 
         """
-        d: Dict[str, List['Synset']] = {}
+        d: dict[str, list[Synset]] = {}
         for relname, ss in self._get_relations(args):
             if relname in d:
                 d[relname].append(ss)
@@ -670,7 +660,7 @@ class Synset(_Relatable):
                 d[relname] = [ss]
         return d
 
-    def get_related(self, *args: str) -> List['Synset']:
+    def get_related(self, *args: str) -> list['Synset']:
         """Return the list of related synsets.
 
         One or more relation names may be given as positional
@@ -690,8 +680,8 @@ class Synset(_Relatable):
         """
         return [ss for _, ss in self._get_relations(args)]
 
-    def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Synset']]:
-        targets: List[Tuple[str, 'Synset']] = []
+    def _get_relations(self, args: Sequence[str]) -> list[tuple[str, 'Synset']]:
+        targets: list[tuple[str, Synset]] = []
 
         lexids = self._get_lexicon_ids()
 
@@ -710,7 +700,7 @@ class Synset(_Relatable):
             # get expanded relation
             expss = find_synsets(ili=self._ili, lexicon_rowids=expids)
             rowids = {rowid for _, _, _, _, rowid in expss} - {self._id, NON_ROWID}
-            relations: Dict[str, Set[str]] = {}
+            relations: dict[str, set[str]] = {}
             for rel_row in get_synset_relations(rowids, args, expids):
                 rel_type, ili = rel_row[0], rel_row[4]
                 if ili is not None:
@@ -738,7 +728,7 @@ class Synset(_Relatable):
 
         return targets
 
-    def hypernym_paths(self, simulate_root: bool = False) -> List[List['Synset']]:
+    def hypernym_paths(self, simulate_root: bool = False) -> list[list['Synset']]:
         """Return the list of hypernym paths to a root synset."""
         return taxonomy.hypernym_paths(self, simulate_root=simulate_root)
 
@@ -752,7 +742,7 @@ class Synset(_Relatable):
 
     def shortest_path(
             self, other: 'Synset', simulate_root: bool = False
-    ) -> List['Synset']:
+    ) -> list['Synset']:
         """Return the shortest path from the synset to the *other* synset."""
         return taxonomy.shortest_path(
             self, other, simulate_root=simulate_root
@@ -760,7 +750,7 @@ class Synset(_Relatable):
 
     def common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
-    ) -> List['Synset']:
+    ) -> list['Synset']:
         """Return the common hypernyms for the current and *other* synsets."""
         return taxonomy.common_hypernyms(
             self, other, simulate_root=simulate_root
@@ -768,13 +758,13 @@ class Synset(_Relatable):
 
     def lowest_common_hypernyms(
             self, other: 'Synset', simulate_root: bool = False
-    ) -> List['Synset']:
+    ) -> list['Synset']:
         """Return the common hypernyms furthest from the root."""
         return taxonomy.lowest_common_hypernyms(
             self, other, simulate_root=simulate_root
         )
 
-    def holonyms(self) -> List['Synset']:
+    def holonyms(self) -> list['Synset']:
         """Return the list of synsets related by any holonym relation.
 
         Any of the following relations are traversed: ``holonym``,
@@ -791,7 +781,7 @@ class Synset(_Relatable):
             'holo_substance',
         )
 
-    def meronyms(self) -> List['Synset']:
+    def meronyms(self) -> list['Synset']:
         """Return the list of synsets related by any meronym relation.
 
         Any of the following relations are traversed: ``meronym``,
@@ -808,7 +798,7 @@ class Synset(_Relatable):
             'mero_substance',
         )
 
-    def hypernyms(self) -> List['Synset']:
+    def hypernyms(self) -> list['Synset']:
         """Return the list of synsets related by any hypernym relation.
 
         Both the ``hypernym`` and ``instance_hypernym`` relations are
@@ -820,7 +810,7 @@ class Synset(_Relatable):
             'instance_hypernym'
         )
 
-    def hyponyms(self) -> List['Synset']:
+    def hyponyms(self) -> list['Synset']:
         """Return the list of synsets related by any hyponym relation.
 
         Both the ``hyponym`` and ``instance_hyponym`` relations are
@@ -837,7 +827,7 @@ class Synset(_Relatable):
         lexicon: Optional[str] = None,
         *,
         lang: Optional[str] = None
-    ) -> List['Synset']:
+    ) -> list['Synset']:
         """Return a list of translated synsets.
 
         Arguments:
@@ -919,7 +909,7 @@ class Sense(_Relatable):
         """
         return self._wordnet.synset(id=self._synset_id)
 
-    def examples(self) -> List[str]:
+    def examples(self) -> list[str]:
         """Return the list of examples for the sense."""
         lexids = self._get_lexicon_ids()
         exs = get_examples(self._id, 'senses', lexids)
@@ -942,12 +932,12 @@ class Sense(_Relatable):
         """
         return get_adjposition(self._id)
 
-    def frames(self) -> List[str]:
+    def frames(self) -> list[str]:
         """Return the list of subcategorization frames for the sense."""
         lexids = self._get_lexicon_ids()
         return get_syntactic_behaviours(self._id, lexids)
 
-    def counts(self) -> List[Count]:
+    def counts(self) -> list[Count]:
         """Return the corpus counts stored for this sense."""
         lexids = self._get_lexicon_ids()
         return [Count(value, _id=_id)
@@ -957,7 +947,7 @@ class Sense(_Relatable):
         """Return the sense's metadata."""
         return get_metadata(self._id, 'senses')
 
-    def relations(self, *args: str) -> Dict[str, List['Sense']]:
+    def relations(self, *args: str) -> dict[str, list['Sense']]:
         """Return a mapping of relation names to lists of senses.
 
         One or more relation names may be given as positional
@@ -969,7 +959,7 @@ class Sense(_Relatable):
         senses.
 
         """
-        d: Dict[str, List['Sense']] = {}
+        d: dict[str, list[Sense]] = {}
         for relname, s in self._get_relations(args):
             if relname in d:
                 d[relname].append(s)
@@ -977,7 +967,7 @@ class Sense(_Relatable):
                 d[relname] = [s]
         return d
 
-    def get_related(self, *args: str) -> List['Sense']:
+    def get_related(self, *args: str) -> list['Sense']:
         """Return a list of related senses.
 
         One or more relation types should be passed as arguments which
@@ -996,14 +986,14 @@ class Sense(_Relatable):
         """
         return [s for _, s in self._get_relations(args)]
 
-    def _get_relations(self, args: Sequence[str]) -> List[Tuple[str, 'Sense']]:
+    def _get_relations(self, args: Sequence[str]) -> list[tuple[str, 'Sense']]:
         lexids = self._get_lexicon_ids()
         iterable = get_sense_relations(self._id, args, lexids)
         return [(relname, Sense(sid, eid, ssid, lexid, rowid, self._wordnet))
                 for relname, _, sid, eid, ssid, lexid, rowid in iterable
                 if lexids is None or lexid in lexids]
 
-    def get_related_synsets(self, *args: str) -> List[Synset]:
+    def get_related_synsets(self, *args: str) -> list[Synset]:
         """Return a list of related synsets."""
         lexids = self._get_lexicon_ids()
         iterable = get_sense_synset_relations(self._id, args, lexids)
@@ -1016,7 +1006,7 @@ class Sense(_Relatable):
         lexicon: Optional[str] = None,
         *,
         lang: Optional[str] = None
-    ) -> List['Sense']:
+    ) -> list['Sense']:
         """Return a list of translated senses.
 
         Arguments:
@@ -1114,10 +1104,10 @@ class Wordnet:
         self._default_mode = (not lexicon and not lang)
 
         lexs = list(find_lexicons(lexicon or '*', lang=lang))
-        self._lexicons: Tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
-        self._lexicon_ids: Tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
+        self._lexicons: tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
+        self._lexicon_ids: tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
-        self._expanded: Tuple[Lexicon, ...] = ()
+        self._expanded: tuple[Lexicon, ...] = ()
         if expand is None:
             if self._default_mode:
                 expand = '*'
@@ -1141,17 +1131,17 @@ class Wordnet:
                 )
         if expand:
             self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
-        self._expanded_ids: Tuple[int, ...] = tuple(lx._id for lx in self._expanded)
+        self._expanded_ids: tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
         self._normalizer = normalizer
         self.lemmatizer = lemmatizer
         self._search_all_forms = search_all_forms
 
-    def lexicons(self) -> List[Lexicon]:
+    def lexicons(self) -> list[Lexicon]:
         """Return the list of lexicons covered by this wordnet."""
         return list(self._lexicons)
 
-    def expanded_lexicons(self) -> List[Lexicon]:
+    def expanded_lexicons(self) -> list[Lexicon]:
         """Return the list of expand lexicons for this wordnet."""
         return list(self._expanded)
 
@@ -1167,7 +1157,7 @@ class Wordnet:
         self,
         form: Optional[str] = None,
         pos: Optional[str] = None
-    ) -> List[Word]:
+    ) -> list[Word]:
         """Return the list of matching words in this wordnet.
 
         Without any arguments, this function returns all words in the
@@ -1191,7 +1181,7 @@ class Wordnet:
         form: Optional[str] = None,
         pos: Optional[str] = None,
         ili: Optional[str] = None
-    ) -> List[Synset]:
+    ) -> list[Synset]:
         """Return the list of matching synsets in this wordnet.
 
         Without any arguments, this function returns all synsets in
@@ -1217,7 +1207,7 @@ class Wordnet:
         self,
         form: Optional[str] = None,
         pos: Optional[str] = None
-    ) -> List[Sense]:
+    ) -> list[Sense]:
         """Return the list of matching senses in this wordnet.
 
         Without any arguments, this function returns all senses in the
@@ -1236,7 +1226,7 @@ class Wordnet:
         except StopIteration:
             raise wn.Error(f'no such ILI: {id}') from None
 
-    def ilis(self, status: Optional[str] = None) -> List[ILI]:
+    def ilis(self, status: Optional[str] = None) -> list[ILI]:
         """Return the list of ILIs in this wordnet.
 
         If *status* is given, only return ILIs with a matching status.
@@ -1292,12 +1282,12 @@ def _to_lexicon(data) -> Lexicon:
 
 def _find_helper(
     w: Wordnet,
-    cls: Type[C],
+    cls: type[C],
     query_func: Callable,
     form: Optional[str],
     pos: Optional[str],
     ili: Optional[str] = None
-) -> List[C]:
+) -> list[C]:
     """Return the list of matching wordnet entities.
 
     If the wordnet has a normalizer and the search includes a word
@@ -1308,7 +1298,7 @@ def _find_helper(
     string matches are used.
 
     """
-    kwargs: Dict = {
+    kwargs: dict = {
         'lexicon_rowids': w._lexicon_ids,
         'search_all_forms': w._search_all_forms,
     }
@@ -1346,8 +1336,8 @@ def _find_helper(
                 forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
             )
         ]
-    unique_results: List[C] = []
-    seen: Set[C] = set()
+    unique_results: list[C] = []
+    seen: set[C] = set()
     for result in results:
         if result not in seen:
             unique_results.append(result)
@@ -1355,7 +1345,7 @@ def _find_helper(
     return unique_results
 
 
-def projects() -> List[Dict]:
+def projects() -> list[dict]:
     """Return the list of indexed projects.
 
     This returns the same dictionaries of information as
@@ -1385,7 +1375,7 @@ def lexicons(
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None
-) -> List[Lexicon]:
+) -> list[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
@@ -1427,7 +1417,7 @@ def words(
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,
-) -> List[Word]:
+) -> list[Word]:
     """Return the list of matching words.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1471,7 +1461,7 @@ def synsets(
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,
-) -> List[Synset]:
+) -> list[Synset]:
     """Return the list of matching synsets.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1493,7 +1483,7 @@ def senses(
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,
-) -> List[Sense]:
+) -> list[Sense]:
     """Return the list of matching senses.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -1554,7 +1544,7 @@ def ilis(
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,
-) -> List[ILI]:
+) -> list[ILI]:
     """Return the list of matching interlingual indices.
 
     This will create a :class:`Wordnet` object using the *lang* and

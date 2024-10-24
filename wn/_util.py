@@ -1,15 +1,10 @@
 """Non-public Wn utilities."""
 
-from typing import TypeVar, Iterable, List
-import sys
+from collections.abc import Iterable
+from typing import TypeVar
 from pathlib import Path
 import hashlib
 from unicodedata import normalize, combining
-# version check is for mypy; see https://github.com/python/mypy/issues/1153
-if sys.version_info >= (3, 7):
-    import importlib.resources as resources
-else:
-    import importlib_resources as resources  # noqa: F401
 
 
 from wn._types import VersionInfo
@@ -58,7 +53,7 @@ def short_hash(string: str) -> str:
 T = TypeVar('T')
 
 
-def flatten(iterable: Iterable[Iterable[T]]) -> List[T]:
+def flatten(iterable: Iterable[Iterable[T]]) -> list[T]:
     return [x for xs in iterable for x in xs]
 
 

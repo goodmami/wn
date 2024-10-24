@@ -77,13 +77,12 @@ def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
     tmppath = tmpdir / 'mini_lmf_dump.xml'
 
     def assert_xml_equal(mini_lmf, dump_lmf):
-        if hasattr(ET, 'canonicalize'):  # available from Python 3.8
-            orig = ET.canonicalize(from_file=mini_lmf, strip_text=True)
-            temp = ET.canonicalize(from_file=dump_lmf, strip_text=True)
-            # additional transformation to help with debugging
-            orig = orig.replace('<', '\n<')
-            temp = temp.replace('<', '\n<')
-            assert orig == temp
+        orig = ET.canonicalize(from_file=mini_lmf, strip_text=True)
+        temp = ET.canonicalize(from_file=dump_lmf, strip_text=True)
+        # additional transformation to help with debugging
+        orig = orig.replace('<', '\n<')
+        temp = temp.replace('<', '\n<')
+        assert orig == temp
 
     lmf.dump(lmf.load(mini_lmf_1_0), tmppath)
     assert_xml_equal(mini_lmf_1_0, tmppath)

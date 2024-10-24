@@ -3,7 +3,9 @@
 Local configuration settings.
 """
 
-from typing import Optional, Dict, Sequence, Any
+from collections.abc import Sequence
+from importlib.resources import as_file, files
+from typing import Any, Optional
 from pathlib import Path
 
 import tomli
@@ -11,12 +13,14 @@ import tomli
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
-from wn._util import resources, short_hash
+from wn._util import short_hash
 
+# The index file is a project file of Wn
+with as_file(files('wn') / 'index.toml') as index_file:
+    INDEX_FILE_PATH = index_file
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
 DATABASE_FILENAME = 'wn.db'
-
 
 class WNConfig:
 
@@ -54,7 +58,7 @@ class WNConfig:
         return dir
 
     @property
-    def index(self) -> Dict[str, Dict]:
+    def index(self) -> dict[str, dict]:
         """The project index."""
         return self._projects
 
@@ -114,7 +118,7 @@ class WNConfig:
               is accessed
 
         """
-        version_data: Dict[str, Any]
+        version_data: dict[str, Any]
         if url and not error:
             version_data = {'resource_urls': url.split()}
         elif error and not url:
@@ -128,7 +132,7 @@ class WNConfig:
         project = self._projects[id]
         project['versions'][version] = version_data
 
-    def get_project_info(self, arg: str) -> Dict:
+    def get_project_info(self, arg: str) -> dict:
         """Return information about an indexed project version.
 
         If the project has been downloaded and cached, the ``"cache"``
@@ -148,11 +152,11 @@ class WNConfig:
         id, _, version = arg.partition(':')
         if id not in self._projects:
             raise ProjectError(f'no such project id: {id}')
-        project: Dict = self._projects[id]
+        project: dict = self._projects[id]
         if 'error' in project:
             raise ProjectError(project['error'])
 
-        versions: Dict = project['versions']
+        versions: dict = project['versions']
         if not version or version == '*':
             version = next(iter(versions), '')
         if not version:
@@ -268,5 +272,4 @@ def _get_cache_path_for_urls(
 
 
 config = WNConfig()
-with resources.path('wn', 'index.toml') as index_path:
-    config.load_index(index_path)
+config.load_index(INDEX_FILE_PATH)

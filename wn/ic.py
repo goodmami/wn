@@ -4,11 +4,10 @@ specificity.
 
 """
 
-from typing import (
-    Callable, Optional, Iterator, Iterable, Dict, List, Tuple, Set, TextIO
-)
+from typing import Optional, TextIO
 from pathlib import Path
 from collections import Counter
+from collections.abc import Callable, Iterable, Iterator
 from math import log
 
 from wn._types import AnyPath
@@ -19,7 +18,7 @@ from wn.util import synset_id_formatter
 
 # Just use a subset of all available parts of speech
 IC_PARTS_OF_SPEECH = frozenset((NOUN, VERB, ADJ, ADV))
-Freq = Dict[str, Dict[Optional[str], float]]
+Freq = dict[str, dict[Optional[str], float]]
 
 
 def information_content(synset: Synset, freq: Freq) -> float:
@@ -111,7 +110,7 @@ def compute(
     freq = _initialize(wordnet, smoothing)
     counts = Counter(corpus)
 
-    hypernym_cache: Dict[Synset, List[Synset]] = {}
+    hypernym_cache: dict[Synset, list[Synset]] = {}
     for word, count in counts.items():
         synsets = wordnet.synsets(word)
         num = len(synsets)
@@ -138,7 +137,7 @@ def compute(
             #
             # ...but it caches hypernym lookups for speed
 
-            agenda: List[Tuple[Synset, Set[Synset]]] = [(synset, set())]
+            agenda: list[tuple[Synset, set[Synset]]] = [(synset, set())]
             while agenda:
                 ss, seen = agenda.pop()
 
@@ -203,7 +202,7 @@ def load(
     return freq
 
 
-def _parse_ic_file(icfile: TextIO) -> Iterator[Tuple[int, str, float, bool]]:
+def _parse_ic_file(icfile: TextIO) -> Iterator[tuple[int, str, float, bool]]:
     """Parse the Information Content file.
 
     A sample of the format is::

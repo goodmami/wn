@@ -1,5 +1,5 @@
 
-from typing import Iterator, Dict
+from collections.abc import Iterator
 from pathlib import Path
 
 from wn._types import AnyPath
@@ -23,7 +23,7 @@ def is_ili(source: AnyPath) -> bool:
     return False
 
 
-def load(source: AnyPath) -> Iterator[Dict[str, str]]:
+def load(source: AnyPath) -> Iterator[dict[str, str]]:
     """Load an interlingual index file.
 
     Args:

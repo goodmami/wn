@@ -3,7 +3,8 @@
 Wordnet and ILI Packages and Collections
 """
 
-from typing import Optional, Iterator, List, Tuple
+from collections.abc import Iterator
+from typing import Optional
 from pathlib import Path
 import tarfile
 import tempfile
@@ -30,8 +31,8 @@ def is_package_directory(path: AnyPath) -> bool:
     return len(_package_directory_types(path)) == 1
 
 
-def _package_directory_types(path: Path) -> List[Tuple[Path, str]]:
-    types: List[Tuple[Path, str]] = []
+def _package_directory_types(path: Path) -> list[tuple[Path, str]]:
+    types: list[tuple[Path, str]] = []
     if path.is_dir():
         for p in path.iterdir():
             typ = _resource_file_type(p)
@@ -73,7 +74,7 @@ class _Project:
         """Return the path of the citation, or ``None`` if none exists."""
         return self._find_file(self._path / 'citation', ('.bib',))
 
-    def _find_file(self, base: Path, suffixes: Tuple[str, ...]) -> Optional[Path]:
+    def _find_file(self, base: Path, suffixes: tuple[str, ...]) -> Optional[Path]:
         for suffix in suffixes:
             base = base.with_suffix(suffix)
             if base.is_file():
@@ -117,7 +118,7 @@ class Collection(_Project):
 
     """
 
-    def packages(self) -> List[Package]:
+    def packages(self) -> list[Package]:
         """Return the list of packages in the collection."""
         return [Package(path)
                 for path in self._path.iterdir()
