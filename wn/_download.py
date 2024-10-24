@@ -4,7 +4,7 @@ from typing import Optional
 from pathlib import Path
 import logging
 
-import requests
+import httpx
 
 import wn
 from wn._util import is_url
@@ -98,29 +98,33 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
             try:
                 with open(path, 'wb') as f:
                     progress.set(status='Requesting', count=0)
-                    with requests.get(url, stream=True, timeout=TIMEOUT) as response:
+                    with httpx.stream("GET", url, timeout=TIMEOUT) as response:
                         response.raise_for_status()
-                        size = int(response.headers.get('Content-Length', 0))
-                        progress.set(total=size, status='Receiving')
-                        for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                        total = int(response.headers.get('Content-Length', 0))
+                        count = response.num_bytes_downloaded
+                        progress.set(count=count, total=total, status='Receiving')
+                        for chunk in response.iter_bytes(chunk_size=CHUNK_SIZE):
                             if chunk:
                                 f.write(chunk)
-                            progress.update(len(chunk))
+                            progress.update(response.num_bytes_downloaded - count)
+                            count = response.num_bytes_downloaded
                         progress.set(status='Complete')
-            except requests.exceptions.RequestException as exc:
+            except httpx.RequestError as exc:
                 path.unlink(missing_ok=True)
-                count = progress.kwargs['count']
+                last_count = progress.kwargs['count']
                 if i == len(urls):
-                    raise wn.Error(f'download failed at {count} bytes') from exc
+                    raise wn.Error(f'download failed at {last_count} bytes') from exc
                 else:
-                    logger.info('download failed at %d bytes; trying next url', count)
+                    logger.info(
+                        'download failed at %d bytes; trying next url', last_count
+                    )
             else:
                 break  # success
 
     except KeyboardInterrupt as exc:
         path.unlink(missing_ok=True)
-        count = progress.kwargs['count']
-        raise wn.Error(f'download cancelled at {count} bytes') from exc
+        last_count = progress.kwargs['count']
+        raise wn.Error(f'download cancelled at {last_count} bytes') from exc
     except Exception:
         path.unlink(missing_ok=True)
         raise
