@@ -42,7 +42,7 @@ you have installed, and possibly the platform (Linux, Windows, macOS)
 you're on. Please give a minimal working example that illustrates the
 problem. For example:
 
-> I'm using Wn 0.7.0 with Python 3.8 on Linux and [description of
+> I'm using Wn 0.9.5 with Python 3.11 on Linux and [description of
 > problem...]. Here's what I have tried:
 >
 > ```pycon
