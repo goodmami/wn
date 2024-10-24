@@ -4,6 +4,7 @@ Local configuration settings.
 """
 
 from collections.abc import Sequence
+from importlib.resources import as_file, files
 from typing import Any, Optional
 from pathlib import Path
 
@@ -12,12 +13,14 @@ import tomli
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
-from wn._util import resources, short_hash
+from wn._util import short_hash
 
+# The index file is a project file of Wn
+with as_file(files('wn') / 'index.toml') as index_file:
+    INDEX_FILE_PATH = index_file
 # The directory where downloaded and added data will be stored.
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
 DATABASE_FILENAME = 'wn.db'
-
 
 class WNConfig:
 
@@ -269,5 +272,4 @@ def _get_cache_path_for_urls(
 
 
 config = WNConfig()
-with resources.path('wn', 'index.toml') as index_path:
-    config.load_index(index_path)
+config.load_index(INDEX_FILE_PATH)
