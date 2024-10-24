@@ -108,19 +108,11 @@ Installing From Source
 
 If you wish to install the code from the source repository (e.g., to
 get an unreleased feature or to contribute toward Wn's development),
-clone the repository and use `Flit <https://flit.readthedocs.io/>`_ to
-install:
+clone the repository and use `Hatch <https://hatch.pypa.io/>`_ to
+start a virtual environment with Wn installed:
 
 .. code-block:: console
 
    $ git clone https://github.com/goodmami/wn.git
    $ cd wn
-   $ flit install
-
-Developers of Wn may want to use the ``--symlink`` option which makes
-the install "editable" (subsequent edits to the source code will be
-reflected without having to reinstall):
-
-.. code-block:: console
-
-   $ flit install --symlink
+   $ hatch shell

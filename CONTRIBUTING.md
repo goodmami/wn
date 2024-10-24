@@ -15,9 +15,8 @@ Thanks for helping to make Wn better!
 - Changelog: [keep a changelog](https://keepachangelog.com/en/1.0.0/)
 - Documentation framework: [Sphinx](https://www.sphinx-doc.org/)
 - Docstring style: [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) (via [sphinx.ext.napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html))
-- Testing automation: [nox](https://nox.thea.codes)
 - Unit/regression testing: [pytest](https://pytest.org/)
-- Packaging framework: [Flit](https://flit.readthedocs.io/en/latest/)
+- Packaging framework: [Hatch](https://hatch.pypa.io/)
 - Coding style: [PEP-8](https://www.python.org/dev/peps/pep-0008/) (via [Ruff](https://beta.ruff.rs/docs/))
 - Type checking: [Mypy](http://mypy-lang.org/)
 
@@ -66,15 +65,21 @@ guidelines and conventions used in Wn. If you have a fix, please
 submit a pull request to the `main` branch. In general, every pull
 request should have an associated issue.
 
-Developers should install Wn locally from source using
-[Flit](https://flit.readthedocs.io/en/latest/). Flit may be installed
+Developers should run and test Wn locally from source using
+[Hatch](https://hatch.pypa.io/). Hatch may be installed
 system-wide or within a virtual environment:
 
 ```bash
-$ pip install flit
-$ flit install -s
+$ pip install hatch
 ```
 
-The `-s` option tells Flit to use symbolic links to install Wn,
-similar to pip's -e editable installs. This allows one to edit source
-files and use the changes without having to reinstall Wn each time.
+You can then use the `hatch` commands like the following:
+
+```console
+$ hatch shell           # activate a Wn virtual environment
+$ hatch fmt --check     # lint the code and check code style
+$ hatch run mypy:check  # type check with mypy
+$ hatch test            # run unit tests
+$ hatch build           # build a source distribution and wheel
+$ hatch publish         # publish build artifacts to PyPI
+```
