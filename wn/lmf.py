@@ -13,11 +13,6 @@ from typing import (
     Union,
     cast
 )
-import sys
-if sys.version_info >= (3, 8):
-    from typing import TypedDict, Literal
-else:
-    from typing_extensions import TypedDict, Literal
 import re
 from pathlib import Path
 import xml.etree.ElementTree as ET  # for general XML parsing
