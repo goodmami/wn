@@ -2,6 +2,15 @@
 
 ## [Unreleased][unreleased]
 
+## Python Support
+
+* Removed support for Python 3.8 ([#202])
+* Added support for Python 3.13 ([#202])
+
+## Maintenance
+
+* Switched packaging from flit to Hatch ([#201])
+
 
 ## [v0.9.5]
 
@@ -643,3 +652,5 @@ abandoned, but this is an entirely new codebase.
 [#181]: https://github.com/goodmami/wn/issues/181
 [#191]: https://github.com/goodmami/wn/issues/191
 [#194]: https://github.com/goodmami/wn/issues/194
+[#201]: https://github.com/goodmami/wn/issues/201
+[#202]: https://github.com/goodmami/wn/issues/202
