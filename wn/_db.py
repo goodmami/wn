@@ -2,7 +2,6 @@
 Storage back-end interface.
 """
 
-from typing import Dict
 from pathlib import Path
 import json
 import sqlite3
@@ -60,7 +59,7 @@ sqlite3.register_converter('boolean', _convert_boolean)
 
 # The pool is a cache of open connections. Unless the database path is
 # changed, there should only be zero or one.
-pool: Dict[AnyPath, sqlite3.Connection] = {}
+pool: dict[AnyPath, sqlite3.Connection] = {}
 
 
 # The connect() function should be used for all connections

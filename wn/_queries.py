@@ -2,9 +2,8 @@
 Database retrieval queries.
 """
 
-from typing import (
-    Optional, List, Tuple, Collection, Iterator, Sequence, cast
-)
+from collections.abc import Collection, Iterator, Sequence
+from typing import Optional, cast
 import itertools
 import sqlite3
 
@@ -15,56 +14,56 @@ from wn._db import connect, NON_ROWID
 
 # Local Types
 
-_Pronunciation = Tuple[
+_Pronunciation = tuple[
     str,   # value
     str,   # variety
     str,   # notation
     bool,  # phonemic
     str,   # audio
 ]
-_Tag = Tuple[str, str]  # tag, category
-_Form = Tuple[
+_Tag = tuple[str, str]  # tag, category
+_Form = tuple[
     str,            # form
     Optional[str],  # id
     Optional[str],  # script
     int             # rowid
 ]
-_Word = Tuple[
+_Word = tuple[
     str,          # id
     str,          # pos
-    List[_Form],  # forms
+    list[_Form],  # forms
     int,          # lexid
     int,          # rowid
 ]
-_Synset = Tuple[
+_Synset = tuple[
     str,  # id
     str,  # pos
     str,  # ili
     int,  # lexid
     int,  # rowid
 ]
-_Synset_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid, *_Synset
-_Sense = Tuple[
+_Synset_Relation = tuple[str, int, str, str, str, int, int]  # relname, relid, *_Synset
+_Sense = tuple[
     str,  # id
     str,  # entry_id
     str,  # synset_id
     int,  # lexid
     int,  # rowid
 ]
-_Sense_Relation = Tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
-_Count = Tuple[int, int]  # count, count_id
-_SyntacticBehaviour = Tuple[
+_Sense_Relation = tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
+_Count = tuple[int, int]  # count, count_id
+_SyntacticBehaviour = tuple[
     str,       # id
     str,       # frame
-    List[str]  # sense ids
+    list[str]  # sense ids
 ]
-_ILI = Tuple[
+_ILI = tuple[
     Optional[str],  # id
     str,            # status
     Optional[str],  # definition
     int,            # rowid
 ]
-_Lexicon = Tuple[
+_Lexicon = tuple[
     int,       # rowid
     str,       # id
     str,       # label
@@ -131,7 +130,7 @@ def get_modified(rowid: int) -> bool:
     return connect().execute(query, (rowid,)).fetchone()[0]
 
 
-def get_lexicon_dependencies(rowid: int) -> List[Tuple[str, str, str, Optional[int]]]:
+def get_lexicon_dependencies(rowid: int) -> list[tuple[str, str, str, Optional[int]]]:
     query = '''
         SELECT provider_id, provider_version, provider_url, provider_rowid
           FROM lexicon_dependencies
@@ -140,7 +139,7 @@ def get_lexicon_dependencies(rowid: int) -> List[Tuple[str, str, str, Optional[i
     return connect().execute(query, (rowid,)).fetchall()
 
 
-def get_lexicon_extension_bases(rowid: int, depth: int = -1) -> List[int]:
+def get_lexicon_extension_bases(rowid: int, depth: int = -1) -> list[int]:
     query = '''
           WITH RECURSIVE ext(x, d) AS
                (SELECT base_rowid, 1
@@ -157,7 +156,7 @@ def get_lexicon_extension_bases(rowid: int, depth: int = -1) -> List[int]:
     return [row[0] for row in rows]
 
 
-def get_lexicon_extensions(rowid: int, depth: int = -1) -> List[int]:
+def get_lexicon_extensions(rowid: int, depth: int = -1) -> list[int]:
     query = '''
           WITH RECURSIVE ext(x, d) AS
                (SELECT extension_rowid, 1
@@ -197,8 +196,8 @@ def _find_existing_ilis(
           FROM ilis AS i
           JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
     '''
-    conditions: List[str] = []
-    params: List = []
+    conditions: list[str] = []
+    params: list = []
     if id:
         conditions.append('i.id = ?')
         params.append(id)
@@ -253,7 +252,7 @@ def find_entries(
 ) -> Iterator[_Word]:
     conn = connect()
     cte = ''
-    params: List = []
+    params: list = []
     conditions = []
     if id:
         conditions.append('e.id = ?')
@@ -291,11 +290,11 @@ def find_entries(
     '''
 
     rows: Iterator[
-        Tuple[int, int, str, str, str, Optional[str], Optional[str], int]
+        tuple[int, int, str, str, str, Optional[str], Optional[str], int]
     ] = conn.execute(query, params)
     groupby = itertools.groupby
     for key, group in groupby(rows, lambda row: row[0:4]):
-        lexid, rowid, _id, _pos = cast(Tuple[int, int, str, str], key)
+        lexid, rowid, _id, _pos = cast(tuple[int, int, str, str], key)
         wordforms = [(row[4], row[5], row[6], row[7]) for row in group]
         yield (_id, _pos, wordforms, lexid, rowid)
 
@@ -310,7 +309,7 @@ def find_senses(
 ) -> Iterator[_Sense]:
     conn = connect()
     cte = ''
-    params: List = []
+    params: list = []
     conditions = []
     if id:
         conditions.append('s.id = ?')
@@ -364,7 +363,7 @@ def find_synsets(
     join = ''
     conditions = []
     order = ''
-    params: List = []
+    params: list = []
     if id:
         conditions.append('ss.id = ?')
         params.append(id)
@@ -435,7 +434,7 @@ def get_synset_relations(
     lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
-    params: List = []
+    params: list = []
     constraint = ''
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
@@ -464,7 +463,7 @@ def get_synset_relations(
 def get_definitions(
     synset_rowid: int,
     lexicon_rowids: Sequence[int],
-) -> List[Tuple[str, str, str, int]]:
+) -> list[tuple[str, str, str, int]]:
     conn = connect()
     query = f'''
         SELECT d.definition,
@@ -488,7 +487,7 @@ def get_examples(
     rowid: int,
     table: str,
     lexicon_rowids: Sequence[int],
-) -> List[Tuple[str, str, int]]:
+) -> list[tuple[str, str, int]]:
     conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
     if prefix is None:
@@ -515,8 +514,8 @@ def find_syntactic_behaviours(
           JOIN senses AS s
             ON s.rowid = sbs.sense_rowid
     '''
-    conditions: List[str] = []
-    params: List = []
+    conditions: list[str] = []
+    params: list = []
     if id:
         conditions.append('sb.id = ?')
         params.append(id)
@@ -525,9 +524,9 @@ def find_syntactic_behaviours(
         params.extend(lexicon_rowids)
     if conditions:
         query += '\n WHERE ' + '\n   AND '.join(conditions)
-    rows: Iterator[Tuple[str, str, str]] = conn.execute(query, params)
+    rows: Iterator[tuple[str, str, str]] = conn.execute(query, params)
     for key, group in itertools.groupby(rows, lambda row: row[0:2]):
-        id, frame = cast(Tuple[str, str], key)
+        id, frame = cast(tuple[str, str], key)
         sense_ids = [row[2] for row in group]
         yield id, frame, sense_ids
 
@@ -535,7 +534,7 @@ def find_syntactic_behaviours(
 def get_syntactic_behaviours(
     rowid: int,
     lexicon_rowids: Sequence[int],
-) -> List[str]:
+) -> list[str]:
     conn = connect()
     query = f'''
         SELECT sb.frame
@@ -581,7 +580,7 @@ def get_sense_relations(
     relation_types: Collection[str],
     lexicon_rowids: Sequence[int],
 ) -> Iterator[_Sense_Relation]:
-    params: List = []
+    params: list = []
     constraint = ''
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
@@ -616,7 +615,7 @@ def get_sense_synset_relations(
         relation_types: Collection[str],
         lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset_Relation]:
-    params: List = []
+    params: list = []
     constraint = ''
     if '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
@@ -696,7 +695,7 @@ def get_adjposition(rowid: int) -> Optional[str]:
     return None
 
 
-def get_form_pronunciations(form_rowid: int) -> List[_Pronunciation]:
+def get_form_pronunciations(form_rowid: int) -> list[_Pronunciation]:
     # TODO: restrict by lexicon ids
     conn = connect()
     query = '''
@@ -704,19 +703,19 @@ def get_form_pronunciations(form_rowid: int) -> List[_Pronunciation]:
           FROM pronunciations
          WHERE form_rowid = ?
     '''
-    rows: List[_Pronunciation] = conn.execute(query, (form_rowid,)).fetchall()
+    rows: list[_Pronunciation] = conn.execute(query, (form_rowid,)).fetchall()
     return rows
 
 
-def get_form_tags(form_rowid: int) -> List[_Tag]:
+def get_form_tags(form_rowid: int) -> list[_Tag]:
     # TODO: restrict by lexicon ids
     conn = connect()
     query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
-    rows: List[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
+    rows: list[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
     return rows
 
 
-def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> List[_Count]:
+def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> list[_Count]:
     conn = connect()
     query = f'''
         SELECT count, rowid
@@ -724,7 +723,7 @@ def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> List[_C
          WHERE sense_rowid = ?
            AND lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
-    rows: List[_Count] = conn.execute(
+    rows: list[_Count] = conn.execute(
         query, (sense_rowid, *lexicon_rowids)
     ).fetchall()
     return rows

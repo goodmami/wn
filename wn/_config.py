@@ -3,7 +3,8 @@
 Local configuration settings.
 """
 
-from typing import Optional, Dict, Sequence, Any
+from collections.abc import Sequence
+from typing import Any, Optional
 from pathlib import Path
 
 import tomli
@@ -54,7 +55,7 @@ class WNConfig:
         return dir
 
     @property
-    def index(self) -> Dict[str, Dict]:
+    def index(self) -> dict[str, dict]:
         """The project index."""
         return self._projects
 
@@ -114,7 +115,7 @@ class WNConfig:
               is accessed
 
         """
-        version_data: Dict[str, Any]
+        version_data: dict[str, Any]
         if url and not error:
             version_data = {'resource_urls': url.split()}
         elif error and not url:
@@ -128,7 +129,7 @@ class WNConfig:
         project = self._projects[id]
         project['versions'][version] = version_data
 
-    def get_project_info(self, arg: str) -> Dict:
+    def get_project_info(self, arg: str) -> dict:
         """Return information about an indexed project version.
 
         If the project has been downloaded and cached, the ``"cache"``
@@ -148,11 +149,11 @@ class WNConfig:
         id, _, version = arg.partition(':')
         if id not in self._projects:
             raise ProjectError(f'no such project id: {id}')
-        project: Dict = self._projects[id]
+        project: dict = self._projects[id]
         if 'error' in project:
             raise ProjectError(project['error'])
 
-        versions: Dict = project['versions']
+        versions: dict = project['versions']
         if not version or version == '*':
             version = next(iter(versions), '')
         if not version:

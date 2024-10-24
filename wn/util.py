@@ -1,5 +1,6 @@
 """Wn utility classes."""
-from typing import TextIO, Callable
+from collections.abc import Callable
+from typing import TextIO
 import sys
 
 

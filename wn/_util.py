@@ -1,6 +1,7 @@
 """Non-public Wn utilities."""
 
-from typing import TypeVar, Iterable, List
+from collections.abc import Iterable
+from typing import TypeVar
 import sys
 from pathlib import Path
 import hashlib
@@ -58,7 +59,7 @@ def short_hash(string: str) -> str:
 T = TypeVar('T')
 
 
-def flatten(iterable: Iterable[Iterable[T]]) -> List[T]:
+def flatten(iterable: Iterable[Iterable[T]]) -> list[T]:
     return [x for xs in iterable for x in xs]
 
 

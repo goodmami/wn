@@ -3,15 +3,15 @@
 
 """
 
-from typing import Optional, Dict, Set, List, Tuple
+from typing import Optional
 from enum import Flag, auto
 
 import wn
 from wn._types import LemmatizeResult
 from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV, PARTS_OF_SPEECH
 
-POSExceptionMap = Dict[str, Set[str]]
-ExceptionMap = Dict[str, POSExceptionMap]
+POSExceptionMap = dict[str, set[str]]
+ExceptionMap = dict[str, POSExceptionMap]
 
 
 class _System(Flag):
@@ -28,9 +28,9 @@ _WN = _System.WN
 _ALL = _System.ALL
 
 
-Rule = Tuple[str, str, _System]
+Rule = tuple[str, str, _System]
 
-DETACHMENT_RULES: Dict[str, List[Rule]] = {
+DETACHMENT_RULES: dict[str, list[Rule]] = {
     NOUN: [
         ("s",    "",    _ALL),
         ("ces",  "x",   _WN),
@@ -100,7 +100,7 @@ class Morphy:
             for pos, rules in DETACHMENT_RULES.items()
         }
         exceptions: ExceptionMap = {pos: {} for pos in PARTS_OF_SPEECH}
-        all_lemmas: Dict[str, Set[str]] = {pos: set() for pos in PARTS_OF_SPEECH}
+        all_lemmas: dict[str, set[str]] = {pos: set() for pos in PARTS_OF_SPEECH}
         if wordnet:
             for word in wordnet.words():
                 pos = word.pos
@@ -140,8 +140,8 @@ class Morphy:
 
         return result
 
-    def _morphstr(self, form: str, pos: str) -> Set[str]:
-        candidates: Set[str] = set()
+    def _morphstr(self, form: str, pos: str) -> set[str]:
+        candidates: set[str] = set()
 
         initialized = self._initialized
         if initialized:
