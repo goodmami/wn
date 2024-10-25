@@ -7,6 +7,10 @@
 * Removed support for Python 3.8 ([#202])
 * Added support for Python 3.13 ([#202])
 
+## Added
+
+* Support for WN-LMF 1.2 and 1.3 ([#200])
+
 ## Maintenance
 
 * Switched packaging from flit to Hatch ([#201])
@@ -652,5 +656,6 @@ abandoned, but this is an entirely new codebase.
 [#181]: https://github.com/goodmami/wn/issues/181
 [#191]: https://github.com/goodmami/wn/issues/191
 [#194]: https://github.com/goodmami/wn/issues/194
+[#200]: https://github.com/goodmami/wn/issues/200
 [#201]: https://github.com/goodmami/wn/issues/201
 [#202]: https://github.com/goodmami/wn/issues/202
