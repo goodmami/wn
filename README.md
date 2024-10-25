@@ -62,7 +62,7 @@ Now start exploring:
 - Six [similarity metrics](https://wn.readthedocs.io/en/latest/api/wn.similarity.html)
 - Functions for [exploring taxonomies](https://wn.readthedocs.io/en/latest/api/wn.taxonomy.html)
 - Support for [lemmatization] ([Morphy] for English is built-in) and unicode [normalization]
-- Full support of the [WN-LMF 1.1](https://globalwordnet.github.io/schemas/) format, including word pronunciations and lexicon extensions
+- Full support of the [WN-LMF 1.3](https://globalwordnet.github.io/schemas/) format, including word pronunciations and lexicon extensions
 - SQL-based backend offers very fast startup and improved performance on many kinds of queries
 
 [lemmatization]: https://wn.readthedocs.io/en/latest/guides/lemmatization.html#lemmatization

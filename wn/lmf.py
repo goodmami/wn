@@ -33,12 +33,15 @@ class LMFWarning(Warning):
     """Issued on non-conforming LFM values."""
 
 
-SUPPORTED_VERSIONS = {'1.0', '1.1'}
+SUPPORTED_VERSIONS = {'1.0', '1.1', '1.2', '1.3'}
 _XMLDECL = b'<?xml version="1.0" encoding="UTF-8"?>'
+_XMLSPACEATTR = 'http://www.w3.org/XML/1998/namespace space'  # xml:space
 _DOCTYPE = '<!DOCTYPE LexicalResource SYSTEM "{schema}">'
 _SCHEMAS = {
     '1.0': 'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
     '1.1': 'http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd',
+    '1.2': 'http://globalwordnet.github.io/schemas/WN-LMF-1.2.dtd',
+    '1.3': 'http://globalwordnet.github.io/schemas/WN-LMF-1.3.dtd',
 }
 _DOCTYPES = {
     _DOCTYPE.format(schema=schema): version for version, schema in _SCHEMAS.items()
@@ -47,6 +50,8 @@ _DOCTYPES = {
 _DC_URIS = {
     '1.0': 'http://purl.org/dc/elements/1.1/',
     '1.1': 'https://globalwordnet.github.io/schemas/dc/',
+    '1.2': 'https://globalwordnet.github.io/schemas/dc/',
+    '1.3': 'https://globalwordnet.github.io/schemas/dc/',
 }
 _DC_ATTRS = [
     'contributor',
@@ -106,6 +111,8 @@ _LMF_1_1_ELEMS.update({
 _VALID_ELEMS = {
     '1.0': _LMF_1_0_ELEMS,
     '1.1': _LMF_1_1_ELEMS,
+    '1.2': _LMF_1_1_ELEMS,  # no new elements
+    '1.3': _LMF_1_1_ELEMS,  # no new elements
 }
 _LIST_ELEMS = {  # elements that collect into lists
     'Lexicon',
@@ -453,19 +460,17 @@ def _make_parser(root, version, progress):  # noqa: C901
     LIST_ELEMS = _LIST_ELEMS & set(ELEMS)
 
     p = xml.parsers.expat.ParserCreate(namespace_separator=' ')
-    has_text = False
 
     def start(name, attrs):
-        nonlocal has_text
-        if name in CDATA_ELEMS:
-            has_text = True
-
         if name in _META_ELEMS:
             meta = {}
             for attr in list(attrs):
                 if attr in NS_ATTRS:
                     meta[NS_ATTRS[attr]] = attrs.pop(attr)
             attrs['meta'] = meta or None
+
+        if name in CDATA_ELEMS:
+            attrs['text'] = ''
 
         if name.startswith('External'):
             attrs['external'] = True
@@ -482,19 +487,17 @@ def _make_parser(root, version, progress):  # noqa: C901
         stack.append(attrs)
 
     def char_data(data):
-        if has_text:
-            parent = stack[-1]
-            # sometimes the buffering occurs in the middle of text; if
-            # so, append the current data
-            if 'text' in parent:
-                parent['text'] += data
-            else:
-                parent['text'] = data
+        parent = stack[-1]
+        if 'text' in parent:
+            # sometimes the buffering occurs in the middle of text, so
+            # append the current data, don't just assign it
+            parent['text'] += data
 
     def end(name):
-        nonlocal has_text
-        has_text = False
-        stack.pop()
+        elem = stack.pop()
+        # normalize whitespace unless xml:space=preserve
+        if 'text' in elem and elem.get(_XMLSPACEATTR, '') != 'preserve':
+            elem['text'] = ' '.join(elem['text'].split())
         progress.update(force=(name == 'LexicalResource'))
 
     p.StartElementHandler = start
