@@ -771,7 +771,7 @@ def _build_lemma(
 
 def _build_form(form: Union[Form, ExternalForm], version: VersionInfo) -> ET.Element:
     attrib = {}
-    if version >= (1, 1) and form['id']:
+    if version >= (1, 1) and form.get('id'):
         attrib['id'] = form['id']
     if form.get('external', False):
         elem = ET.Element('ExternalForm', attrib=attrib)
