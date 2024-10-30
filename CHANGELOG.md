@@ -11,9 +11,14 @@
 
 * Support for WN-LMF 1.2 and 1.3 ([#200])
 
+## Fixed
+
+* Don't assume 'id' on form elements in WN-LMF 1.2+ ([#207])
+
 ## Maintenance
 
 * Switched packaging from flit to Hatch ([#201])
+* Updated dependencies, CI warnings, old workarounds ([#203])
 
 
 ## [v0.9.5]
@@ -659,3 +664,5 @@ abandoned, but this is an entirely new codebase.
 [#200]: https://github.com/goodmami/wn/issues/200
 [#201]: https://github.com/goodmami/wn/issues/201
 [#202]: https://github.com/goodmami/wn/issues/202
+[#203]: https://github.com/goodmami/wn/issues/203
+[#207]: https://github.com/goodmami/wn/issues/207
