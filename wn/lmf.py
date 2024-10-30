@@ -911,7 +911,7 @@ def _dump_syntactic_behaviour(
     version: VersionInfo
 ) -> None:
     elem = _build_syntactic_behaviour(syntactic_behaviour, version)
-    print('    ' + _tostring(elem, 2), file=out)
+    print(_tostring(elem, 2), file=out)
 
 
 def _build_syntactic_behaviour(
