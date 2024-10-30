@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v0.10.0]
+
+**Release date: 2024-10-29**
+
 ## Python Support
 
 * Removed support for Python 3.8 ([#202])
@@ -566,6 +571,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.10.0]: ../../releases/tag/v0.10.0
 [v0.9.5]: ../../releases/tag/v0.9.5
 [v0.9.4]: ../../releases/tag/v0.9.4
 [v0.9.3]: ../../releases/tag/v0.9.3
