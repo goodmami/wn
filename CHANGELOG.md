@@ -19,6 +19,7 @@
 
 * Switched packaging from flit to Hatch ([#201])
 * Updated dependencies, CI warnings, old workarounds ([#203])
+* Change CI publishing to OIDC trusted publishing
 
 
 ## [v0.9.5]
