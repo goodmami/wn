@@ -98,7 +98,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
             try:
                 with open(path, 'wb') as f:
                     progress.set(status='Requesting', count=0)
-                    with httpx.stream("GET", url, timeout=TIMEOUT) as response:
+                    with httpx.stream("GET", url, timeout=TIMEOUT, follow_redirects=True) as response:
                         response.raise_for_status()
                         total = int(response.headers.get('Content-Length', 0))
                         count = response.num_bytes_downloaded
