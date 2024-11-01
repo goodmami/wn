@@ -90,6 +90,7 @@ def _get_cache_path_and_urls(project_or_url: str) -> tuple[Optional[Path], list[
 
 
 def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
+    client = httpx.Client(timeout=TIMEOUT, follow_redirects=True)
     try:
         for i, url in enumerate(urls, 1):
             path = config.get_cache_path(url)
@@ -98,7 +99,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
             try:
                 with open(path, 'wb') as f:
                     progress.set(status='Requesting', count=0)
-                    with httpx.stream("GET", url, timeout=TIMEOUT, follow_redirects=True) as response:
+                    with client.stream("GET", url) as response:
                         response.raise_for_status()
                         total = int(response.headers.get('Content-Length', 0))
                         count = response.num_bytes_downloaded
@@ -128,5 +129,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
     except Exception:
         path.unlink(missing_ok=True)
         raise
+    finally:
+        client.close()
 
     return path
