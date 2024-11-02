@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v0.10.1]
+
+**Release date: 2024-10-29**
+
 ## Fixed
 
 * Follow redirects with `httpx.Client` in `wn._download` ([#211])
@@ -581,6 +586,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.10.1]: ../../releases/tag/v0.10.1
 [v0.10.0]: ../../releases/tag/v0.10.0
 [v0.9.5]: ../../releases/tag/v0.9.5
 [v0.9.4]: ../../releases/tag/v0.9.4
