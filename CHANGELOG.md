@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+## Fixed
+
+* Follow redirects with `httpx.Client` in `wn._download` ([#211])
+* Remove reverse relations for `pertainym` and `also` ([#213])
+
 
 ## [v0.10.0]
 
@@ -673,3 +678,5 @@ abandoned, but this is an entirely new codebase.
 [#202]: https://github.com/goodmami/wn/issues/202
 [#203]: https://github.com/goodmami/wn/issues/203
 [#207]: https://github.com/goodmami/wn/issues/207
+[#211]: https://github.com/goodmami/wn/issues/211
+[#213]: https://github.com/goodmami/wn/issues/213
