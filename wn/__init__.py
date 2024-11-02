@@ -57,4 +57,4 @@ from wn._core import (
     Wordnet
 )
 
-__version__ = '0.10.0'
+__version__ = '0.10.1'
