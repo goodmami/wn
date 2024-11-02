@@ -8,6 +8,10 @@
 * Remove reverse relations for `pertainym` and `also` ([#213])
 * Validate redundant relations considering `dc:type` ([#215])
 
+## Maintenance
+
+* Added `docs/.readthedocs.yaml` for building docs ([#214])
+
 
 ## [v0.10.0]
 
@@ -681,4 +685,5 @@ abandoned, but this is an entirely new codebase.
 [#207]: https://github.com/goodmami/wn/issues/207
 [#211]: https://github.com/goodmami/wn/issues/211
 [#213]: https://github.com/goodmami/wn/issues/213
+[#214]: https://github.com/goodmami/wn/issues/214
 [#215]: https://github.com/goodmami/wn/issues/215

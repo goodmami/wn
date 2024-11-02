@@ -1,5 +1,5 @@
-sphinx ~= 4.0
-furo == 2021.10.9
-sphinx-copybutton == 0.4.0
+sphinx ~= 8.1
+furo == 2024.8.6
+sphinx-copybutton == 0.5.2
 .
 
