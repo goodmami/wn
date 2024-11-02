@@ -153,10 +153,19 @@ def _invalid_relation_type(lex: lmf.Lexicon, ids: _Ids) -> _Result:
 def _redundant_relation(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """redundant relation between source and target"""
     redundant = _multiples(chain(
-        ((s['id'], r['relType'], r['target']) for s, r in _sense_relations(lex)),
-        ((ss['id'], r['relType'], r['target']) for ss, r in _synset_relations(lex)),
+        (
+            (s['id'], r['relType'], r['target'], _get_dc_type(r))
+            for s, r in _sense_relations(lex)
+        ),
+        (
+            (ss['id'], r['relType'], r['target'], _get_dc_type(r))
+            for ss, r in _synset_relations(lex)
+        ),
     ))
-    return {src: {'type': typ, 'target': tgt} for src, typ, tgt in redundant}
+    return {
+        src: ({'type': typ, 'target': tgt} | ({'dc:type': dctyp} if dctyp else {}))
+        for src, typ, tgt, dctyp in redundant
+    }
 
 
 def _missing_reverse_relation(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -213,6 +222,10 @@ def _synset_relations(lex: lmf.Lexicon) -> Iterator[tuple[lmf.Synset, lmf.Relati
     for ss in _synsets(lex):
         for r in ss.get('relations', []):
             yield (ss, r)
+
+
+def _get_dc_type(r: lmf.Relation) -> Optional[str]:
+    return (r.get('meta') or {}).get('type')
 
 
 # Check codes and messages
