@@ -42,14 +42,14 @@ conda install -c conda-forge wn
 First, download some data:
 
 ```sh
-python -m wn download oewn:2023  # the Open # English WordNet 2023
+python -m wn download oewn:2024  # the Open # English WordNet 2024
 ```
 
 Now start exploring:
 
 ```python
 >>> import wn
->>> en = wn.Wordnet('oewn:2023')        # Create Wordnet object to query
+>>> en = wn.Wordnet('oewn:2024')        # Create Wordnet object to query
 >>> ss = en.synsets('win', pos='v')[0]  # Get the first synset for 'win'
 >>> ss.definition()                     # Get the synset's definition
 'be the winner in a contest or competition; be victorious'
@@ -88,12 +88,12 @@ may try the [OMW English Wordnet based on WordNet 3.0] (compatible with
 the Princeton WordNet 3.0 and with the [NLTK]), or [OpenWordnet-EN] (for
 use with the Portuguese wordnet [OpenWordnet-PT]).
 
-| Name                                       | Specifier              | # Synsets | Notes |
-| ------------------------------------------ | ---------------------- | --------: | ----- |
-| [Open English WordNet] | `oewn:2023`<br/> `oewn:2022`<br/> `oewn:2021`<br/> `ewn:2020`<br/> `ewn:2019` | 120135<br/>120068<br/>120039<br/>120053<br/>117791 | Recommended<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp; |
-| [OMW English Wordnet based on WordNet 3.0] | `omw-en:1.4` | 117659 | Included with `omw:1.4` |
-| [OMW English Wordnet based on WordNet 3.1] | `omw-en31:1.4` | 117791 |  |
-| [OpenWordnet-EN] | `own-en:1.0.0` | 117659 | Included with `own:1.0.0` |
+| Name                                       | Specifier                                                                                      |                                                     # Synsets | Notes |
+| ------------------------------------------ |------------------------------------------------------------------------------------------------|--------------------------------------------------------------:| ----- |
+| [Open English WordNet] | `oewn:2024`<br/> `oewn:2023`<br/> `oewn:2022`<br/> `oewn:2021`<br/> `ewn:2020`<br/> `ewn:2019` | 120630<br/>120135<br/>120068<br/>120039<br/>120053<br/>117791 | Recommended<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp; |
+| [OMW English Wordnet based on WordNet 3.0] | `omw-en:1.4`                                                                                   |                                                        117659 | Included with `omw:1.4` |
+| [OMW English Wordnet based on WordNet 3.1] | `omw-en31:1.4`                                                                                 |                                                        117791 |  |
+| [OpenWordnet-EN] | `own-en:1.0.0`                                                                                 |                                                        117659 | Included with `own:1.0.0` |
 
 [Open English WordNet]: https://en-word.net
 [Open Multilingual Wordnet]: https://github.com/omwn

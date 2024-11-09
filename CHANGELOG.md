@@ -2,6 +2,9 @@
 
 ## [Unreleased][unreleased]
 
+## Index
+* Added `oewn:2024` ([#221])
+
 
 ## [v0.10.1]
 
@@ -693,3 +696,4 @@ abandoned, but this is an entirely new codebase.
 [#213]: https://github.com/goodmami/wn/issues/213
 [#214]: https://github.com/goodmami/wn/issues/214
 [#215]: https://github.com/goodmami/wn/issues/215
+[#221]: https://github.com/goodmami/wn/issues/221
