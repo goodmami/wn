@@ -42,7 +42,7 @@ conda install -c conda-forge wn
 First, download some data:
 
 ```sh
-python -m wn download oewn:2024  # the Open # English WordNet 2024
+python -m wn download oewn:2024  # the Open English WordNet 2024
 ```
 
 Now start exploring:
