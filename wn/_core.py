@@ -1,8 +1,9 @@
 
+import enum
+import textwrap
+import warnings
 from collections.abc import Callable, Iterator, Sequence
 from typing import Optional, TypeVar
-import warnings
-import textwrap
 
 import wn
 from wn._types import (
@@ -46,10 +47,22 @@ from wn import taxonomy
 _INFERRED_SYNSET = '*INFERRED*'
 
 
+class _EntityType(str, enum.Enum):
+    """Identifies the database table of an entity."""
+    LEXICONS = 'lexicons'
+    ENTRIES = 'entries'
+    SENSES = 'senses'
+    SYNSETS = 'synsets'
+    SENSE_RELATIONS = 'sense_relations'
+    SENSE_SYNSET_RELATIONS = 'sense_synset_relations'
+    SYNSET_RELATIONS = 'synset_relations'
+    UNSET = ''
+
+
 class _DatabaseEntity:
     __slots__ = '_id',
 
-    _ENTITY_TYPE = ''
+    _ENTITY_TYPE: _EntityType = _EntityType.UNSET
 
     def __init__(self, _id: int = NON_ROWID):
         self._id = _id        # Database-internal id (e.g., rowid)
@@ -122,7 +135,7 @@ class Lexicon(_DatabaseEntity):
                  'version', 'url', 'citation', 'logo')
     __module__ = 'wn'
 
-    _ENTITY_TYPE = 'lexicons'
+    _ENTITY_TYPE = _EntityType.LEXICONS
 
     def __init__(
         self,
@@ -341,7 +354,7 @@ class Word(_LexiconElement):
     __slots__ = 'id', 'pos', '_forms'
     __module__ = 'wn'
 
-    _ENTITY_TYPE = 'entries'
+    _ENTITY_TYPE = _EntityType.ENTRIES
 
     def __init__(
         self,
@@ -513,7 +526,7 @@ class Synset(_Relatable):
     __slots__ = 'pos', '_ili'
     __module__ = 'wn'
 
-    _ENTITY_TYPE = 'synsets'
+    _ENTITY_TYPE = _EntityType.SYNSETS
 
     def __init__(
         self,
@@ -869,7 +882,7 @@ class Sense(_Relatable):
     __slots__ = '_entry_id', '_synset_id'
     __module__ = 'wn'
 
-    _ENTITY_TYPE = 'senses'
+    _ENTITY_TYPE = _EntityType.SENSES
 
     def __init__(
         self,
