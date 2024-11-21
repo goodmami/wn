@@ -42,7 +42,17 @@ _Synset = tuple[
     int,  # lexid
     int,  # rowid
 ]
-_Synset_Relation = tuple[str, int, str, str, str, int, int]  # relname, relid, *_Synset
+_Synset_Relation = tuple[
+    str,  # rel_name
+    int,  # rel_lexid
+    int,  # rel_rowid
+    int,  # src_rowid
+    str,  # _Synset...
+    str,
+    str,
+    int,
+    int,
+]
 _Sense = tuple[
     str,  # id
     str,  # entry_id
@@ -50,7 +60,16 @@ _Sense = tuple[
     int,  # lexid
     int,  # rowid
 ]
-_Sense_Relation = tuple[str, int, str, str, str, int, int]  # relname, relid,  *_Sense
+_Sense_Relation = tuple[
+    str,  # rel_name
+    int,  # rel_lexid
+    int,  # rel_rowid
+    str,  # _Sense...
+    str,
+    str,
+    int,
+    int,
+]
 _Count = tuple[int, int]  # count, count_id
 _SyntacticBehaviour = tuple[
     str,       # id
@@ -444,10 +463,11 @@ def get_synset_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint})
-        SELECT DISTINCT rel.type, rel.rowid, tgt.id, tgt.pos,
+        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
+                        rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
                         tgt.lexicon_rowid, tgt.rowid
-          FROM (SELECT rt.type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
                   FROM synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid IN ({_qs(source_rowids)})
@@ -590,10 +610,10 @@ def get_sense_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint})
-        SELECT DISTINCT rel.type, rel.rowid,
+        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
                         s.id, e.id, ss.id,
                         s.lexicon_rowid, s.rowid
-          FROM (SELECT rt.type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, lexicon_rowid, target_rowid, srel.rowid
                   FROM sense_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid = ?
@@ -625,10 +645,11 @@ def get_sense_synset_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint})
-        SELECT DISTINCT rel.type, rel.rowid, ss.id, ss.pos,
+        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
+                        rel.source_rowid, ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = ss.ili_rowid),
                         ss.lexicon_rowid, ss.rowid
-          FROM (SELECT rt.type, target_rowid, srel.rowid
+          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
                   FROM sense_synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid = ?
