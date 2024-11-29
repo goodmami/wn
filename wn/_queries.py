@@ -458,11 +458,12 @@ def get_synset_relations(
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.extend(source_rowids)
     params.extend(lexicon_rowids)
+    params.extend(source_rowids)
     query = f'''
           WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint})
+               (SELECT rowid, type FROM relation_types {constraint}),
+               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
         SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
@@ -471,10 +472,11 @@ def get_synset_relations(
                   FROM synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid IN ({_qs(source_rowids)})
-                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
+                   AND lexicon_rowid IN lex
                ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
+           AND tgt.lexicon_rowid IN lex
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
@@ -605,22 +607,24 @@ def get_sense_relations(
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.append(source_rowid)
     params.extend(lexicon_rowids)
+    params.append(source_rowid)
     query = f'''
           WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint})
+               (SELECT rowid, type FROM relation_types {constraint}),
+               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
         SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
-                        s.id, e.id, ss.id,
+                        rel.source_rowid, s.id, e.id, ss.id,
                         s.lexicon_rowid, s.rowid
-          FROM (SELECT rt.type, lexicon_rowid, target_rowid, srel.rowid
+          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
                   FROM sense_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid = ?
-                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
+                   AND lexicon_rowid IN lex
                ) AS rel
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
+           AND s.lexicon_rowid IN lex
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
           JOIN synsets AS ss
@@ -640,11 +644,12 @@ def get_sense_synset_relations(
     if '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.append(source_rowid)
     params.extend(lexicon_rowids)
+    params.append(source_rowid)
     query = f'''
           WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint})
+               (SELECT rowid, type FROM relation_types {constraint}),
+               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
         SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
                         rel.source_rowid, ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = ss.ili_rowid),
@@ -653,10 +658,11 @@ def get_sense_synset_relations(
                   FROM sense_synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
                  WHERE source_rowid = ?
-                   AND lexicon_rowid IN ({_qs(lexicon_rowids)})
+                   AND lexicon_rowid IN lex
                ) AS rel
           JOIN synsets AS ss
             ON ss.rowid = rel.target_rowid
+           AND ss.lexicon_rowid IN lex
     '''
     rows: Iterator[_Synset_Relation] = connect().execute(query, params)
     yield from rows

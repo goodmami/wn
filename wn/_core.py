@@ -11,7 +11,7 @@ from wn._types import (
     NormalizeFunction,
     LemmatizeFunction,
 )
-from wn._util import normalize_form
+from wn._util import normalize_form, unique_list
 from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
@@ -487,12 +487,6 @@ class _Relation(_LexiconElement):
             + f"({self.name!r}, {self.source_id!r}, {self.target_id!r})"
         )
 
-    def source(self) -> '_Relatable':
-        raise NotImplementedError
-
-    def target(self) -> '_Relatable':
-        raise NotImplementedError
-
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
         return get_metadata(self._id, self._ENTITY_TYPE)
@@ -501,53 +495,30 @@ class _Relation(_LexiconElement):
 class SynsetRelation(_Relation):
     _ENTITY_TYPE = _EntityType.SYNSET_RELATIONS
 
-    def source(self) -> 'Synset':
-        return self._wordnet.synset(id=self.source_id)
-
-    def target(self) -> 'Synset':
-        return self._wordnet.synset(id=self.target_id)
-
 
 class SenseRelation(_Relation):
     _ENTITY_TYPE = _EntityType.SENSE_RELATIONS
 
-    def source(self) -> 'Sense':
-        return self._wordnet.sense(id=self.source_id)
-
-    def target(self) -> 'Sense':
-        return self._wordnet.sense(id=self.target_id)
-
 
 class SenseSynsetRelation(_Relation):
     _ENTITY_TYPE = _EntityType.SENSE_SYNSET_RELATIONS
-
-    def source(self) -> 'Sense':
-        return self._wordnet.sense(id=self.source_id)
-
-    def target(self) -> 'Synset':
-        return self._wordnet.synset(id=self.target_id)
 
 
 T = TypeVar('T', bound='_Relatable')
 
 
 class _Relatable(_LexiconElement):
-    __slots__ = 'id', '_in_rel'
+    __slots__ = 'id',
 
     def __init__(
         self,
         id: str,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _in_rel: Optional[_Relation] = None,
         _wordnet: Optional['Wordnet'] = None
     ):
         super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.id = id
-        self._in_rel = _in_rel
-
-    def incoming_relation(self) -> Optional[_Relation]:
-        return self._in_rel
 
     def relations(self: T, *args: str) -> dict[str, list[T]]:
         raise NotImplementedError
@@ -598,8 +569,6 @@ class Synset(_Relatable):
 
     _ENTITY_TYPE = _EntityType.SYNSETS
 
-    _in_rel: Union[SynsetRelation, SenseSynsetRelation, None]
-
     def __init__(
         self,
         id: str,
@@ -607,12 +576,9 @@ class Synset(_Relatable):
         ili: Optional[str] = None,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _in_rel: Union[SynsetRelation, SenseSynsetRelation, None] = None,
         _wordnet: Optional['Wordnet'] = None,
     ):
-        super().__init__(
-            id=id, _lexid=_lexid, _id=_id, _in_rel=_in_rel, _wordnet=_wordnet
-        )
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self.pos = pos
         self._ili = ili
 
@@ -622,12 +588,9 @@ class Synset(_Relatable):
         id: str,
         ili: Optional[str] = None,
         _lexid: int = NON_ROWID,
-        _in_rel: Union[SynsetRelation, SenseSynsetRelation, None] = None,
         _wordnet: Optional['Wordnet'] = None
     ):
-        return cls(
-            id, pos='', ili=ili, _lexid=_lexid, _in_rel=_in_rel, _wordnet=_wordnet
-        )
+        return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
 
     @property
     def ili(self):
@@ -722,9 +685,6 @@ class Synset(_Relatable):
         """
         return [w.lemma() for w in self.words()]
 
-    def incoming_relation(self) -> Union[SynsetRelation, SenseSynsetRelation, None]:
-        return self._in_rel
-
     def relations(self, *args: str) -> dict[str, list['Synset']]:
         """Return a mapping of relation names to lists of synsets.
 
@@ -746,15 +706,12 @@ class Synset(_Relatable):
             hyponym [['coat button'], ['shirt button']]
 
         """
-        d: dict[str, list[Synset]] = {}
-        for ss in self.get_related(*args):
-            if relation := ss.incoming_relation():
-                relname = relation.name
-                if relname in d:
-                    d[relname].append(ss)
-                else:
-                    d[relname] = [ss]
-        return d
+        # inner dict is used as an order-preserving set
+        relmap: dict[str, dict[Synset, bool]] = {}
+        for relation, synset in self._iter_relations(*args):
+            relmap.setdefault(relation.name, {})[synset] = True
+        # now convert inner dicts to lists
+        return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
 
     def get_related(self, *args: str) -> list['Synset']:
         """Return the list of related synsets.
@@ -774,36 +731,44 @@ class Synset(_Relatable):
             >>> [ss.lemmas() for ss in fulcrum.get_related()]
             [['pin', 'pivot'], ['lever']]
         """
-        targets: list[Synset] = []
+        return unique_list(synset for _, synset in self._iter_relations(*args))
+
+    def relation_map(self) -> dict[SynsetRelation, 'Synset']:
+        return dict(self._iter_relations())
+
+    def _iter_relations(self, *args: str) -> Iterator[tuple[SynsetRelation, 'Synset']]:
         # first get relations from the current lexicon(s)
         if self._id != NON_ROWID:
-            targets.extend(self._get_local_relations(args))
+            yield from self._iter_local_relations(args)
         # then attempt to expand via ILI
         if self._ili is not None and self._wordnet._expanded_ids:
-            targets.extend(self._get_expanded_relations(args))
-        return targets
+            yield from self._iter_expanded_relations(args)
 
-    def _get_local_relations(self, args: Sequence[str]) -> Iterator['Synset']:
+    def _iter_local_relations(
+        self,
+        args: Sequence[str],
+    ) -> Iterator[tuple[SynsetRelation, 'Synset']]:
         _wn = self._wordnet
         lexids = self._get_lexicon_ids()
         iterable = get_synset_relations({self._id}, args, lexids)
         for relname, rellexid, relrowid, _, ssid, pos, ili, lexid, rowid in iterable:
-            if lexid not in lexids:
-                continue
             synset_rel = SynsetRelation(
                 relname, self.id, ssid, rellexid, relrowid, _wordnet=_wn
             )
-            yield Synset(
+            synset = Synset(
                 ssid,
                 pos,
                 ili,
                 _lexid=lexid,
                 _id=rowid,
-                _in_rel=synset_rel,
                 _wordnet=_wn
             )
+            yield synset_rel, synset
 
-    def _get_expanded_relations(self, args: Sequence[str]) -> Iterator['Synset']:
+    def _iter_expanded_relations(
+        self,
+        args: Sequence[str],
+    ) -> Iterator[tuple[SynsetRelation, 'Synset']]:
         _wn = self._wordnet
         lexids = self._get_lexicon_ids()
         expids = self._wordnet._expanded_ids
@@ -825,17 +790,17 @@ class Synset(_Relatable):
             )
             local_ss_rows = list(get_synsets_for_ilis([ili], lexicon_rowids=lexids))
 
-            for row in local_ss_rows:
-                yield Synset(*row, _in_rel=synset_rel, _wordnet=_wn)
-
-            if not local_ss_rows:
-                yield Synset.empty(
+            if local_ss_rows:
+                for row in local_ss_rows:
+                    yield synset_rel, Synset(*row, _wordnet=_wn)
+            else:
+                synset = Synset.empty(
                     id=_INFERRED_SYNSET,
                     ili=ili,
                     _lexid=self._lexid,
-                    _in_rel=synset_rel,
                     _wordnet=_wn,
                 )
+                yield synset_rel, synset
 
     def hypernym_paths(self, simulate_root: bool = False) -> list[list['Synset']]:
         """Return the list of hypernym paths to a root synset."""
@@ -980,8 +945,6 @@ class Sense(_Relatable):
 
     _ENTITY_TYPE = _EntityType.SENSES
 
-    _in_rel: Optional[SenseRelation]
-
     def __init__(
         self,
         id: str,
@@ -989,12 +952,9 @@ class Sense(_Relatable):
         synset_id: str,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _in_rel: Optional[SenseRelation] = None,
         _wordnet: Optional['Wordnet'] = None
     ):
-        super().__init__(
-            id=id, _lexid=_lexid, _id=_id, _in_rel=_in_rel, _wordnet=_wordnet
-        )
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
         self._entry_id = entry_id
         self._synset_id = synset_id
 
@@ -1061,9 +1021,6 @@ class Sense(_Relatable):
         """Return the sense's metadata."""
         return get_metadata(self._id, 'senses')
 
-    def incoming_relation(self) -> Optional[SenseRelation]:
-        return self._in_rel
-
     def relations(self, *args: str) -> dict[str, list['Sense']]:
         """Return a mapping of relation names to lists of senses.
 
@@ -1076,15 +1033,12 @@ class Sense(_Relatable):
         senses.
 
         """
-        d: dict[str, list[Sense]] = {}
-        for s in self.get_related(*args):
-            if relation := s.incoming_relation():
-                relname = relation.name
-                if relname in d:
-                    d[relname].append(s)
-                else:
-                    d[relname] = [s]
-        return d
+        # inner dict is used as an order-preserving set
+        relmap: dict[str, dict[Sense, bool]] = {}
+        for relation, sense in self._iter_sense_relations(*args):
+            relmap.setdefault(relation.name, {})[sense] = True
+        # now convert inner dicts to lists
+        return {relname: list(s_dict) for relname, s_dict in relmap.items()}
 
     def get_related(self, *args: str) -> list['Sense']:
         """Return a list of related senses.
@@ -1103,35 +1057,38 @@ class Sense(_Relatable):
             incoherent
 
         """
-        lexids = self._get_lexicon_ids()
-        iterable = get_sense_relations(self._id, args, lexids)
-        targets: list['Sense'] = []
-        for relname, rellexid, relrowid, sid, eid, ssid, lexid, rowid in iterable:
-            if lexid not in lexids:
-                continue
-            sense_rel = SenseRelation(
-                relname, self.id, sid, rellexid, relrowid, _wordnet=self._wordnet
-            )
-            target = Sense(
-                sid, eid, ssid, lexid, rowid, _in_rel=sense_rel, _wordnet=self._wordnet
-            )
-            targets.append(target)
-        return targets
+        return unique_list(sense for _, sense in self._iter_sense_relations(*args))
 
     def get_related_synsets(self, *args: str) -> list[Synset]:
         """Return a list of related synsets."""
-        lexids = self._get_lexicon_ids()
-        iterable = get_sense_synset_relations(self._id, args, lexids)
-        targets: list[Synset] = []
-        for relname, rellexid, relrowid, _, ssid, pos, ili, lexid, rowid in iterable:
+        return unique_list(
+            synset for _, synset in self._iter_sense_synset_relations(*args)
+        )
+
+    def _iter_sense_relations(self, *args: str) -> Iterator[tuple[SenseRelation, 'Sense']]:
+        iterable = get_sense_relations(self._id, args, self._get_lexicon_ids())
+        for relname, rellexid, relrowid, _, sid, eid, ssid, lexid, rowid in iterable:
+            relation = SenseRelation(
+                relname, self.id, sid, rellexid, relrowid, _wordnet=self._wordnet
+            )
+            sense = Sense(
+                sid, eid, ssid, lexid, rowid, _wordnet=self._wordnet
+            )
+            yield relation, sense
+
+    def _iter_sense_synset_relations(
+        self,
+        *args: str,
+    ) -> Iterator[tuple[SenseSynsetRelation, 'Synset']]:
+        iterable = get_sense_synset_relations(self._id, args, self._get_lexicon_ids())
+        for relname, rellexid, relrowid, _, sid, pos, ili, lexid, rowid in iterable:
             relation = SenseSynsetRelation(
                 relname, self.id, ssid, rellexid, relrowid, _wordnet=self._wordnet
             )
-            target = Synset(
-                ssid, pos, ili, lexid, rowid, _in_rel=relation, _wordnet=self._wordnet
+            synset = Synset(
+                ssid, pos, ili, lexid, rowid, _wordnet=self._wordnet
             )
-            targets.append(target)
-        return targets
+            yield relation, synset
 
     def translate(
         self,

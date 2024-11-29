@@ -213,7 +213,7 @@ def _export_sense_relations(
         {'target': id,
          'relType': type,
          'meta': _export_metadata(rowid, 'sense_relations')}
-        for type, _, rowid, id, *_
+        for type, _, rowid, _, id, *_
         in get_sense_relations(sense_rowid, '*', lexids)
     ]
     relations.extend(
