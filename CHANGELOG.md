@@ -3,7 +3,13 @@
 ## [Unreleased][unreleased]
 
 ## Index
+
 * Added `oewn:2024` ([#221])
+
+## Added
+
+* `Sense.relation_map()` method ([#216])
+* `Synset.relation_map()` method ([#167], [#216])
 
 
 ## [v0.10.1]
@@ -681,6 +687,7 @@ abandoned, but this is an entirely new codebase.
 [#155]: https://github.com/goodmami/wn/issues/155
 [#156]: https://github.com/goodmami/wn/issues/156
 [#157]: https://github.com/goodmami/wn/issues/157
+[#167]: https://github.com/goodmami/wn/issues/167
 [#168]: https://github.com/goodmami/wn/issues/168
 [#169]: https://github.com/goodmami/wn/issues/169
 [#177]: https://github.com/goodmami/wn/issues/177
@@ -696,4 +703,5 @@ abandoned, but this is an entirely new codebase.
 [#213]: https://github.com/goodmami/wn/issues/213
 [#214]: https://github.com/goodmami/wn/issues/214
 [#215]: https://github.com/goodmami/wn/issues/215
+[#216]: https://github.com/goodmami/wn/issues/216
 [#221]: https://github.com/goodmami/wn/issues/221

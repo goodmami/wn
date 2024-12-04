@@ -128,3 +128,37 @@ def test_synset_relations_issue_169():
 def test_synset_relations_issue_177():
     # https://github.com/goodmami/wn/issues/177
     assert 'hyponym' in wn.synset('test-es-0001-n').relations()
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_sense_relation_map():
+    en = wn.Wordnet('test-en')
+    assert en.sense('test-en-information-n-0001-01').relation_map() == {}
+    relmap = en.sense('test-en-illustrate-v-0003-01').relation_map()
+    # only sense-sense relations by default
+    assert len(relmap) == 3
+    assert all(isinstance(tgt, wn.Sense) for tgt in relmap.values())
+    assert {rel.name for rel in relmap} == {'derivation', 'other'}
+    assert {rel.target_id for rel in relmap} == {'test-en-illustration-n-0002-01'}
+    # sense relations targets should always have same ids as resolved targets
+    assert all(rel.target_id == tgt.id for rel, tgt in relmap.items())
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_synset_relation_map():
+    en = wn.Wordnet('test-en')
+    assert en.synset('test-en-0003-v').relation_map() == {}
+    relmap = en.synset('test-en-0002-n').relation_map()
+    assert len(relmap) == 2
+    assert {rel.name for rel in relmap} == {'hypernym', 'hyponym'}
+    assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}
+    # synset relation targets have same ids as resolved targets in same lexicon
+    assert all(rel.target_id == tgt.id for rel, tgt in relmap.items())
+
+    # interlingual synset relation targets show original target ids
+    es = wn.Wordnet('test-es', expand='test-en')
+    relmap = es.synset('test-es-0002-n').relation_map()
+    assert len(relmap) == 2
+    assert {rel.name for rel in relmap} == {'hypernym', 'hyponym'}
+    assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}
+    assert all(rel.target_id != tgt.id for rel, tgt in relmap.items())

@@ -1065,6 +1065,9 @@ class Sense(_Relatable):
             synset for _, synset in self._iter_sense_synset_relations(*args)
         )
 
+    def relation_map(self) -> dict[SenseRelation, 'Sense']:
+        return dict(self._iter_sense_relations())
+
     def _iter_sense_relations(self, *args: str) -> Iterator[tuple[SenseRelation, 'Sense']]:
         iterable = get_sense_relations(self._id, args, self._get_lexicon_ids())
         for relname, rellexid, relrowid, _, sid, eid, ssid, lexid, rowid in iterable:
