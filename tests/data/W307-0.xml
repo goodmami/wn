@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<!-- repeated definition in synset -->
+
+  <Lexicon id="test-w307"
+           label="Testing W307"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1">
+
+    <LexicalEntry id="test-w307-foo-n">
+      <Lemma partOfSpeech="n" writtenForm="foo" />
+      <Sense id="test-w307-foo-1-n" synset="test-w307-01-n" />
+      <Sense id="test-w307-foo-2-n" synset="test-w307-02-n" />
+    </LexicalEntry>
+
+    <Synset id="test-w307-01-n" ili="i12345" partOfSpeech="n">
+      <Definition>foo</Definition>
+    </Synset>
+
+    <Synset id="test-w307-02-n" ili="i12346" partOfSpeech="n">
+      <Definition>foo</Definition>
+    </Synset>
+
+  </Lexicon>
+
+</LexicalResource>

@@ -11,6 +11,9 @@
 * `Relation` class ([#216])
 * `Sense.relation_map()` method ([#216])
 * `Synset.relation_map()` method ([#167], [#216])
+* `W305` blank definition on synset validation ([#151])
+* `W306` blank example on synset validation ([#151])
+* `W307` repeated definition on synset validation ([#151])
 
 ## Fixed
 
@@ -687,6 +690,7 @@ abandoned, but this is an entirely new codebase.
 [#146]: https://github.com/goodmami/wn/issues/146
 [#147]: https://github.com/goodmami/wn/issues/147
 [#148]: https://github.com/goodmami/wn/issues/148
+[#151]: https://github.com/goodmami/wn/issues/151
 [#152]: https://github.com/goodmami/wn/issues/152
 [#154]: https://github.com/goodmami/wn/issues/154
 [#155]: https://github.com/goodmami/wn/issues/155

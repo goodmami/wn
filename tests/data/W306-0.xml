@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<!-- blank example in synset -->
+
+  <Lexicon id="test-w306"
+           label="Testing W306"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1">
+
+    <LexicalEntry id="test-w306-foo-n">
+      <Lemma partOfSpeech="n" writtenForm="foo" />
+      <Sense id="test-w306-foo-n" synset="test-w306-01-n" />
+    </LexicalEntry>
+
+    <Synset id="test-w306-01-n" ili="i12345" partOfSpeech="n">
+      <Example>
+        
+      </Example>
+    </Synset>
+
+  </Lexicon>
+
+</LexicalResource>
