@@ -12,6 +12,10 @@
 * `Sense.relation_map()` method ([#216])
 * `Synset.relation_map()` method ([#167], [#216])
 
+## Fixed
+
+* Enumerate repeated entry, sense, synset IDs for validation ([#228])
+
 
 ## [v0.10.1]
 
@@ -706,3 +710,4 @@ abandoned, but this is an entirely new codebase.
 [#215]: https://github.com/goodmami/wn/issues/215
 [#216]: https://github.com/goodmami/wn/issues/216
 [#221]: https://github.com/goodmami/wn/issues/221
+[#228]: https://github.com/goodmami/wn/issues/228
