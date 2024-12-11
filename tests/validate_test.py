@@ -1,18 +1,24 @@
-from pathlib import Path
+import pytest
 
 from wn import lmf
 from wn.validate import validate
 
+tests = [
+    ("E101", 0),
+    ("E101", 1),
+    ("E101", 2),
+    ("E101", 3),
+    ("W305", 0),
+    ("W306", 0),
+    ("W307", 0),
+]
+test_ids = [f"{code}-{i}" for code, i in tests]
 
-def _assert_invalid(select: str, path: Path) -> None:
+
+@pytest.mark.parametrize("code,i", tests, ids=test_ids)
+def test_validate(datadir, code: str, i: int) -> None:
+    path = datadir / f"{code}-{i}.xml"
     lex = lmf.load(path, progress_handler=None)["lexicons"][0]
-    report = validate(lex, select=[select], progress_handler=None)
+    report = validate(lex, select=[code], progress_handler=None)
     print(report)
-    assert len(report[select]["items"]) > 0
-
-
-def test_E101(datadir):
-    _assert_invalid("E101", datadir / "E101-0.xml")
-    _assert_invalid("E101", datadir / "E101-1.xml")
-    _assert_invalid("E101", datadir / "E101-2.xml")
-    _assert_invalid("E101", datadir / "E101-3.xml")
+    assert len(report[code]["items"]) > 0

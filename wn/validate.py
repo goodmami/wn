@@ -16,6 +16,9 @@ W301  Synset is empty (not associated with any lexical entries).
 W302  ILI is repeated across synsets.
 W303  Proposed ILI is missing a definition.
 W304  Existing ILI has a spurious definition.
+W305  Synset has a blank definition.
+W306  Synset has a blank example.
+W307  Synset repeats an existing definition.
 E401  Relation target is missing or invalid.
 W402  Relation type is invalid for the source and target.
 W403  Redundant relation between source and target.
@@ -123,6 +126,34 @@ def _spurious_ili_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     return {ss['id']: {'ili_definitin': ss['ili_definition']}
             for ss in _synsets(lex)
             if ss['ili'] and ss['ili'] != 'in' and ss.get('ili_definition')}
+
+
+def _blank_synset_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
+    """synset has a blank definition"""
+    return {
+        ss['id']: {} for ss in _synsets(lex)
+        if any(dfn["text"].strip() == "" for dfn in ss.get("definitions", []))
+    }
+
+def _blank_synset_example(lex: lmf.Lexicon, ids: _Ids) -> _Result:
+    """synset has a blank example"""
+    return {
+        ss['id']: {} for ss in _synsets(lex)
+        if any(ex["text"].strip() == "" for ex in ss.get("examples", []))
+    }
+
+
+def _repeated_synset_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
+    """synset repeats an existing definition"""
+    repeated = _multiples(
+        dfn["text"]
+        for ss in _synsets(lex)
+        for dfn in ss.get("definitions", [])
+    )
+    return {
+        ss["id"]: {} for ss in _synsets(lex)
+        if any(dfn["text"] in repeated for dfn in ss.get("definitions", []))
+    }
 
 
 def _missing_relation_target(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -253,6 +284,9 @@ _codes: dict[str, _CheckFunction] = {
     'W302': _repeated_ili,
     'W303': _missing_ili_definition,
     'W304': _spurious_ili_definition,
+    'W305': _blank_synset_definition,
+    'W306': _blank_synset_example,
+    'W307': _repeated_synset_definition,
     # 400 - relations
     'E401': _missing_relation_target,
     'W402': _invalid_relation_type,
