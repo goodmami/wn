@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v0.11.0]
+
+**Release date: 2024-12-11**
+
 ## Index
 
 * Added `oewn:2024` ([#221])
@@ -603,6 +608,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.11.0]: ../../releases/tag/v0.11.0
 [v0.10.1]: ../../releases/tag/v0.10.1
 [v0.10.0]: ../../releases/tag/v0.10.0
 [v0.9.5]: ../../releases/tag/v0.9.5
