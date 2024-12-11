@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<!-- duplicate ID in synsets -->
+
+  <Lexicon id="test-e101"
+           label="Testing E101"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1">
+
+    <LexicalEntry id="test-e101-foo-n">
+      <Lemma partOfSpeech="n" writtenForm="foo" />
+      <Sense id="test-e101-foo-n" synset="test-e101-01-n" />
+    </LexicalEntry>
+
+    <Synset id="test-e101-01-n" ili="i12345" partOfSpeech="n" />
+    <Synset id="test-e101-01-n" ili="i12346" partOfSpeech="n" />
+
+  </Lexicon>
+
+</LexicalResource>

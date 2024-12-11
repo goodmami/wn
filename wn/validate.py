@@ -57,9 +57,9 @@ def _non_unique_id(lex: lmf.Lexicon, ids: _Ids) -> _Result:
         [lex['id']],
         (f['id'] for e in _entries(lex) for f in _forms(e) if f.get('id')),
         (sb['id'] for sb in lex.get('frames', []) if sb.get('id')),
-        ids['entry'],
-        ids['sense'],
-        ids['synset'],
+        ids['entry'].elements(),
+        ids['sense'].elements(),
+        ids['synset'].elements(),
     ))
 
 
