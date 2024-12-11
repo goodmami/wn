@@ -44,8 +44,8 @@ _Synset = tuple[
 ]
 _Synset_Relation = tuple[
     str,  # rel_name
-    int,  # rel_lexid
-    int,  # rel_rowid
+    str,  # lexicon
+    Metadata,  # metadata
     int,  # src_rowid
     str,  # _Synset...
     str,
@@ -62,8 +62,8 @@ _Sense = tuple[
 ]
 _Sense_Relation = tuple[
     str,  # rel_name
-    int,  # rel_lexid
-    int,  # rel_rowid
+    str,  # lexicon
+    Metadata,  # metadata
     str,  # _Sense...
     str,
     str,
@@ -463,20 +463,25 @@ def get_synset_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint}),
-               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
-        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
+               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
+        SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
                         tgt.lexicon_rowid, tgt.rowid
-          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
+          FROM (SELECT rt.type,
+                       lex.id || ":" || lex.version AS lexicon,
+                       srel.metadata AS metadata,
+                       source_rowid,
+                       target_rowid
                   FROM synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
+                  JOIN lexicons AS lex ON lexicon_rowid = lex.rowid
                  WHERE source_rowid IN ({_qs(source_rowids)})
-                   AND lexicon_rowid IN lex
+                   AND lexicon_rowid IN lexrowids
                ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
-           AND tgt.lexicon_rowid IN lex
+           AND tgt.lexicon_rowid IN lexrowids
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
@@ -612,19 +617,22 @@ def get_sense_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint}),
-               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
-        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
-                        rel.source_rowid, s.id, e.id, ss.id,
-                        s.lexicon_rowid, s.rowid
-          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
+               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
+        SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
+                        s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
+          FROM (SELECT rt.type,
+                       lex.id || ":" || lex.version AS lexicon,
+                       srel.metadata AS metadata,
+                       target_rowid
                   FROM sense_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
+                  JOIN lexicons AS lex ON lexicon_rowid = lex.rowid
                  WHERE source_rowid = ?
-                   AND lexicon_rowid IN lex
+                   AND lexicon_rowid IN lexrowids
                ) AS rel
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
-           AND s.lexicon_rowid IN lex
+           AND s.lexicon_rowid IN lexrowids
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
           JOIN synsets AS ss
@@ -649,20 +657,25 @@ def get_sense_synset_relations(
     query = f'''
           WITH rt(rowid, type) AS
                (SELECT rowid, type FROM relation_types {constraint}),
-               lex(rowid) AS (VALUES {_vs(lexicon_rowids)})
-        SELECT DISTINCT rel.type, rel.lexicon_rowid, rel.rowid,
-                        rel.source_rowid, ss.id, ss.pos,
-                        (SELECT ilis.id FROM ilis WHERE ilis.rowid = ss.ili_rowid),
-                        ss.lexicon_rowid, ss.rowid
-          FROM (SELECT rt.type, lexicon_rowid, source_rowid, target_rowid, srel.rowid
+               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
+        SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
+                        rel.source_rowid, tgt.id, tgt.pos,
+                        (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
+                        tgt.lexicon_rowid, tgt.rowid
+          FROM (SELECT rt.type,
+                       lex.id || ":" || lex.version AS lexicon,
+                       srel.metadata AS metadata,
+                       source_rowid,
+                       target_rowid
                   FROM sense_synset_relations AS srel
                   JOIN rt ON srel.type_rowid = rt.rowid
+                  JOIN lexicons AS lex ON lexicon_rowid = lex.rowid
                  WHERE source_rowid = ?
-                   AND lexicon_rowid IN lex
+                   AND lexicon_rowid IN lexrowids
                ) AS rel
-          JOIN synsets AS ss
-            ON ss.rowid = rel.target_rowid
-           AND ss.lexicon_rowid IN lex
+          JOIN synsets AS tgt
+            ON tgt.rowid = rel.target_rowid
+           AND tgt.lexicon_rowid IN lexrowids
     '''
     rows: Iterator[_Synset_Relation] = connect().execute(query, params)
     yield from rows

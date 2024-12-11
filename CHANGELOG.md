@@ -8,6 +8,7 @@
 
 ## Added
 
+* `Relation` class ([#216])
 * `Sense.relation_map()` method ([#216])
 * `Synset.relation_map()` method ([#167], [#216])
 

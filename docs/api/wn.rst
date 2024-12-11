@@ -170,6 +170,7 @@ The Sense Class
    .. automethod:: counts
    .. automethod:: metadata
    .. automethod:: relations
+   .. automethod:: relation_map
    .. automethod:: get_related
    .. automethod:: get_related_synsets
    .. automethod:: closure
@@ -221,6 +222,7 @@ The Synset Class
    .. automethod:: holonyms
    .. automethod:: meronyms
    .. automethod:: relations
+   .. automethod:: relation_map
    .. automethod:: get_related
    .. automethod:: closure
    .. automethod:: relation_paths
@@ -251,6 +253,65 @@ The Synset Class
    .. method:: lowest_common_hypernyms(other, simulate_root=False)
 
       Shortcut for :func:`wn.taxonomy.lowest_common_hypernyms`.
+
+
+The Relation Class
+------------------
+
+The :meth:`Sense.relation_map` and :meth:`Synset.relation_map` methods
+return a dictionary mapping :class:`Relation` objects to resolved
+target senses or synsets. They differ from :meth:`Sense.relations`
+and :meth:`Synset.relations` in two main ways:
+
+1. Relation objects map 1-to-1 to their targets instead of to a list
+   of targets sharing the same relation name.
+2. Relation objects encode not just relation names, but also the
+   identifiers of sources and targets, the lexicons they came from, and
+   any metadata they have.
+
+One reason why :class:`Relation` objects are useful is for inspecting
+relation metadata, particularly in order to distinguish ``other``
+relations that differ only by the value of their ``dc:type`` metadata:
+
+>>> oewn = wn.Wordnet('oewn:2024')
+>>> alloy = oewn.senses("alloy", pos="v")[0]
+>>> alloy.relations()  # appears to only have one 'other' relation
+{'derivation': [Sense('oewn-alloy__1.27.00..')], 'other': [Sense('oewn-alloy__1.27.00..')]}
+>>> for rel in alloy.relation_map():  # but in fact there are two
+...     print(rel, rel.subtype)
+... 
+Relation('derivation', 'oewn-alloy__2.30.00..', 'oewn-alloy__1.27.00..') None
+Relation('other', 'oewn-alloy__2.30.00..', 'oewn-alloy__1.27.00..') material
+Relation('other', 'oewn-alloy__2.30.00..', 'oewn-alloy__1.27.00..') result
+
+Another reason why they are useful is to determine the source of a
+relation used in :doc:`interlingual queries <../guides/interlingual>`.
+
+>>> es = wn.Wordnet("omw-es", expand="omw-en")
+>>> mapa = es.synsets("mapa", pos="n")[0]
+>>> rel, tgt = next(iter(mapa.relation_map().items()))
+>>> rel, rel.lexicon()  # relation comes from omw-en
+(Relation('hypernym', 'omw-en-03720163-n', 'omw-en-04076846-n'), <Lexicon omw-en:1.4 [en]>)
+>>> tgt, tgt.words(), tgt.lexicon()  # target is in omw-es
+(Synset('omw-es-04076846-n'), [Word('omw-es-representación-n')], <Lexicon omw-es:1.4 [es]>)
+
+.. autoclass:: Relation
+
+   .. attribute:: name
+
+      The name of the relation. Also called the relation "type".
+
+   .. attribute:: source_id
+
+      The identifier of the source entity of the relation.
+
+   .. attribute:: target_id
+
+      The identifier of the target entity of the relation.
+
+   .. autoattribute:: subtype
+   .. automethod:: lexicon
+   .. automethod:: metadata
 
 
 The ILI Class

@@ -154,6 +154,7 @@ def test_synset_relation_map():
     assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}
     # synset relation targets have same ids as resolved targets in same lexicon
     assert all(rel.target_id == tgt.id for rel, tgt in relmap.items())
+    assert all(rel.lexicon().id == 'test-en' for rel in relmap)
 
     # interlingual synset relation targets show original target ids
     es = wn.Wordnet('test-es', expand='test-en')
@@ -162,3 +163,4 @@ def test_synset_relation_map():
     assert {rel.name for rel in relmap} == {'hypernym', 'hyponym'}
     assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}
     assert all(rel.target_id != tgt.id for rel, tgt in relmap.items())
+    assert all(rel.lexicon().id == 'test-en' for rel in relmap)

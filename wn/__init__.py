@@ -26,6 +26,7 @@ __all__ = (
     'synset',
     'synsets',
     'Synset',
+    'Relation',
     'ili',
     'ilis',
     'ILI',
@@ -53,6 +54,7 @@ from wn._core import (
     word, words, Word, Form, Pronunciation, Tag,
     sense, senses, Sense, Count,
     synset, synsets, Synset,
+    Relation,
     ili, ilis, ILI,
     Wordnet
 )
