@@ -212,15 +212,15 @@ def _export_sense_relations(
     relations: list[lmf.Relation] = [
         {'target': id,
          'relType': type,
-         'meta': _export_metadata(rowid, 'sense_relations')}
-        for type, rowid, id, *_
+         'meta': cast(lmf.Metadata, metadata)}
+        for type, _, metadata, id, *_
         in get_sense_relations(sense_rowid, '*', lexids)
     ]
     relations.extend(
         {'target': id,
          'relType': type,
-         'meta': _export_metadata(rowid, 'sense_synset_relations')}
-        for type, rowid, id, *_
+         'meta': cast(lmf.Metadata, metadata)}
+        for type, _, metadata, _, id, *_
         in get_sense_synset_relations(sense_rowid, '*', lexids)
     )
     return relations
@@ -303,8 +303,8 @@ def _export_synset_relations(
     return [
         {'target': id,
          'relType': type,
-         'meta': _export_metadata(rowid, 'synset_relations')}
-        for type, rowid, id, *_
+         'meta': cast(lmf.Metadata, metadata)}
+        for type, _, metadata, _, id, *_
         in get_synset_relations((synset_rowid,), '*', lexids)
     ]
 

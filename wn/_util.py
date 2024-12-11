@@ -1,6 +1,6 @@
 """Non-public Wn utilities."""
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Hashable
 from typing import TypeVar
 from pathlib import Path
 import hashlib
@@ -55,6 +55,15 @@ T = TypeVar('T')
 
 def flatten(iterable: Iterable[Iterable[T]]) -> list[T]:
     return [x for xs in iterable for x in xs]
+
+
+H = TypeVar('H', bound=Hashable)
+
+
+def unique_list(items: Iterable[H]) -> list[H]:
+    # use a dictionary as an order-preserving set
+    targets = {item: True for item in items}
+    return list(targets)
 
 
 def normalize_form(s: str) -> str:
