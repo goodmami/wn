@@ -11,7 +11,11 @@ from wn._types import (
     NormalizeFunction,
     LemmatizeFunction,
 )
-from wn._util import normalize_form, unique_list
+from wn._util import (
+    normalize_form,
+    unique_list,
+    format_lexicon_specifier,
+)
 from wn._db import NON_ROWID
 from wn._queries import (
     find_lexicons,
@@ -162,8 +166,7 @@ class Lexicon(_DatabaseEntity):
         self.logo = logo
 
     def __repr__(self):
-        id, ver, lg = self.id, self.version, self.language
-        return f'<Lexicon {id}:{ver} [{lg}]>'
+        return f'<Lexicon {self.specifier()} [{self.language}]>'
 
     def metadata(self) -> Metadata:
         """Return the lexicon's metadata."""
@@ -171,7 +174,7 @@ class Lexicon(_DatabaseEntity):
 
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
-        return f'{self.id}:{self.version}'
+        return format_lexicon_specifier(self.id, self.version)
 
     def modified(self) -> bool:
         """Return True if the lexicon has local modifications."""
@@ -180,7 +183,7 @@ class Lexicon(_DatabaseEntity):
     def requires(self) -> dict[str, Optional['Lexicon']]:
         """Return the lexicon dependencies."""
         return dict(
-            (f'{id}:{version}',
+            (format_lexicon_specifier(id, version),
              None if _id is None else _to_lexicon(get_lexicon(_id)))
             for id, version, _, _id in get_lexicon_dependencies(self._id)
         )
@@ -1234,7 +1237,9 @@ class Wordnet:
                 # warn only if a dep is missing and a lexicon was specified
                 if not self._default_mode:
                     missing = ' '.join(
-                        f'{id}:{ver}' for id, ver, _id in deps if _id is None
+                        format_lexicon_specifier(id, ver)
+                        for id, ver, _id in deps
+                        if _id is None
                     )
                     if missing:
                         warnings.warn(
@@ -1243,7 +1248,9 @@ class Wordnet:
                             stacklevel=2,
                         )
                 expand = ' '.join(
-                    f'{id}:{ver}' for id, ver, _id in deps if _id is not None
+                    format_lexicon_specifier(id, ver)
+                    for id, ver, _id in deps
+                    if _id is not None
                 )
         if expand:
             self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
@@ -1480,7 +1487,7 @@ def projects() -> list[dict]:
     """
     index = wn.config.index
     return [
-        wn.config.get_project_info(f'{project_id}:{version}')
+        wn.config.get_project_info(format_lexicon_specifier(project_id, version))
         for project_id, project_info in index.items()
         for version in project_info.get('versions', [])
         if 'resource_urls' in project_info['versions'][version]

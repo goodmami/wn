@@ -68,3 +68,7 @@ def unique_list(items: Iterable[H]) -> list[H]:
 
 def normalize_form(s: str) -> str:
     return ''.join(c for c in normalize('NFKD', s.lower()) if not combining(c))
+
+
+def format_lexicon_specifier(id: str, version: str) -> str:
+    return f"{id}:{version}"
