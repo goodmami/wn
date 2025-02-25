@@ -94,7 +94,6 @@ def add(
     The *progress_handler* parameter takes a subclass of
     :class:`wn.util.ProgressHandler`. An instance of the class will be
     created, used, and closed by this function.
-
     """
     if progress_handler is None:
         progress_handler = ProgressHandler
@@ -121,7 +120,7 @@ def _add_lmf(
     progress: ProgressHandler,
     progress_handler: type[ProgressHandler],
 ) -> None:
-    # abort if any lexicon in *source* is already added
+    # abort if lexicons in *source* are already added
     progress.flash(f'Checking {source!s}')
     infos = lmf.scan_lexicons(source)
     if not infos:
@@ -136,6 +135,43 @@ def _add_lmf(
     progress.flash(f'Reading {source!s}')
     resource = lmf.load(source, progress_handler)
     _add_lexical_resource(resource, skipmap, progress)
+
+
+def add_lexical_resource(
+    resource: lmf.LexicalResource,
+    progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
+) -> None:
+    """Add the lexical resource *resource* to the database.
+
+    The *resource* argument is an in-memory lexical resource as from
+    :func:`wn.lmf.load` and not a file on disk.
+
+    >>> resource = wn.lmf.load('english-wordnet-2024.xml')
+    >>> wn.add_lexical_resource(resource)
+    Added ewn:2020 (English WordNet)
+
+    The *progress_handler* parameter takes a subclass of
+    :class:`wn.util.ProgressHandler`. An instance of the class will be
+    created, used, and closed by this function.
+    """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+    progress = progress_handler(message='Database')
+
+    try:
+        progress.flash('Checking resource')
+        if not resource["lexicons"]:
+            progress.flash('No lexicons found')
+            return
+
+        skipmap = _precheck(resource["lexicons"], progress)
+        if all(skipmap.values()):
+            return  # nothing to do
+
+        _add_lexical_resource(resource, skipmap, progress)
+
+    finally:
+        progress.close()
 
 
 def _add_lexical_resource(
@@ -191,7 +227,7 @@ def _add_lexical_resource(
 
 
 def _precheck(
-    infos: list[lmf.ScanInfo],
+    infos: Sequence[Union[lmf.ScanInfo, lmf.Lexicon, lmf.LexiconExtension]],
     progress: ProgressHandler,
 ) -> dict[str, bool]:
     skipmap: dict[str, bool] = {}
@@ -200,7 +236,9 @@ def _precheck(
         cur = conn.cursor()
         for info in infos:
             key = format_lexicon_specifier(info['id'], info['version'])
-            base = info.get('extends')
+
+            # TODO: MyPy seems to think this can be Any and I'm not sure why
+            base: Optional[lmf.LexiconSpecifier] = info.get('extends')  # type: ignore
 
             skipmap[key] = False
             reason = ''

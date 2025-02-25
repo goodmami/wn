@@ -6,6 +6,7 @@ import tempfile
 import pytest
 
 import wn
+from wn import lmf
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -65,3 +66,18 @@ def test_remove_extension(mini_lmf_1_0, mini_lmf_1_1):
         # close any open DB connections before teardown
         for conn in wn._db.pool.values():
             conn.close()
+
+
+def test_add_lexical_resource(mini_lmf_1_0, mini_lmf_1_1):
+    with tempfile.TemporaryDirectory('wn_data_add_lexical_resource') as dir:
+        old_data_dir = wn.config.data_directory
+        wn.config.data_directory = dir
+        wn.add_lexical_resource(lmf.load(mini_lmf_1_0))
+        assert len(wn.lexicons()) == 2
+        wn.add_lexical_resource(lmf.load(mini_lmf_1_1))
+        assert len(wn.lexicons()) == 4
+        wn.config.data_directory = old_data_dir
+        # close any open DB connections before teardown
+        for conn in wn._db.pool.values():
+            conn.close()
+
