@@ -185,7 +185,6 @@ class Metadata(TypedDict, total=False):
 
 
 _HasId = TypedDict('_HasId', {'id': str})
-_HasVersion = TypedDict('_HasVersion', {'version': str})
 _HasILI = TypedDict('_HasILI', {'ili': str})
 _HasSynset = TypedDict('_HasSynset', {'synset': str})
 _MaybeId = TypedDict('_MaybeId', {'id': str}, total=False)
@@ -306,34 +305,39 @@ class ExternalLexicalEntry(_HasId, _External, total=False):
     senses: list[Union[Sense, ExternalSense]]
 
 
-class Dependency(_HasId, _HasVersion, total=False):
+class LexiconSpecifier(_HasId):  # public but not an LMF entry
+    version: str
+
+
+class Dependency(LexiconSpecifier, total=False):
     url: str
 
 
-class _LexiconBase(_HasMeta):
-    id: str
-    version: str
+class _LexiconRequired(LexiconSpecifier, _HasMeta):
     label: str
     language: str
     email: str
     license: str
 
 
-class Lexicon(_LexiconBase, total=False):
+class _LexiconBase(_LexiconRequired, total=False):
     url: str
     citation: str
     logo: str
+
+
+class Lexicon(_LexiconBase, total=False):
     requires: list[Dependency]
     entries: list[LexicalEntry]
     synsets: list[Synset]
     frames: list[SyntacticBehaviour]
 
 
-class LexiconExtension(_LexiconBase, total=False):
-    url: str
-    citation: str
-    logo: str
+class _LexiconExtensionBase(_LexiconBase):
     extends: Dependency
+
+
+class LexiconExtension(_LexiconExtensionBase, total=False):
     requires: list[Dependency]
     entries: list[Union[LexicalEntry, ExternalLexicalEntry]]
     synsets: list[Union[Synset, ExternalSynset]]
@@ -376,14 +380,9 @@ def _read_header(fh: BinaryIO) -> str:
     return _DOCTYPES[doctype_decoded]
 
 
-class _ScanInfoBase(TypedDict):
-    id: str
-    version: str
-
-
-class ScanInfo(_ScanInfoBase):
+class ScanInfo(LexiconSpecifier):
     label: Optional[str]
-    extends: Optional[_ScanInfoBase]
+    extends: Optional[LexiconSpecifier]
 
 
 def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
