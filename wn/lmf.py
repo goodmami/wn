@@ -376,11 +376,28 @@ def _read_header(fh: BinaryIO) -> str:
     return _DOCTYPES[doctype_decoded]
 
 
-def scan_lexicons(source: AnyPath) -> list[dict]:
-    """Scan *source* and return only the top-level lexicon info."""
+class _ScanInfoBase(TypedDict):
+    id: str
+    version: str
+
+
+class ScanInfo(_ScanInfoBase):
+    label: Optional[str]
+    extends: Optional[_ScanInfoBase]
+
+
+def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
+    """Scan *source* and return only the top-level lexicon info.
+
+    The returned info is a dictionary containing the `id`, `version`,
+    and `label` attributes from a lexicon. If the Lexicon is an
+    extension, an `extends` key maps to a dictionary with the `id` and
+    `version` of the base lexicon, otherwise it maps to
+    :python:`None`.
+    """
 
     source = Path(source).expanduser()
-    infos: list[dict] = []
+    infos: list[ScanInfo] = []
 
     lex_re = re.compile(b'<(Lexicon|LexiconExtension|Extends)\\b([^>]*)>', flags=re.M)
     attr_re = re.compile(b'''\\b(id|version|label)=["']([^"']+)["']''', flags=re.M)
@@ -388,14 +405,25 @@ def scan_lexicons(source: AnyPath) -> list[dict]:
     with open(source, 'rb') as fh:
         for m in lex_re.finditer(fh.read()):
             lextype, remainder = m.groups()
-            info = {_m.group(1).decode('utf-8'): _m.group(2).decode('utf-8')
-                    for _m in attr_re.finditer(remainder)}
+            attrs = {
+                _m.group(1).decode("utf-8"): _m.group(2).decode("utf-8")
+                for _m in attr_re.finditer(remainder)
+            }
+            info: ScanInfo = {
+                "id": attrs["id"],
+                "version": attrs["version"],
+                "label": attrs.get("label"),
+                "extends": None,
+            }
             if 'id' not in info or 'version' not in info:
                 raise LMFError(f'<{lextype.decode("utf-8")}> missing id or version')
             if lextype != b'Extends':
                 infos.append(info)
             elif len(infos) > 0:
-                infos[-1]['extends'] = info
+                infos[-1]['extends'] = {
+                    "id": info["id"],
+                    "version": info["version"]
+                }
             else:
                 raise LMFError('invalid use of <Extends> in WN-LMF file')
 
