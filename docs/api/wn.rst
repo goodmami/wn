@@ -10,6 +10,7 @@ Project Management Functions
 
 .. autofunction:: download
 .. autofunction:: add
+.. autofunction:: add_lexical_resource
 .. autofunction:: remove
 .. autofunction:: export
 .. autofunction:: projects

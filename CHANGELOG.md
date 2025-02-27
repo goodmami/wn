@@ -2,6 +2,12 @@
 
 ## [Unreleased][unreleased]
 
+## Added
+
+* `wn.add_lexical_resource()` to add result of `wn.lmf.load()` to
+  database rather than from a file (pertinent to [#98])
+* `bench/` directory with benchmark tests ([#98])
+
 
 ## [v0.11.0]
 
@@ -675,6 +681,7 @@ abandoned, but this is an entirely new codebase.
 [#93]: https://github.com/goodmami/wn/issues/93
 [#95]: https://github.com/goodmami/wn/issues/95
 [#97]: https://github.com/goodmami/wn/issues/97
+[#98]: https://github.com/goodmami/wn/issues/98
 [#99]: https://github.com/goodmami/wn/issues/99
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105

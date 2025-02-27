@@ -58,6 +58,11 @@ exclude = [
   "/.github",
 ]
 
+[tool.hatch.envs.hatch-test]
+extra-dependencies = [
+  "pytest-benchmark",
+]
+
 [tool.hatch.envs.mypy]
 dependencies = [
   "mypy",
