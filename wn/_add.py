@@ -14,14 +14,14 @@ from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
 from wn._db import connect
 from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
-from wn._util import normalize_form
+from wn._util import normalize_form, format_lexicon_specifier
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
 from wn import _ili
 
 
-logger = logging.getLogger('wn')
+log = logging.getLogger('wn')
 
 
 BATCH_SIZE = 1000
@@ -94,15 +94,14 @@ def add(
     The *progress_handler* parameter takes a subclass of
     :class:`wn.util.ProgressHandler`. An instance of the class will be
     created, used, and closed by this function.
-
     """
     if progress_handler is None:
         progress_handler = ProgressHandler
     progress = progress_handler(message='Database')
 
-    logger.info('adding project to database')
-    logger.info('  database: %s', wn.config.database_path)
-    logger.info('  project file: %s', source)
+    log.info('adding project to database')
+    log.info('  database: %s', wn.config.database_path)
+    log.info('  project file: %s', source)
 
     try:
         for package in iterpackages(source):
@@ -121,6 +120,65 @@ def _add_lmf(
     progress: ProgressHandler,
     progress_handler: type[ProgressHandler],
 ) -> None:
+    # abort if lexicons in *source* are already added
+    progress.flash(f'Checking {source!s}')
+    infos = lmf.scan_lexicons(source)
+    if not infos:
+        progress.flash(f'{source}: No lexicons found')
+        return
+
+    skipmap = _precheck(infos, progress)
+    if all(skipmap.values()):
+        return  # nothing to do
+
+    # all clear, try to add them
+    progress.flash(f'Reading {source!s}')
+    resource = lmf.load(source, progress_handler)
+    _add_lexical_resource(resource, skipmap, progress)
+
+
+def add_lexical_resource(
+    resource: lmf.LexicalResource,
+    progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
+) -> None:
+    """Add the lexical resource *resource* to the database.
+
+    The *resource* argument is an in-memory lexical resource as from
+    :func:`wn.lmf.load` and not a file on disk.
+
+    >>> resource = wn.lmf.load('english-wordnet-2024.xml')
+    >>> wn.add_lexical_resource(resource)
+    Added ewn:2020 (English WordNet)
+
+    The *progress_handler* parameter takes a subclass of
+    :class:`wn.util.ProgressHandler`. An instance of the class will be
+    created, used, and closed by this function.
+    """
+    if progress_handler is None:
+        progress_handler = ProgressHandler
+    progress = progress_handler(message='Database')
+
+    try:
+        progress.flash('Checking resource')
+        if not resource["lexicons"]:
+            progress.flash('No lexicons found')
+            return
+
+        skipmap = _precheck(resource["lexicons"], progress)
+        if all(skipmap.values()):
+            return  # nothing to do
+
+        _add_lexical_resource(resource, skipmap, progress)
+
+    finally:
+        progress.close()
+
+
+def _add_lexical_resource(
+    resource: lmf.LexicalResource,
+    skipmap: dict[str, bool],
+    progress: ProgressHandler,
+) -> None:
     with connect() as conn:
         cur = conn.cursor()
         # these two settings increase the risk of database corruption
@@ -129,28 +187,10 @@ def _add_lmf(
         cur.execute('PRAGMA synchronous = OFF')
         cur.execute('PRAGMA journal_mode = MEMORY')
 
-        # abort if any lexicon in *source* is already added
-        progress.flash(f'Checking {source!s}')
-        all_infos = _precheck(source, cur)
-
-        if not all_infos:
-            progress.flash(f'{source}: No lexicons found')
-            return
-        for info in all_infos:
-            skip = info.get('skip', '')
-            if skip:
-                id, ver, lbl = info['id'], info['version'], info['label']
-                progress.flash(f'Skipping {id}:{ver} ({lbl}); {skip}\n')
-        if all('skip' in info for info in all_infos):
-            return
-
-        # all clear, try to add them
-        progress.flash(f'Reading {source!s}')
-        resource = lmf.load(source, progress_handler)
-
-        for lexicon, info in zip(resource['lexicons'], all_infos):
-            if 'skip' in info:
-                continue
+        for lexicon in resource['lexicons']:
+            spec = format_lexicon_specifier(lexicon["id"], lexicon["version"])
+            if skipmap[spec]:
+                continue  # _precheck() says this should be skipped
 
             progress.flash('Updating lookup tables')
             _update_lookup_tables(lexicon, cur)
@@ -160,7 +200,7 @@ def _add_lmf(
             entries: Sequence[_AnyEntry] = _entries(lexicon)
             synbhrs: Sequence[lmf.SyntacticBehaviour] = _collect_frames(lexicon)
 
-            lexid, extid = _insert_lexicon(lexicon, info, cur, progress)
+            lexid, extid = _insert_lexicon(lexicon, cur, progress)
 
             lexidmap = _build_lexid_map(lexicon, lexid, extid)
 
@@ -183,22 +223,41 @@ def _add_lmf(
             _insert_examples(synsets, lexid, lexidmap, 'synset_examples', cur, progress)
 
             progress.set(status='')  # clear type string
-            progress.flash(
-                f"Added {lexicon['id']}:{lexicon['version']} ({lexicon['label']})\n"
-            )
+            progress.flash(f"Added {spec} ({lexicon['label']})\n")
 
 
-def _precheck(source: Path, cur: sqlite3.Cursor) -> list[dict]:
+def _precheck(
+    infos: Sequence[Union[lmf.ScanInfo, lmf.Lexicon, lmf.LexiconExtension]],
+    progress: ProgressHandler,
+) -> dict[str, bool]:
+    skipmap: dict[str, bool] = {}
     lexqry = 'SELECT * FROM lexicons WHERE id = :id AND version = :version'
-    infos = lmf.scan_lexicons(source)
-    for info in infos:
-        base = info.get('extends')
-        if cur.execute(lexqry, info).fetchone():
-            info['skip'] = 'already added'
-        if base and cur.execute(lexqry, base).fetchone() is None:
-            id_, ver = base['id'], base['version']
-            info['skip'] = f'base lexicon ({id_}:{ver}) not available'
-    return infos
+    with connect() as conn:
+        cur = conn.cursor()
+        for info in infos:
+            key = format_lexicon_specifier(info['id'], info['version'])
+
+            # TODO: MyPy seems to think this can be Any and I'm not sure why
+            base: Optional[lmf.LexiconSpecifier] = info.get('extends')  # type: ignore
+
+            skipmap[key] = False
+            reason = ''
+
+            # can't have two lexicons with the same specifier in the db
+            if cur.execute(lexqry, info).fetchone():
+                skipmap[key] = True
+                reason = 'already added'
+
+            # can't have an extension without the base
+            elif base and cur.execute(lexqry, base).fetchone() is None:
+                skipmap[key] = True
+                base_key = format_lexicon_specifier(base['id'], base['version'])
+                reason = f"base lexicon ({base_key}) not available"
+
+            if reason:
+                progress.flash(f"Skipping {key} ({info['label']}); {reason}\n")
+
+    return skipmap
 
 
 def _sum_counts(lex: _AnyLexicon) -> int:
@@ -255,7 +314,6 @@ def _update_lookup_tables(
 
 def _insert_lexicon(
     lexicon: _AnyLexicon,
-    info: dict,
     cur: sqlite3.Cursor,
     progress: ProgressHandler
 ) -> tuple[int, int]:
@@ -893,7 +951,7 @@ def remove(
                     conn.execute('DELETE from lexicons WHERE rowid = ?', (ext_id,))
                     progress.flash(f'Removed {ext_spec}\n')
 
-                spec = f'{id}:{version}'
+                spec = format_lexicon_specifier(id, version)
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{spec}', count=0)
                 conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
@@ -908,7 +966,7 @@ def _find_all_extensions(rowid: int) -> list[tuple[int, str]]:
     exts: list[tuple[int, str]] = []
     for ext_id in get_lexicon_extensions(rowid):
         lexinfo = get_lexicon(ext_id)
-        exts.append((ext_id, f'{lexinfo[1]}:{lexinfo[6]}'))
+        exts.append((ext_id, format_lexicon_specifier(lexinfo[1], lexinfo[6])))
     return exts
 
 

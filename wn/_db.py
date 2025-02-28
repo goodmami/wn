@@ -10,7 +10,7 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn._util import short_hash
+from wn._util import short_hash, format_lexicon_specifier
 
 
 logger = logging.getLogger('wn')
@@ -114,7 +114,10 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
         raise wn.DatabaseError(msg) from exc
     else:
         if specs:
-            installed = '\n  '.join(f'{id}:{ver}' for id, ver in specs)
+            installed = '\n  '.join(
+                format_lexicon_specifier(id, ver)
+                for id, ver in specs
+            )
             msg += f" Lexicons currently installed:\n  {installed}"
         else:
             msg += ' No lexicons are currently installed.'

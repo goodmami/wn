@@ -185,7 +185,6 @@ class Metadata(TypedDict, total=False):
 
 
 _HasId = TypedDict('_HasId', {'id': str})
-_HasVersion = TypedDict('_HasVersion', {'version': str})
 _HasILI = TypedDict('_HasILI', {'ili': str})
 _HasSynset = TypedDict('_HasSynset', {'synset': str})
 _MaybeId = TypedDict('_MaybeId', {'id': str}, total=False)
@@ -306,34 +305,39 @@ class ExternalLexicalEntry(_HasId, _External, total=False):
     senses: list[Union[Sense, ExternalSense]]
 
 
-class Dependency(_HasId, _HasVersion, total=False):
+class LexiconSpecifier(_HasId):  # public but not an LMF entry
+    version: str
+
+
+class Dependency(LexiconSpecifier, total=False):
     url: str
 
 
-class _LexiconBase(_HasMeta):
-    id: str
-    version: str
+class _LexiconRequired(LexiconSpecifier, _HasMeta):
     label: str
     language: str
     email: str
     license: str
 
 
-class Lexicon(_LexiconBase, total=False):
+class _LexiconBase(_LexiconRequired, total=False):
     url: str
     citation: str
     logo: str
+
+
+class Lexicon(_LexiconBase, total=False):
     requires: list[Dependency]
     entries: list[LexicalEntry]
     synsets: list[Synset]
     frames: list[SyntacticBehaviour]
 
 
-class LexiconExtension(_LexiconBase, total=False):
-    url: str
-    citation: str
-    logo: str
+class _LexiconExtensionBase(_LexiconBase):
     extends: Dependency
+
+
+class LexiconExtension(_LexiconExtensionBase, total=False):
     requires: list[Dependency]
     entries: list[Union[LexicalEntry, ExternalLexicalEntry]]
     synsets: list[Union[Synset, ExternalSynset]]
@@ -376,11 +380,23 @@ def _read_header(fh: BinaryIO) -> str:
     return _DOCTYPES[doctype_decoded]
 
 
-def scan_lexicons(source: AnyPath) -> list[dict]:
-    """Scan *source* and return only the top-level lexicon info."""
+class ScanInfo(LexiconSpecifier):
+    label: Optional[str]
+    extends: Optional[LexiconSpecifier]
+
+
+def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
+    """Scan *source* and return only the top-level lexicon info.
+
+    The returned info is a dictionary containing the `id`, `version`,
+    and `label` attributes from a lexicon. If the Lexicon is an
+    extension, an `extends` key maps to a dictionary with the `id` and
+    `version` of the base lexicon, otherwise it maps to
+    :python:`None`.
+    """
 
     source = Path(source).expanduser()
-    infos: list[dict] = []
+    infos: list[ScanInfo] = []
 
     lex_re = re.compile(b'<(Lexicon|LexiconExtension|Extends)\\b([^>]*)>', flags=re.M)
     attr_re = re.compile(b'''\\b(id|version|label)=["']([^"']+)["']''', flags=re.M)
@@ -388,14 +404,25 @@ def scan_lexicons(source: AnyPath) -> list[dict]:
     with open(source, 'rb') as fh:
         for m in lex_re.finditer(fh.read()):
             lextype, remainder = m.groups()
-            info = {_m.group(1).decode('utf-8'): _m.group(2).decode('utf-8')
-                    for _m in attr_re.finditer(remainder)}
+            attrs = {
+                _m.group(1).decode("utf-8"): _m.group(2).decode("utf-8")
+                for _m in attr_re.finditer(remainder)
+            }
+            info: ScanInfo = {
+                "id": attrs["id"],
+                "version": attrs["version"],
+                "label": attrs.get("label"),
+                "extends": None,
+            }
             if 'id' not in info or 'version' not in info:
                 raise LMFError(f'<{lextype.decode("utf-8")}> missing id or version')
             if lextype != b'Extends':
                 infos.append(info)
             elif len(infos) > 0:
-                infos[-1]['extends'] = info
+                infos[-1]['extends'] = {
+                    "id": info["id"],
+                    "version": info["version"]
+                }
             else:
                 raise LMFError('invalid use of <Extends> in WN-LMF file')
 

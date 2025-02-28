@@ -13,7 +13,7 @@ import tomli
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
-from wn._util import short_hash
+from wn._util import short_hash, format_lexicon_specifier
 
 # The index file is a project file of Wn
 with as_file(files('wn') / 'index.toml') as index_file:
@@ -124,7 +124,8 @@ class WNConfig:
         elif error and not url:
             version_data = {'error': error}
         elif url and error:
-            raise ConfigurationError(f'{id}:{version} specifies both url and redirect')
+            spec = format_lexicon_specifier(id, version)
+            raise ConfigurationError(f'{spec} specifies both url and redirect')
         else:
             version_data = {}
         if license:
@@ -220,8 +221,9 @@ class WNConfig:
                 )
             for version, info in project.get('versions', {}).items():
                 if 'url' in info and 'error' in project:
+                    spec = format_lexicon_specifier(id, version)
                     raise ConfigurationError(
-                        f'{id}:{version} url specified with default error'
+                        f'{spec} url specified with default error'
                     )
                 self.add_project_version(
                     id,

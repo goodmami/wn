@@ -16,6 +16,7 @@ Thanks for helping to make Wn better!
 - Documentation framework: [Sphinx](https://www.sphinx-doc.org/)
 - Docstring style: [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) (via [sphinx.ext.napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html))
 - Unit/regression testing: [pytest](https://pytest.org/)
+- Benchmarking: [pytest-benchmark](https://pytest-benchmark.readthedocs.io/)
 - Packaging framework: [Hatch](https://hatch.pypa.io/)
 - Coding style: [PEP-8](https://www.python.org/dev/peps/pep-0008/) (via [Ruff](https://beta.ruff.rs/docs/))
 - Type checking: [Mypy](http://mypy-lang.org/)
@@ -80,6 +81,7 @@ $ hatch shell           # activate a Wn virtual environment
 $ hatch fmt --check     # lint the code and check code style
 $ hatch run mypy:check  # type check with mypy
 $ hatch test            # run unit tests
+$ hatch test bench      # run benchmarks
 $ hatch build           # build a source distribution and wheel
 $ hatch publish         # publish build artifacts to PyPI
 ```

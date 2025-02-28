@@ -12,6 +12,41 @@ def test_is_lmf(datadir):
     assert lmf.is_lmf(datadir / 'mini-lmf-1.1.xml')
 
 
+def test_scan_lexicons(datadir):
+    assert lmf.scan_lexicons(datadir / 'mini-lmf-1.0.xml') == [
+        {
+            'id': 'test-en',
+            'version': '1',
+            'label': 'Testing English WordNet',
+            'extends': None,
+        },
+        {
+            'id': 'test-es',
+            'version': '1',
+            'label': 'Testing Spanish WordNet',
+            'extends': None,
+        },
+    ]
+
+    assert lmf.scan_lexicons(datadir / 'mini-lmf-1.1.xml') == [
+        {
+            'id': 'test-ja',
+            'version': '1',
+            'label': 'Testing Japanese WordNet',
+            'extends': None,
+        },
+        {
+            'id': 'test-en-ext',
+            'version': '1',
+            'label': 'Testing English Extension',
+            'extends': {
+                'id': 'test-en',
+                'version': '1',
+            },
+        },
+    ]
+
+
 def test_load_1_0(mini_lmf_1_0):
     resource = lmf.load(mini_lmf_1_0)
     lexicons = resource['lexicons']
