@@ -72,3 +72,8 @@ def normalize_form(s: str) -> str:
 
 def format_lexicon_specifier(id: str, version: str) -> str:
     return f"{id}:{version}"
+
+
+def split_lexicon_specifier(lexicon: str) -> tuple[str, str]:
+    id, _, ver = lexicon.partition(":")
+    return id, ver

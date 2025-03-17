@@ -13,7 +13,7 @@ import tomli
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn.constants import _WORDNET
-from wn._util import short_hash, format_lexicon_specifier
+from wn._util import short_hash, format_lexicon_specifier, split_lexicon_specifier
 
 # The index file is a project file of Wn
 with as_file(files('wn') / 'index.toml') as index_file:
@@ -150,7 +150,7 @@ class WNConfig:
             'Open English WordNet'
 
         """
-        id, _, version = arg.partition(':')
+        id, version = split_lexicion_specifier(arg)
         if id not in self._projects:
             raise ProjectError(f'no such project id: {id}')
         project: dict = self._projects[id]
