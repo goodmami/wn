@@ -8,6 +8,18 @@
   database rather than from a file (pertinent to [#98])
 * `bench/` directory with benchmark tests ([#98])
 
+## Deprecated
+
+* `wn.word()` ([#236])
+* `wn.words()` ([#236])
+* `wn.sense()` ([#236])
+* `wn.senses()` ([#236])
+* `wn.synset()` ([#236])
+* `wn.synsets()` ([#236])
+* `wn.ili()` with a `lexicon` or `lang` argument ([#236])
+* `wn.ilis()` with a `lexicon` or `lang` argument ([#236])
+* `wn.Wordnet` without a `lexicon` argument ([#236])
+
 
 ## [v0.11.0]
 
@@ -728,3 +740,4 @@ abandoned, but this is an entirely new codebase.
 [#216]: https://github.com/goodmami/wn/issues/216
 [#221]: https://github.com/goodmami/wn/issues/221
 [#228]: https://github.com/goodmami/wn/issues/228
+[#236]: https://github.com/goodmami/wn/issues/236

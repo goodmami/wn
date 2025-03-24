@@ -5,6 +5,8 @@ import warnings
 from collections.abc import Callable, Iterator, Sequence
 from typing import Optional, TypeVar
 
+from typing_extensions import deprecated  # until Python 3.13
+
 import wn
 from wn._types import (
     Metadata,
@@ -1218,6 +1220,12 @@ class Wordnet:
         lemmatizer: Optional[LemmatizeFunction] = None,
         search_all_forms: bool = True,
     ):
+        if not lexicon:
+            warnings.warn(
+                "Creating a Wordnet object without a lexicon argument is deprecated",
+                wn.WnWarning,
+                stacklevel=2,
+            )
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
         self._default_mode = (not lexicon and not lang)
@@ -1515,6 +1523,7 @@ def lexicons(
         return w.lexicons()
 
 
+@deprecated("deprecated; use wn.Wordnet.word()", category=wn.WnWarning)
 def word(
     id: str,
     *,
@@ -1534,6 +1543,7 @@ def word(
     return Wordnet(lang=lang, lexicon=lexicon).word(id=id)
 
 
+@deprecated("deprecated; use wn.Wordnet.words()", category=wn.WnWarning)
 def words(
     form: Optional[str] = None,
     pos: Optional[str] = None,
@@ -1558,6 +1568,7 @@ def words(
     return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
 
+@deprecated("deprecated; use wn.Wordnet.synset()", category=wn.WnWarning)
 def synset(
     id: str,
     *,
@@ -1577,6 +1588,7 @@ def synset(
     return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
 
+@deprecated("deprecated; use wn.Wordnet.synsets()", category=wn.WnWarning)
 def synsets(
     form: Optional[str] = None,
     pos: Optional[str] = None,
@@ -1600,6 +1612,7 @@ def synsets(
     return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
+@deprecated("deprecated; use wn.Wordnet.senses()", category=wn.WnWarning)
 def senses(
     form: Optional[str] = None,
     pos: Optional[str] = None,
@@ -1622,6 +1635,7 @@ def senses(
     return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
+@deprecated("deprecated; use wn.Wordnet.sense()", category=wn.WnWarning)
 def sense(
     id: str,
     *,
@@ -1659,6 +1673,13 @@ def ili(
     'presupposed'
 
     """
+    if lexicon or lang:
+        warnings.warn(
+            "the 'lexicon' and 'lang' parameters are deprecated; "
+            "for lexicon-specific ILIs, use wn.Wordnet.ili()",
+            category=wn.WnWarning,
+            stacklevel=2
+        )
     return Wordnet(lang=lang, lexicon=lexicon).ili(id=id)
 
 
@@ -1680,8 +1701,13 @@ def ilis(
     2573
     >>> wn.ilis(status='proposed')[-1].definition()
     'the neutrino associated with the tau lepton.'
-    >>> len(wn.ilis(lang='de'))
-    13818
 
     """
+    if lexicon or lang:
+        warnings.warn(
+            "the 'lexicon' and 'lang' parameters are deprecated; "
+            "for lexicon-specific ILIs, use wn.Wordnet.ilis()",
+            category=wn.WnWarning,
+            stacklevel=2
+        )
     return Wordnet(lang=lang, lexicon=lexicon).ilis(status=status)
