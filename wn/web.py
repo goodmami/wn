@@ -90,17 +90,17 @@ def make_lexicon(lex: wn.Lexicon, request: Request) -> dict:
             'license': lex.license,
         },
         'links': {
-            'self': request.url_for('lexicon', lexicon=spec)
+            'self': str(request.url_for('lexicon', lexicon=spec))
         },
         'relationships': {
             'words': {
-                'links': {'related': request.url_for('words', lexicon=spec)},
+                'links': {'related': str(request.url_for('words', lexicon=spec))},
             },
             'synsets': {
-                'links': {'related': request.url_for('synsets', lexicon=spec)},
+                'links': {'related': str(request.url_for('synsets', lexicon=spec))},
             },
             'senses': {
-                'links': {'related': request.url_for('senses', lexicon=spec)},
+                'links': {'related': str(request.url_for('senses', lexicon=spec))},
             },
         }
     }
@@ -122,8 +122,8 @@ def make_word(w: wn.Word, request: Request, basic: bool = False) -> dict:
     }
     if not basic:
         synsets = w.synsets()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        senses_link = request.url_for('senses', word=w.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        senses_link = str(request.url_for('senses', word=w.id, lexicon=lex_spec))
         d.update({
             'relationships': {
                 'senses': {'links': {'related': senses_link}},
@@ -147,9 +147,9 @@ def make_sense(s: wn.Sense, request: Request, basic: bool = False) -> dict:
     if not basic:
         w = s.word()
         ss = s.synset()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        word_link = request.url_for('word', word=w.id, lexicon=lex_spec)
-        synset_link = request.url_for('synset', synset=ss.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        word_link = str(request.url_for('word', word=w.id, lexicon=lex_spec))
+        synset_link = str(request.url_for('synset', synset=ss.id, lexicon=lex_spec))
         relationships: dict = {
             'word': {'links': {'related': word_link}},
             'synset': {'links': {'related': synset_link}},
@@ -180,8 +180,8 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
     }
     if not basic:
         words = ss.words()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        members_link = request.url_for('senses', synset=ss.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        members_link = str(request.url_for('senses', synset=ss.id, lexicon=lex_spec))
         relationships: dict = {
             'members': {'links': {'related': members_link}},
             'words': {'data': [dict(type='word', id=w.id) for w in words]},
