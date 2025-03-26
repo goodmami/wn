@@ -23,7 +23,7 @@ class ProjectError(Error):
 
 
 class WnWarning(Warning):
-    """Generic warning class for dubious worndet operations."""
+    """Generic warning class for dubious wordnet operations."""
 
     # reset the module so the user sees the public name
     __module__ = 'wn'
