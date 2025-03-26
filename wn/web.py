@@ -60,6 +60,17 @@ def replace_query_params(url: str, **params) -> str:
     return u._replace(query=qs).geturl()
 
 
+# Wordnet-instantiation
+
+def _init_wordnet(
+    lexicon: str = '*',
+    lang: Optional[str] = None,
+) -> wn.Wordnet:
+    if lexicon == '*' and lang is not None:
+        lexicon = ' '.join(lex.specifier() for lex in wn.lexicons(lang=lang))
+    return wn.Wordnet(lexicon)
+
+
 # Data-making functions
 
 def _url_for_obj(
@@ -90,17 +101,17 @@ def make_lexicon(lex: wn.Lexicon, request: Request) -> dict:
             'license': lex.license,
         },
         'links': {
-            'self': request.url_for('lexicon', lexicon=spec)
+            'self': str(request.url_for('lexicon', lexicon=spec))
         },
         'relationships': {
             'words': {
-                'links': {'related': request.url_for('words', lexicon=spec)},
+                'links': {'related': str(request.url_for('words', lexicon=spec))},
             },
             'synsets': {
-                'links': {'related': request.url_for('synsets', lexicon=spec)},
+                'links': {'related': str(request.url_for('synsets', lexicon=spec))},
             },
             'senses': {
-                'links': {'related': request.url_for('senses', lexicon=spec)},
+                'links': {'related': str(request.url_for('senses', lexicon=spec))},
             },
         }
     }
@@ -122,8 +133,8 @@ def make_word(w: wn.Word, request: Request, basic: bool = False) -> dict:
     }
     if not basic:
         synsets = w.synsets()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        senses_link = request.url_for('senses', word=w.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        senses_link = str(request.url_for('senses', word=w.id, lexicon=lex_spec))
         d.update({
             'relationships': {
                 'senses': {'links': {'related': senses_link}},
@@ -147,9 +158,9 @@ def make_sense(s: wn.Sense, request: Request, basic: bool = False) -> dict:
     if not basic:
         w = s.word()
         ss = s.synset()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        word_link = request.url_for('word', word=w.id, lexicon=lex_spec)
-        synset_link = request.url_for('synset', synset=ss.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        word_link = str(request.url_for('word', word=w.id, lexicon=lex_spec))
+        synset_link = str(request.url_for('synset', synset=ss.id, lexicon=lex_spec))
         relationships: dict = {
             'word': {'links': {'related': word_link}},
             'synset': {'links': {'related': synset_link}},
@@ -180,8 +191,8 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
     }
     if not basic:
         words = ss.words()
-        lex_link = request.url_for('lexicon', lexicon=lex_spec)
-        members_link = request.url_for('senses', synset=ss.id, lexicon=lex_spec)
+        lex_link = str(request.url_for('lexicon', lexicon=lex_spec))
+        members_link = str(request.url_for('senses', synset=ss.id, lexicon=lex_spec))
         relationships: dict = {
             'members': {'links': {'related': members_link}},
             'words': {'data': [dict(type='word', id=w.id) for w in words]},
@@ -196,6 +207,8 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
         d.update({'relationships': relationships, 'included': included})
     return d
 
+
+# Route handlers
 
 @paginate(make_lexicon)
 async def lexicons(request):
@@ -213,67 +226,97 @@ async def lexicon(request):
     return JSONResponse({'data': make_lexicon(lex, request)})
 
 
-@paginate(make_word)
-async def words(request):
+def _get_words(wordnet: wn.Wordnet, request: Request) -> dict:
     query = request.query_params
-    lexicon = request.path_params.get('lexicon') or query.get('lexicon')
-    _words = wn.words(
+    _words = wordnet.words(
         form=query.get('form'),
         pos=query.get('pos'),
-        lexicon=lexicon,
-        lang=query.get('lang'),
     )
     return {'data': _words}
 
 
+@paginate(make_word)
+async def all_words(request):
+    query = request.query_params
+    wordnet = _init_wordnet(lexicon=query.get('lexicon'), lang=query.get('lang'))
+    return _get_words(wordnet, request)
+
+
+@paginate(make_word)
+async def words(request):
+    wordnet = _init_wordnet(request.path_params['lexicon'])
+    return _get_words(wordnet, request)
+
+
 async def word(request):
     path_params = request.path_params
-    word = wn.word(path_params['word'], lexicon=path_params['lexicon'])
+    wordnet = _init_wordnet(request.path_params['lexicon'])
+    word = wordnet.word(path_params['word'])
     return JSONResponse({'data': make_word(word, request)})
 
 
-@paginate(make_sense)
-async def senses(request):
+def _get_senses(wordnet: wn.Wordnet, request: Request) -> dict:
     query = request.query_params
     path = request.path_params
-    lexicon = path.get('lexicon') or query.get('lexicon')
     if 'word' in path:
-        _senses = wn.word(path['word'], lexicon=lexicon).senses()
+        _senses = wordnet.word(path['word']).senses()
     elif 'synset' in path:
-        _senses = wn.synset(path['synset'], lexicon=lexicon).members()
+        _senses = wordnet.synset(path['synset']).senses()
     else:
-        _senses = wn.senses(
+        _senses = wordnet.senses(
             form=query.get('form'),
             pos=query.get('pos'),
-            lexicon=lexicon,
-            lang=query.get('lang'),
         )
     return {'data': _senses}
 
 
+@paginate(make_sense)
+async def all_senses(request):
+    query = request.query_params
+    wordnet = _init_wordnet(lexicon=query.get('lexicon'), lang=query.get('lang'))
+    return _get_senses(wordnet, request)
+
+
+@paginate(make_sense)
+async def senses(request):
+    wordnet = _init_wordnet(request.path_params['lexicon'])
+    return _get_senses(wordnet, request)
+
+
 async def sense(request):
     path_params = request.path_params
-    sense = wn.sense(path_params['sense'], lexicon=path_params['lexicon'])
+    wordnet = _init_wordnet(path_params['lexicon'])
+    sense = wordnet.sense(path_params['sense'])
     return JSONResponse({'data': make_sense(sense, request)})
 
 
-@paginate(make_synset)
-async def synsets(request):
+def _get_synsets(wordnet: wn.Wordnet, request: Request) -> dict:
     query = request.query_params
-    lexicon = request.path_params.get('lexicon') or query.get('lexicon')
-    _synsets = wn.synsets(
+    _synsets = wordnet.synsets(
         form=query.get('form'),
         pos=query.get('pos'),
         ili=query.get('ili'),
-        lexicon=lexicon,
-        lang=query.get('lang'),
     )
     return {'data': _synsets}
 
 
+@paginate(make_synset)
+async def all_synsets(request):
+    query = request.query_params
+    wordnet = _init_wordnet(lexicon=query.get('lexicon'), lang=query.get('lang'))
+    return _get_synsets(wordnet, request)
+
+
+@paginate(make_synset)
+async def synsets(request):
+    wordnet = _init_wordnet(request.path_params['lexicon'])
+    return _get_synsets(wordnet, request)
+
+
 async def synset(request):
     path_params = request.path_params
-    synset = wn.synset(path_params['synset'], lexicon=path_params['lexicon'])
+    wordnet = _init_wordnet(path_params['lexicon'])
+    synset = wordnet.synset(path_params['synset'])
     return JSONResponse({'data': make_synset(synset, request)})
 
 
@@ -288,9 +331,9 @@ routes = [
     Route('/lexicons/{lexicon}/synsets', endpoint=synsets),
     Route('/lexicons/{lexicon}/synsets/{synset}', endpoint=synset),
     Route('/lexicons/{lexicon}/synsets/{synset}/members', endpoint=senses),
-    Route('/words', endpoint=words),
-    Route('/senses', endpoint=senses),
-    Route('/synsets', endpoint=synsets),
+    Route('/words', endpoint=all_words),
+    Route('/senses', endpoint=all_senses),
+    Route('/synsets', endpoint=all_synsets),
 ]
 
 app = Starlette(debug=True, routes=routes)

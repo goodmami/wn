@@ -128,3 +128,10 @@ def schema_hash(conn: sqlite3.Connection) -> str:
     query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
     schema = '\n\n'.join(row[0] for row in conn.execute(query))
     return short_hash(schema)
+
+
+def clear_connections() -> None:
+    """Close and delete any open database connections."""
+    for path in list(pool):
+        pool[path].close()
+        del pool[path]

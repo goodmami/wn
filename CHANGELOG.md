@@ -8,6 +8,10 @@
   database rather than from a file (pertinent to [#98])
 * `bench/` directory with benchmark tests ([#98])
 
+## Fixed
+
+* `wn.web` casts URL objects to strings for JSON serialization ([#238])
+
 ## Deprecated
 
 * `wn.word()` ([#236])
@@ -741,3 +745,4 @@ abandoned, but this is an entirely new codebase.
 [#221]: https://github.com/goodmami/wn/issues/221
 [#228]: https://github.com/goodmami/wn/issues/228
 [#236]: https://github.com/goodmami/wn/issues/236
+[#238]: https://github.com/goodmami/wn/issues/238

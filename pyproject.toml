@@ -63,6 +63,7 @@ exclude = [
 extra-dependencies = [
   "pytest-benchmark",
 ]
+features = ["web"]
 
 [tool.hatch.envs.mypy]
 dependencies = [

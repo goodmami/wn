@@ -47,8 +47,8 @@ def test_scan_lexicons(datadir):
     ]
 
 
-def test_load_1_0(mini_lmf_1_0):
-    resource = lmf.load(mini_lmf_1_0)
+def test_load_1_0(datadir):
+    resource = lmf.load(datadir / 'mini-lmf-1.0.xml')
     lexicons = resource['lexicons']
     assert len(lexicons) == 2
     lexicon = lexicons[0]
@@ -91,8 +91,8 @@ def test_load_1_0(mini_lmf_1_0):
     assert lexicons[1]['id'] == 'test-es'
 
 
-def test_load_1_1(mini_lmf_1_1):
-    resource = lmf.load(mini_lmf_1_1)
+def test_load_1_1(datadir):
+    resource = lmf.load(datadir / 'mini-lmf-1.1.xml')
     lexicons = resource['lexicons']
     assert len(lexicons) == 2
     lexicon = lexicons[0]
@@ -106,8 +106,8 @@ def test_load_1_1(mini_lmf_1_1):
     assert lexicon.get('extends') == {'id': 'test-en', 'version': '1'}
 
 
-def test_load_1_3(mini_lmf_1_3):
-    resource = lmf.load(mini_lmf_1_3)
+def test_load_1_3(datadir):
+    resource = lmf.load(datadir / 'mini-lmf-1.3.xml')
     lexicons = resource['lexicons']
     assert len(lexicons) == 1
     lexicon = lexicons[0]
@@ -120,7 +120,7 @@ def test_load_1_3(mini_lmf_1_3):
         three
       '''
 
-def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
+def test_dump(datadir, tmp_path):
     tmpdir = tmp_path / 'test_dump'
     tmpdir.mkdir()
     tmppath = tmpdir / 'mini_lmf_dump.xml'
@@ -133,8 +133,8 @@ def test_dump(mini_lmf_1_0, mini_lmf_1_1, tmp_path):
         temp = temp.replace('<', '\n<')
         assert orig == temp
 
-    lmf.dump(lmf.load(mini_lmf_1_0), tmppath)
-    assert_xml_equal(mini_lmf_1_0, tmppath)
+    lmf.dump(lmf.load(datadir / 'mini-lmf-1.0.xml'), tmppath)
+    assert_xml_equal(datadir / 'mini-lmf-1.0.xml', tmppath)
 
-    lmf.dump(lmf.load(mini_lmf_1_1), tmppath)
-    assert_xml_equal(mini_lmf_1_1, tmppath)
+    lmf.dump(lmf.load(datadir / 'mini-lmf-1.1.xml'), tmppath)
+    assert_xml_equal(datadir / 'mini-lmf-1.1.xml', tmppath)
