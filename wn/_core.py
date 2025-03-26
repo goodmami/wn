@@ -459,6 +459,13 @@ class Word(_LexiconElement):
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
         """
+        if lexicon and lang:
+            warnings.warn(
+                "Calling translate() with both lexicon and lang "
+                "arguments is deprecated",
+                wn.WnWarning,
+                stacklevel=2,
+            )
         result = {}
         for sense in self.senses():
             result[sense] = [
@@ -948,10 +955,17 @@ class Synset(_Relatable):
             ['spider']
 
         """
+        if lexicon and lang:
+            warnings.warn(
+                "Calling translate() with both lexicon and lang "
+                "arguments is deprecated",
+                wn.WnWarning,
+                stacklevel=2,
+            )
         ili = self._ili
         if not ili:
             return []
-        return synsets(ili=ili, lang=lang, lexicon=lexicon)
+        return Wordnet(lexicon=lexicon, lang=lang).synsets(ili=ili)
 
 
 class Count(int):
@@ -1142,6 +1156,13 @@ class Sense(_Relatable):
             'pecíolo'
 
         """
+        if lexicon and lang:
+            warnings.warn(
+                "Calling translate() with both lexicon and lang "
+                "arguments is deprecated",
+                wn.WnWarning,
+                stacklevel=2,
+            )
         synset = self.synset()
         return [t_sense
                 for t_synset in synset.translate(lang=lang, lexicon=lexicon)
@@ -1220,9 +1241,17 @@ class Wordnet:
         lemmatizer: Optional[LemmatizeFunction] = None,
         search_all_forms: bool = True,
     ):
-        if not lexicon:
+        if not (lexicon or lang):
             warnings.warn(
-                "Creating a Wordnet object without a lexicon argument is deprecated",
+                "Creating a Wordnet object without a lexicon or lang "
+                "argument is deprecated",
+                wn.WnWarning,
+                stacklevel=2,
+            )
+        if lexicon and lang:
+            warnings.warn(
+                "Creating a Wordnet object with both lexicon and lang "
+                "arguments is deprecated",
                 wn.WnWarning,
                 stacklevel=2,
             )
