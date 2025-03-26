@@ -5,8 +5,8 @@ import pytest
 
 
 @pytest.mark.benchmark(group="lmf.load", warmup=True)
-def test_load(mini_lmf_1_0, benchmark):
-    benchmark(lmf.load, mini_lmf_1_0)
+def test_load(datadir, benchmark):
+    benchmark(lmf.load, datadir / 'mini-lmf-1.0.xml')
 
 
 @pytest.mark.benchmark(group="wn.add_lexical_resource")

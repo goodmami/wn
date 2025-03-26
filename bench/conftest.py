@@ -34,23 +34,13 @@ def datadir():
     return Path(__file__).parent.parent / "tests" / "data"
 
 
-@pytest.fixture(scope="session")
-def mini_lmf_1_0(datadir):
-    return datadir / "mini-lmf-1.0.xml"
-
-
-@pytest.fixture(scope="session")
-def empty_db_dir():
-    with tempfile.TemporaryDirectory("wn_data_empty") as dir:
-        yield Path(dir)
-
-
 @pytest.fixture
-def empty_db(monkeypatch, empty_db_dir, clean_db):
-    with monkeypatch.context() as m:
-        m.setattr(wn.config, "data_directory", empty_db_dir)
-        clean_db()
-        yield
+def empty_db(clean_db):
+    with tempfile.TemporaryDirectory('wn_data_empty') as dir:
+        with pytest.MonkeyPatch.context() as m:
+            m.setattr(wn.config, 'data_directory', dir)
+            clean_db()
+            yield
 
 
 @pytest.fixture(scope="session")
@@ -78,14 +68,12 @@ def mock_lmf():
 @pytest.fixture(scope="session")
 def mock_db_dir(mock_lmf):
     with tempfile.TemporaryDirectory("wn_data_empty") as dir:
-        old_data_dir = wn.config.data_directory
-        wn.config.data_directory = dir
-        wn.add_lexical_resource(mock_lmf, progress_handler=None)
-        wn.config.data_directory = old_data_dir
+        with pytest.MonkeyPatch.context() as m:
+            m.setattr(wn.config, 'data_directory', dir)
+            wn.add_lexical_resource(mock_lmf, progress_handler=None)
+            wn._db.clear_connections()
+
         yield Path(dir)
-        # close any open DB connections before teardown
-        for conn in wn._db.pool.values():
-            conn.close()
 
 
 @pytest.fixture
@@ -93,6 +81,7 @@ def mock_db(monkeypatch, mock_db_dir):
     with monkeypatch.context() as m:
         m.setattr(wn.config, "data_directory", mock_db_dir)
         yield
+        wn._db.clear_connections()
 
 
 def _make_synsets(pos: str, n: int) -> list[lmf.Synset]:

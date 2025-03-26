@@ -47,18 +47,18 @@ def test_db_multithreading():
     wn._db.pool = {}
 
 
-def test_remove_extension(mini_lmf_1_0, mini_lmf_1_1):
+def test_remove_extension(datadir):
     with tempfile.TemporaryDirectory('wn_data_1_1_trigger') as dir:
         old_data_dir = wn.config.data_directory
         wn.config.data_directory = dir
-        wn.add(mini_lmf_1_0)
-        wn.add(mini_lmf_1_1)
+        wn.add(datadir / 'mini-lmf-1.0.xml')
+        wn.add(datadir / 'mini-lmf-1.1.xml')
         assert len(wn.lexicons()) == 4
         wn.remove('test-en-ext')
         assert len(wn.lexicons()) == 3
         wn.remove('test-ja')
         assert len(wn.lexicons()) == 2
-        wn.add(mini_lmf_1_1)
+        wn.add(datadir / 'mini-lmf-1.1.xml')
         assert len(wn.lexicons()) == 4
         wn.remove('test-en')
         assert {lex.id for lex in wn.lexicons()} == {'test-es', 'test-ja'}
@@ -68,13 +68,13 @@ def test_remove_extension(mini_lmf_1_0, mini_lmf_1_1):
             conn.close()
 
 
-def test_add_lexical_resource(mini_lmf_1_0, mini_lmf_1_1):
+def test_add_lexical_resource(datadir):
     with tempfile.TemporaryDirectory('wn_data_add_lexical_resource') as dir:
         old_data_dir = wn.config.data_directory
         wn.config.data_directory = dir
-        wn.add_lexical_resource(lmf.load(mini_lmf_1_0))
+        wn.add_lexical_resource(lmf.load(datadir / 'mini-lmf-1.0.xml'))
         assert len(wn.lexicons()) == 2
-        wn.add_lexical_resource(lmf.load(mini_lmf_1_1))
+        wn.add_lexical_resource(lmf.load(datadir / 'mini-lmf-1.1.xml'))
         assert len(wn.lexicons()) == 4
         wn.config.data_directory = old_data_dir
         # close any open DB connections before teardown
