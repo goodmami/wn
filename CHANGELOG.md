@@ -12,6 +12,11 @@
 
 * `wn.web` casts URL objects to strings for JSON serialization ([#238])
 
+## Changed
+
+* `Wordnet.synsets()` now accepts `wn.ILI` objects for the `ili`
+  parameter ([#235])
+
 ## Deprecated
 
 * `wn.word()` ([#236])
@@ -748,6 +753,7 @@ abandoned, but this is an entirely new codebase.
 [#216]: https://github.com/goodmami/wn/issues/216
 [#221]: https://github.com/goodmami/wn/issues/221
 [#228]: https://github.com/goodmami/wn/issues/228
+[#235]: https://github.com/goodmami/wn/issues/235
 [#236]: https://github.com/goodmami/wn/issues/236
 [#237]: https://github.com/goodmami/wn/issues/237
 [#238]: https://github.com/goodmami/wn/issues/238
