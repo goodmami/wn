@@ -3,7 +3,7 @@ import enum
 import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
-from typing import Optional, TypeVar
+from typing import Optional, TypeVar, Union
 
 from typing_extensions import deprecated  # until Python 3.13
 
@@ -1361,7 +1361,7 @@ class Wordnet:
         self,
         form: Optional[str] = None,
         pos: Optional[str] = None,
-        ili: Optional[str] = None
+        ili: Optional[Union[str, ILI]] = None
     ) -> list[Synset]:
         """Return the list of matching synsets in this wordnet.
 
@@ -1467,7 +1467,7 @@ def _find_helper(
     query_func: Callable,
     form: Optional[str],
     pos: Optional[str],
-    ili: Optional[str] = None
+    ili: Optional[Union[str, ILI]] = None
 ) -> list[C]:
     """Return the list of matching wordnet entities.
 
@@ -1483,8 +1483,15 @@ def _find_helper(
         'lexicon_rowids': w._lexicon_ids,
         'search_all_forms': w._search_all_forms,
     }
-    if ili is not None:
+    if isinstance(ili, str):
         kwargs['ili'] = ili
+    elif isinstance(ili, ILI):
+        kwargs['ili'] = ili.id
+    elif ili is not None:
+        raise TypeError(
+            "ili argument must be a string, an ILI, or None, "
+            f"not {type(ili).__name__!r}"
+        )
 
     # easy case is when there is no form
     if form is None:
@@ -1660,7 +1667,7 @@ def synset(
 def synsets(
     form: Optional[str] = None,
     pos: Optional[str] = None,
-    ili: Optional[str] = None,
+    ili: Optional[Union[str, ILI]] = None,
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,

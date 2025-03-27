@@ -196,6 +196,7 @@ def test_synsets_mini():
 
     assert len(wn.synsets(ili='i67469')) == 2
     assert len(wn.synsets(ili='i67468')) == 0
+    assert len(wn.synsets(ili=wn.ili('i67469'))) == 2
 
     assert len(wn.synsets(lang='en')) == 8
     assert len(wn.synsets(lang='es')) == 4
