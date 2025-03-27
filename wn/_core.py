@@ -447,8 +447,12 @@ class Word(_LexiconElement):
         """Return a mapping of word senses to lists of translated words.
 
         Arguments:
-            lexicon: if specified, translate to words in the target lexicon(s)
-            lang: if specified, translate to words with the language code
+            lexicon: lexicon specifier of translated words
+            lang: BCP-47 language code of translated words
+
+        .. deprecated:: 0.12.0
+            Calling this function with both *lexicon* and *lang*
+            arguments is deprecated.
 
         Example:
 
@@ -944,8 +948,12 @@ class Synset(_Relatable):
         """Return a list of translated synsets.
 
         Arguments:
-            lexicon: if specified, translate to synsets in the target lexicon(s)
-            lang: if specified, translate to synsets with the language code
+            lexicon: lexicon specifier of translated synsets
+            lang: BCP-47 language code of translated synsets
+
+        .. deprecated:: 0.12.0
+            Calling this function with both *lexicon* and *lang*
+            arguments is deprecated.
 
         Example:
 
@@ -1145,8 +1153,12 @@ class Sense(_Relatable):
         """Return a list of translated senses.
 
         Arguments:
-            lexicon: if specified, translate to senses in the target lexicon(s)
-            lang: if specified, translate to senses with the language code
+            lexicon: lexicon specifier of translated senses
+            lang: BCP-47 language code of translated senses
+
+        .. deprecated:: 0.12.0
+            Calling this function with both *lexicon* and *lang*
+            arguments is deprecated.
 
         Example:
 
@@ -1179,13 +1191,21 @@ class Wordnet:
 
     A wordnet object acts essentially as a filter by first selecting
     matching lexicons and then searching only within those lexicons
-    for later queries. On instantiation, a *lang* argument is a `BCP
-    47`_ language code that restricts the selected lexicons to those
-    whose language matches the given code. A *lexicon* argument is a
-    space-separated list of lexicon specifiers that more directly
-    selects lexicons by their ID and version; this is preferable when
-    there are multiple lexicons in the same language or multiple
-    version with the same ID.
+    for later queries. Lexicons can be selected on instantiation with
+    the *lexicon* or *lang* parameters. The *lexicon* parameter is a
+    string with a space-separated list of :ref:`lexicon specifiers
+    <lexicon-specifiers>`. The *lang* argument is a `BCP 47`_ language
+    code that selects any lexicon matching the given language code. As
+    the *lexicon* argument more precisely selects lexicons, it is the
+    recommended method of instantiation.
+
+    .. deprecated:: 0.12.0
+        Instantiating a Wordnet object with neither a *lexicon* nor
+        *lang* argument, or with both, is deprecated. To create a
+        Wordnet object that queries all lexicons, use the ``*``
+        wildcard::
+
+        >>> all_wns = wn.Wordnet("*")
 
     Some wordnets were created by translating the words from a larger
     wordnet, namely the Princeton WordNet, and then relying on the
@@ -1193,7 +1213,8 @@ class Wordnet:
     second space-separated list of lexicon specifiers which are used
     for traversing relations, but not as the results of
     queries. Setting *expand* to an empty string (:python:`expand=''`)
-    disables expand lexicons.
+    disables expand lexicons. For more information, see
+    :ref:`cross-lingual-relation-traversal`.
 
     The *normalizer* argument takes a callable that normalizes word
     forms in order to expand the search. The default function
@@ -1201,7 +1222,7 @@ class Wordnet:
     so that, for example, searching for *san josé* in the English
     WordNet will find the entry for *San Jose*. Setting *normalizer*
     to :python:`None` disables normalization and forces exact-match
-    searching.
+    searching. For more information, see :ref:`normalization`.
 
     The *lemmatizer* argument may be :python:`None`, which is the
     default and disables lemmatizer-based query expansion, or a
@@ -1209,7 +1230,7 @@ class Wordnet:
     returns base forms of the original word. To support lemmatizers
     that use the wordnet for instantiation, such as :mod:`wn.morphy`,
     the lemmatizer may be assigned to the :attr:`lemmatizer` attribute
-    after creation.
+    after creation. For more information, see :ref:`lemmatization`.
 
     If the *search_all_forms* argument is :python:`True` (the
     default), searches of word forms consider all forms in the
@@ -1568,8 +1589,14 @@ def word(
     >>> wn.word('ewn-cell-n')
     Word('ewn-cell-n')
 
+    .. deprecated:: 0.12.0
+
+        Use a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").word(id)
     """
-    return Wordnet(lang=lang, lexicon=lexicon).word(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).word(id)
 
 
 @deprecated("deprecated; use wn.Wordnet.words()", category=wn.WnWarning)
@@ -1593,6 +1620,12 @@ def words(
     >>> wn.words(form="scurry")
     [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
 
+    .. deprecated:: 0.12.0
+
+        Use a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").words(form=form, pos=pos)
     """
     return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
@@ -1613,6 +1646,12 @@ def synset(
     >>> wn.synset('ewn-03311152-n')
     Synset('ewn-03311152-n')
 
+    .. deprecated:: 0.12.0
+
+        Use a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").synset(id)
     """
     return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
@@ -1637,6 +1676,12 @@ def synsets(
     >>> wn.synsets('couch', pos='v')
     [Synset('ewn-00983308-v')]
 
+    .. deprecated:: 0.12.0
+
+        Use a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").synsets(form=form, pos=pos, ili=ili)
     """
     return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
@@ -1660,6 +1705,12 @@ def senses(
     >>> wn.senses('twig', pos='n')
     [Sense('ewn-twig-n-13184889-02')]
 
+    .. deprecated:: 0.12.0
+
+        Create a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").senses(form=form, pos=pos)
     """
     return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
@@ -1680,6 +1731,12 @@ def sense(
     >>> wn.sense('ewn-flutter-v-01903884-02')
     Sense('ewn-flutter-v-01903884-02')
 
+    .. deprecated:: 0.12.0
+
+        Create a :class:`Wordnet` object with the given *lexicon* or
+        *lang*. To query across all lexicons, use ``*``::
+
+        >>> w = wn.Wordnet("*").sense(id)
     """
     return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
 
@@ -1695,6 +1752,10 @@ def ili(
     This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.ili` method.
+
+    .. deprecated:: 0.12.0
+        The *lexicon* and *lang* parameters are deprecated. To find
+        an ILI particular to a lexicon, use :meth:`Wordnet.ili`.
 
     >>> wn.ili(id='i1234')
     ILI('i1234')
@@ -1723,6 +1784,10 @@ def ilis(
     This will create a :class:`Wordnet` object using the *lang* and
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.ilis` method.
+
+    .. deprecated:: 0.12.0
+        The *lexicon* and *lang* parameters are deprecated. To find
+        ILIs particular to a lexicon, use :meth:`Wordnet.ilis`.
 
     >>> len(wn.ilis())
     120071
