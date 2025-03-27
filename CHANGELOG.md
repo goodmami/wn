@@ -22,7 +22,11 @@
 * `wn.synsets()` ([#236])
 * `wn.ili()` with a `lexicon` or `lang` argument ([#236])
 * `wn.ilis()` with a `lexicon` or `lang` argument ([#236])
-* `wn.Wordnet` without a `lexicon` argument ([#236])
+* `wn.Wordnet` without a `lexicon` or `lang` argument ([#236])
+* `wn.Wordnet` with both `lexicon` and `lang` arguments ([#237])
+* `Word.translate()` with both `lexicon` and `lang` arguments ([#237])
+* `Sense.translate()` with both `lexicon` and `lang` arguments ([#237])
+* `Synset.translate()` with both `lexicon` and `lang` arguments ([#237])
 
 
 ## [v0.11.0]
@@ -745,4 +749,5 @@ abandoned, but this is an entirely new codebase.
 [#221]: https://github.com/goodmami/wn/issues/221
 [#228]: https://github.com/goodmami/wn/issues/228
 [#236]: https://github.com/goodmami/wn/issues/236
+[#237]: https://github.com/goodmami/wn/issues/237
 [#238]: https://github.com/goodmami/wn/issues/238
