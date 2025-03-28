@@ -5,11 +5,11 @@ Database retrieval queries.
 from collections.abc import Collection, Iterator, Sequence
 from typing import Optional, cast
 import itertools
-import sqlite3
 
 import wn
 from wn._types import Metadata
 from wn._db import connect, NON_ROWID
+from wn._util import split_lexicon_specifier
 
 
 # Local Types
@@ -93,54 +93,47 @@ _Lexicon = tuple[
     str,       # url
     str,       # citation
     str,       # logo
-    Metadata,  # metadata
 ]
 
 
-def find_lexicons(
+def resolve_lexicon_specifiers(
     lexicon: str,
     lang: Optional[str] = None,
-) -> Iterator[_Lexicon]:
+) -> list[str]:
     cur = connect().cursor()
-    found = False
+    specifiers: list[str] = []
     for specifier in lexicon.split():
         limit = '-1' if '*' in lexicon else '1'
         if ':' not in specifier:
             specifier += ':*'
         query = f'''
-            SELECT DISTINCT rowid, id, label, language, email, license,
-                            version, url, citation, logo
+            SELECT DISTINCT id || ":" || version
               FROM lexicons
              WHERE id || ":" || version GLOB :specifier
                AND (:language ISNULL OR language = :language)
              LIMIT {limit}
         '''
         params = {'specifier': specifier, 'language': lang}
-        for row in cur.execute(query, params):
-            yield row
-            found = True
+        specifiers.extend(row[0] for row in cur.execute(query, params))
     # only raise an error when the query specifies something
-    if not found and (lexicon != '*' or lang is not None):
+    if not specifiers and (lexicon != '*' or lang is not None):
         raise wn.Error(
             f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
         )
+    return specifiers
 
 
-def get_lexicon(rowid: int) -> _Lexicon:
-    conn = connect()
-    return _get_lexicon(conn, rowid)
-
-
-def _get_lexicon(conn: sqlite3.Connection, rowid: int) -> _Lexicon:
+def get_lexicon(lexicon: str) -> _Lexicon:
+    id, ver = split_lexicon_specifier(lexicon)
     query = '''
         SELECT DISTINCT rowid, id, label, language, email, license,
                         version, url, citation, logo
         FROM lexicons
-        WHERE rowid = ?
+        WHERE id = ? AND version = ?
     '''
-    row: Optional[_Lexicon] = conn.execute(query, (rowid,)).fetchone()
+    row: Optional[_Lexicon] = connect().execute(query, (id, ver)).fetchone()
     if row is None:
-        raise LookupError(rowid)  # should we have a WnLookupError?
+        raise LookupError(lexicon)  # should we have a WnLookupError?
     return row
 
 
@@ -149,47 +142,79 @@ def get_modified(rowid: int) -> bool:
     return connect().execute(query, (rowid,)).fetchone()[0]
 
 
-def get_lexicon_dependencies(rowid: int) -> list[tuple[str, str, str, Optional[int]]]:
+def get_lexicon_dependencies(lexicon: str) -> list[tuple[str, str, bool]]:
     query = '''
-        SELECT provider_id, provider_version, provider_url, provider_rowid
+        SELECT provider_id || ":" || provider_version, provider_url, provider_rowid
           FROM lexicon_dependencies
-         WHERE dependent_rowid = ?
+          JOIN lexicons AS lex ON lex.rowid = dependent_rowid
+         WHERE lex.id || ":" || lex.version = ?
     '''
-    return connect().execute(query, (rowid,)).fetchall()
+    return [
+        (spec, url, rowid is not None)
+        for spec, url, rowid in connect().execute(query, (lexicon,))
+    ]
 
 
-def get_lexicon_extension_bases(rowid: int, depth: int = -1) -> list[int]:
+def get_lexicon_extension_bases(lexicon: str, depth: int = -1) -> list[str]:
     query = '''
           WITH RECURSIVE ext(x, d) AS
                (SELECT base_rowid, 1
                   FROM lexicon_extensions
-                 WHERE extension_rowid = :rowid
+                  JOIN lexicons AS lex ON lex.rowid = extension_rowid
+                 WHERE lex.id || ":" || lex.version = :specifier
                  UNION SELECT base_rowid, d+1
                          FROM lexicon_extensions
                          JOIN ext ON extension_rowid = x)
-        SELECT x FROM ext
+        SELECT baselex.id || ":" || baselex.version
+          FROM ext
+          JOIN lexicons AS baselex ON baselex.rowid = ext.x
          WHERE :depth < 0 OR d <= :depth
          ORDER BY d
     '''
-    rows = connect().execute(query, {'rowid': rowid, 'depth': depth})
+    rows = connect().execute(query, {'specifier': lexicon, 'depth': depth})
     return [row[0] for row in rows]
 
 
-def get_lexicon_extensions(rowid: int, depth: int = -1) -> list[int]:
+def get_lexicon_extensions(lexicon: str, depth: int = -1) -> list[str]:
     query = '''
           WITH RECURSIVE ext(x, d) AS
                (SELECT extension_rowid, 1
                   FROM lexicon_extensions
-                 WHERE base_rowid = :rowid
+                  JOIN lexicons AS lex ON lex.rowid = base_rowid
+                 WHERE lex.id || ":" || lex.version = :specifier
                  UNION SELECT extension_rowid, d+1
                          FROM lexicon_extensions
                          JOIN ext ON base_rowid = x)
-        SELECT x FROM ext
+        SELECT extlex.id || ":" || extlex.version
+          FROM ext
+          JOIN lexicons AS extlex ON extlex.rowid = ext.x
          WHERE :depth < 0 OR d <= :depth
          ORDER BY d
     '''
-    rows = connect().execute(query, {'rowid': rowid, 'depth': depth})
+    rows = connect().execute(query, {'specifier': lexicon, 'depth': depth})
     return [row[0] for row in rows]
+
+
+def get_lexicon_rowid(lexicon: str) -> int:
+    query = '''
+        SELECT rowid
+          FROM lexicons
+         WHERE id || ":" || version = ?
+    '''
+    row = connect().execute(query, (lexicon,)).fetchone()
+    return row[0] if row is not None else -1
+
+
+def get_lexicon_specifier(rowid: int) -> str:
+    query = '''
+        SELECT id || ":" || version
+          FROM lexicons
+         WHERE rowid = ?
+    '''
+    row = connect().execute(query, (rowid,)).fetchone()
+    if row is None:
+        raise wn.Error(f'no lexicon found with rowid {rowid}')
+    return row[0]
 
 
 def find_ilis(

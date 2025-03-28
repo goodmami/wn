@@ -150,7 +150,7 @@ class WNConfig:
             'Open English WordNet'
 
         """
-        id, version = split_lexicion_specifier(arg)
+        id, version = split_lexicon_specifier(arg)
         if id not in self._projects:
             raise ProjectError(f'no such project id: {id}')
         project: dict = self._projects[id]

@@ -13,7 +13,11 @@ import wn
 from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
 from wn._db import connect
-from wn._queries import find_lexicons, get_lexicon_extensions, get_lexicon
+from wn._queries import (
+    resolve_lexicon_specifiers,
+    get_lexicon_extensions,
+    get_lexicon_rowid,
+)
 from wn._util import normalize_form, format_lexicon_specifier
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
@@ -941,33 +945,30 @@ def remove(
     conn = connect()
     conn.set_progress_handler(progress.update, 100000)
     try:
-        for rowid, id, _, _, _, _, version, *_ in find_lexicons(lexicon=lexicon):
-            extensions = _find_all_extensions(rowid)
+        for lexspec in resolve_lexicon_specifiers(lexicon=lexicon):
+            extensions = get_lexicon_extensions(lexspec)
 
             with conn:
 
-                for ext_id, ext_spec in reversed(extensions):
+                for ext_spec in reversed(extensions):
                     progress.set(status=f'{ext_spec} (extension)')
-                    conn.execute('DELETE from lexicons WHERE rowid = ?', (ext_id,))
+                    conn.execute(
+                        'DELETE FROM lexicons WHERE rowid = ?',
+                        (get_lexicon_rowid(ext_spec),),
+                    )
                     progress.flash(f'Removed {ext_spec}\n')
 
-                spec = format_lexicon_specifier(id, version)
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
-                progress.set(status=f'{spec}', count=0)
-                conn.execute('DELETE from lexicons WHERE rowid = ?', (rowid,))
-                progress.flash(f'Removed {spec}{extra}\n')
+                progress.set(status=f'{lexspec}', count=0)
+                conn.execute(
+                    'DELETE FROM lexicons WHERE rowid = ?',
+                    (get_lexicon_rowid(lexspec),),
+                )
+                progress.flash(f'Removed {lexspec}{extra}\n')
 
     finally:
         progress.close()
         conn.set_progress_handler(None, 0)
-
-
-def _find_all_extensions(rowid: int) -> list[tuple[int, str]]:
-    exts: list[tuple[int, str]] = []
-    for ext_id in get_lexicon_extensions(rowid):
-        lexinfo = get_lexicon(ext_id)
-        exts.append((ext_id, format_lexicon_specifier(lexinfo[1], lexinfo[6])))
-    return exts
 
 
 def _entries(lex: _AnyLexicon) -> Sequence[_AnyEntry]: return lex.get('entries', [])

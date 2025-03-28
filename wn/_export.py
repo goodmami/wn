@@ -4,7 +4,7 @@ from typing import Optional, cast
 
 import wn
 from wn._types import AnyPath, VersionInfo
-from wn._util import version_info
+from wn._util import version_info, split_lexicon_specifier
 from wn import lmf
 from wn._queries import (
     find_entries,
@@ -82,6 +82,7 @@ _SBMap = dict[str, list[tuple[str, str]]]
 
 def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
     lexids = (lexicon._id,)
+    spec = lexicon.specifier()
 
     # WN-LMF 1.0 lexicons put syntactic behaviours on lexical entries
     # WN-LMF 1.1 lexicons use a 'subcat' IDREFS attribute
@@ -106,22 +107,25 @@ def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
     }
     if version >= (1, 1):
         lex['logo'] = lexicon.logo or ''
-        lex['requires'] = _export_requires(lexicon._id)
+        lex['requires'] = _export_requires(spec)
         lex['frames'] = _export_syntactic_behaviours_1_1(lexids)
 
     return lex
 
 
-def _export_requires(lexid: int) -> list[lmf.Dependency]:
-    return [
-        {'id': id, 'version': version, 'url': url}
-        for id, version, url, _ in get_lexicon_dependencies(lexid)
-    ]
+def _export_requires(spec: str) -> list[lmf.Dependency]:
+    dependencies: list[lmf.Dependency] = []
+    for specifier, url, _ in get_lexicon_dependencies(spec):
+        id, version = split_lexicon_specifier(specifier)
+        dependencies.append(
+            {'id': id, 'version': version, 'url': url}
+        )
+    return dependencies
 
 
-def _export_extends(lexid: int) -> lmf.Dependency:
-    ext_lexid = get_lexicon_extension_bases(lexid, depth=1)[0]
-    _, id, _, _, _, _, version, url, *_ = get_lexicon(ext_lexid)
+def _export_extends(spec: str) -> lmf.Dependency:
+    ext_spec = get_lexicon_extension_bases(spec, depth=1)[0]
+    _, id, _, _, _, _, version, url, *_ = get_lexicon(ext_spec)
     return {'id': id, 'version': version, 'url': url}
 
 

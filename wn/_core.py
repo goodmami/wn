@@ -20,7 +20,6 @@ from wn._util import (
 )
 from wn._db import NON_ROWID
 from wn._queries import (
-    find_lexicons,
     find_ilis,
     find_proposed_ilis,
     find_entries,
@@ -31,6 +30,8 @@ from wn._queries import (
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
     get_lexicon_extensions,
+    get_lexicon_rowid,
+    get_lexicon_specifier,
     get_form_pronunciations,
     get_form_tags,
     get_entry_senses,
@@ -47,6 +48,7 @@ from wn._queries import (
     get_adjposition,
     get_sense_counts,
     get_lexfile,
+    resolve_lexicon_specifiers,
 )
 from wn import taxonomy
 
@@ -185,9 +187,9 @@ class Lexicon(_DatabaseEntity):
     def requires(self) -> dict[str, Optional['Lexicon']]:
         """Return the lexicon dependencies."""
         return dict(
-            (format_lexicon_specifier(id, version),
-             None if _id is None else _to_lexicon(get_lexicon(_id)))
-            for id, version, _, _id in get_lexicon_dependencies(self._id)
+            (spec,
+             None if added is None else _to_lexicon(spec))
+            for spec, _, added in get_lexicon_dependencies(self.specifier())
         )
 
     def extends(self) -> Optional['Lexicon']:
@@ -195,9 +197,9 @@ class Lexicon(_DatabaseEntity):
 
         If this lexicon is not an extension, return None.
         """
-        bases = get_lexicon_extension_bases(self._id, depth=1)
+        bases = get_lexicon_extension_bases(self.specifier(), depth=1)
         if bases:
-            return _to_lexicon(get_lexicon(bases[0]))
+            return _to_lexicon(bases[0])
         return None
 
     def extensions(self, depth: int = 1) -> list['Lexicon']:
@@ -211,8 +213,10 @@ class Lexicon(_DatabaseEntity):
         negative number gets all "descendant" extensions.
 
         """
-        return [_to_lexicon(get_lexicon(rowid))
-                for rowid in get_lexicon_extensions(self._id, depth=depth)]
+        return [
+            _to_lexicon(spec)
+            for spec in get_lexicon_extensions(self.specifier(), depth=depth)
+        ]
 
     def describe(self, full: bool = True) -> str:
         """Return a formatted string describing the lexicon.
@@ -269,14 +273,22 @@ class _LexiconElement(_DatabaseEntity):
         self._wordnet: Wordnet = _wordnet
 
     def lexicon(self):
-        return _to_lexicon(get_lexicon(self._lexid))
+        return _to_lexicon(get_lexicon_specifier(self._lexid))
 
     def _get_lexicon_ids(self) -> tuple[int, ...]:
+        # TODO: this function has too much converting to/from rowids;
+        # simplify to lexicon specifiers when possible
+        spec = get_lexicon_specifier(self._lexid)
         if self._wordnet._default_mode:
             return tuple(
                 {self._lexid}
-                | set(get_lexicon_extension_bases(self._lexid))
-                | set(get_lexicon_extensions(self._lexid))
+                | set(
+                    get_lexicon_rowid(base_spec)
+                    for base_spec in get_lexicon_extension_bases(spec)
+                ) | set(
+                    get_lexicon_rowid(ext_spec)
+                    for ext_spec in get_lexicon_extensions(spec)
+                )
             )
         else:
             return self._wordnet._lexicon_ids
@@ -541,7 +553,7 @@ class Relation:
 
     def lexicon(self) -> Lexicon:
         """Return the :class:`Lexicon` where the relation is defined."""
-        return _to_lexicon(next(find_lexicons(self._lexicon)))
+        return _to_lexicon(self._lexicon)
 
     def metadata(self) -> Metadata:
         """Return the relation's metadata."""
@@ -1280,7 +1292,7 @@ class Wordnet:
         # but relation traversals only target the source's lexicon
         self._default_mode = (not lexicon and not lang)
 
-        lexs = list(find_lexicons(lexicon or '*', lang=lang))
+        lexs = resolve_lexicon_specifiers(lexicon or '*', lang=lang)
         self._lexicons: tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
         self._lexicon_ids: tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
 
@@ -1289,29 +1301,25 @@ class Wordnet:
             if self._default_mode:
                 expand = '*'
             else:
-                deps = [(id, ver, _id)
-                        for lex in self._lexicons
-                        for id, ver, _, _id in get_lexicon_dependencies(lex._id)]
+                deps = [
+                    (spec, added)
+                    for lex in self._lexicons
+                    for spec, _, added in get_lexicon_dependencies(lex.specifier())
+                ]
                 # warn only if a dep is missing and a lexicon was specified
                 if not self._default_mode:
-                    missing = ' '.join(
-                        format_lexicon_specifier(id, ver)
-                        for id, ver, _id in deps
-                        if _id is None
-                    )
+                    missing = ' '.join(spec for spec, added in deps if not added)
                     if missing:
                         warnings.warn(
                             f'lexicon dependencies not available: {missing}',
                             wn.WnWarning,
                             stacklevel=2,
                         )
-                expand = ' '.join(
-                    format_lexicon_specifier(id, ver)
-                    for id, ver, _id in deps
-                    if _id is not None
-                )
+                expand = ' '.join(spec for spec, added in deps if added)
         if expand:
-            self._expanded = tuple(map(_to_lexicon, find_lexicons(lexicon=expand)))
+            self._expanded = tuple(
+                map(_to_lexicon, resolve_lexicon_specifiers(lexicon=expand))
+            )
         self._expanded_ids: tuple[int, ...] = tuple(lx._id for lx in self._expanded)
 
         self._normalizer = normalizer
@@ -1445,7 +1453,8 @@ class Wordnet:
         return '\n'.join(substrings)
 
 
-def _to_lexicon(data) -> Lexicon:
+def _to_lexicon(specifier: str) -> Lexicon:
+    data = get_lexicon(specifier)
     rowid, id, label, language, email, license, version, url, citation, logo = data
     return Lexicon(
         id,
