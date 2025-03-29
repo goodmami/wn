@@ -32,7 +32,6 @@ from wn._queries import (
     get_lexicon_extension_bases,
     get_lexicon_extensions,
     get_lexicon_rowid,
-    get_lexicon_specifier,
     get_form_pronunciations,
     get_form_tags,
     get_entry_senses,
@@ -279,34 +278,33 @@ _EMPTY_LEXCONFIG = _LexiconConfiguration(
 
 
 class _LexiconElement(_DatabaseEntity):
-    __slots__ = '_lexid', '_lexconf'
+    __slots__ = '_lexicon', '_lexconf'
 
     def __init__(
         self,
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(_id=_id)
-        self._lexid = _lexid  # Database-internal lexicon id
+        self._lexicon = _lexicon  # source lexicon specifier
         self._lexconf = _lexconf
 
     def lexicon(self):
-        return _to_lexicon(get_lexicon_specifier(self._lexid))
+        return _to_lexicon(self._lexicon)
 
     def _get_lexicon_ids(self) -> tuple[int, ...]:
         # TODO: this function has too much converting to/from rowids;
         # simplify to lexicon specifiers when possible
-        spec = get_lexicon_specifier(self._lexid)
         if self._lexconf.default_mode:
             return tuple(
-                {self._lexid}
+                {get_lexicon_rowid(self._lexicon)}
                 | set(
                     get_lexicon_rowid(base_spec)
-                    for base_spec in get_lexicon_extension_bases(spec)
+                    for base_spec in get_lexicon_extension_bases(self._lexicon)
                 ) | set(
                     get_lexicon_rowid(ext_spec)
-                    for ext_spec in get_lexicon_extensions(spec)
+                    for ext_spec in get_lexicon_extensions(self._lexicon)
                 )
             )
         else:
@@ -397,11 +395,11 @@ class Word(_LexiconElement):
         id: str,
         pos: str,
         forms: list[tuple[str, Optional[str], Optional[str], int]],
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_lexid=_lexid, _id=_id, _lexconf=_lexconf)
+        super().__init__(_lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
         self.id = id
         self.pos = pos
         self._forms = forms
@@ -588,11 +586,11 @@ class _Relatable(_LexiconElement):
     def __init__(
         self,
         id: str,
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_lexid=_lexid, _id=_id, _lexconf=_lexconf)
+        super().__init__(_lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
         self.id = id
 
     def relations(self: T, *args: str) -> dict[str, list[T]]:
@@ -649,11 +647,11 @@ class Synset(_Relatable):
         id: str,
         pos: str,
         ili: Optional[str] = None,
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexid=_lexid, _id=_id, _lexconf=_lexconf)
+        super().__init__(id=id, _lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
         self.pos = pos
         self._ili = ili
 
@@ -662,10 +660,10 @@ class Synset(_Relatable):
         cls,
         id: str,
         ili: Optional[str] = None,
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        return cls(id, pos='', ili=ili, _lexid=_lexid, _lexconf=_lexconf)
+        return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
     @property
     def ili(self):
@@ -678,9 +676,9 @@ class Synset(_Relatable):
         return None
 
     def __hash__(self):
-        # include ili and lexid in the hash so inferred synsets don't
+        # include ili and lexicon in the hash so inferred synsets don't
         # hash the same
-        return hash((self._ENTITY_TYPE, self._ili, self._lexid, self._id))
+        return hash((self._ENTITY_TYPE, self._ili, self._lexicon, self._id))
 
     def __repr__(self) -> str:
         return f'Synset({self.id!r})'
@@ -827,13 +825,13 @@ class Synset(_Relatable):
         _lexconf = self._lexconf
         lexids = self._get_lexicon_ids()
         iterable = get_synset_relations({self._id}, args, lexids)
-        for relname, lexicon, metadata, _, ssid, pos, ili, lexid, rowid in iterable:
-            synset_rel = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
+        for relname, rellex, metadata, _, ssid, pos, ili, tgtlex, rowid in iterable:
+            synset_rel = Relation(relname, self.id, ssid, rellex, metadata=metadata)
             synset = Synset(
                 ssid,
                 pos,
                 ili,
-                _lexid=lexid,
+                _lexicon=tgtlex,
                 _id=rowid,
                 _lexconf=_lexconf,
             )
@@ -871,7 +869,7 @@ class Synset(_Relatable):
                 synset = Synset.empty(
                     id=_INFERRED_SYNSET,
                     ili=ili,
-                    _lexid=self._lexid,
+                    _lexicon=self._lexicon,
                     _lexconf=_lexconf,
                 )
                 yield synset_rel, synset
@@ -1035,11 +1033,11 @@ class Sense(_Relatable):
         id: str,
         entry_id: str,
         synset_id: str,
-        _lexid: int = NON_ROWID,
+        _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexid=_lexid, _id=_id, _lexconf=_lexconf)
+        super().__init__(id=id, _lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
         self._entry_id = entry_id
         self._synset_id = synset_id
 

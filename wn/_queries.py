@@ -32,14 +32,14 @@ _Word = tuple[
     str,          # id
     str,          # pos
     list[_Form],  # forms
-    int,          # lexid
+    str,          # lexicon specifier
     int,          # rowid
 ]
 _Synset = tuple[
     str,  # id
     str,  # pos
     str,  # ili
-    int,  # lexid
+    str,  # lexicon specifier
     int,  # rowid
 ]
 _Synset_Relation = tuple[
@@ -50,14 +50,14 @@ _Synset_Relation = tuple[
     str,  # _Synset...
     str,
     str,
-    int,
+    str,
     int,
 ]
 _Sense = tuple[
     str,  # id
     str,  # entry_id
     str,  # synset_id
-    int,  # lexid
+    str,  # lexicon specifier
     int,  # rowid
 ]
 _Sense_Relation = tuple[
@@ -67,7 +67,7 @@ _Sense_Relation = tuple[
     str,  # _Sense...
     str,
     str,
-    int,
+    str,
     int,
 ]
 _Count = tuple[int, int]  # count, count_id
@@ -205,18 +205,6 @@ def get_lexicon_rowid(lexicon: str) -> int:
     return row[0] if row is not None else -1
 
 
-def get_lexicon_specifier(rowid: int) -> str:
-    query = '''
-        SELECT id || ":" || version
-          FROM lexicons
-         WHERE rowid = ?
-    '''
-    row = connect().execute(query, (rowid,)).fetchone()
-    if row is None:
-        raise wn.Error(f'no lexicon found with rowid {rowid}')
-    return row[0]
-
-
 def find_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
@@ -325,22 +313,23 @@ def find_entries(
 
     query = f'''
           {cte}
-        SELECT DISTINCT e.lexicon_rowid, e.rowid, e.id, e.pos,
+        SELECT DISTINCT lex.id || ":" || lex.version, e.rowid, e.id, e.pos,
                         f.form, f.id, f.script, f.rowid
           FROM entries AS e
           JOIN forms AS f ON f.entry_rowid = e.rowid
+          JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          {condition}
          ORDER BY e.rowid, e.id, f.rank
     '''
 
     rows: Iterator[
-        tuple[int, int, str, str, str, Optional[str], Optional[str], int]
+        tuple[str, int, str, str, str, Optional[str], Optional[str], int]
     ] = conn.execute(query, params)
     groupby = itertools.groupby
     for key, group in groupby(rows, lambda row: row[0:4]):
-        lexid, rowid, _id, _pos = cast(tuple[int, int, str, str], key)
+        lexspec, rowid, _id, _pos = cast(tuple[str, int, str, str], key)
         wordforms = [(row[4], row[5], row[6], row[7]) for row in group]
-        yield (_id, _pos, wordforms, lexid, rowid)
+        yield (_id, _pos, wordforms, lexspec, rowid)
 
 
 def find_senses(
@@ -382,10 +371,11 @@ def find_senses(
 
     query = f'''
           {cte}
-        SELECT DISTINCT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
+        SELECT DISTINCT s.id, e.id, ss.id, slex.id || ":" || slex.version, s.rowid
           FROM senses AS s
           JOIN entries AS e ON e.rowid = s.entry_rowid
           JOIN synsets AS ss ON ss.rowid = s.synset_rowid
+          JOIN lexicons AS slex ON slex.rowid = s.lexicon_rowid
          {condition}
     '''
 
@@ -444,8 +434,9 @@ def find_synsets(
           {cte}
         SELECT DISTINCT ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),
-                        ss.lexicon_rowid, ss.rowid
+                        sslex.id || ":" || sslex.version, ss.rowid
           FROM synsets AS ss
+          JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
           {join}
          {condition}
          {order}
@@ -461,9 +452,11 @@ def get_synsets_for_ilis(
 ) -> Iterator[_Synset]:
     conn = connect()
     query = f'''
-        SELECT DISTINCT ss.id, ss.pos, ili.id, ss.lexicon_rowid, ss.rowid
+        SELECT DISTINCT ss.id, ss.pos, ili.id,
+                        sslex.id || ":" || sslex.version, ss.rowid
           FROM synsets as ss
           JOIN ilis as ili ON ss.ili_rowid = ili.rowid
+          JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
          WHERE ili.id IN ({_qs(ilis)})
            AND ss.lexicon_rowid IN ({_qs(lexicon_rowids)})
     '''
@@ -492,7 +485,7 @@ def get_synset_relations(
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
-                        tgt.lexicon_rowid, tgt.rowid
+                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
           FROM (SELECT rt.type,
                        lex.id || ":" || lex.version AS lexicon,
                        srel.metadata AS metadata,
@@ -507,6 +500,8 @@ def get_synset_relations(
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
            AND tgt.lexicon_rowid IN lexrowids
+          JOIN lexicons AS tgtlex
+            ON tgtlex.rowid = tgt.lexicon_rowid
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
@@ -606,12 +601,14 @@ def _get_senses(
 ) -> Iterator[_Sense]:
     conn = connect()
     query = f'''
-        SELECT s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
+        SELECT s.id, e.id, ss.id, slex.id || ":" || slex.version, s.rowid
           FROM senses AS s
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
           JOIN synsets AS ss
             ON ss.rowid = s.synset_rowid
+          JOIN lexicons AS slex
+            ON slex.rowid = s.lexicon_rowid
          WHERE s.{sourcetype}_rowid = ?
            AND s.lexicon_rowid IN ({_qs(lexicon_rowids)})
          ORDER BY s.{sourcetype}_rank
@@ -644,7 +641,8 @@ def get_sense_relations(
                (SELECT rowid, type FROM relation_types {constraint}),
                lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
-                        s.id, e.id, ss.id, s.lexicon_rowid, s.rowid
+                        s.id, e.id, ss.id,
+                        slex.id || ":" || slex.version, s.rowid
           FROM (SELECT rt.type,
                        lex.id || ":" || lex.version AS lexicon,
                        srel.metadata AS metadata,
@@ -658,6 +656,8 @@ def get_sense_relations(
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
            AND s.lexicon_rowid IN lexrowids
+          JOIN lexicons AS slex
+            ON slex.rowid = s.lexicon_rowid
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
           JOIN synsets AS ss
@@ -686,7 +686,7 @@ def get_sense_synset_relations(
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
-                        tgt.lexicon_rowid, tgt.rowid
+                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
           FROM (SELECT rt.type,
                        lex.id || ":" || lex.version AS lexicon,
                        srel.metadata AS metadata,
@@ -701,6 +701,8 @@ def get_sense_synset_relations(
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
            AND tgt.lexicon_rowid IN lexrowids
+          JOIN lexicons AS tgtlex
+            ON tgtlex.rowid = tgt.lexicon_rowid
     '''
     rows: Iterator[_Synset_Relation] = connect().execute(query, params)
     yield from rows
