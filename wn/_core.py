@@ -3,6 +3,7 @@ import enum
 import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
+from dataclasses import dataclass
 from typing import Optional, TypeVar, Union
 
 from typing_extensions import deprecated  # until Python 3.13
@@ -257,20 +258,38 @@ def _desc_counts(query: Callable, lexid: int) -> str:
     return f'{sum(count.values()):>6} ({subcounts})'
 
 
+@dataclass
+class _LexiconConfiguration:
+    # slots=True from Python 3.10
+    __slots__ = "lexicons", "lexicon_ids", "expands", "expand_ids", "default_mode"
+    lexicons: tuple[str, ...]
+    lexicon_ids: tuple[int, ...]
+    expands: tuple[str, ...]
+    expand_ids: tuple[int, ...]
+    default_mode: bool
+
+
+_EMPTY_LEXCONFIG = _LexiconConfiguration(
+    lexicons=(),
+    lexicon_ids=(),
+    expands=(),
+    expand_ids=(),
+    default_mode=False,
+)
+
+
 class _LexiconElement(_DatabaseEntity):
-    __slots__ = '_lexid', '_wordnet'
+    __slots__ = '_lexid', '_lexconf'
 
     def __init__(
         self,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(_id=_id)
         self._lexid = _lexid  # Database-internal lexicon id
-        if _wordnet is None:
-            _wordnet = Wordnet()
-        self._wordnet: Wordnet = _wordnet
+        self._lexconf = _lexconf
 
     def lexicon(self):
         return _to_lexicon(get_lexicon_specifier(self._lexid))
@@ -279,7 +298,7 @@ class _LexiconElement(_DatabaseEntity):
         # TODO: this function has too much converting to/from rowids;
         # simplify to lexicon specifiers when possible
         spec = get_lexicon_specifier(self._lexid)
-        if self._wordnet._default_mode:
+        if self._lexconf.default_mode:
             return tuple(
                 {self._lexid}
                 | set(
@@ -291,7 +310,7 @@ class _LexiconElement(_DatabaseEntity):
                 )
             )
         else:
-            return self._wordnet._lexicon_ids
+            return self._lexconf.lexicon_ids
 
 
 class Pronunciation:
@@ -380,9 +399,9 @@ class Word(_LexiconElement):
         forms: list[tuple[str, Optional[str], Optional[str], int]],
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
+        super().__init__(_lexid=_lexid, _id=_id, _lexconf=_lexconf)
         self.id = id
         self.pos = pos
         self._forms = forms
@@ -423,7 +442,7 @@ class Word(_LexiconElement):
         """
         lexids = self._get_lexicon_ids()
         iterable = get_entry_senses(self._id, lexids)
-        return [Sense(*sense_data, _wordnet=self._wordnet) for sense_data in iterable]
+        return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
@@ -571,9 +590,9 @@ class _Relatable(_LexiconElement):
         id: str,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_lexid=_lexid, _id=_id, _wordnet=_wordnet)
+        super().__init__(_lexid=_lexid, _id=_id, _lexconf=_lexconf)
         self.id = id
 
     def relations(self: T, *args: str) -> dict[str, list[T]]:
@@ -632,9 +651,9 @@ class Synset(_Relatable):
         ili: Optional[str] = None,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None,
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _lexconf=_lexconf)
         self.pos = pos
         self._ili = ili
 
@@ -644,9 +663,9 @@ class Synset(_Relatable):
         id: str,
         ili: Optional[str] = None,
         _lexid: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        return cls(id, pos='', ili=ili, _lexid=_lexid, _wordnet=_wordnet)
+        return cls(id, pos='', ili=ili, _lexid=_lexid, _lexconf=_lexconf)
 
     @property
     def ili(self):
@@ -705,7 +724,7 @@ class Synset(_Relatable):
         """
         lexids = self._get_lexicon_ids()
         iterable = get_synset_members(self._id, lexids)
-        return [Sense(*sense_data, _wordnet=self._wordnet) for sense_data in iterable]
+        return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
         """Return True if the synset is lexicalized."""
@@ -798,14 +817,14 @@ class Synset(_Relatable):
         if self._id != NON_ROWID:
             yield from self._iter_local_relations(args)
         # then attempt to expand via ILI
-        if self._ili is not None and self._wordnet._expanded_ids:
+        if self._ili is not None and self._lexconf.expand_ids:
             yield from self._iter_expanded_relations(args)
 
     def _iter_local_relations(
         self,
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, 'Synset']]:
-        _wn = self._wordnet
+        _lexconf = self._lexconf
         lexids = self._get_lexicon_ids()
         iterable = get_synset_relations({self._id}, args, lexids)
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid, rowid in iterable:
@@ -816,7 +835,7 @@ class Synset(_Relatable):
                 ili,
                 _lexid=lexid,
                 _id=rowid,
-                _wordnet=_wn
+                _lexconf=_lexconf,
             )
             yield synset_rel, synset
 
@@ -824,9 +843,9 @@ class Synset(_Relatable):
         self,
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, 'Synset']]:
-        _wn = self._wordnet
+        _lexconf = self._lexconf
         lexids = self._get_lexicon_ids()
-        expids = self._wordnet._expanded_ids
+        expids = self._lexconf.expand_ids
 
         # find any relations from expanded synsets
         srcids = {
@@ -847,13 +866,13 @@ class Synset(_Relatable):
 
             if local_ss_rows:
                 for row in local_ss_rows:
-                    yield synset_rel, Synset(*row, _wordnet=_wn)
+                    yield synset_rel, Synset(*row, _lexconf=_lexconf)
             else:
                 synset = Synset.empty(
                     id=_INFERRED_SYNSET,
                     ili=ili,
                     _lexid=self._lexid,
-                    _wordnet=_wn,
+                    _lexconf=_lexconf,
                 )
                 yield synset_rel, synset
 
@@ -1018,9 +1037,9 @@ class Sense(_Relatable):
         synset_id: str,
         _lexid: int = NON_ROWID,
         _id: int = NON_ROWID,
-        _wordnet: Optional['Wordnet'] = None
+        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexid=_lexid, _id=_id, _wordnet=_wordnet)
+        super().__init__(id=id, _lexid=_lexid, _id=_id, _lexconf=_lexconf)
         self._entry_id = entry_id
         self._synset_id = synset_id
 
@@ -1036,7 +1055,9 @@ class Sense(_Relatable):
             Word('pwn-spigot-n')
 
         """
-        return self._wordnet.word(id=self._entry_id)
+        lexids = self._get_lexicon_ids()
+        word_data = next(find_entries(id=self._entry_id, lexicon_rowids=lexids))
+        return Word(*word_data, _lexconf=self._lexconf)
 
     def synset(self) -> Synset:
         """Return the synset of the sense.
@@ -1047,7 +1068,9 @@ class Sense(_Relatable):
             Synset('pwn-03325088-n')
 
         """
-        return self._wordnet.synset(id=self._synset_id)
+        lexids = self._get_lexicon_ids()
+        synset_data = next(find_synsets(id=self._synset_id, lexicon_rowids=lexids))
+        return Synset(*synset_data, _lexconf=self._lexconf)
 
     def examples(self) -> list[str]:
         """Return the list of examples for the sense."""
@@ -1140,7 +1163,7 @@ class Sense(_Relatable):
         for relname, lexicon, metadata, sid, eid, ssid, lexid, rowid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
             sense = Sense(
-                sid, eid, ssid, lexid, rowid, _wordnet=self._wordnet
+                sid, eid, ssid, lexid, rowid, _lexconf=self._lexconf
             )
             yield relation, sense
 
@@ -1152,7 +1175,7 @@ class Sense(_Relatable):
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid, rowid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
             synset = Synset(
-                ssid, pos, ili, lexid, rowid, _wordnet=self._wordnet
+                ssid, pos, ili, lexid, rowid, _lexconf=self._lexconf
             )
             yield relation, synset
 
@@ -1259,8 +1282,8 @@ class Wordnet:
 
     """
 
-    __slots__ = ('_lexicons', '_lexicon_ids', '_expanded', '_expanded_ids',
-                 '_default_mode', '_normalizer', 'lemmatizer',
+    __slots__ = ('_lexconf', '_default_mode',
+                 '_normalizer', 'lemmatizer',
                  '_search_all_forms',)
     __module__ = 'wn'
 
@@ -1290,37 +1313,19 @@ class Wordnet:
             )
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
-        self._default_mode = (not lexicon and not lang)
+        default_mode = (not lexicon and not lang)
 
-        lexs = resolve_lexicon_specifiers(lexicon or '*', lang=lang)
-        self._lexicons: tuple[Lexicon, ...] = tuple(map(_to_lexicon, lexs))
-        self._lexicon_ids: tuple[int, ...] = tuple(lx._id for lx in self._lexicons)
+        lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
+        expand = _resolve_lexicon_dependencies(expand, lexicons, default_mode)
+        expands = tuple(resolve_lexicon_specifiers(expand)) if expand else ()
 
-        self._expanded: tuple[Lexicon, ...] = ()
-        if expand is None:
-            if self._default_mode:
-                expand = '*'
-            else:
-                deps = [
-                    (spec, added)
-                    for lex in self._lexicons
-                    for spec, _, added in get_lexicon_dependencies(lex.specifier())
-                ]
-                # warn only if a dep is missing and a lexicon was specified
-                if not self._default_mode:
-                    missing = ' '.join(spec for spec, added in deps if not added)
-                    if missing:
-                        warnings.warn(
-                            f'lexicon dependencies not available: {missing}',
-                            wn.WnWarning,
-                            stacklevel=2,
-                        )
-                expand = ' '.join(spec for spec, added in deps if added)
-        if expand:
-            self._expanded = tuple(
-                map(_to_lexicon, resolve_lexicon_specifiers(lexicon=expand))
-            )
-        self._expanded_ids: tuple[int, ...] = tuple(lx._id for lx in self._expanded)
+        self._lexconf = _LexiconConfiguration(
+            lexicons=lexicons,
+            lexicon_ids=tuple(get_lexicon_rowid(spec) for spec in lexicons),
+            expands=expands,
+            expand_ids=tuple(get_lexicon_rowid(spec) for spec in expands),
+            default_mode=default_mode,
+        )
 
         self._normalizer = normalizer
         self.lemmatizer = lemmatizer
@@ -1328,17 +1333,17 @@ class Wordnet:
 
     def lexicons(self) -> list[Lexicon]:
         """Return the list of lexicons covered by this wordnet."""
-        return list(self._lexicons)
+        return list(map(_to_lexicon, self._lexconf.lexicons))
 
     def expanded_lexicons(self) -> list[Lexicon]:
         """Return the list of expand lexicons for this wordnet."""
-        return list(self._expanded)
+        return list(map(_to_lexicon, self._lexconf.expands))
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
-        iterable = find_entries(id=id, lexicon_rowids=self._lexicon_ids)
+        iterable = find_entries(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
         try:
-            return Word(*next(iterable), self)
+            return Word(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
             raise wn.Error(f'no such lexical entry: {id}') from None
 
@@ -1359,9 +1364,9 @@ class Wordnet:
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
-        iterable = find_synsets(id=id, lexicon_rowids=self._lexicon_ids)
+        iterable = find_synsets(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
         try:
-            return Synset(*next(iterable), _wordnet=self)
+            return Synset(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
             raise wn.Error(f'no such synset: {id}') from None
 
@@ -1386,9 +1391,9 @@ class Wordnet:
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
-        iterable = find_senses(id=id, lexicon_rowids=self._lexicon_ids)
+        iterable = find_senses(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
         try:
-            return Sense(*next(iterable), _wordnet=self)
+            return Sense(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
             raise wn.Error(f'no such sense: {id}') from None
 
@@ -1409,7 +1414,7 @@ class Wordnet:
 
     def ili(self, id: str) -> ILI:
         """Return the first ILI in this wordnet with identifer *id*."""
-        iterable = find_ilis(id=id, lexicon_rowids=self._lexicon_ids)
+        iterable = find_ilis(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
         try:
             return ILI(*next(iterable))
         except StopIteration:
@@ -1421,7 +1426,7 @@ class Wordnet:
         If *status* is given, only return ILIs with a matching status.
 
         """
-        iterable = find_ilis(status=status, lexicon_rowids=self._lexicon_ids)
+        iterable = find_ilis(status=status, lexicon_rowids=self._lexconf.lexicon_ids)
         return [ILI(*ili_data) for ili_data in iterable]
 
     def describe(self) -> str:
@@ -1445,12 +1450,36 @@ class Wordnet:
         substrings = ['Primary lexicons:']
         for lex in self.lexicons():
             substrings.append(textwrap.indent(lex.describe(), '  '))
-        expanded = self.expanded_lexicons()
-        if expanded:
+        if self._lexconf.expands:
             substrings.append('Expand lexicons:')
             for lex in self.expanded_lexicons():
                 substrings.append(textwrap.indent(lex.describe(full=False), '  '))
         return '\n'.join(substrings)
+
+
+def _resolve_lexicon_dependencies(
+    expand: Optional[str],
+    lexicons: Sequence[str],
+    default_mode: bool,
+) -> str:
+    if expand is not None:
+        return expand.strip()
+    if default_mode:
+        return "*"
+    # find dependencies specified by the lexicons
+    deps = [
+        (depspec, added)
+        for lexspec in lexicons
+        for depspec, _, added in get_lexicon_dependencies(lexspec)
+    ]
+    missing = ' '.join(spec for spec, added in deps if not added)
+    if missing:
+        warnings.warn(
+            f'lexicon dependencies not available: {missing}',
+            wn.WnWarning,
+            stacklevel=3,
+        )
+    return ' '.join(spec for spec, added in deps if added)
 
 
 def _to_lexicon(specifier: str) -> Lexicon:
@@ -1489,7 +1518,7 @@ def _find_helper(
 
     """
     kwargs: dict = {
-        'lexicon_rowids': w._lexicon_ids,
+        'lexicon_rowids': w._lexconf.lexicon_ids,
         'search_all_forms': w._search_all_forms,
     }
     if isinstance(ili, str):
@@ -1504,7 +1533,7 @@ def _find_helper(
 
     # easy case is when there is no form
     if form is None:
-        return [cls(*data, _wordnet=w)  # type: ignore
+        return [cls(*data, _lexconf=w._lexconf)  # type: ignore
                 for data in query_func(pos=pos, **kwargs)]
 
     # if there's a form, we may need to lemmatize and normalize
@@ -1521,13 +1550,13 @@ def _find_helper(
     # we want unique results here, but a set can make the order
     # erratic, so filter manually later
     results = [
-        cls(*data, _wordnet=w)  # type: ignore
+        cls(*data, _lexconf=w._lexconf)  # type: ignore
         for _pos, _forms in forms.items()
         for data in query_func(forms=_forms, pos=_pos, **kwargs)
     ]
     if not results and normalize:
         results = [
-            cls(*data, _wordnet=w)  # type: ignore
+            cls(*data, _lexconf=w._lexconf)  # type: ignore
             for _pos, _forms in forms.items()
             for data in query_func(
                 forms=[normalize(f) for f in _forms], pos=_pos, **kwargs

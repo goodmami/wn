@@ -110,7 +110,7 @@ def _hypernym_paths(
         paths = [[synset] + path for path in paths] or [[synset]]
     if simulate_root and synset.id != _FAKE_ROOT:
         root = _core.Synset.empty(
-            id=_FAKE_ROOT, _lexid=synset._lexid, _wordnet=synset._wordnet
+            id=_FAKE_ROOT, _lexid=synset._lexid, _lexconf=synset._lexconf
         )
         paths = [path + [root] for path in paths] or [[root]]
     return paths

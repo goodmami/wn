@@ -44,8 +44,8 @@ def test_sense_issue_157():
     sense = wn.sense('test-en-information-n-0001-01')
     # This test uses non-public members, which is not ideal, but there
     # is currently no better alternative.
-    assert sense._wordnet is sense.word()._wordnet
-    assert sense._wordnet is sense.synset()._wordnet
+    assert sense._lexconf is sense.word()._lexconf
+    assert sense._lexconf is sense.synset()._lexconf
 
 
 @pytest.mark.usefixtures('mini_db')
