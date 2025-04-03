@@ -36,6 +36,9 @@ def test_lexicons_mini():
     assert wn.lexicons(lexicon='test-en')[0].requires() == {}
     assert wn.lexicons(lexicon='test-es')[0].requires() == {}
 
+    lex = wn.lexicons(lexicon='test-en')[0]  # hashability
+    assert {lex: "foo"}[lex] == "foo"
+
 
 @pytest.mark.usefixtures('mini_db')
 def test_lexicons_unknown():
@@ -272,3 +275,32 @@ def test_mini_1_1():
     assert len(w.lexicons()) == 2
     assert len(w.expanded_lexicons()) == 0
     assert len(w.synsets('fire')[0].hyponyms()) == 1
+
+
+@pytest.mark.usefixtures('mini_db_1_1')
+def test_mini_1_1_lexicons():
+    lex = wn.lexicons(lexicon="test-en")[0]
+    assert lex.specifier() == "test-en:1"
+    assert not lex.requires()
+    assert lex.extends() is None
+    assert len(lex.extensions()) == 1
+    assert lex.extensions()[0].specifier() == 'test-en-ext:1'
+
+    lex = wn.lexicons(lexicon="test-es")[0]
+    assert lex.specifier() == "test-es:1"
+    assert not lex.requires()
+    assert lex.extends() is None
+    assert len(lex.extensions()) == 0
+
+    lex = wn.lexicons(lexicon="test-en-ext")[0]
+    assert lex.specifier() == "test-en-ext:1"
+    assert not lex.requires()
+    assert lex.extends() is not None
+    assert lex.extends().specifier() == "test-en:1"
+    assert len(lex.extensions()) == 0
+
+    lex = wn.lexicons(lexicon="test-ja")[0]
+    assert lex.specifier() == "test-ja:1"
+    assert "test-en:1" in lex.requires()
+    assert lex.extends() is None
+    assert len(lex.extensions()) == 0
