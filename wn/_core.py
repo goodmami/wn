@@ -393,7 +393,7 @@ def _make_form(
 
 class Word(_LexiconElement):
     """A class for words (also called lexical entries) in a wordnet."""
-    __slots__ = 'id', 'pos'#, '_forms'
+    __slots__ = 'id', 'pos'
     __module__ = 'wn'
 
     _ENTITY_TYPE = _EntityType.ENTRIES
@@ -447,7 +447,7 @@ class Word(_LexiconElement):
 
         """
         lexids = self._get_lexicon_ids()
-        iterable = get_entry_senses(self._id, lexids)
+        iterable = get_entry_senses(self.id, lexids)
         return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
@@ -678,7 +678,7 @@ class Synset(_Relatable):
         if self._ili:
             row = next(find_ilis(id=self._ili), None)
         else:
-            row = next(find_proposed_ilis(synset_rowid=self._id), None)
+            row = next(find_proposed_ilis(synset_id=self.id), None)
         if row is not None:
             return ILI(*row)
         return None
@@ -702,7 +702,7 @@ class Synset(_Relatable):
         """
         lexids = self._get_lexicon_ids()
         return next(
-            (text for text, _, _, _ in get_definitions(self._id, lexids)),
+            (text for text, _, _, _ in get_definitions(self.id, lexids)),
             None
         )
 
@@ -716,7 +716,7 @@ class Synset(_Relatable):
 
         """
         lexids = self._get_lexicon_ids()
-        exs = get_examples(self._id, 'synsets', lexids)
+        exs = get_examples(self.id, 'synsets', lexids)
         return [ex for ex, _, _ in exs]
 
     def senses(self) -> list['Sense']:
@@ -729,16 +729,16 @@ class Synset(_Relatable):
 
         """
         lexids = self._get_lexicon_ids()
-        iterable = get_synset_members(self._id, lexids)
+        iterable = get_synset_members(self.id, lexids)
         return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
         """Return True if the synset is lexicalized."""
-        return get_lexicalized(self._id, 'synsets')
+        return get_lexicalized(self.id, self._lexicon, 'synsets')
 
     def lexfile(self) -> Optional[str]:
         """Return the lexicographer file name for this synset, if any."""
-        return get_lexfile(self._id)
+        return get_lexfile(self.id, self._lexicon)
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
@@ -1081,12 +1081,12 @@ class Sense(_Relatable):
     def examples(self) -> list[str]:
         """Return the list of examples for the sense."""
         lexids = self._get_lexicon_ids()
-        exs = get_examples(self._id, 'senses', lexids)
+        exs = get_examples(self.id, 'senses', lexids)
         return [ex for ex, _, _ in exs]
 
     def lexicalized(self) -> bool:
         """Return True if the sense is lexicalized."""
-        return get_lexicalized(self._id, 'senses')
+        return get_lexicalized(self.id, self._lexicon, 'senses')
 
     def adjposition(self) -> Optional[str]:
         """Return the adjective position of the sense.
@@ -1099,18 +1099,18 @@ class Sense(_Relatable):
         ``None``.
 
         """
-        return get_adjposition(self._id)
+        return get_adjposition(self.id, self._lexicon)
 
     def frames(self) -> list[str]:
         """Return the list of subcategorization frames for the sense."""
         lexids = self._get_lexicon_ids()
-        return get_syntactic_behaviours(self._id, lexids)
+        return get_syntactic_behaviours(self.id, lexids)
 
     def counts(self) -> list[Count]:
         """Return the corpus counts stored for this sense."""
         lexids = self._get_lexicon_ids()
         return [Count(value, metadata=metadata)
-                for value, metadata in get_sense_counts(self._id, lexids)]
+                for value, metadata in get_sense_counts(self.id, lexids)]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
@@ -1165,7 +1165,7 @@ class Sense(_Relatable):
         )
 
     def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, 'Sense']]:
-        iterable = get_sense_relations(self._id, args, self._get_lexicon_ids())
+        iterable = get_sense_relations(self.id, args, self._get_lexicon_ids())
         for relname, lexicon, metadata, sid, eid, ssid, lexid, rowid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
             sense = Sense(
@@ -1177,7 +1177,7 @@ class Sense(_Relatable):
         self,
         *args: str,
     ) -> Iterator[tuple[Relation, 'Synset']]:
-        iterable = get_sense_synset_relations(self._id, args, self._get_lexicon_ids())
+        iterable = get_sense_synset_relations(self.id, args, self._get_lexicon_ids())
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid, rowid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
             synset = Synset(

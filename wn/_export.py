@@ -140,7 +140,7 @@ def _export_lexical_entries(
 ) -> list[lmf.LexicalEntry]:
     assert len(lexids) == 1
     entries: list[lmf.LexicalEntry] = []
-    for id, pos, _, rowid in find_entries(lexicon_rowids=lexids):
+    for id, pos, *_ in find_entries(lexicon_rowids=lexids):
         forms = list(get_entry_forms(id, lexids))
         entry: lmf.LexicalEntry = {
             'id': id,
@@ -151,7 +151,7 @@ def _export_lexical_entries(
                 'tags': _export_tags(forms[0][4]),
             },
             'forms': [],
-            'senses': _export_senses(rowid, lexspec, lexids, sbmap, version),
+            'senses': _export_senses(id, lexspec, lexids, sbmap, version),
             'meta': _export_metadata(id, lexspec, 'entries'),
         }
         if version >= (1, 1):
@@ -194,22 +194,22 @@ def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:
 
 
 def _export_senses(
-    entry_rowid: int,
+    entry_id: str,
     lexspec: str,
     lexids: Sequence[int],
     sbmap: _SBMap,
     version: VersionInfo,
 ) -> list[lmf.Sense]:
     senses: list[lmf.Sense] = []
-    for id, _, synset, _, rowid in get_entry_senses(entry_rowid, lexids):
+    for id, _, synset, *_ in get_entry_senses(entry_id, lexids):
         sense: lmf.Sense = {
             'id': id,
             'synset': synset,
-            'relations': _export_sense_relations(rowid, lexids),
-            'examples': _export_examples(rowid, 'senses', lexids),
-            'counts': _export_counts(rowid, lexids),
-            'lexicalized': get_lexicalized(rowid, 'senses'),
-            'adjposition': get_adjposition(rowid) or '',
+            'relations': _export_sense_relations(id, lexids),
+            'examples': _export_examples(id, 'senses', lexids),
+            'counts': _export_counts(id, lexids),
+            'lexicalized': get_lexicalized(id, lexspec, 'senses'),
+            'adjposition': get_adjposition(id, lexspec) or '',
             'meta': _export_metadata(id, lexspec, 'senses'),
         }
         if version >= (1, 1) and id in sbmap:
@@ -219,7 +219,7 @@ def _export_senses(
 
 
 def _export_sense_relations(
-    sense_rowid: int,
+    sense_id: str,
     lexids: Sequence[int]
 ) -> list[lmf.Relation]:
     relations: list[lmf.Relation] = [
@@ -227,20 +227,20 @@ def _export_sense_relations(
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, id, *_
-        in get_sense_relations(sense_rowid, '*', lexids)
+        in get_sense_relations(sense_id, '*', lexids)
     ]
     relations.extend(
         {'target': id,
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
-        in get_sense_synset_relations(sense_rowid, '*', lexids)
+        in get_sense_synset_relations(sense_id, '*', lexids)
     )
     return relations
 
 
 def _export_examples(
-    rowid: int,
+    id: str,
     table: str,
     lexids: Sequence[int]
 ) -> list[lmf.Example]:
@@ -249,14 +249,14 @@ def _export_examples(
          'language': language,
          'meta': cast(lmf.Metadata, metadata)}
         for text, language, metadata
-        in get_examples(rowid, table, lexids)
+        in get_examples(id, table, lexids)
     ]
 
 
-def _export_counts(rowid: int, lexids: Sequence[int]) -> list[lmf.Count]:
+def _export_counts(sense_id: str, lexids: Sequence[int]) -> list[lmf.Count]:
     return [
         {'value': val, 'meta': _cast_metadata(metadata)}
-        for val, metadata in get_sense_counts(rowid, lexids)
+        for val, metadata in get_sense_counts(sense_id, lexids)
     ]
 
 
@@ -267,48 +267,48 @@ def _export_synsets(
 ) -> list[lmf.Synset]:
     synsets: list[lmf.Synset] = []
     for id, pos, ili, _, rowid in find_synsets(lexicon_rowids=lexids):
-        ilidef = _export_ili_definition(rowid)
+        ilidef = _export_ili_definition(id)
         if ilidef and not ili:
             ili = PROPOSED_ILI_ID
         ss: lmf.Synset = {
             'id': id,
             'ili': ili or '',
             'partOfSpeech': pos,
-            'definitions': _export_definitions(rowid, lexids),
+            'definitions': _export_definitions(id, lexids),
             'relations': _export_synset_relations(rowid, lexids),
-            'examples': _export_examples(rowid, 'synsets', lexids),
-            'lexicalized': get_lexicalized(rowid, 'synsets'),
-            'lexfile': get_lexfile(rowid) or '',
+            'examples': _export_examples(id, 'synsets', lexids),
+            'lexicalized': get_lexicalized(id, lexspec, 'synsets'),
+            'lexfile': get_lexfile(id, lexspec) or '',
             'meta': _export_metadata(id, lexspec, 'synsets'),
         }
         if ilidef:
             ss['ili_definition'] = ilidef
         if version >= (1, 1):
-            ss['members'] = [row[0] for row in get_synset_members(rowid, lexids)]
+            ss['members'] = [row[0] for row in get_synset_members(id, lexids)]
         synsets.append(ss)
     return synsets
 
 
-def _export_definitions(rowid: int, lexids: Sequence[int]) -> list[lmf.Definition]:
+def _export_definitions(synset_id: str, lexids: Sequence[int]) -> list[lmf.Definition]:
     return [
         {'text': text,
          'language': language,
          'sourceSense': sense_id,
          'meta': _cast_metadata(metadata)}
         for text, language, sense_id, metadata
-        in get_definitions(rowid, lexids)
+        in get_definitions(synset_id, lexids)
     ]
 
 
-def _export_ili_definition(synset_rowid: int) -> Optional[lmf.ILIDefinition]:
-    _, _, defn, synset, lexspec = next(
-        find_proposed_ilis(synset_rowid=synset_rowid),
+def _export_ili_definition(synset: str) -> Optional[lmf.ILIDefinition]:
+    _, _, defn, _, lexspec = next(
+        find_proposed_ilis(synset_id=synset),
         (None, None, None, None, None)
     )
     ilidef: Optional[lmf.ILIDefinition] = None
     if defn:
         meta = None
-        if synset is not None and lexspec is not None:
+        if lexspec is not None:
             meta = get_proposed_ili_metadata(synset, lexspec)
         ilidef = {'text': defn, 'meta': _cast_metadata(meta)}
     return ilidef
