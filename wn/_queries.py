@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from collections.abc import Collection, Iterator, Sequence
-from typing import Optional, cast
+from typing import Optional, Union, cast
 import itertools
 
 import wn
@@ -53,6 +53,17 @@ _Synset_Relation = tuple[
     str,
     int,
 ]
+_Definition = tuple[
+    str,  # text
+    str,  # language
+    str,  # sourceSense
+    Optional[Metadata],  # metadata
+]
+_Example = tuple[
+    str,  # text
+    str,  # language
+    Optional[Metadata],  # metadata
+]
 _Sense = tuple[
     str,  # id
     str,  # entry_id
@@ -70,20 +81,27 @@ _Sense_Relation = tuple[
     str,
     int,
 ]
-_Count = tuple[int, int]  # count, count_id
+_Count = tuple[int, Metadata]  # count, metadata
 _SyntacticBehaviour = tuple[
     str,       # id
     str,       # frame
     list[str]  # sense ids
 ]
 _ILI = tuple[
-    Optional[str],  # id
-    str,            # status
+    str,  # id
+    str,  # status
     Optional[str],  # definition
-    int,            # rowid
+    None,  # synset id
+    None,  # lexicon
+]
+_ProposedILI = tuple[
+    None,  # id
+    str,  # status
+    str,  # definition
+    str,  # synset id
+    str,  # lexicon
 ]
 _Lexicon = tuple[
-    int,       # rowid
     str,       # id
     str,       # label
     str,       # language
@@ -93,6 +111,7 @@ _Lexicon = tuple[
     str,       # url
     str,       # citation
     str,       # logo
+    Optional[Metadata],  # metadata
 ]
 
 
@@ -126,8 +145,8 @@ def resolve_lexicon_specifiers(
 def get_lexicon(lexicon: str) -> _Lexicon:
     id, ver = split_lexicon_specifier(lexicon)
     query = '''
-        SELECT DISTINCT rowid, id, label, language, email, license,
-                        version, url, citation, logo
+        SELECT DISTINCT id, label, language, email, license,
+                        version, url, citation, logo, metadata
         FROM lexicons
         WHERE id = ? AND version = ?
     '''
@@ -137,9 +156,9 @@ def get_lexicon(lexicon: str) -> _Lexicon:
     return row
 
 
-def get_modified(rowid: int) -> bool:
-    query = 'SELECT modified FROM lexicons WHERE rowid = ?'
-    return connect().execute(query, (rowid,)).fetchone()[0]
+def get_modified(lexicon: str) -> bool:
+    query = 'SELECT modified FROM lexicons WHERE id || ":" || version = ?'
+    return connect().execute(query, (lexicon,)).fetchone()[0]
 
 
 def get_lexicon_dependencies(lexicon: str) -> list[tuple[str, str, bool]]:
@@ -209,7 +228,7 @@ def find_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
     lexicon_rowids: Sequence[int] = (),
-) -> Iterator[_ILI]:
+) -> Iterator[Union[_ILI, _ProposedILI]]:
     if status != 'proposed':
         yield from _find_existing_ilis(
             id=id, status=status, lexicon_rowids=lexicon_rowids
@@ -224,7 +243,7 @@ def _find_existing_ilis(
     lexicon_rowids: Sequence[int] = (),
 ) -> Iterator[_ILI]:
     query = '''
-        SELECT DISTINCT i.id, ist.status, i.definition, i.rowid
+        SELECT DISTINCT i.id, ist.status, i.definition, null, null
           FROM ilis AS i
           JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
     '''
@@ -252,10 +271,12 @@ def _find_existing_ilis(
 def find_proposed_ilis(
     synset_rowid: Optional[int] = None,
     lexicon_rowids: Sequence[int] = (),
-) -> Iterator[_ILI]:
+) -> Iterator[_ProposedILI]:
     query = '''
-        SELECT null, "proposed", definition, rowid
+        SELECT null, "proposed", definition, ss.id, lex.id || ":" || lex.version
           FROM proposed_ilis
+          JOIN synsets AS ss ON ss.rowid = synset_rowid
+          JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
     '''
     conditions = []
     params = []
@@ -263,11 +284,7 @@ def find_proposed_ilis(
         conditions.append('synset_rowid = ?')
         params.append(synset_rowid)
     if lexicon_rowids:
-        conditions.append(f'''
-            synset_rowid IN
-            (SELECT ss.rowid FROM synsets AS ss
-              WHERE ss.lexicon_rowid IN ({_qs(lexicon_rowids)}))
-        ''')
+        conditions.append(f'lex.rowid IN ({_qs(lexicon_rowids)})')
         params.extend(lexicon_rowids)
     if conditions:
         query += '\n WHERE ' + '\n   AND '.join(conditions)
@@ -510,13 +527,13 @@ def get_synset_relations(
 def get_definitions(
     synset_rowid: int,
     lexicon_rowids: Sequence[int],
-) -> list[tuple[str, str, str, int]]:
+) -> list[_Definition]:
     conn = connect()
     query = f'''
         SELECT d.definition,
                d.language,
                (SELECT s.id FROM senses AS s WHERE s.rowid=d.sense_rowid),
-               d.rowid
+               d.metadata
           FROM definitions AS d
          WHERE d.synset_rowid = ?
            AND d.lexicon_rowid IN ({_qs(lexicon_rowids)})
@@ -534,13 +551,13 @@ def get_examples(
     rowid: int,
     table: str,
     lexicon_rowids: Sequence[int],
-) -> list[tuple[str, str, int]]:
+) -> list[_Example]:
     conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
     if prefix is None:
         raise wn.Error(f"'{table}' does not have examples")
     query = f'''
-        SELECT example, language, rowid
+        SELECT example, language, metadata
           FROM {prefix}_examples
          WHERE {prefix}_rowid = ?
            AND lexicon_rowid IN ({_qs(lexicon_rowids)})
@@ -709,31 +726,53 @@ def get_sense_synset_relations(
 
 
 _SANITIZED_METADATA_TABLES = {
-    'ilis': 'ilis',
-    'proposed_ilis': 'proposed_ilis',
-    'lexicons': 'lexicons',
+    # 'ilis': 'ilis',
+    # 'proposed_ilis': 'proposed_ilis',
+    # 'lexicons': 'lexicons',
     'entries': 'entries',
     'senses': 'senses',
     'synsets': 'synsets',
-    'sense_relations': 'sense_relations',
-    'sense_synset_relations': 'sense_synset_relations',
-    'synset_relations': 'synset_relations',
-    'sense_examples': 'sense_examples',
-    'counts': 'counts',
-    'synset_examples': 'synset_examples',
-    'definitions': 'definitions',
+    # 'sense_relations': 'sense_relations',
+    # 'sense_synset_relations': 'sense_synset_relations',
+    # 'synset_relations': 'synset_relations',
+    # 'sense_examples': 'sense_examples',
+    # 'counts': 'counts',
+    # 'synset_examples': 'synset_examples',
+    # 'definitions': 'definitions',
 }
 
 
 def get_metadata(
-    rowid: int, table: str
+    id: str, lexicon: str, table: str
 ) -> Metadata:
-    conn = connect()
     tablename = _SANITIZED_METADATA_TABLES.get(table)
     if tablename is None:
         raise wn.Error(f"'{table}' does not contain metadata")
-    query = f'SELECT metadata FROM {tablename} WHERE rowid=?'
-    return conn.execute(query, (rowid,)).fetchone()[0] or {}
+    query = f'''
+        SELECT tbl.metadata
+          FROM {tablename} AS tbl
+          JOIN lexicons AS lex ON lex.rowid = lexicon_rowid
+         WHERE tbl.id=?
+           AND lex.id || ":" || lex.version = ?
+    '''
+    return connect().execute(query, (id, lexicon)).fetchone()[0] or {}
+
+
+def get_ili_metadata(id: str) -> Metadata:
+    query = 'SELECT metadata FROM ilis WHERE id = ?'
+    return connect().execute(query, (id,)).fetchone()[0] or {}
+
+
+def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
+    query = '''
+        SELECT pili.metadata
+          FROM proposed_ilis AS pili
+          JOIN synsets AS ss ON ss.rowid = synset_rowid
+          JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
+         WHERE ss.id = ?
+           AND lex.id || ":" || lex.version = ?
+    '''
+    return connect().execute(query, (synset, lexicon)).fetchone()[0] or {}
 
 
 _SANITIZED_LEXICALIZED_TABLES = {
@@ -785,7 +824,7 @@ def get_form_tags(form_rowid: int) -> list[_Tag]:
 def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> list[_Count]:
     conn = connect()
     query = f'''
-        SELECT count, rowid
+        SELECT count, metadata
           FROM counts
          WHERE sense_rowid = ?
            AND lexicon_rowid IN ({_qs(lexicon_rowids)})

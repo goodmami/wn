@@ -3,7 +3,7 @@ import enum
 import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, TypeVar, Union
 
 from typing_extensions import deprecated  # until Python 3.13
@@ -44,6 +44,8 @@ from wn._queries import (
     get_definitions,
     get_syntactic_behaviours,
     get_metadata,
+    get_ili_metadata,
+    get_proposed_ili_metadata,
     get_lexicalized,
     get_adjposition,
     get_sense_counts,
@@ -96,22 +98,17 @@ class _DatabaseEntity:
         return hash((self._ENTITY_TYPE, self._id))
 
 
-class ILI(_DatabaseEntity):
+@dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
+class ILI:
     """A class for interlingual indices."""
-    __slots__ = 'id', 'status', '_definition'
     __module__ = 'wn'
+    __slots__ = 'id', 'status', '_definition', '_synset', '_lexicon'
 
-    def __init__(
-        self,
-        id: Optional[str],
-        status: str,
-        definition: Optional[str] = None,
-        _id: int = NON_ROWID,
-    ):
-        super().__init__(_id=_id)
-        self.id = id
-        self.status = status
-        self._definition = definition
+    id: Optional[str]
+    status: str
+    _definition: Optional[str]
+    _synset: Optional[str]
+    _lexicon: Optional[str]
 
     def __repr__(self) -> str:
         return f'ILI({repr(self.id) if self.id else "*PROPOSED*"})'
@@ -121,11 +118,16 @@ class ILI(_DatabaseEntity):
 
     def metadata(self) -> Metadata:
         """Return the ILI's metadata."""
-        table = 'proposed_ilis' if self.status == 'proposed' else 'ilis'
-        return get_metadata(self._id, table)
+        if self.id:
+            return get_ili_metadata(self.id)
+        elif self._synset and self._lexicon:
+            return get_proposed_ili_metadata(self._synset, self._lexicon)
+        else:
+            raise wn.Error("invalid ILI")
 
 
-class Lexicon(_DatabaseEntity):
+@dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
+class Lexicon:
     """A class representing a wordnet lexicon.
 
     Attributes:
@@ -139,57 +141,45 @@ class Lexicon(_DatabaseEntity):
         citation: The canonical citation for the project.
         logo: A URL or path to a project logo.
     """
-    __slots__ = ('id', 'label', 'language', 'email', 'license',
-                 'version', 'url', 'citation', 'logo')
     __module__ = 'wn'
 
-    _ENTITY_TYPE = _EntityType.LEXICONS
+    id: str
+    label: str
+    language: str
+    email: str
+    license: str
+    version: str
+    url: Optional[str] = None
+    citation: Optional[str] = None
+    logo: Optional[str] = None
+    _metadata: Optional[Metadata] = field(default=None, hash=False)
+    _specifier: str = field(init=False, hash=False)
 
-    def __init__(
-        self,
-        id: str,
-        label: str,
-        language: str,
-        email: str,
-        license: str,
-        version: str,
-        url: Optional[str] = None,
-        citation: Optional[str] = None,
-        logo: Optional[str] = None,
-        _id: int = NON_ROWID,
-    ):
-        super().__init__(_id=_id)
-        self.id = id
-        self.label = label
-        self.language = language
-        self.email = email
-        self.license = license
-        self.version = version
-        self.url = url
-        self.citation = citation
-        self.logo = logo
+    def __post_init__(self) -> None:
+        specifier = format_lexicon_specifier(self.id, self.version)
+        object.__setattr__(self, '_specifier', specifier)
 
     def __repr__(self):
-        return f'<Lexicon {self.specifier()} [{self.language}]>'
+        return f'<Lexicon {self._specifier} [{self.language}]>'
 
     def metadata(self) -> Metadata:
         """Return the lexicon's metadata."""
-        return get_metadata(self._id, 'lexicons')
+        return self._metadata if self._metadata is not None else {}
 
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
-        return format_lexicon_specifier(self.id, self.version)
+        return self._specifier
 
     def modified(self) -> bool:
         """Return True if the lexicon has local modifications."""
-        return get_modified(self._id)
+        return get_modified(self._specifier)
 
     def requires(self) -> dict[str, Optional['Lexicon']]:
         """Return the lexicon dependencies."""
         return dict(
             (spec,
              None if added is None else _to_lexicon(spec))
-            for spec, _, added in get_lexicon_dependencies(self.specifier())
+            for spec, _, added in get_lexicon_dependencies(self._specifier)
         )
 
     def extends(self) -> Optional['Lexicon']:
@@ -197,7 +187,7 @@ class Lexicon(_DatabaseEntity):
 
         If this lexicon is not an extension, return None.
         """
-        bases = get_lexicon_extension_bases(self.specifier(), depth=1)
+        bases = get_lexicon_extension_bases(self._specifier, depth=1)
         if bases:
             return _to_lexicon(bases[0])
         return None
@@ -215,7 +205,7 @@ class Lexicon(_DatabaseEntity):
         """
         return [
             _to_lexicon(spec)
-            for spec in get_lexicon_extensions(self.specifier(), depth=depth)
+            for spec in get_lexicon_extensions(self._specifier, depth=depth)
         ]
 
     def describe(self, full: bool = True) -> str:
@@ -227,9 +217,9 @@ class Lexicon(_DatabaseEntity):
         Also see: :meth:`Wordnet.describe`
 
         """
-        _id = self._id
+        _id = get_lexicon_rowid(self._specifier)
         substrings: list[str] = [
-            f'{self.specifier()}',
+            f'{self._specifier}',
             f'  Label  : {self.label}',
             f'  URL    : {self.url}',
             f'  License: {self.license}',
@@ -241,7 +231,7 @@ class Lexicon(_DatabaseEntity):
             ])
         substrings.extend([
             f'  Synsets: {_desc_counts(find_synsets, _id)}',
-            f'  ILIs   : {sum(1 for ili, *_ in find_ilis(lexicon_rowids=(_id,))):>6}',
+            f'  ILIs   : {sum(1 for _ in find_ilis(lexicon_rowids=(_id,))):>6}',
         ])
         return '\n'.join(substrings)
 
@@ -444,7 +434,7 @@ class Word(_LexiconElement):
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
-        return get_metadata(self._id, 'entries')
+        return get_metadata(self.id, self._lexicon, 'entries')
 
     def synsets(self) -> list['Synset']:
         """Return the list of synsets of the word.
@@ -734,7 +724,7 @@ class Synset(_Relatable):
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
-        return get_metadata(self._id, 'synsets')
+        return get_metadata(self.id, self._lexicon, 'synsets')
 
     def words(self) -> list[Word]:
         """Return the list of words linked by the synset's senses.
@@ -1009,16 +999,16 @@ class Count(int):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
-    _id: int
+    _metadata: Optional[Metadata]
 
-    def __new__(cls, value, _id: int = NON_ROWID):
+    def __new__(cls, value, metadata: Optional[Metadata] = None):
         obj = int.__new__(cls, value)  # type: ignore
-        obj._id = _id
+        obj._metadata = metadata
         return obj
 
     def metadata(self) -> Metadata:
         """Return the count's metadata."""
-        return get_metadata(self._id, 'counts')
+        return self._metadata if self._metadata is not None else {}
 
 
 class Sense(_Relatable):
@@ -1101,12 +1091,12 @@ class Sense(_Relatable):
     def counts(self) -> list[Count]:
         """Return the corpus counts stored for this sense."""
         lexids = self._get_lexicon_ids()
-        return [Count(value, _id=_id)
-                for value, _id in get_sense_counts(self._id, lexids)]
+        return [Count(value, metadata=metadata)
+                for value, metadata in get_sense_counts(self._id, lexids)]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
-        return get_metadata(self._id, 'senses')
+        return get_metadata(self.id, self._lexicon, 'senses')
 
     def relations(self, *args: str) -> dict[str, list['Sense']]:
         """Return a mapping of relation names to lists of senses.
@@ -1482,7 +1472,7 @@ def _resolve_lexicon_dependencies(
 
 def _to_lexicon(specifier: str) -> Lexicon:
     data = get_lexicon(specifier)
-    rowid, id, label, language, email, license, version, url, citation, logo = data
+    id, label, language, email, license, version, url, citation, logo, meta = data
     return Lexicon(
         id,
         label,
@@ -1493,7 +1483,7 @@ def _to_lexicon(specifier: str) -> Lexicon:
         url=url,
         citation=citation,
         logo=logo,
-        _id=rowid
+        _metadata=meta,
     )
 
 

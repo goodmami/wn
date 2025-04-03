@@ -36,6 +36,9 @@ def test_lexicons_mini():
     assert wn.lexicons(lexicon='test-en')[0].requires() == {}
     assert wn.lexicons(lexicon='test-es')[0].requires() == {}
 
+    lex = wn.lexicons(lexicon='test-en')[0]  # hashability
+    assert {lex: "foo"}[lex] == "foo"
+
 
 @pytest.mark.usefixtures('mini_db')
 def test_lexicons_unknown():

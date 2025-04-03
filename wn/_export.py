@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from typing import Optional, cast
 
 import wn
-from wn._types import AnyPath, VersionInfo
+from wn._types import AnyPath, Metadata, VersionInfo
 from wn._util import version_info, split_lexicon_specifier
 from wn import lmf
 from wn._queries import (
@@ -20,6 +20,7 @@ from wn._queries import (
     get_examples,
     get_definitions,
     get_metadata,
+    get_proposed_ili_metadata,
     get_lexicalized,
     get_adjposition,
     get_form_pronunciations,
@@ -29,8 +30,11 @@ from wn._queries import (
     get_lexicon,
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
+    get_lexicon_rowid,
 )
 from wn._core import Lexicon
+
+PROPOSED_ILI_ID = "in"  # special case for proposed ILIs
 
 
 def export(
@@ -66,7 +70,7 @@ def export(
 def _precheck(lexicons: Sequence[Lexicon]) -> None:
     all_ids: set[str] = set()
     for lex in lexicons:
-        lexids = (lex._id,)
+        lexids = (get_lexicon_rowid(lex.specifier()),)
         idset = {lex.id}
         idset.update(row[0] for row in find_entries(lexicon_rowids=lexids))
         idset.update(row[0] for row in find_senses(lexicon_rowids=lexids))
@@ -81,7 +85,7 @@ _SBMap = dict[str, list[tuple[str, str]]]
 
 
 def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
-    lexids = (lexicon._id,)
+    lexids = (get_lexicon_rowid(lexicon.specifier()),)
     spec = lexicon.specifier()
 
     # WN-LMF 1.0 lexicons put syntactic behaviours on lexical entries
@@ -101,9 +105,9 @@ def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
         'version': lexicon.version,
         'url': lexicon.url or '',
         'citation': lexicon.citation or '',
-        'entries': _export_lexical_entries(lexids, sbmap, version),
-        'synsets': _export_synsets(lexids, version),
-        'meta': _export_metadata(lexicon._id, 'lexicons'),
+        'entries': _export_lexical_entries(spec, lexids, sbmap, version),
+        'synsets': _export_synsets(spec, lexids, version),
+        'meta': _cast_metadata(lexicon.metadata()),
     }
     if version >= (1, 1):
         lex['logo'] = lexicon.logo or ''
@@ -130,10 +134,12 @@ def _export_extends(spec: str) -> lmf.Dependency:
 
 
 def _export_lexical_entries(
+    lexspec: str,
     lexids: Sequence[int],
     sbmap: _SBMap,
     version: VersionInfo
 ) -> list[lmf.LexicalEntry]:
+    assert len(lexids) == 1
     entries: list[lmf.LexicalEntry] = []
     for id, pos, forms, _, rowid in find_entries(lexicon_rowids=lexids):
         entry: lmf.LexicalEntry = {
@@ -145,8 +151,8 @@ def _export_lexical_entries(
                 'tags': _export_tags(forms[0][3]),
             },
             'forms': [],
-            'senses': _export_senses(rowid, lexids, sbmap, version),
-            'meta': _export_metadata(rowid, 'entries'),
+            'senses': _export_senses(rowid, lexspec, lexids, sbmap, version),
+            'meta': _export_metadata(id, lexspec, 'entries'),
         }
         if version >= (1, 1):
             entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][3])
@@ -187,6 +193,7 @@ def _export_tags(rowid: int) -> list[lmf.Tag]:
 
 def _export_senses(
     entry_rowid: int,
+    lexspec: str,
     lexids: Sequence[int],
     sbmap: _SBMap,
     version: VersionInfo,
@@ -201,7 +208,7 @@ def _export_senses(
             'counts': _export_counts(rowid, lexids),
             'lexicalized': get_lexicalized(rowid, 'senses'),
             'adjposition': get_adjposition(rowid) or '',
-            'meta': _export_metadata(rowid, 'senses'),
+            'meta': _export_metadata(id, lexspec, 'senses'),
         }
         if version >= (1, 1) and id in sbmap:
             sense['subcat'] = sorted(sbid for sbid, _ in sbmap[id])
@@ -216,14 +223,14 @@ def _export_sense_relations(
     relations: list[lmf.Relation] = [
         {'target': id,
          'relType': type,
-         'meta': cast(lmf.Metadata, metadata)}
+         'meta': _cast_metadata(metadata)}
         for type, _, metadata, id, *_
         in get_sense_relations(sense_rowid, '*', lexids)
     ]
     relations.extend(
         {'target': id,
          'relType': type,
-         'meta': cast(lmf.Metadata, metadata)}
+         'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
         in get_sense_synset_relations(sense_rowid, '*', lexids)
     )
@@ -238,26 +245,29 @@ def _export_examples(
     return [
         {'text': text,
          'language': language,
-         'meta': _export_metadata(rowid, f'{table[:-1]}_examples')}
-        for text, language, rowid
+         'meta': cast(lmf.Metadata, metadata)}
+        for text, language, metadata
         in get_examples(rowid, table, lexids)
     ]
 
 
 def _export_counts(rowid: int, lexids: Sequence[int]) -> list[lmf.Count]:
     return [
-        {'value': val,
-         'meta': _export_metadata(id, 'counts')}
-        for val, id in get_sense_counts(rowid, lexids)
+        {'value': val, 'meta': _cast_metadata(metadata)}
+        for val, metadata in get_sense_counts(rowid, lexids)
     ]
 
 
-def _export_synsets(lexids: Sequence[int], version: VersionInfo) -> list[lmf.Synset]:
+def _export_synsets(
+    lexspec: str,
+    lexids: Sequence[int],
+    version: VersionInfo,
+) -> list[lmf.Synset]:
     synsets: list[lmf.Synset] = []
     for id, pos, ili, _, rowid in find_synsets(lexicon_rowids=lexids):
         ilidef = _export_ili_definition(rowid)
         if ilidef and not ili:
-            ili = 'in'  # special case for proposed ILIs
+            ili = PROPOSED_ILI_ID
         ss: lmf.Synset = {
             'id': id,
             'ili': ili or '',
@@ -267,7 +277,7 @@ def _export_synsets(lexids: Sequence[int], version: VersionInfo) -> list[lmf.Syn
             'examples': _export_examples(rowid, 'synsets', lexids),
             'lexicalized': get_lexicalized(rowid, 'synsets'),
             'lexfile': get_lexfile(rowid) or '',
-            'meta': _export_metadata(rowid, 'synsets'),
+            'meta': _export_metadata(id, lexspec, 'synsets'),
         }
         if ilidef:
             ss['ili_definition'] = ilidef
@@ -282,21 +292,23 @@ def _export_definitions(rowid: int, lexids: Sequence[int]) -> list[lmf.Definitio
         {'text': text,
          'language': language,
          'sourceSense': sense_id,
-         'meta': _export_metadata(rowid, 'definitions')}
-        for text, language, sense_id, rowid
+         'meta': _cast_metadata(metadata)}
+        for text, language, sense_id, metadata
         in get_definitions(rowid, lexids)
     ]
 
 
 def _export_ili_definition(synset_rowid: int) -> Optional[lmf.ILIDefinition]:
-    _, _, defn, rowid = next(find_proposed_ilis(synset_rowid=synset_rowid),
-                             (None, None, None, None))
+    _, _, defn, synset, lexspec = next(
+        find_proposed_ilis(synset_rowid=synset_rowid),
+        (None, None, None, None, None)
+    )
     ilidef: Optional[lmf.ILIDefinition] = None
     if defn:
         meta = None
-        if rowid is not None:
-            meta = _export_metadata(rowid, 'proposed_ilis')
-        ilidef = {'text': defn, 'meta': meta}
+        if synset is not None and lexspec is not None:
+            meta = get_proposed_ili_metadata(synset, lexspec)
+        ilidef = {'text': defn, 'meta': _cast_metadata(meta)}
     return ilidef
 
 
@@ -307,7 +319,7 @@ def _export_synset_relations(
     return [
         {'target': id,
          'relType': type,
-         'meta': cast(lmf.Metadata, metadata)}
+         'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
         in get_synset_relations((synset_rowid,), '*', lexids)
     ]
@@ -342,5 +354,9 @@ def _export_syntactic_behaviours_1_1(
     ]
 
 
-def _export_metadata(rowid: int, table: str) -> lmf.Metadata:
-    return cast(lmf.Metadata, get_metadata(rowid, table))
+def _export_metadata(id: str, lexicon: str, table: str) -> lmf.Metadata:
+    return cast(lmf.Metadata, get_metadata(id, lexicon, table))
+
+
+def _cast_metadata(metadata: Optional[Metadata]) -> lmf.Metadata:
+    return cast(lmf.Metadata, metadata or {})
