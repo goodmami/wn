@@ -12,6 +12,7 @@ from wn._queries import (
     find_synsets,
     find_syntactic_behaviours,
     find_proposed_ilis,
+    get_entry_forms,
     get_entry_senses,
     get_sense_relations,
     get_sense_synset_relations,
@@ -23,8 +24,6 @@ from wn._queries import (
     get_proposed_ili_metadata,
     get_lexicalized,
     get_adjposition,
-    get_form_pronunciations,
-    get_form_tags,
     get_sense_counts,
     get_lexfile,
     get_lexicon,
@@ -141,14 +140,15 @@ def _export_lexical_entries(
 ) -> list[lmf.LexicalEntry]:
     assert len(lexids) == 1
     entries: list[lmf.LexicalEntry] = []
-    for id, pos, forms, _, rowid in find_entries(lexicon_rowids=lexids):
+    for id, pos, _, rowid in find_entries(lexicon_rowids=lexids):
+        forms = list(get_entry_forms(id, lexids))
         entry: lmf.LexicalEntry = {
             'id': id,
             'lemma': {
                 'writtenForm': forms[0][0],
                 'partOfSpeech': pos,
                 'script': forms[0][2] or '',
-                'tags': _export_tags(forms[0][3]),
+                'tags': _export_tags(forms[0][4]),
             },
             'forms': [],
             'senses': _export_senses(rowid, lexspec, lexids, sbmap, version),
@@ -156,15 +156,15 @@ def _export_lexical_entries(
         }
         if version >= (1, 1):
             entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][3])
-        for form, fid, script, frowid in forms[1:]:
+        for form, fid, script, prons, tags in forms[1:]:
             _form: lmf.Form = {
                 'id': fid or '',
                 'writtenForm': form,
                 'script': script or '',
-                'tags': _export_tags(frowid),
+                'tags': _export_tags(tags),
             }
             if version >= (1, 1):
-                _form['pronunciations'] = _export_pronunciations(frowid)
+                _form['pronunciations'] = _export_pronunciations(prons)
             entry['forms'].append(_form)
         if version < (1, 1):
             entry['frames'] = _export_syntactic_behaviours_1_0(entry, sbmap)
@@ -172,7 +172,9 @@ def _export_lexical_entries(
     return entries
 
 
-def _export_pronunciations(rowid: int) -> list[lmf.Pronunciation]:
+def _export_pronunciations(
+    rows: list[tuple[str, str, str, bool, str]]
+) -> list[lmf.Pronunciation]:
     return [
         {'text': text,
          'variety': variety,
@@ -180,14 +182,14 @@ def _export_pronunciations(rowid: int) -> list[lmf.Pronunciation]:
          'phonemic': phonemic,
          'audio': audio}
         for text, variety, notation, phonemic, audio
-        in get_form_pronunciations(rowid)
+        in rows
     ]
 
 
-def _export_tags(rowid: int) -> list[lmf.Tag]:
+def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:
     return [
         {'text': text, 'category': category}
-        for text, category in get_form_tags(rowid)
+        for text, category in rows
     ]
 
 

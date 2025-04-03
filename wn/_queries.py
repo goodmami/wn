@@ -26,12 +26,12 @@ _Form = tuple[
     str,            # form
     Optional[str],  # id
     Optional[str],  # script
-    int             # rowid
+    list[_Pronunciation],  # pronunciations
+    list[_Tag],  # tags
 ]
 _Word = tuple[
     str,          # id
     str,          # pos
-    list[_Form],  # forms
     str,          # lexicon specifier
     int,          # rowid
 ]
@@ -330,23 +330,16 @@ def find_entries(
 
     query = f'''
           {cte}
-        SELECT DISTINCT lex.id || ":" || lex.version, e.rowid, e.id, e.pos,
-                        f.form, f.id, f.script, f.rowid
+        SELECT DISTINCT e.id, e.pos, lex.id || ":" || lex.version, e.rowid
           FROM entries AS e
-          JOIN forms AS f ON f.entry_rowid = e.rowid
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          {condition}
-         ORDER BY e.rowid, e.id, f.rank
+         ORDER BY e.rowid, e.id
     '''
 
-    rows: Iterator[
-        tuple[str, int, str, str, str, Optional[str], Optional[str], int]
-    ] = conn.execute(query, params)
-    groupby = itertools.groupby
-    for key, group in groupby(rows, lambda row: row[0:4]):
-        lexspec, rowid, _id, _pos = cast(tuple[str, int, str, str], key)
-        wordforms = [(row[4], row[5], row[6], row[7]) for row in group]
-        yield (_id, _pos, wordforms, lexspec, rowid)
+    rows: Iterator[_Word] = conn.execute(query, params)
+    yield from rows
+
 
 
 def find_senses(
@@ -633,6 +626,30 @@ def _get_senses(
     return conn.execute(query, (rowid, *lexicon_rowids))
 
 
+def get_entry_forms(id: str, lexicon_rowids: Sequence[int]) -> Iterator[_Form]:
+    form_query = f'''
+        SELECT f.rowid, f.form, f.id, f.script
+          FROM forms AS f
+          JOIN entries AS e ON e.rowid = entry_rowid
+         WHERE e.id = ?
+           AND f.lexicon_rowid IN ({_qs(lexicon_rowids)})
+         ORDER BY f.rank
+    '''
+    pron_query = '''
+        SELECT value, variety, notation, phonemic, audio
+          FROM pronunciations
+         WHERE form_rowid = ?
+    '''
+    tag_query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
+
+    cur = connect().cursor()
+    for row in cur.execute(form_query, (id, *lexicon_rowids)).fetchall():
+        params = (row[0],)
+        prons: list[_Pronunciation] = cur.execute(pron_query, params).fetchall()
+        tags: list[_Tag] = cur.execute(tag_query, params).fetchall()
+        yield (*row[1:], prons, tags)
+
+
 def get_entry_senses(rowid: int, lexicon_rowids: Sequence[int]) -> Iterator[_Sense]:
     yield from _get_senses(rowid, 'entry', lexicon_rowids)
 
@@ -799,26 +816,6 @@ def get_adjposition(rowid: int) -> Optional[str]:
     if row:
         return row[0]
     return None
-
-
-def get_form_pronunciations(form_rowid: int) -> list[_Pronunciation]:
-    # TODO: restrict by lexicon ids
-    conn = connect()
-    query = '''
-        SELECT value, variety, notation, phonemic, audio
-          FROM pronunciations
-         WHERE form_rowid = ?
-    '''
-    rows: list[_Pronunciation] = conn.execute(query, (form_rowid,)).fetchall()
-    return rows
-
-
-def get_form_tags(form_rowid: int) -> list[_Tag]:
-    # TODO: restrict by lexicon ids
-    conn = connect()
-    query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
-    rows: list[_Tag] = conn.execute(query, (form_rowid,)).fetchall()
-    return rows
 
 
 def get_sense_counts(sense_rowid: int, lexicon_rowids: Sequence[int]) -> list[_Count]:

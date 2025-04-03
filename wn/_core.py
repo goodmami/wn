@@ -32,8 +32,7 @@ from wn._queries import (
     get_lexicon_extension_bases,
     get_lexicon_extensions,
     get_lexicon_rowid,
-    get_form_pronunciations,
-    get_form_tags,
+    get_entry_forms,
     get_entry_senses,
     get_sense_relations,
     get_sense_synset_relations,
@@ -338,24 +337,27 @@ class Tag:
 
 class Form(str):
     """A word-form string with additional attributes."""
-    __slots__ = '_id', 'id', 'script',
+    __slots__ = 'id', 'script', '_pronunciations', '_tags'
     __module__ = 'wn'
 
-    _id: int
     id: Optional[str]
     script: Optional[str]
+    _pronunciations: tuple[Pronunciation, ...]
+    _tags: tuple[Tag, ...]
 
     def __new__(
         cls,
         form: str,
         id: Optional[str] = None,
         script: Optional[str] = None,
-        _id: int = NON_ROWID
+        pronunciations: Sequence[Pronunciation] = (),
+        tags: Sequence[Tag] = (),
     ):
         obj = str.__new__(cls, form)  # type: ignore
         obj.id = id
         obj.script = script
-        obj._id = _id
+        obj._pronunciations = tuple(pronunciations)
+        obj._tags = tuple(tags)
         return obj
 
     def __eq__(self, other):
@@ -367,15 +369,31 @@ class Form(str):
         return str.__hash__(self)
 
     def pronunciations(self) -> list[Pronunciation]:
-        return [Pronunciation(*data) for data in get_form_pronunciations(self._id)]
+        return list(self._pronunciations)
 
     def tags(self) -> list[Tag]:
-        return [Tag(tag, category) for tag, category in get_form_tags(self._id)]
+        return list(self._tags)
+
+
+def _make_form(
+    form: str,
+    id: Optional[str],
+    script: Optional[str],
+    prons: list[tuple[str, str, str, bool, str]],
+    tags: list[tuple[str, str]],
+) -> Form:
+    return Form(
+        form,
+        id=id,
+        script=script,
+        pronunciations=[Pronunciation(*data) for data in prons],
+        tags=[Tag(*data) for data in tags],
+    )
 
 
 class Word(_LexiconElement):
     """A class for words (also called lexical entries) in a wordnet."""
-    __slots__ = 'id', 'pos', '_forms'
+    __slots__ = 'id', 'pos'#, '_forms'
     __module__ = 'wn'
 
     _ENTITY_TYPE = _EntityType.ENTRIES
@@ -384,7 +402,6 @@ class Word(_LexiconElement):
         self,
         id: str,
         pos: str,
-        forms: list[tuple[str, Optional[str], Optional[str], int]],
         _lexicon: str = '',
         _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
@@ -392,7 +409,6 @@ class Word(_LexiconElement):
         super().__init__(_lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
         self.id = id
         self.pos = pos
-        self._forms = forms
 
     def __repr__(self) -> str:
         return f'Word({self.id!r})'
@@ -406,7 +422,8 @@ class Word(_LexiconElement):
             'wolf'
 
         """
-        return Form(*self._forms[0])
+        lexids = self._get_lexicon_ids()
+        return _make_form(*next(get_entry_forms(self.id, lexids)))
 
     def forms(self) -> list[Form]:
         """Return the list of all encoded forms of the word.
@@ -417,7 +434,8 @@ class Word(_LexiconElement):
             ['wolf', 'wolves']
 
         """
-        return [Form(*form_data) for form_data in self._forms]
+        lexids = self._get_lexicon_ids()
+        return [_make_form(*data) for data in get_entry_forms(self.id, lexids)]
 
     def senses(self) -> list['Sense']:
         """Return the list of senses of the word.
