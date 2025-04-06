@@ -266,7 +266,7 @@ def _export_synsets(
     version: VersionInfo,
 ) -> list[lmf.Synset]:
     synsets: list[lmf.Synset] = []
-    for id, pos, ili, _, rowid in find_synsets(lexicon_rowids=lexids):
+    for id, pos, ili, *_ in find_synsets(lexicon_rowids=lexids):
         ilidef = _export_ili_definition(id)
         if ilidef and not ili:
             ili = PROPOSED_ILI_ID
@@ -275,7 +275,7 @@ def _export_synsets(
             'ili': ili or '',
             'partOfSpeech': pos,
             'definitions': _export_definitions(id, lexids),
-            'relations': _export_synset_relations(rowid, lexids),
+            'relations': _export_synset_relations(id, lexspec, lexids),
             'examples': _export_examples(id, 'synsets', lexids),
             'lexicalized': get_lexicalized(id, lexspec, 'synsets'),
             'lexfile': get_lexfile(id, lexspec) or '',
@@ -315,7 +315,8 @@ def _export_ili_definition(synset: str) -> Optional[lmf.ILIDefinition]:
 
 
 def _export_synset_relations(
-    synset_rowid: int,
+    synset_id: str,
+    synset_lexicon: str,
     lexids: Sequence[int]
 ) -> list[lmf.Relation]:
     return [
@@ -323,7 +324,7 @@ def _export_synset_relations(
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
-        in get_synset_relations((synset_rowid,), '*', lexids)
+        in get_synset_relations(synset_id, synset_lexicon, '*', lexids)
     ]
 
 

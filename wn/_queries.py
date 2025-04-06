@@ -46,7 +46,7 @@ _Synset_Relation = tuple[
     str,  # rel_name
     str,  # lexicon
     Metadata,  # metadata
-    int,  # src_rowid
+    str,  # srcid
     str,  # _Synset...
     str,
     str,
@@ -500,7 +500,8 @@ def get_synsets_for_ilis(
 
 
 def get_synset_relations(
-    source_rowids: Collection[int],
+    synset_id: str,
+    synset_lexicon: str,
     relation_types: Collection[str],
     lexicon_rowids: Sequence[int],
 ) -> Iterator[_Synset_Relation]:
@@ -511,35 +512,86 @@ def get_synset_relations(
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
     params.extend(lexicon_rowids)
-    params.extend(source_rowids)
+    params.append(synset_id)
+    params.append(synset_lexicon)
     query = f'''
-          WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint}),
-               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
-        SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
-                        rel.source_rowid, tgt.id, tgt.pos,
-                        (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
+        WITH
+          reltypes(rowid) AS
+            (SELECT rowid FROM relation_types {constraint}),
+          lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)}),
+          srcsynset(rowid) AS
+            (SELECT ss.rowid
+               FROM synsets AS ss
+               JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
+              WHERE ss.id = ?
+                AND lex.id || ":" || lex.version = ?),
+          matchingrels(rowid) AS
+            (SELECT srel.rowid
+               FROM synset_relations AS srel
+              WHERE srel.source_rowid IN srcsynset
+                AND srel.lexicon_rowid IN lexrowids
+                AND srel.type_rowid IN reltypes)
+        SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
+                        src.id, tgt.id, tgt.pos, tgtili.id,
                         tgtlex.id || ":" || tgtlex.version, tgt.rowid
-          FROM (SELECT rt.type,
-                       lex.id || ":" || lex.version AS lexicon,
-                       srel.metadata AS metadata,
-                       source_rowid,
-                       target_rowid
-                  FROM synset_relations AS srel
-                  JOIN rt ON srel.type_rowid = rt.rowid
-                  JOIN lexicons AS lex ON lexicon_rowid = lex.rowid
-                 WHERE source_rowid IN ({_qs(source_rowids)})
-                   AND lexicon_rowid IN lexrowids
-               ) AS rel
-          JOIN synsets AS tgt
-            ON tgt.rowid = rel.target_rowid
-           AND tgt.lexicon_rowid IN lexrowids
-          JOIN lexicons AS tgtlex
-            ON tgtlex.rowid = tgt.lexicon_rowid
+          FROM matchingrels AS mr
+          JOIN synset_relations AS srel ON srel.rowid=mr.rowid
+          JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
+          JOIN synsets AS src ON src.rowid = srel.source_rowid
+          JOIN synsets AS tgt ON tgt.rowid = srel.target_rowid
+          JOIN lexicons AS lex ON lex.rowid = srel.lexicon_rowid
+          JOIN lexicons AS tgtlex ON tgtlex.rowid = tgt.lexicon_rowid
+          LEFT JOIN ilis AS tgtili ON tgtili.rowid = tgt.ili_rowid  -- might be null
+         WHERE tgt.lexicon_rowid IN lexrowids  -- ensure target is included
     '''
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
 
+
+def get_expanded_synset_relations(
+    ili_id: str,
+    relation_types: Collection[str],
+    expand_rowids: Sequence[int],
+) -> Iterator[_Synset_Relation]:
+    conn = connect()
+    params: list = []
+    constraint = ''
+    if relation_types and '*' not in relation_types:
+        constraint = f'WHERE type IN ({_qs(relation_types)})'
+        params.extend(relation_types)
+    params.extend(expand_rowids)
+    params.append(ili_id)
+    query = f'''
+        WITH
+          reltypes(rowid) AS
+            (SELECT rowid FROM relation_types {constraint}),
+          lexrowids(rowid) AS (VALUES {_vs(expand_rowids)}),
+          srcsynset(rowid) AS
+            (SELECT ss.rowid
+               FROM synsets AS ss
+               JOIN ilis ON ilis.rowid = ss.ili_rowid
+              WHERE ilis.id = ?
+                AND ss.lexicon_rowid IN lexrowids),
+          matchingrels(rowid) AS
+            (SELECT srel.rowid
+               FROM synset_relations AS srel
+              WHERE srel.source_rowid IN srcsynset
+                AND srel.lexicon_rowid IN lexrowids
+                AND srel.type_rowid IN reltypes)
+        SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
+                        src.id, tgt.id, tgt.pos, tgtili.id,
+                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
+          FROM matchingrels AS mr
+          JOIN synset_relations AS srel ON srel.rowid=mr.rowid
+          JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
+          JOIN synsets AS src ON src.rowid = srel.source_rowid
+          JOIN synsets AS tgt ON tgt.rowid = srel.target_rowid
+          JOIN ilis AS tgtili ON tgtili.rowid = tgt.ili_rowid
+          JOIN lexicons AS lex ON lex.rowid = srel.lexicon_rowid
+          JOIN lexicons AS tgtlex ON tgtlex.rowid = tgt.lexicon_rowid
+    '''
+    result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
+    yield from result_rows
 
 def get_definitions(
     synset_id: str,

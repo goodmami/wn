@@ -37,6 +37,7 @@ from wn._queries import (
     get_sense_relations,
     get_sense_synset_relations,
     get_synset_relations,
+    get_expanded_synset_relations,
     get_synset_members,
     get_synsets_for_ilis,
     get_examples,
@@ -820,8 +821,7 @@ class Synset(_Relatable):
 
     def _iter_relations(self, *args: str) -> Iterator[tuple[Relation, 'Synset']]:
         # first get relations from the current lexicon(s)
-        if self._id != NON_ROWID:
-            yield from self._iter_local_relations(args)
+        yield from self._iter_local_relations(args)
         # then attempt to expand via ILI
         if self._ili is not None and self._lexconf.expand_ids:
             yield from self._iter_expanded_relations(args)
@@ -832,7 +832,7 @@ class Synset(_Relatable):
     ) -> Iterator[tuple[Relation, 'Synset']]:
         _lexconf = self._lexconf
         lexids = self._get_lexicon_ids()
-        iterable = get_synset_relations({self._id}, args, lexids)
+        iterable = get_synset_relations(self.id, self._lexicon, args, lexids)
         for relname, rellex, metadata, _, ssid, pos, ili, tgtlex, rowid in iterable:
             synset_rel = Relation(relname, self.id, ssid, rellex, metadata=metadata)
             synset = Synset(
@@ -853,20 +853,12 @@ class Synset(_Relatable):
         lexids = self._get_lexicon_ids()
         expids = self._lexconf.expand_ids
 
-        # find any relations from expanded synsets
-        srcids = {
-            rowid: ssid
-            for ssid, _, _, _, rowid
-            in find_synsets(ili=self._ili, lexicon_rowids=expids)
-            if rowid not in (self._id, NON_ROWID)
-        }
-
-        iterable = get_synset_relations(set(srcids), args, expids)
-        for relname, lexicon, metadata, srcrowid, ssid, _, ili, *_ in iterable:
+        iterable = get_expanded_synset_relations(self.ili.id, args, expids)
+        for relname, lexicon, metadata, srcid, ssid, _, ili, *_ in iterable:
             if ili is None:
                 continue
             synset_rel = Relation(
-                relname, srcids[srcrowid], ssid, lexicon, metadata=metadata
+                relname, srcid, ssid, lexicon, metadata=metadata
             )
             local_ss_rows = list(get_synsets_for_ilis([ili], lexicon_rowids=lexids))
 
