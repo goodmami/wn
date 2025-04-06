@@ -87,12 +87,10 @@ _SyntacticBehaviour = tuple[
     str,       # frame
     list[str]  # sense ids
 ]
-_ILI = tuple[
+_ExistingILI = tuple[
     str,  # id
     str,  # status
     Optional[str],  # definition
-    None,  # synset id
-    None,  # lexicon
 ]
 _ProposedILI = tuple[
     None,  # id
@@ -228,22 +226,22 @@ def find_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
     lexicon_rowids: Sequence[int] = (),
-) -> Iterator[Union[_ILI, _ProposedILI]]:
-    if status != 'proposed':
-        yield from _find_existing_ilis(
+) -> Iterator[Union[_ExistingILI, _ProposedILI]]:
+    if status == 'proposed' and not id:
+        yield from find_proposed_ilis(lexicon_rowids=lexicon_rowids)
+    else:
+        yield from find_existing_ilis(
             id=id, status=status, lexicon_rowids=lexicon_rowids
         )
-    if not id and (not status or status == 'proposed'):
-        yield from find_proposed_ilis(lexicon_rowids=lexicon_rowids)
 
 
-def _find_existing_ilis(
+def find_existing_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
     lexicon_rowids: Sequence[int] = (),
-) -> Iterator[_ILI]:
+) -> Iterator[_ExistingILI]:
     query = '''
-        SELECT DISTINCT i.id, ist.status, i.definition, null, null
+        SELECT DISTINCT i.id, ist.status, i.definition
           FROM ilis AS i
           JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
     '''

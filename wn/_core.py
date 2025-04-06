@@ -22,6 +22,7 @@ from wn._util import (
 from wn._db import NON_ROWID
 from wn._queries import (
     find_ilis,
+    find_existing_ilis,
     find_proposed_ilis,
     find_entries,
     find_senses,
@@ -98,32 +99,84 @@ class _DatabaseEntity:
         return hash((self._ENTITY_TYPE, self._id))
 
 
-@dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class ILI:
     """A class for interlingual indices."""
     __module__ = 'wn'
-    __slots__ = 'id', 'status', '_definition', '_synset', '_lexicon'
+    __slots__ = '_id', 'status', '_definition'
 
-    id: Optional[str]
+    _id: Optional[str]
     status: str
     _definition: Optional[str]
-    _synset: Optional[str]
-    _lexicon: Optional[str]
 
-    def __repr__(self) -> str:
-        return f'ILI({repr(self.id) if self.id else "*PROPOSED*"})'
+    def __eq__(self, other) -> bool:
+        raise NotImplementedError
+
+    def __hash__(self) -> int:
+        raise NotImplementedError
+
+    @property
+    def id(self) -> Optional[str]:
+        return self._id
 
     def definition(self) -> Optional[str]:
         return self._definition
 
     def metadata(self) -> Metadata:
         """Return the ILI's metadata."""
-        if self.id:
-            return get_ili_metadata(self.id)
-        elif self._synset and self._lexicon:
-            return get_proposed_ili_metadata(self._synset, self._lexicon)
-        else:
-            raise wn.Error("invalid ILI")
+        raise NotImplementedError
+
+
+@dataclass(frozen=True)  # slots=True from Python 3.10
+class _ExistingILI(ILI):
+    """A class for interlingual indices."""
+    __module__ = 'wn'
+
+    _id: str
+    status: str
+    _definition: Optional[str]
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, _ExistingILI):
+            return self._id == other._id
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash(self._id)
+
+    def __repr__(self) -> str:
+        return f'ILI({repr(self._id)})'
+
+    def metadata(self) -> Metadata:
+        """Return the ILI's metadata."""
+        return get_ili_metadata(self._id)
+
+
+@dataclass(frozen=True)  # slots=True from Python 3.10
+class _ProposedILI(ILI):
+    __module__ = 'wn'
+    __slots__ = '_synset', '_lexicon'
+
+    _id: None
+    status: str
+    _definition: Optional[str]
+    _synset: str
+    _lexicon: str
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, _ProposedILI):
+            return (
+                self._synset == other._synset
+                and self._lexicon == other._lexicon
+            )
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self._synset, self._lexicon))
+
+    def metadata(self) -> Metadata:
+        """Return the ILI's metadata."""
+        return get_proposed_ili_metadata(self._synset, self._lexicon)
 
 
 @dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
@@ -676,12 +729,10 @@ class Synset(_Relatable):
 
     @property
     def ili(self):
-        if self._ili:
-            row = next(find_ilis(id=self._ili), None)
-        else:
-            row = next(find_proposed_ilis(synset_id=self.id), None)
-        if row is not None:
-            return ILI(*row)
+        if self._ili and (row := next(find_existing_ilis(id=self._ili), None)):
+            return _ExistingILI(*row)
+        elif row := next(find_proposed_ilis(synset_id=self.id), None):
+            return _ProposedILI(*row)
         return None
 
     def __hash__(self):
@@ -1412,9 +1463,9 @@ class Wordnet:
 
     def ili(self, id: str) -> ILI:
         """Return the first ILI in this wordnet with identifer *id*."""
-        iterable = find_ilis(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_existing_ilis(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
         try:
-            return ILI(*next(iterable))
+            return _ExistingILI(*next(iterable))
         except StopIteration:
             raise wn.Error(f'no such ILI: {id}') from None
 
@@ -1425,7 +1476,10 @@ class Wordnet:
 
         """
         iterable = find_ilis(status=status, lexicon_rowids=self._lexconf.lexicon_ids)
-        return [ILI(*ili_data) for ili_data in iterable]
+        return [
+            _ProposedILI(id, *data) if id is None else _ExistingILI(id, *data)
+            for id, *data in iterable
+        ]
 
     def describe(self) -> str:
         """Return a formatted string describing the lexicons in this wordnet.
