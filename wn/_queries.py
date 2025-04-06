@@ -327,7 +327,7 @@ def find_entries(
           FROM entries AS e
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          {condition}
-         ORDER BY e.rowid, e.id
+         ORDER BY e.rowid ASC
     '''
 
     rows: Iterator[_Word] = conn.execute(query, params)
@@ -380,6 +380,7 @@ def find_senses(
           JOIN synsets AS ss ON ss.rowid = s.synset_rowid
           JOIN lexicons AS slex ON slex.rowid = s.lexicon_rowid
          {condition}
+         ORDER BY s.rowid ASC
     '''
 
     rows: Iterator[_Sense] = conn.execute(query, params)
@@ -432,6 +433,9 @@ def find_synsets(
     condition = ''
     if conditions:
         condition = 'WHERE ' + '\n           AND '.join(conditions)
+
+    if not order:
+        order = 'ORDER BY ss.rowid ASC'
 
     query = f'''
           {cte}
