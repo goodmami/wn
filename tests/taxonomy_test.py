@@ -69,7 +69,8 @@ def test_hypernym_paths():
 def test_interlingual_hypernym_paths():
     información = wn.synsets('información')[0]
     ejemplo = wn.synsets('ejemplo')[0]
-    inferred = wn.Synset.empty('*INFERRED*')
+    sample = wn.synsets('sample', lexicon='test-en:1')[0]
+    inferred = wn.Synset.empty('*INFERRED*', ili=sample.ili.id, _lexicon='test-es:1')
     muestra_aleatoria = wn.synsets('muestra aleatoria')[0]
     assert hypernym_paths(información) == []
     assert hypernym_paths(ejemplo) == [[información]]
@@ -84,7 +85,7 @@ def test_shortest_path():
     random_sample = wn.synsets('random sample')[0]
     datum = wn.synsets('datum')[0]
     exemplify = wn.synsets('exemplify')[0]
-    inferred_root = wn.Synset.empty('*INFERRED*')
+    inferred_root = wn.Synset.empty('*ROOT*', _lexicon='test-en:1')
     assert shortest_path(information, information) == []
     assert shortest_path(information, datum) == [datum]
     assert shortest_path(information, sample) == [example, sample]
