@@ -19,7 +19,6 @@ logger = logging.getLogger('wn')
 # Module Constants
 
 DEBUG = False
-NON_ROWID = 0  # imaginary rowid of non-existent row
 
 # This stores hashes of the schema to check for version differences.
 # When the schema changes, the hash will change. If the new hash is

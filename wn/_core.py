@@ -19,7 +19,6 @@ from wn._util import (
     unique_list,
     format_lexicon_specifier,
 )
-from wn._db import NON_ROWID
 from wn._queries import (
     find_ilis,
     find_existing_ilis,
@@ -68,35 +67,6 @@ class _EntityType(str, enum.Enum):
     SENSE_SYNSET_RELATIONS = 'sense_synset_relations'
     SYNSET_RELATIONS = 'synset_relations'
     UNSET = ''
-
-
-class _DatabaseEntity:
-    __slots__ = '_id',
-
-    _ENTITY_TYPE: _EntityType = _EntityType.UNSET
-
-    def __init__(self, _id: int = NON_ROWID):
-        self._id = _id        # Database-internal id (e.g., rowid)
-
-    def __eq__(self, other):
-        if not isinstance(other, _DatabaseEntity):
-            return NotImplemented
-        # the _id of different kinds of entities, such as Synset and
-        # Sense, can be the same, so make sure they are the same type
-        # of object first
-        return (self._ENTITY_TYPE == other._ENTITY_TYPE
-                and self._id == other._id)
-
-    def __lt__(self, other):
-        if not isinstance(other, _DatabaseEntity):
-            return NotImplemented
-        elif self._ENTITY_TYPE != other._ENTITY_TYPE:
-            return NotImplemented
-        else:
-            return self._id < other._id
-
-    def __hash__(self):
-        return hash((self._ENTITY_TYPE, self._id))
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
@@ -320,18 +290,29 @@ _EMPTY_LEXCONFIG = _LexiconConfiguration(
 )
 
 
-class _LexiconElement(_DatabaseEntity):
-    __slots__ = '_lexicon', '_lexconf'
+class _LexiconElement:
+    __slots__ = 'id', '_lexicon', '_lexconf'
 
     def __init__(
         self,
+        id: str,
         _lexicon: str = '',
-        _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_id=_id)
+        self.id = id
         self._lexicon = _lexicon  # source lexicon specifier
         self._lexconf = _lexconf
+
+    def __eq__(self, other):
+        if isinstance(other, type(self)) or isinstance(self, type(other)):
+            return (
+                self.id == other.id
+                and self._lexicon == other._lexicon
+            )
+        return NotImplemented
+
+    def __hash__(self):
+        return hash((self.id, self._lexicon))
 
     def lexicon(self):
         return _to_lexicon(self._lexicon)
@@ -447,7 +428,7 @@ def _make_form(
 
 class Word(_LexiconElement):
     """A class for words (also called lexical entries) in a wordnet."""
-    __slots__ = 'id', 'pos'
+    __slots__ = 'pos',
     __module__ = 'wn'
 
     _ENTITY_TYPE = _EntityType.ENTRIES
@@ -457,11 +438,9 @@ class Word(_LexiconElement):
         id: str,
         pos: str,
         _lexicon: str = '',
-        _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(_lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
-        self.id = id
+        super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
 
     def __repr__(self) -> str:
@@ -643,17 +622,6 @@ T = TypeVar('T', bound='_Relatable')
 
 
 class _Relatable(_LexiconElement):
-    __slots__ = 'id',
-
-    def __init__(
-        self,
-        id: str,
-        _lexicon: str = '',
-        _id: int = NON_ROWID,
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
-    ):
-        super().__init__(_lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
-        self.id = id
 
     def relations(self: T, *args: str) -> dict[str, list[T]]:
         raise NotImplementedError
@@ -679,7 +647,7 @@ class _Relatable(_LexiconElement):
         agenda: list[tuple[list[T], set[T]]] = [
             ([target], {self, target})
             for target in self.get_related(*args)
-            if target._id != self._id  # avoid self loops?
+            if target != self  # avoid self loops?
         ]
         while agenda:
             path, visited = agenda.pop()
@@ -710,10 +678,9 @@ class Synset(_Relatable):
         pos: str,
         ili: Optional[str] = None,
         _lexicon: str = '',
-        _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
+        super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
         self._ili = ili
 
@@ -727,6 +694,22 @@ class Synset(_Relatable):
     ):
         return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
+    def __eq__(self, other):
+        # include ili in the hash so inferred synsets don't hash the same
+        if isinstance(other, Synset):
+            return (
+                self.id == other.id
+                and self._ili == other._ili
+                and self._lexicon == other._lexicon
+            )
+        return NotImplemented
+
+    def __hash__(self):
+        return hash((self.id, self._ili, self._lexicon))
+
+    def __repr__(self) -> str:
+        return f'Synset({self.id!r})'
+
     @property
     def ili(self):
         if self._ili and (row := next(find_existing_ilis(id=self._ili), None)):
@@ -734,14 +717,6 @@ class Synset(_Relatable):
         elif row := next(find_proposed_ilis(synset_id=self.id), None):
             return _ProposedILI(*row)
         return None
-
-    def __hash__(self):
-        # include ili and lexicon in the hash so inferred synsets don't
-        # hash the same
-        return hash((self._ENTITY_TYPE, self._ili, self._lexicon, self._id))
-
-    def __repr__(self) -> str:
-        return f'Synset({self.id!r})'
 
     def definition(self) -> Optional[str]:
         """Return the first definition found for the synset.
@@ -884,14 +859,13 @@ class Synset(_Relatable):
         _lexconf = self._lexconf
         lexids = self._get_lexicon_ids()
         iterable = get_synset_relations(self.id, self._lexicon, args, lexids)
-        for relname, rellex, metadata, _, ssid, pos, ili, tgtlex, rowid in iterable:
+        for relname, rellex, metadata, _, ssid, pos, ili, tgtlex in iterable:
             synset_rel = Relation(relname, self.id, ssid, rellex, metadata=metadata)
             synset = Synset(
                 ssid,
                 pos,
                 ili,
                 _lexicon=tgtlex,
-                _id=rowid,
                 _lexconf=_lexconf,
             )
             yield synset_rel, synset
@@ -1085,10 +1059,9 @@ class Sense(_Relatable):
         entry_id: str,
         synset_id: str,
         _lexicon: str = '',
-        _id: int = NON_ROWID,
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        super().__init__(id=id, _lexicon=_lexicon, _id=_id, _lexconf=_lexconf)
+        super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self._entry_id = entry_id
         self._synset_id = synset_id
 
@@ -1209,10 +1182,10 @@ class Sense(_Relatable):
 
     def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, 'Sense']]:
         iterable = get_sense_relations(self.id, args, self._get_lexicon_ids())
-        for relname, lexicon, metadata, sid, eid, ssid, lexid, rowid in iterable:
+        for relname, lexicon, metadata, sid, eid, ssid, lexid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
             sense = Sense(
-                sid, eid, ssid, lexid, rowid, _lexconf=self._lexconf
+                sid, eid, ssid, lexid, _lexconf=self._lexconf
             )
             yield relation, sense
 
@@ -1221,10 +1194,10 @@ class Sense(_Relatable):
         *args: str,
     ) -> Iterator[tuple[Relation, 'Synset']]:
         iterable = get_sense_synset_relations(self.id, args, self._get_lexicon_ids())
-        for relname, lexicon, metadata, _, ssid, pos, ili, lexid, rowid in iterable:
+        for relname, lexicon, metadata, _, ssid, pos, ili, lexid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
             synset = Synset(
-                ssid, pos, ili, lexid, rowid, _lexconf=self._lexconf
+                ssid, pos, ili, lexid, _lexconf=self._lexconf
             )
             yield relation, synset
 

@@ -318,7 +318,7 @@ def common_hypernyms(
     from_self = _hypernym_paths(synset, simulate_root, True)
     from_other = _hypernym_paths(other, simulate_root, True)
     common = set(flatten(from_self)).intersection(flatten(from_other))
-    return sorted(common)
+    return sorted(common, key=lambda ss: ss.id)
 
 
 def lowest_common_hypernyms(

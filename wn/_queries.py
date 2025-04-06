@@ -33,14 +33,12 @@ _Word = tuple[
     str,          # id
     str,          # pos
     str,          # lexicon specifier
-    int,          # rowid
 ]
 _Synset = tuple[
     str,  # id
     str,  # pos
     str,  # ili
     str,  # lexicon specifier
-    int,  # rowid
 ]
 _Synset_Relation = tuple[
     str,  # rel_name
@@ -51,7 +49,6 @@ _Synset_Relation = tuple[
     str,
     str,
     str,
-    int,
 ]
 _Definition = tuple[
     str,  # text
@@ -69,7 +66,6 @@ _Sense = tuple[
     str,  # entry_id
     str,  # synset_id
     str,  # lexicon specifier
-    int,  # rowid
 ]
 _Sense_Relation = tuple[
     str,  # rel_name
@@ -79,7 +75,6 @@ _Sense_Relation = tuple[
     str,
     str,
     str,
-    int,
 ]
 _Count = tuple[int, Metadata]  # count, metadata
 _SyntacticBehaviour = tuple[
@@ -328,7 +323,7 @@ def find_entries(
 
     query = f'''
           {cte}
-        SELECT DISTINCT e.id, e.pos, lex.id || ":" || lex.version, e.rowid
+        SELECT DISTINCT e.id, e.pos, lex.id || ":" || lex.version
           FROM entries AS e
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          {condition}
@@ -379,7 +374,7 @@ def find_senses(
 
     query = f'''
           {cte}
-        SELECT DISTINCT s.id, e.id, ss.id, slex.id || ":" || slex.version, s.rowid
+        SELECT DISTINCT s.id, e.id, ss.id, slex.id || ":" || slex.version
           FROM senses AS s
           JOIN entries AS e ON e.rowid = s.entry_rowid
           JOIN synsets AS ss ON ss.rowid = s.synset_rowid
@@ -442,7 +437,7 @@ def find_synsets(
           {cte}
         SELECT DISTINCT ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),
-                        sslex.id || ":" || sslex.version, ss.rowid
+                        sslex.id || ":" || sslex.version
           FROM synsets AS ss
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
           {join}
@@ -485,7 +480,7 @@ def get_synsets_for_ilis(
     conn = connect()
     query = f'''
         SELECT DISTINCT ss.id, ss.pos, ili.id,
-                        sslex.id || ":" || sslex.version, ss.rowid
+                        sslex.id || ":" || sslex.version
           FROM synsets as ss
           JOIN ilis as ili ON ss.ili_rowid = ili.rowid
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
@@ -531,7 +526,7 @@ def get_synset_relations(
                 AND srel.type_rowid IN reltypes)
         SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
                         src.id, tgt.id, tgt.pos, tgtili.id,
-                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
+                        tgtlex.id || ":" || tgtlex.version
           FROM matchingrels AS mr
           JOIN synset_relations AS srel ON srel.rowid=mr.rowid
           JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
@@ -578,7 +573,7 @@ def get_expanded_synset_relations(
                 AND srel.type_rowid IN reltypes)
         SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
                         src.id, tgt.id, tgt.pos, tgtili.id,
-                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
+                        tgtlex.id || ":" || tgtlex.version
           FROM matchingrels AS mr
           JOIN synset_relations AS srel ON srel.rowid=mr.rowid
           JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
@@ -694,7 +689,7 @@ def _get_senses(
     else:
         raise wn.Error(f'invalid sense source type: {sourcetype}')
     query = f'''
-        SELECT s.id, e.id, ss.id, slex.id || ":" || slex.version, s.rowid
+        SELECT s.id, e.id, ss.id, slex.id || ":" || slex.version
           FROM senses AS s
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
@@ -741,7 +736,7 @@ def get_sense_relations(
                lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         s.id, e.id, ss.id,
-                        slex.id || ":" || slex.version, s.rowid
+                        slex.id || ":" || slex.version
           FROM (SELECT rt.type,
                        lex.id || ":" || lex.version AS lexicon,
                        srel.metadata AS metadata,
@@ -786,7 +781,7 @@ def get_sense_synset_relations(
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
-                        tgtlex.id || ":" || tgtlex.version, tgt.rowid
+                        tgtlex.id || ":" || tgtlex.version
           FROM (SELECT rt.type,
                        lex.id || ":" || lex.version AS lexicon,
                        srel.metadata AS metadata,
