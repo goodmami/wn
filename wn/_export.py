@@ -69,11 +69,11 @@ def export(
 def _precheck(lexicons: Sequence[Lexicon]) -> None:
     all_ids: set[str] = set()
     for lex in lexicons:
-        lexids = (get_lexicon_rowid(lex.specifier()),)
+        lexspecs = (lex.specifier(),)
         idset = {lex.id}
-        idset.update(row[0] for row in find_entries(lexicon_rowids=lexids))
-        idset.update(row[0] for row in find_senses(lexicon_rowids=lexids))
-        idset.update(row[0] for row in find_synsets(lexicon_rowids=lexids))
+        idset.update(row[0] for row in find_entries(lexicons=lexspecs))
+        idset.update(row[0] for row in find_senses(lexicons=lexspecs))
+        idset.update(row[0] for row in find_synsets(lexicons=lexspecs))
         # TODO: syntactic behaviours
         if all_ids.intersection(idset):
             raise wn.Error('cannot export: non-unique identifiers in lexicons')
@@ -140,7 +140,7 @@ def _export_lexical_entries(
 ) -> list[lmf.LexicalEntry]:
     assert len(lexids) == 1
     entries: list[lmf.LexicalEntry] = []
-    for id, pos, *_ in find_entries(lexicon_rowids=lexids):
+    for id, pos, *_ in find_entries(lexicons=(lexspec,)):
         forms = list(get_entry_forms(id, lexids))
         entry: lmf.LexicalEntry = {
             'id': id,
@@ -201,11 +201,12 @@ def _export_senses(
     version: VersionInfo,
 ) -> list[lmf.Sense]:
     senses: list[lmf.Sense] = []
-    for id, _, synset, *_ in get_entry_senses(entry_id, lexids):
+    lexicons = (lexspec,)
+    for id, _, synset, *_ in get_entry_senses(entry_id, lexicons):
         sense: lmf.Sense = {
             'id': id,
             'synset': synset,
-            'relations': _export_sense_relations(id, lexids),
+            'relations': _export_sense_relations(id, lexicons),
             'examples': _export_examples(id, 'senses', lexids),
             'counts': _export_counts(id, lexids),
             'lexicalized': get_lexicalized(id, lexspec, 'senses'),
@@ -220,21 +221,21 @@ def _export_senses(
 
 def _export_sense_relations(
     sense_id: str,
-    lexids: Sequence[int]
+    lexicons: Sequence[str]
 ) -> list[lmf.Relation]:
     relations: list[lmf.Relation] = [
         {'target': id,
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, id, *_
-        in get_sense_relations(sense_id, '*', lexids)
+        in get_sense_relations(sense_id, '*', lexicons)
     ]
     relations.extend(
         {'target': id,
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
-        in get_sense_synset_relations(sense_id, '*', lexids)
+        in get_sense_synset_relations(sense_id, '*', lexicons)
     )
     return relations
 
@@ -266,7 +267,7 @@ def _export_synsets(
     version: VersionInfo,
 ) -> list[lmf.Synset]:
     synsets: list[lmf.Synset] = []
-    for id, pos, ili, *_ in find_synsets(lexicon_rowids=lexids):
+    for id, pos, ili, *_ in find_synsets(lexicons=(lexspec,)):
         ilidef = _export_ili_definition(id)
         if ilidef and not ili:
             ili = PROPOSED_ILI_ID
@@ -275,7 +276,7 @@ def _export_synsets(
             'ili': ili or '',
             'partOfSpeech': pos,
             'definitions': _export_definitions(id, lexids),
-            'relations': _export_synset_relations(id, lexspec, lexids),
+            'relations': _export_synset_relations(id, lexspec),
             'examples': _export_examples(id, 'synsets', lexids),
             'lexicalized': get_lexicalized(id, lexspec, 'synsets'),
             'lexfile': get_lexfile(id, lexspec) or '',
@@ -284,7 +285,7 @@ def _export_synsets(
         if ilidef:
             ss['ili_definition'] = ilidef
         if version >= (1, 1):
-            ss['members'] = [row[0] for row in get_synset_members(id, lexids)]
+            ss['members'] = [row[0] for row in get_synset_members(id, (lexspec,))]
         synsets.append(ss)
     return synsets
 
@@ -317,14 +318,13 @@ def _export_ili_definition(synset: str) -> Optional[lmf.ILIDefinition]:
 def _export_synset_relations(
     synset_id: str,
     synset_lexicon: str,
-    lexids: Sequence[int]
 ) -> list[lmf.Relation]:
     return [
         {'target': id,
          'relType': type,
          'meta': _cast_metadata(metadata)}
         for type, _, metadata, _, id, *_
-        in get_synset_relations(synset_id, synset_lexicon, '*', lexids)
+        in get_synset_relations(synset_id, synset_lexicon, '*', (synset_lexicon,))
     ]
 
 

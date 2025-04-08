@@ -220,20 +220,18 @@ def get_lexicon_rowid(lexicon: str) -> int:
 def find_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
 ) -> Iterator[Union[_ExistingILI, _ProposedILI]]:
     if status == 'proposed' and not id:
-        yield from find_proposed_ilis(lexicon_rowids=lexicon_rowids)
+        yield from find_proposed_ilis(lexicons=lexicons)
     else:
-        yield from find_existing_ilis(
-            id=id, status=status, lexicon_rowids=lexicon_rowids
-        )
+        yield from find_existing_ilis(id=id, status=status, lexicons=lexicons)
 
 
 def find_existing_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
 ) -> Iterator[_ExistingILI]:
     query = '''
         SELECT DISTINCT i.id, ist.status, i.definition
@@ -248,39 +246,44 @@ def find_existing_ilis(
     if status:
         conditions.append('ist.status = ?')
         params.append(status)
-    if lexicon_rowids:
-        conditions.append(f'''
-            i.rowid IN
-            (SELECT ss.ili_rowid
-               FROM synsets AS ss
-              WHERE ss.lexicon_rowid IN ({_qs(lexicon_rowids)}))
-        ''')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        # this runs much faster than just adding a condition
+        query = '''
+        SELECT DISTINCT i.id, ist.status, i.definition
+          FROM lexicons as lex
+          JOIN synsets AS ss ON ss.lexicon_rowid = lex.rowid
+          JOIN ilis AS i ON i.rowid = ss.ili_rowid
+          JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
+        '''
+        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
+
     if conditions:
-        query += '\n WHERE ' + '\n   AND '.join(conditions)
+        query += ' WHERE ' + '\n           AND '.join(conditions)
+
     yield from connect().execute(query, params)
 
 
 def find_proposed_ilis(
     synset_id: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
 ) -> Iterator[_ProposedILI]:
     query = '''
-        SELECT null, "proposed", definition, ss.id, lex.id || ":" || lex.version
-          FROM proposed_ilis
-          JOIN synsets AS ss ON ss.rowid = synset_rowid
-          JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
+    SELECT null, "proposed", definition, ss.id, lex.id || ":" || lex.version
+      FROM proposed_ilis
+      JOIN synsets AS ss ON ss.rowid = synset_rowid
+      JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
     '''
-    conditions = []
+    conditions: list[str] = []
     params: list = []
     if synset_id is not None:
         conditions.append('ss.id = ?')
         params.append(synset_id)
-    if lexicon_rowids:
-        conditions.append(f'lex.rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
     if conditions:
-        query += '\n WHERE ' + '\n   AND '.join(conditions)
+        query += ' WHERE ' + '\n           AND '.join(conditions)
     yield from connect().execute(query, params)
 
 
@@ -288,7 +291,7 @@ def find_entries(
     id: Optional[str] = None,
     forms: Sequence[str] = (),
     pos: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Word]:
@@ -313,9 +316,9 @@ def find_entries(
     if pos:
         conditions.append('e.pos = ?')
         params.append(pos)
-    if lexicon_rowids:
-        conditions.append(f'e.lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
 
     condition = ''
     if conditions:
@@ -334,12 +337,11 @@ def find_entries(
     yield from rows
 
 
-
 def find_senses(
     id: Optional[str] = None,
     forms: Sequence[str] = (),
     pos: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Sense]:
@@ -364,9 +366,9 @@ def find_senses(
     if pos:
         conditions.append('e.pos = ?')
         params.append(pos)
-    if lexicon_rowids:
-        conditions.append(f's.lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        conditions.append(f'slex.id || ":" || slex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
 
     condition = ''
     if conditions:
@@ -392,7 +394,7 @@ def find_synsets(
     forms: Sequence[str] = (),
     pos: Optional[str] = None,
     ili: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
 ) -> Iterator[_Synset]:
@@ -426,9 +428,9 @@ def find_synsets(
             'ss.ili_rowid IN (SELECT ilis.rowid FROM ilis WHERE ilis.id = ?)'
         )
         params.append(ili)
-    if lexicon_rowids:
-        conditions.append(f'ss.lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        conditions.append(f'sslex.id || ":" || sslex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
 
     condition = ''
     if conditions:
@@ -479,7 +481,7 @@ def get_entry_forms(id: str, lexicon_rowids: Sequence[int]) -> Iterator[_Form]:
 
 def get_synsets_for_ilis(
     ilis: Collection[str],
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Synset]:
     conn = connect()
     query = f'''
@@ -489,9 +491,9 @@ def get_synsets_for_ilis(
           JOIN ilis as ili ON ss.ili_rowid = ili.rowid
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
          WHERE ili.id IN ({_qs(ilis)})
-           AND ss.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND sslex.id || ":" || sslex.version IN ({_qs(lexicons)})
     '''
-    params = *ilis, *lexicon_rowids
+    params = *ilis, *lexicons
     result_rows: Iterator[_Synset] = conn.execute(query, params)
     yield from result_rows
 
@@ -500,7 +502,7 @@ def get_synset_relations(
     synset_id: str,
     synset_lexicon: str,
     relation_types: Collection[str],
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
     params: list = []
@@ -508,14 +510,16 @@ def get_synset_relations(
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.extend(lexicon_rowids)
+    params.extend(lexicons)
     params.append(synset_id)
     params.append(synset_lexicon)
     query = f'''
         WITH
           reltypes(rowid) AS
             (SELECT rowid FROM relation_types {constraint}),
-          lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)}),
+          lexrowids(rowid) AS
+            (SELECT rowid FROM lexicons
+              WHERE id || ":" || version IN ({_vs(lexicons)})),
           srcsynset(rowid) AS
             (SELECT ss.rowid
                FROM synsets AS ss
@@ -548,7 +552,7 @@ def get_synset_relations(
 def get_expanded_synset_relations(
     ili_id: str,
     relation_types: Collection[str],
-    expand_rowids: Sequence[int],
+    expands: Sequence[str],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
     params: list = []
@@ -556,13 +560,14 @@ def get_expanded_synset_relations(
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.extend(expand_rowids)
+    params.extend(expands)
     params.append(ili_id)
     query = f'''
         WITH
           reltypes(rowid) AS
             (SELECT rowid FROM relation_types {constraint}),
-          lexrowids(rowid) AS (VALUES {_vs(expand_rowids)}),
+          lexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(expands)})),
           srcsynset(rowid) AS
             (SELECT ss.rowid
                FROM synsets AS ss
@@ -683,7 +688,7 @@ def get_syntactic_behaviours(
 def _get_senses(
     id: str,
     sourcetype: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Sense]:
     conn = connect()
     if sourcetype == 'entry':
@@ -702,42 +707,44 @@ def _get_senses(
           JOIN lexicons AS slex
             ON slex.rowid = s.lexicon_rowid
          WHERE {sourcealias}.id = ?
-           AND s.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND slex.id || ":" || slex.version IN ({_qs(lexicons)})
          ORDER BY s.{sourcetype}_rank
     '''
-    return conn.execute(query, (id, *lexicon_rowids))
+    return conn.execute(query, (id, *lexicons))
 
 
 def get_entry_senses(
     sense_id: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Sense]:
-    yield from _get_senses(sense_id, 'entry', lexicon_rowids)
+    yield from _get_senses(sense_id, 'entry', lexicons)
 
 
 def get_synset_members(
     synset_id: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Sense]:
-    yield from _get_senses(synset_id, 'synset', lexicon_rowids)
+    yield from _get_senses(synset_id, 'synset', lexicons)
 
 
 def get_sense_relations(
     sense_id: str,
     relation_types: Collection[str],
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Sense_Relation]:
     params: list = []
     constraint = ''
     if relation_types and '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.extend(lexicon_rowids)
+    params.extend(lexicons)
     params.append(sense_id)
     query = f'''
-          WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint}),
-               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
+        WITH
+          rt(rowid, type) AS
+            (SELECT rowid, type FROM relation_types {constraint}),
+          lexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         s.id, e.id, ss.id,
                         slex.id || ":" || slex.version
@@ -769,19 +776,21 @@ def get_sense_relations(
 def get_sense_synset_relations(
     sense_id: str,
     relation_types: Collection[str],
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> Iterator[_Synset_Relation]:
     params: list = []
     constraint = ''
     if '*' not in relation_types:
         constraint = f'WHERE type IN ({_qs(relation_types)})'
         params.extend(relation_types)
-    params.extend(lexicon_rowids)
+    params.extend(lexicons)
     params.append(sense_id)
     query = f'''
-          WITH rt(rowid, type) AS
-               (SELECT rowid, type FROM relation_types {constraint}),
-               lexrowids(rowid) AS (VALUES {_vs(lexicon_rowids)})
+        WITH
+          rt(rowid, type) AS
+            (SELECT rowid, type FROM relation_types {constraint}),
+          lexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),

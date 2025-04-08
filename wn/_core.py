@@ -240,7 +240,7 @@ class Lexicon:
         Also see: :meth:`Wordnet.describe`
 
         """
-        _id = get_lexicon_rowid(self._specifier)
+        lexspecs = (self.specifier(),)
         substrings: list[str] = [
             f'{self._specifier}',
             f'  Label  : {self.label}',
@@ -249,19 +249,19 @@ class Lexicon:
         ]
         if full:
             substrings.extend([
-                f'  Words  : {_desc_counts(find_entries, _id)}',
-                f'  Senses : {sum(1 for _ in find_senses(lexicon_rowids=(_id,)))}',
+                f'  Words  : {_desc_counts(find_entries, lexspecs)}',
+                f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
             ])
         substrings.extend([
-            f'  Synsets: {_desc_counts(find_synsets, _id)}',
-            f'  ILIs   : {sum(1 for _ in find_ilis(lexicon_rowids=(_id,))):>6}',
+            f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
+            f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
         ])
         return '\n'.join(substrings)
 
 
-def _desc_counts(query: Callable, lexid: int) -> str:
+def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
     count: dict[str, int] = {}
-    for _, pos, *_ in query(lexicon_rowids=(lexid,)):
+    for _, pos, *_ in query(lexicons=lexspecs):
         if pos not in count:
             count[pos] = 1
         else:
@@ -316,6 +316,18 @@ class _LexiconElement:
 
     def lexicon(self):
         return _to_lexicon(self._lexicon)
+
+    def _get_lexicons(self) -> tuple[str, ...]:
+        # TODO: this function has too much converting to/from rowids;
+        # simplify to lexicon specifiers when possible
+        if self._lexconf.default_mode:
+            return tuple(
+                {self._lexicon}
+                | set(get_lexicon_extension_bases(self._lexicon))
+                | set(get_lexicon_extensions(self._lexicon))
+            )
+        else:
+            return self._lexconf.lexicons
 
     def _get_lexicon_ids(self) -> tuple[int, ...]:
         # TODO: this function has too much converting to/from rowids;
@@ -479,8 +491,8 @@ class Word(_LexiconElement):
             [Sense('ewn-zygoma-n-05292350-01')]
 
         """
-        lexids = self._get_lexicon_ids()
-        iterable = get_entry_senses(self.id, lexids)
+        lexicons = self._get_lexicons()
+        iterable = get_entry_senses(self.id, lexicons)
         return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def metadata(self) -> Metadata:
@@ -755,8 +767,8 @@ class Synset(_Relatable):
             [Sense('ewn-umbrella-n-04514450-01')]
 
         """
-        lexids = self._get_lexicon_ids()
-        iterable = get_synset_members(self.id, lexids)
+        lexicons = self._get_lexicons()
+        iterable = get_synset_members(self.id, lexicons)
         return [Sense(*sense_data, _lexconf=self._lexconf) for sense_data in iterable]
 
     def lexicalized(self) -> bool:
@@ -857,8 +869,8 @@ class Synset(_Relatable):
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, 'Synset']]:
         _lexconf = self._lexconf
-        lexids = self._get_lexicon_ids()
-        iterable = get_synset_relations(self.id, self._lexicon, args, lexids)
+        lexicons = self._get_lexicons()
+        iterable = get_synset_relations(self.id, self._lexicon, args, lexicons)
         for relname, rellex, metadata, _, ssid, pos, ili, tgtlex in iterable:
             synset_rel = Relation(relname, self.id, ssid, rellex, metadata=metadata)
             synset = Synset(
@@ -875,17 +887,16 @@ class Synset(_Relatable):
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, 'Synset']]:
         _lexconf = self._lexconf
-        lexids = self._get_lexicon_ids()
-        expids = self._lexconf.expand_ids
+        lexicons = self._get_lexicons()
 
-        iterable = get_expanded_synset_relations(self.ili.id, args, expids)
+        iterable = get_expanded_synset_relations(self.ili.id, args, _lexconf.expands)
         for relname, lexicon, metadata, srcid, ssid, _, ili, *_ in iterable:
             if ili is None:
                 continue
             synset_rel = Relation(
                 relname, srcid, ssid, lexicon, metadata=metadata
             )
-            local_ss_rows = list(get_synsets_for_ilis([ili], lexicon_rowids=lexids))
+            local_ss_rows = list(get_synsets_for_ilis([ili], lexicons=lexicons))
 
             if local_ss_rows:
                 for row in local_ss_rows:
@@ -1077,8 +1088,8 @@ class Sense(_Relatable):
             Word('pwn-spigot-n')
 
         """
-        lexids = self._get_lexicon_ids()
-        word_data = next(find_entries(id=self._entry_id, lexicon_rowids=lexids))
+        lexicons = self._get_lexicons()
+        word_data = next(find_entries(id=self._entry_id, lexicons=lexicons))
         return Word(*word_data, _lexconf=self._lexconf)
 
     def synset(self) -> Synset:
@@ -1090,8 +1101,8 @@ class Sense(_Relatable):
             Synset('pwn-03325088-n')
 
         """
-        lexids = self._get_lexicon_ids()
-        synset_data = next(find_synsets(id=self._synset_id, lexicon_rowids=lexids))
+        lexicons = self._get_lexicons()
+        synset_data = next(find_synsets(id=self._synset_id, lexicons=lexicons))
         return Synset(*synset_data, _lexconf=self._lexconf)
 
     def examples(self) -> list[str]:
@@ -1181,7 +1192,7 @@ class Sense(_Relatable):
         )
 
     def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, 'Sense']]:
-        iterable = get_sense_relations(self.id, args, self._get_lexicon_ids())
+        iterable = get_sense_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, sid, eid, ssid, lexid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
             sense = Sense(
@@ -1193,7 +1204,7 @@ class Sense(_Relatable):
         self,
         *args: str,
     ) -> Iterator[tuple[Relation, 'Synset']]:
-        iterable = get_sense_synset_relations(self.id, args, self._get_lexicon_ids())
+        iterable = get_sense_synset_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
             synset = Synset(
@@ -1363,7 +1374,7 @@ class Wordnet:
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
-        iterable = find_entries(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_entries(id=id, lexicons=self._lexconf.lexicons)
         try:
             return Word(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
@@ -1386,7 +1397,7 @@ class Wordnet:
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
-        iterable = find_synsets(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_synsets(id=id, lexicons=self._lexconf.lexicons)
         try:
             return Synset(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
@@ -1413,7 +1424,7 @@ class Wordnet:
 
     def sense(self, id: str) -> Sense:
         """Return the first sense in this wordnet with identifier *id*."""
-        iterable = find_senses(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_senses(id=id, lexicons=self._lexconf.lexicons)
         try:
             return Sense(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
@@ -1436,7 +1447,7 @@ class Wordnet:
 
     def ili(self, id: str) -> ILI:
         """Return the first ILI in this wordnet with identifer *id*."""
-        iterable = find_existing_ilis(id=id, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_existing_ilis(id=id, lexicons=self._lexconf.lexicons)
         try:
             return _ExistingILI(*next(iterable))
         except StopIteration:
@@ -1448,7 +1459,7 @@ class Wordnet:
         If *status* is given, only return ILIs with a matching status.
 
         """
-        iterable = find_ilis(status=status, lexicon_rowids=self._lexconf.lexicon_ids)
+        iterable = find_ilis(status=status, lexicons=self._lexconf.lexicons)
         return [
             _ProposedILI(id, *data) if id is None else _ExistingILI(id, *data)
             for id, *data in iterable
@@ -1543,7 +1554,7 @@ def _find_helper(
 
     """
     kwargs: dict = {
-        'lexicon_rowids': w._lexconf.lexicon_ids,
+        'lexicons': w._lexconf.lexicons,
         'search_all_forms': w._search_all_forms,
     }
     if isinstance(ili, str):
