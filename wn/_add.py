@@ -16,7 +16,6 @@ from wn._db import connect
 from wn._queries import (
     resolve_lexicon_specifiers,
     get_lexicon_extensions,
-    get_lexicon_rowid,
 )
 from wn._util import normalize_form, format_lexicon_specifier
 from wn.util import ProgressHandler, ProgressBar
@@ -953,16 +952,16 @@ def remove(
                 for ext_spec in reversed(extensions):
                     progress.set(status=f'{ext_spec} (extension)')
                     conn.execute(
-                        'DELETE FROM lexicons WHERE rowid = ?',
-                        (get_lexicon_rowid(ext_spec),),
+                        'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                        (ext_spec,),
                     )
                     progress.flash(f'Removed {ext_spec}\n')
 
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{lexspec}', count=0)
                 conn.execute(
-                    'DELETE FROM lexicons WHERE rowid = ?',
-                    (get_lexicon_rowid(lexspec),),
+                    'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                    (lexspec,),
                 )
                 progress.flash(f'Removed {lexspec}{extra}\n')
 

@@ -207,16 +207,6 @@ def get_lexicon_extensions(lexicon: str, depth: int = -1) -> list[str]:
     return [row[0] for row in rows]
 
 
-def get_lexicon_rowid(lexicon: str) -> int:
-    query = '''
-        SELECT rowid
-          FROM lexicons
-         WHERE id || ":" || version = ?
-    '''
-    row = connect().execute(query, (lexicon,)).fetchone()
-    return row[0] if row is not None else -1
-
-
 def find_ilis(
     id: Optional[str] = None,
     status: Optional[str] = None,
@@ -455,13 +445,14 @@ def find_synsets(
     yield from rows
 
 
-def get_entry_forms(id: str, lexicon_rowids: Sequence[int]) -> Iterator[_Form]:
+def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[_Form]:
     form_query = f'''
         SELECT f.rowid, f.form, f.id, f.script
           FROM forms AS f
           JOIN entries AS e ON e.rowid = entry_rowid
+          JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          WHERE e.id = ?
-           AND f.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
          ORDER BY f.rank
     '''
     pron_query = '''
@@ -472,7 +463,7 @@ def get_entry_forms(id: str, lexicon_rowids: Sequence[int]) -> Iterator[_Form]:
     tag_query = 'SELECT tag, category FROM tags WHERE form_rowid = ?'
 
     cur = connect().cursor()
-    for row in cur.execute(form_query, (id, *lexicon_rowids)).fetchall():
+    for row in cur.execute(form_query, (id, *lexicons)).fetchall():
         params = (row[0],)
         prons: list[_Pronunciation] = cur.execute(pron_query, params).fetchall()
         tags: list[_Tag] = cur.execute(tag_query, params).fetchall()
@@ -597,7 +588,7 @@ def get_expanded_synset_relations(
 
 def get_definitions(
     synset_id: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> list[_Definition]:
     conn = connect()
     query = f'''
@@ -607,10 +598,11 @@ def get_definitions(
                d.metadata
           FROM definitions AS d
           JOIN synsets AS ss ON ss.rowid = d.synset_rowid
+          JOIN lexicons AS lex ON lex.rowid = d.lexicon_rowid
          WHERE ss.id = ?
-           AND d.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
     '''
-    return conn.execute(query, (synset_id, *lexicon_rowids)).fetchall()
+    return conn.execute(query, (synset_id, *lexicons)).fetchall()
 
 
 _SANITIZED_EXAMPLE_PREFIXES = {
@@ -622,7 +614,7 @@ _SANITIZED_EXAMPLE_PREFIXES = {
 def get_examples(
     id: str,
     table: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> list[_Example]:
     conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
@@ -632,15 +624,16 @@ def get_examples(
         SELECT ex.example, ex.language, ex.metadata
           FROM {prefix}_examples AS ex
           JOIN {table} AS tbl ON tbl.rowid = ex.{prefix}_rowid
+          JOIN lexicons AS lex ON lex.rowid = ex.lexicon_rowid
          WHERE tbl.id = ?
-           AND ex.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
     '''
-    return conn.execute(query, (id, *lexicon_rowids)).fetchall()
+    return conn.execute(query, (id, *lexicons)).fetchall()
 
 
 def find_syntactic_behaviours(
     id: Optional[str] = None,
-    lexicon_rowids: Sequence[int] = (),
+    lexicons: Sequence[str] = (),
 ) -> Iterator[_SyntacticBehaviour]:
     conn = connect()
     query = '''
@@ -650,15 +643,16 @@ def find_syntactic_behaviours(
             ON sbs.syntactic_behaviour_rowid = sb.rowid
           JOIN senses AS s
             ON s.rowid = sbs.sense_rowid
+          JOIN lexicons AS lex ON lex.rowid = sb.lexicon_rowid
     '''
     conditions: list[str] = []
     params: list = []
     if id:
         conditions.append('sb.id = ?')
         params.append(id)
-    if lexicon_rowids:
-        conditions.append(f'sb.lexicon_rowid IN ({_qs(lexicon_rowids)})')
-        params.extend(lexicon_rowids)
+    if lexicons:
+        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
     if conditions:
         query += '\n WHERE ' + '\n   AND '.join(conditions)
     rows: Iterator[tuple[str, str, str]] = conn.execute(query, params)
@@ -670,7 +664,7 @@ def find_syntactic_behaviours(
 
 def get_syntactic_behaviours(
     sense_id: str,
-    lexicon_rowids: Sequence[int],
+    lexicons: Sequence[str],
 ) -> list[str]:
     conn = connect()
     query = f'''
@@ -679,10 +673,11 @@ def get_syntactic_behaviours(
           JOIN syntactic_behaviour_senses AS sbs
             ON sbs.syntactic_behaviour_rowid = sb.rowid
           JOIN senses AS s ON s.rowid = sbs.sense_rowid
+          JOIN lexicons AS lex ON lex.rowid = sb.lexicon_rowid
          WHERE s.id = ?
-           AND sb.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
     '''
-    return [row[0] for row in conn.execute(query, (sense_id, *lexicon_rowids))]
+    return [row[0] for row in conn.execute(query, (sense_id, *lexicons))]
 
 
 def _get_senses(
@@ -906,17 +901,18 @@ def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
     return None
 
 
-def get_sense_counts(sense_id: str, lexicon_rowids: Sequence[int]) -> list[_Count]:
+def get_sense_counts(sense_id: str, lexicons: Sequence[str]) -> list[_Count]:
     conn = connect()
     query = f'''
         SELECT c.count, c.metadata
           FROM counts AS c
           JOIN senses AS s ON s.rowid = c.sense_rowid
+          JOIN lexicons AS lex ON lex.rowid = c.lexicon_rowid
          WHERE s.id = ?
-           AND c.lexicon_rowid IN ({_qs(lexicon_rowids)})
+           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
     '''
     rows: list[_Count] = conn.execute(
-        query, (sense_id, *lexicon_rowids)
+        query, (sense_id, *lexicons)
     ).fetchall()
     return rows
 

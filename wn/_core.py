@@ -31,7 +31,6 @@ from wn._queries import (
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
     get_lexicon_extensions,
-    get_lexicon_rowid,
     get_entry_forms,
     get_entry_senses,
     get_sense_relations,
@@ -273,19 +272,15 @@ def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
 @dataclass
 class _LexiconConfiguration:
     # slots=True from Python 3.10
-    __slots__ = "lexicons", "lexicon_ids", "expands", "expand_ids", "default_mode"
+    __slots__ = "lexicons", "expands", "default_mode"
     lexicons: tuple[str, ...]
-    lexicon_ids: tuple[int, ...]
     expands: tuple[str, ...]
-    expand_ids: tuple[int, ...]
     default_mode: bool
 
 
 _EMPTY_LEXCONFIG = _LexiconConfiguration(
     lexicons=(),
-    lexicon_ids=(),
     expands=(),
-    expand_ids=(),
     default_mode=False,
 )
 
@@ -318,8 +313,6 @@ class _LexiconElement:
         return _to_lexicon(self._lexicon)
 
     def _get_lexicons(self) -> tuple[str, ...]:
-        # TODO: this function has too much converting to/from rowids;
-        # simplify to lexicon specifiers when possible
         if self._lexconf.default_mode:
             return tuple(
                 {self._lexicon}
@@ -328,23 +321,6 @@ class _LexiconElement:
             )
         else:
             return self._lexconf.lexicons
-
-    def _get_lexicon_ids(self) -> tuple[int, ...]:
-        # TODO: this function has too much converting to/from rowids;
-        # simplify to lexicon specifiers when possible
-        if self._lexconf.default_mode:
-            return tuple(
-                {get_lexicon_rowid(self._lexicon)}
-                | set(
-                    get_lexicon_rowid(base_spec)
-                    for base_spec in get_lexicon_extension_bases(self._lexicon)
-                ) | set(
-                    get_lexicon_rowid(ext_spec)
-                    for ext_spec in get_lexicon_extensions(self._lexicon)
-                )
-            )
-        else:
-            return self._lexconf.lexicon_ids
 
 
 class Pronunciation:
@@ -467,8 +443,8 @@ class Word(_LexiconElement):
             'wolf'
 
         """
-        lexids = self._get_lexicon_ids()
-        return _make_form(*next(get_entry_forms(self.id, lexids)))
+        lexicons = self._get_lexicons()
+        return _make_form(*next(get_entry_forms(self.id, lexicons)))
 
     def forms(self) -> list[Form]:
         """Return the list of all encoded forms of the word.
@@ -479,8 +455,8 @@ class Word(_LexiconElement):
             ['wolf', 'wolves']
 
         """
-        lexids = self._get_lexicon_ids()
-        return [_make_form(*data) for data in get_entry_forms(self.id, lexids)]
+        lexicons = self._get_lexicons()
+        return [_make_form(*data) for data in get_entry_forms(self.id, lexicons)]
 
     def senses(self) -> list['Sense']:
         """Return the list of senses of the word.
@@ -739,9 +715,9 @@ class Synset(_Relatable):
             'a wheel that has wooden spokes and a metal rim'
 
         """
-        lexids = self._get_lexicon_ids()
+        lexicons = self._get_lexicons()
         return next(
-            (text for text, _, _, _ in get_definitions(self.id, lexids)),
+            (text for text, _, _, _ in get_definitions(self.id, lexicons)),
             None
         )
 
@@ -754,8 +730,8 @@ class Synset(_Relatable):
             ['"orbital revolution"', '"orbital velocity"']
 
         """
-        lexids = self._get_lexicon_ids()
-        exs = get_examples(self.id, 'synsets', lexids)
+        lexicons = self._get_lexicons()
+        exs = get_examples(self.id, 'synsets', lexicons)
         return [ex for ex, _, _ in exs]
 
     def senses(self) -> list['Sense']:
@@ -861,7 +837,7 @@ class Synset(_Relatable):
         # first get relations from the current lexicon(s)
         yield from self._iter_local_relations(args)
         # then attempt to expand via ILI
-        if self._ili is not None and self._lexconf.expand_ids:
+        if self._ili is not None and self._lexconf.expands:
             yield from self._iter_expanded_relations(args)
 
     def _iter_local_relations(
@@ -1107,8 +1083,8 @@ class Sense(_Relatable):
 
     def examples(self) -> list[str]:
         """Return the list of examples for the sense."""
-        lexids = self._get_lexicon_ids()
-        exs = get_examples(self.id, 'senses', lexids)
+        lexicons = self._get_lexicons()
+        exs = get_examples(self.id, 'senses', lexicons)
         return [ex for ex, _, _ in exs]
 
     def lexicalized(self) -> bool:
@@ -1130,14 +1106,14 @@ class Sense(_Relatable):
 
     def frames(self) -> list[str]:
         """Return the list of subcategorization frames for the sense."""
-        lexids = self._get_lexicon_ids()
-        return get_syntactic_behaviours(self.id, lexids)
+        lexicons = self._get_lexicons()
+        return get_syntactic_behaviours(self.id, lexicons)
 
     def counts(self) -> list[Count]:
         """Return the corpus counts stored for this sense."""
-        lexids = self._get_lexicon_ids()
+        lexicons = self._get_lexicons()
         return [Count(value, metadata=metadata)
-                for value, metadata in get_sense_counts(self.id, lexids)]
+                for value, metadata in get_sense_counts(self.id, lexicons)]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
@@ -1354,9 +1330,7 @@ class Wordnet:
 
         self._lexconf = _LexiconConfiguration(
             lexicons=lexicons,
-            lexicon_ids=tuple(get_lexicon_rowid(spec) for spec in lexicons),
             expands=expands,
-            expand_ids=tuple(get_lexicon_rowid(spec) for spec in expands),
             default_mode=default_mode,
         )
 
