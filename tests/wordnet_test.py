@@ -1,3 +1,4 @@
+import tempfile
 
 import pytest
 
@@ -82,15 +83,14 @@ def test_wordnet_lemmatize():
     assert en.words('exemplifying') == en.words('exemplify')
 
 
-@pytest.mark.usefixtures('empty_db')
-def test_portable_entities_issue_226(datadir):
-    try:
-        wn.add(datadir / 'mini-lmf-1.0.xml')
-        en = wn.Wordnet('test-en')
-        info1 = en.synsets('information')[0]
-        wn.remove('test-en')
-        wn.add(datadir / 'mini-lmf-1.0.xml')
-        info2 = en.synsets('information')[0]  # en Wordnet object still works
-        assert info1 == info2  # synsets are equivalent
-    finally:
-        wn.remove('*')
+def test_portable_entities_issue_226(monkeypatch, datadir):
+    with tempfile.TemporaryDirectory('wn_issue_226') as dir:
+        with monkeypatch.context() as m:
+            m.setattr(wn.config, 'data_directory', dir)
+            wn.add(datadir / 'mini-lmf-1.0.xml')
+            en = wn.Wordnet('test-en')
+            info1 = en.synsets('information')[0]
+            wn.remove('test-en')
+            wn.add(datadir / 'mini-lmf-1.0.xml')
+            info2 = en.synsets('information')[0]  # en Wordnet object still works
+            assert info1 == info2  # synsets are equivalent
