@@ -110,7 +110,7 @@ def _hypernym_paths(
         paths = [[synset] + path for path in paths] or [[synset]]
     if simulate_root and synset.id != _FAKE_ROOT:
         root = _core.Synset.empty(
-            id=_FAKE_ROOT, _lexid=synset._lexid, _wordnet=synset._wordnet
+            id=_FAKE_ROOT, _lexicon=synset._lexicon, _lexconf=synset._lexconf
         )
         paths = [path + [root] for path in paths] or [[root]]
     return paths
@@ -318,7 +318,7 @@ def common_hypernyms(
     from_self = _hypernym_paths(synset, simulate_root, True)
     from_other = _hypernym_paths(other, simulate_root, True)
     common = set(flatten(from_self)).intersection(flatten(from_other))
-    return sorted(common)
+    return sorted(common, key=lambda ss: ss.id)
 
 
 def lowest_common_hypernyms(

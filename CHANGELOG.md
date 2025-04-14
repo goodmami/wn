@@ -16,6 +16,7 @@
 
 * `Wordnet.synsets()` now accepts `wn.ILI` objects for the `ili`
   parameter ([#235])
+* DB-internal rowids are no longer used outside of SQL queries ([#226])
 
 ## Deprecated
 
@@ -752,6 +753,7 @@ abandoned, but this is an entirely new codebase.
 [#215]: https://github.com/goodmami/wn/issues/215
 [#216]: https://github.com/goodmami/wn/issues/216
 [#221]: https://github.com/goodmami/wn/issues/221
+[#226]: https://github.com/goodmami/wn/issues/226
 [#228]: https://github.com/goodmami/wn/issues/228
 [#235]: https://github.com/goodmami/wn/issues/235
 [#236]: https://github.com/goodmami/wn/issues/236

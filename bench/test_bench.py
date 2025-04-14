@@ -40,11 +40,27 @@ def test_add_lexical_resource_no_progress(mock_lmf, benchmark):
 
 @pytest.mark.benchmark(group="primary queries")
 @pytest.mark.usefixtures('mock_db')
-def test_synsets(mock_db, benchmark):
+def test_synsets(benchmark):
     benchmark(wn.synsets)
 
 
 @pytest.mark.benchmark(group="primary queries")
 @pytest.mark.usefixtures('mock_db')
-def test_words(mock_db, benchmark):
+def test_words(benchmark):
     benchmark(wn.words)
+
+
+@pytest.mark.benchmark(group="secondary queries")
+@pytest.mark.usefixtures('mock_db')
+def test_word_senses_no_wordnet(benchmark):
+    word = wn.words()[0]
+    benchmark(word.senses)
+
+
+@pytest.mark.benchmark(group="secondary queries")
+@pytest.mark.usefixtures('mock_db')
+def test_word_senses_with_wordnet(benchmark):
+    w = wn.Wordnet("mock:1")
+    word = w.words()[0]
+    benchmark(word.senses)
+
