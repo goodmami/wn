@@ -87,7 +87,7 @@ def test_wordnet_lemmatize():
 
 def test_portable_entities_issue_226(monkeypatch, datadir):
     # instead use ignore_cleanup_errors=True from Python 3.10
-    tempdir = tempfile.TemporaryDirectory('wn_issue_226', delete=False)
+    tempdir = tempfile.TemporaryDirectory('wn_issue_226')
     with tempdir as dir:
         with monkeypatch.context() as m:
             m.setattr(wn.config, 'data_directory', Path(dir))
