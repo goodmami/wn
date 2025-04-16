@@ -323,46 +323,27 @@ class _LexiconElement:
             return self._lexconf.lexicons
 
 
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Pronunciation:
     """A class for word form pronunciations."""
 
-    __slots__ = 'value', 'variety', 'notation', 'phonemic', 'audio'
     __module__ = 'wn'
 
-    def __init__(
-        self,
-        value: str,
-        variety: Optional[str] = None,
-        notation: Optional[str] = None,
-        phonemic: bool = True,
-        audio: Optional[str] = None,
-    ):
-        self.value = value
-        self.variety = variety
-        self.notation = notation
-        self.phonemic = phonemic
-        self.audio = audio
-
-    def __repr__(self) -> str:
-        return f'Pronunciation({self.value!r})'
+    value: str
+    variety: Optional[str] = None
+    notation: Optional[str] = None
+    phonemic: bool = True
+    audio: Optional[str] = None
 
 
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Tag:
     """A general-purpose tag class for word forms."""
-    __slots__ = 'tag', 'category',
     __module__ = 'wn'
+    __slots__ = 'tag', 'category'
 
-    def __init__(self, tag: str, category: str):
-        self.tag = tag
-        self.category = category
-
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, Tag):
-            return NotImplemented
-        return self.tag == other.tag and self.category == other.category
-
-    def __repr__(self) -> str:
-        return f'Tag({self.tag!r}, {self.category!r})'
+    tag: str
+    category: str
 
 
 class Form:
@@ -697,73 +678,30 @@ class _Relatable(_LexiconElement):
                 elif end is None:
                     yield path
 
+
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Example:
     """Class for modeling Sense and Synset examples."""
-    __slots__ = 'text', 'language', '_metadata'
     __module__ = 'wn'
 
     text: str
-    language: Optional[str]
-    _metadata: Optional[Metadata]
-
-    def __init__(
-        self,
-        text: str,
-        language: Optional[str] = None,
-        metadata: Optional[Metadata] = None,
-    ):
-        self.text = text
-        self.language = language
-        self._metadata = metadata
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, Example):
-            return self.text == other.text and self.language == other.language
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.text, self.language))
-
-    def __repr__(self) -> str:
-        return f'Example({self.text!r})'
+    language: Optional[str] = None
+    _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
         """Return the example's metadata."""
         return self._metadata if self._metadata is not None else {}
 
 
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Definition:
     """Class for modeling Synset definitions."""
-    __slots__ = 'text', 'language', 'source_sense_id', '_metadata'
     __module__ = 'wn'
 
     text: str
-    language: Optional[str]
-    source_sense_id: Optional[str]
-    _metadata: Optional[Metadata]
-
-    def __init__(
-        self,
-        text: str,
-        language: Optional[str] = None,
-        source_sense_id: Optional[str] = None,
-        metadata: Optional[Metadata] = None,
-    ):
-        self.text = text
-        self.language = language
-        self.source_sense_id = source_sense_id
-        self._metadata = metadata
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, Example):
-            return self.text == other.text and self.language == other.language
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.text, self.language))
-
-    def __repr__(self) -> str:
-        return f'Definition({self.text!r})'
+    language: Optional[str] = None
+    source_sense_id: Optional[str] = field(default=None, compare=False)
+    _metadata: Optional[Metadata] = field(default=None, compare=False, repr=False)
 
     def metadata(self) -> Metadata:
         """Return the example's metadata."""
@@ -851,7 +789,7 @@ class Synset(_Relatable):
                     text,
                     language=lang,
                     source_sense_id=sense_id,
-                    metadata=meta,
+                    _metadata=meta,
                 )
             else:
                 return text
@@ -879,7 +817,7 @@ class Synset(_Relatable):
         exs = get_examples(self.id, 'synsets', lexicons)
         if data:
             return [
-                Example(text, language=lang, metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
             ]
         else:
             return [text for text, _, _ in exs]
@@ -1178,24 +1116,13 @@ class Synset(_Relatable):
         return Wordnet(lexicon=lexicon, lang=lang).synsets(ili=ili)
 
 
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Count:
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
     value: int
-    _metadata: Optional[Metadata]
-
-    def __init__(self, value: int, metadata: Optional[Metadata] = None):
-        self.value = value
-        self._metadata = metadata
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, Count):
-            return self.value == other.value
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash(self.value)
+    _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
         """Return the count's metadata."""
@@ -1267,7 +1194,7 @@ class Sense(_Relatable):
         exs = get_examples(self.id, 'senses', lexicons)
         if data:
             return [
-                Example(text, language=lang, metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
             ]
         else:
             return [text for text, _, _ in exs]
@@ -1304,7 +1231,7 @@ class Sense(_Relatable):
         lexicons = self._get_lexicons()
         count_data = list(get_sense_counts(self.id, lexicons))
         if data:
-            return [Count(value, metadata=metadata) for value, metadata in count_data]
+            return [Count(value, _metadata=metadata) for value, metadata in count_data]
         else:
             return [value for value, _ in count_data]
 
