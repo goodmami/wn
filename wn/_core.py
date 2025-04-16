@@ -4,7 +4,7 @@ import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Optional, TypeVar, Union
+from typing import Literal, Optional, TypeVar, Union, overload
 
 from typing_extensions import deprecated  # until Python 3.13
 
@@ -298,7 +298,7 @@ class _LexiconElement:
         self._lexicon = _lexicon  # source lexicon specifier
         self._lexconf = _lexconf
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, type(self)) or isinstance(self, type(other)):
             return (
                 self.id == other.id
@@ -306,10 +306,10 @@ class _LexiconElement:
             )
         return NotImplemented
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.id, self._lexicon))
 
-    def lexicon(self):
+    def lexicon(self) -> Lexicon:
         return _to_lexicon(self._lexicon)
 
     def _get_lexicons(self) -> tuple[str, ...]:
@@ -327,6 +327,7 @@ class Pronunciation:
     """A class for word form pronunciations."""
 
     __slots__ = 'value', 'variety', 'notation', 'phonemic', 'audio'
+    __module__ = 'wn'
 
     def __init__(
         self,
@@ -342,6 +343,9 @@ class Pronunciation:
         self.phonemic = phonemic
         self.audio = audio
 
+    def __repr__(self) -> str:
+        return f'Pronunciation({self.value!r})'
+
 
 class Tag:
     """A general-purpose tag class for word forms."""
@@ -352,44 +356,55 @@ class Tag:
         self.tag = tag
         self.category = category
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if not isinstance(other, Tag):
             return NotImplemented
         return self.tag == other.tag and self.category == other.category
 
+    def __repr__(self) -> str:
+        return f'Tag({self.tag!r}, {self.category!r})'
 
-class Form(str):
-    """A word-form string with additional attributes."""
-    __slots__ = 'id', 'script', '_pronunciations', '_tags'
+
+class Form:
+    """A word-form."""
+    __slots__ = 'value', 'id', 'script', '_pronunciations', '_tags'
     __module__ = 'wn'
 
+    value: str
     id: Optional[str]
     script: Optional[str]
     _pronunciations: tuple[Pronunciation, ...]
     _tags: tuple[Tag, ...]
 
-    def __new__(
-        cls,
+    def __init__(
+        self,
         form: str,
         id: Optional[str] = None,
         script: Optional[str] = None,
         pronunciations: Sequence[Pronunciation] = (),
         tags: Sequence[Tag] = (),
     ):
-        obj = str.__new__(cls, form)  # type: ignore
-        obj.id = id
-        obj.script = script
-        obj._pronunciations = tuple(pronunciations)
-        obj._tags = tuple(tags)
-        return obj
+        self.value = form
+        self.id = id
+        self.script = script
+        self._pronunciations = tuple(pronunciations)
+        self._tags = tuple(tags)
 
-    def __eq__(self, other):
-        if isinstance(other, Form) and self.script != other.script:
-            return False
-        return str.__eq__(self, other)
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Form):
+            return (
+                self.value == other.value
+                and self.script == other.script
+            )
+        return NotImplemented
 
-    def __hash__(self):
-        return str.__hash__(self)
+    def __hash__(self) -> int:
+        return hash((self.value, self.script))
+
+    def __repr__(self) -> str:
+        if self.script:
+            return f'Form({self.value!r}, script={self.script!r})'
+        return f'Form({self.value})'
 
     def pronunciations(self) -> list[Pronunciation]:
         return list(self._pronunciations)
@@ -434,29 +449,59 @@ class Word(_LexiconElement):
     def __repr__(self) -> str:
         return f'Word({self.id!r})'
 
-    def lemma(self) -> Form:
+    @overload
+    def lemma(self, *, data: Literal[False] = False) -> str: ...
+    @overload
+    def lemma(self, *, data: Literal[True] = True) -> Form: ...
+
+    def lemma(self, *, data: bool = False) -> Union[str, Form]:
         """Return the canonical form of the word.
+
+        If the *data* argument is :python:`False` (the default), the
+        lemma is returned as a :class:`str` type. If it is
+        :python:`True`, a :class:`wn.Form` object is used instead.
 
         Example:
 
             >>> wn.words('wolves')[0].lemma()
             'wolf'
+            >>> wn.words('wolves')[0].lemma(data=True)
+            Form('wolf')
 
         """
         lexicons = self._get_lexicons()
-        return _make_form(*next(get_entry_forms(self.id, lexicons)))
+        lemma_data = next(get_entry_forms(self.id, lexicons))
+        if data:
+            return _make_form(*lemma_data)
+        else:
+            return lemma_data[0]
 
-    def forms(self) -> list[Form]:
+    @overload
+    def forms(self, *, data: Literal[False] = False) -> list[str]: ...
+    @overload
+    def forms(self, *, data: Literal[True] = True) -> list[Form]: ...
+
+    def forms(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of all encoded forms of the word.
+
+        If the *data* argument is :python:`False` (the default), the
+        forms are returned as :class:`str` types. If it is
+        :python:`True`, :class:`wn.Form` objects are used instead.
 
         Example:
 
             >>> wn.words('wolf')[0].forms()
             ['wolf', 'wolves']
+            >>> wn.words('wolf')[0].forms(data=True)
+            [Form('wolf'), Form('wolves')]
 
         """
         lexicons = self._get_lexicons()
-        return [_make_form(*data) for data in get_entry_forms(self.id, lexicons)]
+        form_data = list(get_entry_forms(self.id, lexicons))
+        if data:
+            return [_make_form(*data) for data in form_data]
+        else:
+            return [form for form, *_ in form_data]
 
     def senses(self) -> list['Sense']:
         """Return the list of senses of the word.
@@ -652,6 +697,78 @@ class _Relatable(_LexiconElement):
                 elif end is None:
                     yield path
 
+class Example:
+    """Class for modeling Sense and Synset examples."""
+    __slots__ = 'text', 'language', '_metadata'
+    __module__ = 'wn'
+
+    text: str
+    language: Optional[str]
+    _metadata: Optional[Metadata]
+
+    def __init__(
+        self,
+        text: str,
+        language: Optional[str] = None,
+        metadata: Optional[Metadata] = None,
+    ):
+        self.text = text
+        self.language = language
+        self._metadata = metadata
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Example):
+            return self.text == other.text and self.language == other.language
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.text, self.language))
+
+    def __repr__(self) -> str:
+        return f'Example({self.text!r})'
+
+    def metadata(self) -> Metadata:
+        """Return the example's metadata."""
+        return self._metadata if self._metadata is not None else {}
+
+
+class Definition:
+    """Class for modeling Synset definitions."""
+    __slots__ = 'text', 'language', 'source_sense_id', '_metadata'
+    __module__ = 'wn'
+
+    text: str
+    language: Optional[str]
+    source_sense_id: Optional[str]
+    _metadata: Optional[Metadata]
+
+    def __init__(
+        self,
+        text: str,
+        language: Optional[str] = None,
+        source_sense_id: Optional[str] = None,
+        metadata: Optional[Metadata] = None,
+    ):
+        self.text = text
+        self.language = language
+        self.source_sense_id = source_sense_id
+        self._metadata = metadata
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Example):
+            return self.text == other.text and self.language == other.language
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.text, self.language))
+
+    def __repr__(self) -> str:
+        return f'Definition({self.text!r})'
+
+    def metadata(self) -> Metadata:
+        """Return the example's metadata."""
+        return self._metadata if self._metadata is not None else {}
+
 
 class Synset(_Relatable):
     """Class for modeling wordnet synsets."""
@@ -682,7 +799,7 @@ class Synset(_Relatable):
     ):
         return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         # include ili in the hash so inferred synsets don't hash the same
         if isinstance(other, Synset):
             return (
@@ -692,7 +809,7 @@ class Synset(_Relatable):
             )
         return NotImplemented
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.id, self._ili, self._lexicon))
 
     def __repr__(self) -> str:
@@ -706,23 +823,51 @@ class Synset(_Relatable):
             return _ProposedILI(*row)
         return None
 
-    def definition(self) -> Optional[str]:
+    @overload
+    def definition(self, *, data: Literal[False] = False) -> Optional[str]: ...
+    @overload
+    def definition(self, *, data: Literal[True] = True) -> Optional[Definition]: ...
+
+    def definition(self, *, data: bool = False) -> Union[str, Definition, None]:
         """Return the first definition found for the synset.
+
+        If the *data* argument is :python:`False` (the default), the
+        definition is returned as a :class:`str` type. If it is
+        :python:`True`, a :class:`wn.Definition` object is used instead.
 
         Example:
 
             >>> wn.synsets('cartwheel', pos='n')[0].definition()
             'a wheel that has wooden spokes and a metal rim'
+            >>> wn.synsets('cartwheel', pos='n')[0].definition(data=True)
+            Definition()
 
         """
         lexicons = self._get_lexicons()
-        return next(
-            (text for text, _, _, _ in get_definitions(self.id, lexicons)),
-            None
-        )
+        if defns := get_definitions(self.id, lexicons):
+            text, lang, sense_id, meta = defns[0]
+            if data:
+                return Definition(
+                    text,
+                    language=lang,
+                    source_sense_id=sense_id,
+                    metadata=meta,
+                )
+            else:
+                return text
+        return None
 
-    def examples(self) -> list[str]:
+    @overload
+    def examples(self, *, data: Literal[False] = False) -> list[str]: ...
+    @overload
+    def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
+
+    def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
         """Return the list of examples for the synset.
+
+        If the *data* argument is :python:`False` (the default), the
+        examples are returned as :class:`str` types. If it is
+        :python:`True`, :class:`wn.Example` objects are used instead.
 
         Example:
 
@@ -732,7 +877,12 @@ class Synset(_Relatable):
         """
         lexicons = self._get_lexicons()
         exs = get_examples(self.id, 'synsets', lexicons)
-        return [ex for ex, _, _ in exs]
+        if data:
+            return [
+                Example(text, language=lang, metadata=meta) for text, lang, meta in exs
+            ]
+        else:
+            return [text for text, _, _ in exs]
 
     def senses(self) -> list['Sense']:
         """Return the list of sense members of the synset.
@@ -770,13 +920,24 @@ class Synset(_Relatable):
         """
         return [sense.word() for sense in self.senses()]
 
-    def lemmas(self) -> list[Form]:
+    @overload
+    def lemmas(self, *, data: Literal[False] = False) -> list[str]: ...
+    @overload
+    def lemmas(self, *, data: Literal[True] = True) -> list[Form]: ...
+
+    def lemmas(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of lemmas of words for the synset.
+
+        If the *data* argument is :python:`False` (the default), the
+        lemmas are returned as :class:`str` types. If it is
+        :python:`True`, :class:`wn.Form` objects are used instead.
 
         Example:
 
-            >>> wn.synsets('exclusive', pos='n')[0].words()
+            >>> wn.synsets('exclusive', pos='n')[0].lemmas()
             ['scoop', 'exclusive']
+            >>> wn.synsets('exclusive', pos='n')[0].lemmas(data=True)
+            [Form('scoop'), Form('exclusive')]
 
         """
         return [w.lemma() for w in self.words()]
@@ -1017,16 +1178,24 @@ class Synset(_Relatable):
         return Wordnet(lexicon=lexicon, lang=lang).synsets(ili=ili)
 
 
-class Count(int):
+class Count:
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
+    value: int
     _metadata: Optional[Metadata]
 
-    def __new__(cls, value, metadata: Optional[Metadata] = None):
-        obj = int.__new__(cls, value)  # type: ignore
-        obj._metadata = metadata
-        return obj
+    def __init__(self, value: int, metadata: Optional[Metadata] = None):
+        self.value = value
+        self._metadata = metadata
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Count):
+            return self.value == other.value
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash(self.value)
 
     def metadata(self) -> Metadata:
         """Return the count's metadata."""
@@ -1081,11 +1250,27 @@ class Sense(_Relatable):
         synset_data = next(find_synsets(id=self._synset_id, lexicons=lexicons))
         return Synset(*synset_data, _lexconf=self._lexconf)
 
-    def examples(self) -> list[str]:
-        """Return the list of examples for the sense."""
+
+    @overload
+    def examples(self, *, data: Literal[False] = False) -> list[str]: ...
+    @overload
+    def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
+
+    def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
+        """Return the list of examples for the sense.
+
+        If the *data* argument is :python:`False` (the default), the
+        examples are returned as :class:`str` types. If it is
+        :python:`True`, :class:`wn.Example` objects are used instead.
+        """
         lexicons = self._get_lexicons()
         exs = get_examples(self.id, 'senses', lexicons)
-        return [ex for ex, _, _ in exs]
+        if data:
+            return [
+                Example(text, language=lang, metadata=meta) for text, lang, meta in exs
+            ]
+        else:
+            return [text for text, _, _ in exs]
 
     def lexicalized(self) -> bool:
         """Return True if the sense is lexicalized."""
@@ -1109,11 +1294,19 @@ class Sense(_Relatable):
         lexicons = self._get_lexicons()
         return get_syntactic_behaviours(self.id, lexicons)
 
-    def counts(self) -> list[Count]:
+    @overload
+    def counts(self, *, data: Literal[False] = False) -> list[int]: ...
+    @overload
+    def counts(self, *, data: Literal[True] = True) -> list[Count]: ...
+
+    def counts(self, *, data: bool = False) -> Union[list[int], list[Count]]:
         """Return the corpus counts stored for this sense."""
         lexicons = self._get_lexicons()
-        return [Count(value, metadata=metadata)
-                for value, metadata in get_sense_counts(self.id, lexicons)]
+        count_data = list(get_sense_counts(self.id, lexicons))
+        if data:
+            return [Count(value, metadata=metadata) for value, metadata in count_data]
+        else:
+            return [value for value, _ in count_data]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
