@@ -346,46 +346,20 @@ class Tag:
     category: str
 
 
+@dataclass(frozen=True)  # slots=True from Python 3.10
 class Form:
     """A word-form."""
-    __slots__ = 'value', 'id', 'script', '_pronunciations', '_tags'
     __module__ = 'wn'
 
     value: str
-    id: Optional[str]
-    script: Optional[str]
-    _pronunciations: tuple[Pronunciation, ...]
-    _tags: tuple[Tag, ...]
-
-    def __init__(
-        self,
-        form: str,
-        id: Optional[str] = None,
-        script: Optional[str] = None,
-        pronunciations: Sequence[Pronunciation] = (),
-        tags: Sequence[Tag] = (),
-    ):
-        self.value = form
-        self.id = id
-        self.script = script
-        self._pronunciations = tuple(pronunciations)
-        self._tags = tuple(tags)
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, Form):
-            return (
-                self.value == other.value
-                and self.script == other.script
-            )
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.value, self.script))
-
-    def __repr__(self) -> str:
-        if self.script:
-            return f'Form({self.value!r}, script={self.script!r})'
-        return f'Form({self.value})'
+    id: Optional[str] = field(default=None, repr=False, compare=False)
+    script: Optional[str] = field(default=None, repr=False)
+    _pronunciations: tuple[Pronunciation, ...] = field(
+        default_factory=tuple, repr=False, compare=False
+    )
+    _tags: tuple[Tag, ...] = field(
+        default_factory=tuple, repr=False, compare=False
+    )
 
     def pronunciations(self) -> list[Pronunciation]:
         return list(self._pronunciations)
@@ -398,15 +372,15 @@ def _make_form(
     form: str,
     id: Optional[str],
     script: Optional[str],
-    prons: list[tuple[str, str, str, bool, str]],
+    prons: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]],
     tags: list[tuple[str, str]],
 ) -> Form:
     return Form(
         form,
         id=id,
         script=script,
-        pronunciations=[Pronunciation(*data) for data in prons],
-        tags=[Tag(*data) for data in tags],
+        _pronunciations=tuple(Pronunciation(*data) for data in prons),
+        _tags=tuple(Tag(*data) for data in tags),
     )
 
 
