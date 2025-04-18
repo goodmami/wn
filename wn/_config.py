@@ -32,7 +32,18 @@ class WNConfig:
 
     @property
     def data_directory(self) -> Path:
-        """The file system directory where Wn's data is stored."""
+        """The file system directory where Wn's data is stored.
+
+        Assign a new path to change where the database and downloads
+        are stored.
+
+        >>> wn.config.data_directory = "~/.cache/wn"
+        >>> wn.config.database_path
+        PosixPath('/home/username/.cache/wn/wn.db')
+        >>> wn.config.downloads_directory
+        PosixPath('/home/username/.cache/wn/downloads')
+
+        """
         dir = self._data_directory
         dir.mkdir(exist_ok=True)
         return dir
@@ -47,12 +58,22 @@ class WNConfig:
 
     @property
     def database_path(self):
-        """The path to the database file."""
+        """The path to the database file.
+
+        The database path is derived from :attr:`data_directory` and
+        cannot be changed directly.
+
+        """
         return self._dbpath
 
     @property
     def downloads_directory(self):
-        """The file system directory where downloads are cached."""
+        """The file system directory where downloads are cached.
+
+        The downloads directory is derived from :attr:`data_directory`
+        and cannot be changed directly.
+
+        """
         dir = self.data_directory / 'downloads'
         dir.mkdir(exist_ok=True)
         return dir

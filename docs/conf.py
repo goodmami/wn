@@ -98,8 +98,8 @@ html_show_sourcelink = False
 
 # -- Options for autodoc extension -------------------------------------------
 
-autodoc_typehints = 'description'
-# autodoc_typehints = 'signature'
+# autodoc_typehints = 'description'
+autodoc_typehints = 'signature'
 # autodoc_typehints = 'none'
 
 # -- Options for intersphinx extension ---------------------------------------

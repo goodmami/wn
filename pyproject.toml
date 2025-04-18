@@ -79,11 +79,13 @@ dependencies = [
   "furo",
   "sphinx",
   "sphinx-copybutton",
+  "sphinx-autobuild",
 ]
 
 [tool.hatch.envs.docs.scripts]
-build = "make -C docs html"
-clean = "make -C docs clean"
+build = "sphinx-build -M docs docs/_build"
+clean = "sphinx-build -M clean docs docs/_build"
+watch = "sphinx-autobuild docs docs/_build/html"
 
 [tool.ruff]
 target-version = "py39"

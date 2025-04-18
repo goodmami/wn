@@ -150,19 +150,7 @@ class _ProposedILI(ILI):
 
 @dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
 class Lexicon:
-    """A class representing a wordnet lexicon.
-
-    Attributes:
-        id: The lexicon's identifier.
-        label: The full name of lexicon.
-        language: The BCP 47 language code of lexicon.
-        email: The email address of the wordnet maintainer.
-        license: The URL or name of the wordnet's license.
-        version: The version string of the resource.
-        url: The project URL of the wordnet.
-        citation: The canonical citation for the project.
-        logo: A URL or path to a project logo.
-    """
+    """A class representing a wordnet lexicon."""
     __module__ = 'wn'
 
     id: str
@@ -288,6 +276,8 @@ _EMPTY_LEXCONFIG = _LexiconConfiguration(
 class _LexiconElement:
     __slots__ = 'id', '_lexicon', '_lexconf'
 
+    id: str
+
     def __init__(
         self,
         id: str,
@@ -391,6 +381,8 @@ class Word(_LexiconElement):
 
     _ENTITY_TYPE = _EntityType.ENTRIES
 
+    pos: str
+
     def __init__(
         self,
         id: str,
@@ -421,7 +413,7 @@ class Word(_LexiconElement):
             >>> wn.words('wolves')[0].lemma()
             'wolf'
             >>> wn.words('wolves')[0].lemma(data=True)
-            Form('wolf')
+            Form(value='wolf')
 
         """
         lexicons = self._get_lexicons()
@@ -448,7 +440,7 @@ class Word(_LexiconElement):
             >>> wn.words('wolf')[0].forms()
             ['wolf', 'wolves']
             >>> wn.words('wolf')[0].forms(data=True)
-            [Form('wolf'), Form('wolves')]
+            [Form(value='wolf'), Form(value='wolves')]
 
         """
         lexicons = self._get_lexicons()
@@ -538,18 +530,14 @@ class Word(_LexiconElement):
 
 
 class Relation:
-    """A class to model relations between senses or synsets.
+    """A class to model relations between senses or synsets."""
 
-    Args:
-      name: the name, or "type", of the relation
-      source_id: the identifier of the source sense or synset
-      target_id: the identifier of the target sense or synset
-      lexicon: the lexicon specifier of the lexicon where the relation
-               is defined
-      metadata: metadata associated with the relation
-    """
     __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
     __module__ = 'wn'
+
+    name: str
+    source_id: str
+    target_id: str
 
     def __init__(
         self,
@@ -688,6 +676,8 @@ class Synset(_Relatable):
     __module__ = 'wn'
 
     _ENTITY_TYPE = _EntityType.SYNSETS
+
+    pos: str
 
     def __init__(
         self,
@@ -849,7 +839,7 @@ class Synset(_Relatable):
             >>> wn.synsets('exclusive', pos='n')[0].lemmas()
             ['scoop', 'exclusive']
             >>> wn.synsets('exclusive', pos='n')[0].lemmas(data=True)
-            [Form('scoop'), Form('exclusive')]
+            [Form(value='scoop'), Form(value='exclusive')]
 
         """
         return [w.lemma() for w in self.words()]
