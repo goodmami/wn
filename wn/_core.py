@@ -728,11 +728,11 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     @property
-    def ili(self):
-        if self._ili and (row := next(find_existing_ilis(id=self._ili), None)):
-            return _ExistingILI(*row)
-        elif row := next(find_proposed_ilis(synset_id=self.id), None):
-            return _ProposedILI(*row)
+    def ili(self) -> Optional[ILI]:
+        if self._ili and (e_ili := next(find_existing_ilis(id=self._ili), None)):
+            return _ExistingILI(*e_ili)
+        elif p_ili := next(find_proposed_ilis(synset_id=self.id), None):
+            return _ProposedILI(*p_ili)
         return None
 
     @overload
@@ -935,10 +935,11 @@ class Synset(_Relatable):
         self,
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, 'Synset']]:
+        assert self._ili is not None, 'cannot get expanded relations without an ILI'
         _lexconf = self._lexconf
         lexicons = self._get_lexicons()
 
-        iterable = get_expanded_synset_relations(self.ili.id, args, _lexconf.expands)
+        iterable = get_expanded_synset_relations(self._ili, args, _lexconf.expands)
         for relname, lexicon, metadata, srcid, ssid, _, ili, *_ in iterable:
             if ili is None:
                 continue
