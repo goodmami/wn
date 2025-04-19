@@ -742,7 +742,8 @@ class Synset(_Relatable):
             >>> wn.synsets('cartwheel', pos='n')[0].definition()
             'a wheel that has wooden spokes and a metal rim'
             >>> wn.synsets('cartwheel', pos='n')[0].definition(data=True)
-            Definition()
+            [Definition(text='a wheel that has wooden spokes and a metal rim',
+              language=None, source_sense_id=None)]
 
         """
         lexicons = self._get_lexicons()
@@ -758,6 +759,37 @@ class Synset(_Relatable):
             else:
                 return text
         return None
+
+    @overload
+    def definitions(self, *, data: Literal[False] = False) -> list[str]: ...
+    @overload
+    def definitions(self, *, data: Literal[True] = True) -> list[Definition]: ...
+
+    def definitions(self, *, data: bool = False) -> Union[list[str], list[Definition]]:
+        """Return the list of definitions for the synset.
+
+        If the *data* argument is :python:`False` (the default), the
+        definitions are returned as :class:`str` objects. If it is
+        :python:`True`, :class:`wn.Definition` objects are used instead.
+
+        Example:
+
+            >>> wn.synsets('tea', pos='n')[0].definitions()
+            ['a beverage made by steeping tea leaves in water']
+            >>> wn.synsets('tea', pos='n')[0].definitions(data=True)
+            [Definition(text='a beverage made by steeping tea leaves in water',
+              language=None, source_sense_id=None)]
+
+        """
+        lexicons = self._get_lexicons()
+        defns = get_definitions(self.id, lexicons)
+        if data:
+            return [
+                Definition(text, language=lang, source_sense_id=sid, _metadata=meta)
+                for text, lang, sid, meta in defns
+            ]
+        else:
+            return [text for text, *_ in defns]
 
     @overload
     def examples(self, *, data: Literal[False] = False) -> list[str]: ...

@@ -131,6 +131,7 @@ Synset Objects
       The interlingual index of the Synset.
 
    .. automethod:: definition
+   .. automethod:: definitions
    .. automethod:: examples
    .. automethod:: senses
    .. automethod:: lexicalized
