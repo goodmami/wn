@@ -16,10 +16,10 @@ from wn._util import split_lexicon_specifier
 
 _Pronunciation = tuple[
     str,   # value
-    str,   # variety
-    str,   # notation
+    Optional[str],   # variety
+    Optional[str],   # notation
     bool,  # phonemic
-    str,   # audio
+    Optional[str],   # audio
 ]
 _Tag = tuple[str, str]  # tag, category
 _Form = tuple[

@@ -7,6 +7,7 @@
 * `wn.add_lexical_resource()` to add result of `wn.lmf.load()` to
   database rather than from a file (pertinent to [#98])
 * `bench/` directory with benchmark tests ([#98])
+* `Synset.definitions()` ([#246])
 
 ## Fixed
 
@@ -17,6 +18,22 @@
 * `Wordnet.synsets()` now accepts `wn.ILI` objects for the `ili`
   parameter ([#235])
 * DB-internal rowids are no longer used outside of SQL queries ([#226])
+* The following methods now return standard `str` objects by default
+  and custom classes with a `data=True` argument ([#246]):
+  - `Word.lemma()`
+  - `Word.forms()`
+  - `Sense.examples()`
+  - `Synset.examples()`
+  - `Synset.definition()`
+* `Sense.counts()` now returns a standard `int` object by default and
+  a custom class with a `data=True` argument ([#246])
+* The following classes no longer subclass standard `str` or `int`
+  types and therefore no longer inherit their behavior or interface
+  ([#246]):
+  - `Form`
+  - `Example`
+  - `Definition`
+  - `Count`
 
 ## Deprecated
 
@@ -759,3 +776,4 @@ abandoned, but this is an entirely new codebase.
 [#236]: https://github.com/goodmami/wn/issues/236
 [#237]: https://github.com/goodmami/wn/issues/237
 [#238]: https://github.com/goodmami/wn/issues/238
+[#246]: https://github.com/goodmami/wn/issues/246

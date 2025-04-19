@@ -62,8 +62,10 @@ def test_words_mini():
     assert len(words) == 1
     assert words[0].lemma() == 'information'
 
-    assert words[0].lemma().script == 'Latn'
-    assert words[0].lemma().tags() == [wn.Tag('tag-text', 'tag-category')]
+    lemma = words[0].lemma(data=True)
+    assert lemma.value == 'information'
+    assert lemma.script == 'Latn'
+    assert lemma.tags() == [wn.Tag('tag-text', 'tag-category')]
 
     words = wn.words('exemplifies')  # search secondary form
     assert len(words) == 1
@@ -250,16 +252,16 @@ def test_mini_1_1():
     w = wn.Wordnet(lang='en')
     assert len(w.lexicons()) == 2
     assert len(w.expanded_lexicons()) == 0
-    assert len(w.word('test-en-exemplify-v').lemma().tags()) == 1
+    assert len(w.word('test-en-exemplify-v').lemma(data=True).tags()) == 1
 
     w = wn.Wordnet(lang='ja')
     assert len(w.lexicons()) == 1
     assert len(w.expanded_lexicons()) == 1
     assert len(w.synsets('例え')[0].hypernyms()) == 1
     assert w.synsets('例え')[0].lexfile() == 'noun.cognition'
-    assert len(w.word('test-ja-例え-n').lemma().pronunciations()) == 1
-    assert w.word('test-ja-例え-n').forms()[1].id == 'test-ja-例え-n-たとえ'
-    p = w.word('test-ja-例え-n').lemma().pronunciations()[0]
+    assert len(w.word('test-ja-例え-n').lemma(data=True).pronunciations()) == 1
+    assert w.word('test-ja-例え-n').forms(data=True)[1].id == 'test-ja-例え-n-たとえ'
+    p = w.word('test-ja-例え-n').lemma(data=True).pronunciations()[0]
     assert p.value == 'tatoe'
     assert p.variety == 'standard'
     assert p.notation == 'ipa'

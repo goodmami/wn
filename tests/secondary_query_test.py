@@ -115,12 +115,24 @@ def test_synset_ili():
 @pytest.mark.usefixtures('mini_db')
 def test_synset_definition():
     assert wn.synset('test-en-0001-n').definition() == 'something that informs'
+    defn = wn.synset('test-en-0001-n').definition(data=True)
+    assert defn.source_sense_id == 'test-en-information-n-0001-01'
     assert wn.synset('test-es-0001-n').definition() == 'algo que informa'
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_synset_definitions():
+    assert wn.synset('test-en-0001-n').definitions() == ['something that informs']
+    defns = wn.synset('test-en-0001-n').definitions(data=True)
+    assert defns[0].source_sense_id == 'test-en-information-n-0001-01'
+    assert wn.synset('test-es-0001-n').definitions() == ['algo que informa']
 
 
 @pytest.mark.usefixtures('mini_db')
 def test_synset_examples():
     assert wn.synset('test-en-0001-n').examples() == ['"this is information"']
+    ex = wn.synset('test-en-0001-n').examples(data=True)[0]
+    assert ex.text == '"this is information"'
     assert wn.synset('test-es-0001-n').examples() == ['"este es la información"']
 
 

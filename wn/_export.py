@@ -171,17 +171,20 @@ def _export_lexical_entries(
 
 
 def _export_pronunciations(
-    rows: list[tuple[str, str, str, bool, str]]
+    rows: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]]
 ) -> list[lmf.Pronunciation]:
-    return [
-        {'text': text,
-         'variety': variety,
-         'notation': notation,
-         'phonemic': phonemic,
-         'audio': audio}
-        for text, variety, notation, phonemic, audio
-        in rows
-    ]
+    prons: list[lmf.Pronunciation] = []
+    for text, variety, notation, phonemic, audio in rows:
+        pron = lmf.Pronunciation(text=text)
+        if variety is not None:
+            pron['variety'] = variety
+        if notation is not None:
+            pron['notation'] = notation
+        if not phonemic:
+            pron['phonemic'] = phonemic
+        if audio is not None:
+            pron['audio'] = audio
+    return prons
 
 
 def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:

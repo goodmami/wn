@@ -48,16 +48,27 @@ The Wordnet Class
    .. automethod:: describe
 
 
-The Word Class
---------------
+Words, Senses, and Synsets
+--------------------------
 
-.. autoclass:: Word
+The results of primary queries against a lexicon are :class:`Word`,
+:class:`Sense`, or :class:`Synset` objects. See
+:doc:`../guides/wordnet` for more information about the concepts these
+object represent.
 
-   .. attribute:: id
+Word Objects
+''''''''''''
+
+.. class:: Word
+
+   :class:`Word` (or "lexical entry") objects encode information about
+   word forms independent from their meaning.
+
+   .. autoattribute:: id
 
       The identifier used within a lexicon.
 
-   .. attribute:: pos
+   .. autoattribute:: pos
 
       The part of speech of the Word.
 
@@ -70,95 +81,15 @@ The Word Class
    .. automethod:: translate
 
 
-The Form Class
-''''''''''''''
-
-.. class:: Form
-
-   The return value of :meth:`Word.lemma` and the members of the list
-   returned by :meth:`Word.forms` are :class:`Form` objects. These are
-   a basic subclass of Python's :class:`str` class with an additional
-   attribute, :attr:`script`, and methods :meth:`pronunciations` and
-   :meth:`tags`. Form objects without any specified script behave
-   exactly as a regular string (they are equal and hash to the same
-   value), but if two Form objects are compared and they have
-   different script values, then they are unequal and hash
-   differently, even if the string itself is identical. When comparing
-   a Form object to a regular string, the script value is ignored.
-
-   >>> inu = wn.words('犬', lexicon='wnja')[0]
-   >>> inu.forms()[3]
-   'いぬ'
-   >>> inu.forms()[3].script
-   'hira'
-
-   The :attr:`script` is often unspecified (i.e., ``None``) and this
-   carries the implicit meaning that the form uses the canonical
-   script for the word's language or wordnet, whatever it may be.
-
-   .. attribute:: script
-
-      The script of the word form. This should be an `ISO 15924
-      <https://en.wikipedia.org/wiki/ISO_15924>`_ code, or ``None``.
-
-   .. method:: pronunciations
-
-      Return the list of :class:`Pronunciation` objects.
-
-   .. method:: tags
-
-      Return the list of :class:`Tag` objects.
-
-
-The Pronunciation Class
-'''''''''''''''''''''''
-
-.. autoclass:: Pronunciation
-
-   .. attribute:: value
-
-      The encoded pronunciation.
-
-   .. attribute:: variety
-
-      The language variety this pronunciation belongs to.
-
-   .. attribute:: notation
-
-      The notation used to encode the pronunciation. For example: the
-      International Phonetic Alphabet (IPA).
-
-   .. attribute:: phonemic
-
-      :python:`True` when the encoded pronunciation is a generalized
-      phonemic description, or :python:`False` for more precise
-      phonetic transcriptions.
-
-   .. attribute:: audio
-
-      A URI to an associated audio file.
-
-
-The Tag Class
+Sense Objects
 '''''''''''''
 
-.. autoclass:: Tag
+.. class:: Sense
 
-   .. attribute:: tag
+   :class:`Sense` objects represent a pairing of a :class:`Word` and a
+   :class:`Synset`.
 
-      The text value of the tag.
-
-   .. attribute:: category
-
-      The category, or kind, of the tag.
-
-
-The Sense Class
----------------
-
-.. autoclass:: Sense
-
-   .. attribute:: id
+   .. autoattribute:: id
 
       The identifier used within a lexicon.
 
@@ -179,38 +110,28 @@ The Sense Class
    .. automethod:: translate
 
 
-The Count Class
-'''''''''''''''
+Synset Objects
+''''''''''''''
 
-.. autoclass:: Count
+.. class:: Synset
 
-   Some wordnets store computed counts of senses across some corpus or
-   corpora. This class models those counts. It is a subtype of
-   :class:`int` with one additional method, :meth:`metadata`, which
-   may be used to give information about the source of the count (if
-   provided by the wordnet).
+   :class:`Synset` objects represent a set of words that share a
+   meaning.
 
-   .. automethod:: metadata
-
-
-The Synset Class
-----------------
-
-.. autoclass:: Synset
-
-   .. attribute:: id
+   .. autoattribute:: id
 
       The identifier used within a lexicon.
 
-   .. attribute:: pos
+   .. autoattribute:: pos
 
       The part of speech of the Synset.
 
-   .. attribute:: ili
+   .. autoproperty:: ili
 
       The interlingual index of the Synset.
 
    .. automethod:: definition
+   .. automethod:: definitions
    .. automethod:: examples
    .. automethod:: senses
    .. automethod:: lexicalized
@@ -256,8 +177,8 @@ The Synset Class
       Shortcut for :func:`wn.taxonomy.lowest_common_hypernyms`.
 
 
-The Relation Class
-------------------
+Relations
+---------
 
 The :meth:`Sense.relation_map` and :meth:`Synset.relation_map` methods
 return a dictionary mapping :class:`Relation` objects to resolved
@@ -296,7 +217,9 @@ relation used in :doc:`interlingual queries <../guides/interlingual>`.
 >>> tgt, tgt.words(), tgt.lexicon()  # target is in omw-es
 (Synset('omw-es-04076846-n'), [Word('omw-es-representación-n')], <Lexicon omw-es:1.4 [es]>)
 
-.. autoclass:: Relation
+.. class:: Relation
+
+   :class:`Relation` objects model relations between senses or synsets.
 
    .. attribute:: name
 
@@ -315,18 +238,160 @@ relation used in :doc:`interlingual queries <../guides/interlingual>`.
    .. automethod:: metadata
 
 
-The ILI Class
--------------
+Additional Classes
+------------------
 
-.. autoclass:: ILI
+.. class:: Form
+
+   :class:`Form` objects are returned by :meth:`Word.lemma` and
+   :meth:`Word.forms` when the :python:`data=True` argument is used,
+   and they make accessible several optional properties of word forms.
+   The word form itself is available via the :attr:`value` attribute.
+
+   >>> inu = wn.words('犬', lexicon='wnja')[0]
+   >>> inu.forms(data=True)[3]
+   Form(value='いぬ')
+   >>> inu.forms(data=True)[3].script
+   'hira'
+
+   The :attr:`script` is often unspecified (i.e., :python:`None`) and
+   this carries the implicit meaning that the form uses the canonical
+   script for the word's language or wordnet, whatever it may be.
+
+   .. attribute:: value
+
+      The word form string.
 
    .. attribute:: id
 
+      An optional form identifier used within a lexicon. These
+      identifiers are often :python:`None`.
+
+   .. attribute:: script
+
+      The script of the word form. This should be an `ISO 15924
+      <https://en.wikipedia.org/wiki/ISO_15924>`_ code, or :python:`None`.
+
+   .. method:: pronunciations
+
+      Return the list of :class:`Pronunciation` objects.
+
+   .. method:: tags
+
+      Return the list of :class:`Tag` objects.
+
+
+.. class:: Pronunciation
+
+   :class:`Pronunciation` objects encode a text or audio
+   representation of how a word is pronounced. They are returned by
+   :meth:`Form.pronunciations`.
+
+   .. autoattribute:: value
+
+      The encoded pronunciation.
+
+   .. autoattribute:: variety
+
+      The language variety this pronunciation belongs to.
+
+   .. autoattribute:: notation
+
+      The notation used to encode the pronunciation. For example: the
+      International Phonetic Alphabet (IPA).
+
+   .. autoattribute:: phonemic
+
+      :python:`True` when the encoded pronunciation is a generalized
+      phonemic description, or :python:`False` for more precise
+      phonetic transcriptions.
+
+   .. autoattribute:: audio
+
+      A URI to an associated audio file.
+
+
+.. autoclass:: Tag
+
+   :class:`Tag` objects encode categorical information about word
+   forms. They are returned by :meth:`Form.tags`.
+
+   .. autoattribute:: tag
+
+      The text value of the tag.
+
+   .. autoattribute:: category
+
+      The category, or kind, of the tag.
+
+
+.. autoclass:: Count
+
+   :class:`Count` objects model sense counts previously computed over
+   some corpus. They are returned by :meth:`Sense.counts`.
+   
+   .. autoattribute:: value
+
+      The count of sense occurrences.
+
+   .. automethod:: metadata
+
+
+.. class:: Example
+
+   :class:`Example` objects model example phrases for senses and
+   synsets. They are returned by :meth:`Sense.examples` and
+   :meth:`Synset.examples` when the :python:`data=True` argument is
+   given.
+
+   .. autoattribute:: text
+      
+      The example text.
+
+   .. autoattribute:: language
+
+      The language of the example.
+
+   .. automethod:: metadata
+
+
+.. class:: Definition
+
+   :class:`Definition` objects model synset definitions. They are
+   returned by :meth:`Synset.definition` when the :python:`data=True`
+   argument is given.
+   
+   .. autoattribute:: text
+      
+      The example text.
+
+   .. autoattribute:: language
+
+      The language of the example.
+
+   .. autoattribute:: source_sense_id
+
+      The id of the particular sense the definition is for.
+
+   .. automethod:: metadata
+
+
+Interlingual Indices
+--------------------
+
+.. class:: ILI
+
+   :class:`ILI` objects represent
+   :doc:`Interlingual Indices <../guides/interlingual>`.
+
+   .. autoproperty:: id
+
       The interlingual index identifier. Unlike ``id`` attributes for
       :class:`Word`, :class:`Sense`, and :class:`Synset`, ILI
-      identifers may be ``None`` (see the *proposed* :attr:`status`).
+      identifers may be :python:`None` (see the *proposed*
+      :attr:`status`).
 
-   .. attribute:: status
+   .. autoattribute:: status
 
       The known status of the interlingual index. Loading an
       interlingual index into the database provides the following
@@ -350,10 +415,49 @@ The ILI Class
    .. automethod:: metadata
 
 
-The Lexicon Class
------------------
+Lexicon Objects
+---------------
 
-.. autoclass:: Lexicon
+.. class:: Lexicon
+
+   Lexicon objects contain attributes and metadata about a single
+   :doc:`lexicon <../guides/lexicons>`.
+
+   .. autoattribute:: id
+
+      The lexicon's identifier.
+
+   .. autoattribute:: label
+
+      The full name of lexicon.
+
+   .. autoattribute:: language
+
+      The BCP 47 language code of lexicon.
+
+   .. autoattribute:: email
+
+      The email address of the wordnet maintainer.
+
+   .. autoattribute:: license
+
+      The URL or name of the wordnet's license.
+
+   .. autoattribute:: version
+
+      The version string of the resource.
+
+   .. autoattribute:: url
+
+      The project URL of the wordnet.
+
+   .. autoattribute:: citation
+
+      The canonical citation for the project.
+
+   .. autoattribute:: logo
+
+      A URL or path to a project logo.
 
    .. automethod:: metadata
    .. automethod:: specifier
