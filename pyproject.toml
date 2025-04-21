@@ -35,7 +35,6 @@ classifiers = [
 dependencies = [
   "httpx",
   "tomli",
-  "typing_extensions",  # until Python 3.13
 ]
 
 [project.optional-dependencies]

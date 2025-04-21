@@ -214,7 +214,7 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
 async def lexicons(request):
     query = request.query_params
     _lexicons = wn.lexicons(
-        lexicon=query.get('lexicon'),
+        lexicon=query.get('lexicon', '*'),
         lang=query.get('lang'),
     )
     return {'data': _lexicons}
