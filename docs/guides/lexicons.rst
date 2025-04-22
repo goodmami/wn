@@ -66,6 +66,90 @@ installs a number of lexicons with their own lexicon specifiers
 in the index (in the default index, conventionally, the first version
 is the latest release).
 
+.. _lexicon-filters:
+
+Filtering Queries with Lexicons
+-------------------------------
+
+Queries against the database will search all installed lexicons unless
+they are filtered by ``lang`` or ``lexicon`` arguments:
+
+>>> import wn
+>>> len(wn.words())
+1538449
+>>> len(wn.words(lang="en"))
+318289
+>>> len(wn.words(lexicon="oewn:2024"))
+161705
+
+The ``lexicon`` parameter can also take multiple specifiers so you can
+include things like lexicon extensions or to explicitly include
+multiple lexicons:
+
+>>> len(wn.words(lexicon="oewn:2024 omw-en:1.4"))
+318289
+
+If a lexicon selected by the ``lexicon`` or ``lang`` arguments
+specifies a dependency, the dependency is automatically added as an
+*expand* lexicon. Explicitly set :python:`expand=''` to disable this
+behavior:
+
+>>> wn.lexicons(lexicon="omw-es:1.4")[0].requires()  # omw-es requires omw-en
+{'omw-en:1.4': <Lexicon omw-en:1.4 [en]>}
+>>> es = wn.Wordnet("omw-es:1.4")
+>>> es.lexicons()
+[<Lexicon omw-es:1.4 [es]>]
+>>> es.expanded_lexicons()  # omw-en automatically added
+[<Lexicon omw-en:1.4 [en]>]
+>>> es_no_en = wn.Wordnet("omw-es:1.4", expand='')
+>>> es_no_en.lexicons()
+[<Lexicon omw-es:1.4 [es]>]
+>>> es_no_en.expanded_lexicons()  # no expand lexicons
+[]
+
+Also see :ref:`cross-lingual-relation-traversal` for
+selecting expand lexicons for relations.
+
+The objects returned by queries retain the "lexicon configuration"
+used, which includes the lexicons and expand lexicons. This
+configuration determines which lexicons are searched during secondary
+queries. The lexicon configuration also stores a flag indicating
+whether no lexicon filters were used at all, which triggers
+:ref:`default mode <default-mode>` secondary queries.
+
+.. _default-mode:
+
+Default Mode Queries
+--------------------
+
+A special "default mode" is activated when making a module-function
+query (:func:`wn.words`, :func:`wn.synsets`, etc.) or instantiating a
+:class:`wn.Wordnet` object with no ``lexicon`` or ``lang`` argument
+(so-named because the mode is triggered by using the default values of
+``lexicon`` and ``lang``):
+
+>>> w = wn.Wordnet()
+>>> wn.words("pineapple")  # for example
+
+Default-mode causes the following behavior:
+
+1. Primary queries search any installed lexicon
+2. Secondary queries only search the lexicon of the primary entity
+   (e.g., :meth:`Synset.words` only finds words from the same lexicon
+   as the synset). If the lexicon has any extensions or is itself an
+   extension, any extension/base lexicons are also included.
+3. If the ``expand`` argument is :python:`None` (always true for
+   module functions like :func:`wn.synsets`), all installed lexicons
+   are used as expand lexicons for relations queries.
+
+.. warning::
+
+   Default-mode queries are not reproducible as the results can change
+   as lexicons are added or removed from the database. For anything
+   more than a casual query, it is highly suggested to instead create
+   a :class:`wn.Wordnet` object with fully-specified ``lexicon`` and
+   ``expand`` arguments.
+
 Downloading Lexicons
 --------------------
 

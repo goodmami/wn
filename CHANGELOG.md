@@ -15,6 +15,8 @@
 
 ## Changed
 
+* `Wordnet` and module-level query functions now issue a warning when
+  the `lang` argument matches more than one lexicon ([#241])
 * `Wordnet.synsets()` now accepts `wn.ILI` objects for the `ili`
   parameter ([#235])
 * DB-internal rowids are no longer used outside of SQL queries ([#226])
@@ -34,22 +36,6 @@
   - `Example`
   - `Definition`
   - `Count`
-
-## Deprecated
-
-* `wn.word()` ([#236])
-* `wn.words()` ([#236])
-* `wn.sense()` ([#236])
-* `wn.senses()` ([#236])
-* `wn.synset()` ([#236])
-* `wn.synsets()` ([#236])
-* `wn.ili()` with a `lexicon` or `lang` argument ([#236])
-* `wn.ilis()` with a `lexicon` or `lang` argument ([#236])
-* `wn.Wordnet` without a `lexicon` or `lang` argument ([#236])
-* `wn.Wordnet` with both `lexicon` and `lang` arguments ([#237])
-* `Word.translate()` with both `lexicon` and `lang` arguments ([#237])
-* `Sense.translate()` with both `lexicon` and `lang` arguments ([#237])
-* `Synset.translate()` with both `lexicon` and `lang` arguments ([#237])
 
 
 ## [v0.11.0]
@@ -773,7 +759,5 @@ abandoned, but this is an entirely new codebase.
 [#226]: https://github.com/goodmami/wn/issues/226
 [#228]: https://github.com/goodmami/wn/issues/228
 [#235]: https://github.com/goodmami/wn/issues/235
-[#236]: https://github.com/goodmami/wn/issues/236
-[#237]: https://github.com/goodmami/wn/issues/237
 [#238]: https://github.com/goodmami/wn/issues/238
 [#246]: https://github.com/goodmami/wn/issues/246

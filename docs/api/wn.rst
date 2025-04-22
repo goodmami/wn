@@ -19,6 +19,11 @@ Project Management Functions
 Wordnet Query Functions
 -----------------------
 
+While it is best to first instantiate a :class:`Wordnet` object with a
+specific lexicon and use that for querying (see :ref:`default-mode`),
+the following functions are also available for quick and simple
+queries.
+
 .. autofunction:: word
 .. autofunction:: words
 .. autofunction:: sense

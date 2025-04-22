@@ -6,8 +6,6 @@ from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
 from typing import Literal, Optional, TypeVar, Union, overload
 
-from typing_extensions import deprecated  # until Python 3.13
-
 import wn
 from wn._types import (
     Metadata,
@@ -304,11 +302,11 @@ class _LexiconElement:
 
     def _get_lexicons(self) -> tuple[str, ...]:
         if self._lexconf.default_mode:
-            return tuple(
-                {self._lexicon}
-                | set(get_lexicon_extension_bases(self._lexicon))
-                | set(get_lexicon_extensions(self._lexicon))
-            )
+            return tuple([
+                self._lexicon,
+                *get_lexicon_extension_bases(self._lexicon),
+                *get_lexicon_extensions(self._lexicon)
+            ])
         else:
             return self._lexconf.lexicons
 
@@ -401,6 +399,10 @@ class Word(_LexiconElement):
     @overload
     def lemma(self, *, data: Literal[True] = True) -> Form: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def lemma(self, *, data: bool) -> Union[str, Form]: ...
+
     def lemma(self, *, data: bool = False) -> Union[str, Form]:
         """Return the canonical form of the word.
 
@@ -427,6 +429,10 @@ class Word(_LexiconElement):
     def forms(self, *, data: Literal[False] = False) -> list[str]: ...
     @overload
     def forms(self, *, data: Literal[True] = True) -> list[Form]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def forms(self, *, data: bool) -> Union[list[str], list[Form]]: ...
 
     def forms(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of all encoded forms of the word.
@@ -500,10 +506,6 @@ class Word(_LexiconElement):
             lexicon: lexicon specifier of translated words
             lang: BCP-47 language code of translated words
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> w = wn.words('water bottle', pos='n')[0]
@@ -513,13 +515,6 @@ class Word(_LexiconElement):
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         result = {}
         for sense in self.senses():
             result[sense] = [
@@ -730,6 +725,10 @@ class Synset(_Relatable):
     @overload
     def definition(self, *, data: Literal[True] = True) -> Optional[Definition]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def definition(self, *, data: bool) -> Union[str, Definition, None]: ...
+
     def definition(self, *, data: bool = False) -> Union[str, Definition, None]:
         """Return the first definition found for the synset.
 
@@ -765,6 +764,10 @@ class Synset(_Relatable):
     @overload
     def definitions(self, *, data: Literal[True] = True) -> list[Definition]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def definitions(self, *, data: bool) -> Union[list[str], list[Definition]]: ...
+
     def definitions(self, *, data: bool = False) -> Union[list[str], list[Definition]]:
         """Return the list of definitions for the synset.
 
@@ -795,6 +798,10 @@ class Synset(_Relatable):
     def examples(self, *, data: Literal[False] = False) -> list[str]: ...
     @overload
     def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
 
     def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
         """Return the list of examples for the synset.
@@ -859,6 +866,10 @@ class Synset(_Relatable):
     @overload
     def lemmas(self, *, data: Literal[True] = True) -> list[Form]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def lemmas(self, *, data: bool) -> Union[list[str], list[Form]]: ...
+
     def lemmas(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of lemmas of words for the synset.
 
@@ -874,7 +885,12 @@ class Synset(_Relatable):
             [Form(value='scoop'), Form(value='exclusive')]
 
         """
-        return [w.lemma() for w in self.words()]
+        # exploded instead of data=data due to mypy issue
+        # https://github.com/python/mypy/issues/14764
+        if data:
+            return [w.lemma(data=True) for w in self.words()]
+        else:
+            return [w.lemma(data=False) for w in self.words()]
 
     def relations(self, *args: str) -> dict[str, list['Synset']]:
         """Return a mapping of relation names to lists of synsets.
@@ -1088,10 +1104,6 @@ class Synset(_Relatable):
             lexicon: lexicon specifier of translated synsets
             lang: BCP-47 language code of translated synsets
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> es = wn.synsets('araña', lang='es')[0]
@@ -1100,13 +1112,6 @@ class Synset(_Relatable):
             ['spider']
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         ili = self._ili
         if not ili:
             return []
@@ -1180,6 +1185,10 @@ class Sense(_Relatable):
     @overload
     def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
+
     def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
         """Return the list of examples for the sense.
 
@@ -1222,6 +1231,10 @@ class Sense(_Relatable):
     def counts(self, *, data: Literal[False] = False) -> list[int]: ...
     @overload
     def counts(self, *, data: Literal[True] = True) -> list[Count]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def counts(self, *, data: bool) -> Union[list[int], list[Count]]: ...
 
     def counts(self, *, data: bool = False) -> Union[list[int], list[Count]]:
         """Return the corpus counts stored for this sense."""
@@ -1317,10 +1330,6 @@ class Sense(_Relatable):
             lexicon: lexicon specifier of translated senses
             lang: BCP-47 language code of translated senses
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> en = wn.senses('petiole', lang='en')[0]
@@ -1329,13 +1338,6 @@ class Sense(_Relatable):
             'pecíolo'
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         synset = self.synset()
         return [t_sense
                 for t_synset in synset.translate(lang=lang, lexicon=lexicon)
@@ -1358,15 +1360,9 @@ class Wordnet:
     <lexicon-specifiers>`. The *lang* argument is a `BCP 47`_ language
     code that selects any lexicon matching the given language code. As
     the *lexicon* argument more precisely selects lexicons, it is the
-    recommended method of instantiation.
-
-    .. deprecated:: 0.12.0
-        Instantiating a Wordnet object with neither a *lexicon* nor
-        *lang* argument, or with both, is deprecated. To create a
-        Wordnet object that queries all lexicons, use the ``*``
-        wildcard::
-
-        >>> all_wns = wn.Wordnet("*")
+    recommended method of instantiation. Omitting both *lexicon* and
+    *lang* arguments triggers :ref:`default-mode <default-mode>`
+    queries.
 
     Some wordnets were created by translating the words from a larger
     wordnet, namely the Princeton WordNet, and then relying on the
@@ -1423,25 +1419,21 @@ class Wordnet:
         lemmatizer: Optional[LemmatizeFunction] = None,
         search_all_forms: bool = True,
     ):
-        if not (lexicon or lang):
+        if lexicon or lang:
+            lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
+        else:
+            lexicons = ()
+        if lang and len(lexicons) > 1:
             warnings.warn(
-                "Creating a Wordnet object without a lexicon or lang "
-                "argument is deprecated",
+                f'multiple lexicons match {lang=}: {lexicons!r}; '
+                'use the lexicon parameter instead to avoid this warning',
                 wn.WnWarning,
                 stacklevel=2,
             )
-        if lexicon and lang:
-            warnings.warn(
-                "Creating a Wordnet object with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
+
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
         default_mode = (not lexicon and not lang)
-
-        lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
         expand = _resolve_lexicon_dependencies(expand, lexicons, default_mode)
         expands = tuple(resolve_lexicon_specifiers(expand)) if expand else ()
 
@@ -1696,284 +1688,3 @@ def _find_helper(
             unique_results.append(result)
             seen.add(result)
     return unique_results
-
-
-def projects() -> list[dict]:
-    """Return the list of indexed projects.
-
-    This returns the same dictionaries of information as
-    :meth:`wn.config.get_project_info
-    <wn._config.WNConfig.get_project_info>`, but for all indexed
-    projects.
-
-    Example:
-
-        >>> infos = wn.projects()
-        >>> len(infos)
-        36
-        >>> infos[0]['label']
-        'Open English WordNet'
-
-    """
-    index = wn.config.index
-    return [
-        wn.config.get_project_info(format_lexicon_specifier(project_id, version))
-        for project_id, project_info in index.items()
-        for version in project_info.get('versions', [])
-        if 'resource_urls' in project_info['versions'][version]
-    ]
-
-
-def lexicons(
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> list[Lexicon]:
-    """Return the lexicons matching a language or lexicon specifier.
-
-    Example:
-
-        >>> wn.lexicons(lang='en')
-        [<Lexicon ewn:2020 [en]>, <Lexicon pwn:3.0 [en]>]
-
-    """
-    try:
-        w = Wordnet(lang=lang, lexicon=lexicon)
-    except wn.Error:
-        return []
-    else:
-        return w.lexicons()
-
-
-@deprecated("deprecated; use wn.Wordnet.word()", category=wn.WnWarning)
-def word(
-    id: str,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> Word:
-    """Return the word with *id* in *lexicon*.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The *id* argument is then passed to the
-    :meth:`Wordnet.word` method.
-
-    >>> wn.word('ewn-cell-n')
-    Word('ewn-cell-n')
-
-    .. deprecated:: 0.12.0
-
-        Use a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").word(id)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).word(id)
-
-
-@deprecated("deprecated; use wn.Wordnet.words()", category=wn.WnWarning)
-def words(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> list[Word]:
-    """Return the list of matching words.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The remaining arguments are passed to the
-    :meth:`Wordnet.words` method.
-
-    >>> len(wn.words())
-    282902
-    >>> len(wn.words(pos='v'))
-    34592
-    >>> wn.words(form="scurry")
-    [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
-
-    .. deprecated:: 0.12.0
-
-        Use a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").words(form=form, pos=pos)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
-
-
-@deprecated("deprecated; use wn.Wordnet.synset()", category=wn.WnWarning)
-def synset(
-    id: str,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> Synset:
-    """Return the synset with *id* in *lexicon*.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The *id* argument is then passed to the
-    :meth:`Wordnet.synset` method.
-
-    >>> wn.synset('ewn-03311152-n')
-    Synset('ewn-03311152-n')
-
-    .. deprecated:: 0.12.0
-
-        Use a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").synset(id)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
-
-
-@deprecated("deprecated; use wn.Wordnet.synsets()", category=wn.WnWarning)
-def synsets(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
-    ili: Optional[Union[str, ILI]] = None,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> list[Synset]:
-    """Return the list of matching synsets.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The remaining arguments are passed to the
-    :meth:`Wordnet.synsets` method.
-
-    >>> len(wn.synsets('couch'))
-    4
-    >>> wn.synsets('couch', pos='v')
-    [Synset('ewn-00983308-v')]
-
-    .. deprecated:: 0.12.0
-
-        Use a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").synsets(form=form, pos=pos, ili=ili)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
-
-
-@deprecated("deprecated; use wn.Wordnet.senses()", category=wn.WnWarning)
-def senses(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> list[Sense]:
-    """Return the list of matching senses.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The remaining arguments are passed to the
-    :meth:`Wordnet.senses` method.
-
-    >>> len(wn.senses('twig'))
-    3
-    >>> wn.senses('twig', pos='n')
-    [Sense('ewn-twig-n-13184889-02')]
-
-    .. deprecated:: 0.12.0
-
-        Create a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").senses(form=form, pos=pos)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
-
-
-@deprecated("deprecated; use wn.Wordnet.sense()", category=wn.WnWarning)
-def sense(
-    id: str,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> Sense:
-    """Return the sense with *id* in *lexicon*.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The *id* argument is then passed to the
-    :meth:`Wordnet.sense` method.
-
-    >>> wn.sense('ewn-flutter-v-01903884-02')
-    Sense('ewn-flutter-v-01903884-02')
-
-    .. deprecated:: 0.12.0
-
-        Create a :class:`Wordnet` object with the given *lexicon* or
-        *lang*. To query across all lexicons, use ``*``::
-
-        >>> w = wn.Wordnet("*").sense(id)
-    """
-    return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
-
-
-def ili(
-    id: str,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> ILI:
-    """Return the interlingual index with *id*.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The *id* argument is then passed to the
-    :meth:`Wordnet.ili` method.
-
-    .. deprecated:: 0.12.0
-        The *lexicon* and *lang* parameters are deprecated. To find
-        an ILI particular to a lexicon, use :meth:`Wordnet.ili`.
-
-    >>> wn.ili(id='i1234')
-    ILI('i1234')
-    >>> wn.ili(id='i1234').status
-    'presupposed'
-
-    """
-    if lexicon or lang:
-        warnings.warn(
-            "the 'lexicon' and 'lang' parameters are deprecated; "
-            "for lexicon-specific ILIs, use wn.Wordnet.ili()",
-            category=wn.WnWarning,
-            stacklevel=2
-        )
-    return Wordnet(lang=lang, lexicon=lexicon).ili(id=id)
-
-
-def ilis(
-    status: Optional[str] = None,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> list[ILI]:
-    """Return the list of matching interlingual indices.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The remaining arguments are passed to the
-    :meth:`Wordnet.ilis` method.
-
-    .. deprecated:: 0.12.0
-        The *lexicon* and *lang* parameters are deprecated. To find
-        ILIs particular to a lexicon, use :meth:`Wordnet.ilis`.
-
-    >>> len(wn.ilis())
-    120071
-    >>> len(wn.ilis(status='proposed'))
-    2573
-    >>> wn.ilis(status='proposed')[-1].definition()
-    'the neutrino associated with the tau lepton.'
-
-    """
-    if lexicon or lang:
-        warnings.warn(
-            "the 'lexicon' and 'lang' parameters are deprecated; "
-            "for lexicon-specific ILIs, use wn.Wordnet.ilis()",
-            category=wn.WnWarning,
-            stacklevel=2
-        )
-    return Wordnet(lang=lang, lexicon=lexicon).ilis(status=status)
