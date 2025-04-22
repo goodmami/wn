@@ -67,6 +67,8 @@ pool: dict[AnyPath, sqlite3.Connection] = {}
 def connect() -> sqlite3.Connection:
     dbpath = wn.config.database_path
     if dbpath not in pool:
+        if not wn.config.data_directory.exists():
+            wn.config.data_directory.mkdir(parents=True, exist_ok=True)
         initialized = dbpath.is_file()
         conn = sqlite3.connect(
             str(dbpath),
