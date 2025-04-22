@@ -1323,7 +1323,9 @@ class Wordnet:
     <lexicon-specifiers>`. The *lang* argument is a `BCP 47`_ language
     code that selects any lexicon matching the given language code. As
     the *lexicon* argument more precisely selects lexicons, it is the
-    recommended method of instantiation.
+    recommended method of instantiation. Omitting both *lexicon* and
+    *lang* arguments triggers :ref:`default-mode <default-mode>`
+    queries.
 
     Some wordnets were created by translating the words from a larger
     wordnet, namely the Princeton WordNet, and then relying on the
