@@ -399,6 +399,10 @@ class Word(_LexiconElement):
     @overload
     def lemma(self, *, data: Literal[True] = True) -> Form: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def lemma(self, *, data: bool) -> Union[str, Form]: ...
+
     def lemma(self, *, data: bool = False) -> Union[str, Form]:
         """Return the canonical form of the word.
 
@@ -425,6 +429,10 @@ class Word(_LexiconElement):
     def forms(self, *, data: Literal[False] = False) -> list[str]: ...
     @overload
     def forms(self, *, data: Literal[True] = True) -> list[Form]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def forms(self, *, data: bool) -> Union[list[str], list[Form]]: ...
 
     def forms(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of all encoded forms of the word.
@@ -717,6 +725,10 @@ class Synset(_Relatable):
     @overload
     def definition(self, *, data: Literal[True] = True) -> Optional[Definition]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def definition(self, *, data: bool) -> Union[str, Definition, None]: ...
+
     def definition(self, *, data: bool = False) -> Union[str, Definition, None]:
         """Return the first definition found for the synset.
 
@@ -752,6 +764,10 @@ class Synset(_Relatable):
     @overload
     def definitions(self, *, data: Literal[True] = True) -> list[Definition]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def definitions(self, *, data: bool) -> Union[list[str], list[Definition]]: ...
+
     def definitions(self, *, data: bool = False) -> Union[list[str], list[Definition]]:
         """Return the list of definitions for the synset.
 
@@ -782,6 +798,10 @@ class Synset(_Relatable):
     def examples(self, *, data: Literal[False] = False) -> list[str]: ...
     @overload
     def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
 
     def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
         """Return the list of examples for the synset.
@@ -846,6 +866,10 @@ class Synset(_Relatable):
     @overload
     def lemmas(self, *, data: Literal[True] = True) -> list[Form]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def lemmas(self, *, data: bool) -> Union[list[str], list[Form]]: ...
+
     def lemmas(self, *, data: bool = False) -> Union[list[str], list[Form]]:
         """Return the list of lemmas of words for the synset.
 
@@ -861,7 +885,12 @@ class Synset(_Relatable):
             [Form(value='scoop'), Form(value='exclusive')]
 
         """
-        return [w.lemma(data=data) for w in self.words()]
+        # exploded instead of data=data due to mypy issue
+        # https://github.com/python/mypy/issues/14764
+        if data:
+            return [w.lemma(data=True) for w in self.words()]
+        else:
+            return [w.lemma(data=False) for w in self.words()]
 
     def relations(self, *args: str) -> dict[str, list['Synset']]:
         """Return a mapping of relation names to lists of synsets.
@@ -1156,6 +1185,10 @@ class Sense(_Relatable):
     @overload
     def examples(self, *, data: Literal[True] = True) -> list[Example]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
+
     def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
         """Return the list of examples for the sense.
 
@@ -1198,6 +1231,10 @@ class Sense(_Relatable):
     def counts(self, *, data: Literal[False] = False) -> list[int]: ...
     @overload
     def counts(self, *, data: Literal[True] = True) -> list[Count]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def counts(self, *, data: bool) -> Union[list[int], list[Count]]: ...
 
     def counts(self, *, data: bool = False) -> Union[list[int], list[Count]]:
         """Return the corpus counts stored for this sense."""
