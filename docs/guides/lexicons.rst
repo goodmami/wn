@@ -124,7 +124,9 @@ Default Mode Queries
 
 A special "default mode" is activated when making a module-function
 query (:func:`wn.words`, :func:`wn.synsets`, etc.) or instantiating a
-:class:`wn.Wordnet` object with no ``lexicon`` or ``lang`` argument:
+:class:`wn.Wordnet` object with no ``lexicon`` or ``lang`` argument
+(so-named because the mode is triggered by using the default values of
+``lexicon`` and ``lang``):
 
 >>> w = wn.Wordnet()
 >>> wn.words("pineapple")  # for example
