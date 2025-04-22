@@ -1,4 +1,3 @@
-import warnings
 from typing import Optional, Union
 
 import wn
@@ -190,23 +189,7 @@ def ili(
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.ili` method.
 
-    .. deprecated:: 0.12.0
-        The *lexicon* and *lang* parameters are deprecated. To find
-        an ILI particular to a lexicon, use :meth:`Wordnet.ili`.
-
-    >>> wn.ili(id='i1234')
-    ILI('i1234')
-    >>> wn.ili(id='i1234').status
-    'presupposed'
-
     """
-    if lexicon or lang:
-        warnings.warn(
-            "the 'lexicon' and 'lang' parameters are deprecated; "
-            "for lexicon-specific ILIs, use wn.Wordnet.ili()",
-            category=wn.WnWarning,
-            stacklevel=2
-        )
     return wn.Wordnet(lang=lang, lexicon=lexicon).ili(id=id)
 
 
@@ -222,10 +205,6 @@ def ilis(
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.ilis` method.
 
-    .. deprecated:: 0.12.0
-        The *lexicon* and *lang* parameters are deprecated. To find
-        ILIs particular to a lexicon, use :meth:`Wordnet.ilis`.
-
     >>> len(wn.ilis())
     120071
     >>> len(wn.ilis(status='proposed'))
@@ -234,11 +213,4 @@ def ilis(
     'the neutrino associated with the tau lepton.'
 
     """
-    if lexicon or lang:
-        warnings.warn(
-            "the 'lexicon' and 'lang' parameters are deprecated; "
-            "for lexicon-specific ILIs, use wn.Wordnet.ilis()",
-            category=wn.WnWarning,
-            stacklevel=2
-        )
     return wn.Wordnet(lang=lang, lexicon=lexicon).ilis(status=status)

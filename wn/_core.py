@@ -498,10 +498,6 @@ class Word(_LexiconElement):
             lexicon: lexicon specifier of translated words
             lang: BCP-47 language code of translated words
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> w = wn.words('water bottle', pos='n')[0]
@@ -511,13 +507,6 @@ class Word(_LexiconElement):
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         result = {}
         for sense in self.senses():
             result[sense] = [
@@ -1086,10 +1075,6 @@ class Synset(_Relatable):
             lexicon: lexicon specifier of translated synsets
             lang: BCP-47 language code of translated synsets
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> es = wn.synsets('araña', lang='es')[0]
@@ -1098,13 +1083,6 @@ class Synset(_Relatable):
             ['spider']
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         ili = self._ili
         if not ili:
             return []
@@ -1315,10 +1293,6 @@ class Sense(_Relatable):
             lexicon: lexicon specifier of translated senses
             lang: BCP-47 language code of translated senses
 
-        .. deprecated:: 0.12.0
-            Calling this function with both *lexicon* and *lang*
-            arguments is deprecated.
-
         Example:
 
             >>> en = wn.senses('petiole', lang='en')[0]
@@ -1327,13 +1301,6 @@ class Sense(_Relatable):
             'pecíolo'
 
         """
-        if lexicon and lang:
-            warnings.warn(
-                "Calling translate() with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         synset = self.synset()
         return [t_sense
                 for t_synset in synset.translate(lang=lang, lexicon=lexicon)
@@ -1357,14 +1324,6 @@ class Wordnet:
     code that selects any lexicon matching the given language code. As
     the *lexicon* argument more precisely selects lexicons, it is the
     recommended method of instantiation.
-
-    .. deprecated:: 0.12.0
-        Instantiating a Wordnet object with neither a *lexicon* nor
-        *lang* argument, or with both, is deprecated. To create a
-        Wordnet object that queries all lexicons, use the ``*``
-        wildcard::
-
-        >>> all_wns = wn.Wordnet("*")
 
     Some wordnets were created by translating the words from a larger
     wordnet, namely the Princeton WordNet, and then relying on the
@@ -1421,24 +1380,17 @@ class Wordnet:
         lemmatizer: Optional[LemmatizeFunction] = None,
         search_all_forms: bool = True,
     ):
-        if not (lexicon or lang):
-            warnings.warn(
-                "Creating a Wordnet object without a lexicon or lang "
-                "argument is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
-        if lexicon and lang:
-            warnings.warn(
-                "Creating a Wordnet object with both lexicon and lang "
-                "arguments is deprecated",
-                wn.WnWarning,
-                stacklevel=2,
-            )
         if lexicon or lang:
             lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
         else:
             lexicons = ()
+        if lang and len(lexicons) > 1:
+            warnings.warn(
+                f'multiple lexicons match {lang=}: {lexicons!r}; '
+                'use the lexicon parameter instead to avoid this warning',
+                wn.WnWarning,
+                stacklevel=2,
+            )
 
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
