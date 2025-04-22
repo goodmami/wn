@@ -12,6 +12,8 @@
 ## Fixed
 
 * `wn.web` casts URL objects to strings for JSON serialization ([#238])
+* Setting `wn.config.data_directory` to an uninitialized directory no
+  longer raises a `sqlite3.OperationalError` ([#250])
 
 ## Changed
 
@@ -761,3 +763,4 @@ abandoned, but this is an entirely new codebase.
 [#235]: https://github.com/goodmami/wn/issues/235
 [#238]: https://github.com/goodmami/wn/issues/238
 [#246]: https://github.com/goodmami/wn/issues/246
+[#250]: https://github.com/goodmami/wn/issues/250

@@ -4,6 +4,11 @@ import pytest
 import wn
 
 
+@pytest.mark.usefixtures('uninitialized_datadir')
+def test_lexicons_uninitialized():
+    assert len(wn.lexicons()) == 0
+
+
 @pytest.mark.usefixtures('empty_db')
 def test_lexicons_empty():
     assert len(wn.lexicons()) == 0

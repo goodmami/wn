@@ -12,6 +12,13 @@ def datadir():
     return Path(__file__).parent / 'data'
 
 
+@pytest.fixture
+def uninitialized_datadir(monkeypatch, tmp_path: Path):
+    with monkeypatch.context() as m:
+        m.setattr(wn.config, 'data_directory', tmp_path / 'uninitialized_datadir')
+        yield
+
+
 @pytest.fixture(scope='session')
 def empty_db():
     with tempfile.TemporaryDirectory('wn_data_empty') as dir:
