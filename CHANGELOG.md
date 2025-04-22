@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v0.12.0]
+
+**Release date: 2025-04-22**
+
 ## Added
 
 * `wn.add_lexical_resource()` to add result of `wn.lmf.load()` to
@@ -645,6 +650,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.12.0]: ../../releases/tag/v0.12.0
 [v0.11.0]: ../../releases/tag/v0.11.0
 [v0.10.1]: ../../releases/tag/v0.10.1
 [v0.10.0]: ../../releases/tag/v0.10.0
@@ -762,5 +768,6 @@ abandoned, but this is an entirely new codebase.
 [#228]: https://github.com/goodmami/wn/issues/228
 [#235]: https://github.com/goodmami/wn/issues/235
 [#238]: https://github.com/goodmami/wn/issues/238
+[#241]: https://github.com/goodmami/wn/issues/241
 [#246]: https://github.com/goodmami/wn/issues/246
 [#250]: https://github.com/goodmami/wn/issues/250
