@@ -861,7 +861,7 @@ class Synset(_Relatable):
             [Form(value='scoop'), Form(value='exclusive')]
 
         """
-        return [w.lemma() for w in self.words()]
+        return [w.lemma(data=data) for w in self.words()]
 
     def relations(self, *args: str) -> dict[str, list['Synset']]:
         """Return a mapping of relation names to lists of synsets.
