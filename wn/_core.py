@@ -15,7 +15,6 @@ from wn._types import (
 from wn._util import (
     normalize_form,
     unique_list,
-    format_lexicon_specifier,
 )
 from wn._queries import (
     find_ilis,
@@ -151,6 +150,7 @@ class Lexicon:
     """A class representing a wordnet lexicon."""
     __module__ = 'wn'
 
+    _specifier: str
     id: str
     label: str
     language: str
@@ -161,11 +161,6 @@ class Lexicon:
     citation: Optional[str] = None
     logo: Optional[str] = None
     _metadata: Optional[Metadata] = field(default=None, hash=False)
-    _specifier: str = field(init=False, hash=False)
-
-    def __post_init__(self) -> None:
-        specifier = format_lexicon_specifier(self.id, self.version)
-        object.__setattr__(self, '_specifier', specifier)
 
     def __repr__(self):
         return f'<Lexicon {self._specifier} [{self.language}]>'
@@ -1603,11 +1598,12 @@ def _resolve_lexicon_dependencies(
 
 def _to_lexicon(specifier: str) -> Lexicon:
     data = get_lexicon(specifier)
-    id, label, language, email, license, version, url, citation, logo, meta = data
+    spec, id, label, lang, email, license, version, url, citation, logo, meta = data
     return Lexicon(
+        spec,
         id,
         label,
-        language,
+        lang,
         email,
         license,
         version,

@@ -25,6 +25,7 @@ CREATE INDEX proposed_ili_synset_rowid_index ON proposed_ilis (synset_rowid);
 
 CREATE TABLE lexicons (
     rowid INTEGER PRIMARY KEY,  -- unique database-internal id
+    specifier TEXT NOT NULL,    -- lexicon specifer -> id:version
     id TEXT NOT NULL,           -- user-facing id
     label TEXT NOT NULL,
     language TEXT NOT NULL,     -- bcp-47 language tag
@@ -36,8 +37,10 @@ CREATE TABLE lexicons (
     logo TEXT,
     metadata META,
     modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
-    UNIQUE (id, version)
+    UNIQUE (id, version),
+    UNIQUE (specifier)
 );
+CREATE INDEX lexicon_specifier_index ON lexicons (specifier);
 
 CREATE TABLE lexicon_dependencies (
     dependent_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
@@ -117,12 +120,16 @@ CREATE TABLE synsets (
     lexicon_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,
     ili_rowid INTEGER REFERENCES ilis (rowid),
     pos TEXT,
-    lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     lexfile_rowid INTEGER REFERENCES lexfiles (rowid),
     metadata META
 );
 CREATE INDEX synset_id_index ON synsets (id);
 CREATE INDEX synset_ili_rowid_index ON synsets (ili_rowid);
+
+CREATE TABLE unlexicalized_synsets (
+    synset_rowid INTEGER NOT NULL REFERENCES synsets (rowid) ON DELETE CASCADE
+);
+CREATE INDEX unlexicalized_synsets_index ON unlexicalized_synsets (synset_rowid);
 
 CREATE TABLE synset_relations (
     rowid INTEGER PRIMARY KEY,
@@ -168,12 +175,16 @@ CREATE TABLE senses (
     entry_rank INTEGER DEFAULT 1,
     synset_rowid INTEGER NOT NULL REFERENCES synsets(rowid) ON DELETE CASCADE,
     synset_rank INTEGER DEFAULT 1,
-    lexicalized BOOLEAN CHECK( lexicalized IN (0, 1) ) DEFAULT 1 NOT NULL,
     metadata META
 );
 CREATE INDEX sense_id_index ON senses(id);
 CREATE INDEX sense_entry_rowid_index ON senses (entry_rowid);
 CREATE INDEX sense_synset_rowid_index ON senses (synset_rowid);
+
+CREATE TABLE unlexicalized_senses (
+    sense_rowid INTEGER NOT NULL REFERENCES senses (rowid) ON DELETE CASCADE
+);
+CREATE INDEX unlexicalized_senses_index ON unlexicalized_senses (sense_rowid);
 
 CREATE TABLE sense_relations (
     rowid INTEGER PRIMARY KEY,
