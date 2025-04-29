@@ -5,6 +5,8 @@
 ### Schema
 
 * Add `specifier` column to `lexicon` table ([#234])
+* Remove `lexicalized` column from `synsets` and `senses` ([#248])
+* Add `unlexicalized_synsets` and `unlexicalized_senses` tables ([#248])
 
 ### Changed
 
@@ -780,4 +782,5 @@ abandoned, but this is an entirely new codebase.
 [#238]: https://github.com/goodmami/wn/issues/238
 [#241]: https://github.com/goodmami/wn/issues/241
 [#246]: https://github.com/goodmami/wn/issues/246
+[#248]: https://github.com/goodmami/wn/issues/248
 [#250]: https://github.com/goodmami/wn/issues/250
