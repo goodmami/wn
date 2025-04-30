@@ -146,3 +146,25 @@ def test_synset_lexicalized():
 def test_synset_translate():
     assert len(wn.synset('test-en-0001-n').translate(lang='es')) == 1
     assert len(wn.synset('test-es-0001-n').translate(lang='en')) == 1
+
+
+@pytest.mark.usefixtures('uninitialized_datadir')
+def test_word_sense_order(datadir):
+    wn.add(datadir / 'sense-member-order.xml')
+    assert [s.id for s in wn.word('test-foo-n').senses()] == [
+        "test-01-foo-n", "test-02-foo-n",
+    ]
+    assert [s.id for s in wn.word('test-bar-n').senses()] == [
+        "test-02-bar-n", "test-01-bar-n",
+    ]
+
+
+@pytest.mark.usefixtures('uninitialized_datadir')
+def test_synset_member_order(datadir):
+    wn.add(datadir / 'sense-member-order.xml')
+    assert [s.id for s in wn.synset('test-01-n').senses()] == [
+        "test-01-bar-n", "test-01-foo-n",
+    ]
+    assert [s.id for s in wn.synset('test-02-n').senses()] == [
+        "test-02-bar-n", "test-02-foo-n",
+    ]
