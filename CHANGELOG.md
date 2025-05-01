@@ -2,6 +2,15 @@
 
 ## [Unreleased][unreleased]
 
+## Added
+
+* `wn.compat` namespace (see [#55])
+* `wn.compat.sensekey` module ([#55]) with methods:
+  - `sensekey_getter()`
+  - `sense_getter()`
+  - `unescape_oewn_sense_key()`
+  - `escape_oewn_sense_key()`
+
 ## Changed
 
 * `wn.add()` allows synset members to be lexical entry IDs for rank
@@ -694,6 +703,7 @@ abandoned, but this is an entirely new codebase.
 [#40]: https://github.com/goodmami/wn/issues/40
 [#46]: https://github.com/goodmami/wn/issues/46
 [#47]: https://github.com/goodmami/wn/issues/47
+[#55]: https://github.com/goodmami/wn/issues/55
 [#58]: https://github.com/goodmami/wn/issues/58
 [#59]: https://github.com/goodmami/wn/issues/59
 [#60]: https://github.com/goodmami/wn/issues/60

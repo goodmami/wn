@@ -1,10 +1,10 @@
-import re
 from typing import Callable, Optional
 
 import wn
 from wn._util import split_lexicon_specifier
 
 SensekeyGetter = Callable[[wn.Sense], Optional[str]]
+SenseGetter = Callable[[str], Optional[wn.Sense]]
 
 METADATA_LEXICONS = {
     # OMW 1.4
@@ -31,22 +31,21 @@ SENSE_ID_LEXICONS = {
     'oewn:2024',
 }
 
-OEWN_LEMMA_UNESCAPE_SEQUENCES= [
-    ("-ap-", "'"),
-    ("-ex-", "!"),
-    ("-cm-", ","),
-    ("-cn-", ":"),
-    ("-pl-", "+"),
-    ("-sl-", "/"),
+OEWN_LEMMA_UNESCAPE_SEQUENCES = [
+    ('-ap-', "'"),
+    ('-ex-', '!'),
+    ('-cm-', ','),
+    ('-cn-', ':'),
+    ('-pl-', '+'),
+    ('-sl-', '/'),
 ]
 
 
 def sensekey_getter(lexicon: str) -> SensekeyGetter:
-
     if lexicon in METADATA_LEXICONS:
 
         def getter(sense: wn.Sense) -> Optional[str]:
-            return sense.metadata() .get('identifier')
+            return sense.metadata().get('identifier')
 
     elif lexicon in SENSE_ID_LEXICONS:
         lexid, _ = split_lexicon_specifier(lexicon)
@@ -70,4 +69,47 @@ def unescape_oewn_sense_key(sense_key: str) -> str:
     for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
         lemma = lemma.replace(esc, char)
     rest = rest.replace('.', ':').replace('-sp-', '_')
-    return f'{lemma}%{rest}'
+    if rest:
+        return f'{lemma}%{rest}'
+    else:
+        return lemma
+
+
+def escape_oewn_sense_key(sense_key: str) -> str:
+    lemma, _, rest = sense_key.partition('%')
+    for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
+        lemma = lemma.replace(char, esc)
+    rest = rest.replace(':', '.').replace('_', '-sp-')
+    if rest:
+        return f'{lemma}__{rest}'
+    else:
+        return lemma
+
+
+def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGetter:
+    if wordnet is None:
+        wordnet = wn.Wordnet(lexicon)
+
+    if lexicon in METADATA_LEXICONS:
+        get_sensekey = sensekey_getter(lexicon)
+        sensekey_map = {get_sensekey(s): s for s in wordnet.senses()}
+        if None in sensekey_map:
+            sensekey_map.pop(None)  # senses without sense keys
+
+        def getter(sensekey: str) -> Optional[wn.Sense]:
+            return sensekey_map.get(sensekey)
+
+    elif lexicon in SENSE_ID_LEXICONS:
+        lexid, _ = split_lexicon_specifier(lexicon)
+
+        def getter(sensekey: str) -> Optional[wn.Sense]:
+            sense_id = f'{lexid}-{escape_oewn_sense_key(sensekey)}'
+            try:
+                return wordnet.sense(sense_id)
+            except wn.Error:
+                return None
+
+    else:
+        raise wn.Error(f'no sense getter is defined for {lexicon}')
+
+    return getter
