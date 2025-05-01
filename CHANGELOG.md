@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+## Changed
+
+* `wn.add()` allows synset members to be lexical entry IDs for rank
+  calculations ([#255])
+
 
 ## [v0.12.0]
 
@@ -771,3 +776,4 @@ abandoned, but this is an entirely new codebase.
 [#241]: https://github.com/goodmami/wn/issues/241
 [#246]: https://github.com/goodmami/wn/issues/246
 [#250]: https://github.com/goodmami/wn/issues/250
+[#255]: https://github.com/goodmami/wn/issues/255

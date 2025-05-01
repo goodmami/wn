@@ -665,9 +665,11 @@ def _insert_senses(
     progress: ProgressHandler
 ) -> None:
     progress.set(status='Senses')
-    ssrank = {s: i
-              for ss in _local_synsets(synsets)
-              for i, s in enumerate(ss.get('members', []))}
+    ssrank = {
+        (ss['id'], _id): i
+        for ss in _local_synsets(synsets)
+        for i, _id in enumerate(ss.get('members', []))
+    }
     query = f'''
         INSERT INTO senses
         VALUES (null,
@@ -682,14 +684,23 @@ def _insert_senses(
     '''
     for batch in _batch(entries):
         data = [
-            (sense['id'],
-             lexid,
-             entry['id'], lexidmap.get(entry['id'], lexid),
-             i,
-             sense['synset'], lexidmap.get(sense['synset'], lexid),
-             ssrank.get(sense['id'], DEFAULT_MEMBER_RANK),
-             sense.get('lexicalized', True),
-             sense['meta'])
+            (
+                sense['id'],
+                lexid,
+                entry['id'], lexidmap.get(entry['id'], lexid),
+                i,
+                sense['synset'], lexidmap.get(sense['synset'], lexid),
+                # members can be sense or entry IDs
+                ssrank.get(
+                    (sense['synset'], sense['id']),
+                    ssrank.get(
+                        (sense['synset'], entry['id']),
+                        DEFAULT_MEMBER_RANK
+                    )
+                ),
+                sense.get('lexicalized', True),
+                sense['meta']
+            )
             for entry in batch
             for i, sense in enumerate(_local_senses(_senses(entry)))
         ]
