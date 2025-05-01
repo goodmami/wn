@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd">
+<LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
+
+  <Lexicon id="omw-en"
+           label="OMW English Wordnet based on WordNet-3.0 sample"
+           language="en"
+           email="maintainer@example.com"
+           license="https://wordnet.princeton.edu/license-and-commercial-use"
+           version="1.4"
+           url="https://github.com/omwn/omw-data"
+           citation="Christiane Fellbaum (1998, ed.) *WordNet: An Electronic Lexical Database*. MIT Press.">
+    <LexicalEntry id="omw-en--apos-s_Gravenhage-n">
+      <Lemma writtenForm="'s Gravenhage" partOfSpeech="n" />
+      <Sense id="omw-en--apos-s_Gravenhage-08950407-n" synset="omw-en-08950407-n" dc:identifier="'s_gravenhage%1:15:00::" />
+    </LexicalEntry>
+    <Synset id="omw-en-08950407-n" ili="" />
+  </Lexicon>
+
+  <Lexicon id="oewn"
+           label="Open Engish Wordnet sample"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0"
+           version="2024"
+           url="https://github.com/globalwordnet/english-wordnet">
+    <LexicalEntry id="oewn--ap-s_Gravenhage-n">
+      <Lemma writtenForm="&apos;s Gravenhage" partOfSpeech="n"/>
+      <Sense id="oewn--ap-s_gravenhage__1.15.00.." synset="oewn-08970180-n"/>
+    </LexicalEntry>
+    <Synset id="oewn-08970180-n" ili="" />
+  </Lexicon>
+
+</LexicalResource>
