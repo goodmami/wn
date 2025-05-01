@@ -6,6 +6,8 @@
 
 * `wn.add()` allows synset members to be lexical entry IDs for rank
   calculations ([#255])
+* `wn.add()` no longer requires `partOfSpeech` on synsets; this was
+  not a requirement of WN-LMF nor was it enforced in the database
 
 
 ## [v0.12.0]
