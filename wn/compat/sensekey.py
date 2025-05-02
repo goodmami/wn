@@ -1,3 +1,5 @@
+"""Functions Related to Sense Keys"""
+
 from typing import Callable, Optional
 
 import wn
@@ -41,30 +43,7 @@ OEWN_LEMMA_UNESCAPE_SEQUENCES = [
 ]
 
 
-def sensekey_getter(lexicon: str) -> SensekeyGetter:
-    if lexicon in METADATA_LEXICONS:
-
-        def getter(sense: wn.Sense) -> Optional[str]:
-            return sense.metadata().get('identifier')
-
-    elif lexicon in SENSE_ID_LEXICONS:
-        lexid, _ = split_lexicon_specifier(lexicon)
-        prefix_len = len(lexid) + 1
-
-        def getter(sense: wn.Sense) -> Optional[str]:
-            sensekey = sense.id[prefix_len:]
-            # check if sense id is likely an escaped sensekey
-            if '__' in sensekey:
-                return unescape_oewn_sense_key(sense.id[prefix_len:])
-            return None
-
-    else:
-        raise wn.Error(f'no sensekey getter is defined for {lexicon}')
-
-    return getter
-
-
-def unescape_oewn_sense_key(sense_key: str) -> str:
+def _unescape_oewn_sense_key(sense_key: str) -> str:
     lemma, _, rest = sense_key.partition('__')
     for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
         lemma = lemma.replace(esc, char)
@@ -75,7 +54,7 @@ def unescape_oewn_sense_key(sense_key: str) -> str:
         return lemma
 
 
-def escape_oewn_sense_key(sense_key: str) -> str:
+def _escape_oewn_sense_key(sense_key: str) -> str:
     lemma, _, rest = sense_key.partition('%')
     for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
         lemma = lemma.replace(char, esc)
@@ -86,24 +65,47 @@ def escape_oewn_sense_key(sense_key: str) -> str:
         return lemma
 
 
+def sense_key_getter(lexicon: str) -> SensekeyGetter:
+    if lexicon in METADATA_LEXICONS:
+
+        def getter(sense: wn.Sense) -> Optional[str]:
+            return sense.metadata().get('identifier')
+
+    elif lexicon in SENSE_ID_LEXICONS:
+        lexid, _ = split_lexicon_specifier(lexicon)
+        prefix_len = len(lexid) + 1
+
+        def getter(sense: wn.Sense) -> Optional[str]:
+            sense_key = sense.id[prefix_len:]
+            # check if sense id is likely an escaped sense key
+            if '__' in sense_key:
+                return _unescape_oewn_sense_key(sense.id[prefix_len:])
+            return None
+
+    else:
+        raise wn.Error(f'no sense key getter is defined for {lexicon}')
+
+    return getter
+
+
 def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGetter:
     if wordnet is None:
         wordnet = wn.Wordnet(lexicon)
 
     if lexicon in METADATA_LEXICONS:
-        get_sensekey = sensekey_getter(lexicon)
-        sensekey_map = {get_sensekey(s): s for s in wordnet.senses()}
-        if None in sensekey_map:
-            sensekey_map.pop(None)  # senses without sense keys
+        get_sense_key = sense_key_getter(lexicon)
+        sense_key_map = {get_sense_key(s): s for s in wordnet.senses()}
+        if None in sense_key_map:
+            sense_key_map.pop(None)  # senses without sense keys
 
-        def getter(sensekey: str) -> Optional[wn.Sense]:
-            return sensekey_map.get(sensekey)
+        def getter(sense_key: str) -> Optional[wn.Sense]:
+            return sense_key_map.get(sense_key)
 
     elif lexicon in SENSE_ID_LEXICONS:
         lexid, _ = split_lexicon_specifier(lexicon)
 
-        def getter(sensekey: str) -> Optional[wn.Sense]:
-            sense_id = f'{lexid}-{escape_oewn_sense_key(sensekey)}'
+        def getter(sense_key: str) -> Optional[wn.Sense]:
+            sense_id = f'{lexid}-{_escape_oewn_sense_key(sense_key)}'
             try:
                 return wordnet.sense(sense_id)
             except wn.Error:

@@ -5,7 +5,7 @@ from wn.compat import sensekey
 
 
 def test_unescape_oewn_sense_key():
-    unescape = sensekey.unescape_oewn_sense_key
+    unescape = sensekey._unescape_oewn_sense_key
     assert unescape("") == ""
     assert unescape("abc") == "abc"
     assert unescape(".") == "."  # only becomes : in second part of key
@@ -34,7 +34,7 @@ def test_unescape_oewn_sense_key():
 
 
 def test_escape_oewn_sense_key():
-    escape = sensekey.escape_oewn_sense_key
+    escape = sensekey._escape_oewn_sense_key
     assert escape("") == ""
     assert escape("abc") == "abc"
     assert escape(".") == "."  # only becomes : in second part of key
@@ -56,25 +56,25 @@ def test_escape_oewn_sense_key():
 
 
 @pytest.mark.usefixtures("uninitialized_datadir")
-def test_sensekey_getter(datadir):
-    wn.add(datadir / "sensekey-variations.xml")
+def test_sense_key_getter(datadir):
+    wn.add(datadir / "sense-key-variations.xml")
 
-    get_omw_sensekey = sensekey.sensekey_getter("omw-en:1.4")
-    get_oewn_sensekey = sensekey.sensekey_getter("oewn:2024")
+    get_omw_sense_key = sensekey.sense_key_getter("omw-en:1.4")
+    get_oewn_sense_key = sensekey.sense_key_getter("oewn:2024")
 
     omw_sense = wn.sense("omw-en--apos-s_Gravenhage-08950407-n", lexicon="omw-en:1.4")
     oewn_sense = wn.sense("oewn--ap-s_gravenhage__1.15.00..", lexicon="oewn:2024")
 
-    assert get_omw_sensekey(omw_sense) == "'s_gravenhage%1:15:00::"
-    assert get_omw_sensekey(oewn_sense) is None
+    assert get_omw_sense_key(omw_sense) == "'s_gravenhage%1:15:00::"
+    assert get_omw_sense_key(oewn_sense) is None
 
-    assert get_oewn_sensekey(omw_sense) is None
-    assert get_oewn_sensekey(oewn_sense) == "'s_gravenhage%1:15:00::"
+    assert get_oewn_sense_key(omw_sense) is None
+    assert get_oewn_sense_key(oewn_sense) == "'s_gravenhage%1:15:00::"
 
 
 @pytest.mark.usefixtures("uninitialized_datadir")
 def test_sense_getter(datadir):
-    wn.add(datadir / "sensekey-variations.xml")
+    wn.add(datadir / "sense-key-variations.xml")
 
     get_omw_sense = sensekey.sense_getter("omw-en:1.4")
     get_oewn_sense = sensekey.sense_getter("oewn:2024")

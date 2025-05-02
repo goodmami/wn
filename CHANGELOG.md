@@ -6,7 +6,7 @@
 
 * `wn.compat` namespace (see [#55])
 * `wn.compat.sensekey` module ([#55]) with methods:
-  - `sensekey_getter()`
+  - `sense_key_getter()`
   - `sense_getter()`
   - `unescape_oewn_sense_key()`
   - `escape_oewn_sense_key()`
