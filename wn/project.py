@@ -56,22 +56,24 @@ def is_collection_directory(path: AnyPath) -> bool:
             and len(list(filter(is_package_directory, path.iterdir()))) >= 1)
 
 
-class _Project:
+class Project:
+    """The base class for packages and collections."""
+
     __slots__ = '_path',
 
     def __init__(self, path: AnyPath):
         self._path: Path = Path(path).expanduser()
 
     def readme(self) -> Optional[Path]:
-        """Return the path of the README file, or ``None`` if none exists."""
+        """Return the path of the README file, or :data:`None` if none exists."""
         return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
 
     def license(self) -> Optional[Path]:
-        """Return the path of the license, or ``None`` if none exists."""
+        """Return the path of the license, or :data:`None` if none exists."""
         return self._find_file(self._path / 'LICENSE', _ADDITIONAL_FILE_SUFFIXES)
 
     def citation(self) -> Optional[Path]:
-        """Return the path of the citation, or ``None`` if none exists."""
+        """Return the path of the citation, or :data:`None` if none exists."""
         return self._find_file(self._path / 'citation', ('.bib',))
 
     def _find_file(self, base: Path, suffixes: tuple[str, ...]) -> Optional[Path]:
@@ -82,14 +84,23 @@ class _Project:
         return None
 
 
-class Package(_Project):
-    """This class represents a wordnet or ILI package -- a directory with
-       a resource file and optional metadata.
+class Package(Project):
+    """A wordnet or ILI package.
+
+    A package is a directory with a resource file and optional
+    metadata files.
 
     """
 
     @property
     def type(self) -> Optional[str]:
+        """Return the name of the type of resource contained by the package.
+
+        Valid return values are:
+        - :python:`"wordnet"` -- the resource is a WN-LMF lexicon file
+        - :python:`"ili"` -- the resource is an interlingual index file
+        - :data:`None` -- the resource type is undetermined
+        """
         return _resource_file_type(self.resource_file())
 
     def resource_file(self) -> Path:
@@ -102,7 +113,15 @@ class Package(_Project):
         return files[0][0]
 
 
-class _ResourceOnlyPackage(Package):
+class ResourceOnlyPackage(Package):
+    """A virtual package for a single-file resource.
+
+    This class is for resource files that are not distributed in a
+    package directory. The :meth:`readme() <Project.readme>`,
+    :meth:`license() <Project.license>`, and
+    :meth:`citation() <Project.citation>` methods all return
+    :data:`None`.
+    """
 
     def resource_file(self) -> Path:
         return self._path
@@ -112,10 +131,11 @@ class _ResourceOnlyPackage(Package):
     def citation(self): return None
 
 
-class Collection(_Project):
-    """This class represents a wordnet or ILI collection -- a directory
-       with one or more wordnet/ILI packages and optional metadata.
+class Collection(Project):
+    """A wordnet or ILI collection
 
+    Collections are directories that contain package directories and
+    optional metadata files.
     """
 
     def packages(self) -> list[Package]:
@@ -165,7 +185,7 @@ def iterpackages(path: AnyPath) -> Iterator[Package]:
         decompressed: Path
         with _get_decompressed(path) as decompressed:
             if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
-                yield _ResourceOnlyPackage(decompressed)
+                yield ResourceOnlyPackage(decompressed)
             else:
                 raise wn.Error(
                     f'not a valid lexical resource: {path!s}'
