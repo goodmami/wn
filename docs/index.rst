@@ -57,6 +57,8 @@ Contents
    :hidden:
 
    api/wn.rst
+   api/wn.compat.rst
+   api/wn.compat.sensekey.rst
    api/wn.constants.rst
    api/wn.ic.rst
    api/wn.lmf.rst

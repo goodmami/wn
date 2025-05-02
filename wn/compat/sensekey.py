@@ -66,6 +66,27 @@ def _escape_oewn_sense_key(sense_key: str) -> str:
 
 
 def sense_key_getter(lexicon: str) -> SensekeyGetter:
+    """Return a function that gets sense keys from senses.
+
+    The *lexicon* argument determines how the function will retrieve
+    the sense key. For OMW and EWN 2019/2020 lexicons, the sense key
+    is in the ``identifier`` metadata. For OEWN 2021+ lexicons, the
+    sense ID is an escaped form of the sense key. For any unsupported
+    lexicon, an error is raised.
+
+    The function that is returned accepts one argument, a
+    :class:`wn.Sense` (ideally from the same lexicon specified in the
+    *lexicon* argument), and returns a :class:`str` if the sense key
+    exists in the lexicon or :data:`None` otherwise.
+
+    >>> import wn
+    >>> from wn.compat import sensekey
+    >>> oewn = wn.Wordnet("oewn:2024")
+    >>> get_sense_key = sensekey.sense_key_getter("oewn:2024")
+    >>> get_sense_key(oewn.senses("alabaster")[0])
+    'alabaster%3:01:00::'
+
+    """
     if lexicon in METADATA_LEXICONS:
 
         def getter(sense: wn.Sense) -> Optional[str]:
@@ -89,6 +110,32 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
 
 
 def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGetter:
+    """Return a function that gets the sense for a sense key.
+
+    The *lexicon* argument determines how the function will retrieve
+    the sense. For OMW and EWN 2019/2020 lexicons, the sense key is in
+    the ``identifier`` metadata and a mapping of sense keys to senses
+    will be created internally. For OEWN 2021+ lexicons the sense ID
+    is an escaped form of the sense key, so the given sense key is
+    escaped, then the sense is retrieved by :meth:`wn.Wordnet.sense`.
+    For any unsupported lexicon, an error is raised.
+
+    The optional *wordnet* object is used as the source of the
+    returned :class:`wn.Sense` objects. If none is provided, a new
+    :class:`wn.Wordnet` object is created using the *lexicon*
+    argument.
+
+    The function that is returned accepts one argument, a :class:`str`
+    of the sense key, and returns a :class:`wn.Sense` if the sense key
+    exists in the lexicon or :data:`None` otherwise.
+
+    >>> import wn
+    >>> from wn.compat import sensekey
+    >>> get_sense = sensekey.sense_getter("oewn:2024")
+    >>> get_sense("alabaster%3:01:00::")
+    Sense('oewn-alabaster__3.01.00..')
+
+    """
     if wordnet is None:
         wordnet = wn.Wordnet(lexicon)
 
