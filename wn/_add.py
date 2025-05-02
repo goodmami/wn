@@ -456,7 +456,7 @@ def _insert_synsets(
             (ss['id'],
              lexid,
              ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
-             ss['partOfSpeech'],
+             ss.get('partOfSpeech'),
              ss.get('lexicalized', True),
              ss.get('lexfile'),
              ss['meta'])
