@@ -64,6 +64,17 @@ class Project:
     def __init__(self, path: AnyPath):
         self._path: Path = Path(path).expanduser()
 
+    @property
+    def path(self) -> Path:
+        """The path of the project directory or resource file.
+
+        For :class:`Package` and :class:`Collection` objects, the path
+        is its directory. For :class:`ResourceOnlyPackage` objects,
+        the path is the same as from
+        :meth:`resource_file() <Package.resource_file>`
+        """
+        return self._path
+
     def readme(self) -> Optional[Path]:
         """Return the path of the README file, or :data:`None` if none exists."""
         return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
@@ -145,7 +156,89 @@ class Collection(Project):
                 if is_package_directory(path)]
 
 
-def iterpackages(path: AnyPath) -> Iterator[Package]:
+def get_project(
+    *,
+    project: Optional[str] = None,
+    path: Optional[AnyPath] = None,
+) -> Project:
+    """Return the :class:`Project` object for *project* or *path*.
+
+    The *project* argument is a project specifier and will look in the
+    download cache for the project data. If the project has not been
+    downloaded and cached, an error will be raised.
+
+    The *path* argument looks for project data at the given path. It
+    can point to a resource file, a package directory, or a collection
+    directory. Unlike :func:`iterpackages`, this function does not
+    iterate over packages within a collection, and instead the
+    :class:`Collection` object is returned.
+
+    .. note::
+
+       If the target is compressed or archived, the data will be
+       extracted to a temporary directory. It is the user's
+       responsibility to delete this temporary directory, which is
+       indicated by :data:`Project.path`.
+    """
+    if project and path:
+        raise TypeError('expected a project specifier or a path, not both')
+    if not project and not path:
+        raise TypeError('expected a project specifier or a path')
+
+    if project:
+        info = wn.config.get_project_info(project)
+        if not info['cache']:
+            raise wn.Error(
+                f'{project} is not cached; try `wn.download({project!r}` first'
+            )
+        path = info['cache']
+    assert path
+
+    proj, _ = _get_project_from_path(path)
+    return proj
+
+
+def _get_project_from_path(
+    path: AnyPath, tmpdir: Optional[str] = None,
+) -> tuple[Project, Optional[str]]:
+    path = Path(path).expanduser()
+
+    if path.is_dir():
+        if is_package_directory(path):
+            return Package(path), tmpdir
+
+        elif is_collection_directory(path):
+            return Collection(path), tmpdir
+
+        else:
+            raise wn.Error(
+                f'does not appear to be a valid package or collection: {path!s}'
+            )
+
+    elif tarfile.is_tarfile(path):
+        tmpdir_ = tempfile.mkdtemp()
+        with tarfile.open(path) as tar:
+            _check_tar(tar)
+            tar.extractall(path=tmpdir_)
+            contents = list(Path(tmpdir_).iterdir())
+            if len(contents) != 1:
+                raise wn.Error(
+                    'archive may only have one resource, package, or collection'
+                )
+            return _get_project_from_path(contents[0], tmpdir=tmpdir_)
+
+    else:
+        decompressed: Path
+        with _get_decompressed(path) as decompressed:
+            if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
+                return ResourceOnlyPackage(decompressed), tmpdir
+            else:
+                raise wn.Error(
+                    f'not a valid lexical resource: {path!s}'
+                )
+
+
+def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
     """Yield any wordnet or ILI packages found at *path*.
 
     The *path* argument can point to one of the following:
@@ -154,42 +247,34 @@ def iterpackages(path: AnyPath) -> Iterator[Package]:
       - a wordnet collection directory
       - a tar archive containing one of the above
       - a compressed (gzip or lzma) resource file or tar archive
+
+    The *delete* argument determines whether any created temporary
+    directories will be deleted after iteration is complete. When it
+    is :data:`True`, the package objects can only be inspected during
+    iteration. If one needs persistent objects (e.g.,
+    :python:`pkgs = list(iterpackages(...))`), then set *delete* to
+    :data:`False`.
+
+    .. warning::
+
+       When *delete* is set to :data:`False`, the user is responsible
+       for cleaning up any temporary directories. The
+       :data:`Project.path` attribute indicates the path of the
+       temporary directory.
+
     """
-    path = Path(path).expanduser()
+    project, tmpdir = _get_project_from_path(path)
 
-    if path.is_dir():
-        if is_package_directory(path):
-            yield Package(path)
-
-        elif is_collection_directory(path):
-            yield from Collection(path).packages()
-
+    try:
+        if isinstance(project, Package):
+            yield project
+        elif isinstance(project, Collection):
+            yield from project.packages()
         else:
-            raise wn.Error(
-                f'does not appear to be a valid package or collection: {path!s}'
-            )
-
-    elif tarfile.is_tarfile(path):
-        with tarfile.open(path) as tar:
-            _check_tar(tar)
-            with tempfile.TemporaryDirectory() as tmpdir:
-                tar.extractall(path=tmpdir)
-                contents = list(Path(tmpdir).iterdir())
-                if len(contents) != 1:
-                    raise wn.Error(
-                        'archive may only have one resource, package, or collection'
-                    )
-                yield from iterpackages(contents[0])
-
-    else:
-        decompressed: Path
-        with _get_decompressed(path) as decompressed:
-            if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
-                yield ResourceOnlyPackage(decompressed)
-            else:
-                raise wn.Error(
-                    f'not a valid lexical resource: {path!s}'
-                )
+            raise wn.Error(f'unexpected project type: {project.__class__.__name__}')
+    finally:
+        if tmpdir and delete:
+            shutil.rmtree(tmpdir)
 
 
 @contextmanager

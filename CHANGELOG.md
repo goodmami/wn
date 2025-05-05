@@ -10,8 +10,11 @@
   - `sense_getter()`
   - `unescape_oewn_sense_key()`
   - `escape_oewn_sense_key()`
+* `wn.project.get_project()` ([#53])
 * `wn.project.Project` ([#53])
 * `wn.project.ResourceOnlyPackage` ([#53])
+* `path` property on `wn.project.Project` classes ([#53])
+* `delete` parameter on `wn.project.iterpackages()` ([#53])
 
 ## Changed
 

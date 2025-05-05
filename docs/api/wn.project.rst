@@ -3,6 +3,7 @@ wn.project
 
 .. automodule:: wn.project
 
+.. autofunction:: get_project
 .. autofunction:: iterpackages
 .. autofunction:: is_package_directory
 .. autofunction:: is_collection_directory
@@ -21,6 +22,7 @@ files are modeled as a virtual package (:class:`ResourceOnlyPackage`).
    This class is not used directly, but all subclasses will implement
    the methods listed here.
 
+   .. autoproperty:: path
    .. automethod:: readme
    .. automethod:: license
    .. automethod:: citation
