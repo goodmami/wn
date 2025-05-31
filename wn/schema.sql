@@ -61,10 +61,17 @@ CREATE INDEX lexicon_extension_index ON lexicon_extensions(extension_rowid);
 
 -- Lexical Entries
 
+CREATE TABLE entry_index (
+    entry_rowid INTEGER NOT NULL REFERENCES entries (rowid) ON DELETE CASCADE,
+    lemma TEXT NOT NULL,
+    UNIQUE (entry_rowid)
+);
+CREATE INDEX entry_index_entry_index ON entry_index(entry_rowid);
+CREATE INDEX entry_index_lemma_index ON entry_index(lemma);
+
 /* The 'lemma' entity of a lexical entry is just a form, but it should
    be the only form with rank = 0. After that, rank can be used to
    indicate preference for a form. */
-
 
 CREATE TABLE entries (
     rowid INTEGER PRIMARY KEY,

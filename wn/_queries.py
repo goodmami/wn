@@ -293,15 +293,8 @@ def find_entries(
         conditions.append('e.id = ?')
         params.append(id)
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
-        conditions.append(f'''
-            e.rowid IN
-               (SELECT entry_rowid
-                  FROM forms
-                 WHERE (form IN wordforms {or_norm}) {and_rank})
-        '''.strip())
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        conditions.append(f'e.rowid IN {subquery}')
         params.extend(forms)
     if pos:
         conditions.append('e.pos = ?')
@@ -339,20 +332,15 @@ def find_senses(
     cte = ''
     params: list = []
     conditions = []
+    order = 's.rowid'
     if id:
         conditions.append('s.id = ?')
         params.append(id)
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
-        conditions.append(f'''
-            s.entry_rowid IN
-               (SELECT entry_rowid
-                  FROM forms
-                 WHERE (form IN wordforms {or_norm}) {and_rank})
-        '''.strip())
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        conditions.append(f's.entry_rowid IN {subquery}')
         params.extend(forms)
+        order = 's.lexicon_rowid, e.pos, s.entry_rank'
     if pos:
         conditions.append('e.pos = ?')
         params.append(pos)
@@ -372,7 +360,7 @@ def find_senses(
           JOIN synsets AS ss ON ss.rowid = s.synset_rowid
           JOIN lexicons AS slex ON slex.rowid = s.lexicon_rowid
          {condition}
-         ORDER BY s.rowid ASC
+         ORDER BY {order} ASC
     '''
 
     rows: Iterator[_Sense] = conn.execute(query, params)
@@ -392,24 +380,22 @@ def find_synsets(
     cte = ''
     join = ''
     conditions = []
-    order = ''
+    order = 'ss.rowid'
     params: list = []
     if id:
         conditions.append('ss.id = ?')
         params.append(id)
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
         join = f'''\
           JOIN (SELECT _s.entry_rowid, _s.synset_rowid, _s.entry_rank
-                  FROM forms AS f
-                  JOIN senses AS _s ON _s.entry_rowid = f.entry_rowid
-                 WHERE (f.form IN wordforms {or_norm}) {and_rank}) AS s
+                  FROM senses AS _s
+                 WHERE _s.entry_rowid IN {subquery}
+               ) AS s
             ON s.synset_rowid = ss.rowid
         '''.strip()
         params.extend(forms)
-        order = 'ORDER BY s.entry_rowid, s.entry_rank'
+        order = 'ss.lexicon_rowid, ss.pos, s.entry_rank'
     if pos:
         conditions.append('ss.pos = ?')
         params.append(pos)
@@ -426,9 +412,6 @@ def find_synsets(
     if conditions:
         condition = 'WHERE ' + '\n           AND '.join(conditions)
 
-    if not order:
-        order = 'ORDER BY ss.rowid ASC'
-
     query = f'''
           {cte}
         SELECT DISTINCT ss.id, ss.pos,
@@ -438,11 +421,40 @@ def find_synsets(
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
           {join}
          {condition}
-         {order}
+         ORDER BY {order} ASC
     '''
 
     rows: Iterator[_Synset] = conn.execute(query, params)
     yield from rows
+
+
+def _query_forms(
+    forms: Sequence[str],
+    normalized: bool,
+    search_all_forms: bool,
+    indexed: bool = True,
+) -> tuple[str, str]:
+    or_norm = 'OR f.normalized_form IN wordforms' if normalized else ''
+    and_rank = '' if search_all_forms else 'AND f.rank = 0'
+    cte = f'''
+      WITH
+        wordforms(s) AS (VALUES {_vs(forms)}),
+        matched_entries(rowid) AS
+          (SELECT f.entry_rowid
+             FROM forms AS f
+            WHERE (f.form IN wordforms {or_norm}) {and_rank})
+    '''
+    subquery = 'matched_entries'
+    if indexed:
+        subquery = '''\
+          (SELECT rowid
+             FROM matched_entries
+            UNION SELECT idx.entry_rowid
+                    FROM matched_entries AS _me
+                    JOIN entry_index AS _idx ON _idx.entry_rowid = _me.rowid
+                    JOIN entry_index AS idx ON idx.lemma = _idx.lemma)
+        '''
+    return cte, subquery
 
 
 def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[_Form]:
@@ -684,6 +696,7 @@ def _get_senses(
     id: str,
     sourcetype: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     conn = connect()
     if sourcetype == 'entry':
@@ -692,6 +705,7 @@ def _get_senses(
         sourcealias = 'ss'
     else:
         raise wn.Error(f'invalid sense source type: {sourcetype}')
+    order_col = f"{sourcetype}_rank" if order_by_rank else "rowid"
     query = f'''
         SELECT s.id, e.id, ss.id, slex.id || ":" || slex.version
           FROM senses AS s
@@ -703,7 +717,7 @@ def _get_senses(
             ON slex.rowid = s.lexicon_rowid
          WHERE {sourcealias}.id = ?
            AND slex.id || ":" || slex.version IN ({_qs(lexicons)})
-         ORDER BY s.{sourcetype}_rank
+         ORDER BY s.{order_col}
     '''
     return conn.execute(query, (id, *lexicons))
 
@@ -711,15 +725,17 @@ def _get_senses(
 def get_entry_senses(
     sense_id: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
-    yield from _get_senses(sense_id, 'entry', lexicons)
+    yield from _get_senses(sense_id, 'entry', lexicons, order_by_rank)
 
 
 def get_synset_members(
     synset_id: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
-    yield from _get_senses(synset_id, 'synset', lexicons)
+    yield from _get_senses(synset_id, 'synset', lexicons, order_by_rank)
 
 
 def get_sense_relations(
@@ -923,12 +939,43 @@ def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
         SELECT lf.name
           FROM lexfiles AS lf
           JOIN synsets AS ss ON ss.lexfile_rowid = lf.rowid
-          JOIN lexicons AS lex on lex.rowid = ss.lexicon_rowid
+          JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
          WHERE ss.id = ?
            AND lex.id || ":" || lex.version = ?
     '''
     row = conn.execute(query, (synset_id, lexicon)).fetchone()
     if row is not None and row[0] is not None:
+        return row[0]
+    return None
+
+
+def get_entry_index(entry_id: str, lexicon: str) -> Optional[str]:
+    conn = connect()
+    query = '''
+        SELECT idx.lemma
+          FROM entries AS e
+          JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
+          JOIN entry_index AS idx ON idx.entry_rowid = e.rowid
+         WHERE e.id = ?
+           AND lex.id || ":" || lex.version = ?
+    '''
+    row = conn.execute(query, (entry_id, lexicon)).fetchone()
+    if row is not None:
+        return row[0]
+    return None
+
+
+def get_sense_n(sense_id: str, lexicon: str) -> Optional[int]:
+    conn = connect()
+    query = '''
+        SELECT s.entry_rank
+          FROM senses AS s
+          JOIN lexicons AS lex ON lex.rowid = s.lexicon_rowid
+         WHERE s.id = ?
+           AND lex.id || ":" || lex.version = ?
+    '''
+    row = conn.execute(query, (sense_id, lexicon)).fetchone()
+    if row is not None:
         return row[0]
     return None
 
