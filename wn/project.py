@@ -8,7 +8,6 @@ from typing import Optional
 from pathlib import Path
 import tarfile
 import tempfile
-from contextlib import contextmanager
 import gzip
 import lzma
 import shutil
@@ -281,7 +280,10 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
                 raise wn.Error(f'could not remove temporary path: {tmp_path}')
 
 
-def _get_decompressed(source: Path, tmp_path: Optional[Path]) -> Path:
+def _get_decompressed(
+    source: Path,
+    tmp_path: Optional[Path],
+) -> tuple[Path, Optional[Path]]:
     gzipped = is_gzip(source)
     xzipped = is_lzma(source)
     if not (gzipped or xzipped):

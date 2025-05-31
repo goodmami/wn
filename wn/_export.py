@@ -152,11 +152,10 @@ def _export_lexical_entries(
                 'tags': _export_tags(forms[0][4]),
             },
             'forms': [],
+            'index': index if version >= (1, 4) and index else '',
+            'senses': _export_senses(id, lexspec, sbmap, index, version),
+            'meta': _export_metadata(id, lexspec, 'entries'),
         }
-        if version >= (1, 4) and index:
-            entry['index'] = index
-        entry['senses'] = _export_senses(id, lexspec, sbmap, index, version)
-        entry['meta'] = _export_metadata(id, lexspec, 'entries')
         if version >= (1, 1):
             entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][3])
         for form, fid, script, prons, tags in forms[1:]:
@@ -214,15 +213,14 @@ def _export_senses(
         sense: lmf.Sense = {
             'id': id,
             'synset': synset,
+            'n': n if (n and (index is not None or n != i)) else 0,
             'relations': _export_sense_relations(id, lexicons),
             'examples': _export_examples(id, 'senses', lexicons),
             'counts': _export_counts(id, lexicons),
+            'meta': _export_metadata(id, lexspec, 'senses'),
+            'lexicalized': get_lexicalized(id, lexspec, 'senses'),
+            'adjposition': get_adjposition(id, lexspec) or '',
         }
-        if index is not None or n != i:
-            sense['n'] = n
-        sense['meta'] = _export_metadata(id, lexspec, 'senses')
-        sense['lexicalized'] = get_lexicalized(id, lexspec, 'senses')
-        sense['adjposition'] = get_adjposition(id, lexspec) or ''
         if version >= (1, 1) and id in sbmap:
             sense['subcat'] = sorted(sbid for sbid, _ in sbmap[id])
         senses.append(sense)
