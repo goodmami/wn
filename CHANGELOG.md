@@ -5,6 +5,26 @@
 ## Added
 
 * Support for WN-LMF 1.4 ([#260])
+  - Sense ordering: `index` on `<LexicalEntry>` and `n` on `<Sense>`
+  - New sense relations:
+    - `metaphor`
+    - `has_metaphor`
+    - `metonym`
+    - `has_metonym`
+    - `agent`
+    - `material`
+    - `event`
+    - `instrument`
+    - `location`
+    - `by_means_of`
+    - `undergoer`
+    - `property`
+    - `result`
+    - `state`
+    - `uses`
+    - `destination`
+    - `body_part`
+    - `vehicle`
 * `wn.compat` namespace (see [#55])
 * `wn.compat.sensekey` module ([#55]) with methods:
   - `sense_key_getter()`

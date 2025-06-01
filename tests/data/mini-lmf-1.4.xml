@@ -19,7 +19,9 @@ WN-LMF 1.4 has the following changes:
 
     <LexicalEntry id="test-1.4-Foo_Bar-n" index="foo_bar">
       <Lemma partOfSpeech="n" writtenForm="Foo Bar" />
-      <Sense id="test-1.4-Foo_Bar-n-1" synset="test-1.4-1" n="3" />
+      <Sense id="test-1.4-Foo_Bar-n-1" synset="test-1.4-1" n="3">
+        <SenseRelation relType="metaphor" target="test-1.4-baz-n-1" />
+      </Sense>
     </LexicalEntry>
 
     <LexicalEntry id="test-1.4-foo_bar-n" index="foo_bar">
@@ -31,7 +33,9 @@ WN-LMF 1.4 has the following changes:
     <!-- ommitted index defaults to writtenForm (baz) when added to db -->
     <LexicalEntry id="test-1.4-baz-n">
       <Lemma partOfSpeech="n" writtenForm="baz" />
-      <Sense id="test-1.4-baz-n-1" synset="test-1.4-1" />
+      <Sense id="test-1.4-baz-n-1" synset="test-1.4-1">
+        <SenseRelation relType="has_metaphor" target="test-1.4-Foo_Bar-n-1" />
+      </Sense>
     </LexicalEntry>
 
     <!-- this should share the index with the one above -->

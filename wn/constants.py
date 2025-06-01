@@ -34,6 +34,25 @@ SENSE_RELATIONS = frozenset([
     'secondary_aspect_ip',
     'simple_aspect_pi',
     'secondary_aspect_pi',
+    # added in WN-LMF 1.4
+    'metaphor',
+    'has_metaphor',
+    'metonym',
+    'has_metonym',
+    'agent',
+    'material',
+    'event',
+    'instrument',
+    'location',
+    'by_means_of',
+    'undergoer',
+    'property',
+    'result',
+    'state',
+    'uses',
+    'destination',
+    'body_part',
+    'vehicle',
 ])
 
 SENSE_SYNSET_RELATIONS = frozenset([
