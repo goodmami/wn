@@ -47,12 +47,13 @@ def mini_lmf_compressed(datadir):
     data = (datadir / 'mini-lmf-1.0.xml').read_bytes()
     with tempfile.NamedTemporaryFile(suffix='.xml.xz', delete=False) as file:
         path = Path(file.name)
-        with lzma.open(path, "w") as f:
-            f.write(data)
-        try:
-            yield Path(file.name)
-        finally:
-            Path(file.name).unlink()
+    # Windows cannot reliably reopen file until it's closed
+    with lzma.open(path, "w") as f:
+        f.write(data)
+    try:
+        yield Path(file.name)
+    finally:
+        Path(file.name).unlink()
 
 
 @pytest.fixture(scope='session')
