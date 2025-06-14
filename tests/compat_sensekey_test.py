@@ -5,7 +5,10 @@ from wn.compat import sensekey
 
 
 def test_unescape_oewn_sense_key():
-    unescape = sensekey._unescape_oewn_sense_key
+
+    def unescape(s: str) -> str:
+        return sensekey.unescape(s, flavor="oewn")
+
     assert unescape("") == ""
     assert unescape("abc") == "abc"
     assert unescape(".") == "."  # only becomes : in second part of key
@@ -34,7 +37,10 @@ def test_unescape_oewn_sense_key():
 
 
 def test_escape_oewn_sense_key():
-    escape = sensekey._escape_oewn_sense_key
+
+    def escape(s: str) -> str:
+        return sensekey.escape(s, flavor="oewn")
+
     assert escape("") == ""
     assert escape("abc") == "abc"
     assert escape(".") == "."  # only becomes : in second part of key
