@@ -120,6 +120,29 @@ def test_load_1_3(datadir):
         three
       '''
 
+
+def test_load_1_4(datadir):
+    resource = lmf.load(datadir / 'mini-lmf-1.4.xml')
+    lexicons = resource['lexicons']
+    assert len(lexicons) == 1
+    lexicon = lexicons[0]
+    assert lexicon['entries'][0].get('index') == 'foo_bar'
+    assert lexicon['entries'][1].get('index') == 'foo_bar'
+    assert lexicon['entries'][2].get('index') is None
+    assert lexicon['entries'][3].get('index') == 'baz'
+    assert lexicon['entries'][4].get('index') is None
+    assert lexicon['entries'][5].get('index') == 'baz'
+
+    assert lexicon['entries'][0]['senses'][0].get('n') == 3
+    assert lexicon['entries'][1]['senses'][0].get('n') == 2
+    assert lexicon['entries'][1]['senses'][1].get('n') == 1
+    assert lexicon['entries'][2]['senses'][0].get('n') is None
+    assert lexicon['entries'][3]['senses'][0].get('n') == 2
+    assert lexicon['entries'][4]['senses'][0].get('n') == 2
+    assert lexicon['entries'][4]['senses'][1].get('n') is None
+    assert lexicon['entries'][5]['senses'][0].get('n') == 1
+
+
 def test_dump(datadir, tmp_path):
     tmpdir = tmp_path / 'test_dump'
     tmpdir.mkdir()
@@ -138,3 +161,6 @@ def test_dump(datadir, tmp_path):
 
     lmf.dump(lmf.load(datadir / 'mini-lmf-1.1.xml'), tmppath)
     assert_xml_equal(datadir / 'mini-lmf-1.1.xml', tmppath)
+
+    lmf.dump(lmf.load(datadir / 'mini-lmf-1.4.xml'), tmppath)
+    assert_xml_equal(datadir / 'mini-lmf-1.4.xml', tmppath)

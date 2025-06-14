@@ -9,6 +9,27 @@
 
 ## Added
 
+* Support for WN-LMF 1.4 ([#260])
+  - Sense ordering: `index` on `<LexicalEntry>` and `n` on `<Sense>`
+  - New sense relations:
+    - `metaphor`
+    - `has_metaphor`
+    - `metonym`
+    - `has_metonym`
+    - `agent`
+    - `material`
+    - `event`
+    - `instrument`
+    - `location`
+    - `by_means_of`
+    - `undergoer`
+    - `property`
+    - `result`
+    - `state`
+    - `uses`
+    - `destination`
+    - `body_part`
+    - `vehicle`
 * `wn.compat` namespace (see [#55])
 * `wn.compat.sensekey` module ([#55]) with methods:
   - `sense_key_getter()`
@@ -27,6 +48,7 @@
   calculations ([#255])
 * `wn.add()` no longer requires `partOfSpeech` on synsets; this was
   not a requirement of WN-LMF nor was it enforced in the database
+* `wn.export()` defaults to `version="1.4"` instead of `"1.0"`
 
 
 ## [v0.12.0]
@@ -801,3 +823,4 @@ abandoned, but this is an entirely new codebase.
 [#246]: https://github.com/goodmami/wn/issues/246
 [#250]: https://github.com/goodmami/wn/issues/250
 [#255]: https://github.com/goodmami/wn/issues/255
+[#260]: https://github.com/goodmami/wn/issues/260
