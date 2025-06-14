@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v0.13.0]
+
+**Release date: 2025-06-13**
+
 ## Added
 
 * `wn.compat` namespace (see [#55])
@@ -671,6 +676,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.13.0]: ../../releases/tag/v0.13.0
 [v0.12.0]: ../../releases/tag/v0.12.0
 [v0.11.0]: ../../releases/tag/v0.11.0
 [v0.10.1]: ../../releases/tag/v0.10.1

@@ -82,7 +82,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.docs.scripts]
-build = "sphinx-build -M docs docs/_build"
+build = "sphinx-build -M html docs docs/_build"
 clean = "sphinx-build -M clean docs docs/_build"
 watch = "sphinx-autobuild docs docs/_build/html"
 

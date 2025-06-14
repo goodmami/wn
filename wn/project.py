@@ -8,7 +8,6 @@ from typing import Optional
 from pathlib import Path
 import tarfile
 import tempfile
-from contextlib import contextmanager
 import gzip
 import lzma
 import shutil
@@ -199,16 +198,16 @@ def get_project(
 
 
 def _get_project_from_path(
-    path: AnyPath, tmpdir: Optional[str] = None,
-) -> tuple[Project, Optional[str]]:
+    path: AnyPath, tmp_path: Optional[Path] = None,
+) -> tuple[Project, Optional[Path]]:
     path = Path(path).expanduser()
 
     if path.is_dir():
         if is_package_directory(path):
-            return Package(path), tmpdir
+            return Package(path), tmp_path
 
         elif is_collection_directory(path):
-            return Collection(path), tmpdir
+            return Collection(path), tmp_path
 
         else:
             raise wn.Error(
@@ -216,26 +215,25 @@ def _get_project_from_path(
             )
 
     elif tarfile.is_tarfile(path):
-        tmpdir_ = tempfile.mkdtemp()
+        tmpdir_ = Path(tempfile.mkdtemp())
         with tarfile.open(path) as tar:
             _check_tar(tar)
             tar.extractall(path=tmpdir_)
-            contents = list(Path(tmpdir_).iterdir())
+            contents = list(tmpdir_.iterdir())
             if len(contents) != 1:
                 raise wn.Error(
                     'archive may only have one resource, package, or collection'
                 )
-            return _get_project_from_path(contents[0], tmpdir=tmpdir_)
+            return _get_project_from_path(contents[0], tmp_path=tmpdir_)
 
     else:
-        decompressed: Path
-        with _get_decompressed(path) as decompressed:
-            if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
-                return ResourceOnlyPackage(decompressed), tmpdir
-            else:
-                raise wn.Error(
-                    f'not a valid lexical resource: {path!s}'
-                )
+        decompressed, tmp_path = _get_decompressed(path, tmp_path)
+        if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
+            return ResourceOnlyPackage(decompressed), tmp_path
+        else:
+            raise wn.Error(
+                f'not a valid lexical resource: {path!s}'
+            )
 
 
 def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
@@ -263,7 +261,7 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
        temporary directory.
 
     """
-    project, tmpdir = _get_project_from_path(path)
+    project, tmp_path = _get_project_from_path(path)
 
     try:
         if isinstance(project, Package):
@@ -273,37 +271,43 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
         else:
             raise wn.Error(f'unexpected project type: {project.__class__.__name__}')
     finally:
-        if tmpdir and delete:
-            shutil.rmtree(tmpdir)
+        if tmp_path and delete:
+            if tmp_path.is_dir():
+                shutil.rmtree(tmp_path)
+            elif tmp_path.is_file():
+                tmp_path.unlink()
+            else:
+                raise wn.Error(f'could not remove temporary path: {tmp_path}')
 
 
-@contextmanager
-def _get_decompressed(source: Path) -> Iterator[Path]:
+def _get_decompressed(
+    source: Path,
+    tmp_path: Optional[Path],
+) -> tuple[Path, Optional[Path]]:
     gzipped = is_gzip(source)
     xzipped = is_lzma(source)
     if not (gzipped or xzipped):
-        yield source
+        return source, tmp_path
     else:
         tmp = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
         path = Path(tmp.name)
         try:
-            # for typing issues, see https://github.com/python/mypy/issues/15031
             if gzipped:
                 with gzip.open(source, 'rb') as gzip_src:
-                    shutil.copyfileobj(gzip_src, tmp)  # type: ignore
+                    shutil.copyfileobj(gzip_src, tmp)
             else:  # xzipped
                 with lzma.open(source, 'rb') as lzma_src:
-                    shutil.copyfileobj(lzma_src, tmp)  # type: ignore
+                    shutil.copyfileobj(lzma_src, tmp)
 
             tmp.close()  # Windows cannot reliably reopen until it's closed
-
-            yield path
 
         except (OSError, EOFError, lzma.LZMAError) as exc:
             raise wn.Error(f'could not decompress file: {source}') from exc
 
-        finally:
-            path.unlink()
+        # if tmp_path is not None, the compressed file was in a
+        # temporary directory, so return that. Otherwise the new path
+        # becomes the tmp_path
+        return path, tmp_path or path
 
 
 def _check_tar(tar: tarfile.TarFile) -> None:

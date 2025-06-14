@@ -69,4 +69,4 @@ from wn._module_functions import (
     ili, ilis,
 )
 
-__version__ = '0.12.0'
+__version__ = '0.13.0'

@@ -21,14 +21,23 @@ ID.
 >>> sense.id
 'oewn-carousel__1.06.01..'
 
-This module has two functions:
+This module has four functions:
 
-1. :func:`sense_key_getter` creates a function for retrieving the
+1. :func:`escape` transforms a sense key into a form that is valid for
+   XML IDs. The *flavor* keyword argument specifies the escaping
+   mechanism and it defaults to "oewn", which is currently the only
+   available flavor.
+
+2. :func:`unescape` transforms an escaped sense key back into the
+   original form. The *flavor* keyword is the same as with
+   :func:`escape`.
+
+3. :func:`sense_key_getter` creates a function for retrieving the
    sense key for a given :class:`wn.Sense` object. Depending on the
    lexicon, it will retrieve the sense key from metadata or it will
    unescape the sense ID.
 
-2. :func:`sense_getter` creates a function for retrieving a
+4. :func:`sense_getter` creates a function for retrieving a
    :class:`wn.Sense` object given a sense key. Depending on the
    lexicon, it will build and use a mapping of sense key metadata to
    :class:`wn.Sense` objects, or it will escape the sense key and use
@@ -68,11 +77,11 @@ METADATA_LEXICONS = {
     'ewn:2020',
 }
 
-SENSE_ID_LEXICONS = {
-    'oewn:2021',
-    'oewn:2022',
-    'oewn:2023',
-    'oewn:2024',
+SENSE_ID_LEXICONS = {  # specifier:flavor
+    'oewn:2021': "oewn",
+    'oewn:2022': "oewn",
+    'oewn:2023': "oewn",
+    'oewn:2024': "oewn",
 }
 
 OEWN_LEMMA_UNESCAPE_SEQUENCES = [
@@ -85,8 +94,34 @@ OEWN_LEMMA_UNESCAPE_SEQUENCES = [
 ]
 
 
-def _unescape_oewn_sense_key(sense_key: str) -> str:
-    lemma, _, rest = sense_key.partition('__')
+def unescape(s: str, /, flavor="oewn") -> str:
+    """Return the original form of an escaped sense key.
+
+    The *flavor* argument specifies how the unescaping will be done.
+    Its default (and currently only) value is "oewn", which escapes
+    like the Open English Wordnet.
+
+    >>> from wn.compat import sensekey
+    >>> sensekey.unescape("ceramic__3.01.00..")
+    'ceramic%3:01:00::'
+
+    Note that this function does not remove any lexicon ID prefixes on
+    sense IDs, so that may need to be done manually:
+
+    >>> sensekey.unescape("oewn-ceramic__3.01.00..")
+    'oewn-ceramic%3:01:00::'
+    >>> sensekey.unescape("oewn-ceramic__3.01.00..".removeprefix("oewn-"))
+    'ceramic%3:01:00::'
+
+    """
+    if flavor == "oewn":
+        return _unescape_oewn(s)
+    else:
+        raise ValueError(f"unsupported flavor: {flavor}")
+
+
+def _unescape_oewn(s: str) -> str:
+    lemma, _, rest = s.partition('__')
     for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
         lemma = lemma.replace(esc, char)
     rest = rest.replace('.', ':').replace('-sp-', '_')
@@ -96,7 +131,25 @@ def _unescape_oewn_sense_key(sense_key: str) -> str:
         return lemma
 
 
-def _escape_oewn_sense_key(sense_key: str) -> str:
+def escape(sense_key: str, /, flavor="oewn") -> str:
+    """Return an escaped sense key that is valid for XML IDs.
+
+    The *flavor* argument specifies how the escaping will be done. Its
+    default (and currently only) value is "oewn", which escapes like
+    the Open English Wordnet.
+
+    >>> from wn.compat import sensekey
+    >>> sensekey.escape("ceramic%3:01:00::")
+    'ceramic__3.01.00..'
+
+    """
+    if flavor == "oewn":
+        return _escape_oewn(sense_key)
+    else:
+        raise ValueError(f"unsupported flavor: {flavor}")
+
+
+def _escape_oewn(sense_key: str) -> str:
     lemma, _, rest = sense_key.partition('%')
     for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
         lemma = lemma.replace(char, esc)
@@ -127,6 +180,10 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
     >>> get_sense_key(oewn.senses("alabaster")[0])
     'alabaster%3:01:00::'
 
+    When unescaping a sense ID, if the ID starts with its lexicon's ID
+    and a hyphen (e.g., `"oewn-"`), it is assumed to be a conventional
+    ID prefix and is removed prior to unescaping.
+
     """
     if lexicon in METADATA_LEXICONS:
 
@@ -134,14 +191,15 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
             return sense.metadata().get('identifier')
 
     elif lexicon in SENSE_ID_LEXICONS:
+        flavor = SENSE_ID_LEXICONS[lexicon]
         lexid, _ = split_lexicon_specifier(lexicon)
-        prefix_len = len(lexid) + 1
+        prefix = f"{lexid}-"
 
         def getter(sense: wn.Sense) -> Optional[str]:
-            sense_key = sense.id[prefix_len:]
+            sense_key = sense.id.removeprefix(prefix)
             # check if sense id is likely an escaped sense key
             if '__' in sense_key:
-                return _unescape_oewn_sense_key(sense.id[prefix_len:])
+                return unescape(sense_key, flavor=flavor)
             return None
 
     else:
@@ -197,10 +255,11 @@ def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGet
             return None
 
     elif lexicon in SENSE_ID_LEXICONS:
+        flavor = SENSE_ID_LEXICONS[lexicon]
         lexid, _ = split_lexicon_specifier(lexicon)
 
         def getter(sense_key: str) -> Optional[wn.Sense]:
-            sense_id = f'{lexid}-{_escape_oewn_sense_key(sense_key)}'
+            sense_id = f'{lexid}-{escape(sense_key, flavor=flavor)}'
             try:
                 return wordnet.sense(sense_id)
             except wn.Error:
