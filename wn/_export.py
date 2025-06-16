@@ -149,6 +149,7 @@ def _export_lexical_entries(
                 'tags': _export_tags(forms[0][4]),
             },
             'forms': [],
+            'index': '',
             'senses': _export_senses(id, lexspec, sbmap, version),
             'meta': _export_metadata(id, lexspec, 'entries'),
         }
@@ -206,6 +207,7 @@ def _export_senses(
         sense: lmf.Sense = {
             'id': id,
             'synset': synset,
+            'n': 0,
             'relations': _export_sense_relations(id, lexicons),
             'examples': _export_examples(id, 'senses', lexicons),
             'counts': _export_counts(id, lexicons),
