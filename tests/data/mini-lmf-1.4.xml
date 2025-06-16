@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.4.dtd">
+
+<!--
+WN-LMF 1.4 has the following changes:
+- optional 'index' attribute on LexicalEntry
+- optional 'n' attribute on Sense
+- Pronunciation elements under Definition and Example
+-->
+
+<LexicalResource xmlns:dc="http://globalwordnet.github.io/schemas/dc/">
+
+  <Lexicon id="test-1.4"
+           label="Testing WN-LMF 1.4"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0/"
+           version="1">
+
+    <LexicalEntry id="test-1.4-Foo_Bar-n" index="foo_bar">
+      <Lemma partOfSpeech="n" writtenForm="Foo Bar" />
+      <Sense id="test-1.4-Foo_Bar-n-1" synset="test-1.4-1" n="3">
+        <SenseRelation relType="metaphor" target="test-1.4-baz-n-1" />
+      </Sense>
+    </LexicalEntry>
+
+    <LexicalEntry id="test-1.4-foo_bar-n" index="foo_bar">
+      <Lemma partOfSpeech="n" writtenForm="foo bar" />
+      <Sense id="test-1.4-foo_bar-n-1" synset="test-1.4-1" n="2" />
+      <Sense id="test-1.4-foo_bar-n-2" synset="test-1.4-2" n="1" />
+    </LexicalEntry>
+
+    <!-- ommitted index defaults to writtenForm (baz) when added to db -->
+    <LexicalEntry id="test-1.4-baz-n">
+      <Lemma partOfSpeech="n" writtenForm="baz" />
+      <Sense id="test-1.4-baz-n-1" synset="test-1.4-1">
+        <SenseRelation relType="has_metaphor" target="test-1.4-Foo_Bar-n-1" />
+      </Sense>
+    </LexicalEntry>
+
+    <!-- this should share the index with the one above -->
+    <LexicalEntry id="test-1.4-BAZ-n" index="baz">
+      <Lemma partOfSpeech="n" writtenForm="BAZ" />
+      <Sense id="test-1.4-BAZ-n-1" synset="test-1.4-1" n="2" />
+    </LexicalEntry>
+
+    <!-- this one does not share the index -->
+    <LexicalEntry id="test-1.4-Baz-n">
+      <Lemma partOfSpeech="n" writtenForm="Baz" />
+      <Sense id="test-1.4-Baz-n-1" synset="test-1.4-1" n="2" />
+      <!-- omitted 'n' defaults to position (2) when added to db -->
+      <Sense id="test-1.4-Baz-n-2" synset="test-1.4-2" />
+    </LexicalEntry>
+
+    <!-- indexes are shared only in the same part of speech -->
+    <LexicalEntry id="test-1.4-baz-v" index="baz">
+      <Lemma partOfSpeech="v" writtenForm="baz" />
+      <Sense id="test-1.4-baz-v-1" synset="test-1.4-3" n="1" />
+    </LexicalEntry>
+
+    <Synset id="test-1.4-1" ili="" partOfSpeech="n" members="test-1.4-Foo_Bar-n-1 test-1.4-foo_bar-n-1 test-1.4-baz-n-1 test-1.4-BAZ-n-1 test-1.4-Baz-n-1" />
+
+    <Synset id="test-1.4-2" ili="" partOfSpeech="n" members="test-1.4-foo_bar-n-2 test-1.4-Baz-n-2" />
+
+    <Synset id="test-1.4-3" ili="" partOfSpeech="v" members="test-1.4-baz-v-1" />
+
+  </Lexicon>
+
+</LexicalResource>
