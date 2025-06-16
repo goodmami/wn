@@ -2,12 +2,16 @@
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* Preliminary XML-only support for WN-LMF 1.4 ([#260])
+
 
 ## [v0.13.0]
 
 **Release date: 2025-06-13**
 
-## Added
+### Added
 
 * `wn.compat` namespace (see [#55])
 * `wn.compat.sensekey` module ([#55]) with methods:
@@ -21,7 +25,7 @@
 * `path` property on `wn.project.Project` classes ([#53])
 * `delete` parameter on `wn.project.iterpackages()` ([#53])
 
-## Changed
+### Changed
 
 * `wn.add()` allows synset members to be lexical entry IDs for rank
   calculations ([#255])
@@ -33,20 +37,20 @@
 
 **Release date: 2025-04-22**
 
-## Added
+### Added
 
 * `wn.add_lexical_resource()` to add result of `wn.lmf.load()` to
   database rather than from a file (pertinent to [#98])
 * `bench/` directory with benchmark tests ([#98])
 * `Synset.definitions()` ([#246])
 
-## Fixed
+### Fixed
 
 * `wn.web` casts URL objects to strings for JSON serialization ([#238])
 * Setting `wn.config.data_directory` to an uninitialized directory no
   longer raises a `sqlite3.OperationalError` ([#250])
 
-## Changed
+### Changed
 
 * `Wordnet` and module-level query functions now issue a warning when
   the `lang` argument matches more than one lexicon ([#241])
@@ -75,11 +79,11 @@
 
 **Release date: 2024-12-11**
 
-## Index
+### Index
 
 * Added `oewn:2024` ([#221])
 
-## Added
+### Added
 
 * `Relation` class ([#216])
 * `Sense.relation_map()` method ([#216])
@@ -88,7 +92,7 @@
 * `W306` blank example on synset validation ([#151])
 * `W307` repeated definition on synset validation ([#151])
 
-## Fixed
+### Fixed
 
 * Enumerate repeated entry, sense, synset IDs for validation ([#228])
 
@@ -97,13 +101,13 @@
 
 **Release date: 2024-10-29**
 
-## Fixed
+### Fixed
 
 * Follow redirects with `httpx.Client` in `wn._download` ([#211])
 * Remove reverse relations for `pertainym` and `also` ([#213])
 * Validate redundant relations considering `dc:type` ([#215])
 
-## Maintenance
+### Maintenance
 
 * Added `docs/.readthedocs.yaml` for building docs ([#214])
 
@@ -112,20 +116,20 @@
 
 **Release date: 2024-10-29**
 
-## Python Support
+### Python Support
 
 * Removed support for Python 3.8 ([#202])
 * Added support for Python 3.13 ([#202])
 
-## Added
+### Added
 
 * Support for WN-LMF 1.2 and 1.3 ([#200])
 
-## Fixed
+### Fixed
 
 * Don't assume 'id' on form elements in WN-LMF 1.2+ ([#207])
 
-## Maintenance
+### Maintenance
 
 * Switched packaging from flit to Hatch ([#201])
 * Updated dependencies, CI warnings, old workarounds ([#203])
@@ -801,3 +805,4 @@ abandoned, but this is an entirely new codebase.
 [#246]: https://github.com/goodmami/wn/issues/246
 [#250]: https://github.com/goodmami/wn/issues/250
 [#255]: https://github.com/goodmami/wn/issues/255
+[#260]: https://github.com/goodmami/wn/issues/260

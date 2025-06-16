@@ -25,8 +25,7 @@ This module has four functions:
 
 1. :func:`escape` transforms a sense key into a form that is valid for
    XML IDs. The *flavor* keyword argument specifies the escaping
-   mechanism and it defaults to "oewn", which is currently the only
-   available flavor.
+   mechanism and it defaults to :python:`"oewn"`.
 
 2. :func:`unescape` transforms an escaped sense key back into the
    original form. The *flavor* keyword is the same as with
@@ -94,12 +93,14 @@ OEWN_LEMMA_UNESCAPE_SEQUENCES = [
 ]
 
 
-def unescape(s: str, /, flavor="oewn") -> str:
+def unescape(s: str, /, flavor: str = "oewn") -> str:
     """Return the original form of an escaped sense key.
 
     The *flavor* argument specifies how the unescaping will be done.
-    Its default (and currently only) value is "oewn", which escapes
-    like the Open English Wordnet.
+    Its default (and only) value is :python:`"oewn"`, which escapes
+    like the Open English Wordnet, including separate rules for the
+    left and right side of the ``__`` delimiter.
+
 
     >>> from wn.compat import sensekey
     >>> sensekey.unescape("ceramic__3.01.00..")
@@ -131,12 +132,13 @@ def _unescape_oewn(s: str) -> str:
         return lemma
 
 
-def escape(sense_key: str, /, flavor="oewn") -> str:
+def escape(sense_key: str, /, flavor: str = "oewn") -> str:
     """Return an escaped sense key that is valid for XML IDs.
 
     The *flavor* argument specifies how the escaping will be done. Its
-    default (and currently only) value is "oewn", which escapes like
-    the Open English Wordnet.
+    default (and only) value is :python:`"oewn"`, which escapes like
+    the Open English Wordnet, including separate rules for the left
+    and right side of the ``%`` delimiter.
 
     >>> from wn.compat import sensekey
     >>> sensekey.escape("ceramic%3:01:00::")
