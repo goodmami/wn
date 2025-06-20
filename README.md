@@ -16,6 +16,7 @@
   | <a href="https://wn.readthedocs.io/en/latest/faq.html">FAQ</a>
   | <a href="https://wn.readthedocs.io/en/latest/guides/nltk-migration.html">Migrating from NLTK</a>
   | <a href="https://github.com/goodmami/wn/projects">Roadmap</a>
+  |  <a href="https://github.com/goodmami/wn#citation">Citation</a>
 </p>
 
 ---
@@ -215,3 +216,6 @@ trademark issues.
 
 All OMW wordnets have changed their ID scheme from `...wn` to `omw-..` and the version no longer
 includes `+omw` (e.g., `bulwn:1.3+omw` is now `omw-bg:1.4`).
+
+## Citation
+Michael Wayne Goodman and Francis Bond. 2021. [Intrinsically Interlingual: The Wn Python Library for Wordnets](https://aclanthology.org/2021.gwc-1.12/) In *Proceedings of the 11th Global Wordnet Conference*, pages 100–107, University of South Africa (UNISA). Global Wordnet Association.
