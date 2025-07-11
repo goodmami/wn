@@ -9,6 +9,7 @@ from starlette.applications import Starlette  # type: ignore
 from starlette.responses import JSONResponse  # type: ignore
 from starlette.routing import Route  # type: ignore
 from starlette.requests import Request  # type: ignore
+from starlette.exceptions import HTTPException  # type: ignore
 
 import wn
 
@@ -208,6 +209,19 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
     return d
 
 
+# Exception handlers
+
+async def http_exception_handler(request: Request, exc: Exception):
+    status_code = exc.status_code if hasattr(exc, 'status_code') else 500
+    return JSONResponse({
+        "error": {
+            "status": status_code,
+            "message": exc.detail if hasattr(exc, 'detail') else str(exc),
+            "type": type(exc).__name__
+        }
+    }, status_code=status_code)
+
+
 # Route handlers
 
 @paginate(make_lexicon)
@@ -336,4 +350,8 @@ routes = [
     Route('/synsets', endpoint=all_synsets),
 ]
 
-app = Starlette(debug=True, routes=routes)
+app = Starlette(debug=True, routes=routes, exception_handlers={
+    HTTPException: http_exception_handler,
+    wn.Error: http_exception_handler,
+    Exception: http_exception_handler,
+})
