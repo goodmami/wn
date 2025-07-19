@@ -322,17 +322,18 @@ async def synset(request):
 
 
 async def index(request: Request):
-    global routes
-    endpoints = [{ 'path': route.path,'name': route.name} for route in routes]
+    endpoints = {route.path: str(request.url_for(route.name))
+                 for route in routes if len(route.param_convertors) == 0}
     return JSONResponse({'endpoints': endpoints})
 
 
 async def health_check(request: Request):
-    return JSONResponse({
-        "status": "healthy",
-        "timestamp": datetime.now(tz=UTC).isoformat(),
-        "service": "wordnet",
-    }, status_code=200)
+    body = {
+        'status': 'healthy',
+        'timestamp': datetime.now(tz=UTC).isoformat(),
+        'service': 'wn.web',
+    }
+    return JSONResponse(body, status_code=200)
 
 routes = [
     Route('/', endpoint=index),
