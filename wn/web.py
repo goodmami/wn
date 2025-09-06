@@ -4,6 +4,7 @@
 from typing import Optional, Union
 from functools import wraps
 from urllib.parse import urlsplit, parse_qs, urlencode
+from datetime import datetime, UTC
 
 from starlette.applications import Starlette  # type: ignore
 from starlette.responses import JSONResponse  # type: ignore
@@ -320,7 +321,23 @@ async def synset(request):
     return JSONResponse({'data': make_synset(synset, request)})
 
 
+async def index(request: Request):
+    endpoints = {route.path: str(request.url_for(route.name))
+                 for route in routes if len(route.param_convertors) == 0}
+    return JSONResponse({'endpoints': endpoints})
+
+
+async def health_check(request: Request):
+    body = {
+        'status': 'healthy',
+        'timestamp': datetime.now(tz=UTC).isoformat(),
+        'service': 'wn.web',
+    }
+    return JSONResponse(body, status_code=200)
+
 routes = [
+    Route('/', endpoint=index),
+    Route('/health', endpoint=health_check),
     Route('/lexicons', endpoint=lexicons),
     Route('/lexicons/{lexicon}', endpoint=lexicon),
     Route('/lexicons/{lexicon}/words', endpoint=words),
