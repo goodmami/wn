@@ -25,7 +25,19 @@ client = TestClient(web.app)
 @pytest.mark.usefixtures('mini_db_web')
 def test_root():
     response = client.get('/')
-    assert response.status_code == 404
+    assert response.status_code == 200
+    data = response.json()
+    endpoints = data["endpoints"]
+    for endpoint_name in "/lexicons", "/words", "/senses", "/synsets", "/health":
+        assert endpoint_name in endpoints
+
+
+@pytest.mark.usefixtures('mini_db_web')
+def test_health():
+    response = client.get('/health')
+    assert response.status_code == 200
+    data = response.json()
+    assert data['status'] == 'healthy'
 
 
 @pytest.mark.usefixtures('mini_db_web')
