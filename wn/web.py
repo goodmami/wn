@@ -6,6 +6,9 @@ from urllib.parse import urlsplit, parse_qs, urlencode
 from datetime import datetime, timezone
 
 from starlette.applications import Starlette  # type: ignore
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.responses import JSONResponse  # type: ignore
 from starlette.routing import Route  # type: ignore
 from starlette.requests import Request  # type: ignore
@@ -363,4 +366,14 @@ routes = [
     Route('/synsets', endpoint=all_synsets),
 ]
 
-app = Starlette(debug=True, routes=routes)
+middlewares = [
+    Middleware(GZipMiddleware, minimum_size=1000, compresslevel=9),
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_methods=['*'],
+        allow_headers=['*'],
+    )
+]
+
+app = Starlette(debug=True, routes=routes, middleware=middlewares)
