@@ -3,7 +3,7 @@
 from typing import Optional, Union
 from functools import wraps
 from urllib.parse import urlsplit, parse_qs, urlencode
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 
 from starlette.applications import Starlette  # type: ignore
 from starlette.responses import JSONResponse  # type: ignore
@@ -339,7 +339,7 @@ async def index(request: Request):
 async def health_check(request: Request):
     body = {
         'status': 'healthy',
-        'timestamp': datetime.now(tz=UTC).isoformat(),
+        'timestamp': datetime.now(tz=timezone.utc).isoformat(),
         'service': 'wn.web',
     }
     return JSONResponse(body, status_code=200)
