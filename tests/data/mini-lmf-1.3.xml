@@ -6,7 +6,7 @@ WN-LMF 1.3 is the same as 1.1 and 1.2 except for allowing xml:space on
 nodes with text content.
 -->
 
-<LexicalResource xmlns:dc="http://globalwordnet.github.io/schemas/dc/">
+<LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
 
   <Lexicon id="test-ws"
            label="Testing Whitespace WordNet"

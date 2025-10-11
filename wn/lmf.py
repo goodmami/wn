@@ -38,15 +38,19 @@ _XMLDECL = b'<?xml version="1.0" encoding="UTF-8"?>'
 _XMLSPACEATTR = 'http://www.w3.org/XML/1998/namespace space'  # xml:space
 _DOCTYPE = '<!DOCTYPE LexicalResource SYSTEM "{schema}">'
 _SCHEMAS = {
-    '1.0': 'http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
-    '1.1': 'http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd',
-    '1.2': 'http://globalwordnet.github.io/schemas/WN-LMF-1.2.dtd',
-    '1.3': 'http://globalwordnet.github.io/schemas/WN-LMF-1.3.dtd',
-    '1.4': 'http://globalwordnet.github.io/schemas/WN-LMF-1.4.dtd',
+    '1.0': 'https://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd',
+    '1.1': 'https://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd',
+    '1.2': 'https://globalwordnet.github.io/schemas/WN-LMF-1.2.dtd',
+    '1.3': 'https://globalwordnet.github.io/schemas/WN-LMF-1.3.dtd',
+    '1.4': 'https://globalwordnet.github.io/schemas/WN-LMF-1.4.dtd',
 }
 _DOCTYPES = {
     _DOCTYPE.format(schema=schema): version for version, schema in _SCHEMAS.items()
 }
+_DOCTYPES.update(
+    (_DOCTYPE.format(schema=schema.replace("https://", "http://")), version)
+    for version, schema in _SCHEMAS.items()
+)
 
 _DC_URIS = {
     '1.0': 'http://purl.org/dc/elements/1.1/',
