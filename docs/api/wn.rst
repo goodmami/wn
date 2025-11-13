@@ -26,6 +26,7 @@ queries.
 
 .. autofunction:: word
 .. autofunction:: words
+.. autofunction:: lemmas
 .. autofunction:: sense
 .. autofunction:: senses
 .. autofunction:: synset
@@ -42,6 +43,7 @@ The Wordnet Class
 
    .. automethod:: word
    .. automethod:: words
+   .. automethod:: lemmas
    .. automethod:: sense
    .. automethod:: senses
    .. automethod:: synset

@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* `wn.lemmas()` function and `Wordnet.lemmas()` method to query all
+  lemmas at once.
+
 
 ## [v0.14.0]
 

@@ -99,6 +99,75 @@ def test_words_mini():
 
 
 @pytest.mark.usefixtures('empty_db')
+def test_lemmas_empty():
+    assert len(wn.lemmas()) == 0
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_lemmas_mini():
+    # Basic lemmas query
+    assert len(wn.lemmas()) == 15
+    assert all(isinstance(lemma, str) for lemma in wn.lemmas())
+
+    # Lemmas with data=True should return Form objects
+    lemmas_with_data = wn.lemmas(data=True)
+    assert len(lemmas_with_data) == 15
+    assert all(isinstance(lemma, wn.Form) for lemma in lemmas_with_data)
+
+    # Check specific lemma properties
+    info_lemmas = wn.lemmas('information')
+    assert len(info_lemmas) == 1
+    assert info_lemmas[0] == 'information'
+
+    info_form = wn.lemmas('information', data=True)[0]
+    assert info_form.value == 'information'
+    assert info_form.script == 'Latn'
+    assert info_form.tags() == [wn.Tag('tag-text', 'tag-category')]
+
+    # Lemmas should return canonical forms, not inflected forms
+    # Search by inflected form should still return the lemma
+    exemplify_lemmas = wn.lemmas('exemplifies')
+    assert len(exemplify_lemmas) == 1
+    assert exemplify_lemmas[0] == 'exemplify'
+
+    # Filter by POS
+    assert len(wn.lemmas(pos='n')) == 10
+    assert len(wn.lemmas(pos='v')) == 5
+    assert len(wn.lemmas(pos='q')) == 0  # fake pos
+
+    # Filter by language
+    assert len(wn.lemmas(lang='en')) == 9
+    assert len(wn.lemmas(lang='es')) == 6
+
+    # Filter by lexicon
+    assert len(wn.lemmas(lexicon='test-en')) == 9
+    assert len(wn.lemmas(lexicon='test-es')) == 6
+
+    # Combined filters
+    assert len(wn.lemmas(lang='en', lexicon='test-en')) == 9
+    assert len(wn.lemmas(pos='v', lang='en')) == 3
+    assert len(wn.lemmas('information', lang='en')) == 1
+    assert len(wn.lemmas('information', lang='es')) == 0
+
+    # Verify lemmas() returns same results as words() + .lemma()
+    words = wn.words()
+    lemmas_from_words = [w.lemma() for w in words]
+    lemmas_direct = wn.lemmas()
+    assert set(lemmas_from_words) == set(lemmas_direct)
+
+    # Test Wordnet instance method
+    wordnet = wn.Wordnet()
+    assert len(wordnet.lemmas()) == 15
+    assert len(wordnet.lemmas(pos='v')) == 5
+    assert len(wordnet.lemmas(data=True)) == 15
+
+    with pytest.raises(wn.Error):
+        wn.lemmas(lang='unk')
+    with pytest.raises(wn.Error):
+        wn.lemmas(lexicon='test-unk')
+
+
+@pytest.mark.usefixtures('empty_db')
 def test_word_empty():
     with pytest.raises(wn.Error):
         assert wn.word('test-es-información-n')

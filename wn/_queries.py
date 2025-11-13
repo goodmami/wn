@@ -289,29 +289,13 @@ def find_entries(
     search_all_forms: bool = False,
 ) -> Iterator[_Word]:
     conn = connect()
-    cte = ''
-    params: list = []
-    conditions = []
+    cte, conditions, params = _build_entry_conditions(
+        forms, pos, lexicons, normalized, search_all_forms
+    )
+
     if id:
-        conditions.append('e.id = ?')
-        params.append(id)
-    if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
-        conditions.append(f'''
-            e.rowid IN
-               (SELECT entry_rowid
-                  FROM forms
-                 WHERE (form IN wordforms {or_norm}) {and_rank})
-        '''.strip())
-        params.extend(forms)
-    if pos:
-        conditions.append('e.pos = ?')
-        params.append(pos)
-    if lexicons:
-        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
-        params.extend(lexicons)
+        conditions.insert(0, 'e.id = ?')
+        params.insert(0, id)
 
     condition = ''
     if conditions:
@@ -328,6 +312,103 @@ def find_entries(
 
     rows: Iterator[_Word] = conn.execute(query, params)
     yield from rows
+
+
+def _load_lemmas_with_details(
+    conn, cte: str, condition: str, params: list
+) -> Iterator[_Form]:
+    """Load lemmas with pronunciations and tags (full details)."""
+    query = f'''
+          {cte}
+        SELECT DISTINCT f.rowid, f.form, f.id, f.script,
+               lex.id || ":" || lex.version,
+               p.value, p.variety, p.notation, p.phonemic, p.audio,
+               t.tag, t.category
+          FROM forms AS f
+          JOIN entries AS e ON e.rowid = f.entry_rowid
+          JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
+          LEFT JOIN pronunciations AS p ON p.form_rowid = f.rowid
+          LEFT JOIN tags AS t ON t.form_rowid = f.rowid
+         WHERE f.rank = 0
+         {condition}
+         ORDER BY f.rowid ASC
+    '''
+
+    # Group results by form_rowid and process pronunciations/tags
+    forms_dict: dict[
+        int,
+        tuple[
+            str, Optional[str], Optional[str], str,
+            list[_Pronunciation], list[_Tag]
+        ]
+    ] = {}
+
+    for row in conn.execute(query, params):
+        form_rowid, form, form_id, script, lexicon = row[0:5]
+        pron_data = row[5:10]
+        tag_data = row[10:12]
+
+        if form_rowid not in forms_dict:
+            forms_dict[form_rowid] = (form, form_id, script, lexicon, [], [])
+
+        # Add pronunciation if present
+        if pron_data[0] is not None:  # value
+            pron = cast(_Pronunciation, pron_data)
+            if pron not in forms_dict[form_rowid][4]:
+                forms_dict[form_rowid][4].append(pron)
+
+        # Add tag if present
+        if tag_data[0] is not None:  # tag
+            tag = cast(_Tag, tag_data)
+            if tag not in forms_dict[form_rowid][5]:
+                forms_dict[form_rowid][5].append(tag)
+
+    # Yield forms in order
+    for form_rowid in sorted(forms_dict.keys()):
+        yield forms_dict[form_rowid]
+
+
+def find_lemmas(
+    forms: Sequence[str] = (),
+    pos: Optional[str] = None,
+    lexicons: Sequence[str] = (),
+    normalized: bool = False,
+    search_all_forms: bool = False,
+    load_details: bool = False,
+) -> Iterator[_Form]:
+    """Find lemmas matching the given criteria.
+
+    Returns form data for the lemma of each matching entry.
+    If load_details is False, pronunciations and tags are not loaded.
+    """
+    conn = connect()
+    cte, conditions, params = _build_entry_conditions(
+        forms, pos, lexicons, normalized, search_all_forms
+    )
+
+    condition = ''
+    if conditions:
+        condition = 'AND ' + '\n           AND '.join(conditions)
+
+    if not load_details:
+        # Fast path: don't load pronunciations and tags
+        query = f'''
+              {cte}
+            SELECT f.form, f.id, f.script,
+                   lex.id || ":" || lex.version
+              FROM forms AS f
+              JOIN entries AS e ON e.rowid = f.entry_rowid
+              JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
+             WHERE f.rank = 0
+             {condition}
+             ORDER BY f.rowid ASC
+        '''
+        for row in conn.execute(query, params):
+            form, form_id, script, lexicon = row
+            yield (form, form_id, script, lexicon, [], [])
+    else:
+        # Full path: load pronunciations and tags
+        yield from _load_lemmas_with_details(conn, cte, condition, params)
 
 
 def find_senses(
@@ -940,3 +1021,40 @@ def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
 def _vs(xs: Collection) -> str: return ','.join(['(?)'] * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)
+
+
+def _build_entry_conditions(
+    forms: Sequence[str],
+    pos: Optional[str],
+    lexicons: Sequence[str],
+    normalized: bool,
+    search_all_forms: bool,
+) -> tuple[str, list[str], list]:
+    """Build CTE, conditions, and parameters for entry-based queries.
+
+    Returns:
+        tuple of (cte, conditions, params)
+    """
+    cte = ''
+    params: list = []
+    conditions = []
+
+    if forms:
+        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
+        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
+        and_rank = '' if search_all_forms else 'AND rank = 0'
+        conditions.append(f'''
+            e.rowid IN
+               (SELECT entry_rowid
+                  FROM forms
+                 WHERE (form IN wordforms {or_norm}) {and_rank})
+        '''.strip())
+        params.extend(forms)
+    if pos:
+        conditions.append('e.pos = ?')
+        params.append(pos)
+    if lexicons:
+        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        params.extend(lexicons)
+
+    return cte, conditions, params
