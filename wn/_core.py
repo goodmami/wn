@@ -3,7 +3,6 @@ from __future__ import annotations
 import enum
 import textwrap
 import warnings
-from abc import abstractmethod
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
 from typing import Literal, Optional, Protocol, TypeVar, Union, overload
@@ -71,7 +70,10 @@ class _EntityType(str, enum.Enum):
 class _HasMetadata(Protocol):
     def metadata(self) -> Metadata:
         """Return the example's metadata."""
-        return self._metadata if self._metadata is not None else {}
+        # Often the class with have _metadata, but if not it will do a
+        # DB lookup. Ignore the type error for now in anticipation of
+        # bigger changes in v1.0.
+        return self._metadata if self._metadata is not None else {}  # type: ignore
 
     def confidence(self) -> float: ...
 
