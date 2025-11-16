@@ -1,10 +1,11 @@
+from __future__ import annotations
 
 import enum
 import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, Optional, TypeVar, Union, overload
+from typing import Literal, Optional, Protocol, TypeVar, Union, overload
 
 import wn
 from wn._types import (
@@ -66,8 +67,19 @@ class _EntityType(str, enum.Enum):
     UNSET = ''
 
 
+class _HasMetadata(Protocol):
+    def metadata(self) -> Metadata:
+        """Return the example's metadata."""
+        # Often the class with have _metadata, but if not it will do a
+        # DB lookup. Ignore the type error for now in anticipation of
+        # bigger changes in v1.0.
+        return self._metadata if self._metadata is not None else {}  # type: ignore
+
+    def confidence(self) -> float: ...
+
+
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class ILI:
+class ILI(_HasMetadata):
     """A class for interlingual indices."""
     __module__ = 'wn'
     __slots__ = '_id', 'status', '_definition'
@@ -91,6 +103,10 @@ class ILI:
 
     def metadata(self) -> Metadata:
         """Return the ILI's metadata."""
+        raise NotImplementedError
+
+    def confidence(self) -> float:
+        """Return the confidence score of the ILI."""
         raise NotImplementedError
 
 
@@ -118,6 +134,9 @@ class _ExistingILI(ILI):
         """Return the ILI's metadata."""
         return get_ili_metadata(self._id)
 
+    def confidence(self) -> float:
+        return float(self.metadata().get('confidenceScore', 1.0))
+
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
 class _ProposedILI(ILI):
@@ -141,13 +160,21 @@ class _ProposedILI(ILI):
     def __hash__(self) -> int:
         return hash((self._synset, self._lexicon))
 
+    def lexicon(self) -> Lexicon:
+        return _to_lexicon(self._lexicon)
+
     def metadata(self) -> Metadata:
         """Return the ILI's metadata."""
         return get_proposed_ili_metadata(self._synset, self._lexicon)
 
+    def confidence(self) -> float:
+        return float(
+            self.metadata().get('confidenceScore', self.lexicon().confidence())
+        )
+
 
 @dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
-class Lexicon:
+class Lexicon(_HasMetadata):
     """A class representing a wordnet lexicon."""
     __module__ = 'wn'
 
@@ -170,13 +197,16 @@ class Lexicon:
     def __repr__(self):
         return f'<Lexicon {self._specifier} [{self.language}]>'
 
-    def metadata(self) -> Metadata:
-        """Return the lexicon's metadata."""
-        return self._metadata if self._metadata is not None else {}
-
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
         return self._specifier
+
+    def confidence(self) -> float:
+        """Return the confidence score of the lexicon.
+
+        If the lexicon does not specify a confidence score, it defaults to 1.0.
+        """
+        return float(self.metadata().get("confidenceScore", 1.0))
 
     def modified(self) -> bool:
         """Return True if the lexicon has local modifications."""
@@ -255,6 +285,31 @@ def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
     return f'{sum(count.values()):>6} ({subcounts})'
 
 
+class _LexiconElement(Protocol):
+    """Protocol for elements defined within a lexicon."""
+
+    _lexicon: str  # source lexicon specifier
+
+    def lexicon(self) -> Lexicon:
+        """Return the lexicon containing the element."""
+        return _to_lexicon(self._lexicon)
+
+
+class _LexiconElementWithMetadata(_LexiconElement, _HasMetadata, Protocol):
+    """Protocol for lexicon elements with metadata."""
+
+    def confidence(self) -> float:
+        """Return the confidence score of the element.
+
+        If the element does not have an explicit confidence score, the
+        value defaults to that of the lexicon containing the element.
+        """
+        c = self.metadata().get("confidenceScore")
+        if c is None:
+            c = self.lexicon().confidence()
+        return float(c)
+
+
 @dataclass
 class _LexiconConfiguration:
     # slots=True from Python 3.10
@@ -271,19 +326,28 @@ _EMPTY_LEXCONFIG = _LexiconConfiguration(
 )
 
 
-class _LexiconElement:
-    __slots__ = 'id', '_lexicon', '_lexconf'
+# @dataclass(frozen=True)
+class _LexiconDataElement(_LexiconElementWithMetadata):
+    """Base class for Words, Senses, and Synsets.
+
+    These elements always have a required ID and are used as the
+    starting point of secondary queries, so they also store the
+    configuration of lexicons used in the original query.
+    """
+
+    __slots__ = 'id', '_lexconf'
 
     id: str
+    _lexconf: _LexiconConfiguration
 
     def __init__(
         self,
         id: str,
         _lexicon: str = '',
         _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
-    ):
+    ) -> None:
         self.id = id
-        self._lexicon = _lexicon  # source lexicon specifier
+        self._lexicon = _lexicon
         self._lexconf = _lexconf
 
     def __eq__(self, other) -> bool:
@@ -296,9 +360,6 @@ class _LexiconElement:
 
     def __hash__(self) -> int:
         return hash((self.id, self._lexicon))
-
-    def lexicon(self) -> Lexicon:
-        return _to_lexicon(self._lexicon)
 
     def _get_lexicons(self) -> tuple[str, ...]:
         if self._lexconf.default_mode:
@@ -335,13 +396,14 @@ class Tag:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Form:
+class Form(_LexiconElement):
     """A word-form."""
     __module__ = 'wn'
 
     value: str
     id: Optional[str] = field(default=None, repr=False, compare=False)
     script: Optional[str] = field(default=None, repr=False)
+    _lexicon: str = field(default='', repr=False, compare=False)
     _pronunciations: tuple[Pronunciation, ...] = field(
         default_factory=tuple, repr=False, compare=False
     )
@@ -360,6 +422,7 @@ def _make_form(
     form: str,
     id: Optional[str],
     script: Optional[str],
+    lexicon: str,
     prons: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]],
     tags: list[tuple[str, str]],
 ) -> Form:
@@ -367,12 +430,13 @@ def _make_form(
         form,
         id=id,
         script=script,
+        _lexicon=lexicon,
         _pronunciations=tuple(Pronunciation(*data) for data in prons),
         _tags=tuple(Tag(*data) for data in tags),
     )
 
 
-class Word(_LexiconElement):
+class Word(_LexiconDataElement):
     """A class for words (also called lexical entries) in a wordnet."""
     __slots__ = 'pos',
     __module__ = 'wn'
@@ -524,7 +588,7 @@ class Word(_LexiconElement):
         return result
 
 
-class Relation:
+class Relation(_LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
     __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
@@ -533,6 +597,7 @@ class Relation:
     name: str
     source_id: str
     target_id: str
+    _metadata: Optional[Metadata]
 
     def __init__(
         self,
@@ -547,7 +612,7 @@ class Relation:
         self.source_id = source_id
         self.target_id = target_id
         self._lexicon = lexicon
-        self._metadata: Metadata = metadata or {}
+        self._metadata = metadata
 
     def __repr__(self) -> str:
         return (
@@ -578,21 +643,13 @@ class Relation:
         If ``dc:type`` is not specified in the metadata, ``None`` is
         returned instead.
         """
-        return self._metadata.get("type")
-
-    def lexicon(self) -> Lexicon:
-        """Return the :class:`Lexicon` where the relation is defined."""
-        return _to_lexicon(self._lexicon)
-
-    def metadata(self) -> Metadata:
-        """Return the relation's metadata."""
-        return self._metadata
+        return self.metadata().get("type")
 
 
 T = TypeVar('T', bound='_Relatable')
 
 
-class _Relatable(_LexiconElement):
+class _Relatable(_LexiconDataElement):
 
     def relations(self: T, *args: str) -> dict[str, list[T]]:
         raise NotImplementedError
@@ -637,12 +694,13 @@ class _Relatable(_LexiconElement):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Example:
+class Example(_LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
     __module__ = 'wn'
 
     text: str
     language: Optional[str] = None
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
@@ -651,13 +709,14 @@ class Example:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Definition:
+class Definition(_LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
     __module__ = 'wn'
 
     text: str
     language: Optional[str] = None
     source_sense_id: Optional[str] = field(default=None, compare=False)
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, compare=False, repr=False)
 
     def metadata(self) -> Metadata:
@@ -747,12 +806,13 @@ class Synset(_Relatable):
         """
         lexicons = self._get_lexicons()
         if defns := get_definitions(self.id, lexicons):
-            text, lang, sense_id, meta = defns[0]
+            text, lang, sense_id, lex, meta = defns[0]
             if data:
                 return Definition(
                     text,
                     language=lang,
                     source_sense_id=sense_id,
+                    _lexicon=lex,
                     _metadata=meta,
                 )
             else:
@@ -788,8 +848,14 @@ class Synset(_Relatable):
         defns = get_definitions(self.id, lexicons)
         if data:
             return [
-                Definition(text, language=lang, source_sense_id=sid, _metadata=meta)
-                for text, lang, sid, meta in defns
+                Definition(
+                    text,
+                    language=lang,
+                    source_sense_id=sid,
+                    _lexicon=lex,
+                    _metadata=meta,
+                )
+                for text, lang, sid, lex, meta in defns
             ]
         else:
             return [text for text, *_ in defns]
@@ -820,10 +886,11 @@ class Synset(_Relatable):
         exs = get_examples(self.id, 'synsets', lexicons)
         if data:
             return [
-                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _lexicon=lex, _metadata=meta)
+                for text, lang, lex, meta in exs
             ]
         else:
-            return [text for text, _, _ in exs]
+            return [text for text, *_ in exs]
 
     def senses(self) -> list['Sense']:
         """Return the list of sense members of the synset.
@@ -1119,16 +1186,13 @@ class Synset(_Relatable):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Count:
+class Count(_LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
     value: int
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
-
-    def metadata(self) -> Metadata:
-        """Return the count's metadata."""
-        return self._metadata if self._metadata is not None else {}
 
 
 class Sense(_Relatable):
@@ -1200,10 +1264,11 @@ class Sense(_Relatable):
         exs = get_examples(self.id, 'senses', lexicons)
         if data:
             return [
-                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _lexicon=lex, _metadata=meta)
+                for text, lang, lex, meta in exs
             ]
         else:
-            return [text for text, _, _ in exs]
+            return [text for text, *_ in exs]
 
     def lexicalized(self) -> bool:
         """Return True if the sense is lexicalized."""
@@ -1241,9 +1306,12 @@ class Sense(_Relatable):
         lexicons = self._get_lexicons()
         count_data = list(get_sense_counts(self.id, lexicons))
         if data:
-            return [Count(value, _metadata=metadata) for value, metadata in count_data]
+            return [
+                Count(value, _lexicon=lex, _metadata=metadata)
+                for value, lex,metadata in count_data
+            ]
         else:
-            return [value for value, _ in count_data]
+            return [value for value, *_ in count_data]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""

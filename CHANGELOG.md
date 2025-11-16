@@ -5,6 +5,16 @@
 ### Added
 
 * Preliminary XML-only support for WN-LMF 1.4 ([#260])
+* `lexicon()` method on `Form`, `Example`, `Definition`, and `Count` ([#286])
+* `confidence()` method ([#263])
+  - On `Lexicon` defaults to 1.0
+  - On existing `ILI`, defaults to 1.0
+  - On `Word`, `Sense`, `Synset`, `Relation`, `Example`, `Definition`, and
+    `Count`, defaults to the confidence of their lexicon.
+
+### Fixed
+
+* Encode example metadata on export ([#285])
 
 
 ## [v0.13.0]
@@ -806,3 +816,6 @@ abandoned, but this is an entirely new codebase.
 [#250]: https://github.com/goodmami/wn/issues/250
 [#255]: https://github.com/goodmami/wn/issues/255
 [#260]: https://github.com/goodmami/wn/issues/260
+[#263]: https://github.com/goodmami/wn/issues/263
+[#285]: https://github.com/goodmami/wn/issues/285
+[#286]: https://github.com/goodmami/wn/issues/286
