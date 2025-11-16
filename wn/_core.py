@@ -204,7 +204,7 @@ class Lexicon(_HasMetadata):
 
         If the lexicon does not specify a confidence score, it defaults to 1.0.
         """
-        return self.metadata().get("confidenceScore", 1.0)
+        return float(self.metadata().get("confidenceScore", 1.0))
 
     def modified(self) -> bool:
         """Return True if the lexicon has local modifications."""
@@ -533,9 +533,7 @@ class Word(_LexiconDataElement):
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
-        if self._metadata is None:
-            self._metadata = get_metadata(self.id, self._lexicon, 'entries')
-        return self._metadata
+        return get_metadata(self.id, self._lexicon, 'entries')
 
     def synsets(self) -> list['Synset']:
         """Return the list of synsets of the word.

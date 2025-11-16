@@ -206,6 +206,6 @@ def test_confidence():
     assert wn.sense('test-en-example-n-0002-01').confidence() == 0.9
     # check values on other elements
     assert wn.synset("test-en-0001-n").confidence() == 1.0
-    assert wn.synset("test-en-0001-n").definition(data=True).confidence() == 1.0
-    assert wn.synset("test-en-0001-n").relation_map().popitem()[0].confidence() == 1.0
-    assert wn.synset("test-en-0001-n").examples(data=True)[0].confidence() == 1.0
+    assert wn.synset("test-en-0001-n").definition(data=True).confidence() == 0.95
+    assert wn.synset("test-en-0001-n").relation_map().popitem()[0].confidence() == 0.8
+    assert wn.synset("test-en-0001-n").examples(data=True)[0].confidence() == 0.7

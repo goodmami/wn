@@ -99,9 +99,9 @@ Spanish:
     </LexicalEntry>
 
     <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition" confidenceScore="1.0">
-      <Definition sourceSense="test-en-information-n-0001-01" confidenceScore="0.9">something that informs</Definition>
+      <Definition sourceSense="test-en-information-n-0001-01" confidenceScore="0.95">something that informs</Definition>
       <SynsetRelation relType="hyponym" target="test-en-0002-n" confidenceScore="0.8" />
-      <SynsetRelation relType="hyponym" target="test-en-0006-n" />
+      <SynsetRelation relType="hyponym" target="test-en-0006-n" confidenceScore="0.8" />
       <Example confidenceScore="0.7">"this is information"</Example>
     </Synset>
 
