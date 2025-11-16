@@ -168,3 +168,33 @@ def test_synset_member_order(datadir):
     assert [s.id for s in wn.synset('test-02-n').senses()] == [
         "test-02-bar-n", "test-02-foo-n",
     ]
+
+
+@pytest.mark.usefixtures('mini_db')
+def test_confidence():
+    # default for unmarked lexicon is 1.0
+    assert wn.lexicons(lexicon='test-es')[0].confidence() == 1.0
+    # explicitly set lexicon confidence becomes the default for sub-elements
+    assert wn.lexicons(lexicon='test-en')[0].confidence() == 0.9
+    assert wn.word('test-en-information-n').confidence() == 0.9
+    assert wn.sense('test-en-information-n-0001-01').confidence() == 0.9
+    assert (
+        wn.sense('test-en-information-n-0001-01').counts(data=True)[0].confidence()
+    ) == 0.9
+    assert (
+        wn.sense('test-en-exemplify-v-0003-01').relation_map()
+        .popitem()[0].confidence()
+    ) == 0.9
+    # explicit value overrides default
+    assert wn.word('test-en-example-n').confidence() == 1.0
+    assert (
+        wn.sense('test-en-example-n-0002-01').relation_map()
+        .popitem()[0].confidence()
+    ) == 0.5
+    # values on parents don't override default on children
+    assert wn.sense('test-en-example-n-0002-01').confidence() == 0.9
+    # check values on other elements
+    assert wn.synset("test-en-0001-n").confidence() == 1.0
+    assert wn.synset("test-en-0001-n").definition(data=True).confidence() == 1.0
+    assert wn.synset("test-en-0001-n").relation_map().popitem()[0].confidence() == 1.0
+    assert wn.synset("test-en-0001-n").examples(data=True)[0].confidence() == 1.0
