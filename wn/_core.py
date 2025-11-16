@@ -283,7 +283,7 @@ def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
     return f'{sum(count.values()):>6} ({subcounts})'
 
 
-class _LexiconElement(_HasMetadata, Protocol):
+class _LexiconElement(Protocol):
     """Protocol for elements defined within a lexicon."""
 
     _lexicon: str  # source lexicon specifier
@@ -292,7 +292,11 @@ class _LexiconElement(_HasMetadata, Protocol):
         """Return the lexicon containing the element."""
         return _to_lexicon(self._lexicon)
 
-    def confidence(self: _HasMetadata) -> float:
+
+class _LexiconElementWithMetadata(_LexiconElement, _HasMetadata, Protocol):
+    """Protocol for lexicon elements with metadata."""
+
+    def confidence(self) -> float:
         """Return the confidence score of the element.
 
         If the element does not have an explicit confidence score, the
@@ -321,7 +325,7 @@ _EMPTY_LEXCONFIG = _LexiconConfiguration(
 
 
 # @dataclass(frozen=True)
-class _LexiconDataElement(_LexiconElement):
+class _LexiconDataElement(_LexiconElementWithMetadata):
     """Base class for Words, Senses, and Synsets.
 
     These elements always have a required ID and are used as the
@@ -390,13 +394,14 @@ class Tag:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Form:
+class Form(_LexiconElement):
     """A word-form."""
     __module__ = 'wn'
 
     value: str
     id: Optional[str] = field(default=None, repr=False, compare=False)
     script: Optional[str] = field(default=None, repr=False)
+    _lexicon: str = field(default='', repr=False, compare=False)
     _pronunciations: tuple[Pronunciation, ...] = field(
         default_factory=tuple, repr=False, compare=False
     )
@@ -415,6 +420,7 @@ def _make_form(
     form: str,
     id: Optional[str],
     script: Optional[str],
+    lexicon: str,
     prons: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]],
     tags: list[tuple[str, str]],
 ) -> Form:
@@ -422,6 +428,7 @@ def _make_form(
         form,
         id=id,
         script=script,
+        _lexicon=lexicon,
         _pronunciations=tuple(Pronunciation(*data) for data in prons),
         _tags=tuple(Tag(*data) for data in tags),
     )
@@ -581,7 +588,7 @@ class Word(_LexiconDataElement):
         return result
 
 
-class Relation(_LexiconElement):
+class Relation(_LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
     __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
@@ -687,12 +694,13 @@ class _Relatable(_LexiconDataElement):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Example:
+class Example(_LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
     __module__ = 'wn'
 
     text: str
     language: Optional[str] = None
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
@@ -701,13 +709,14 @@ class Example:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Definition:
+class Definition(_LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
     __module__ = 'wn'
 
     text: str
     language: Optional[str] = None
     source_sense_id: Optional[str] = field(default=None, compare=False)
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, compare=False, repr=False)
 
     def metadata(self) -> Metadata:
@@ -797,12 +806,13 @@ class Synset(_Relatable):
         """
         lexicons = self._get_lexicons()
         if defns := get_definitions(self.id, lexicons):
-            text, lang, sense_id, meta = defns[0]
+            text, lang, sense_id, lex, meta = defns[0]
             if data:
                 return Definition(
                     text,
                     language=lang,
                     source_sense_id=sense_id,
+                    _lexicon=lex,
                     _metadata=meta,
                 )
             else:
@@ -838,8 +848,14 @@ class Synset(_Relatable):
         defns = get_definitions(self.id, lexicons)
         if data:
             return [
-                Definition(text, language=lang, source_sense_id=sid, _metadata=meta)
-                for text, lang, sid, meta in defns
+                Definition(
+                    text,
+                    language=lang,
+                    source_sense_id=sid,
+                    _lexicon=lex,
+                    _metadata=meta,
+                )
+                for text, lang, sid, lex, meta in defns
             ]
         else:
             return [text for text, *_ in defns]
@@ -870,10 +886,11 @@ class Synset(_Relatable):
         exs = get_examples(self.id, 'synsets', lexicons)
         if data:
             return [
-                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _lexicon=lex, _metadata=meta)
+                for text, lang, lex, meta in exs
             ]
         else:
-            return [text for text, _, _ in exs]
+            return [text for text, *_ in exs]
 
     def senses(self) -> list['Sense']:
         """Return the list of sense members of the synset.
@@ -1169,16 +1186,13 @@ class Synset(_Relatable):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Count(_HasMetadata):
+class Count(_LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
     value: int
+    _lexicon: str = ''
     _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
-
-    def metadata(self) -> Metadata:
-        """Return the count's metadata."""
-        return self._metadata if self._metadata is not None else {}
 
 
 class Sense(_Relatable):
@@ -1250,10 +1264,11 @@ class Sense(_Relatable):
         exs = get_examples(self.id, 'senses', lexicons)
         if data:
             return [
-                Example(text, language=lang, _metadata=meta) for text, lang, meta in exs
+                Example(text, language=lang, _lexicon=lex, _metadata=meta)
+                for text, lang, lex, meta in exs
             ]
         else:
-            return [text for text, _, _ in exs]
+            return [text for text, *_ in exs]
 
     def lexicalized(self) -> bool:
         """Return True if the sense is lexicalized."""
@@ -1291,9 +1306,12 @@ class Sense(_Relatable):
         lexicons = self._get_lexicons()
         count_data = list(get_sense_counts(self.id, lexicons))
         if data:
-            return [Count(value, _metadata=metadata) for value, metadata in count_data]
+            return [
+                Count(value, _lexicon=lex, _metadata=metadata)
+                for value, lex,metadata in count_data
+            ]
         else:
-            return [value for value, _ in count_data]
+            return [value for value, *_ in count_data]
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""

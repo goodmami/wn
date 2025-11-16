@@ -55,6 +55,15 @@ def test_sense_examples():
 
 
 @pytest.mark.usefixtures('mini_db')
+def test_sense_counts():
+    assert wn.sense('test-en-information-n-0001-01').counts() == [3]
+    counts = wn.sense('test-en-information-n-0001-01').counts(data=True)
+    assert counts[0].value == 3
+    assert counts[0].lexicon().specifier() == 'test-en:1'
+    assert wn.sense('test-es-información-n-0001-01').counts() == []
+
+
+@pytest.mark.usefixtures('mini_db')
 def test_sense_lexicalized():
     assert wn.sense('test-en-information-n-0001-01').lexicalized()
     assert wn.sense('test-es-información-n-0001-01').lexicalized()
@@ -117,6 +126,7 @@ def test_synset_definition():
     assert wn.synset('test-en-0001-n').definition() == 'something that informs'
     defn = wn.synset('test-en-0001-n').definition(data=True)
     assert defn.source_sense_id == 'test-en-information-n-0001-01'
+    assert defn.lexicon().specifier() == "test-en:1"
     assert wn.synset('test-es-0001-n').definition() == 'algo que informa'
 
 
@@ -133,6 +143,7 @@ def test_synset_examples():
     assert wn.synset('test-en-0001-n').examples() == ['"this is information"']
     ex = wn.synset('test-en-0001-n').examples(data=True)[0]
     assert ex.text == '"this is information"'
+    assert ex.lexicon().specifier() == "test-en:1"
     assert wn.synset('test-es-0001-n').examples() == ['"este es la información"']
 
 

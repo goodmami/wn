@@ -146,7 +146,7 @@ def _export_lexical_entries(
                 'writtenForm': forms[0][0],
                 'partOfSpeech': pos,
                 'script': forms[0][2] or '',
-                'tags': _export_tags(forms[0][4]),
+                'tags': _export_tags(forms[0][5]),
             },
             'forms': [],
             'index': '',
@@ -154,8 +154,8 @@ def _export_lexical_entries(
             'meta': _export_metadata(id, lexspec, 'entries'),
         }
         if version >= (1, 1):
-            entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][3])
-        for form, fid, script, prons, tags in forms[1:]:
+            entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][4])
+        for form, fid, script, _, prons, tags in forms[1:]:
             _form: lmf.Form = {
                 'id': fid or '',
                 'writtenForm': form,
@@ -251,7 +251,7 @@ def _export_examples(
         {'text': text,
          'language': language,
          'meta': _cast_metadata(metadata)}
-        for text, language, metadata
+        for text, language, _, metadata
         in get_examples(id, table, lexicons)
     ]
 
@@ -259,7 +259,7 @@ def _export_examples(
 def _export_counts(sense_id: str, lexicons: Sequence[str]) -> list[lmf.Count]:
     return [
         {'value': val, 'meta': _cast_metadata(metadata)}
-        for val, metadata in get_sense_counts(sense_id, lexicons)
+        for val, _, metadata in get_sense_counts(sense_id, lexicons)
     ]
 
 
@@ -301,7 +301,7 @@ def _export_definitions(
          'language': language,
          'sourceSense': sense_id,
          'meta': _cast_metadata(metadata)}
-        for text, language, sense_id, metadata
+        for text, language, sense_id, _, metadata
         in get_definitions(synset_id, lexicons)
     ]
 

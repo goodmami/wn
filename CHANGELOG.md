@@ -5,6 +5,7 @@
 ### Added
 
 * Preliminary XML-only support for WN-LMF 1.4 ([#260])
+* `lexicon()` method on `Form`, `Example`, `Definition`, and `Count` ([#286])
 
 ### Fixed
 
@@ -811,3 +812,4 @@ abandoned, but this is an entirely new codebase.
 [#255]: https://github.com/goodmami/wn/issues/255
 [#260]: https://github.com/goodmami/wn/issues/260
 [#285]: https://github.com/goodmami/wn/issues/285
+[#286]: https://github.com/goodmami/wn/issues/286

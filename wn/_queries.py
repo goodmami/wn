@@ -26,6 +26,7 @@ _Form = tuple[
     str,            # form
     Optional[str],  # id
     Optional[str],  # script
+    str,            # lexicon
     list[_Pronunciation],  # pronunciations
     list[_Tag],  # tags
 ]
@@ -54,11 +55,13 @@ _Definition = tuple[
     str,  # text
     str,  # language
     str,  # sourceSense
+    str,  # lexicon
     Optional[Metadata],  # metadata
 ]
 _Example = tuple[
     str,  # text
     str,  # language
+    str,  # lexicon
     Optional[Metadata],  # metadata
 ]
 _Sense = tuple[
@@ -76,7 +79,7 @@ _Sense_Relation = tuple[
     str,
     str,
 ]
-_Count = tuple[int, Metadata]  # count, metadata
+_Count = tuple[int, str, Metadata]  # count, lexicon, metadata
 _SyntacticBehaviour = tuple[
     str,       # id
     str,       # frame
@@ -447,7 +450,7 @@ def find_synsets(
 
 def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[_Form]:
     form_query = f'''
-        SELECT f.rowid, f.form, f.id, f.script
+        SELECT f.rowid, f.form, f.id, f.script, lex.id || ":" || lex.version
           FROM forms AS f
           JOIN entries AS e ON e.rowid = entry_rowid
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
@@ -595,6 +598,7 @@ def get_definitions(
         SELECT d.definition,
                d.language,
                (SELECT s.id FROM senses AS s WHERE s.rowid=d.sense_rowid),
+               lex.id || ":" || lex.version,
                d.metadata
           FROM definitions AS d
           JOIN synsets AS ss ON ss.rowid = d.synset_rowid
@@ -621,7 +625,7 @@ def get_examples(
     if prefix is None:
         raise wn.Error(f"'{table}' does not have examples")
     query = f'''
-        SELECT ex.example, ex.language, ex.metadata
+        SELECT ex.example, ex.language, lex.id || ":" || lex.version, ex.metadata
           FROM {prefix}_examples AS ex
           JOIN {table} AS tbl ON tbl.rowid = ex.{prefix}_rowid
           JOIN lexicons AS lex ON lex.rowid = ex.lexicon_rowid
@@ -904,7 +908,7 @@ def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
 def get_sense_counts(sense_id: str, lexicons: Sequence[str]) -> list[_Count]:
     conn = connect()
     query = f'''
-        SELECT c.count, c.metadata
+        SELECT c.count, lex.id || ":" || lex.version, c.metadata
           FROM counts AS c
           JOIN senses AS s ON s.rowid = c.sense_rowid
           JOIN lexicons AS lex ON lex.rowid = c.lexicon_rowid
