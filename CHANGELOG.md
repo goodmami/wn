@@ -6,6 +6,10 @@
 
 * Preliminary XML-only support for WN-LMF 1.4 ([#260])
 
+### Fixed
+
+* Encode example metadata on export ([#285]) ([#285])
+
 
 ## [v0.13.0]
 
@@ -806,3 +810,4 @@ abandoned, but this is an entirely new codebase.
 [#250]: https://github.com/goodmami/wn/issues/250
 [#255]: https://github.com/goodmami/wn/issues/255
 [#260]: https://github.com/goodmami/wn/issues/260
+[#285]: https://github.com/goodmami/wn/issues/285

@@ -250,7 +250,7 @@ def _export_examples(
     return [
         {'text': text,
          'language': language,
-         'meta': cast(lmf.Metadata, metadata)}
+         'meta': _cast_metadata(metadata)}
         for text, language, metadata
         in get_examples(id, table, lexicons)
     ]
