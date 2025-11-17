@@ -2,6 +2,12 @@
 
 ## [Unreleased][unreleased]
 
+
+### Python Support
+
+* Removed support for Python 3.9
+* Added support for Python 3.14
+
 ### Added
 
 * Preliminary XML-only support for WN-LMF 1.4 ([#260])

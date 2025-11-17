@@ -34,4 +34,4 @@ def load(source: AnyPath) -> Iterator[dict[str, str]]:
         header = next(fh).rstrip('\r\n')
         fields = tuple(map(str.lower, header.split('\t')))
         for line in fh:
-            yield dict(zip(fields, line.rstrip('\r\n').split('\t')))
+            yield dict(zip(fields, line.rstrip('\r\n').split('\t'), strict=False))
