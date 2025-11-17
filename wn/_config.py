@@ -8,7 +8,10 @@ from importlib.resources import as_file, files
 from typing import Any, Optional
 from pathlib import Path
 
-import tomli
+try:
+    import tomllib  # python_version >= 3.11
+except ImportError:
+    import tomli as tomllib
 
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath
@@ -277,8 +280,8 @@ class WNConfig:
         path = Path(path).expanduser()
         with path.open('rb') as indexfile:
             try:
-                index = tomli.load(indexfile)
-            except tomli.TOMLDecodeError as exc:
+                index = tomllib.load(indexfile)
+            except tomllib.TOMLDecodeError as exc:
                 raise ConfigurationError('malformed index file') from exc
         self.update({'index': index})
 
