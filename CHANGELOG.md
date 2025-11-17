@@ -11,10 +11,21 @@
   - On existing `ILI`, defaults to 1.0
   - On `Word`, `Sense`, `Synset`, `Relation`, `Example`, `Definition`, and
     `Count`, defaults to the confidence of their lexicon.
+* `/` (index) and `/health` endpoints for `wn.web` (see [#268])
+
+### Changed
+
+* `wn.web`: returns `JSONResponse` on most errors ([#277])
 
 ### Fixed
 
 * Encode example metadata on export ([#285])
+* Update LMF to use `https` in `dc` namespace
+
+### Maintenance
+
+* Added `py.typed` file to repository ([#266])
+* Use `tomllib` instead of `tomli` for Python 3.11+
 
 
 ## [v0.13.0]
@@ -817,5 +828,8 @@ abandoned, but this is an entirely new codebase.
 [#255]: https://github.com/goodmami/wn/issues/255
 [#260]: https://github.com/goodmami/wn/issues/260
 [#263]: https://github.com/goodmami/wn/issues/263
+[#266]: https://github.com/goodmami/wn/issues/266
+[#268]: https://github.com/goodmami/wn/pull/268
+[#277]: https://github.com/goodmami/wn/issues/277
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286
