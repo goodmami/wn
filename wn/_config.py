@@ -11,7 +11,7 @@ from pathlib import Path
 try:
     import tomllib  # python_version >= 3.11
 except ImportError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore
 
 from wn import ConfigurationError, ProjectError
 from wn._types import AnyPath

@@ -3,6 +3,10 @@
 ## [Unreleased][unreleased]
 
 
+## [v0.14.0]
+
+**Release date: 2025-11-16**
+
 ### Python Support
 
 * Removed support for Python 3.9
