@@ -81,7 +81,9 @@ Word Objects
    .. automethod:: forms
    .. automethod:: senses
    .. automethod:: synsets
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
    .. automethod:: derived_words
    .. automethod:: translate
 
@@ -105,7 +107,9 @@ Sense Objects
    .. automethod:: adjposition
    .. automethod:: frames
    .. automethod:: counts
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
    .. automethod:: relations
    .. automethod:: relation_map
    .. automethod:: get_related
@@ -141,7 +145,9 @@ Synset Objects
    .. automethod:: senses
    .. automethod:: lexicalized
    .. automethod:: lexfile
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
    .. automethod:: words
    .. automethod:: lemmas
    .. automethod:: hypernyms
@@ -241,6 +247,7 @@ relation used in :doc:`interlingual queries <../guides/interlingual>`.
    .. autoattribute:: subtype
    .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
 
 
 Additional Classes
@@ -284,6 +291,8 @@ Additional Classes
    .. method:: tags
 
       Return the list of :class:`Tag` objects.
+
+   .. automethod:: lexicon
 
 
 .. class:: Pronunciation
@@ -339,7 +348,9 @@ Additional Classes
 
       The count of sense occurrences.
 
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
 
 
 .. class:: Example
@@ -357,7 +368,9 @@ Additional Classes
 
       The language of the example.
 
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
 
 
 .. class:: Definition
@@ -378,7 +391,9 @@ Additional Classes
 
       The id of the particular sense the definition is for.
 
+   .. automethod:: lexicon
    .. automethod:: metadata
+   .. automethod:: confidence
 
 
 Interlingual Indices
@@ -418,6 +433,7 @@ Interlingual Indices
 
    .. automethod:: definition
    .. automethod:: metadata
+   .. automethod:: confidence
 
 
 Lexicon Objects
@@ -465,6 +481,7 @@ Lexicon Objects
       A URL or path to a project logo.
 
    .. automethod:: metadata
+   .. automethod:: confidence
    .. automethod:: specifier
    .. automethod:: modified
    .. automethod:: requires

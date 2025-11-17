@@ -27,7 +27,8 @@ Spanish:
            license="https://creativecommons.org/licenses/by/4.0/"
            version="1"
            url="https://example.com/test-en"
-           dc:description="An example lexicon for testing.">
+           dc:description="An example lexicon for testing."
+           confidenceScore="0.9">
 
     <LexicalEntry id="test-en-information-n">
       <Lemma partOfSpeech="n" writtenForm="information" script="Latn">
@@ -41,7 +42,7 @@ Spanish:
     <LexicalEntry id="test-en-example-n" confidenceScore="1.0">
       <Lemma partOfSpeech="n" writtenForm="example" />
       <Sense id="test-en-example-n-0002-01" synset="test-en-0002-n" >
-        <SenseRelation relType="derivation" target="test-en-exemplify-v-0003-01" />
+        <SenseRelation relType="derivation" target="test-en-exemplify-v-0003-01" confidenceScore="0.5" />
       </Sense>
     </LexicalEntry>
 
@@ -97,11 +98,11 @@ Spanish:
       <Sense id="test-en-resignate-v-0007-01" synset="test-en-0007-v" />
     </LexicalEntry>
 
-    <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition">
-      <Definition sourceSense="test-en-information-n-0001-01">something that informs</Definition>
-      <SynsetRelation relType="hyponym" target="test-en-0002-n" />
-      <SynsetRelation relType="hyponym" target="test-en-0006-n" />
-      <Example>"this is information"</Example>
+    <Synset id="test-en-0001-n" ili="i67447" partOfSpeech="n" dc:subject="noun.cognition" confidenceScore="1.0">
+      <Definition sourceSense="test-en-information-n-0001-01" confidenceScore="0.95">something that informs</Definition>
+      <SynsetRelation relType="hyponym" target="test-en-0002-n" confidenceScore="0.8" />
+      <SynsetRelation relType="hyponym" target="test-en-0006-n" confidenceScore="0.8" />
+      <Example confidenceScore="0.7">"this is information"</Example>
     </Synset>
 
     <Synset id="test-en-0002-n" ili="i67469" partOfSpeech="n" dc:subject="noun.cognition">
@@ -137,7 +138,7 @@ Spanish:
 
     <Synset id="test-en-0007-v" ili="in" partOfSpeech="v" dc:subject="verb.social">
       <!-- should probably be a hyponym of i33760 -->
-      <ILIDefinition>to fire someone while making it look like it was their idea</ILIDefinition>
+      <ILIDefinition confidenceScore="1.0">to fire someone while making it look like it was their idea</ILIDefinition>
     </Synset>
 
   </Lexicon>

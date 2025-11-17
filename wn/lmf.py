@@ -874,10 +874,12 @@ def _build_sense(
 
 
 def _build_example(example: Example) -> ET.Element:
-    elem = ET.Element('Example')
-    elem.text = example['text']
+    attrib: dict[str, str] = {}
     if example.get('language'):
-        elem.set('language', example['language'])
+        attrib['language'] = example['language']
+    attrib.update(_meta_dict(example.get('meta')))
+    elem = ET.Element('Example', attrib=attrib)
+    elem.text = example['text']
     return elem
 
 
@@ -965,7 +967,7 @@ def _build_syntactic_behaviour(
 
 
 def _tostring(
-        elem: ET.Element, level: int, short_empty_elements: bool = True
+    elem: ET.Element, level: int, short_empty_elements: bool = True
 ) -> str:
     _indent(elem, level)
     return ('  ' * level) + ET.tostring(
