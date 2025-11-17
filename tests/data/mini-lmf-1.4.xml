@@ -8,7 +8,7 @@ WN-LMF 1.4 has the following changes:
 - Pronunciation elements under Definition and Example
 -->
 
-<LexicalResource xmlns:dc="http://globalwordnet.github.io/schemas/dc/">
+<LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
 
   <Lexicon id="test-1.4"
            label="Testing WN-LMF 1.4"
