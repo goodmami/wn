@@ -9,6 +9,7 @@ from starlette.applications import Starlette  # type: ignore
 from starlette.responses import JSONResponse  # type: ignore
 from starlette.routing import Route  # type: ignore
 from starlette.requests import Request  # type: ignore
+from starlette.exceptions import HTTPException  # type: ignore
 
 import wn
 
@@ -214,6 +215,23 @@ def make_synset(ss: wn.Synset, request: Request, basic: bool = False) -> dict:
     return d
 
 
+# Exception handlers
+
+async def http_exception(request: Request, exc: HTTPException) -> JSONResponse:
+    return JSONResponse(
+        {"detail": exc.detail},
+        status_code=exc.status_code,
+        headers=exc.headers,
+    )
+
+
+async def wn_error(request: Request, exc: wn.Error) -> JSONResponse:
+    return JSONResponse(
+        {"detail": str(exc)},
+        status_code=404,
+    )
+
+
 # Route handlers
 
 
@@ -228,9 +246,11 @@ async def lexicons(request):
 
 
 async def lexicon(request):
-    path_params = request.path_params
-    lex = wn.lexicons(lexicon=path_params['lexicon'])[0]
-    return JSONResponse({'data': make_lexicon(lex, request)})
+    lex_spec = request.path_params['lexicon']
+    _lexicons = wn.lexicons(lexicon=lex_spec)
+    if _lexicons:
+        return JSONResponse({'data': make_lexicon(_lexicons[0], request)})
+    raise HTTPException(status_code=404, detail=f"Lexicon not found: {lex_spec}")
 
 
 def _get_words(wordnet: wn.Wordnet, request: Request) -> dict:
@@ -363,4 +383,9 @@ routes = [
     Route('/synsets', endpoint=all_synsets),
 ]
 
-app = Starlette(debug=True, routes=routes)
+exception_handlers = {
+    HTTPException: http_exception,
+    wn.Error: wn_error,
+}
+
+app = Starlette(debug=True, routes=routes, exception_handlers=exception_handlers)
