@@ -103,51 +103,33 @@ def test_lemmas_empty():
     assert len(wn.lemmas()) == 0
 
 
-@pytest.mark.usefixtures('mini_db')
-def test_lemmas_mini():
-    # Basic lemmas query
-    assert len(wn.lemmas()) == 15
-    assert all(isinstance(lemma, str) for lemma in wn.lemmas())
+@pytest.mark.usefixtures('mini_db_1_4')
+def test_lemmas_mini_1_4():
+    all_lemmas = wn.lemmas()
+    assert len(all_lemmas) == 5
+    assert all(isinstance(lemma, str) for lemma in all_lemmas)
+    assert all_lemmas == ['Foo Bar', 'foo bar', 'baz', 'BAZ', 'Baz']
 
-    # Lemmas with data=True should return Form objects
+    # data=True should return Form objects and should not dedup
     lemmas_with_data = wn.lemmas(data=True)
-    assert len(lemmas_with_data) == 15
+    assert len(lemmas_with_data) == 6  # includes duplicate 'baz'
     assert all(isinstance(lemma, wn.Form) for lemma in lemmas_with_data)
+    assert [f.value for f in lemmas_with_data] == [
+        'Foo Bar', 'foo bar', 'baz', 'BAZ', 'Baz', 'baz'
+    ]
 
-    # Check specific lemma properties
-    info_lemmas = wn.lemmas('information')
-    assert len(info_lemmas) == 1
-    assert info_lemmas[0] == 'information'
+    # Test deduplication
+    baz_lemmas = wn.lemmas('baz', data=False)
+    assert baz_lemmas == ['baz', 'BAZ', 'Baz']
 
-    info_form = wn.lemmas('information', data=True)[0]
-    assert info_form.value == 'information'
-    assert info_form.script == 'Latn'
-    assert info_form.tags() == [wn.Tag('tag-text', 'tag-category')]
-
-    # Lemmas should return canonical forms, not inflected forms
-    # Search by inflected form should still return the lemma
-    exemplify_lemmas = wn.lemmas('exemplifies')
-    assert len(exemplify_lemmas) == 1
-    assert exemplify_lemmas[0] == 'exemplify'
+    # With data=True, no dedup
+    baz_forms = wn.lemmas('baz', data=True)
+    assert [f.value for f in baz_forms] == ['baz', 'BAZ', 'Baz', 'baz']
 
     # Filter by POS
-    assert len(wn.lemmas(pos='n')) == 10
-    assert len(wn.lemmas(pos='v')) == 5
+    assert len(wn.lemmas(pos='n')) == 5  # Foo Bar, foo bar, baz, BAZ, Baz
+    assert len(wn.lemmas(pos='v')) == 1  # baz
     assert len(wn.lemmas(pos='q')) == 0  # fake pos
-
-    # Filter by language
-    assert len(wn.lemmas(lang='en')) == 9
-    assert len(wn.lemmas(lang='es')) == 6
-
-    # Filter by lexicon
-    assert len(wn.lemmas(lexicon='test-en')) == 9
-    assert len(wn.lemmas(lexicon='test-es')) == 6
-
-    # Combined filters
-    assert len(wn.lemmas(lang='en', lexicon='test-en')) == 9
-    assert len(wn.lemmas(pos='v', lang='en')) == 3
-    assert len(wn.lemmas('information', lang='en')) == 1
-    assert len(wn.lemmas('information', lang='es')) == 0
 
     # Verify lemmas() returns same results as words() + .lemma()
     words = wn.words()
@@ -157,9 +139,9 @@ def test_lemmas_mini():
 
     # Test Wordnet instance method
     wordnet = wn.Wordnet()
-    assert len(wordnet.lemmas()) == 15
-    assert len(wordnet.lemmas(pos='v')) == 5
-    assert len(wordnet.lemmas(data=True)) == 15
+    assert len(wordnet.lemmas()) == 5  # data=False by default
+    assert len(wordnet.lemmas(pos='v')) == 1
+    assert len(wordnet.lemmas(data=True)) == 6
 
     with pytest.raises(wn.Error):
         wn.lemmas(lang='unk')

@@ -1583,14 +1583,16 @@ class Wordnet:
     ) -> Union[list[str], list[Form]]:
         """Return the list of lemmas for matching words in this wordnet.
 
-        Without any arguments, this function returns all lemmas in the
-        wordnet's selected lexicons. A *form* argument restricts the
-        words to those matching the given word form, and *pos*
-        restricts words by their part of speech.
+        Without any arguments, this function returns all distinct lemma
+        forms in the wordnet's selected lexicons. A *form* argument
+        restricts the words to those matching the given word form, and
+        *pos* restricts words by their part of speech.
 
-        If the *data* argument is :python:`False` (the default), the
-        lemmas are returned as :class:`str` types. If it is
-        :python:`True`, :class:`wn.Form` objects are used instead.
+        If the *data* argument is :python:`False` (the default), only
+        distinct lemma forms are returned as :class:`str` types. If it
+        is :python:`True`, :class:`wn.Form` objects are returned for
+        all matching entries, which may include multiple Form objects
+        with the same lemma string.
 
         Example:
 
@@ -1608,26 +1610,13 @@ class Wordnet:
                 )
             ]
 
-        # When data=False, extract strings only
-        if form is None:
-            return [
-                form_data[0]
-                for form_data in _find_lemmas(
-                    self, form, pos, load_details=False
-                )
-            ]
-        else:
-            # Deduplicate by string
-            unique_lemmas: list[str] = []
-            seen_str: set[str] = set()
+        # When data=False, extract and deduplicate strings
+        return list(dict.fromkeys(
+            form_data[0]
             for form_data in _find_lemmas(
                 self, form, pos, load_details=False
-            ):
-                lemma_str = form_data[0]
-                if lemma_str not in seen_str:
-                    unique_lemmas.append(lemma_str)
-                    seen_str.add(lemma_str)
-            return unique_lemmas
+            )
+        ))
 
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
