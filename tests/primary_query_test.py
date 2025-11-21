@@ -99,6 +99,57 @@ def test_words_mini():
 
 
 @pytest.mark.usefixtures('empty_db')
+def test_lemmas_empty():
+    assert len(wn.lemmas()) == 0
+
+
+@pytest.mark.usefixtures('mini_db_1_4')
+def test_lemmas_mini_1_4():
+    all_lemmas = wn.lemmas()
+    assert len(all_lemmas) == 5
+    assert all(isinstance(lemma, str) for lemma in all_lemmas)
+    assert all_lemmas == ['Foo Bar', 'foo bar', 'baz', 'BAZ', 'Baz']
+
+    # data=True should return Form objects and should not dedup
+    lemmas_with_data = wn.lemmas(data=True)
+    assert len(lemmas_with_data) == 6  # includes duplicate 'baz'
+    assert all(isinstance(lemma, wn.Form) for lemma in lemmas_with_data)
+    assert [f.value for f in lemmas_with_data] == [
+        'Foo Bar', 'foo bar', 'baz', 'BAZ', 'Baz', 'baz'
+    ]
+
+    # Test deduplication
+    baz_lemmas = wn.lemmas('baz', data=False)
+    assert baz_lemmas == ['baz', 'BAZ', 'Baz']
+
+    # With data=True, no dedup
+    baz_forms = wn.lemmas('baz', data=True)
+    assert [f.value for f in baz_forms] == ['baz', 'BAZ', 'Baz', 'baz']
+
+    # Filter by POS
+    assert len(wn.lemmas(pos='n')) == 5  # Foo Bar, foo bar, baz, BAZ, Baz
+    assert len(wn.lemmas(pos='v')) == 1  # baz
+    assert len(wn.lemmas(pos='q')) == 0  # fake pos
+
+    # Verify lemmas() returns same results as words() + .lemma()
+    words = wn.words()
+    lemmas_from_words = [w.lemma() for w in words]
+    lemmas_direct = wn.lemmas()
+    assert set(lemmas_from_words) == set(lemmas_direct)
+
+    # Test Wordnet instance method
+    wordnet = wn.Wordnet()
+    assert len(wordnet.lemmas()) == 5  # data=False by default
+    assert len(wordnet.lemmas(pos='v')) == 1
+    assert len(wordnet.lemmas(data=True)) == 6
+
+    with pytest.raises(wn.Error):
+        wn.lemmas(lang='unk')
+    with pytest.raises(wn.Error):
+        wn.lemmas(lexicon='test-unk')
+
+
+@pytest.mark.usefixtures('empty_db')
 def test_word_empty():
     with pytest.raises(wn.Error):
         assert wn.word('test-es-información-n')

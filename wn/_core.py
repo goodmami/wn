@@ -23,6 +23,7 @@ from wn._queries import (
     find_existing_ilis,
     find_proposed_ilis,
     find_entries,
+    find_lemmas,
     find_senses,
     find_synsets,
     get_lexicon,
@@ -1546,6 +1547,77 @@ class Wordnet:
         """
         return _find_helper(self, Word, find_entries, form, pos)
 
+    @overload
+    def lemmas(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None,
+        *,
+        data: Literal[False] = False
+    ) -> list[str]: ...
+    @overload
+    def lemmas(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None,
+        *,
+        data: Literal[True] = True
+    ) -> list[Form]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def lemmas(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None,
+        *,
+        data: bool
+    ) -> Union[list[str], list[Form]]: ...
+
+    def lemmas(
+        self,
+        form: Optional[str] = None,
+        pos: Optional[str] = None,
+        *,
+        data: bool = False
+    ) -> Union[list[str], list[Form]]:
+        """Return the list of lemmas for matching words in this wordnet.
+
+        Without any arguments, this function returns all distinct lemma
+        forms in the wordnet's selected lexicons. A *form* argument
+        restricts the words to those matching the given word form, and
+        *pos* restricts words by their part of speech.
+
+        If the *data* argument is :python:`False` (the default), only
+        distinct lemma forms are returned as :class:`str` types. If it
+        is :python:`True`, :class:`wn.Form` objects are returned for
+        all matching entries, which may include multiple Form objects
+        with the same lemma string.
+
+        Example:
+
+            >>> wn.Wordnet().lemmas('wolves')
+            ['wolf']
+            >>> wn.Wordnet().lemmas('wolves', data=True)
+            [Form(value='wolf')]
+
+        """
+        if data:
+            return [
+                _make_form(*form_data)
+                for form_data in _find_lemmas(
+                    self, form, pos, load_details=True
+                )
+            ]
+
+        # When data=False, extract and deduplicate strings
+        return list(dict.fromkeys(
+            form_data[0]
+            for form_data in _find_lemmas(
+                self, form, pos, load_details=False
+            )
+        ))
+
     def synset(self, id: str) -> Synset:
         """Return the first synset in this wordnet with identifier *id*."""
         iterable = find_synsets(id=id, lexicons=self._lexconf.lexicons)
@@ -1686,6 +1758,68 @@ def _to_lexicon(specifier: str) -> Lexicon:
     )
 
 
+def _find_lemmas(
+    w: Wordnet,
+    form: Optional[str],
+    pos: Optional[str],
+    load_details: bool = False
+) -> Iterator[tuple]:
+    """Return an iterator of matching lemma form data.
+
+    This works like _find_helper but returns raw form tuples instead of
+    Word/Sense/Synset objects. The load_details parameter controls whether
+    pronunciations and tags are loaded from the database.
+    """
+    kwargs: dict = {
+        'lexicons': w._lexconf.lexicons,
+        'search_all_forms': w._search_all_forms,
+        'load_details': load_details,
+    }
+
+    # easy case is when there is no form
+    if form is None:
+        yield from find_lemmas(pos=pos, **kwargs)
+        return
+
+    # if there's a form, we may need to lemmatize and normalize
+    normalize = w._normalizer
+    kwargs['normalized'] = bool(normalize)
+
+    lemmatize = w.lemmatizer
+    forms = lemmatize(form, pos) if lemmatize else {}
+    # if no lemmatizer or word not covered by lemmatizer, back off to
+    # the original form and pos
+    if not forms:
+        forms = {pos: {form}}
+
+    yield from _query_with_forms(find_lemmas, forms, normalize, kwargs)
+
+
+def _query_with_forms(
+    query_func: Callable,
+    forms: dict[Optional[str], set[str]],
+    normalize: Optional[NormalizeFunction],
+    kwargs: dict
+) -> list[tuple]:
+    """Query database with forms, falling back to normalized forms if needed.
+
+    Queries the database for each pos/forms combination. If a normalizer
+    is available and the original forms return no results, queries again
+    with normalized forms.
+    """
+    results = []
+    for _pos, _forms in forms.items():
+        results.extend(query_func(forms=_forms, pos=_pos, **kwargs))
+
+    # Only try normalized forms if we got no results with original forms
+    if not results and normalize:
+        for _pos, _forms in forms.items():
+            normalized_forms = [normalize(f) for f in _forms]
+            results.extend(query_func(forms=normalized_forms, pos=_pos, **kwargs))
+
+    return results
+
+
 def _find_helper(
     w: Wordnet,
     cls: type[C],
@@ -1724,31 +1858,21 @@ def _find_helper(
                 for data in query_func(pos=pos, **kwargs)]
 
     # if there's a form, we may need to lemmatize and normalize
-    lemmatize = w.lemmatizer
     normalize = w._normalizer
     kwargs['normalized'] = bool(normalize)
 
+    lemmatize = w.lemmatizer
     forms = lemmatize(form, pos) if lemmatize else {}
     # if no lemmatizer or word not covered by lemmatizer, back off to
     # the original form and pos
     if not forms:
         forms = {pos: {form}}
 
+    results_data = _query_with_forms(query_func, forms, normalize, kwargs)
+
     # we want unique results here, but a set can make the order
-    # erratic, so filter manually later
-    results = [
-        cls(*data, _lexconf=w._lexconf)  # type: ignore
-        for _pos, _forms in forms.items()
-        for data in query_func(forms=_forms, pos=_pos, **kwargs)
-    ]
-    if not results and normalize:
-        results = [
-            cls(*data, _lexconf=w._lexconf)  # type: ignore
-            for _pos, _forms in forms.items()
-            for data in query_func(
-                forms=[normalize(f) for f in _forms], pos=_pos, **kwargs
-            )
-        ]
+    # erratic, so filter manually
+    results = [cls(*data, _lexconf=w._lexconf) for data in results_data]  # type: ignore
     unique_results: list[C] = []
     seen: set[C] = set()
     for result in results:

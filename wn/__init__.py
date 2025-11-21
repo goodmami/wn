@@ -16,6 +16,7 @@ __all__ = (
     'Lexicon',
     'word',
     'words',
+    'lemmas',
     'Word',
     'Form',
     'Pronunciation',
@@ -63,7 +64,7 @@ from wn._core import (
 from wn._module_functions import (
     projects,
     lexicons,
-    word, words,
+    word, words, lemmas,
     sense, senses,
     synset, synsets,
     ili, ilis,

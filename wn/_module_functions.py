@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Literal, Optional, Union, overload
 
 import wn
 from wn._util import format_lexicon_specifier
@@ -92,6 +92,68 @@ def words(
 
     """
     return wn.Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
+
+
+@overload
+def lemmas(
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
+    *,
+    data: Literal[False] = False,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
+) -> list[str]: ...
+
+
+@overload
+def lemmas(
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
+    *,
+    data: Literal[True] = True,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
+) -> list[wn.Form]: ...
+
+
+@overload
+def lemmas(
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
+    *,
+    data: bool,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
+) -> Union[list[str], list[wn.Form]]: ...
+
+
+def lemmas(
+    form: Optional[str] = None,
+    pos: Optional[str] = None,
+    *,
+    data: bool = False,
+    lexicon: Optional[str] = None,
+    lang: Optional[str] = None,
+) -> Union[list[str], list[wn.Form]]:
+    """Return the list of lemmas for matching words.
+
+    This will create a :class:`Wordnet` object using the *lang* and
+    *lexicon* arguments. The remaining arguments are passed to the
+    :meth:`Wordnet.lemmas` method.
+
+    If the *data* argument is :python:`False` (the default), the
+    lemmas are returned as :class:`str` types. If it is
+    :python:`True`, :class:`wn.Form` objects are used instead.
+
+    >>> wn.lemmas('wolves')
+    ['wolf']
+    >>> wn.lemmas('wolves', data=True)
+    [Form(value='wolf')]
+    >>> len(wn.lemmas(pos='v'))
+    11617
+
+    """
+    return wn.Wordnet(lang=lang, lexicon=lexicon).lemmas(form=form, pos=pos, data=data)
 
 
 def synset(
