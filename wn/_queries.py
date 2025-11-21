@@ -364,8 +364,7 @@ def _load_lemmas_with_details(
                 forms_dict[form_rowid][5].append(tag)
 
     # Yield forms in order
-    for form_rowid in sorted(forms_dict.keys()):
-        yield forms_dict[form_rowid]
+    yield from forms_dict.values()
 
 
 def find_lemmas(
