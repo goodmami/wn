@@ -34,6 +34,24 @@ SENSE_RELATIONS = frozenset([
     'secondary_aspect_ip',
     'simple_aspect_pi',
     'secondary_aspect_pi',
+    'metaphor',
+    'has_metaphor',
+    'metonym',
+    'has_metonym',
+    'agent',
+    'body_part',
+    'by_means_of',
+    'destination',
+    'event',
+    'instrument',
+    'location',
+    'material',
+    'property',
+    'result',
+    'state',
+    'undergoer',
+    'uses',
+    'vehicle',
 ])
 
 SENSE_SYNSET_RELATIONS = frozenset([
@@ -225,6 +243,8 @@ REVERSE_RELATIONS = {
     'ir_synonym': 'ir_synonym',
     # 'participle': '',
     # 'other': '',
+    'metaphor': 'has_metaphor',
+    'metonym': 'has_metonym',
 }
 
 # Adjective Positions
