@@ -59,7 +59,7 @@ def leaves(wordnet: 'Wordnet', pos: Optional[str] = None) -> list['Synset']:
 
 
 def taxonomy_depth(wordnet: 'Wordnet', pos: str) -> int:
-    """Return the list of leaf synsets in *wordnet*.
+    """Return the maximum depth of the taxonomy for the given part of speech.
 
     Arguments:
 
