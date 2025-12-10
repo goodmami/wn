@@ -209,6 +209,7 @@ def _add_lexical_resource(
 
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
+            _insert_index(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, lexidmap, cur, progress)
             _insert_pronunciations(entries, lexid, lexidmap, cur, progress)
             _insert_tags(entries, lexid, lexidmap, cur, progress)
@@ -271,6 +272,8 @@ def _sum_counts(lex: _AnyLexicon) -> int:
     sens = [s for e in ents for s in _senses(e)]
     syns = _synsets(lex)
     return sum([
+        # index (every entry must be processed; not all use index)
+        len(ents),
         # lexical entries
         len(ents),
         len(lems),
@@ -553,6 +556,23 @@ def _insert_entries(
         progress.update(len(batch))
 
 
+def _insert_index(
+    entries: Sequence[_AnyEntry],
+    lexid: int,
+    cur: sqlite3.Cursor,
+    progress: ProgressHandler
+) -> None:
+    progress.set(status='Index')
+    query = f'INSERT INTO entry_index VALUES (({ENTRY_QUERY}),?)'
+    for batch in _batch(_local_entries(entries)):
+        data = (
+            (entry['id'], lexid, entry['index'],)
+            for entry in batch if entry.get('index')
+        )
+        cur.executemany(query, data)
+        progress.update(len(batch))
+
+
 def _insert_forms(
     entries: Sequence[_AnyEntry],
     lexid: int,
@@ -688,7 +708,7 @@ def _insert_senses(
                 sense['id'],
                 lexid,
                 entry['id'], lexidmap.get(entry['id'], lexid),
-                i,
+                sense.get('n', i),
                 sense['synset'], lexidmap.get(sense['synset'], lexid),
                 # members can be sense or entry IDs
                 ssrank.get(
@@ -702,7 +722,7 @@ def _insert_senses(
                 sense['meta']
             )
             for entry in batch
-            for i, sense in enumerate(_local_senses(_senses(entry)))
+            for i, sense in enumerate(_local_senses(_senses(entry)), 1)
         ]
         cur.executemany(query, data)
         progress.update(len(data))

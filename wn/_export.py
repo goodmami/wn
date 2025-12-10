@@ -13,7 +13,9 @@ from wn._queries import (
     find_syntactic_behaviours,
     find_proposed_ilis,
     get_entry_forms,
+    get_entry_index,
     get_entry_senses,
+    get_sense_n,
     get_sense_relations,
     get_sense_synset_relations,
     get_synset_relations,
@@ -36,7 +38,7 @@ PROPOSED_ILI_ID = "in"  # special case for proposed ILIs
 
 
 def export(
-    lexicons: Sequence[Lexicon], destination: AnyPath, version: str = '1.0'
+    lexicons: Sequence[Lexicon], destination: AnyPath, version: str = '1.4'
 ) -> None:
     """Export lexicons from the database to a WN-LMF file.
 
@@ -140,6 +142,7 @@ def _export_lexical_entries(
     entries: list[lmf.LexicalEntry] = []
     for id, pos, *_ in find_entries(lexicons=lexicons):
         forms = list(get_entry_forms(id, lexicons))
+        index = get_entry_index(id, lexspec)
         entry: lmf.LexicalEntry = {
             'id': id,
             'lemma': {
@@ -149,10 +152,11 @@ def _export_lexical_entries(
                 'tags': _export_tags(forms[0][5]),
             },
             'forms': [],
-            'index': '',
-            'senses': _export_senses(id, lexspec, sbmap, version),
-            'meta': _export_metadata(id, lexspec, 'entries'),
         }
+        if version >= (1, 4) and index:
+            entry['index'] = index
+        entry['senses'] = _export_senses(id, lexspec, sbmap, index, version)
+        entry['meta'] = _export_metadata(id, lexspec, 'entries')
         if version >= (1, 1):
             entry['lemma']['pronunciations'] = _export_pronunciations(forms[0][4])
         for form, fid, script, _, prons, tags in forms[1:]:
@@ -199,11 +203,14 @@ def _export_senses(
     entry_id,
     lexspec: str,
     sbmap: _SBMap,
+    index: Optional[str],
     version: VersionInfo,
 ) -> list[lmf.Sense]:
     senses: list[lmf.Sense] = []
     lexicons = (lexspec,)
-    for id, _, synset, *_ in get_entry_senses(entry_id, lexicons):
+    sense_iter = get_entry_senses(entry_id, lexicons, False)
+    for i, (id, _, synset, *_) in enumerate(sense_iter, 1):
+        n = get_sense_n(id, lexspec)
         sense: lmf.Sense = {
             'id': id,
             'synset': synset,
@@ -211,10 +218,12 @@ def _export_senses(
             'relations': _export_sense_relations(id, lexicons),
             'examples': _export_examples(id, 'senses', lexicons),
             'counts': _export_counts(id, lexicons),
-            'lexicalized': get_lexicalized(id, lexspec, 'senses'),
-            'adjposition': get_adjposition(id, lexspec) or '',
-            'meta': _export_metadata(id, lexspec, 'senses'),
         }
+        if index is not None or n != i:
+            sense['n'] = n
+        sense['meta'] = _export_metadata(id, lexspec, 'senses')
+        sense['lexicalized'] = get_lexicalized(id, lexspec, 'senses')
+        sense['adjposition'] = get_adjposition(id, lexspec) or ''
         if version >= (1, 1) and id in sbmap:
             sense['subcat'] = sorted(sbid for sbid, _ in sbmap[id])
         senses.append(sense)
