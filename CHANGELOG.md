@@ -7,6 +7,10 @@
 * `wn.lemmas()` function and `Wordnet.lemmas()` method to query all
   lemmas at once.
 
+### Documentation
+
+* Correct docstring for `wn.taxonomy.taxonomy_depth()` ([#291])
+
 
 ## [v0.14.0]
 
@@ -848,3 +852,4 @@ abandoned, but this is an entirely new codebase.
 [#277]: https://github.com/goodmami/wn/issues/277
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286
+[#291]: https://github.com/goodmami/wn/issues/291
