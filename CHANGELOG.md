@@ -6,6 +6,26 @@
 
 * `wn.lemmas()` function and `Wordnet.lemmas()` method to query all
   lemmas at once.
+* Support for WN-LMF 1.4 ([#260])
+  - New sense relations:
+    - `metaphor`
+    - `has_metaphor`
+    - `metonym`
+    - `has_metonym`
+    - `agent`
+    - `material`
+    - `event`
+    - `instrument`
+    - `location`
+    - `by_means_of`
+    - `undergoer`
+    - `property`
+    - `result`
+    - `state`
+    - `uses`
+    - `destination`
+    - `body_part`
+    - `vehicle`
 
 ### Documentation
 
@@ -720,6 +740,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.14.0]: ../../releases/tag/v0.14.0
 [v0.13.0]: ../../releases/tag/v0.13.0
 [v0.12.0]: ../../releases/tag/v0.12.0
 [v0.11.0]: ../../releases/tag/v0.11.0
