@@ -38,4 +38,3 @@ def test_export_1_4(datadir, tmp_path):
     orig = orig.replace('<', '\n<')
     temp = temp.replace('<', '\n<')
     assert orig == temp
-    
