@@ -32,6 +32,10 @@
     - `body_part`
     - `vehicle`
 
+### Changed
+
+* Default form normalizer uses casefold instead of lower ([#233])
+
 ### Documentation
 
 * Correct docstring for `wn.taxonomy.taxonomy_depth()` ([#291])
@@ -867,6 +871,7 @@ abandoned, but this is an entirely new codebase.
 [#221]: https://github.com/goodmami/wn/issues/221
 [#226]: https://github.com/goodmami/wn/issues/226
 [#228]: https://github.com/goodmami/wn/issues/228
+[#233]: https://github.com/goodmami/wn/issues/233
 [#234]: https://github.com/goodmami/wn/issues/234
 [#235]: https://github.com/goodmami/wn/issues/235
 [#238]: https://github.com/goodmami/wn/issues/238

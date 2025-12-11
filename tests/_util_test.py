@@ -1,5 +1,5 @@
 
-from wn._util import flatten, unique_list
+from wn._util import flatten, unique_list, normalize_form
 
 
 def test_flatten():
@@ -22,3 +22,10 @@ def test_unique_list():
     assert unique_list("AAA") == ["A"]
     assert unique_list("ABABA") == ["A", "B"]
     assert unique_list([(1, 2), (1, 2), (2, 3)]) == [(1, 2), (2, 3)]
+
+
+def test_normalize_form():
+    assert normalize_form('ABC')  == 'abc'
+    assert normalize_form('so\xf1ar') == 'sonar'  # soñar with single ñ character
+    assert normalize_form('son\u0303ar') == 'sonar'  # soñar with combining tilde
+    assert normalize_form('Weiß') == 'weiss'
