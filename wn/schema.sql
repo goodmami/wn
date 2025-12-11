@@ -25,6 +25,7 @@ CREATE INDEX proposed_ili_synset_rowid_index ON proposed_ilis (synset_rowid);
 
 CREATE TABLE lexicons (
     rowid INTEGER PRIMARY KEY,  -- unique database-internal id
+    specifier TEXT NOT NULL,    -- lexicon specifer -> id:version
     id TEXT NOT NULL,           -- user-facing id
     label TEXT NOT NULL,
     language TEXT NOT NULL,     -- bcp-47 language tag
@@ -36,8 +37,10 @@ CREATE TABLE lexicons (
     logo TEXT,
     metadata META,
     modified BOOLEAN CHECK( modified IN (0, 1) ) DEFAULT 0 NOT NULL,
-    UNIQUE (id, version)
+    UNIQUE (id, version),
+    UNIQUE (specifier)
 );
+CREATE INDEX lexicon_specifier_index ON lexicons (specifier);
 
 CREATE TABLE lexicon_dependencies (
     dependent_rowid INTEGER NOT NULL REFERENCES lexicons (rowid) ON DELETE CASCADE,

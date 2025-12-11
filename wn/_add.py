@@ -325,8 +325,9 @@ def _insert_lexicon(
 ) -> tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
-        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?)',
-        (lexicon['id'],
+        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?,?)',
+        (f"{lexicon['id']}:{lexicon['version']}",
+         lexicon['id'],
          lexicon['label'],
          lexicon['language'],
          lexicon['email'],
@@ -983,7 +984,7 @@ def remove(
                 for ext_spec in reversed(extensions):
                     progress.set(status=f'{ext_spec} (extension)')
                     conn.execute(
-                        'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                        'DELETE FROM lexicons WHERE specifier = ?',
                         (ext_spec,),
                     )
                     progress.flash(f'Removed {ext_spec}\n')
@@ -991,7 +992,7 @@ def remove(
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{lexspec}', count=0)
                 conn.execute(
-                    'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                    'DELETE FROM lexicons WHERE specifier = ?',
                     (lexspec,),
                 )
                 progress.flash(f'Removed {lexspec}{extra}\n')

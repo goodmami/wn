@@ -34,7 +34,7 @@ DEBUG = False
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    'd27f1ecd316e14ded6f2c7161c279f6806f2796b',
+    '5523674b1bdcf017c1e3d2aae2c638fd4ed49338',
 }
 
 

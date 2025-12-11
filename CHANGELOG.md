@@ -2,6 +2,10 @@
 
 ## [Unreleased][unreleased]
 
+### Schema
+
+* Add `specifier` column to `lexicon` table ([#234])
+
 ### Added
 
 * `wn.lemmas()` function and `Wordnet.lemmas()` method to query all
@@ -863,6 +867,7 @@ abandoned, but this is an entirely new codebase.
 [#221]: https://github.com/goodmami/wn/issues/221
 [#226]: https://github.com/goodmami/wn/issues/226
 [#228]: https://github.com/goodmami/wn/issues/228
+[#234]: https://github.com/goodmami/wn/issues/234
 [#235]: https://github.com/goodmami/wn/issues/235
 [#238]: https://github.com/goodmami/wn/issues/238
 [#241]: https://github.com/goodmami/wn/issues/241

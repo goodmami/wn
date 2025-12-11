@@ -129,7 +129,7 @@ def _export_requires(spec: str) -> list[lmf.Dependency]:
 
 def _export_extends(spec: str) -> lmf.Dependency:
     ext_spec = get_lexicon_extension_bases(spec, depth=1)[0]
-    _, id, _, _, _, _, version, url, *_ = get_lexicon(ext_spec)
+    _, _, id, _, _, _, _, version, url, *_ = get_lexicon(ext_spec)
     return {'id': id, 'version': version, 'url': url}
 
 
