@@ -424,7 +424,7 @@ def _insert_synsets(
     # synsets
     ss_query = f'''
         INSERT INTO synsets
-        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,({LEXFILE_QUERY}),?)
+        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,({LEXFILE_QUERY}),?)
     '''
     # presupposed ILIs
     pre_ili_query = f'''
@@ -461,7 +461,6 @@ def _insert_synsets(
              lexid,
              ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
              ss.get('partOfSpeech'),
-             ss.get('lexicalized', True),
              ss.get('lexfile'),
              ss['meta'])
             for ss in batch
@@ -480,6 +479,18 @@ def _insert_synsets(
         cur.executemany(pro_ili_query, pro_ili_data)
 
         progress.update(len(batch))
+
+    # only store when lexicalized=False
+    unlexicalized_data = [
+        (synset['id'], lexid)
+        for synset in _local_synsets(synsets)
+        if not synset.get('lexicalized', True)
+    ]
+    query = f'''
+        INSERT INTO unlexicalized_synsets (synset_rowid) {SYNSET_QUERY}
+    '''
+    cur.executemany(query, unlexicalized_data)
+
 
 
 def _insert_synset_definitions(
@@ -700,7 +711,6 @@ def _insert_senses(
                 ?,
                 ({SYNSET_QUERY}),
                 ?,
-                ?,
                 ?)
     '''
     for batch in _batch(entries):
@@ -719,7 +729,6 @@ def _insert_senses(
                         DEFAULT_MEMBER_RANK
                     )
                 ),
-                sense.get('lexicalized', True),
                 sense['meta']
             )
             for entry in batch
@@ -727,6 +736,18 @@ def _insert_senses(
         ]
         cur.executemany(query, data)
         progress.update(len(data))
+
+    # only store when lexicalized=False
+    unlexicalized_data = [
+        (sense['id'], lexid)
+        for entry in entries
+        for sense in _local_senses(_senses(entry))
+        if not sense.get('lexicalized', True)
+    ]
+    query = f'''
+        INSERT INTO unlexicalized_senses (sense_rowid) {SENSE_QUERY}
+    '''
+    cur.executemany(query, unlexicalized_data)
 
 
 def _insert_adjpositions(

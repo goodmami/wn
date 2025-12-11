@@ -935,26 +935,28 @@ def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
 
 
 _SANITIZED_LEXICALIZED_TABLES = {
-    'senses': 'senses',
-    'synsets': 'synsets',
+    'senses': ('senses', 'sense_rowid'),
+    'synsets': ('synsets', 'synset_rowid'),
 }
 
 
 def get_lexicalized(id: str, lexicon: str, table: str) -> bool:
     conn = connect()
-    tablename = _SANITIZED_LEXICALIZED_TABLES.get(table)
-    if tablename is None:
+    if table not in _SANITIZED_LEXICALIZED_TABLES:
         raise wn.Error(f"'{table}' does not mark lexicalization")
+    tablename, column = _SANITIZED_LEXICALIZED_TABLES[table]
     if not id or not lexicon:
         return False
     query = f'''
-        SELECT tbl.lexicalized
-          FROM {tablename} AS tbl
-          JOIN lexicons AS lex ON lex.rowid = tbl.lexicon_rowid
-         WHERE tbl.id = ?
-           AND lex.specifier = ?
+        SELECT NOT EXISTS
+               (SELECT {column}
+                  FROM unlexicalized_{tablename} AS un
+                  JOIN {tablename} AS tbl ON tbl.rowid = un.{column}
+                  JOIN lexicons AS lex ON lex.rowid = tbl.lexicon_rowid
+                 WHERE tbl.id = ?
+                   AND lex.specifier = ?)
     '''
-    return conn.execute(query, (id, lexicon)).fetchone()[0]
+    return bool(conn.execute(query, (id, lexicon)).fetchone()[0])
 
 
 def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
