@@ -52,8 +52,8 @@ from wn._config import config  # noqa: F401
 from wn._add import add, add_lexical_resource, remove
 from wn._export import export
 from wn._download import download
+from wn._lexicon import Lexicon
 from wn._core import (
-    Lexicon,
     Word, Form, Pronunciation, Tag,
     Sense, Example, Count,
     Synset, Definition,

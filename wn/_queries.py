@@ -7,7 +7,7 @@ from typing import Optional, Union, cast
 import itertools
 
 import wn
-from wn._types import Metadata
+from wn._metadata import Metadata
 from wn._db import connect
 
 

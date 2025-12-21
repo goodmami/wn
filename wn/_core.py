@@ -5,11 +5,18 @@ import textwrap
 import warnings
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, Optional, Protocol, TypeVar, Union, overload
+from typing import Literal, Optional, TypeVar, Union, overload
 
 import wn
+from wn._lexicon import (
+    Lexicon,
+    LexiconConfiguration,
+    LexiconElement,
+    LexiconElementWithMetadata,
+)
+from wn._metadata import HasMetadata, Metadata
+
 from wn._types import (
-    Metadata,
     NormalizeFunction,
     LemmatizeFunction,
 )
@@ -25,8 +32,6 @@ from wn._queries import (
     find_lemmas,
     find_senses,
     find_synsets,
-    get_lexicon,
-    get_modified,
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
     get_lexicon_extensions,
@@ -67,19 +72,8 @@ class _EntityType(str, enum.Enum):
     UNSET = ''
 
 
-class _HasMetadata(Protocol):
-    def metadata(self) -> Metadata:
-        """Return the example's metadata."""
-        # Often the class with have _metadata, but if not it will do a
-        # DB lookup. Ignore the type error for now in anticipation of
-        # bigger changes in v1.0.
-        return self._metadata if self._metadata is not None else {}  # type: ignore
-
-    def confidence(self) -> float: ...
-
-
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class ILI(_HasMetadata):
+class ILI(HasMetadata):
     """A class for interlingual indices."""
     __module__ = 'wn'
     __slots__ = '_id', 'status', '_definition'
@@ -161,7 +155,7 @@ class _ProposedILI(ILI):
         return hash((self._synset, self._lexicon))
 
     def lexicon(self) -> Lexicon:
-        return _to_lexicon(self._lexicon)
+        return Lexicon.from_specifier(self._lexicon)
 
     def metadata(self) -> Metadata:
         """Return the ILI's metadata."""
@@ -173,157 +167,14 @@ class _ProposedILI(ILI):
         )
 
 
-@dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
-class Lexicon(_HasMetadata):
-    """A class representing a wordnet lexicon."""
-    __module__ = 'wn'
-
-    _specifier: str
-    id: str
-    label: str
-    language: str
-    email: str
-    license: str
-    version: str
-    url: Optional[str] = None
-    citation: Optional[str] = None
-    logo: Optional[str] = None
-    _metadata: Optional[Metadata] = field(default=None, hash=False)
-
-    def __repr__(self):
-        return f'<Lexicon {self._specifier} [{self.language}]>'
-
-    def specifier(self) -> str:
-        """Return the *id:version* lexicon specifier."""
-        return self._specifier
-
-    def confidence(self) -> float:
-        """Return the confidence score of the lexicon.
-
-        If the lexicon does not specify a confidence score, it defaults to 1.0.
-        """
-        return float(self.metadata().get("confidenceScore", 1.0))
-
-    def modified(self) -> bool:
-        """Return True if the lexicon has local modifications."""
-        return get_modified(self._specifier)
-
-    def requires(self) -> dict[str, Optional['Lexicon']]:
-        """Return the lexicon dependencies."""
-        return dict(
-            (spec,
-             None if added is None else _to_lexicon(spec))
-            for spec, _, added in get_lexicon_dependencies(self._specifier)
-        )
-
-    def extends(self) -> Optional['Lexicon']:
-        """Return the lexicon this lexicon extends, if any.
-
-        If this lexicon is not an extension, return None.
-        """
-        bases = get_lexicon_extension_bases(self._specifier, depth=1)
-        if bases:
-            return _to_lexicon(bases[0])
-        return None
-
-    def extensions(self, depth: int = 1) -> list['Lexicon']:
-        """Return the list of lexicons extending this one.
-
-        By default, only direct extensions are included. This is
-        controlled by the *depth* parameter, which if you view
-        extensions as children in a tree where the current lexicon is
-        the root, *depth=1* are the immediate extensions. Increasing
-        this number gets extensions of extensions, or setting it to a
-        negative number gets all "descendant" extensions.
-
-        """
-        return [
-            _to_lexicon(spec)
-            for spec in get_lexicon_extensions(self._specifier, depth=depth)
-        ]
-
-    def describe(self, full: bool = True) -> str:
-        """Return a formatted string describing the lexicon.
-
-        The *full* argument (default: :python:`True`) may be set to
-        :python:`False` to omit word and sense counts.
-
-        Also see: :meth:`Wordnet.describe`
-
-        """
-        lexspecs = (self.specifier(),)
-        substrings: list[str] = [
-            f'{self._specifier}',
-            f'  Label  : {self.label}',
-            f'  URL    : {self.url}',
-            f'  License: {self.license}',
-        ]
-        if full:
-            substrings.extend([
-                f'  Words  : {_desc_counts(find_entries, lexspecs)}',
-                f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
-            ])
-        substrings.extend([
-            f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
-            f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
-        ])
-        return '\n'.join(substrings)
-
-
-def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
-    count: dict[str, int] = {}
-    for _, pos, *_ in query(lexicons=lexspecs):
-        if pos not in count:
-            count[pos] = 1
-        else:
-            count[pos] += 1
-    subcounts = ', '.join(f'{pos}: {count[pos]}' for pos in sorted(count))
-    return f'{sum(count.values()):>6} ({subcounts})'
-
-
-class _LexiconElement(Protocol):
-    """Protocol for elements defined within a lexicon."""
-
-    _lexicon: str  # source lexicon specifier
-
-    def lexicon(self) -> Lexicon:
-        """Return the lexicon containing the element."""
-        return _to_lexicon(self._lexicon)
-
-
-class _LexiconElementWithMetadata(_LexiconElement, _HasMetadata, Protocol):
-    """Protocol for lexicon elements with metadata."""
-
-    def confidence(self) -> float:
-        """Return the confidence score of the element.
-
-        If the element does not have an explicit confidence score, the
-        value defaults to that of the lexicon containing the element.
-        """
-        c = self.metadata().get("confidenceScore")
-        if c is None:
-            c = self.lexicon().confidence()
-        return float(c)
-
-
-@dataclass
-class _LexiconConfiguration:
-    # slots=True from Python 3.10
-    __slots__ = "lexicons", "expands", "default_mode"
-    lexicons: tuple[str, ...]
-    expands: tuple[str, ...]
-    default_mode: bool
-
-
-_EMPTY_LEXCONFIG = _LexiconConfiguration(
+_EMPTY_LEXCONFIG = LexiconConfiguration(
     lexicons=(),
     expands=(),
     default_mode=False,
 )
 
 
-# @dataclass(frozen=True)
-class _LexiconDataElement(_LexiconElementWithMetadata):
+class _LexiconDataElement(LexiconElementWithMetadata):
     """Base class for Words, Senses, and Synsets.
 
     These elements always have a required ID and are used as the
@@ -334,13 +185,13 @@ class _LexiconDataElement(_LexiconElementWithMetadata):
     __slots__ = 'id', '_lexconf'
 
     id: str
-    _lexconf: _LexiconConfiguration
+    _lexconf: LexiconConfiguration
 
     def __init__(
         self,
         id: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ) -> None:
         self.id = id
         self._lexicon = _lexicon
@@ -392,7 +243,7 @@ class Tag:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Form(_LexiconElement):
+class Form(LexiconElement):
     """A word-form."""
     __module__ = 'wn'
 
@@ -446,7 +297,7 @@ class Word(_LexiconDataElement):
         id: str,
         pos: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
@@ -584,7 +435,7 @@ class Word(_LexiconDataElement):
         return result
 
 
-class Relation(_LexiconElementWithMetadata):
+class Relation(LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
     __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
@@ -690,7 +541,7 @@ class _Relatable(_LexiconDataElement):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Example(_LexiconElementWithMetadata):
+class Example(LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
     __module__ = 'wn'
 
@@ -705,7 +556,7 @@ class Example(_LexiconElementWithMetadata):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Definition(_LexiconElementWithMetadata):
+class Definition(LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
     __module__ = 'wn'
 
@@ -735,7 +586,7 @@ class Synset(_Relatable):
         pos: str,
         ili: Optional[str] = None,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
@@ -747,7 +598,7 @@ class Synset(_Relatable):
         id: str,
         ili: Optional[str] = None,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
@@ -1182,7 +1033,7 @@ class Synset(_Relatable):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Count(_LexiconElementWithMetadata):
+class Count(LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
@@ -1204,7 +1055,7 @@ class Sense(_Relatable):
         entry_id: str,
         synset_id: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self._entry_id = entry_id
@@ -1501,7 +1352,7 @@ class Wordnet:
         expand = _resolve_lexicon_dependencies(expand, lexicons, default_mode)
         expands = tuple(resolve_lexicon_specifiers(expand)) if expand else ()
 
-        self._lexconf = _LexiconConfiguration(
+        self._lexconf = LexiconConfiguration(
             lexicons=lexicons,
             expands=expands,
             default_mode=default_mode,
@@ -1513,11 +1364,11 @@ class Wordnet:
 
     def lexicons(self) -> list[Lexicon]:
         """Return the list of lexicons covered by this wordnet."""
-        return list(map(_to_lexicon, self._lexconf.lexicons))
+        return list(map(Lexicon.from_specifier, self._lexconf.lexicons))
 
     def expanded_lexicons(self) -> list[Lexicon]:
         """Return the list of expand lexicons for this wordnet."""
-        return list(map(_to_lexicon, self._lexconf.expands))
+        return list(map(Lexicon.from_specifier, self._lexconf.expands))
 
     def word(self, id: str) -> Word:
         """Return the first word in this wordnet with identifier *id*."""
@@ -1734,24 +1585,6 @@ def _resolve_lexicon_dependencies(
             stacklevel=3,
         )
     return ' '.join(spec for spec, added in deps if added)
-
-
-def _to_lexicon(specifier: str) -> Lexicon:
-    data = get_lexicon(specifier)
-    spec, id, label, lang, email, license, version, url, citation, logo, meta = data
-    return Lexicon(
-        spec,
-        id,
-        label,
-        lang,
-        email,
-        license,
-        version,
-        url=url,
-        citation=citation,
-        logo=logo,
-        _metadata=meta,
-    )
 
 
 def _find_lemmas(

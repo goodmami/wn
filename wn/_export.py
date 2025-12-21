@@ -3,9 +3,9 @@ from collections.abc import Sequence
 from typing import Optional, cast
 
 import wn
-from wn._types import AnyPath, Metadata, VersionInfo
-from wn._util import version_info, split_lexicon_specifier
 from wn import lmf
+from wn._lexicon import Lexicon
+from wn._metadata import Metadata
 from wn._queries import (
     find_entries,
     find_senses,
@@ -32,7 +32,9 @@ from wn._queries import (
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
 )
-from wn._core import Lexicon
+from wn._types import AnyPath, VersionInfo
+from wn._util import version_info, split_lexicon_specifier
+
 
 PROPOSED_ILI_ID = "in"  # special case for proposed ILIs
 

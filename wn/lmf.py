@@ -20,6 +20,7 @@ import xml.parsers.expat  # for fast scanning of Lexicon versions
 from xml.sax.saxutils import quoteattr
 
 import wn
+from wn._metadata import Metadata
 from wn._types import AnyPath, VersionInfo
 from wn._util import is_xml, version_info
 from wn.util import ProgressHandler, ProgressBar
@@ -170,26 +171,6 @@ _META_ELEMS = {  # elements with metadata
 # WN-LMF type-checking is handled via TypedDicts.  Inheritance and
 # `total=False` are used to model optionality. For more information
 # about this tactic, see https://www.python.org/dev/peps/pep-0589/.
-
-class Metadata(TypedDict, total=False):
-    contributor: str
-    coverage: str
-    creator: str
-    date: str
-    description: str
-    format: str
-    identifier: str
-    publisher: str
-    relation: str
-    rights: str
-    source: str
-    subject: str
-    title: str
-    type: str
-    status: str
-    note: str
-    confidenceScore: float
-
 
 _HasId = TypedDict('_HasId', {'id': str})
 _HasILI = TypedDict('_HasILI', {'ili': str})
