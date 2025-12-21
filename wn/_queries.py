@@ -914,12 +914,18 @@ def get_metadata(
          WHERE tbl.id=?
            AND lex.specifier = ?
     '''
-    return connect().execute(query, (id, lexicon)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (id, lexicon)).fetchone()[0] or {},
+    )  # TODO: benchmark using a TypeGuard
 
 
 def get_ili_metadata(id: str) -> Metadata:
     query = 'SELECT metadata FROM ilis WHERE id = ?'
-    return connect().execute(query, (id,)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (id,)).fetchone()[0] or {},
+    )
 
 
 def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
@@ -931,7 +937,10 @@ def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
          WHERE ss.id = ?
            AND lex.specifier = ?
     '''
-    return connect().execute(query, (synset, lexicon)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (synset, lexicon)).fetchone()[0] or {},
+    )
 
 
 _SANITIZED_LEXICALIZED_TABLES = {

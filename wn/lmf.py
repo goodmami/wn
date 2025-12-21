@@ -197,7 +197,7 @@ _HasSynset = TypedDict('_HasSynset', {'synset': str})
 _MaybeId = TypedDict('_MaybeId', {'id': str}, total=False)
 _HasText = TypedDict('_HasText', {'text': str})
 _MaybeScript = TypedDict('_MaybeScript', {'script': str}, total=False)
-_HasMeta = TypedDict('_HasMeta', {'meta': Optional[Metadata]})
+_HasMeta = TypedDict('_HasMeta', {'meta': Optional[Metadata]}, total=False)
 _External = TypedDict('_External', {'external': Literal['true']})
 
 
@@ -298,6 +298,7 @@ class SyntacticBehaviour(_SyntacticBehaviourBase, total=False):
 
 
 class _LexicalEntryBase(_HasId, _HasMeta, total=False):
+    index: str
     forms: list[Form]
     senses: list[Sense]
     frames: list[SyntacticBehaviour]
@@ -305,7 +306,6 @@ class _LexicalEntryBase(_HasId, _HasMeta, total=False):
 
 class LexicalEntry(_LexicalEntryBase):
     lemma: Lemma
-    index: str
 
 
 class ExternalLexicalEntry(_HasId, _External, total=False):

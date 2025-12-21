@@ -451,7 +451,7 @@ def _insert_synsets(
             if ili and ili != 'in':
                 defn = ss.get('ili_definition')  # normally null
                 text = defn['text'] if defn else None
-                meta = defn['meta'] if defn else None
+                meta = defn.get('meta') if defn else None
                 pre_ili_data.append((ili, 'presupposed', text, meta))
         cur.executemany(pre_ili_query, pre_ili_data)
 
@@ -462,7 +462,7 @@ def _insert_synsets(
              ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
              ss.get('partOfSpeech'),
              ss.get('lexfile'),
-             ss['meta'])
+             ss.get('meta'))
             for ss in batch
         )
         cur.executemany(ss_query, ss_data)
@@ -474,7 +474,7 @@ def _insert_synsets(
             if ili == 'in':
                 defn = ss.get('ili_definition')
                 text = defn['text'] if defn else None
-                meta = defn['meta'] if defn else None
+                meta = defn.get('meta') if defn else None
                 pro_ili_data.append((ss['id'], lexid, text, meta))
         cur.executemany(pro_ili_query, pro_ili_data)
 
@@ -514,7 +514,7 @@ def _insert_synset_definitions(
              definition.get('language'),
              definition.get('sourceSense'),
              lexidmap.get(definition.get('sourceSense', ''), lexid),
-             definition['meta'])
+             definition.get('meta'))
             for synset in batch
             for definition in synset.get('definitions', [])
         ]
@@ -540,7 +540,7 @@ def _insert_synset_relations(
              synset['id'], lexidmap.get(synset['id'], lexid),
              relation['target'], lexidmap.get(relation['target'], lexid),
              relation['relType'],
-             relation['meta'])
+             relation.get('meta'))
             for synset in batch
             for relation in synset.get('relations', [])
         ]
@@ -561,7 +561,7 @@ def _insert_entries(
             (entry['id'],
              lexid,
              entry['lemma']['partOfSpeech'],
-             entry['meta'])
+             entry.get('meta'))
             for entry in batch
         )
         cur.executemany(query, data)
@@ -729,7 +729,7 @@ def _insert_senses(
                         DEFAULT_MEMBER_RANK
                     )
                 ),
-                sense['meta']
+                sense.get('meta')
             )
             for entry in batch
             for i, sense in enumerate(_local_senses(_senses(entry)), 1)
@@ -777,7 +777,7 @@ def _insert_counts(
     data = [(lexid,
              sense['id'], lexidmap.get(sense['id'], lexid),
              count['value'],
-             count['meta'])
+             count.get('meta'))
             for entry in entries
             for sense in _senses(entry)
             for count in sense.get('counts', [])]
@@ -901,7 +901,7 @@ def _insert_sense_relations(
                  sense_id, slid,
                  relation['target'], tlid,
                  relation['relType'],
-                 relation['meta'])
+                 relation.get('meta'))
                 for sense_id, slid, tlid, relation in batch
             ]
             cur.executemany(query, data)
@@ -927,7 +927,7 @@ def _insert_examples(
              obj['id'], lexidmap.get(obj['id'], lexid),
              example['text'],
              example.get('language'),
-             example['meta'])
+             example.get('meta'))
             for obj in batch
             for example in obj.get('examples', [])
         ]

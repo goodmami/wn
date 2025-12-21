@@ -219,7 +219,7 @@ def _export_senses(
             'examples': _export_examples(id, 'senses', lexicons),
             'counts': _export_counts(id, lexicons),
         }
-        if index is not None or n != i:
+        if n is not None and (index is not None or n != i):
             sense['n'] = n
         sense['meta'] = _export_metadata(id, lexspec, 'senses')
         sense['lexicalized'] = get_lexicalized(id, lexspec, 'senses')
