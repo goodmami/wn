@@ -59,7 +59,6 @@ from wn._core import (
     Synset, Definition,
     Relation,
     ILI,
-    Wordnet
 )
 from wn._module_functions import (
     projects,
@@ -69,5 +68,7 @@ from wn._module_functions import (
     synset, synsets,
     ili, ilis,
 )
+from wn._wordnet import Wordnet
+
 
 __version__ = '0.14.0'
