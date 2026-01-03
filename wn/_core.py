@@ -1,24 +1,17 @@
 from __future__ import annotations
 
 import enum
-import textwrap
-import warnings
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
 from typing import Literal, Optional, TypeVar, Union, overload
 
-import wn
 from wn._lexicon import (
-    Lexicon,
     LexiconConfiguration,
     LexiconElement,
     LexiconElementWithMetadata,
 )
-from wn._metadata import HasMetadata, Metadata
+from wn._metadata import Metadata
 from wn._queries import (
-    find_ilis,
-    find_existing_ilis,
-    find_proposed_ilis,
     find_entries,
     find_synsets,
     get_lexicon_extension_bases,
@@ -35,8 +28,6 @@ from wn._queries import (
     get_definitions,
     get_syntactic_behaviours,
     get_metadata,
-    get_ili_metadata,
-    get_proposed_ili_metadata,
     get_lexicalized,
     get_adjposition,
     get_sense_counts,
@@ -59,101 +50,6 @@ class _EntityType(str, enum.Enum):
     SENSE_SYNSET_RELATIONS = 'sense_synset_relations'
     SYNSET_RELATIONS = 'synset_relations'
     UNSET = ''
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class ILI(HasMetadata):
-    """A class for interlingual indices."""
-    __module__ = 'wn'
-    __slots__ = '_id', 'status', '_definition'
-
-    _id: Optional[str]
-    status: str
-    _definition: Optional[str]
-
-    def __eq__(self, other) -> bool:
-        raise NotImplementedError
-
-    def __hash__(self) -> int:
-        raise NotImplementedError
-
-    @property
-    def id(self) -> Optional[str]:
-        return self._id
-
-    def definition(self) -> Optional[str]:
-        return self._definition
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        raise NotImplementedError
-
-    def confidence(self) -> float:
-        """Return the confidence score of the ILI."""
-        raise NotImplementedError
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class _ExistingILI(ILI):
-    """A class for interlingual indices."""
-    __module__ = 'wn'
-
-    _id: str
-    status: str
-    _definition: Optional[str]
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, _ExistingILI):
-            return self._id == other._id
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash(self._id)
-
-    def __repr__(self) -> str:
-        return f'ILI({repr(self._id)})'
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        return get_ili_metadata(self._id)
-
-    def confidence(self) -> float:
-        return float(self.metadata().get('confidenceScore', 1.0))
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class _ProposedILI(ILI):
-    __module__ = 'wn'
-    __slots__ = '_synset', '_lexicon'
-
-    _id: None
-    status: str
-    _definition: Optional[str]
-    _synset: str
-    _lexicon: str
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, _ProposedILI):
-            return (
-                self._synset == other._synset
-                and self._lexicon == other._lexicon
-            )
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self._synset, self._lexicon))
-
-    def lexicon(self) -> Lexicon:
-        return Lexicon.from_specifier(self._lexicon)
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        return get_proposed_ili_metadata(self._synset, self._lexicon)
-
-    def confidence(self) -> float:
-        return float(
-            self.metadata().get('confidenceScore', self.lexicon().confidence())
-        )
 
 
 _EMPTY_LEXCONFIG = LexiconConfiguration(
@@ -568,6 +464,7 @@ class Synset(_Relatable):
     _ENTITY_TYPE = _EntityType.SYNSETS
 
     pos: str
+    _ili: Optional[str]
 
     def __init__(
         self,
@@ -608,12 +505,8 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     @property
-    def ili(self) -> Optional[ILI]:
-        if self._ili and (e_ili := next(find_existing_ilis(id=self._ili), None)):
-            return _ExistingILI(*e_ili)
-        elif p_ili := next(find_proposed_ilis(synset_id=self.id), None):
-            return _ProposedILI(*p_ili)
-        return None
+    def ili(self) -> Optional[str]:
+        return self._ili
 
     @overload
     def definition(self, *, data: Literal[False] = False) -> Optional[str]: ...

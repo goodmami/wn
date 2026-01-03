@@ -31,9 +31,16 @@ queries.
 .. autofunction:: senses
 .. autofunction:: synset
 .. autofunction:: synsets
-.. autofunction:: ili
-.. autofunction:: ilis
 .. autofunction:: lexicons
+.. function:: ili
+
+   :info: Deprecated
+          See :func:`wn.ili.get`
+
+.. function:: ilis
+
+   :info: Deprecated
+          See :func:`wn.ili.get_all`
 
 
 The Wordnet Class
@@ -48,8 +55,15 @@ The Wordnet Class
    .. automethod:: senses
    .. automethod:: synset
    .. automethod:: synsets
-   .. automethod:: ili
-   .. automethod:: ilis
+   .. method:: ili
+
+      Removed as of v1.0.0. See :func:`wn.ili.get` instead.
+
+   .. method:: ilis
+
+      Removed as of v1.0.0. See :func:`wn.ili.get_all` and
+      :func:`wn.ili.get_all_proposed` instead.
+
    .. automethod:: lexicons
    .. automethod:: expanded_lexicons
    .. automethod:: describe
@@ -401,41 +415,7 @@ Additional Classes
 Interlingual Indices
 --------------------
 
-.. class:: ILI
-
-   :class:`ILI` objects represent
-   :doc:`Interlingual Indices <../guides/interlingual>`.
-
-   .. autoproperty:: id
-
-      The interlingual index identifier. Unlike ``id`` attributes for
-      :class:`Word`, :class:`Sense`, and :class:`Synset`, ILI
-      identifers may be :python:`None` (see the *proposed*
-      :attr:`status`).
-
-   .. autoattribute:: status
-
-      The known status of the interlingual index. Loading an
-      interlingual index into the database provides the following
-      explicit, authoritative status values:
-
-      - ``active`` -- the ILI is in use
-      - ``provisional`` -- the ILI is being staged for permanent
-        inclusion
-      - ``deprecated`` -- the ILI is, or should be, no longer in use
-
-      Without an interlingual index loaded, ILIs present in loaded
-      lexicons get an implicit, temporary status from the following:
-
-      - ``presupposed`` -- a synset uses the ILI, assuming it exists
-        in an ILI file
-      - ``proposed`` -- a synset introduces a concept not yet in an
-        ILI and is suggesting that one should be added for it in the
-        future
-
-   .. automethod:: definition
-   .. automethod:: metadata
-   .. automethod:: confidence
+As of Wn v1.0.0, see :mod:`wn.ili` classes and functions for ILIs
 
 
 Lexicon Objects

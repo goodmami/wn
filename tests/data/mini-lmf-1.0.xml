@@ -138,7 +138,7 @@ Spanish:
 
     <Synset id="test-en-0007-v" ili="in" partOfSpeech="v" dc:subject="verb.social">
       <!-- should probably be a hyponym of i33760 -->
-      <ILIDefinition confidenceScore="1.0">to fire someone while making it look like it was their idea</ILIDefinition>
+      <ILIDefinition dc:creator="MM">to fire someone while making it look like it was their idea</ILIDefinition>
     </Synset>
 
   </Lexicon>

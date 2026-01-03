@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from collections.abc import Collection, Iterator, Sequence
-from typing import Optional, Union, cast
+from typing import Optional, cast
 import itertools
 
 import wn
@@ -88,13 +88,13 @@ _ExistingILI = tuple[
     str,  # id
     str,  # status
     Optional[str],  # definition
+    Metadata,
 ]
 _ProposedILI = tuple[
-    None,  # id
-    str,  # status
-    str,  # definition
     str,  # synset id
     str,  # lexicon
+    str,  # definition
+    Metadata,
 ]
 _Lexicon = tuple[
     str,       # specifier
@@ -209,39 +209,35 @@ def get_lexicon_extensions(lexicon: str, depth: int = -1) -> list[str]:
     return [row[0] for row in rows]
 
 
+def get_ili(id: str) -> _ExistingILI | None:
+    query = '''
+        SELECT i.id, ist.status, i.definition, i.metadata
+          FROM ilis AS i
+          JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
+         WHERE i.id = ?
+         LIMIT 1
+    '''
+    return connect().execute(query, (id,)).fetchone()
+
+
 def find_ilis(
-    id: Optional[str] = None,
-    status: Optional[str] = None,
-    lexicons: Sequence[str] = (),
-) -> Iterator[Union[_ExistingILI, _ProposedILI]]:
-    if status == 'proposed' and not id:
-        yield from find_proposed_ilis(lexicons=lexicons)
-    else:
-        yield from find_existing_ilis(id=id, status=status, lexicons=lexicons)
-
-
-def find_existing_ilis(
-    id: Optional[str] = None,
     status: Optional[str] = None,
     lexicons: Sequence[str] = (),
 ) -> Iterator[_ExistingILI]:
     query = '''
-        SELECT DISTINCT i.id, ist.status, i.definition
+        SELECT DISTINCT i.id, ist.status, i.definition, i.metadata
           FROM ilis AS i
           JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
     '''
     conditions: list[str] = []
     params: list = []
-    if id:
-        conditions.append('i.id = ?')
-        params.append(id)
     if status:
         conditions.append('ist.status = ?')
         params.append(status)
     if lexicons:
         # this runs much faster than just adding a condition
         query = '''
-        SELECT DISTINCT i.id, ist.status, i.definition
+        SELECT DISTINCT i.id, ist.status, i.definition, i.metadata
           FROM lexicons as lex
           JOIN synsets AS ss ON ss.lexicon_rowid = lex.rowid
           JOIN ilis AS i ON i.rowid = ss.ili_rowid
@@ -261,8 +257,8 @@ def find_proposed_ilis(
     lexicons: Sequence[str] = (),
 ) -> Iterator[_ProposedILI]:
     query = '''
-    SELECT null, "proposed", definition, ss.id, lex.specifier
-      FROM proposed_ilis
+    SELECT ss.id, lex.specifier, pi.definition, pi.metadata
+      FROM proposed_ilis AS pi
       JOIN synsets AS ss ON ss.rowid = synset_rowid
       JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
     '''

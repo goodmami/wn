@@ -61,6 +61,7 @@ Contents
    api/wn.compat.sensekey.rst
    api/wn.constants.rst
    api/wn.ic.rst
+   api/wn.ili.rst
    api/wn.lmf.rst
    api/wn.morphy.rst
    api/wn.project.rst

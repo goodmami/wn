@@ -21,7 +21,7 @@ from wn._util import normalize_form, format_lexicon_specifier
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
 from wn import lmf
-from wn import _ili
+from wn import ili as _ili
 
 
 log = logging.getLogger('wn')
@@ -951,7 +951,7 @@ def _add_ili(
         cur = conn.cursor()
 
         progress.flash(f'Reading ILI file: {source!s}')
-        ili = list(_ili.load(source))
+        ili = list(_ili.load_tsv(source))
 
         progress.flash('Updating ILI Status Names')
         statuses = set(info.get('status', 'active') for info in ili)

@@ -36,6 +36,7 @@ def mini_db_dir(datadir, tmp_path_factory):
     with pytest.MonkeyPatch.context() as m:
         m.setattr(wn.config, 'data_directory', dir)
         wn.add(datadir / 'mini-lmf-1.0.xml')
+        wn.add(datadir / 'mini-ili.tsv')
         wn._db.clear_connections()
 
     yield Path(dir)

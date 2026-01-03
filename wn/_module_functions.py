@@ -178,7 +178,7 @@ def synset(
 def synsets(
     form: Optional[str] = None,
     pos: Optional[str] = None,
-    ili: Optional[Union[str, wn.ILI]] = None,
+    ili: Optional[str] = None,
     *,
     lexicon: Optional[str] = None,
     lang: Optional[str] = None,
@@ -237,42 +237,3 @@ def sense(
 
     """
     return wn.Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
-
-
-def ili(
-    id: str,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
-) -> wn.ILI:
-    """Return the interlingual index with *id*.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The *id* argument is then passed to the
-    :meth:`Wordnet.ili` method.
-
-    """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).ili(id=id)
-
-
-def ilis(
-    status: Optional[str] = None,
-    *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> list[wn.ILI]:
-    """Return the list of matching interlingual indices.
-
-    This will create a :class:`Wordnet` object using the *lang* and
-    *lexicon* arguments. The remaining arguments are passed to the
-    :meth:`Wordnet.ilis` method.
-
-    >>> len(wn.ilis())
-    120071
-    >>> len(wn.ilis(status='proposed'))
-    2573
-    >>> wn.ilis(status='proposed')[-1].definition()
-    'the neutrino associated with the tau lepton.'
-
-    """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).ilis(status=status)

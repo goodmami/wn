@@ -318,9 +318,9 @@ def _export_definitions(
 
 
 def _export_ili_definition(synset: str) -> Optional[lmf.ILIDefinition]:
-    _, _, defn, _, lexspec = next(
+    _, lexspec, defn, _ = next(
         find_proposed_ilis(synset_id=synset),
-        (None, None, None, None, None)
+        (None, None, None, None)
     )
     ilidef: Optional[lmf.ILIDefinition] = None
     if defn:

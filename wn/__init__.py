@@ -31,9 +31,6 @@ __all__ = (
     'Synset',
     'Definition',
     'Relation',
-    'ili',
-    'ilis',
-    'ILI',
     'Error',
     'DatabaseError',
     'ConfigurationError',
@@ -58,7 +55,6 @@ from wn._core import (
     Sense, Example, Count,
     Synset, Definition,
     Relation,
-    ILI,
 )
 from wn._module_functions import (
     projects,
@@ -66,7 +62,6 @@ from wn._module_functions import (
     word, words, lemmas,
     sense, senses,
     synset, synsets,
-    ili, ilis,
 )
 from wn._wordnet import Wordnet
 

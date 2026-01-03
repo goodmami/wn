@@ -113,12 +113,8 @@ def test_synset_lemmas():
 
 @pytest.mark.usefixtures('mini_db')
 def test_synset_ili():
-    assert isinstance(wn.synset('test-en-0001-n').ili, wn.ILI)
-    assert wn.synset('test-en-0001-n').ili.id == 'i67447'
-    assert wn.synset('test-en-0001-n').ili.status == 'presupposed'
-    assert wn.synset('test-en-0008-n').ili is None
-    assert wn.synset('test-en-0007-v').ili.id is None
-    assert wn.synset('test-en-0007-v').ili.status == 'proposed'
+    # Synset ILIs are now just strings; see ili_test.py for wn.ili tests
+    assert isinstance(wn.synset('test-en-0001-n').ili, str)
 
 
 @pytest.mark.usefixtures('mini_db')

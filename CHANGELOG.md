@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+Notable changes in this release:
+* A new version of the database schema requires a database rebuild
+* A new `wn.ili` module deals with ILI files and objects; interlingual
+  queries still use the `Synset.ili` member, which is now a simple `str`
+
 ### Schema
 
 * Add `specifier` column to `lexicon` table ([#234])
@@ -33,10 +38,16 @@
     - `destination`
     - `body_part`
     - `vehicle`
+* `wn.ili` module
 
 ### Changed
 
 * Default form normalizer uses casefold instead of lower ([#233])
+* `Synset.ili` is a `str` instead of an `ILI` object.
+* `Wordnet.synsets()` method and `wn.synsets()` function's only accepts `ili`
+  `str` arguments for the `ili` parameter again, reverting a change from
+  v0.12.0. This is because `Synset.ili` is now a simple string and `ILI`
+  objects are no longer part of the core `wn` package namespace.
 
 ### Documentation
 
