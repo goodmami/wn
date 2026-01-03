@@ -209,6 +209,7 @@ def _add_lexical_resource(
 
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
+            _insert_index(entries, lexid, cur, progress)
             _insert_forms(entries, lexid, lexidmap, cur, progress)
             _insert_pronunciations(entries, lexid, lexidmap, cur, progress)
             _insert_tags(entries, lexid, lexidmap, cur, progress)
@@ -271,6 +272,8 @@ def _sum_counts(lex: _AnyLexicon) -> int:
     sens = [s for e in ents for s in _senses(e)]
     syns = _synsets(lex)
     return sum([
+        # index (every entry must be processed; not all use index)
+        len(ents),
         # lexical entries
         len(ents),
         len(lems),
@@ -322,8 +325,9 @@ def _insert_lexicon(
 ) -> tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
-        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?)',
-        (lexicon['id'],
+        'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?,?)',
+        (f"{lexicon['id']}:{lexicon['version']}",
+         lexicon['id'],
          lexicon['label'],
          lexicon['language'],
          lexicon['email'],
@@ -420,7 +424,7 @@ def _insert_synsets(
     # synsets
     ss_query = f'''
         INSERT INTO synsets
-        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,?,({LEXFILE_QUERY}),?)
+        VALUES (null,?,?,(SELECT rowid FROM ilis WHERE id=?),?,({LEXFILE_QUERY}),?)
     '''
     # presupposed ILIs
     pre_ili_query = f'''
@@ -447,7 +451,7 @@ def _insert_synsets(
             if ili and ili != 'in':
                 defn = ss.get('ili_definition')  # normally null
                 text = defn['text'] if defn else None
-                meta = defn['meta'] if defn else None
+                meta = defn.get('meta') if defn else None
                 pre_ili_data.append((ili, 'presupposed', text, meta))
         cur.executemany(pre_ili_query, pre_ili_data)
 
@@ -457,9 +461,8 @@ def _insert_synsets(
              lexid,
              ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
              ss.get('partOfSpeech'),
-             ss.get('lexicalized', True),
              ss.get('lexfile'),
-             ss['meta'])
+             ss.get('meta'))
             for ss in batch
         )
         cur.executemany(ss_query, ss_data)
@@ -471,11 +474,23 @@ def _insert_synsets(
             if ili == 'in':
                 defn = ss.get('ili_definition')
                 text = defn['text'] if defn else None
-                meta = defn['meta'] if defn else None
+                meta = defn.get('meta') if defn else None
                 pro_ili_data.append((ss['id'], lexid, text, meta))
         cur.executemany(pro_ili_query, pro_ili_data)
 
         progress.update(len(batch))
+
+    # only store when lexicalized=False
+    unlexicalized_data = [
+        (synset['id'], lexid)
+        for synset in _local_synsets(synsets)
+        if not synset.get('lexicalized', True)
+    ]
+    query = f'''
+        INSERT INTO unlexicalized_synsets (synset_rowid) {SYNSET_QUERY}
+    '''
+    cur.executemany(query, unlexicalized_data)
+
 
 
 def _insert_synset_definitions(
@@ -499,7 +514,7 @@ def _insert_synset_definitions(
              definition.get('language'),
              definition.get('sourceSense'),
              lexidmap.get(definition.get('sourceSense', ''), lexid),
-             definition['meta'])
+             definition.get('meta'))
             for synset in batch
             for definition in synset.get('definitions', [])
         ]
@@ -525,7 +540,7 @@ def _insert_synset_relations(
              synset['id'], lexidmap.get(synset['id'], lexid),
              relation['target'], lexidmap.get(relation['target'], lexid),
              relation['relType'],
-             relation['meta'])
+             relation.get('meta'))
             for synset in batch
             for relation in synset.get('relations', [])
         ]
@@ -546,8 +561,25 @@ def _insert_entries(
             (entry['id'],
              lexid,
              entry['lemma']['partOfSpeech'],
-             entry['meta'])
+             entry.get('meta'))
             for entry in batch
+        )
+        cur.executemany(query, data)
+        progress.update(len(batch))
+
+
+def _insert_index(
+    entries: Sequence[_AnyEntry],
+    lexid: int,
+    cur: sqlite3.Cursor,
+    progress: ProgressHandler
+) -> None:
+    progress.set(status='Index')
+    query = f'INSERT INTO entry_index VALUES (({ENTRY_QUERY}),?)'
+    for batch in _batch(_local_entries(entries)):
+        data = (
+            (entry['id'], lexid, entry['index'],)
+            for entry in batch if entry.get('index')
         )
         cur.executemany(query, data)
         progress.update(len(batch))
@@ -679,7 +711,6 @@ def _insert_senses(
                 ?,
                 ({SYNSET_QUERY}),
                 ?,
-                ?,
                 ?)
     '''
     for batch in _batch(entries):
@@ -688,7 +719,7 @@ def _insert_senses(
                 sense['id'],
                 lexid,
                 entry['id'], lexidmap.get(entry['id'], lexid),
-                i,
+                sense.get('n', i),
                 sense['synset'], lexidmap.get(sense['synset'], lexid),
                 # members can be sense or entry IDs
                 ssrank.get(
@@ -698,14 +729,25 @@ def _insert_senses(
                         DEFAULT_MEMBER_RANK
                     )
                 ),
-                sense.get('lexicalized', True),
-                sense['meta']
+                sense.get('meta')
             )
             for entry in batch
-            for i, sense in enumerate(_local_senses(_senses(entry)))
+            for i, sense in enumerate(_local_senses(_senses(entry)), 1)
         ]
         cur.executemany(query, data)
         progress.update(len(data))
+
+    # only store when lexicalized=False
+    unlexicalized_data = [
+        (sense['id'], lexid)
+        for entry in entries
+        for sense in _local_senses(_senses(entry))
+        if not sense.get('lexicalized', True)
+    ]
+    query = f'''
+        INSERT INTO unlexicalized_senses (sense_rowid) {SENSE_QUERY}
+    '''
+    cur.executemany(query, unlexicalized_data)
 
 
 def _insert_adjpositions(
@@ -735,7 +777,7 @@ def _insert_counts(
     data = [(lexid,
              sense['id'], lexidmap.get(sense['id'], lexid),
              count['value'],
-             count['meta'])
+             count.get('meta'))
             for entry in entries
             for sense in _senses(entry)
             for count in sense.get('counts', [])]
@@ -859,7 +901,7 @@ def _insert_sense_relations(
                  sense_id, slid,
                  relation['target'], tlid,
                  relation['relType'],
-                 relation['meta'])
+                 relation.get('meta'))
                 for sense_id, slid, tlid, relation in batch
             ]
             cur.executemany(query, data)
@@ -885,7 +927,7 @@ def _insert_examples(
              obj['id'], lexidmap.get(obj['id'], lexid),
              example['text'],
              example.get('language'),
-             example['meta'])
+             example.get('meta'))
             for obj in batch
             for example in obj.get('examples', [])
         ]
@@ -963,7 +1005,7 @@ def remove(
                 for ext_spec in reversed(extensions):
                     progress.set(status=f'{ext_spec} (extension)')
                     conn.execute(
-                        'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                        'DELETE FROM lexicons WHERE specifier = ?',
                         (ext_spec,),
                     )
                     progress.flash(f'Removed {ext_spec}\n')
@@ -971,7 +1013,7 @@ def remove(
                 extra = f' (and {len(extensions)} extension(s))' if extensions else ''
                 progress.set(status=f'{lexspec}', count=0)
                 conn.execute(
-                    'DELETE FROM lexicons WHERE id || ":" || version = ?',
+                    'DELETE FROM lexicons WHERE specifier = ?',
                     (lexspec,),
                 )
                 progress.flash(f'Removed {lexspec}{extra}\n')

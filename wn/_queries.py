@@ -9,7 +9,6 @@ import itertools
 import wn
 from wn._types import Metadata
 from wn._db import connect
-from wn._util import split_lexicon_specifier
 
 
 # Local Types
@@ -98,6 +97,7 @@ _ProposedILI = tuple[
     str,  # lexicon
 ]
 _Lexicon = tuple[
+    str,       # specifier
     str,       # id
     str,       # label
     str,       # language
@@ -122,9 +122,9 @@ def resolve_lexicon_specifiers(
         if ':' not in specifier:
             specifier += ':*'
         query = f'''
-            SELECT DISTINCT id || ":" || version
+            SELECT DISTINCT specifier
               FROM lexicons
-             WHERE id || ":" || version GLOB :specifier
+             WHERE specifier GLOB :specifier
                AND (:language ISNULL OR language = :language)
              LIMIT {limit}
         '''
@@ -139,21 +139,20 @@ def resolve_lexicon_specifiers(
 
 
 def get_lexicon(lexicon: str) -> _Lexicon:
-    id, ver = split_lexicon_specifier(lexicon)
     query = '''
-        SELECT DISTINCT id, label, language, email, license,
+        SELECT DISTINCT specifier, id, label, language, email, license,
                         version, url, citation, logo, metadata
         FROM lexicons
-        WHERE id = ? AND version = ?
+        WHERE specifier = ?
     '''
-    row: Optional[_Lexicon] = connect().execute(query, (id, ver)).fetchone()
+    row: Optional[_Lexicon] = connect().execute(query, (lexicon,)).fetchone()
     if row is None:
         raise LookupError(lexicon)  # should we have a WnLookupError?
     return row
 
 
 def get_modified(lexicon: str) -> bool:
-    query = 'SELECT modified FROM lexicons WHERE id || ":" || version = ?'
+    query = 'SELECT modified FROM lexicons WHERE specifier = ?'
     return connect().execute(query, (lexicon,)).fetchone()[0]
 
 
@@ -162,7 +161,7 @@ def get_lexicon_dependencies(lexicon: str) -> list[tuple[str, str, bool]]:
         SELECT provider_id || ":" || provider_version, provider_url, provider_rowid
           FROM lexicon_dependencies
           JOIN lexicons AS lex ON lex.rowid = dependent_rowid
-         WHERE lex.id || ":" || lex.version = ?
+         WHERE lex.specifier = ?
     '''
     return [
         (spec, url, rowid is not None)
@@ -176,11 +175,11 @@ def get_lexicon_extension_bases(lexicon: str, depth: int = -1) -> list[str]:
                (SELECT base_rowid, 1
                   FROM lexicon_extensions
                   JOIN lexicons AS lex ON lex.rowid = extension_rowid
-                 WHERE lex.id || ":" || lex.version = :specifier
+                 WHERE lex.specifier = :specifier
                  UNION SELECT base_rowid, d+1
                          FROM lexicon_extensions
                          JOIN ext ON extension_rowid = x)
-        SELECT baselex.id || ":" || baselex.version
+        SELECT baselex.specifier
           FROM ext
           JOIN lexicons AS baselex ON baselex.rowid = ext.x
          WHERE :depth < 0 OR d <= :depth
@@ -196,11 +195,11 @@ def get_lexicon_extensions(lexicon: str, depth: int = -1) -> list[str]:
                (SELECT extension_rowid, 1
                   FROM lexicon_extensions
                   JOIN lexicons AS lex ON lex.rowid = base_rowid
-                 WHERE lex.id || ":" || lex.version = :specifier
+                 WHERE lex.specifier = :specifier
                  UNION SELECT extension_rowid, d+1
                          FROM lexicon_extensions
                          JOIN ext ON base_rowid = x)
-        SELECT extlex.id || ":" || extlex.version
+        SELECT extlex.specifier
           FROM ext
           JOIN lexicons AS extlex ON extlex.rowid = ext.x
          WHERE :depth < 0 OR d <= :depth
@@ -248,7 +247,7 @@ def find_existing_ilis(
           JOIN ilis AS i ON i.rowid = ss.ili_rowid
           JOIN ili_statuses AS ist ON i.status_rowid = ist.rowid
         '''
-        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        conditions.append(f'lex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
 
     if conditions:
@@ -262,7 +261,7 @@ def find_proposed_ilis(
     lexicons: Sequence[str] = (),
 ) -> Iterator[_ProposedILI]:
     query = '''
-    SELECT null, "proposed", definition, ss.id, lex.id || ":" || lex.version
+    SELECT null, "proposed", definition, ss.id, lex.specifier
       FROM proposed_ilis
       JOIN synsets AS ss ON ss.rowid = synset_rowid
       JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
@@ -273,7 +272,7 @@ def find_proposed_ilis(
         conditions.append('ss.id = ?')
         params.append(synset_id)
     if lexicons:
-        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        conditions.append(f'lex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
     if conditions:
         query += ' WHERE ' + '\n           AND '.join(conditions)
@@ -303,7 +302,7 @@ def find_entries(
 
     query = f'''
           {cte}
-        SELECT DISTINCT e.id, e.pos, lex.id || ":" || lex.version
+        SELECT DISTINCT e.id, e.pos, lex.specifier
           FROM entries AS e
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          {condition}
@@ -321,7 +320,7 @@ def _load_lemmas_with_details(
     query = f'''
           {cte}
         SELECT DISTINCT f.rowid, f.form, f.id, f.script,
-               lex.id || ":" || lex.version,
+               lex.specifier,
                p.value, p.variety, p.notation, p.phonemic, p.audio,
                t.tag, t.category
           FROM forms AS f
@@ -393,8 +392,7 @@ def find_lemmas(
         # Fast path: don't load pronunciations and tags
         query = f'''
               {cte}
-            SELECT f.form, f.id, f.script,
-                   lex.id || ":" || lex.version
+            SELECT f.form, f.id, f.script, lex.specifier
               FROM forms AS f
               JOIN entries AS e ON e.rowid = f.entry_rowid
               JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
@@ -422,25 +420,20 @@ def find_senses(
     cte = ''
     params: list = []
     conditions = []
+    order = 's.rowid'
     if id:
         conditions.append('s.id = ?')
         params.append(id)
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
-        conditions.append(f'''
-            s.entry_rowid IN
-               (SELECT entry_rowid
-                  FROM forms
-                 WHERE (form IN wordforms {or_norm}) {and_rank})
-        '''.strip())
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        conditions.append(f's.entry_rowid IN {subquery}')
         params.extend(forms)
+        order = 's.lexicon_rowid, e.pos, s.entry_rank'
     if pos:
         conditions.append('e.pos = ?')
         params.append(pos)
     if lexicons:
-        conditions.append(f'slex.id || ":" || slex.version IN ({_qs(lexicons)})')
+        conditions.append(f'slex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
 
     condition = ''
@@ -449,13 +442,13 @@ def find_senses(
 
     query = f'''
           {cte}
-        SELECT DISTINCT s.id, e.id, ss.id, slex.id || ":" || slex.version
+        SELECT DISTINCT s.id, e.id, ss.id, slex.specifier
           FROM senses AS s
           JOIN entries AS e ON e.rowid = s.entry_rowid
           JOIN synsets AS ss ON ss.rowid = s.synset_rowid
           JOIN lexicons AS slex ON slex.rowid = s.lexicon_rowid
          {condition}
-         ORDER BY s.rowid ASC
+         ORDER BY {order} ASC
     '''
 
     rows: Iterator[_Sense] = conn.execute(query, params)
@@ -475,24 +468,22 @@ def find_synsets(
     cte = ''
     join = ''
     conditions = []
-    order = ''
+    order = 'ss.rowid'
     params: list = []
     if id:
         conditions.append('ss.id = ?')
         params.append(id)
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
         join = f'''\
           JOIN (SELECT _s.entry_rowid, _s.synset_rowid, _s.entry_rank
-                  FROM forms AS f
-                  JOIN senses AS _s ON _s.entry_rowid = f.entry_rowid
-                 WHERE (f.form IN wordforms {or_norm}) {and_rank}) AS s
+                  FROM senses AS _s
+                 WHERE _s.entry_rowid IN {subquery}
+               ) AS s
             ON s.synset_rowid = ss.rowid
         '''.strip()
         params.extend(forms)
-        order = 'ORDER BY s.entry_rowid, s.entry_rank'
+        order = 'ss.lexicon_rowid, ss.pos, s.entry_rank'
     if pos:
         conditions.append('ss.pos = ?')
         params.append(pos)
@@ -502,26 +493,23 @@ def find_synsets(
         )
         params.append(ili)
     if lexicons:
-        conditions.append(f'sslex.id || ":" || sslex.version IN ({_qs(lexicons)})')
+        conditions.append(f'sslex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
 
     condition = ''
     if conditions:
         condition = 'WHERE ' + '\n           AND '.join(conditions)
 
-    if not order:
-        order = 'ORDER BY ss.rowid ASC'
-
     query = f'''
           {cte}
         SELECT DISTINCT ss.id, ss.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid=ss.ili_rowid),
-                        sslex.id || ":" || sslex.version
+                        sslex.specifier
           FROM synsets AS ss
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
           {join}
          {condition}
-         {order}
+         ORDER BY {order} ASC
     '''
 
     rows: Iterator[_Synset] = conn.execute(query, params)
@@ -530,12 +518,12 @@ def find_synsets(
 
 def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[_Form]:
     form_query = f'''
-        SELECT f.rowid, f.form, f.id, f.script, lex.id || ":" || lex.version
+        SELECT f.rowid, f.form, f.id, f.script, lex.specifier
           FROM forms AS f
           JOIN entries AS e ON e.rowid = entry_rowid
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          WHERE e.id = ?
-           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
+           AND lex.specifier IN ({_qs(lexicons)})
          ORDER BY f.rank
     '''
     pron_query = '''
@@ -559,13 +547,12 @@ def get_synsets_for_ilis(
 ) -> Iterator[_Synset]:
     conn = connect()
     query = f'''
-        SELECT DISTINCT ss.id, ss.pos, ili.id,
-                        sslex.id || ":" || sslex.version
+        SELECT DISTINCT ss.id, ss.pos, ili.id, sslex.specifier
           FROM synsets as ss
           JOIN ilis as ili ON ss.ili_rowid = ili.rowid
           JOIN lexicons AS sslex ON sslex.rowid = ss.lexicon_rowid
          WHERE ili.id IN ({_qs(ilis)})
-           AND sslex.id || ":" || sslex.version IN ({_qs(lexicons)})
+           AND sslex.specifier IN ({_qs(lexicons)})
     '''
     params = *ilis, *lexicons
     result_rows: Iterator[_Synset] = conn.execute(query, params)
@@ -593,22 +580,21 @@ def get_synset_relations(
             (SELECT rowid FROM relation_types {constraint}),
           lexrowids(rowid) AS
             (SELECT rowid FROM lexicons
-              WHERE id || ":" || version IN ({_vs(lexicons)})),
+              WHERE specifier IN ({_vs(lexicons)})),
           srcsynset(rowid) AS
             (SELECT ss.rowid
                FROM synsets AS ss
                JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
               WHERE ss.id = ?
-                AND lex.id || ":" || lex.version = ?),
+                AND lex.specifier = ?),
           matchingrels(rowid) AS
             (SELECT srel.rowid
                FROM synset_relations AS srel
               WHERE srel.source_rowid IN srcsynset
                 AND srel.lexicon_rowid IN lexrowids
                 AND srel.type_rowid IN reltypes)
-        SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
-                        src.id, tgt.id, tgt.pos, tgtili.id,
-                        tgtlex.id || ":" || tgtlex.version
+        SELECT DISTINCT rt.type, lex.specifier, srel.metadata,
+                        src.id, tgt.id, tgt.pos, tgtili.id, tgtlex.specifier
           FROM matchingrels AS mr
           JOIN synset_relations AS srel ON srel.rowid=mr.rowid
           JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
@@ -641,7 +627,7 @@ def get_expanded_synset_relations(
           reltypes(rowid) AS
             (SELECT rowid FROM relation_types {constraint}),
           lexrowids(rowid) AS
-            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(expands)})),
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(expands)})),
           srcsynset(rowid) AS
             (SELECT ss.rowid
                FROM synsets AS ss
@@ -654,9 +640,8 @@ def get_expanded_synset_relations(
               WHERE srel.source_rowid IN srcsynset
                 AND srel.lexicon_rowid IN lexrowids
                 AND srel.type_rowid IN reltypes)
-        SELECT DISTINCT rt.type, lex.id || ":" || lex.version, srel.metadata,
-                        src.id, tgt.id, tgt.pos, tgtili.id,
-                        tgtlex.id || ":" || tgtlex.version
+        SELECT DISTINCT rt.type, lex.specifier, srel.metadata,
+                        src.id, tgt.id, tgt.pos, tgtili.id, tgtlex.specifier
           FROM matchingrels AS mr
           JOIN synset_relations AS srel ON srel.rowid=mr.rowid
           JOIN relation_types AS rt ON rt.rowid=srel.type_rowid
@@ -678,13 +663,13 @@ def get_definitions(
         SELECT d.definition,
                d.language,
                (SELECT s.id FROM senses AS s WHERE s.rowid=d.sense_rowid),
-               lex.id || ":" || lex.version,
+               lex.specifier,
                d.metadata
           FROM definitions AS d
           JOIN synsets AS ss ON ss.rowid = d.synset_rowid
           JOIN lexicons AS lex ON lex.rowid = d.lexicon_rowid
          WHERE ss.id = ?
-           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
+           AND lex.specifier IN ({_qs(lexicons)})
     '''
     return conn.execute(query, (synset_id, *lexicons)).fetchall()
 
@@ -705,12 +690,12 @@ def get_examples(
     if prefix is None:
         raise wn.Error(f"'{table}' does not have examples")
     query = f'''
-        SELECT ex.example, ex.language, lex.id || ":" || lex.version, ex.metadata
+        SELECT ex.example, ex.language, lex.specifier, ex.metadata
           FROM {prefix}_examples AS ex
           JOIN {table} AS tbl ON tbl.rowid = ex.{prefix}_rowid
           JOIN lexicons AS lex ON lex.rowid = ex.lexicon_rowid
          WHERE tbl.id = ?
-           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
+           AND lex.specifier IN ({_qs(lexicons)})
     '''
     return conn.execute(query, (id, *lexicons)).fetchall()
 
@@ -735,7 +720,7 @@ def find_syntactic_behaviours(
         conditions.append('sb.id = ?')
         params.append(id)
     if lexicons:
-        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        conditions.append(f'lex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
     if conditions:
         query += '\n WHERE ' + '\n   AND '.join(conditions)
@@ -759,7 +744,7 @@ def get_syntactic_behaviours(
           JOIN senses AS s ON s.rowid = sbs.sense_rowid
           JOIN lexicons AS lex ON lex.rowid = sb.lexicon_rowid
          WHERE s.id = ?
-           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
+           AND lex.specifier IN ({_qs(lexicons)})
     '''
     return [row[0] for row in conn.execute(query, (sense_id, *lexicons))]
 
@@ -768,6 +753,7 @@ def _get_senses(
     id: str,
     sourcetype: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     conn = connect()
     if sourcetype == 'entry':
@@ -776,8 +762,9 @@ def _get_senses(
         sourcealias = 'ss'
     else:
         raise wn.Error(f'invalid sense source type: {sourcetype}')
+    order_col = f"{sourcetype}_rank" if order_by_rank else "rowid"
     query = f'''
-        SELECT s.id, e.id, ss.id, slex.id || ":" || slex.version
+        SELECT s.id, e.id, ss.id, slex.specifier
           FROM senses AS s
           JOIN entries AS e
             ON e.rowid = s.entry_rowid
@@ -786,8 +773,8 @@ def _get_senses(
           JOIN lexicons AS slex
             ON slex.rowid = s.lexicon_rowid
          WHERE {sourcealias}.id = ?
-           AND slex.id || ":" || slex.version IN ({_qs(lexicons)})
-         ORDER BY s.{sourcetype}_rank
+           AND slex.specifier IN ({_qs(lexicons)})
+         ORDER BY s.{order_col}
     '''
     return conn.execute(query, (id, *lexicons))
 
@@ -795,15 +782,17 @@ def _get_senses(
 def get_entry_senses(
     sense_id: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
-    yield from _get_senses(sense_id, 'entry', lexicons)
+    yield from _get_senses(sense_id, 'entry', lexicons, order_by_rank)
 
 
 def get_synset_members(
     synset_id: str,
     lexicons: Sequence[str],
+    order_by_rank: bool = True
 ) -> Iterator[_Sense]:
-    yield from _get_senses(synset_id, 'synset', lexicons)
+    yield from _get_senses(synset_id, 'synset', lexicons, order_by_rank)
 
 
 def get_sense_relations(
@@ -823,12 +812,11 @@ def get_sense_relations(
           rt(rowid, type) AS
             (SELECT rowid, type FROM relation_types {constraint}),
           lexrowids(rowid) AS
-            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(lexicons)}))
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
-                        s.id, e.id, ss.id,
-                        slex.id || ":" || slex.version
+                        s.id, e.id, ss.id, slex.specifier
           FROM (SELECT rt.type,
-                       lex.id || ":" || lex.version AS lexicon,
+                       lex.specifier AS lexicon,
                        srel.metadata AS metadata,
                        target_rowid
                   FROM sense_relations AS srel
@@ -869,13 +857,13 @@ def get_sense_synset_relations(
           rt(rowid, type) AS
             (SELECT rowid, type FROM relation_types {constraint}),
           lexrowids(rowid) AS
-            (SELECT rowid FROM lexicons WHERE id || ":" || version IN ({_vs(lexicons)}))
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
-                        tgtlex.id || ":" || tgtlex.version
+                        tgtlex.specifier
           FROM (SELECT rt.type,
-                       lex.id || ":" || lex.version AS lexicon,
+                       lex.specifier AS lexicon,
                        srel.metadata AS metadata,
                        source_rowid,
                        target_rowid
@@ -924,14 +912,20 @@ def get_metadata(
           FROM {tablename} AS tbl
           JOIN lexicons AS lex ON lex.rowid = lexicon_rowid
          WHERE tbl.id=?
-           AND lex.id || ":" || lex.version = ?
+           AND lex.specifier = ?
     '''
-    return connect().execute(query, (id, lexicon)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (id, lexicon)).fetchone()[0] or {},
+    )  # TODO: benchmark using a TypeGuard
 
 
 def get_ili_metadata(id: str) -> Metadata:
     query = 'SELECT metadata FROM ilis WHERE id = ?'
-    return connect().execute(query, (id,)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (id,)).fetchone()[0] or {},
+    )
 
 
 def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
@@ -941,32 +935,37 @@ def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
           JOIN synsets AS ss ON ss.rowid = synset_rowid
           JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
          WHERE ss.id = ?
-           AND lex.id || ":" || lex.version = ?
+           AND lex.specifier = ?
     '''
-    return connect().execute(query, (synset, lexicon)).fetchone()[0] or {}
+    return cast(
+        Metadata,
+        connect().execute(query, (synset, lexicon)).fetchone()[0] or {},
+    )
 
 
 _SANITIZED_LEXICALIZED_TABLES = {
-    'senses': 'senses',
-    'synsets': 'synsets',
+    'senses': ('senses', 'sense_rowid'),
+    'synsets': ('synsets', 'synset_rowid'),
 }
 
 
 def get_lexicalized(id: str, lexicon: str, table: str) -> bool:
     conn = connect()
-    tablename = _SANITIZED_LEXICALIZED_TABLES.get(table)
-    if tablename is None:
+    if table not in _SANITIZED_LEXICALIZED_TABLES:
         raise wn.Error(f"'{table}' does not mark lexicalization")
+    tablename, column = _SANITIZED_LEXICALIZED_TABLES[table]
     if not id or not lexicon:
         return False
     query = f'''
-        SELECT tbl.lexicalized
-          FROM {tablename} AS tbl
-          JOIN lexicons AS lex ON lex.rowid = tbl.lexicon_rowid
-         WHERE tbl.id = ?
-           AND lex.id || ":" || lex.version = ?
+        SELECT NOT EXISTS
+               (SELECT {column}
+                  FROM unlexicalized_{tablename} AS un
+                  JOIN {tablename} AS tbl ON tbl.rowid = un.{column}
+                  JOIN lexicons AS lex ON lex.rowid = tbl.lexicon_rowid
+                 WHERE tbl.id = ?
+                   AND lex.specifier = ?)
     '''
-    return conn.execute(query, (id, lexicon)).fetchone()[0]
+    return bool(conn.execute(query, (id, lexicon)).fetchone()[0])
 
 
 def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
@@ -977,7 +976,7 @@ def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
           JOIN senses AS s ON s.rowid = sense_rowid
           JOIN lexicons AS lex ON lex.rowid = s.lexicon_rowid
          WHERE s.id = ?
-           AND lex.id || ":" || lex.version = ?
+           AND lex.specifier = ?
     '''
     row = conn.execute(query, (sense_id, lexicon)).fetchone()
     if row:
@@ -988,12 +987,12 @@ def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
 def get_sense_counts(sense_id: str, lexicons: Sequence[str]) -> list[_Count]:
     conn = connect()
     query = f'''
-        SELECT c.count, lex.id || ":" || lex.version, c.metadata
+        SELECT c.count, lex.specifier, c.metadata
           FROM counts AS c
           JOIN senses AS s ON s.rowid = c.sense_rowid
           JOIN lexicons AS lex ON lex.rowid = c.lexicon_rowid
          WHERE s.id = ?
-           AND lex.id || ":" || lex.version IN ({_qs(lexicons)})
+           AND lex.specifier IN ({_qs(lexicons)})
     '''
     rows: list[_Count] = conn.execute(
         query, (sense_id, *lexicons)
@@ -1007,9 +1006,9 @@ def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
         SELECT lf.name
           FROM lexfiles AS lf
           JOIN synsets AS ss ON ss.lexfile_rowid = lf.rowid
-          JOIN lexicons AS lex on lex.rowid = ss.lexicon_rowid
+          JOIN lexicons AS lex ON lex.rowid = ss.lexicon_rowid
          WHERE ss.id = ?
-           AND lex.id || ":" || lex.version = ?
+           AND lex.specifier = ?
     '''
     row = conn.execute(query, (synset_id, lexicon)).fetchone()
     if row is not None and row[0] is not None:
@@ -1017,9 +1016,69 @@ def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
     return None
 
 
+def get_entry_index(entry_id: str, lexicon: str) -> Optional[str]:
+    conn = connect()
+    query = '''
+        SELECT idx.lemma
+          FROM entries AS e
+          JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
+          JOIN entry_index AS idx ON idx.entry_rowid = e.rowid
+         WHERE e.id = ?
+           AND lex.specifier = ?
+    '''
+    row = conn.execute(query, (entry_id, lexicon)).fetchone()
+    if row is not None:
+        return row[0]
+    return None
+
+
+def get_sense_n(sense_id: str, lexicon: str) -> Optional[int]:
+    conn = connect()
+    query = '''
+        SELECT s.entry_rank
+          FROM senses AS s
+          JOIN lexicons AS lex ON lex.rowid = s.lexicon_rowid
+         WHERE s.id = ?
+           AND lex.specifier = ?
+    '''
+    row = conn.execute(query, (sense_id, lexicon)).fetchone()
+    if row is not None:
+        return row[0]
+    return None
+
+
 def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
 def _vs(xs: Collection) -> str: return ','.join(['(?)'] * len(xs))
 def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)
+
+
+def _query_forms(
+    forms: Sequence[str],
+    normalized: bool,
+    search_all_forms: bool,
+    indexed: bool = True,
+) -> tuple[str, str]:
+    or_norm = 'OR f.normalized_form IN wordforms' if normalized else ''
+    and_rank = '' if search_all_forms else 'AND f.rank = 0'
+    cte = f'''
+      WITH
+        wordforms(s) AS (VALUES {_vs(forms)}),
+        matched_entries(rowid) AS
+          (SELECT f.entry_rowid
+             FROM forms AS f
+            WHERE (f.form IN wordforms {or_norm}) {and_rank})
+    '''
+    subquery = 'matched_entries'
+    if indexed:
+        subquery = '''\
+          (SELECT rowid
+             FROM matched_entries
+            UNION SELECT idx.entry_rowid
+                    FROM matched_entries AS _me
+                    JOIN entry_index AS _idx ON _idx.entry_rowid = _me.rowid
+                    JOIN entry_index AS idx ON idx.lemma = _idx.lemma)
+        '''
+    return cte, subquery
 
 
 def _build_entry_conditions(
@@ -1035,25 +1094,19 @@ def _build_entry_conditions(
         tuple of (cte, conditions, params)
     """
     cte = ''
+    subquery = ''
     params: list = []
     conditions = []
 
     if forms:
-        cte = f'WITH wordforms(s) AS (VALUES {_vs(forms)})'
-        or_norm = 'OR normalized_form IN wordforms' if normalized else ''
-        and_rank = '' if search_all_forms else 'AND rank = 0'
-        conditions.append(f'''
-            e.rowid IN
-               (SELECT entry_rowid
-                  FROM forms
-                 WHERE (form IN wordforms {or_norm}) {and_rank})
-        '''.strip())
+        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        conditions.append(f'e.rowid IN {subquery}')
         params.extend(forms)
     if pos:
         conditions.append('e.pos = ?')
         params.append(pos)
     if lexicons:
-        conditions.append(f'lex.id || ":" || lex.version IN ({_qs(lexicons)})')
+        conditions.append(f'lex.specifier IN ({_qs(lexicons)})')
         params.extend(lexicons)
 
     return cte, conditions, params

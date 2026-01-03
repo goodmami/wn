@@ -1,5 +1,4 @@
 import tempfile
-import warnings
 from pathlib import Path
 
 import pytest
@@ -86,8 +85,11 @@ def test_wordnet_lemmatize():
 
 
 def test_portable_entities_issue_226(monkeypatch, datadir):
-    # instead use ignore_cleanup_errors=True from Python 3.10
-    tempdir = tempfile.TemporaryDirectory('wn_issue_226')
+    tempdir = tempfile.TemporaryDirectory(
+        'wn_issue_226',
+        ignore_cleanup_errors=True,
+        delete=True,
+    )
     with tempdir as dir:
         with monkeypatch.context() as m:
             m.setattr(wn.config, 'data_directory', Path(dir))
@@ -99,11 +101,3 @@ def test_portable_entities_issue_226(monkeypatch, datadir):
             info2 = en.synsets('information')[0]  # en Wordnet object still works
             assert info1 == info2  # synsets are equivalent
             wn._db.clear_connections()
-    # Not needed if ignore_cleanup_errors=True and delete=True above
-    try:
-        tempdir.cleanup()
-    except PermissionError:
-        warnings.warn(
-            f"Failed to clean up temporary directory {dir!s}",
-            stacklevel=1,
-        )
