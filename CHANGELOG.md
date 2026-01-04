@@ -2,10 +2,45 @@
 
 ## [Unreleased][unreleased]
 
+### Schema
+
+* Add `specifier` column to `lexicon` table ([#234])
+* Remove `lexicalized` column from `synsets` and `senses` ([#248])
+* Add `unlexicalized_synsets` and `unlexicalized_senses` tables ([#248])
+
 ### Added
 
 * `wn.lemmas()` function and `Wordnet.lemmas()` method to query all
   lemmas at once.
+* Support for WN-LMF 1.4 ([#260])
+  - Sense ordering: `index` on `<LexicalEntry>` and `n` on `<Sense>`
+  - New sense relations:
+    - `metaphor`
+    - `has_metaphor`
+    - `metonym`
+    - `has_metonym`
+    - `agent`
+    - `material`
+    - `event`
+    - `instrument`
+    - `location`
+    - `by_means_of`
+    - `undergoer`
+    - `property`
+    - `result`
+    - `state`
+    - `uses`
+    - `destination`
+    - `body_part`
+    - `vehicle`
+
+### Changed
+
+* Default form normalizer uses casefold instead of lower ([#233])
+
+### Documentation
+
+* Correct docstring for `wn.taxonomy.taxonomy_depth()` ([#291])
 
 
 ## [v0.14.0]
@@ -49,6 +84,7 @@
 
 ### Added
 
+* Support for WN-LMF 1.4 ([#260])
 * `wn.compat` namespace (see [#55])
 * `wn.compat.sensekey` module ([#55]) with methods:
   - `sense_key_getter()`
@@ -67,6 +103,7 @@
   calculations ([#255])
 * `wn.add()` no longer requires `partOfSpeech` on synsets; this was
   not a requirement of WN-LMF nor was it enforced in the database
+* `wn.export()` defaults to `version="1.4"` instead of `"1.0"`
 
 
 ## [v0.12.0]
@@ -716,6 +753,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v0.14.0]: ../../releases/tag/v0.14.0
 [v0.13.0]: ../../releases/tag/v0.13.0
 [v0.12.0]: ../../releases/tag/v0.12.0
 [v0.11.0]: ../../releases/tag/v0.11.0
@@ -835,10 +873,13 @@ abandoned, but this is an entirely new codebase.
 [#221]: https://github.com/goodmami/wn/issues/221
 [#226]: https://github.com/goodmami/wn/issues/226
 [#228]: https://github.com/goodmami/wn/issues/228
+[#233]: https://github.com/goodmami/wn/issues/233
+[#234]: https://github.com/goodmami/wn/issues/234
 [#235]: https://github.com/goodmami/wn/issues/235
 [#238]: https://github.com/goodmami/wn/issues/238
 [#241]: https://github.com/goodmami/wn/issues/241
 [#246]: https://github.com/goodmami/wn/issues/246
+[#248]: https://github.com/goodmami/wn/issues/248
 [#250]: https://github.com/goodmami/wn/issues/250
 [#255]: https://github.com/goodmami/wn/issues/255
 [#260]: https://github.com/goodmami/wn/issues/260
@@ -848,3 +889,4 @@ abandoned, but this is an entirely new codebase.
 [#277]: https://github.com/goodmami/wn/issues/277
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286
+[#291]: https://github.com/goodmami/wn/issues/291

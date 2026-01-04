@@ -362,3 +362,38 @@ def test_mini_1_1_lexicons():
     assert "test-en:1" in lex.requires()
     assert lex.extends() is None
     assert len(lex.extensions()) == 0
+
+
+@pytest.mark.usefixtures('mini_db_1_4')
+def test_mini_1_4():
+    w = wn.Wordnet('test-1.4:1', normalizer=None)
+    # even without a normalizer, entries sharing an index are matched
+    assert len(w.words('Foo Bar')) == 2
+    assert len(w.words('foo bar')) == 2
+    # if the index is missing, the lemma is used; normalization doesn't happen
+    assert len(w.words('baz')) == 3
+    assert len(w.words('Baz')) == 1
+    # sense order follows values of 'n'
+    assert [s.id for s in w.senses('foo bar')] == [
+        'test-1.4-foo_bar-n-2',
+        'test-1.4-foo_bar-n-1',
+        'test-1.4-Foo_Bar-n-1',
+    ]
+    assert [s.id for s in w.senses('baz')] == [
+        'test-1.4-baz-n-1',
+        'test-1.4-BAZ-n-1',
+        'test-1.4-baz-v-1',
+    ]
+    assert [s.id for s in w.senses('baz', pos="v")] == [
+        'test-1.4-baz-v-1',
+    ]
+    # order is undecided when implicit or explicit valus of n are overlapping
+    assert {s.id for s in w.senses('Baz')} == {
+        'test-1.4-Baz-n-1',
+        'test-1.4-Baz-n-2',
+    }
+    # synset order also follows index
+    assert [ss.id for ss in w.synsets('foo bar')] == [
+        'test-1.4-2',
+        'test-1.4-1',
+    ]

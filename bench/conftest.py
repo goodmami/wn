@@ -1,4 +1,3 @@
-import tempfile
 from collections.abc import Iterator
 from itertools import product, cycle
 from pathlib import Path
@@ -35,12 +34,12 @@ def datadir():
 
 
 @pytest.fixture
-def empty_db(clean_db):
-    with tempfile.TemporaryDirectory('wn_data_empty') as dir:
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr(wn.config, 'data_directory', dir)
-            clean_db()
-            yield
+def empty_db(clean_db, tmp_path):
+    dir = tmp_path / 'wn_data_empty'
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(wn.config, 'data_directory', dir)
+        clean_db()
+        yield
 
 
 @pytest.fixture(scope="session")
@@ -66,14 +65,14 @@ def mock_lmf():
 
 
 @pytest.fixture(scope="session")
-def mock_db_dir(mock_lmf):
-    with tempfile.TemporaryDirectory("wn_data_empty") as dir:
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr(wn.config, 'data_directory', dir)
-            wn.add_lexical_resource(mock_lmf, progress_handler=None)
-            wn._db.clear_connections()
+def mock_db_dir(mock_lmf, tmp_path_factory):
+    dir = tmp_path_factory.mktemp("wn_data_empty")
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(wn.config, 'data_directory', dir)
+        wn.add_lexical_resource(mock_lmf, progress_handler=None)
+        wn._db.clear_connections()
 
-        yield Path(dir)
+    yield Path(dir)
 
 
 @pytest.fixture
