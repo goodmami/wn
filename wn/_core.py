@@ -1,33 +1,19 @@
 from __future__ import annotations
 
 import enum
-import textwrap
-import warnings
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, Optional, Protocol, TypeVar, Union, overload
+from typing import Literal, Optional, TypeVar, Union, overload
 
-import wn
-from wn._types import (
-    Metadata,
-    NormalizeFunction,
-    LemmatizeFunction,
+from wn._lexicon import (
+    LexiconConfiguration,
+    LexiconElement,
+    LexiconElementWithMetadata,
 )
-from wn._util import (
-    normalize_form,
-    unique_list,
-)
+from wn._metadata import Metadata
 from wn._queries import (
-    find_ilis,
-    find_existing_ilis,
-    find_proposed_ilis,
     find_entries,
-    find_lemmas,
-    find_senses,
     find_synsets,
-    get_lexicon,
-    get_modified,
-    get_lexicon_dependencies,
     get_lexicon_extension_bases,
     get_lexicon_extensions,
     get_entry_forms,
@@ -42,14 +28,13 @@ from wn._queries import (
     get_definitions,
     get_syntactic_behaviours,
     get_metadata,
-    get_ili_metadata,
-    get_proposed_ili_metadata,
     get_lexicalized,
     get_adjposition,
     get_sense_counts,
     get_lexfile,
     resolve_lexicon_specifiers,
 )
+from wn._util import unique_list
 from wn import taxonomy
 
 _INFERRED_SYNSET = '*INFERRED*'
@@ -67,263 +52,14 @@ class _EntityType(str, enum.Enum):
     UNSET = ''
 
 
-class _HasMetadata(Protocol):
-    def metadata(self) -> Metadata:
-        """Return the example's metadata."""
-        # Often the class with have _metadata, but if not it will do a
-        # DB lookup. Ignore the type error for now in anticipation of
-        # bigger changes in v1.0.
-        return self._metadata if self._metadata is not None else {}  # type: ignore
-
-    def confidence(self) -> float: ...
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class ILI(_HasMetadata):
-    """A class for interlingual indices."""
-    __module__ = 'wn'
-    __slots__ = '_id', 'status', '_definition'
-
-    _id: Optional[str]
-    status: str
-    _definition: Optional[str]
-
-    def __eq__(self, other) -> bool:
-        raise NotImplementedError
-
-    def __hash__(self) -> int:
-        raise NotImplementedError
-
-    @property
-    def id(self) -> Optional[str]:
-        return self._id
-
-    def definition(self) -> Optional[str]:
-        return self._definition
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        raise NotImplementedError
-
-    def confidence(self) -> float:
-        """Return the confidence score of the ILI."""
-        raise NotImplementedError
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class _ExistingILI(ILI):
-    """A class for interlingual indices."""
-    __module__ = 'wn'
-
-    _id: str
-    status: str
-    _definition: Optional[str]
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, _ExistingILI):
-            return self._id == other._id
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash(self._id)
-
-    def __repr__(self) -> str:
-        return f'ILI({repr(self._id)})'
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        return get_ili_metadata(self._id)
-
-    def confidence(self) -> float:
-        return float(self.metadata().get('confidenceScore', 1.0))
-
-
-@dataclass(frozen=True)  # slots=True from Python 3.10
-class _ProposedILI(ILI):
-    __module__ = 'wn'
-    __slots__ = '_synset', '_lexicon'
-
-    _id: None
-    status: str
-    _definition: Optional[str]
-    _synset: str
-    _lexicon: str
-
-    def __eq__(self, other) -> bool:
-        if isinstance(other, _ProposedILI):
-            return (
-                self._synset == other._synset
-                and self._lexicon == other._lexicon
-            )
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self._synset, self._lexicon))
-
-    def lexicon(self) -> Lexicon:
-        return _to_lexicon(self._lexicon)
-
-    def metadata(self) -> Metadata:
-        """Return the ILI's metadata."""
-        return get_proposed_ili_metadata(self._synset, self._lexicon)
-
-    def confidence(self) -> float:
-        return float(
-            self.metadata().get('confidenceScore', self.lexicon().confidence())
-        )
-
-
-@dataclass(eq=True, frozen=True)  # slots=True from Python 3.10
-class Lexicon(_HasMetadata):
-    """A class representing a wordnet lexicon."""
-    __module__ = 'wn'
-
-    _specifier: str
-    id: str
-    label: str
-    language: str
-    email: str
-    license: str
-    version: str
-    url: Optional[str] = None
-    citation: Optional[str] = None
-    logo: Optional[str] = None
-    _metadata: Optional[Metadata] = field(default=None, hash=False)
-
-    def __repr__(self):
-        return f'<Lexicon {self._specifier} [{self.language}]>'
-
-    def specifier(self) -> str:
-        """Return the *id:version* lexicon specifier."""
-        return self._specifier
-
-    def confidence(self) -> float:
-        """Return the confidence score of the lexicon.
-
-        If the lexicon does not specify a confidence score, it defaults to 1.0.
-        """
-        return float(self.metadata().get("confidenceScore", 1.0))
-
-    def modified(self) -> bool:
-        """Return True if the lexicon has local modifications."""
-        return get_modified(self._specifier)
-
-    def requires(self) -> dict[str, Optional['Lexicon']]:
-        """Return the lexicon dependencies."""
-        return dict(
-            (spec,
-             None if added is None else _to_lexicon(spec))
-            for spec, _, added in get_lexicon_dependencies(self._specifier)
-        )
-
-    def extends(self) -> Optional['Lexicon']:
-        """Return the lexicon this lexicon extends, if any.
-
-        If this lexicon is not an extension, return None.
-        """
-        bases = get_lexicon_extension_bases(self._specifier, depth=1)
-        if bases:
-            return _to_lexicon(bases[0])
-        return None
-
-    def extensions(self, depth: int = 1) -> list['Lexicon']:
-        """Return the list of lexicons extending this one.
-
-        By default, only direct extensions are included. This is
-        controlled by the *depth* parameter, which if you view
-        extensions as children in a tree where the current lexicon is
-        the root, *depth=1* are the immediate extensions. Increasing
-        this number gets extensions of extensions, or setting it to a
-        negative number gets all "descendant" extensions.
-
-        """
-        return [
-            _to_lexicon(spec)
-            for spec in get_lexicon_extensions(self._specifier, depth=depth)
-        ]
-
-    def describe(self, full: bool = True) -> str:
-        """Return a formatted string describing the lexicon.
-
-        The *full* argument (default: :python:`True`) may be set to
-        :python:`False` to omit word and sense counts.
-
-        Also see: :meth:`Wordnet.describe`
-
-        """
-        lexspecs = (self.specifier(),)
-        substrings: list[str] = [
-            f'{self._specifier}',
-            f'  Label  : {self.label}',
-            f'  URL    : {self.url}',
-            f'  License: {self.license}',
-        ]
-        if full:
-            substrings.extend([
-                f'  Words  : {_desc_counts(find_entries, lexspecs)}',
-                f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
-            ])
-        substrings.extend([
-            f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
-            f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
-        ])
-        return '\n'.join(substrings)
-
-
-def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
-    count: dict[str, int] = {}
-    for _, pos, *_ in query(lexicons=lexspecs):
-        if pos not in count:
-            count[pos] = 1
-        else:
-            count[pos] += 1
-    subcounts = ', '.join(f'{pos}: {count[pos]}' for pos in sorted(count))
-    return f'{sum(count.values()):>6} ({subcounts})'
-
-
-class _LexiconElement(Protocol):
-    """Protocol for elements defined within a lexicon."""
-
-    _lexicon: str  # source lexicon specifier
-
-    def lexicon(self) -> Lexicon:
-        """Return the lexicon containing the element."""
-        return _to_lexicon(self._lexicon)
-
-
-class _LexiconElementWithMetadata(_LexiconElement, _HasMetadata, Protocol):
-    """Protocol for lexicon elements with metadata."""
-
-    def confidence(self) -> float:
-        """Return the confidence score of the element.
-
-        If the element does not have an explicit confidence score, the
-        value defaults to that of the lexicon containing the element.
-        """
-        c = self.metadata().get("confidenceScore")
-        if c is None:
-            c = self.lexicon().confidence()
-        return float(c)
-
-
-@dataclass
-class _LexiconConfiguration:
-    # slots=True from Python 3.10
-    __slots__ = "lexicons", "expands", "default_mode"
-    lexicons: tuple[str, ...]
-    expands: tuple[str, ...]
-    default_mode: bool
-
-
-_EMPTY_LEXCONFIG = _LexiconConfiguration(
+_EMPTY_LEXCONFIG = LexiconConfiguration(
     lexicons=(),
     expands=(),
     default_mode=False,
 )
 
 
-# @dataclass(frozen=True)
-class _LexiconDataElement(_LexiconElementWithMetadata):
+class _LexiconDataElement(LexiconElementWithMetadata):
     """Base class for Words, Senses, and Synsets.
 
     These elements always have a required ID and are used as the
@@ -334,13 +70,13 @@ class _LexiconDataElement(_LexiconElementWithMetadata):
     __slots__ = 'id', '_lexconf'
 
     id: str
-    _lexconf: _LexiconConfiguration
+    _lexconf: LexiconConfiguration
 
     def __init__(
         self,
         id: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ) -> None:
         self.id = id
         self._lexicon = _lexicon
@@ -392,7 +128,7 @@ class Tag:
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Form(_LexiconElement):
+class Form(LexiconElement):
     """A word-form."""
     __module__ = 'wn'
 
@@ -446,7 +182,7 @@ class Word(_LexiconDataElement):
         id: str,
         pos: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
@@ -584,7 +320,7 @@ class Word(_LexiconDataElement):
         return result
 
 
-class Relation(_LexiconElementWithMetadata):
+class Relation(LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
     __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
@@ -690,7 +426,7 @@ class _Relatable(_LexiconDataElement):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Example(_LexiconElementWithMetadata):
+class Example(LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
     __module__ = 'wn'
 
@@ -705,7 +441,7 @@ class Example(_LexiconElementWithMetadata):
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Definition(_LexiconElementWithMetadata):
+class Definition(LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
     __module__ = 'wn'
 
@@ -728,6 +464,7 @@ class Synset(_Relatable):
     _ENTITY_TYPE = _EntityType.SYNSETS
 
     pos: str
+    _ili: Optional[str]
 
     def __init__(
         self,
@@ -735,7 +472,7 @@ class Synset(_Relatable):
         pos: str,
         ili: Optional[str] = None,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
@@ -747,7 +484,7 @@ class Synset(_Relatable):
         id: str,
         ili: Optional[str] = None,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
@@ -768,12 +505,8 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     @property
-    def ili(self) -> Optional[ILI]:
-        if self._ili and (e_ili := next(find_existing_ilis(id=self._ili), None)):
-            return _ExistingILI(*e_ili)
-        elif p_ili := next(find_proposed_ilis(synset_id=self.id), None):
-            return _ProposedILI(*p_ili)
-        return None
+    def ili(self) -> Optional[str]:
+        return self._ili
 
     @overload
     def definition(self, *, data: Literal[False] = False) -> Optional[str]: ...
@@ -1157,7 +890,7 @@ class Synset(_Relatable):
 
     def translate(
         self,
-        lexicon: Optional[str] = None,
+        lexicon: str | None = None,
         *,
         lang: Optional[str] = None
     ) -> list['Synset']:
@@ -1178,11 +911,15 @@ class Synset(_Relatable):
         ili = self._ili
         if not ili:
             return []
-        return Wordnet(lexicon=lexicon, lang=lang).synsets(ili=ili)
+        lexicons = resolve_lexicon_specifiers(lexicon=(lexicon or '*'), lang=lang)
+        return [
+            Synset(*data, _lexconf=self._lexconf)
+            for data in get_synsets_for_ilis((ili,), lexicons)
+        ]
 
 
 @dataclass(frozen=True)  # slots=True from Python 3.10
-class Count(_LexiconElementWithMetadata):
+class Count(LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
@@ -1204,7 +941,7 @@ class Sense(_Relatable):
         entry_id: str,
         synset_id: str,
         _lexicon: str = '',
-        _lexconf: _LexiconConfiguration = _EMPTY_LEXCONFIG,
+        _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self._entry_id = entry_id
@@ -1406,473 +1143,3 @@ class Sense(_Relatable):
         return [t_sense
                 for t_synset in synset.translate(lang=lang, lexicon=lexicon)
                 for t_sense in t_synset.senses()]
-
-
-# Useful for factory functions of Word, Sense, or Synset
-C = TypeVar('C', Word, Sense, Synset)
-
-
-class Wordnet:
-
-    """Class for interacting with wordnet data.
-
-    A wordnet object acts essentially as a filter by first selecting
-    matching lexicons and then searching only within those lexicons
-    for later queries. Lexicons can be selected on instantiation with
-    the *lexicon* or *lang* parameters. The *lexicon* parameter is a
-    string with a space-separated list of :ref:`lexicon specifiers
-    <lexicon-specifiers>`. The *lang* argument is a `BCP 47`_ language
-    code that selects any lexicon matching the given language code. As
-    the *lexicon* argument more precisely selects lexicons, it is the
-    recommended method of instantiation. Omitting both *lexicon* and
-    *lang* arguments triggers :ref:`default-mode <default-mode>`
-    queries.
-
-    Some wordnets were created by translating the words from a larger
-    wordnet, namely the Princeton WordNet, and then relying on the
-    larger wordnet for structural relations. An *expand* argument is a
-    second space-separated list of lexicon specifiers which are used
-    for traversing relations, but not as the results of
-    queries. Setting *expand* to an empty string (:python:`expand=''`)
-    disables expand lexicons. For more information, see
-    :ref:`cross-lingual-relation-traversal`.
-
-    The *normalizer* argument takes a callable that normalizes word
-    forms in order to expand the search. The default function
-    downcases the word and removes diacritics via NFKD_ normalization
-    so that, for example, searching for *san josé* in the English
-    WordNet will find the entry for *San Jose*. Setting *normalizer*
-    to :python:`None` disables normalization and forces exact-match
-    searching. For more information, see :ref:`normalization`.
-
-    The *lemmatizer* argument may be :python:`None`, which is the
-    default and disables lemmatizer-based query expansion, or a
-    callable that takes a word form and optional part of speech and
-    returns base forms of the original word. To support lemmatizers
-    that use the wordnet for instantiation, such as :mod:`wn.morphy`,
-    the lemmatizer may be assigned to the :attr:`lemmatizer` attribute
-    after creation. For more information, see :ref:`lemmatization`.
-
-    If the *search_all_forms* argument is :python:`True` (the
-    default), searches of word forms consider all forms in the
-    lexicon; if :python:`False`, only lemmas are searched. Non-lemma
-    forms may include, depending on the lexicon, morphological
-    exceptions, alternate scripts or spellings, etc.
-
-    .. _BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
-    .. _NFKD: https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms
-
-    Attributes:
-
-        lemmatizer: A lemmatization function or :python:`None`.
-
-    """
-
-    __slots__ = ('_lexconf', '_default_mode',
-                 '_normalizer', 'lemmatizer',
-                 '_search_all_forms',)
-    __module__ = 'wn'
-
-    def __init__(
-        self,
-        lexicon: Optional[str] = None,
-        *,
-        lang: Optional[str] = None,
-        expand: Optional[str] = None,
-        normalizer: Optional[NormalizeFunction] = normalize_form,
-        lemmatizer: Optional[LemmatizeFunction] = None,
-        search_all_forms: bool = True,
-    ):
-        if lexicon or lang:
-            lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
-        else:
-            lexicons = ()
-        if lang and len(lexicons) > 1:
-            warnings.warn(
-                f'multiple lexicons match {lang=}: {lexicons!r}; '
-                'use the lexicon parameter instead to avoid this warning',
-                wn.WnWarning,
-                stacklevel=2,
-            )
-
-        # default mode means any lexicon is searched or expanded upon,
-        # but relation traversals only target the source's lexicon
-        default_mode = (not lexicon and not lang)
-        expand = _resolve_lexicon_dependencies(expand, lexicons, default_mode)
-        expands = tuple(resolve_lexicon_specifiers(expand)) if expand else ()
-
-        self._lexconf = _LexiconConfiguration(
-            lexicons=lexicons,
-            expands=expands,
-            default_mode=default_mode,
-        )
-
-        self._normalizer = normalizer
-        self.lemmatizer = lemmatizer
-        self._search_all_forms = search_all_forms
-
-    def lexicons(self) -> list[Lexicon]:
-        """Return the list of lexicons covered by this wordnet."""
-        return list(map(_to_lexicon, self._lexconf.lexicons))
-
-    def expanded_lexicons(self) -> list[Lexicon]:
-        """Return the list of expand lexicons for this wordnet."""
-        return list(map(_to_lexicon, self._lexconf.expands))
-
-    def word(self, id: str) -> Word:
-        """Return the first word in this wordnet with identifier *id*."""
-        iterable = find_entries(id=id, lexicons=self._lexconf.lexicons)
-        try:
-            return Word(*next(iterable), _lexconf=self._lexconf)
-        except StopIteration:
-            raise wn.Error(f'no such lexical entry: {id}') from None
-
-    def words(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None
-    ) -> list[Word]:
-        """Return the list of matching words in this wordnet.
-
-        Without any arguments, this function returns all words in the
-        wordnet's selected lexicons. A *form* argument restricts the
-        words to those matching the given word form, and *pos*
-        restricts words by their part of speech.
-
-        """
-        return _find_helper(self, Word, find_entries, form, pos)
-
-    @overload
-    def lemmas(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None,
-        *,
-        data: Literal[False] = False
-    ) -> list[str]: ...
-    @overload
-    def lemmas(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None,
-        *,
-        data: Literal[True] = True
-    ) -> list[Form]: ...
-
-    # fallback for non-literal bool argument
-    @overload
-    def lemmas(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None,
-        *,
-        data: bool
-    ) -> Union[list[str], list[Form]]: ...
-
-    def lemmas(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None,
-        *,
-        data: bool = False
-    ) -> Union[list[str], list[Form]]:
-        """Return the list of lemmas for matching words in this wordnet.
-
-        Without any arguments, this function returns all distinct lemma
-        forms in the wordnet's selected lexicons. A *form* argument
-        restricts the words to those matching the given word form, and
-        *pos* restricts words by their part of speech.
-
-        If the *data* argument is :python:`False` (the default), only
-        distinct lemma forms are returned as :class:`str` types. If it
-        is :python:`True`, :class:`wn.Form` objects are returned for
-        all matching entries, which may include multiple Form objects
-        with the same lemma string.
-
-        Example:
-
-            >>> wn.Wordnet().lemmas('wolves')
-            ['wolf']
-            >>> wn.Wordnet().lemmas('wolves', data=True)
-            [Form(value='wolf')]
-
-        """
-        if data:
-            return [
-                _make_form(*form_data)
-                for form_data in _find_lemmas(
-                    self, form, pos, load_details=True
-                )
-            ]
-
-        # When data=False, extract and deduplicate strings
-        return list(dict.fromkeys(
-            form_data[0]
-            for form_data in _find_lemmas(
-                self, form, pos, load_details=False
-            )
-        ))
-
-    def synset(self, id: str) -> Synset:
-        """Return the first synset in this wordnet with identifier *id*."""
-        iterable = find_synsets(id=id, lexicons=self._lexconf.lexicons)
-        try:
-            return Synset(*next(iterable), _lexconf=self._lexconf)
-        except StopIteration:
-            raise wn.Error(f'no such synset: {id}') from None
-
-    def synsets(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None,
-        ili: Optional[Union[str, ILI]] = None
-    ) -> list[Synset]:
-        """Return the list of matching synsets in this wordnet.
-
-        Without any arguments, this function returns all synsets in
-        the wordnet's selected lexicons. A *form* argument restricts
-        synsets to those whose member words match the given word
-        form. A *pos* argument restricts synsets to those with the
-        given part of speech. An *ili* argument restricts synsets to
-        those with the given interlingual index; generally this should
-        select a unique synset within a single lexicon.
-
-        """
-        return _find_helper(self, Synset, find_synsets, form, pos, ili=ili)
-
-    def sense(self, id: str) -> Sense:
-        """Return the first sense in this wordnet with identifier *id*."""
-        iterable = find_senses(id=id, lexicons=self._lexconf.lexicons)
-        try:
-            return Sense(*next(iterable), _lexconf=self._lexconf)
-        except StopIteration:
-            raise wn.Error(f'no such sense: {id}') from None
-
-    def senses(
-        self,
-        form: Optional[str] = None,
-        pos: Optional[str] = None
-    ) -> list[Sense]:
-        """Return the list of matching senses in this wordnet.
-
-        Without any arguments, this function returns all senses in the
-        wordnet's selected lexicons. A *form* argument restricts the
-        senses to those whose word matches the given word form, and
-        *pos* restricts senses by their word's part of speech.
-
-        """
-        return _find_helper(self, Sense, find_senses, form, pos)
-
-    def ili(self, id: str) -> ILI:
-        """Return the first ILI in this wordnet with identifer *id*."""
-        iterable = find_existing_ilis(id=id, lexicons=self._lexconf.lexicons)
-        try:
-            return _ExistingILI(*next(iterable))
-        except StopIteration:
-            raise wn.Error(f'no such ILI: {id}') from None
-
-    def ilis(self, status: Optional[str] = None) -> list[ILI]:
-        """Return the list of ILIs in this wordnet.
-
-        If *status* is given, only return ILIs with a matching status.
-
-        """
-        iterable = find_ilis(status=status, lexicons=self._lexconf.lexicons)
-        return [
-            _ProposedILI(id, *data) if id is None else _ExistingILI(id, *data)
-            for id, *data in iterable
-        ]
-
-    def describe(self) -> str:
-        """Return a formatted string describing the lexicons in this wordnet.
-
-        Example:
-
-            >>> oewn = wn.Wordnet('oewn:2021')
-            >>> print(oewn.describe())
-            Primary lexicons:
-              oewn:2021
-                Label  : Open English WordNet
-                URL    : https://github.com/globalwordnet/english-wordnet
-                License: https://creativecommons.org/licenses/by/4.0/
-                Words  : 163161 (a: 8386, n: 123456, r: 4481, s: 15231, v: 11607)
-                Senses : 211865
-                Synsets: 120039 (a: 7494, n: 84349, r: 3623, s: 10727, v: 13846)
-                ILIs   : 120039
-
-        """
-        substrings = ['Primary lexicons:']
-        for lex in self.lexicons():
-            substrings.append(textwrap.indent(lex.describe(), '  '))
-        if self._lexconf.expands:
-            substrings.append('Expand lexicons:')
-            for lex in self.expanded_lexicons():
-                substrings.append(textwrap.indent(lex.describe(full=False), '  '))
-        return '\n'.join(substrings)
-
-
-def _resolve_lexicon_dependencies(
-    expand: Optional[str],
-    lexicons: Sequence[str],
-    default_mode: bool,
-) -> str:
-    if expand is not None:
-        return expand.strip()
-    if default_mode:
-        return "*"
-    # find dependencies specified by the lexicons
-    deps = [
-        (depspec, added)
-        for lexspec in lexicons
-        for depspec, _, added in get_lexicon_dependencies(lexspec)
-    ]
-    missing = ' '.join(spec for spec, added in deps if not added)
-    if missing:
-        warnings.warn(
-            f'lexicon dependencies not available: {missing}',
-            wn.WnWarning,
-            stacklevel=3,
-        )
-    return ' '.join(spec for spec, added in deps if added)
-
-
-def _to_lexicon(specifier: str) -> Lexicon:
-    data = get_lexicon(specifier)
-    spec, id, label, lang, email, license, version, url, citation, logo, meta = data
-    return Lexicon(
-        spec,
-        id,
-        label,
-        lang,
-        email,
-        license,
-        version,
-        url=url,
-        citation=citation,
-        logo=logo,
-        _metadata=meta,
-    )
-
-
-def _find_lemmas(
-    w: Wordnet,
-    form: Optional[str],
-    pos: Optional[str],
-    load_details: bool = False
-) -> Iterator[tuple]:
-    """Return an iterator of matching lemma form data.
-
-    This works like _find_helper but returns raw form tuples instead of
-    Word/Sense/Synset objects. The load_details parameter controls whether
-    pronunciations and tags are loaded from the database.
-    """
-    kwargs: dict = {
-        'lexicons': w._lexconf.lexicons,
-        'search_all_forms': w._search_all_forms,
-        'load_details': load_details,
-    }
-
-    # easy case is when there is no form
-    if form is None:
-        yield from find_lemmas(pos=pos, **kwargs)
-        return
-
-    # if there's a form, we may need to lemmatize and normalize
-    normalize = w._normalizer
-    kwargs['normalized'] = bool(normalize)
-
-    lemmatize = w.lemmatizer
-    forms = lemmatize(form, pos) if lemmatize else {}
-    # if no lemmatizer or word not covered by lemmatizer, back off to
-    # the original form and pos
-    if not forms:
-        forms = {pos: {form}}
-
-    yield from _query_with_forms(find_lemmas, forms, normalize, kwargs)
-
-
-def _query_with_forms(
-    query_func: Callable,
-    forms: dict[Optional[str], set[str]],
-    normalize: Optional[NormalizeFunction],
-    kwargs: dict
-) -> list[tuple]:
-    """Query database with forms, falling back to normalized forms if needed.
-
-    Queries the database for each pos/forms combination. If a normalizer
-    is available and the original forms return no results, queries again
-    with normalized forms.
-    """
-    results = []
-    for _pos, _forms in forms.items():
-        results.extend(query_func(forms=_forms, pos=_pos, **kwargs))
-
-    # Only try normalized forms if we got no results with original forms
-    if not results and normalize:
-        for _pos, _forms in forms.items():
-            normalized_forms = [normalize(f) for f in _forms]
-            results.extend(query_func(forms=normalized_forms, pos=_pos, **kwargs))
-
-    return results
-
-
-def _find_helper(
-    w: Wordnet,
-    cls: type[C],
-    query_func: Callable,
-    form: Optional[str],
-    pos: Optional[str],
-    ili: Optional[Union[str, ILI]] = None
-) -> list[C]:
-    """Return the list of matching wordnet entities.
-
-    If the wordnet has a normalizer and the search includes a word
-    form, the original word form is searched against both the
-    original and normalized columns in the database. Then, if no
-    results are found, the search is repeated with the normalized
-    form. If the wordnet does not have a normalizer, only exact
-    string matches are used.
-
-    """
-    kwargs: dict = {
-        'lexicons': w._lexconf.lexicons,
-        'search_all_forms': w._search_all_forms,
-    }
-    if isinstance(ili, str):
-        kwargs['ili'] = ili
-    elif isinstance(ili, ILI):
-        kwargs['ili'] = ili.id
-    elif ili is not None:
-        raise TypeError(
-            "ili argument must be a string, an ILI, or None, "
-            f"not {type(ili).__name__!r}"
-        )
-
-    # easy case is when there is no form
-    if form is None:
-        return [cls(*data, _lexconf=w._lexconf)  # type: ignore
-                for data in query_func(pos=pos, **kwargs)]
-
-    # if there's a form, we may need to lemmatize and normalize
-    normalize = w._normalizer
-    kwargs['normalized'] = bool(normalize)
-
-    lemmatize = w.lemmatizer
-    forms = lemmatize(form, pos) if lemmatize else {}
-    # if no lemmatizer or word not covered by lemmatizer, back off to
-    # the original form and pos
-    if not forms:
-        forms = {pos: {form}}
-
-    results_data = _query_with_forms(query_func, forms, normalize, kwargs)
-
-    # we want unique results here, but a set can make the order
-    # erratic, so filter manually
-    results = [cls(*data, _lexconf=w._lexconf) for data in results_data]  # type: ignore
-    unique_results: list[C] = []
-    seen: set[C] = set()
-    for result in results:
-        if result not in seen:
-            unique_results.append(result)
-            seen.add(result)
-    return unique_results

@@ -18,7 +18,7 @@ from wn._types import AnyPath
 from wn.constants import _WORDNET, _ILI
 from wn._util import is_gzip, is_lzma
 from wn import lmf
-from wn import _ili
+from wn import ili
 
 
 _ADDITIONAL_FILE_SUFFIXES = ('', '.txt', '.md', '.rst')
@@ -43,7 +43,7 @@ def _package_directory_types(path: Path) -> list[tuple[Path, str]]:
 def _resource_file_type(path: Path) -> Optional[str]:
     if lmf.is_lmf(path):
         return _WORDNET
-    elif _ili.is_ili(path):
+    elif ili.is_ili_tsv(path):
         return _ILI
     return None
 
@@ -228,7 +228,7 @@ def _get_project_from_path(
 
     else:
         decompressed, tmp_path = _get_decompressed(path, tmp_path)
-        if lmf.is_lmf(decompressed) or _ili.is_ili(decompressed):
+        if lmf.is_lmf(decompressed) or ili.is_ili_tsv(decompressed):
             return ResourceOnlyPackage(decompressed), tmp_path
         else:
             raise wn.Error(

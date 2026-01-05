@@ -10,8 +10,8 @@ from collections import Counter
 from collections.abc import Callable, Iterable, Iterator
 from math import log
 
+from wn import Synset, Wordnet
 from wn._types import AnyPath
-from wn._core import Synset, Wordnet
 from wn.constants import NOUN, VERB, ADJ, ADV, ADJ_SAT
 from wn.util import synset_id_formatter
 

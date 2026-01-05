@@ -31,9 +31,6 @@ __all__ = (
     'Synset',
     'Definition',
     'Relation',
-    'ili',
-    'ilis',
-    'ILI',
     'Error',
     'DatabaseError',
     'ConfigurationError',
@@ -52,14 +49,12 @@ from wn._config import config  # noqa: F401
 from wn._add import add, add_lexical_resource, remove
 from wn._export import export
 from wn._download import download
+from wn._lexicon import Lexicon
 from wn._core import (
-    Lexicon,
     Word, Form, Pronunciation, Tag,
     Sense, Example, Count,
     Synset, Definition,
     Relation,
-    ILI,
-    Wordnet
 )
 from wn._module_functions import (
     projects,
@@ -67,7 +62,8 @@ from wn._module_functions import (
     word, words, lemmas,
     sense, senses,
     synset, synsets,
-    ili, ilis,
 )
+from wn._wordnet import Wordnet
+
 
 __version__ = '0.14.0'

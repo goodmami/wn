@@ -70,7 +70,7 @@ def test_interlingual_hypernym_paths():
     información = wn.synsets('información')[0]
     ejemplo = wn.synsets('ejemplo')[0]
     sample = wn.synsets('sample', lexicon='test-en:1')[0]
-    inferred = wn.Synset.empty('*INFERRED*', ili=sample.ili.id, _lexicon='test-es:1')
+    inferred = wn.Synset.empty('*INFERRED*', ili=sample.ili, _lexicon='test-es:1')
     muestra_aleatoria = wn.synsets('muestra aleatoria')[0]
     assert hypernym_paths(información) == []
     assert hypernym_paths(ejemplo) == [[información]]

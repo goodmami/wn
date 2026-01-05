@@ -4,18 +4,18 @@ Interlingual Queries
 This guide explains how interlingual queries work within Wn.  To get
 started, you'll need at least two lexicons that use interlingual
 indices (ILIs).  For this guide, we'll use the Open English WordNet
-(``oewn:2021``), the Open German WordNet (``odenet:1.4``), also
+(``oewn:2024``), the Open German WordNet (``odenet:1.4``), also
 known as OdeNet, and the Japanese wordnet (``omw-ja:1.4``).
 
   >>> import wn
-  >>> wn.download('oewn:2021')
+  >>> wn.download('oewn:2024')
   >>> wn.download('odenet:1.4')
   >>> wn.download('omw-ja:1.4')
 
 We will query these wordnets with the following :class:`~wn.Wordnet`
 objects:
 
-  >>> en = wn.Wordnet('oewn:2021')
+  >>> en = wn.Wordnet('oewn:2024')
   >>> de = wn.Wordnet('odenet:1.4')
 
 The object for the Japanese wordnet will be discussed and created
@@ -26,13 +26,12 @@ What are Interlingual Indices?
 
 It is common for users of the `Princeton WordNet
 <https://wordnet.princeton.edu/>`_ to refer to synsets by their `WNDB
-<https://wordnet.princeton.edu/documentation/wndb5wn>`_ offset and
-type, but this is problematic because the offset is a byte-offset in
-the wordnet data files and it will differ for wordnets in other
-languages and even between versions of the same wordnet.  Interlingual
-indices (ILIs) address this issue by providing stable identifiers for
-concepts, whether for a synset across versions of a wordnet or across
-languages.
+<https://wordnet.princeton.edu/documentation/wndb5wn>`_ offset and type,
+but this is problematic because the offset is a byte-offset in the
+wordnet data files and it will differ for wordnets in other languages
+and even between versions of the same wordnet. Interlingual indices
+(ILIs) address this issue by providing stable identifiers for concepts,
+whether for a synset across versions of a wordnet or across languages.
 
 The idea of ILIs was proposed by [Vossen99]_ and it came to fruition
 with the release of the Collaborative Interlingual Index (CILI;
@@ -47,10 +46,26 @@ As an example, the synset for *apricot* (fruit) in WordNet 3.0 is
 use offsets at all, it is ``13235-n`` for the equivalent word
 (*Aprikose*). However, all three use the same ILI: ``i77784``.
 
-Not every synset is guaranteed to be associated with an ILI, and some
-have the special value ``in`` indicates that the project is proposing
-that a new ILI be created in the CILI project for the concept, but
-until that happens it cannot be used in interlingual queries.
+Generally, only one synset within a wordnet will be mapped to a
+particular ILI, but this may not always be true, nor does every synset
+necessarily map to an ILI. Some concepts that are lexicalized in one
+language may not be in another language. For example, *rice* in English
+may refer to the rice plant, rice grain, or cooked rice, but in
+languages like Japanese they are distinct things (稲 *ine*, 米 *kome*,
+and 飯 *meshi* / ご飯 *gohan*, respectively).
+
+The ``ili`` property of Synsets serves two purposes in Wn. Mainly it is
+for encoding the ILI identifier associated with the synset, but it is
+also used to indicate when a lexicon is proposing a new concept that is
+not yet part of CILI. In the latter case, a WN-LMF lexicon file will
+have the special value of ``in`` for a synset's ILI and it will provide
+an ``<ILIDefinition>`` element. In Wn, this translates to
+:attr:`wn.Synset.ili` returning :python:`None`, the same as if no ILI
+were mapped at all. Both synsets with proposed ILIs and those with no
+ILI cannot be used in interlingual queries. Proposed ILIs can be
+inspected using the :mod:`wn.ili.get_proposed` function, if you know
+have the synset, or :mod:`wn.ili.get_all_proposed` to get all of them.
+
 
 .. [Vossen99]
    Vossen, Piek, Wim Peters, and Julio Gonzalo.
@@ -67,41 +82,49 @@ Using Interlingual Indices
 --------------------------
 
 For synsets that have an associated ILI, you can retrieve it via the
-:data:`wn.Synset.ili` accessor:
+:data:`wn.Synset.ili` property:
 
   >>> apricot = en.synsets('apricot')[1]
   >>> apricot.ili
-  ILI('i77784')
+  'i77784'
+
+The value is a :class:`str` ILI identifier. These may be used directly
+for things like interlingual synset lookups:
+
+  >>> de.synsets(ili=apricot.ili)[0].lemmas()
+  ['Marille', 'Aprikose']
+
+There may be more information about the ILI itself which you can get
+from the :mod:`wn.ili` module:
+
+  >>> from wn import ili
+  >>> apricot_ili = ili.get(apricot.ili)
+  >>> apricot_ili
+  ILI(id='i77784')
 
 From this object you can get various properties of the ILI, such as
-the ID as a string, its status, and its definition, but if you have
-not added CILI to Wn's database it will not be very informative:
+the ID string, its status, and its definition, but if you have
+not added CILI to Wn's database, it will not be very informative:
 
-  >>> apricot.ili.id
+  >>> apricot_ili.id
   'i77784'
-  >>> apricot.ili.status
+  >>> apricot_ili.status
   'presupposed'
-  >>> apricot.ili.definition() is None
+  >>> apricot_ili.definition() is None
   True
 
-The ``presupposed`` status means that the ILI was in use by a lexicon,
-but there is no other source of truth for the index.  CILI can be
-downloaded just like a lexicon:
+The ``presupposed`` status means that the ILI ID is in use by a
+lexicon, but there is no other source of truth for the index. CILI can
+be downloaded just like a lexicon:
 
   >>> wn.download('cili:1.0')
 
 Now the status and definition should be more useful:
 
-  >>> apricot.ili.status
+  >>> apricot_ili.status
   'active'
-  >>> apricot.ili.definition()
+  >>> apricot_ili.definition()
   'downy yellow to rosy-colored fruit resembling a small peach'
-
-ILI IDs may be used to lookup synsets:
-
-  >>> Aprikose = de.synsets(ili=apricot.ili.id)[0]
-  >>> Aprikose.lemmas()
-  ['Marille', 'Aprikose']
 
 
 Translating Words, Senses, and Synsets
@@ -193,9 +216,9 @@ lexicon for ``omw-ja:1.4`` when the former is in the database. You may
 also specify an expand lexicon manually, even one that isn't the
 specified dependency:
 
-  >>> ja = wn.Wordnet('omw-ja:1.4', expand='oewn:2021')  # no warning
+  >>> ja = wn.Wordnet('omw-ja:1.4', expand='oewn:2024')  # no warning
   >>> ja.expanded_lexicons()
-  [<Lexicon oewn:2021 [en]>]
+  [<Lexicon oewn:2024 [en]>]
 
 In this case, the Open English WordNet is an actively-developed fork
 of the lexicon that ``omw-ja:1.4`` depends on, and it should contain
@@ -217,5 +240,5 @@ synsets, such as hypernyms, are more likely to be present:
   [Synset('omw-ja-07705931-n')]
   >>> anzu.hypernyms()[0].lemmas()
   ['果物']
-  >>> anzu.hypernyms()[0].translate(lexicon='oewn:2021')[0].lemmas()
+  >>> anzu.hypernyms()[0].translate(lexicon='oewn:2024')[0].lemmas()
   ['edible fruit']
