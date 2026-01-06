@@ -69,4 +69,3 @@ Contents
    api/wn.taxonomy.rst
    api/wn.util.rst
    api/wn.validate.rst
-   api/wn.web.rst

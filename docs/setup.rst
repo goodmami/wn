@@ -16,13 +16,6 @@ Install the latest release from `PyPI <https://pypi.org/project/wn>`_:
 
    pip install wn
 
-To get the dependencies for the :mod:`wn.web` module, use the ``web``
-installation extra:
-
-.. code-block:: bash
-
-   pip install "wn[web]"
-
 
 Installing with Conda
 ---------------------
