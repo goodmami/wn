@@ -40,6 +40,10 @@ Notable changes in this release:
     - `vehicle`
 * `wn.ili` module
 
+### Removed
+
+* `wn.web` module ([#295])
+
 ### Changed
 
 * Default form normalizer uses casefold instead of lower ([#233])
@@ -901,3 +905,4 @@ abandoned, but this is an entirely new codebase.
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286
 [#291]: https://github.com/goodmami/wn/issues/291
+[#295]: https://github.com/goodmami/wn/issues/295
