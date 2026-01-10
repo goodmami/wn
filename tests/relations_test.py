@@ -131,10 +131,10 @@ def test_synset_relations_issue_177():
 
 
 @pytest.mark.usefixtures('mini_db')
-def test_sense_relation_map():
+def test_sense_relation_data_true():
     en = wn.Wordnet('test-en')
-    assert en.sense('test-en-information-n-0001-01').relation_map() == {}
-    relmap = en.sense('test-en-illustrate-v-0003-01').relation_map()
+    assert en.sense('test-en-information-n-0001-01').relations(data=True) == {}
+    relmap = en.sense('test-en-illustrate-v-0003-01').relations(data=True)
     # only sense-sense relations by default
     assert len(relmap) == 3
     assert all(isinstance(tgt, wn.Sense) for tgt in relmap.values())
@@ -145,10 +145,10 @@ def test_sense_relation_map():
 
 
 @pytest.mark.usefixtures('mini_db')
-def test_synset_relation_map():
+def test_synset_relations_data_true():
     en = wn.Wordnet('test-en')
-    assert en.synset('test-en-0003-v').relation_map() == {}
-    relmap = en.synset('test-en-0002-n').relation_map()
+    assert en.synset('test-en-0003-v').relations(data=True) == {}
+    relmap = en.synset('test-en-0002-n').relations(data=True)
     assert len(relmap) == 2
     assert {rel.name for rel in relmap} == {'hypernym', 'hyponym'}
     assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}
@@ -158,7 +158,7 @@ def test_synset_relation_map():
 
     # interlingual synset relation targets show original target ids
     es = wn.Wordnet('test-es', expand='test-en')
-    relmap = es.synset('test-es-0002-n').relation_map()
+    relmap = es.synset('test-es-0002-n').relations(data=True)
     assert len(relmap) == 2
     assert {rel.name for rel in relmap} == {'hypernym', 'hyponym'}
     assert {rel.target_id for rel in relmap} == {'test-en-0001-n', 'test-en-0004-n'}

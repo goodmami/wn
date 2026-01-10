@@ -189,13 +189,13 @@ def test_confidence():
         wn.sense('test-en-information-n-0001-01').counts(data=True)[0].confidence()
     ) == 0.9
     assert (
-        wn.sense('test-en-exemplify-v-0003-01').relation_map()
+        wn.sense('test-en-exemplify-v-0003-01').relations(data=True)
         .popitem()[0].confidence()
     ) == 0.9
     # explicit value overrides default
     assert wn.word('test-en-example-n').confidence() == 1.0
     assert (
-        wn.sense('test-en-example-n-0002-01').relation_map()
+        wn.sense('test-en-example-n-0002-01').relations(data=True)
         .popitem()[0].confidence()
     ) == 0.5
     # values on parents don't override default on children
@@ -203,5 +203,8 @@ def test_confidence():
     # check values on other elements
     assert wn.synset("test-en-0001-n").confidence() == 1.0
     assert wn.synset("test-en-0001-n").definition(data=True).confidence() == 0.95
-    assert wn.synset("test-en-0001-n").relation_map().popitem()[0].confidence() == 0.8
+    assert (
+        wn.synset("test-en-0001-n").relations(data=True)
+        .popitem()[0].confidence()
+    )== 0.8
     assert wn.synset("test-en-0001-n").examples(data=True)[0].confidence() == 0.7

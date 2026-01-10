@@ -43,6 +43,8 @@ Notable changes in this release:
 ### Removed
 
 * `wn.web` module ([#295])
+* `wn.Synset.relation_map()` method ([#271])
+* `wn.Sense.relation_map()` method ([#271])
 
 ### Changed
 
@@ -52,6 +54,10 @@ Notable changes in this release:
   `str` arguments for the `ili` parameter again, reverting a change from
   v0.12.0. This is because `Synset.ili` is now a simple string and `ILI`
   objects are no longer part of the core `wn` package namespace.
+* `wn.Synset.relations()`: return `wn.Relation` to `wn.Synset` mapping when
+  using `data=True` ([#271])
+* `wn.Sense.relations()`: return `wn.Relation` to `wn.Sense` mapping when
+  using `data=True` ([#271])
 
 ### Documentation
 
@@ -901,6 +907,7 @@ abandoned, but this is an entirely new codebase.
 [#263]: https://github.com/goodmami/wn/issues/263
 [#266]: https://github.com/goodmami/wn/issues/266
 [#268]: https://github.com/goodmami/wn/pull/268
+[#271]: https://github.com/goodmami/wn/issues/271
 [#277]: https://github.com/goodmami/wn/issues/277
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286

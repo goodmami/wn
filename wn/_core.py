@@ -383,7 +383,18 @@ T = TypeVar('T', bound='_Relatable')
 
 class _Relatable(_LexiconDataElement):
 
-    def relations(self: T, *args: str) -> dict[str, list[T]]:
+    @overload
+    def relations(
+        self: T, *args: str, data: Literal[False] = False
+    ) -> dict[str, list[T]]: ...
+    @overload
+    def relations(
+        self: T, *args: str, data: Literal[True] = True
+    ) -> dict[Relation, T]: ...
+
+    def relations(
+        self: T, *args: str, data: bool = False
+    ) -> dict[str, list[T]] | dict[Relation, T]:
         raise NotImplementedError
 
     def get_related(self: T, *args: str) -> list[T]:
@@ -688,13 +699,30 @@ class Synset(_Relatable):
         else:
             return [w.lemma(data=False) for w in self.words()]
 
-    def relations(self, *args: str) -> dict[str, list['Synset']]:
-        """Return a mapping of relation names to lists of synsets.
+    @overload
+    def relations(
+        self, *args: str, data: Literal[False] = False
+    ) -> dict[str, list[Synset]]: ...
+    @overload
+    def relations(
+        self, *args: str, data: Literal[True] = True
+    ) -> dict[Relation, Synset]: ...
+
+    def relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Synset]] | dict[Relation, Synset]:
+        """Return a mapping of synset relations.
 
         One or more relation names may be given as positional
         arguments to restrict the relations returned. If no such
         arguments are given, all relations starting from the synset
         are returned.
+
+        If the *data* argument is :python:`False` (default), the
+        returned object maps from the relation name (a :class:`str`)
+        to a list of :class:`Synset` objects. If *data* is
+        :python:`True`, it instead maps from a :class:`Relation` to
+        a single :class:`Synset`.
 
         See :meth:`get_related` for getting a flat list of related
         synsets.
@@ -709,12 +737,15 @@ class Synset(_Relatable):
             hyponym [['coat button'], ['shirt button']]
 
         """
-        # inner dict is used as an order-preserving set
-        relmap: dict[str, dict[Synset, bool]] = {}
-        for relation, synset in self._iter_relations(*args):
-            relmap.setdefault(relation.name, {})[synset] = True
-        # now convert inner dicts to lists
-        return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
+        if data:
+            return dict(self._iter_relations())
+        else:
+            # inner dict is used as an order-preserving set
+            relmap: dict[str, dict[Synset, bool]] = {}
+            for relation, synset in self._iter_relations(*args):
+                relmap.setdefault(relation.name, {})[synset] = True
+                # now convert inner dicts to lists
+            return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
 
     def get_related(self, *args: str) -> list['Synset']:
         """Return the list of related synsets.
@@ -735,10 +766,6 @@ class Synset(_Relatable):
             [['pin', 'pivot'], ['lever']]
         """
         return unique_list(synset for _, synset in self._iter_relations(*args))
-
-    def relation_map(self) -> dict[Relation, 'Synset']:
-        """Return a dict mapping :class:`Relation` objects to targets."""
-        return dict(self._iter_relations())
 
     def _iter_relations(self, *args: str) -> Iterator[tuple[Relation, 'Synset']]:
         # first get relations from the current lexicon(s)
@@ -1050,7 +1077,18 @@ class Sense(_Relatable):
         """Return the sense's metadata."""
         return get_metadata(self.id, self._lexicon, 'senses')
 
-    def relations(self, *args: str) -> dict[str, list['Sense']]:
+    @overload
+    def relations(
+        self, *args: str, data: Literal[False] = False
+    ) -> dict[str, list[Sense]]: ...
+    @overload
+    def relations(
+        self, *args: str, data: Literal[True] = True
+    ) -> dict[Relation, Sense]: ...
+
+    def relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Sense]] | dict[Relation, Sense]:
         """Return a mapping of relation names to lists of senses.
 
         One or more relation names may be given as positional
@@ -1058,20 +1096,25 @@ class Sense(_Relatable):
         arguments are given, all relations starting from the sense
         are returned.
 
+        If the *data* argument is :python:`False` (default), the
+        returned object maps from the relation name (a :class:`str`)
+        to a list of :class:`Sense` objects. If *data* is
+        :python:`True`, it instead maps from a :class:`Relation` to
+        a single :class:`Sense`.
+
         See :meth:`get_related` for getting a flat list of related
         senses.
 
         """
-        # inner dict is used as an order-preserving set
-        relmap: dict[str, dict[Sense, bool]] = {}
-        for relation, sense in self._iter_sense_relations(*args):
-            relmap.setdefault(relation.name, {})[sense] = True
-        # now convert inner dicts to lists
-        return {relname: list(s_dict) for relname, s_dict in relmap.items()}
-
-    def relation_map(self) -> dict[Relation, 'Sense']:
-        """Return a dict mapping :class:`Relation` objects to targets."""
-        return dict(self._iter_sense_relations())
+        if data:
+            return dict(self._iter_sense_relations())
+        else:
+            # inner dict is used as an order-preserving set
+            relmap: dict[str, dict[Sense, bool]] = {}
+            for relation, sense in self._iter_sense_relations(*args):
+                relmap.setdefault(relation.name, {})[sense] = True
+            # now convert inner dicts to lists
+            return {relname: list(s_dict) for relname, s_dict in relmap.items()}
 
     def get_related(self, *args: str) -> list['Sense']:
         """Return a list of related senses.
