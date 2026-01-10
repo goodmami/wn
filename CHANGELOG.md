@@ -39,6 +39,7 @@ Notable changes in this release:
     - `body_part`
     - `vehicle`
 * `wn.ili` module
+* `wn.Sense.synset_relations()` ([#271])
 
 ### Removed
 

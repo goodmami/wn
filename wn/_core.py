@@ -1116,6 +1116,37 @@ class Sense(_Relatable):
             # now convert inner dicts to lists
             return {relname: list(s_dict) for relname, s_dict in relmap.items()}
 
+    def synset_relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Synset]] | dict[Relation, Synset]:
+        """Return a mapping of relation names to lists of synsets.
+
+        One or more relation names may be given as positional
+        arguments to restrict the relations returned. If no such
+        arguments are given, all relations starting from the sense
+        are returned.
+
+        If the *data* argument is :python:`False` (default), the
+        returned object maps from the relation name (a :class:`str`)
+        to a list of :class:`Synset` objects. If *data* is
+        :python:`True`, it instead maps from a :class:`Relation` to
+        a single :class:`Synset`.
+
+        See :meth:`get_related_synsets` for getting a flat list of
+        related synsets.
+
+        """
+        if data:
+            return dict(self._iter_sense_synset_relations())
+        else:
+            # inner dict is used as an order-preserving set
+            relmap: dict[str, dict[Synset, bool]] = {}
+            for relation, synset in self._iter_sense_synset_relations(*args):
+                relmap.setdefault(relation.name, {})[synset] = True
+            # now convert inner dicts to lists
+            return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
+
+
     def get_related(self, *args: str) -> list['Sense']:
         """Return a list of related senses.
 
