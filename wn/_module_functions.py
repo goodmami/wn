@@ -21,7 +21,7 @@ def projects() -> list[dict]:
         >>> infos = wn.projects()
         >>> len(infos)
         36
-        >>> infos[0]['label']
+        >>> infos[0]["label"]
         'Open English WordNet'
 
     """
@@ -29,8 +29,8 @@ def projects() -> list[dict]:
     return [
         config.get_project_info(format_lexicon_specifier(project_id, version))
         for project_id, project_info in index.items()
-        for version in project_info.get('versions', [])
-        if 'resource_urls' in project_info['versions'][version]
+        for version in project_info.get("versions", [])
+        if "resource_urls" in project_info["versions"][version]
     ]
 
 
@@ -39,12 +39,12 @@ def lexicons(*, lexicon: str | None = "*", lang: str | None = None) -> list[Lexi
 
     Example:
 
-        >>> wn.lexicons(lang='en')
+        >>> wn.lexicons(lang="en")
         [<Lexicon ewn:2020 [en]>, <Lexicon omw-en:1.4 [en]>]
 
     """
     try:
-        w = Wordnet(lang=lang, lexicon=lexicon or '*')
+        w = Wordnet(lang=lang, lexicon=lexicon or "*")
     except Error:
         return []
     else:
@@ -58,7 +58,7 @@ def word(id: str, *, lexicon: str | None = None, lang: str | None = None) -> Wor
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.word` method.
 
-    >>> wn.word('ewn-cell-n')
+    >>> wn.word("ewn-cell-n")
     Word('ewn-cell-n')
 
     """
@@ -80,7 +80,7 @@ def words(
 
     >>> len(wn.words())
     282902
-    >>> len(wn.words(pos='v'))
+    >>> len(wn.words(pos="v"))
     34592
     >>> wn.words(form="scurry")
     [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
@@ -140,11 +140,11 @@ def lemmas(
     lemmas are returned as :class:`str` types. If it is
     :python:`True`, :class:`wn.Form` objects are used instead.
 
-    >>> wn.lemmas('wolves')
+    >>> wn.lemmas("wolves")
     ['wolf']
-    >>> wn.lemmas('wolves', data=True)
+    >>> wn.lemmas("wolves", data=True)
     [Form(value='wolf')]
-    >>> len(wn.lemmas(pos='v'))
+    >>> len(wn.lemmas(pos="v"))
     11617
 
     """
@@ -158,7 +158,7 @@ def synset(id: str, *, lexicon: str | None = None, lang: str | None = None) -> S
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.synset` method.
 
-    >>> wn.synset('ewn-03311152-n')
+    >>> wn.synset("ewn-03311152-n")
     Synset('ewn-03311152-n')
 
     """
@@ -179,9 +179,9 @@ def synsets(
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.synsets` method.
 
-    >>> len(wn.synsets('couch'))
+    >>> len(wn.synsets("couch"))
     4
-    >>> wn.synsets('couch', pos='v')
+    >>> wn.synsets("couch", pos="v")
     [Synset('ewn-00983308-v')]
 
     """
@@ -201,9 +201,9 @@ def senses(
     *lexicon* arguments. The remaining arguments are passed to the
     :meth:`Wordnet.senses` method.
 
-    >>> len(wn.senses('twig'))
+    >>> len(wn.senses("twig"))
     3
-    >>> wn.senses('twig', pos='n')
+    >>> wn.senses("twig", pos="n")
     [Sense('ewn-twig-n-13184889-02')]
 
     """
@@ -217,7 +217,7 @@ def sense(id: str, *, lexicon: str | None = None, lang: str | None = None) -> Se
     *lexicon* arguments. The *id* argument is then passed to the
     :meth:`Wordnet.sense` method.
 
-    >>> wn.sense('ewn-flutter-v-01903884-02')
+    >>> wn.sense("ewn-flutter-v-01903884-02")
     Sense('ewn-flutter-v-01903884-02')
 
     """

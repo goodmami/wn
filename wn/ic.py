@@ -90,19 +90,19 @@ def compute(
 
     Example:
         >>> import wn, wn.ic, wn.morphy
-        >>> ewn = wn.Wordnet('ewn:2020', lemmatizer=wn.morphy.morphy)
+        >>> ewn = wn.Wordnet("ewn:2020", lemmatizer=wn.morphy.morphy)
         >>> freq = wn.ic.compute(["Dogs", "run", ".", "Cats", "sleep", "."], ewn)
-        >>> dog = ewn.synsets('dog', pos='n')[0]
-        >>> cat = ewn.synsets('cat', pos='n')[0]
-        >>> frog = ewn.synsets('frog', pos='n')[0]
-        >>> freq['n'][dog.id]
+        >>> dog = ewn.synsets("dog", pos="n")[0]
+        >>> cat = ewn.synsets("cat", pos="n")[0]
+        >>> frog = ewn.synsets("frog", pos="n")[0]
+        >>> freq["n"][dog.id]
         1.125
-        >>> freq['n'][cat.id]
+        >>> freq["n"][cat.id]
         1.1
-        >>> freq['n'][frog.id]  # no occurrence; smoothing value only
+        >>> freq["n"][frog.id]  # no occurrence; smoothing value only
         1.0
         >>> carnivore = dog.lowest_common_hypernyms(cat)[0]
-        >>> freq['n'][carnivore.id]
+        >>> freq["n"][carnivore.id]
         1.3250000000000002
     """
     freq = _initialize(wordnet, smoothing)
@@ -177,8 +177,8 @@ def load(
     Example:
 
         >>> import wn, wn.ic
-        >>> pwn = wn.Wordnet('pwn:3.0')
-        >>> path = '~/nltk_data/corpora/wordnet_ic/ic-brown-resnik-add1.dat'
+        >>> pwn = wn.Wordnet("pwn:3.0")
+        >>> path = "~/nltk_data/corpora/wordnet_ic/ic-brown-resnik-add1.dat"
         >>> freq = wn.ic.load(path, pwn)
 
     """

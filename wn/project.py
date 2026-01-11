@@ -17,7 +17,7 @@ from wn._types import AnyPath
 from wn._util import is_gzip, is_lzma
 from wn.constants import _ILI, _WORDNET
 
-_ADDITIONAL_FILE_SUFFIXES = ('', '.txt', '.md', '.rst')
+_ADDITIONAL_FILE_SUFFIXES = ("", ".txt", ".md", ".rst")
 
 
 def is_package_directory(path: AnyPath) -> bool:
@@ -55,7 +55,7 @@ def is_collection_directory(path: AnyPath) -> bool:
 class Project:
     """The base class for packages and collections."""
 
-    __slots__ = ('_path',)
+    __slots__ = ("_path",)
 
     def __init__(self, path: AnyPath):
         self._path: Path = Path(path).expanduser()
@@ -73,15 +73,15 @@ class Project:
 
     def readme(self) -> Path | None:
         """Return the path of the README file, or :data:`None` if none exists."""
-        return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
+        return self._find_file(self._path / "README", _ADDITIONAL_FILE_SUFFIXES)
 
     def license(self) -> Path | None:
         """Return the path of the license, or :data:`None` if none exists."""
-        return self._find_file(self._path / 'LICENSE', _ADDITIONAL_FILE_SUFFIXES)
+        return self._find_file(self._path / "LICENSE", _ADDITIONAL_FILE_SUFFIXES)
 
     def citation(self) -> Path | None:
         """Return the path of the citation, or :data:`None` if none exists."""
-        return self._find_file(self._path / 'citation', ('.bib',))
+        return self._find_file(self._path / "citation", (".bib",))
 
     def _find_file(self, base: Path, suffixes: tuple[str, ...]) -> Path | None:
         for suffix in suffixes:
@@ -114,9 +114,9 @@ class Package(Project):
         """Return the path of the package's resource file."""
         files = _package_directory_types(self._path)
         if not files:
-            raise Error(f'no resource found in package: {self._path!s}')
+            raise Error(f"no resource found in package: {self._path!s}")
         elif len(files) > 1:
-            raise Error(f'multiple resource found in package: {self._path!s}')
+            raise Error(f"multiple resource found in package: {self._path!s}")
         return files[0][0]
 
 
@@ -182,15 +182,15 @@ def get_project(
        indicated by :data:`Project.path`.
     """
     if project and path:
-        raise TypeError('expected a project specifier or a path, not both')
+        raise TypeError("expected a project specifier or a path, not both")
     if not project and not path:
-        raise TypeError('expected a project specifier or a path')
+        raise TypeError("expected a project specifier or a path")
 
     if project:
         info = config.get_project_info(project)
-        if not info['cache']:
-            raise Error(f'{project} is not cached; try `wn.download({project!r}` first')
-        path = info['cache']
+        if not info["cache"]:
+            raise Error(f"{project} is not cached; try `wn.download({project!r}` first")
+        path = info["cache"]
     assert path
 
     proj, _ = _get_project_from_path(path)
@@ -212,7 +212,7 @@ def _get_project_from_path(
 
         else:
             raise Error(
-                f'does not appear to be a valid package or collection: {path!s}'
+                f"does not appear to be a valid package or collection: {path!s}"
             )
 
     elif tarfile.is_tarfile(path):
@@ -223,7 +223,7 @@ def _get_project_from_path(
             contents = list(tmpdir_.iterdir())
             if len(contents) != 1:
                 raise Error(
-                    'archive may only have one resource, package, or collection'
+                    "archive may only have one resource, package, or collection"
                 )
             return _get_project_from_path(contents[0], tmp_path=tmpdir_)
 
@@ -232,7 +232,7 @@ def _get_project_from_path(
         if lmf.is_lmf(decompressed) or ili.is_ili_tsv(decompressed):
             return ResourceOnlyPackage(decompressed), tmp_path
         else:
-            raise Error(f'not a valid lexical resource: {path!s}')
+            raise Error(f"not a valid lexical resource: {path!s}")
 
 
 def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
@@ -269,7 +269,7 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
             case Collection():
                 yield from project.packages()
             case _:
-                raise Error(f'unexpected project type: {project.__class__.__name__}')
+                raise Error(f"unexpected project type: {project.__class__.__name__}")
     finally:
         if tmp_path and delete:
             if tmp_path.is_dir():
@@ -277,7 +277,7 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
             elif tmp_path.is_file():
                 tmp_path.unlink()
             else:
-                raise Error(f'could not remove temporary path: {tmp_path}')
+                raise Error(f"could not remove temporary path: {tmp_path}")
 
 
 def _get_decompressed(
@@ -289,20 +289,20 @@ def _get_decompressed(
     if not (gzipped or xzipped):
         return source, tmp_path
     else:
-        tmp = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
+        tmp = tempfile.NamedTemporaryFile(suffix=".xml", delete=False)
         path = Path(tmp.name)
         try:
             if gzipped:
-                with gzip.open(source, 'rb') as gzip_src:
+                with gzip.open(source, "rb") as gzip_src:
                     shutil.copyfileobj(gzip_src, tmp)
             else:  # xzipped
-                with lzma.open(source, 'rb') as lzma_src:
+                with lzma.open(source, "rb") as lzma_src:
                     shutil.copyfileobj(lzma_src, tmp)
 
             tmp.close()  # Windows cannot reliably reopen until it's closed
 
         except (OSError, EOFError, lzma.LZMAError) as exc:
-            raise Error(f'could not decompress file: {source}') from exc
+            raise Error(f"could not decompress file: {source}") from exc
 
         # if tmp_path is not None, the compressed file was in a
         # temporary directory, so return that. Otherwise the new path
@@ -320,9 +320,9 @@ def _check_tar(tar: tarfile.TarFile) -> None:
     for info in tar.getmembers():
         if not (info.isfile() or info.isdir()):
             raise Error(
-                f'tarfile member is not a regular file or directory: {info.name}'
+                f"tarfile member is not a regular file or directory: {info.name}"
             )
-        if info.name.startswith('/') or '..' in info.name:
+        if info.name.startswith("/") or ".." in info.name:
             raise Error(
-                f'tarfile member paths may not be absolute or contain ..: {info.name}'
+                f"tarfile member paths may not be absolute or contain ..: {info.name}"
             )

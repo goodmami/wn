@@ -6,7 +6,7 @@ import wn
 from wn._util import flatten
 from wn.constants import ADJ, ADJ_SAT
 
-_FAKE_ROOT = '*ROOT*'
+_FAKE_ROOT = "*ROOT*"
 
 
 def roots(wordnet: wn.Wordnet, pos: str | None = None) -> list[wn.Synset]:
@@ -22,8 +22,8 @@ def roots(wordnet: wn.Wordnet, pos: str | None = None) -> list[wn.Synset]:
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> ewn = wn.Wordnet('ewn:2020')
-        >>> len(wn.taxonomy.roots(ewn, pos='v'))
+        >>> ewn = wn.Wordnet("ewn:2020")
+        >>> len(wn.taxonomy.roots(ewn, pos="v"))
         573
 
 
@@ -44,8 +44,8 @@ def leaves(wordnet: wn.Wordnet, pos: str | None = None) -> list[wn.Synset]:
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> ewn = wn.Wordnet('ewn:2020')
-        >>> len(wn.taxonomy.leaves(ewn, pos='v'))
+        >>> ewn = wn.Wordnet("ewn:2020")
+        >>> len(wn.taxonomy.leaves(ewn, pos="v"))
         10525
 
     """
@@ -66,8 +66,8 @@ def taxonomy_depth(wordnet: wn.Wordnet, pos: str) -> int:
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> ewn = wn.Wordnet('ewn:2020')
-        >>> wn.taxonomy.taxonomy_depth(ewn, 'n')
+        >>> ewn = wn.Wordnet("ewn:2020")
+        >>> wn.taxonomy.taxonomy_depth(ewn, "n")
         19
 
     """
@@ -101,7 +101,7 @@ def _hypernym_paths(
     simulate_root: bool,
     include_self: bool,
 ) -> list[list[wn.Synset]]:
-    paths = list(synset.relation_paths('hypernym', 'instance_hypernym'))
+    paths = list(synset.relation_paths("hypernym", "instance_hypernym"))
     if include_self:
         paths = [[synset] + path for path in paths] or [[synset]]
     if simulate_root and synset.id != _FAKE_ROOT:
@@ -128,10 +128,10 @@ def hypernym_paths(
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = wn.synsets('dog', pos='n')[0]
+        >>> dog = wn.synsets("dog", pos="n")[0]
         >>> for path in wn.taxonomy.hypernym_paths(dog):
         ...     for i, ss in enumerate(path):
-        ...         print(' ' * i, ss, ss.lemmas()[0])
+        ...         print(" " * i, ss, ss.lemmas()[0])
          Synset('pwn-02083346-n') canine
           Synset('pwn-02075296-n') carnivore
            Synset('pwn-01886756-n') eutherian mammal
@@ -171,7 +171,7 @@ def min_depth(synset: wn.Synset, simulate_root: bool = False) -> int:
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = wn.synsets('dog', pos='n')[0]
+        >>> dog = wn.synsets("dog", pos="n")[0]
         >>> wn.taxonomy.min_depth(dog)
         8
 
@@ -195,7 +195,7 @@ def max_depth(synset: wn.Synset, simulate_root: bool = False) -> int:
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = wn.synsets('dog', pos='n')[0]
+        >>> dog = wn.synsets("dog", pos="n")[0]
         >>> wn.taxonomy.max_depth(dog)
         13
 
@@ -264,8 +264,8 @@ def shortest_path(
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = ewn.synsets('dog', pos='n')[0]
-        >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
+        >>> dog = ewn.synsets("dog", pos="n")[0]
+        >>> squirrel = ewn.synsets("squirrel", pos="n")[0]
         >>> for ss in wn.taxonomy.shortest_path(dog, squirrel):
         ...     print(ss.lemmas())
         ['canine', 'canid']
@@ -278,7 +278,7 @@ def shortest_path(
     pathmap = _shortest_hyp_paths(synset, other, simulate_root)
     key = min(pathmap, key=lambda key: len(pathmap[key]), default=None)
     if key is None:
-        raise wn.Error(f'no path between {synset!r} and {other!r}')
+        raise wn.Error(f"no path between {synset!r} and {other!r}")
     return pathmap[key][1:]
 
 
@@ -297,8 +297,8 @@ def common_hypernyms(
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = ewn.synsets('dog', pos='n')[0]
-        >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
+        >>> dog = ewn.synsets("dog", pos="n")[0]
+        >>> squirrel = ewn.synsets("squirrel", pos="n")[0]
         >>> for ss in wn.taxonomy.common_hypernyms(dog, squirrel):
         ...     print(ss.lemmas())
         ['entity']
@@ -335,8 +335,8 @@ def lowest_common_hypernyms(
     Example:
 
         >>> import wn, wn.taxonomy
-        >>> dog = ewn.synsets('dog', pos='n')[0]
-        >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
+        >>> dog = ewn.synsets("dog", pos="n")[0]
+        >>> squirrel = ewn.synsets("squirrel", pos="n")[0]
         >>> len(wn.taxonomy.lowest_common_hypernyms(dog, squirrel))
         1
         >>> wn.taxonomy.lowest_common_hypernyms(dog, squirrel)[0].lemmas()

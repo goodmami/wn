@@ -34,9 +34,9 @@ def datadir():
 
 @pytest.fixture
 def empty_db(clean_db, tmp_path):
-    dir = tmp_path / 'wn_data_empty'
+    dir = tmp_path / "wn_data_empty"
     with pytest.MonkeyPatch.context() as m:
-        m.setattr(wn.config, 'data_directory', dir)
+        m.setattr(wn.config, "data_directory", dir)
         clean_db()
         yield
 
@@ -67,7 +67,7 @@ def mock_lmf():
 def mock_db_dir(mock_lmf, tmp_path_factory):
     dir = tmp_path_factory.mktemp("wn_data_empty")
     with pytest.MonkeyPatch.context() as m:
-        m.setattr(wn.config, 'data_directory', dir)
+        m.setattr(wn.config, "data_directory", dir)
         wn.add_lexical_resource(mock_lmf, progress_handler=None)
         wn._db.clear_connections()
 

@@ -79,15 +79,15 @@ class Morphy:
 
         >>> import wn
         >>> from wn.morphy import Morphy
-        >>> ewn = wn.Wordnet('ewn:2020')
+        >>> ewn = wn.Wordnet("ewn:2020")
         >>> m = Morphy(ewn)
-        >>> m('axes', pos='n')
+        >>> m("axes", pos="n")
         {'n': {'axe', 'ax', 'axis'}}
-        >>> m('geese', pos='n')
+        >>> m("geese", pos="n")
         {'n': {'goose'}}
-        >>> m('gooses')
+        >>> m("gooses")
         {'n': {'goose'}, 'v': {'goose'}}
-        >>> m('goosing')
+        >>> m("goosing")
         {'v': {'goose'}}
 
     """
@@ -153,7 +153,7 @@ class Morphy:
         for suffix, repl, _ in self._rules[pos]:
             # avoid applying rules that perform full suppletion
             if form.endswith(suffix) and len(suffix) < len(form):
-                candidate = f'{form[:-len(suffix)]}{repl}'
+                candidate = f"{form[:-len(suffix)]}{repl}"
                 if not initialized or candidate in all_lemmas:
                     candidates.add(candidate)
 

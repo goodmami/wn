@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 
 
 class ILIStatus(str, Enum):
-    __module__ = 'wn'
+    __module__ = "wn"
 
     UNKNOWN = "unknown"  # no information available
     ACTIVE = "active"  # attested in ILI file and marked as active
@@ -41,7 +41,7 @@ class ILIStatus(str, Enum):
 class ILIDefinition(HasMetadata):
     """Class for modeling ILI definitions."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     text: str
     _metadata: Metadata | None = field(default=None, compare=False, repr=False)
@@ -104,7 +104,7 @@ class ILIProtocol(Protocol):
                 self._definition_text,
                 _metadata=self._definition_metadata,
                 # lexicon is defined only for proposed ILIs
-                _lexicon=getattr(self, '_lexicon', None),
+                _lexicon=getattr(self, "_lexicon", None),
             )
         return self._definition_text
 
@@ -113,7 +113,7 @@ class ILIProtocol(Protocol):
 class ILI(ILIProtocol):
     """A class for interlingual indices."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     id: str
     status: ILIStatus = field(
@@ -129,7 +129,7 @@ class ILI(ILIProtocol):
 
 @dataclass(frozen=True, slots=True)
 class ProposedILI(LexiconElementWithMetadata, ILIProtocol):
-    __module__ = 'wn'
+    __module__ = "wn"
 
     _synset: str
     _lexicon: str
@@ -288,8 +288,8 @@ def is_ili_tsv(source: AnyPath) -> bool:
     source = Path(source).expanduser()
     if source.is_file():
         try:
-            with source.open('rb') as fh:
-                return next(fh).split(b'\t')[0] in (b'ili', b'ILI')
+            with source.open("rb") as fh:
+                return next(fh).split(b"\t")[0] in (b"ili", b"ILI")
         except (StopIteration, IndexError):
             pass
     return False
@@ -312,14 +312,14 @@ def load_tsv(source: AnyPath) -> Iterator[dict[str, str]]:
 
     """
     source = Path(source).expanduser()
-    with source.open(encoding='utf-8') as fh:
-        header = next(fh).rstrip('\r\n')
-        fields = tuple(map(str.lower, header.split('\t')))
+    with source.open(encoding="utf-8") as fh:
+        header = next(fh).rstrip("\r\n")
+        fields = tuple(map(str.lower, header.split("\t")))
         for line in fh:
             yield dict(
                 zip_longest(
                     fields,
-                    line.rstrip('\r\n').split('\t'),
-                    fillvalue='',
+                    line.rstrip("\r\n").split("\t"),
+                    fillvalue="",
                 )
             )

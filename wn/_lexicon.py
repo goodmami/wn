@@ -19,14 +19,14 @@ from wn._queries import (
 DEFAULT_CONFIDENCE = 1.0
 
 
-Self = TypeVar("Self", bound='Lexicon')  # typing.Self, python_version>=3.11
+Self = TypeVar("Self", bound="Lexicon")  # typing.Self, python_version>=3.11
 
 
 @dataclass(repr=False, eq=True, frozen=True, slots=True)
 class Lexicon(HasMetadata):
     """A class representing a wordnet lexicon."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     _specifier: str
     id: str
@@ -59,7 +59,7 @@ class Lexicon(HasMetadata):
         )
 
     def __repr__(self):
-        return f'<Lexicon {self._specifier} [{self.language}]>'
+        return f"<Lexicon {self._specifier} [{self.language}]>"
 
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
@@ -120,25 +120,25 @@ class Lexicon(HasMetadata):
         """
         lexspecs = (self.specifier(),)
         substrings: list[str] = [
-            f'{self._specifier}',
-            f'  Label  : {self.label}',
-            f'  URL    : {self.url}',
-            f'  License: {self.license}',
+            f"{self._specifier}",
+            f"  Label  : {self.label}",
+            f"  URL    : {self.url}",
+            f"  License: {self.license}",
         ]
         if full:
             substrings.extend(
                 [
-                    f'  Words  : {_desc_counts(find_entries, lexspecs)}',
-                    f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
+                    f"  Words  : {_desc_counts(find_entries, lexspecs)}",
+                    f"  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}",
                 ]
             )
         substrings.extend(
             [
-                f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
-                f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
+                f"  Synsets: {_desc_counts(find_synsets, lexspecs)}",
+                f"  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}",
             ]
         )
-        return '\n'.join(substrings)
+        return "\n".join(substrings)
 
 
 def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
@@ -148,8 +148,8 @@ def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
             count[pos] = 1
         else:
             count[pos] += 1
-    subcounts = ', '.join(f'{pos}: {count[pos]}' for pos in sorted(count))
-    return f'{sum(count.values()):>6} ({subcounts})'
+    subcounts = ", ".join(f"{pos}: {count[pos]}" for pos in sorted(count))
+    return f"{sum(count.values()):>6} ({subcounts})"
 
 
 class LexiconElement(Protocol):

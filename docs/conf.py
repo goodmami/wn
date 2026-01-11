@@ -17,14 +17,14 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'wn'
-copyright = '2020, Michael Wayne Goodman'
-author = 'Michael Wayne Goodman'
+project = "wn"
+copyright = "2020, Michael Wayne Goodman"
+author = "Michael Wayne Goodman"
 
 import wn
 
 # The short X.Y version
-version = '.'.join(wn.__version__.split('.')[:2])
+version = ".".join(wn.__version__.split(".")[:2])
 # The full version, including alpha/beta/rc tags
 release = wn.__version__
 
@@ -34,22 +34,22 @@ release = wn.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.coverage",
     # 'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon',
+    "sphinx.ext.githubpages",
+    "sphinx.ext.napoleon",
     "sphinx_copybutton",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Global definitions
 rst_prolog = """
@@ -59,7 +59,7 @@ rst_prolog = """
 """
 
 # smartquotes = False
-smartquotes_action = 'De'  # D = en- and em-dash; e = ellipsis
+smartquotes_action = "De"  # D = en- and em-dash; e = ellipsis
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -82,15 +82,15 @@ html_theme_options = {
 
 html_logo = "_static/wn-logo.svg"
 
-pygments_style = 'manni'
-pygments_dark_style = 'monokai'
+pygments_style = "manni"
+pygments_dark_style = "monokai"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 html_css_files = [
-    'css/svg.css',
+    "css/svg.css",
 ]
 
 # Don't offer to show the source of the current page
@@ -99,15 +99,15 @@ html_show_sourcelink = False
 # -- Options for autodoc extension -------------------------------------------
 
 # autodoc_typehints = 'description'
-autodoc_typehints = 'signature'
+autodoc_typehints = "signature"
 # autodoc_typehints = 'none'
 
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
-    'httpx': ('https://httpx.readthedocs.io/en/latest/', None),
+    "python": ("https://docs.python.org/3", None),
+    "httpx": ("https://httpx.readthedocs.io/en/latest/", None),
 }
 
 # -- Options for sphinx_copybutton extension ---------------------------------

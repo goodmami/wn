@@ -21,7 +21,7 @@ from wn._types import (
 from wn._util import normalize_form
 
 # Useful for factory functions of Word, Sense, or Synset
-C = TypeVar('C', Word, Sense, Synset)
+C = TypeVar("C", Word, Sense, Synset)
 
 
 class Wordnet:
@@ -80,13 +80,13 @@ class Wordnet:
     """
 
     __slots__ = (
-        '_lexconf',
-        '_default_mode',
-        '_normalizer',
-        'lemmatizer',
-        '_search_all_forms',
+        "_lexconf",
+        "_default_mode",
+        "_normalizer",
+        "lemmatizer",
+        "_search_all_forms",
     )
-    __module__ = 'wn'
+    __module__ = "wn"
 
     def __init__(
         self,
@@ -99,13 +99,13 @@ class Wordnet:
         search_all_forms: bool = True,
     ):
         if lexicon or lang:
-            lexicons = tuple(resolve_lexicon_specifiers(lexicon or '*', lang=lang))
+            lexicons = tuple(resolve_lexicon_specifiers(lexicon or "*", lang=lang))
         else:
             lexicons = ()
         if lang and len(lexicons) > 1:
             warnings.warn(
-                f'multiple lexicons match {lang=}: {lexicons!r}; '
-                'use the lexicon parameter instead to avoid this warning',
+                f"multiple lexicons match {lang=}: {lexicons!r}; "
+                "use the lexicon parameter instead to avoid this warning",
                 WnWarning,
                 stacklevel=2,
             )
@@ -140,7 +140,7 @@ class Wordnet:
         try:
             return Word(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
-            raise Error(f'no such lexical entry: {id}') from None
+            raise Error(f"no such lexical entry: {id}") from None
 
     def words(self, form: str | None = None, pos: str | None = None) -> list[Word]:
         """Return the list of matching words in this wordnet.
@@ -194,9 +194,9 @@ class Wordnet:
 
         Example:
 
-            >>> wn.Wordnet().lemmas('wolves')
+            >>> wn.Wordnet().lemmas("wolves")
             ['wolf']
-            >>> wn.Wordnet().lemmas('wolves', data=True)
+            >>> wn.Wordnet().lemmas("wolves", data=True)
             [Form(value='wolf')]
 
         """
@@ -224,7 +224,7 @@ class Wordnet:
         try:
             return Synset(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
-            raise Error(f'no such synset: {id}') from None
+            raise Error(f"no such synset: {id}") from None
 
     def synsets(
         self, form: str | None = None, pos: str | None = None, ili: str | None = None
@@ -248,7 +248,7 @@ class Wordnet:
         try:
             return Sense(*next(iterable), _lexconf=self._lexconf)
         except StopIteration:
-            raise Error(f'no such sense: {id}') from None
+            raise Error(f"no such sense: {id}") from None
 
     def senses(self, form: str | None = None, pos: str | None = None) -> list[Sense]:
         """Return the list of matching senses in this wordnet.
@@ -266,7 +266,7 @@ class Wordnet:
 
         Example:
 
-            >>> oewn = wn.Wordnet('oewn:2021')
+            >>> oewn = wn.Wordnet("oewn:2021")
             >>> print(oewn.describe())
             Primary lexicons:
               oewn:2021
@@ -279,14 +279,14 @@ class Wordnet:
                 ILIs   : 120039
 
         """
-        substrings = ['Primary lexicons:']
+        substrings = ["Primary lexicons:"]
         for lex in self.lexicons():
-            substrings.append(textwrap.indent(lex.describe(), '  '))
+            substrings.append(textwrap.indent(lex.describe(), "  "))
         if self._lexconf.expands:
-            substrings.append('Expand lexicons:')
+            substrings.append("Expand lexicons:")
             for lex in self.expanded_lexicons():
-                substrings.append(textwrap.indent(lex.describe(full=False), '  '))
-        return '\n'.join(substrings)
+                substrings.append(textwrap.indent(lex.describe(full=False), "  "))
+        return "\n".join(substrings)
 
 
 def _resolve_lexicon_dependencies(
@@ -304,14 +304,14 @@ def _resolve_lexicon_dependencies(
         for lexspec in lexicons
         for depspec, _, added in get_lexicon_dependencies(lexspec)
     ]
-    missing = ' '.join(spec for spec, added in deps if not added)
+    missing = " ".join(spec for spec, added in deps if not added)
     if missing:
         warnings.warn(
-            f'lexicon dependencies not available: {missing}',
+            f"lexicon dependencies not available: {missing}",
             WnWarning,
             stacklevel=3,
         )
-    return ' '.join(spec for spec, added in deps if added)
+    return " ".join(spec for spec, added in deps if added)
 
 
 def _find_lemmas(
@@ -324,9 +324,9 @@ def _find_lemmas(
     pronunciations and tags are loaded from the database.
     """
     kwargs: dict = {
-        'lexicons': w._lexconf.lexicons,
-        'search_all_forms': w._search_all_forms,
-        'load_details': load_details,
+        "lexicons": w._lexconf.lexicons,
+        "search_all_forms": w._search_all_forms,
+        "load_details": load_details,
     }
 
     # easy case is when there is no form
@@ -336,7 +336,7 @@ def _find_lemmas(
 
     # if there's a form, we may need to lemmatize and normalize
     normalize = w._normalizer
-    kwargs['normalized'] = bool(normalize)
+    kwargs["normalized"] = bool(normalize)
 
     lemmatize = w.lemmatizer
     forms = lemmatize(form, pos) if lemmatize else {}
@@ -392,11 +392,11 @@ def _find_helper(
 
     """
     kwargs: dict = {
-        'lexicons': w._lexconf.lexicons,
-        'search_all_forms': w._search_all_forms,
+        "lexicons": w._lexconf.lexicons,
+        "search_all_forms": w._search_all_forms,
     }
     if ili:
-        kwargs['ili'] = ili
+        kwargs["ili"] = ili
 
     # easy case is when there is no form
     if form is None:
@@ -407,7 +407,7 @@ def _find_helper(
 
     # if there's a form, we may need to lemmatize and normalize
     normalize = w._normalizer
-    kwargs['normalized'] = bool(normalize)
+    kwargs["normalized"] = bool(normalize)
 
     lemmatize = w.lemmatizer
     forms = lemmatize(form, pos) if lemmatize else {}

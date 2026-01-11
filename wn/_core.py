@@ -37,20 +37,20 @@ from wn._queries import (
 )
 from wn._util import unique_list
 
-_INFERRED_SYNSET = '*INFERRED*'
+_INFERRED_SYNSET = "*INFERRED*"
 
 
 class _EntityType(str, enum.Enum):
     """Identifies the database table of an entity."""
 
-    LEXICONS = 'lexicons'
-    ENTRIES = 'entries'
-    SENSES = 'senses'
-    SYNSETS = 'synsets'
-    SENSE_RELATIONS = 'sense_relations'
-    SENSE_SYNSET_RELATIONS = 'sense_synset_relations'
-    SYNSET_RELATIONS = 'synset_relations'
-    UNSET = ''
+    LEXICONS = "lexicons"
+    ENTRIES = "entries"
+    SENSES = "senses"
+    SYNSETS = "synsets"
+    SENSE_RELATIONS = "sense_relations"
+    SENSE_SYNSET_RELATIONS = "sense_synset_relations"
+    SYNSET_RELATIONS = "synset_relations"
+    UNSET = ""
 
 
 _EMPTY_LEXCONFIG = LexiconConfiguration(
@@ -68,7 +68,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
     configuration of lexicons used in the original query.
     """
 
-    __slots__ = 'id', '_lexconf'
+    __slots__ = "id", "_lexconf"
 
     id: str
     _lexconf: LexiconConfiguration
@@ -76,7 +76,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
     def __init__(
         self,
         id: str,
-        _lexicon: str = '',
+        _lexicon: str = "",
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ) -> None:
         self.id = id
@@ -108,7 +108,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
 class Pronunciation:
     """A class for word form pronunciations."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     value: str
     variety: str | None = None
@@ -121,7 +121,7 @@ class Pronunciation:
 class Tag:
     """A general-purpose tag class for word forms."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     tag: str
     category: str
@@ -131,12 +131,12 @@ class Tag:
 class Form(LexiconElement):
     """A word-form."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     value: str
     id: str | None = field(default=None, repr=False, compare=False)
     script: str | None = field(default=None, repr=False)
-    _lexicon: str = field(default='', repr=False, compare=False)
+    _lexicon: str = field(default="", repr=False, compare=False)
     _pronunciations: tuple[Pronunciation, ...] = field(
         default_factory=tuple, repr=False, compare=False
     )
@@ -170,8 +170,8 @@ def _make_form(
 class Word(_LexiconDataElement):
     """A class for words (also called lexical entries) in a wordnet."""
 
-    __slots__ = ('pos',)
-    __module__ = 'wn'
+    __slots__ = ("pos",)
+    __module__ = "wn"
 
     _ENTITY_TYPE = _EntityType.ENTRIES
 
@@ -181,14 +181,14 @@ class Word(_LexiconDataElement):
         self,
         id: str,
         pos: str,
-        _lexicon: str = '',
+        _lexicon: str = "",
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
         self.pos = pos
 
     def __repr__(self) -> str:
-        return f'Word({self.id!r})'
+        return f"Word({self.id!r})"
 
     @overload
     def lemma(self, *, data: Literal[False] = False) -> str: ...
@@ -208,9 +208,9 @@ class Word(_LexiconDataElement):
 
         Example:
 
-            >>> wn.words('wolves')[0].lemma()
+            >>> wn.words("wolves")[0].lemma()
             'wolf'
-            >>> wn.words('wolves')[0].lemma(data=True)
+            >>> wn.words("wolves")[0].lemma(data=True)
             Form(value='wolf')
 
         """
@@ -239,9 +239,9 @@ class Word(_LexiconDataElement):
 
         Example:
 
-            >>> wn.words('wolf')[0].forms()
+            >>> wn.words("wolf")[0].forms()
             ['wolf', 'wolves']
-            >>> wn.words('wolf')[0].forms(data=True)
+            >>> wn.words("wolf")[0].forms(data=True)
             [Form(value='wolf'), Form(value='wolves')]
 
         """
@@ -257,7 +257,7 @@ class Word(_LexiconDataElement):
 
         Example:
 
-            >>> wn.words('zygoma')[0].senses()
+            >>> wn.words("zygoma")[0].senses()
             [Sense('ewn-zygoma-n-05292350-01')]
 
         """
@@ -267,14 +267,14 @@ class Word(_LexiconDataElement):
 
     def metadata(self) -> Metadata:
         """Return the word's metadata."""
-        return get_metadata(self.id, self._lexicon, 'entries')
+        return get_metadata(self.id, self._lexicon, "entries")
 
     def synsets(self) -> list[Synset]:
         """Return the list of synsets of the word.
 
         Example:
 
-            >>> wn.words('addendum')[0].synsets()
+            >>> wn.words("addendum")[0].synsets()
             [Synset('ewn-06411274-n')]
 
         """
@@ -285,14 +285,14 @@ class Word(_LexiconDataElement):
 
         Example:
 
-            >>> wn.words('magical')[0].derived_words()
+            >>> wn.words("magical")[0].derived_words()
             [Word('ewn-magic-n'), Word('ewn-magic-n')]
 
         """
         return [
             derived_sense.word()
             for sense in self.senses()
-            for derived_sense in sense.get_related('derivation')
+            for derived_sense in sense.get_related("derivation")
         ]
 
     def translate(
@@ -309,8 +309,8 @@ class Word(_LexiconDataElement):
 
         Example:
 
-            >>> w = wn.words('water bottle', pos='n')[0]
-            >>> for sense, words in w.translate(lang='ja').items():
+            >>> w = wn.words("water bottle", pos="n")[0]
+            >>> for sense, words in w.translate(lang="ja").items():
             ...     print(sense, [jw.lemma() for jw in words])
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
@@ -327,8 +327,8 @@ class Word(_LexiconDataElement):
 class Relation(LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
-    __slots__ = 'name', 'source_id', 'target_id', '_metadata', '_lexicon'
-    __module__ = 'wn'
+    __slots__ = "name", "source_id", "target_id", "_metadata", "_lexicon"
+    __module__ = "wn"
 
     name: str
     source_id: str
@@ -382,7 +382,7 @@ class Relation(LexiconElementWithMetadata):
         return self.metadata().get("type")
 
 
-T = TypeVar('T', bound='_Relatable')
+T = TypeVar("T", bound="_Relatable")
 
 
 class _Relatable(_LexiconDataElement):
@@ -448,11 +448,11 @@ class _Relatable(_LexiconDataElement):
 class Example(LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     text: str
     language: str | None = None
-    _lexicon: str = ''
+    _lexicon: str = ""
     _metadata: Metadata | None = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
@@ -464,12 +464,12 @@ class Example(LexiconElementWithMetadata):
 class Definition(LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     text: str
     language: str | None = None
     source_sense_id: str | None = field(default=None, compare=False)
-    _lexicon: str = ''
+    _lexicon: str = ""
     _metadata: Metadata | None = field(default=None, compare=False, repr=False)
 
     def metadata(self) -> Metadata:
@@ -480,8 +480,8 @@ class Definition(LexiconElementWithMetadata):
 class Synset(_Relatable):
     """Class for modeling wordnet synsets."""
 
-    __slots__ = 'pos', '_ili'
-    __module__ = 'wn'
+    __slots__ = "pos", "_ili"
+    __module__ = "wn"
 
     _ENTITY_TYPE = _EntityType.SYNSETS
 
@@ -493,7 +493,7 @@ class Synset(_Relatable):
         id: str,
         pos: str,
         ili: str | None = None,
-        _lexicon: str = '',
+        _lexicon: str = "",
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
@@ -505,10 +505,10 @@ class Synset(_Relatable):
         cls,
         id: str,
         ili: str | None = None,
-        _lexicon: str = '',
+        _lexicon: str = "",
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
-        return cls(id, pos='', ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
+        return cls(id, pos="", ili=ili, _lexicon=_lexicon, _lexconf=_lexconf)
 
     def __eq__(self, other) -> bool:
         # include ili in the hash so inferred synsets don't hash the same
@@ -524,7 +524,7 @@ class Synset(_Relatable):
         return hash((self.id, self._ili, self._lexicon))
 
     def __repr__(self) -> str:
-        return f'Synset({self.id!r})'
+        return f"Synset({self.id!r})"
 
     @property
     def ili(self) -> str | None:
@@ -548,9 +548,9 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> wn.synsets('cartwheel', pos='n')[0].definition()
+            >>> wn.synsets("cartwheel", pos="n")[0].definition()
             'a wheel that has wooden spokes and a metal rim'
-            >>> wn.synsets('cartwheel', pos='n')[0].definition(data=True)
+            >>> wn.synsets("cartwheel", pos="n")[0].definition(data=True)
             [Definition(text='a wheel that has wooden spokes and a metal rim',
               language=None, source_sense_id=None)]
 
@@ -588,9 +588,9 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> wn.synsets('tea', pos='n')[0].definitions()
+            >>> wn.synsets("tea", pos="n")[0].definitions()
             ['a beverage made by steeping tea leaves in water']
-            >>> wn.synsets('tea', pos='n')[0].definitions(data=True)
+            >>> wn.synsets("tea", pos="n")[0].definitions(data=True)
             [Definition(text='a beverage made by steeping tea leaves in water',
               language=None, source_sense_id=None)]
 
@@ -629,12 +629,12 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> wn.synsets('orbital', pos='a')[0].examples()
+            >>> wn.synsets("orbital", pos="a")[0].examples()
             ['"orbital revolution"', '"orbital velocity"']
 
         """
         lexicons = self._get_lexicons()
-        exs = get_examples(self.id, 'synsets', lexicons)
+        exs = get_examples(self.id, "synsets", lexicons)
         if data:
             return [
                 Example(text, language=lang, _lexicon=lex, _metadata=meta)
@@ -648,7 +648,7 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> wn.synsets('umbrella', pos='n')[0].senses()
+            >>> wn.synsets("umbrella", pos="n")[0].senses()
             [Sense('ewn-umbrella-n-04514450-01')]
 
         """
@@ -658,7 +658,7 @@ class Synset(_Relatable):
 
     def lexicalized(self) -> bool:
         """Return True if the synset is lexicalized."""
-        return get_lexicalized(self.id, self._lexicon, 'synsets')
+        return get_lexicalized(self.id, self._lexicon, "synsets")
 
     def lexfile(self) -> str | None:
         """Return the lexicographer file name for this synset, if any."""
@@ -666,14 +666,14 @@ class Synset(_Relatable):
 
     def metadata(self) -> Metadata:
         """Return the synset's metadata."""
-        return get_metadata(self.id, self._lexicon, 'synsets')
+        return get_metadata(self.id, self._lexicon, "synsets")
 
     def words(self) -> list[Word]:
         """Return the list of words linked by the synset's senses.
 
         Example:
 
-            >>> wn.synsets('exclusive', pos='n')[0].words()
+            >>> wn.synsets("exclusive", pos="n")[0].words()
             [Word('ewn-scoop-n'), Word('ewn-exclusive-n')]
 
         """
@@ -697,9 +697,9 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> wn.synsets('exclusive', pos='n')[0].lemmas()
+            >>> wn.synsets("exclusive", pos="n")[0].lemmas()
             ['scoop', 'exclusive']
-            >>> wn.synsets('exclusive', pos='n')[0].lemmas(data=True)
+            >>> wn.synsets("exclusive", pos="n")[0].lemmas(data=True)
             [Form(value='scoop'), Form(value='exclusive')]
 
         """
@@ -746,7 +746,7 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> button_rels = wn.synsets('button')[0].relations()
+            >>> button_rels = wn.synsets("button")[0].relations()
             >>> for relname, sslist in button_rels.items():
             ...     print(relname, [ss.lemmas() for ss in sslist])
             hypernym [['fixing', 'holdfast', 'fastener', 'fastening']]
@@ -777,7 +777,7 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> fulcrum = wn.synsets('fulcrum')[0]
+            >>> fulcrum = wn.synsets("fulcrum")[0]
             >>> [ss.lemmas() for ss in fulcrum.get_related()]
             [['pin', 'pivot'], ['lever']]
         """
@@ -812,7 +812,7 @@ class Synset(_Relatable):
         self,
         args: Sequence[str],
     ) -> Iterator[tuple[Relation, Synset]]:
-        assert self._ili is not None, 'cannot get expanded relations without an ILI'
+        assert self._ili is not None, "cannot get expanded relations without an ILI"
         _lexconf = self._lexconf
         lexicons = self._get_lexicons()
 
@@ -874,12 +874,12 @@ class Synset(_Relatable):
 
         """
         return self.get_related(
-            'holonym',
-            'holo_location',
-            'holo_member',
-            'holo_part',
-            'holo_portion',
-            'holo_substance',
+            "holonym",
+            "holo_location",
+            "holo_member",
+            "holo_part",
+            "holo_portion",
+            "holo_substance",
         )
 
     def meronyms(self) -> list[Synset]:
@@ -891,12 +891,12 @@ class Synset(_Relatable):
 
         """
         return self.get_related(
-            'meronym',
-            'mero_location',
-            'mero_member',
-            'mero_part',
-            'mero_portion',
-            'mero_substance',
+            "meronym",
+            "mero_location",
+            "mero_member",
+            "mero_part",
+            "mero_portion",
+            "mero_substance",
         )
 
     def hypernyms(self) -> list[Synset]:
@@ -906,7 +906,7 @@ class Synset(_Relatable):
         traversed.
 
         """
-        return self.get_related('hypernym', 'instance_hypernym')
+        return self.get_related("hypernym", "instance_hypernym")
 
     def hyponyms(self) -> list[Synset]:
         """Return the list of synsets related by any hyponym relation.
@@ -915,7 +915,7 @@ class Synset(_Relatable):
         traversed.
 
         """
-        return self.get_related('hyponym', 'instance_hyponym')
+        return self.get_related("hyponym", "instance_hyponym")
 
     def translate(
         self, lexicon: str | None = None, *, lang: str | None = None
@@ -928,8 +928,8 @@ class Synset(_Relatable):
 
         Example:
 
-            >>> es = wn.synsets('araña', lang='es')[0]
-            >>> en = es.translate(lexicon='ewn')[0]
+            >>> es = wn.synsets("araña", lang="es")[0]
+            >>> en = es.translate(lexicon="ewn")[0]
             >>> en.lemmas()
             ['spider']
 
@@ -937,7 +937,7 @@ class Synset(_Relatable):
         ili = self._ili
         if not ili:
             return []
-        lexicons = resolve_lexicon_specifiers(lexicon=(lexicon or '*'), lang=lang)
+        lexicons = resolve_lexicon_specifiers(lexicon=(lexicon or "*"), lang=lang)
         return [
             Synset(*data, _lexconf=self._lexconf)
             for data in get_synsets_for_ilis((ili,), lexicons)
@@ -948,18 +948,18 @@ class Synset(_Relatable):
 class Count(LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
 
-    __module__ = 'wn'
+    __module__ = "wn"
 
     value: int
-    _lexicon: str = ''
+    _lexicon: str = ""
     _metadata: Metadata | None = field(default=None, repr=False, compare=False)
 
 
 class Sense(_Relatable):
     """Class for modeling wordnet senses."""
 
-    __slots__ = '_entry_id', '_synset_id'
-    __module__ = 'wn'
+    __slots__ = "_entry_id", "_synset_id"
+    __module__ = "wn"
 
     _ENTITY_TYPE = _EntityType.SENSES
 
@@ -968,7 +968,7 @@ class Sense(_Relatable):
         id: str,
         entry_id: str,
         synset_id: str,
-        _lexicon: str = '',
+        _lexicon: str = "",
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
         super().__init__(id=id, _lexicon=_lexicon, _lexconf=_lexconf)
@@ -976,14 +976,14 @@ class Sense(_Relatable):
         self._synset_id = synset_id
 
     def __repr__(self) -> str:
-        return f'Sense({self.id!r})'
+        return f"Sense({self.id!r})"
 
     def word(self) -> Word:
         """Return the word of the sense.
 
         Example:
 
-            >>> wn.senses('spigot')[0].word()
+            >>> wn.senses("spigot")[0].word()
             Word('pwn-spigot-n')
 
         """
@@ -996,7 +996,7 @@ class Sense(_Relatable):
 
         Example:
 
-            >>> wn.senses('spigot')[0].synset()
+            >>> wn.senses("spigot")[0].synset()
             Synset('pwn-03325088-n')
 
         """
@@ -1021,7 +1021,7 @@ class Sense(_Relatable):
         :python:`True`, :class:`wn.Example` objects are used instead.
         """
         lexicons = self._get_lexicons()
-        exs = get_examples(self.id, 'senses', lexicons)
+        exs = get_examples(self.id, "senses", lexicons)
         if data:
             return [
                 Example(text, language=lang, _lexicon=lex, _metadata=meta)
@@ -1032,7 +1032,7 @@ class Sense(_Relatable):
 
     def lexicalized(self) -> bool:
         """Return True if the sense is lexicalized."""
-        return get_lexicalized(self.id, self._lexicon, 'senses')
+        return get_lexicalized(self.id, self._lexicon, "senses")
 
     def adjposition(self) -> str | None:
         """Return the adjective position of the sense.
@@ -1075,7 +1075,7 @@ class Sense(_Relatable):
 
     def metadata(self) -> Metadata:
         """Return the sense's metadata."""
-        return get_metadata(self.id, self._lexicon, 'senses')
+        return get_metadata(self.id, self._lexicon, "senses")
 
     @overload
     def relations(
@@ -1175,8 +1175,8 @@ class Sense(_Relatable):
 
         Example:
 
-            >>> physics = wn.senses('physics', lexicon='ewn')[0]
-            >>> for sense in physics.get_related('has_domain_topic'):
+            >>> physics = wn.senses("physics", lexicon="ewn")[0]
+            >>> for sense in physics.get_related("has_domain_topic"):
             ...     print(sense.word().lemma())
             coherent
             chaotic
@@ -1219,8 +1219,8 @@ class Sense(_Relatable):
 
         Example:
 
-            >>> en = wn.senses('petiole', lang='en')[0]
-            >>> pt = en.translate(lang='pt')[0]
+            >>> en = wn.senses("petiole", lang="en")[0]
+            >>> pt = en.translate(lang="pt")[0]
             >>> pt.word().lemma()
             'pecíolo'
 

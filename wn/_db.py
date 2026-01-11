@@ -13,7 +13,7 @@ from wn._exceptions import DatabaseError
 from wn._types import AnyPath
 from wn._util import format_lexicon_specifier, short_hash
 
-logger = logging.getLogger('wn')
+logger = logging.getLogger("wn")
 
 
 # Module Constants
@@ -34,7 +34,7 @@ DEBUG = False
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    'e50cacd2abf1c06c94f20bbabda9831f4e71cda8',
+    "e50cacd2abf1c06c94f20bbabda9831f4e71cda8",
 }
 
 
@@ -42,7 +42,7 @@ COMPATIBLE_SCHEMA_HASHES = {
 
 
 def _adapt_dict(d: dict) -> bytes:
-    return json.dumps(d).encode('utf-8')
+    return json.dumps(d).encode("utf-8")
 
 
 def _convert_dict(s: bytes) -> dict:
@@ -54,8 +54,8 @@ def _convert_boolean(s: bytes) -> bool:
 
 
 sqlite3.register_adapter(dict, _adapt_dict)
-sqlite3.register_converter('meta', _convert_dict)
-sqlite3.register_converter('boolean', _convert_boolean)
+sqlite3.register_converter("meta", _convert_dict)
+sqlite3.register_converter("boolean", _convert_boolean)
 
 
 # The pool is a cache of open connections. Unless the database path is
@@ -78,11 +78,11 @@ def connect() -> sqlite3.Connection:
             check_same_thread=not config.allow_multithreading,
         )
         # foreign key support needs to be enabled for each connection
-        conn.execute('PRAGMA foreign_keys = ON')
+        conn.execute("PRAGMA foreign_keys = ON")
         if DEBUG:
             conn.set_trace_callback(print)
         if not initialized:
-            logger.info('initializing database: %s', dbpath)
+            logger.info("initializing database: %s", dbpath)
             _init_db(conn)
         _check_schema_compatibility(conn, dbpath)
 
@@ -91,12 +91,12 @@ def connect() -> sqlite3.Connection:
 
 
 def _init_db(conn: sqlite3.Connection) -> None:
-    schema = (resources.files('wn') / 'schema.sql').read_text()
+    schema = (resources.files("wn") / "schema.sql").read_text()
     conn.executescript(schema)
     with conn:
         conn.executemany(
-            'INSERT INTO ili_statuses VALUES (null,?)',
-            [('presupposed',), ('proposed',)],
+            "INSERT INTO ili_statuses VALUES (null,?)",
+            [("presupposed",), ("proposed",)],
         )
 
 
@@ -107,9 +107,9 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
     if hash in COMPATIBLE_SCHEMA_HASHES:
         return
 
-    logger.debug('current schema hash:\n  %s', hash)
+    logger.debug("current schema hash:\n  %s", hash)
     logger.debug(
-        'compatible schema hashes:\n  %s', '\n  '.join(COMPATIBLE_SCHEMA_HASHES)
+        "compatible schema hashes:\n  %s", "\n  ".join(COMPATIBLE_SCHEMA_HASHES)
     )
     # otherwise, try to raise a helpful error message
     msg = (
@@ -117,23 +117,23 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
         f"database. Please move or delete {dbpath} and rebuild it."
     )
     try:
-        specs = conn.execute('SELECT id, version FROM lexicons').fetchall()
+        specs = conn.execute("SELECT id, version FROM lexicons").fetchall()
     except sqlite3.OperationalError as exc:
         raise DatabaseError(msg) from exc
     else:
         if specs:
-            installed = '\n  '.join(
+            installed = "\n  ".join(
                 format_lexicon_specifier(id, ver) for id, ver in specs
             )
             msg += f" Lexicons currently installed:\n  {installed}"
         else:
-            msg += ' No lexicons are currently installed.'
+            msg += " No lexicons are currently installed."
         raise DatabaseError(msg)
 
 
 def schema_hash(conn: sqlite3.Connection) -> str:
-    query = 'SELECT sql FROM sqlite_master WHERE NOT sql ISNULL'
-    schema = '\n\n'.join(row[0] for row in conn.execute(query))
+    query = "SELECT sql FROM sqlite_master WHERE NOT sql ISNULL"
+    schema = "\n\n".join(row[0] for row in conn.execute(query))
     return short_hash(schema)
 
 
