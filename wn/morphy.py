@@ -1,7 +1,4 @@
-
-"""A simple English lemmatizer that finds and removes known suffixes.
-
-"""
+"""A simple English lemmatizer that finds and removes known suffixes."""
 
 from enum import Flag, auto
 from typing import TypeAlias
@@ -16,6 +13,7 @@ ExceptionMap: TypeAlias = dict[str, POSExceptionMap]
 
 class _System(Flag):
     """Flags to track suffix rules in various implementations of Morphy."""
+
     PWN = auto()
     NLTK = auto()
     WN = auto()
@@ -32,33 +30,33 @@ Rule: TypeAlias = tuple[str, str, _System]
 
 DETACHMENT_RULES: dict[str, list[Rule]] = {
     NOUN: [
-        ("s",    "",    _ALL),
-        ("ces",  "x",   _WN),
-        ("ses",  "s",   _ALL),
-        ("ves",  "f",   _NLTK | _WN),
+        ("s", "", _ALL),
+        ("ces", "x", _WN),
+        ("ses", "s", _ALL),
+        ("ves", "f", _NLTK | _WN),
         ("ives", "ife", _WN),
-        ("xes",  "x",   _ALL),
-        ("xes",  "xis", _WN),
-        ("zes",  "z",   _ALL),
-        ("ches", "ch",  _ALL),
-        ("shes", "sh",  _ALL),
-        ("men",  "man", _ALL),
-        ("ies",  "y",   _ALL),
+        ("xes", "x", _ALL),
+        ("xes", "xis", _WN),
+        ("zes", "z", _ALL),
+        ("ches", "ch", _ALL),
+        ("shes", "sh", _ALL),
+        ("men", "man", _ALL),
+        ("ies", "y", _ALL),
     ],
     VERB: [
-        ("s",   "",  _ALL),
+        ("s", "", _ALL),
         ("ies", "y", _ALL),
-        ("es",  "e", _ALL),
-        ("es",  "",  _ALL),
-        ("ed",  "e", _ALL),
-        ("ed",  "",  _ALL),
+        ("es", "e", _ALL),
+        ("es", "", _ALL),
+        ("ed", "e", _ALL),
+        ("ed", "", _ALL),
         ("ing", "e", _ALL),
-        ("ing", "",  _ALL),
+        ("ing", "", _ALL),
     ],
     ADJ: [
-        ("er",  "",  _ALL),
-        ("est", "",  _ALL),
-        ("er",  "e", _ALL),
+        ("er", "", _ALL),
+        ("est", "", _ALL),
+        ("er", "e", _ALL),
         ("est", "e", _ALL),
     ],
     ADV: [],

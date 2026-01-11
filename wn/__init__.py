@@ -1,4 +1,3 @@
-
 """
 Wordnet Interface.
 """

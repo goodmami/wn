@@ -1,4 +1,3 @@
-
 from collections.abc import Sequence
 from typing import cast
 
@@ -63,7 +62,7 @@ def export(
     _version = version_info(version)
     resource: lmf.LexicalResource = {
         'lmf_version': version,
-        'lexicons': [_export_lexicon(lex, _version) for lex in lexicons]
+        'lexicons': [_export_lexicon(lex, _version) for lex in lexicons],
     }
     lmf.dump(resource, destination)
 
@@ -122,9 +121,7 @@ def _export_requires(spec: str) -> list[lmf.Dependency]:
     dependencies: list[lmf.Dependency] = []
     for specifier, url, _ in get_lexicon_dependencies(spec):
         id, version = split_lexicon_specifier(specifier)
-        dependencies.append(
-            {'id': id, 'version': version, 'url': url}
-        )
+        dependencies.append({'id': id, 'version': version, 'url': url})
     return dependencies
 
 
@@ -135,9 +132,7 @@ def _export_extends(spec: str) -> lmf.Dependency:
 
 
 def _export_lexical_entries(
-    lexspec: str,
-    sbmap: _SBMap,
-    version: VersionInfo
+    lexspec: str, sbmap: _SBMap, version: VersionInfo
 ) -> list[lmf.LexicalEntry]:
     lexicons = (lexspec,)
     entries: list[lmf.LexicalEntry] = []
@@ -177,7 +172,7 @@ def _export_lexical_entries(
 
 
 def _export_pronunciations(
-    rows: list[tuple[str, str | None, str | None, bool, str | None]]
+    rows: list[tuple[str, str | None, str | None, bool, str | None]],
 ) -> list[lmf.Pronunciation]:
     prons: list[lmf.Pronunciation] = []
     for text, variety, notation, phonemic, audio in rows:
@@ -194,10 +189,7 @@ def _export_pronunciations(
 
 
 def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:
-    return [
-        {'text': text, 'category': category}
-        for text, category in rows
-    ]
+    return [{'text': text, 'category': category} for text, category in rows]
 
 
 def _export_senses(
@@ -232,37 +224,25 @@ def _export_senses(
 
 
 def _export_sense_relations(
-    sense_id: str,
-    lexicons: Sequence[str]
+    sense_id: str, lexicons: Sequence[str]
 ) -> list[lmf.Relation]:
     relations: list[lmf.Relation] = [
-        {'target': id,
-         'relType': type,
-         'meta': _cast_metadata(metadata)}
-        for type, _, metadata, id, *_
-        in get_sense_relations(sense_id, '*', lexicons)
+        {'target': id, 'relType': type, 'meta': _cast_metadata(metadata)}
+        for type, _, metadata, id, *_ in get_sense_relations(sense_id, '*', lexicons)
     ]
     relations.extend(
-        {'target': id,
-         'relType': type,
-         'meta': _cast_metadata(metadata)}
-        for type, _, metadata, _, id, *_
-        in get_sense_synset_relations(sense_id, '*', lexicons)
+        {'target': id, 'relType': type, 'meta': _cast_metadata(metadata)}
+        for type, _, metadata, _, id, *_ in get_sense_synset_relations(
+            sense_id, '*', lexicons
+        )
     )
     return relations
 
 
-def _export_examples(
-    id: str,
-    table: str,
-    lexicons: Sequence[str]
-) -> list[lmf.Example]:
+def _export_examples(id: str, table: str, lexicons: Sequence[str]) -> list[lmf.Example]:
     return [
-        {'text': text,
-         'language': language,
-         'meta': _cast_metadata(metadata)}
-        for text, language, _, metadata
-        in get_examples(id, table, lexicons)
+        {'text': text, 'language': language, 'meta': _cast_metadata(metadata)}
+        for text, language, _, metadata in get_examples(id, table, lexicons)
     ]
 
 
@@ -307,19 +287,21 @@ def _export_definitions(
     lexicons: Sequence[str],
 ) -> list[lmf.Definition]:
     return [
-        {'text': text,
-         'language': language,
-         'sourceSense': sense_id,
-         'meta': _cast_metadata(metadata)}
-        for text, language, sense_id, _, metadata
-        in get_definitions(synset_id, lexicons)
+        {
+            'text': text,
+            'language': language,
+            'sourceSense': sense_id,
+            'meta': _cast_metadata(metadata),
+        }
+        for text, language, sense_id, _, metadata in get_definitions(
+            synset_id, lexicons
+        )
     ]
 
 
 def _export_ili_definition(synset: str) -> lmf.ILIDefinition | None:
     _, lexspec, defn, _ = next(
-        find_proposed_ilis(synset_id=synset),
-        (None, None, None, None)
+        find_proposed_ilis(synset_id=synset), (None, None, None, None)
     )
     ilidef: lmf.ILIDefinition | None = None
     if defn:
@@ -335,11 +317,10 @@ def _export_synset_relations(
     synset_lexicon: str,
 ) -> list[lmf.Relation]:
     return [
-        {'target': id,
-         'relType': type,
-         'meta': _cast_metadata(metadata)}
-        for type, _, metadata, _, id, *_
-        in get_synset_relations(synset_id, synset_lexicon, '*', (synset_lexicon,))
+        {'target': id, 'relType': type, 'meta': _cast_metadata(metadata)}
+        for type, _, metadata, _, id, *_ in get_synset_relations(
+            synset_id, synset_lexicon, '*', (synset_lexicon,)
+        )
     ]
 
 
@@ -363,11 +344,10 @@ def _export_syntactic_behaviours_1_0(
 
 
 def _export_syntactic_behaviours_1_1(
-    lexicons: Sequence[str]
+    lexicons: Sequence[str],
 ) -> list[lmf.SyntacticBehaviour]:
     return [
-        {'id': id or '',
-         'subcategorizationFrame': frame}
+        {'id': id or '', 'subcategorizationFrame': frame}
         for id, frame, _ in find_syntactic_behaviours(lexicons=lexicons)
     ]
 

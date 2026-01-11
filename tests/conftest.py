@@ -1,4 +1,3 @@
-
 import lzma
 from pathlib import Path
 
@@ -29,6 +28,7 @@ def empty_db(tmp_path_factory):
 
 # We want to build these DBs once per session, but connections
 # are created once for every test.
+
 
 @pytest.fixture(scope='session')
 def mini_db_dir(datadir, tmp_path_factory):

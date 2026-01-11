@@ -1,4 +1,3 @@
-
 """Wordnet lexicon validation.
 
 This module is for checking whether the the contents of a lexicon are
@@ -55,14 +54,16 @@ _Report = dict[str, dict[str, str | _Result]]
 
 def _non_unique_id(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """ID is not unique within the lexicon"""
-    return _multiples(chain(
-        [lex['id']],
-        (f['id'] for e in _entries(lex) for f in _forms(e) if f.get('id')),
-        (sb['id'] for sb in lex.get('frames', []) if sb.get('id')),
-        ids['entry'].elements(),
-        ids['sense'].elements(),
-        ids['synset'].elements(),
-    ))
+    return _multiples(
+        chain(
+            [lex['id']],
+            (f['id'] for e in _entries(lex) for f in _forms(e) if f.get('id')),
+            (sb['id'] for sb in lex.get('frames', []) if sb.get('id')),
+            ids['entry'].elements(),
+            ids['sense'].elements(),
+            ids['synset'].elements(),
+        )
+    )
 
 
 def _has_no_senses(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -75,27 +76,33 @@ def _redundant_sense(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     result: _Result = {}
     for e in _entries(lex):
         redundant = _multiples(s['synset'] for s in _senses(e))
-        result.update((s['id'], {'entry': e['id'], 'synset': s['synset']})
-                      for s in _senses(e)
-                      if s['synset'] in redundant)
+        result.update(
+            (s['id'], {'entry': e['id'], 'synset': s['synset']})
+            for s in _senses(e)
+            if s['synset'] in redundant
+        )
     return result
 
 
 def _redundant_entry(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """redundant lexical entry with the same lemma and synset"""
-    redundant = _multiples((e['lemma']['writtenForm'], s['synset'])
-                           for e in _entries(lex)
-                           for s in _senses(e))
+    redundant = _multiples(
+        (e['lemma']['writtenForm'], s['synset'])
+        for e in _entries(lex)
+        for s in _senses(e)
+    )
     return {form: {'synset': synset} for form, synset in redundant}
 
 
 def _missing_synset(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """synset of sense is missing"""
     synset_ids = ids['synset']
-    return {s['id']: {'synset': s['synset']}
-            for e in _entries(lex)
-            for s in _senses(e)
-            if s['synset'] not in synset_ids}
+    return {
+        s['id']: {'synset': s['synset']}
+        for e in _entries(lex)
+        for s in _senses(e)
+        if s['synset'] not in synset_ids
+    }
 
 
 def _empty_synset(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -109,35 +116,43 @@ def _repeated_ili(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     repeated = _multiples(
         ss['ili'] for ss in _synsets(lex) if ss['ili'] and ss['ili'] != 'in'
     )
-    return {ss['id']: {'ili': ss['ili']}
-            for ss in _synsets(lex)
-            if ss['ili'] in repeated}
+    return {
+        ss['id']: {'ili': ss['ili']} for ss in _synsets(lex) if ss['ili'] in repeated
+    }
 
 
 def _missing_ili_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """proposed ILI is missing a definition"""
-    return {ss['id']: {} for ss in _synsets(lex)
-            if ss['ili'] == 'in' and not ss.get('ili_definition')}
+    return {
+        ss['id']: {}
+        for ss in _synsets(lex)
+        if ss['ili'] == 'in' and not ss.get('ili_definition')
+    }
 
 
 def _spurious_ili_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """existing ILI has a spurious definition"""
-    return {ss['id']: {'ili_definitin': ss['ili_definition']}
-            for ss in _synsets(lex)
-            if ss['ili'] and ss['ili'] != 'in' and ss.get('ili_definition')}
+    return {
+        ss['id']: {'ili_definitin': ss['ili_definition']}
+        for ss in _synsets(lex)
+        if ss['ili'] and ss['ili'] != 'in' and ss.get('ili_definition')
+    }
 
 
 def _blank_synset_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """synset has a blank definition"""
     return {
-        ss['id']: {} for ss in _synsets(lex)
+        ss['id']: {}
+        for ss in _synsets(lex)
         if any(dfn["text"].strip() == "" for dfn in ss.get("definitions", []))
     }
+
 
 def _blank_synset_example(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """synset has a blank example"""
     return {
-        ss['id']: {} for ss in _synsets(lex)
+        ss['id']: {}
+        for ss in _synsets(lex)
         if any(ex["text"].strip() == "" for ex in ss.get("examples", []))
     }
 
@@ -145,53 +160,60 @@ def _blank_synset_example(lex: lmf.Lexicon, ids: _Ids) -> _Result:
 def _repeated_synset_definition(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """synset repeats an existing definition"""
     repeated = _multiples(
-        dfn["text"]
-        for ss in _synsets(lex)
-        for dfn in ss.get("definitions", [])
+        dfn["text"] for ss in _synsets(lex) for dfn in ss.get("definitions", [])
     )
     return {
-        ss["id"]: {} for ss in _synsets(lex)
+        ss["id"]: {}
+        for ss in _synsets(lex)
         if any(dfn["text"] in repeated for dfn in ss.get("definitions", []))
     }
 
 
 def _missing_relation_target(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """relation target is missing or invalid"""
-    result = {s['id']: {'type': r['relType'], 'target': r['target']}
-              for s, r in _sense_relations(lex)
-              if r['target'] not in ids['sense'] and r['target'] not in ids['synset']}
-    result.update((ss['id'], {'type': r['relType'], 'target': r['target']})
-                  for ss, r in _synset_relations(lex)
-                  if r['target'] not in ids['synset'])
+    result = {
+        s['id']: {'type': r['relType'], 'target': r['target']}
+        for s, r in _sense_relations(lex)
+        if r['target'] not in ids['sense'] and r['target'] not in ids['synset']
+    }
+    result.update(
+        (ss['id'], {'type': r['relType'], 'target': r['target']})
+        for ss, r in _synset_relations(lex)
+        if r['target'] not in ids['synset']
+    )
     return result
 
 
 def _invalid_relation_type(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """relation type is invalid for the source and target"""
-    result = {s['id']: {'type': r['relType'], 'target': r['target']}
-              for s, r in _sense_relations(lex)
-              if (r['target'] in ids['sense']
-                  and r['relType'] not in SENSE_RELATIONS)
-              or (r['target'] in ids['synset']
-                  and r['relType'] not in SENSE_SYNSET_RELATIONS)}
-    result.update((ss['id'], {'type': r['relType'], 'target': r['target']})
-                  for ss, r in _synset_relations(lex)
-                  if r['relType'] not in SYNSET_RELATIONS)
+    result = {
+        s['id']: {'type': r['relType'], 'target': r['target']}
+        for s, r in _sense_relations(lex)
+        if (r['target'] in ids['sense'] and r['relType'] not in SENSE_RELATIONS)
+        or (r['target'] in ids['synset'] and r['relType'] not in SENSE_SYNSET_RELATIONS)
+    }
+    result.update(
+        (ss['id'], {'type': r['relType'], 'target': r['target']})
+        for ss, r in _synset_relations(lex)
+        if r['relType'] not in SYNSET_RELATIONS
+    )
     return result
 
 
 def _redundant_relation(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """redundant relation between source and target"""
-    redundant = _multiples(chain(
-        (
-            (s['id'], r['relType'], r['target'], _get_dc_type(r))
-            for s, r in _sense_relations(lex)
-        ),
-        (
-            (ss['id'], r['relType'], r['target'], _get_dc_type(r))
-            for ss, r in _synset_relations(lex)
-        ),
-    ))
+    redundant = _multiples(
+        chain(
+            (
+                (s['id'], r['relType'], r['target'], _get_dc_type(r))
+                for s, r in _sense_relations(lex)
+            ),
+            (
+                (ss['id'], r['relType'], r['target'], _get_dc_type(r))
+                for ss, r in _synset_relations(lex)
+            ),
+        )
+    )
     return {
         src: ({'type': typ, 'target': tgt} | ({'dc:type': dctyp} if dctyp else {}))
         for src, typ, tgt, dctyp in redundant
@@ -200,45 +222,64 @@ def _redundant_relation(lex: lmf.Lexicon, ids: _Ids) -> _Result:
 
 def _missing_reverse_relation(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """reverse relation is missing"""
-    regular = {(s['id'], r['relType'], r['target'])
-               for s, r in _sense_relations(lex)
-               if r['target'] in ids['sense']}
-    regular.update((ss['id'], r['relType'], r['target'])
-                   for ss, r in _synset_relations(lex))
-    return {tgt: {'type': REVERSE_RELATIONS[typ], 'target': src}
-            for src, typ, tgt in regular
-            if typ in REVERSE_RELATIONS
-            and (tgt, REVERSE_RELATIONS[typ], src) not in regular}
+    regular = {
+        (s['id'], r['relType'], r['target'])
+        for s, r in _sense_relations(lex)
+        if r['target'] in ids['sense']
+    }
+    regular.update(
+        (ss['id'], r['relType'], r['target']) for ss, r in _synset_relations(lex)
+    )
+    return {
+        tgt: {'type': REVERSE_RELATIONS[typ], 'target': src}
+        for src, typ, tgt in regular
+        if typ in REVERSE_RELATIONS
+        and (tgt, REVERSE_RELATIONS[typ], src) not in regular
+    }
 
 
 def _hypernym_wrong_pos(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """synset's part-of-speech is different from its hypernym's"""
     sspos = {ss['id']: ss.get('partOfSpeech') for ss in _synsets(lex)}
-    return {ss['id']: {'type': r['relType'], 'target': r['target']}
-            for ss, r in _synset_relations(lex)
-            if r['relType'] == 'hypernym'
-            and ss.get('partOfSpeech') != sspos[r['target']]}
+    return {
+        ss['id']: {'type': r['relType'], 'target': r['target']}
+        for ss, r in _synset_relations(lex)
+        if r['relType'] == 'hypernym' and ss.get('partOfSpeech') != sspos[r['target']]
+    }
 
 
 def _self_loop(lex: lmf.Lexicon, ids: _Ids) -> _Result:
     """relation is a self-loop"""
     relations = chain(_sense_relations(lex), _synset_relations(lex))
-    return {x['id']: {'type': r['relType'], 'target': r['target']}
-            for x, r in relations
-            if x['id'] == r['target']}
+    return {
+        x['id']: {'type': r['relType'], 'target': r['target']}
+        for x, r in relations
+        if x['id'] == r['target']
+    }
 
 
 # Helpers
+
 
 def _multiples(iterable):
     counts = Counter(iterable)
     return {x: {'count': cnt} for x, cnt in counts.items() if cnt > 1}
 
 
-def _entries(lex: lmf.Lexicon) -> list[lmf.LexicalEntry]: return lex.get('entries', [])
-def _forms(e: lmf.LexicalEntry) -> list[lmf.Form]: return e.get('forms', [])
-def _senses(e: lmf.LexicalEntry) -> list[lmf.Sense]: return e.get('senses', [])
-def _synsets(lex: lmf.Lexicon) -> list[lmf.Synset]: return lex.get('synsets', [])
+def _entries(lex: lmf.Lexicon) -> list[lmf.LexicalEntry]:
+    return lex.get('entries', [])
+
+
+def _forms(e: lmf.LexicalEntry) -> list[lmf.Form]:
+    return e.get('forms', [])
+
+
+def _senses(e: lmf.LexicalEntry) -> list[lmf.Sense]:
+    return e.get('senses', [])
+
+
+def _synsets(lex: lmf.Lexicon) -> list[lmf.Synset]:
+    return lex.get('synsets', [])
 
 
 def _sense_relations(lex: lmf.Lexicon) -> Iterator[tuple[lmf.Sense, lmf.Relation]]:
@@ -299,17 +340,20 @@ _codes: dict[str, _CheckFunction] = {
 
 def _select_checks(select: Sequence[str]) -> list[tuple[str, _CheckFunction, str]]:
     selectset = set(select)
-    return [(code, func, func.__doc__ or '')
-            for code, func in _codes.items()
-            if code in selectset or code[0] in selectset]
+    return [
+        (code, func, func.__doc__ or '')
+        for code, func in _codes.items()
+        if code in selectset or code[0] in selectset
+    ]
 
 
 # Main function
 
+
 def validate(
     lex: lmf.Lexicon | lmf.LexiconExtension,
     select: Sequence[str] = ('E', 'W'),
-    progress_handler: type[ProgressHandler] | None = ProgressBar
+    progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> _Report:
     """Check *lex* for validity and return a report of the results.
 
@@ -330,9 +374,9 @@ def validate(
 
     ids: _Ids = {
         'entry': Counter(entry['id'] for entry in _entries(lex)),
-        'sense': Counter(sense['id']
-                         for entry in _entries(lex)
-                         for sense in _senses(entry)),
+        'sense': Counter(
+            sense['id'] for entry in _entries(lex) for sense in _senses(entry)
+        ),
         'synset': Counter(synset['id'] for synset in _synsets(lex)),
     }
 
@@ -343,8 +387,7 @@ def validate(
     report: _Report = {}
     for code, func, message in checks:
         progress.set(status=func.__name__.replace('_', ' '))
-        report[code] = {'message': message,
-                        'items': func(lex, ids)}
+        report[code] = {'message': message, 'items': func(lex, ids)}
         progress.update()
     progress.set(status='')
     progress.close()

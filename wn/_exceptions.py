@@ -1,4 +1,3 @@
-
 class Error(Exception):
     """Generic error class for invalid wordnet operations."""
 
@@ -14,11 +13,13 @@ class DatabaseError(Error):
 
 class ConfigurationError(Error):
     """Raised on invalid configurations."""
+
     __module__ = 'wn'
 
 
 class ProjectError(Error):
     """Raised when a project is not found or on errors defined in the index."""
+
     __module__ = 'wn'
 
 

@@ -77,7 +77,7 @@ html_theme_options = {
     "dark_css_variables": {
         "color-brand-primary": "#00CCFF",
         "color-brand-content": "#00CCFF",
-    }
+    },
 }
 
 html_logo = "_static/wn-logo.svg"
@@ -113,9 +113,9 @@ intersphinx_mapping = {
 # -- Options for sphinx_copybutton extension ---------------------------------
 
 copybutton_prompt_text = (
-    r">>> "              # regular Python prompt
-    r"|\.\.\. "          # Python continuation prompt
-    r"|\$ "              # Basic shell
-    r"|In \[\d*\]: "     # Jupyter notebook
+    r">>> "  # regular Python prompt
+    r"|\.\.\. "  # Python continuation prompt
+    r"|\$ "  # Basic shell
+    r"|In \[\d*\]: "  # Jupyter notebook
 )
 copybutton_prompt_is_regexp = True

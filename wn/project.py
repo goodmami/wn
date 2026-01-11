@@ -1,4 +1,3 @@
-
 """
 Wordnet and ILI Packages and Collections
 """
@@ -48,14 +47,15 @@ def _resource_file_type(path: Path) -> str | None:
 def is_collection_directory(path: AnyPath) -> bool:
     """Return ``True`` if *path* appears to be a wordnet collection."""
     path = Path(path).expanduser()
-    return (path.is_dir()
-            and len(list(filter(is_package_directory, path.iterdir()))) >= 1)
+    return (
+        path.is_dir() and len(list(filter(is_package_directory, path.iterdir()))) >= 1
+    )
 
 
 class Project:
     """The base class for packages and collections."""
 
-    __slots__ = '_path',
+    __slots__ = ('_path',)
 
     def __init__(self, path: AnyPath):
         self._path: Path = Path(path).expanduser()
@@ -133,9 +133,14 @@ class ResourceOnlyPackage(Package):
     def resource_file(self) -> Path:
         return self._path
 
-    def readme(self): return None
-    def license(self): return None
-    def citation(self): return None
+    def readme(self):
+        return None
+
+    def license(self):
+        return None
+
+    def citation(self):
+        return None
 
 
 class Collection(Project):
@@ -147,9 +152,9 @@ class Collection(Project):
 
     def packages(self) -> list[Package]:
         """Return the list of packages in the collection."""
-        return [Package(path)
-                for path in self._path.iterdir()
-                if is_package_directory(path)]
+        return [
+            Package(path) for path in self._path.iterdir() if is_package_directory(path)
+        ]
 
 
 def get_project(
@@ -184,9 +189,7 @@ def get_project(
     if project:
         info = config.get_project_info(project)
         if not info['cache']:
-            raise Error(
-                f'{project} is not cached; try `wn.download({project!r}` first'
-            )
+            raise Error(f'{project} is not cached; try `wn.download({project!r}` first')
         path = info['cache']
     assert path
 
@@ -195,7 +198,8 @@ def get_project(
 
 
 def _get_project_from_path(
-    path: AnyPath, tmp_path: Path | None = None,
+    path: AnyPath,
+    tmp_path: Path | None = None,
 ) -> tuple[Project, Path | None]:
     path = Path(path).expanduser()
 
@@ -228,9 +232,7 @@ def _get_project_from_path(
         if lmf.is_lmf(decompressed) or ili.is_ili_tsv(decompressed):
             return ResourceOnlyPackage(decompressed), tmp_path
         else:
-            raise Error(
-                f'not a valid lexical resource: {path!s}'
-            )
+            raise Error(f'not a valid lexical resource: {path!s}')
 
 
 def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:

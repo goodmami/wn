@@ -222,8 +222,14 @@ def _add_lexical_resource(
             _insert_sense_relations(lexicon, lexid, lexidmap, cur, progress)
 
             _insert_synset_definitions(synsets, lexid, lexidmap, cur, progress)
-            _insert_examples([sense for e in entries for sense in _senses(e)],
-                             lexid, lexidmap, 'sense_examples', cur, progress)
+            _insert_examples(
+                [sense for e in entries for sense in _senses(e)],
+                lexid,
+                lexidmap,
+                'sense_examples',
+                cur,
+                progress,
+            )
             _insert_examples(synsets, lexid, lexidmap, 'synset_examples', cur, progress)
 
             progress.set(status='')  # clear type string
@@ -271,73 +277,81 @@ def _sum_counts(lex: _AnyLexicon) -> int:
     frms = [f for e in ents for f in _forms(e)]
     sens = [s for e in ents for s in _senses(e)]
     syns = _synsets(lex)
-    return sum([
-        # index (every entry must be processed; not all use index)
-        len(ents),
-        # lexical entries
-        len(ents),
-        len(lems),
-        sum(len(lem.get('pronunciations', [])) for lem in lems),
-        sum(len(lem.get('tags', [])) for lem in lems),
-        len(frms),
-        sum(len(frm.get('pronunciations', [])) for frm in frms),
-        sum(len(frm.get('tags', [])) for frm in frms),
-        # senses
-        len(sens),
-        sum(len(sen.get('relations', [])) for sen in sens),
-        sum(len(sen.get('examples', [])) for sen in sens),
-        sum(len(sen.get('counts', [])) for sen in sens),
-        # synsets
-        len(syns),
-        sum(len(syn.get('definitions', [])) for syn in syns),
-        sum(len(syn.get('relations', [])) for syn in syns),
-        sum(len(syn.get('examples', [])) for syn in syns),
-        # syntactic behaviours
-        sum(len(ent.get('frames', [])) for ent in locs),
-        len(lex.get('frames', [])),
-    ])
+    return sum(
+        [
+            # index (every entry must be processed; not all use index)
+            len(ents),
+            # lexical entries
+            len(ents),
+            len(lems),
+            sum(len(lem.get('pronunciations', [])) for lem in lems),
+            sum(len(lem.get('tags', [])) for lem in lems),
+            len(frms),
+            sum(len(frm.get('pronunciations', [])) for frm in frms),
+            sum(len(frm.get('tags', [])) for frm in frms),
+            # senses
+            len(sens),
+            sum(len(sen.get('relations', [])) for sen in sens),
+            sum(len(sen.get('examples', [])) for sen in sens),
+            sum(len(sen.get('counts', [])) for sen in sens),
+            # synsets
+            len(syns),
+            sum(len(syn.get('definitions', [])) for syn in syns),
+            sum(len(syn.get('relations', [])) for syn in syns),
+            sum(len(syn.get('examples', [])) for syn in syns),
+            # syntactic behaviours
+            sum(len(ent.get('frames', [])) for ent in locs),
+            len(lex.get('frames', [])),
+        ]
+    )
 
 
-def _update_lookup_tables(
-    lexicon: _AnyLexicon,
-    cur: sqlite3.Cursor
-) -> None:
-    reltypes = set(rel['relType']
-                   for ss in _synsets(lexicon)
-                   for rel in ss.get('relations', []))
-    reltypes.update(rel['relType']
-                    for e in _entries(lexicon)
-                    for s in _senses(e)
-                    for rel in s.get('relations', []))
-    cur.executemany('INSERT OR IGNORE INTO relation_types VALUES (null,?)',
-                    [(rt,) for rt in sorted(reltypes)])
-    lexfiles: set[str] = {ss.get('lexfile', '')
-                          for ss in _local_synsets(_synsets(lexicon))
-                          if ss.get('lexfile')}
-    cur.executemany('INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
-                    [(lf,) for lf in sorted(lexfiles)])
+def _update_lookup_tables(lexicon: _AnyLexicon, cur: sqlite3.Cursor) -> None:
+    reltypes = set(
+        rel['relType'] for ss in _synsets(lexicon) for rel in ss.get('relations', [])
+    )
+    reltypes.update(
+        rel['relType']
+        for e in _entries(lexicon)
+        for s in _senses(e)
+        for rel in s.get('relations', [])
+    )
+    cur.executemany(
+        'INSERT OR IGNORE INTO relation_types VALUES (null,?)',
+        [(rt,) for rt in sorted(reltypes)],
+    )
+    lexfiles: set[str] = {
+        ss.get('lexfile', '')
+        for ss in _local_synsets(_synsets(lexicon))
+        if ss.get('lexfile')
+    }
+    cur.executemany(
+        'INSERT OR IGNORE INTO lexfiles VALUES (null,?)',
+        [(lf,) for lf in sorted(lexfiles)],
+    )
 
 
 def _insert_lexicon(
-    lexicon: _AnyLexicon,
-    cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    lexicon: _AnyLexicon, cur: sqlite3.Cursor, progress: ProgressHandler
 ) -> tuple[int, int]:
     progress.set(status='Lexicon Info')
     cur.execute(
         'INSERT INTO lexicons VALUES (null,?,?,?,?,?,?,?,?,?,?,?,?)',
-        (f"{lexicon['id']}:{lexicon['version']}",
-         lexicon['id'],
-         lexicon['label'],
-         lexicon['language'],
-         lexicon['email'],
-         lexicon['license'],
-         lexicon['version'],
-         lexicon.get('url'),
-         lexicon.get('citation'),
-         lexicon.get('logo'),
-         lexicon.get('meta'),
-         False))
+        (
+            f"{lexicon['id']}:{lexicon['version']}",
+            lexicon['id'],
+            lexicon['label'],
+            lexicon['language'],
+            lexicon['email'],
+            lexicon['license'],
+            lexicon['version'],
+            lexicon.get('url'),
+            lexicon.get('citation'),
+            lexicon.get('logo'),
+            lexicon.get('meta'),
+            False,
+        ),
+    )
     lexid = cur.lastrowid
 
     if not isinstance(lexid, int):
@@ -375,7 +389,7 @@ def _insert_lexicon(
         cur.execute(query.format(table='lexicon_extensions'), param_dict)
         extid = cur.execute(
             'SELECT rowid FROM lexicons WHERE id=? AND version=?',
-            (param_dict['id'], param_dict['version'])
+            (param_dict['id'], param_dict['version']),
         ).fetchone()[0]
     else:
         extid = lexid
@@ -390,16 +404,16 @@ def _build_lexid_map(lexicon: _AnyLexicon, lexid: int, extid: int) -> _LexIdMap:
     """Build a mapping of entity IDs to extended lexicon rowid."""
     lexidmap: _LexIdMap = {}
     if lexid != extid:
-        lexidmap.update((e['id'], extid)
-                        for e in _entries(lexicon)
-                        if _is_external(e))
-        lexidmap.update((s['id'], extid)
-                        for e in _entries(lexicon)
-                        for s in _senses(e)
-                        if _is_external(s))
-        lexidmap.update((ss['id'], extid)
-                        for ss in _synsets(lexicon)
-                        if _is_external(ss))
+        lexidmap.update((e['id'], extid) for e in _entries(lexicon) if _is_external(e))
+        lexidmap.update(
+            (s['id'], extid)
+            for e in _entries(lexicon)
+            for s in _senses(e)
+            if _is_external(s)
+        )
+        lexidmap.update(
+            (ss['id'], extid) for ss in _synsets(lexicon) if _is_external(ss)
+        )
     return lexidmap
 
 
@@ -418,7 +432,7 @@ def _insert_synsets(
     synsets: Sequence[_AnySynset],
     lexid: int,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Synsets')
     # synsets
@@ -443,7 +457,6 @@ def _insert_synsets(
     '''
 
     for batch in _batch(_local_synsets(synsets)):
-
         # first add presupposed ILIs
         pre_ili_data = []
         for ss in batch:
@@ -457,12 +470,14 @@ def _insert_synsets(
 
         # then add synsets
         ss_data = (
-            (ss['id'],
-             lexid,
-             ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
-             ss.get('partOfSpeech'),
-             ss.get('lexfile'),
-             ss.get('meta'))
+            (
+                ss['id'],
+                lexid,
+                ss['ili'] if ss['ili'] and ss['ili'] != 'in' else None,
+                ss.get('partOfSpeech'),
+                ss.get('lexfile'),
+                ss.get('meta'),
+            )
             for ss in batch
         )
         cur.executemany(ss_query, ss_data)
@@ -492,13 +507,12 @@ def _insert_synsets(
     cur.executemany(query, unlexicalized_data)
 
 
-
 def _insert_synset_definitions(
     synsets: Sequence[_AnySynset],
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Definitions')
     query = f'''
@@ -507,14 +521,16 @@ def _insert_synset_definitions(
     '''
     for batch in _batch(synsets):
         data = [
-            (lexid,
-             synset['id'],
-             lexidmap.get(synset['id'], lexid),
-             definition['text'],
-             definition.get('language'),
-             definition.get('sourceSense'),
-             lexidmap.get(definition.get('sourceSense', ''), lexid),
-             definition.get('meta'))
+            (
+                lexid,
+                synset['id'],
+                lexidmap.get(synset['id'], lexid),
+                definition['text'],
+                definition.get('language'),
+                definition.get('sourceSense'),
+                lexidmap.get(definition.get('sourceSense', ''), lexid),
+                definition.get('meta'),
+            )
             for synset in batch
             for definition in synset.get('definitions', [])
         ]
@@ -527,7 +543,7 @@ def _insert_synset_relations(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Synset Relations')
     query = f'''
@@ -536,11 +552,15 @@ def _insert_synset_relations(
     '''
     for batch in _batch(synsets):
         data = [
-            (lexid,
-             synset['id'], lexidmap.get(synset['id'], lexid),
-             relation['target'], lexidmap.get(relation['target'], lexid),
-             relation['relType'],
-             relation.get('meta'))
+            (
+                lexid,
+                synset['id'],
+                lexidmap.get(synset['id'], lexid),
+                relation['target'],
+                lexidmap.get(relation['target'], lexid),
+                relation['relType'],
+                relation.get('meta'),
+            )
             for synset in batch
             for relation in synset.get('relations', [])
         ]
@@ -552,16 +572,13 @@ def _insert_entries(
     entries: Sequence[_AnyEntry],
     lexid: int,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Words')
     query = 'INSERT INTO entries VALUES (null,?,?,?,?)'
     for batch in _batch(_local_entries(entries)):
         data = (
-            (entry['id'],
-             lexid,
-             entry['lemma']['partOfSpeech'],
-             entry.get('meta'))
+            (entry['id'], lexid, entry['lemma']['partOfSpeech'], entry.get('meta'))
             for entry in batch
         )
         cur.executemany(query, data)
@@ -572,14 +589,19 @@ def _insert_index(
     entries: Sequence[_AnyEntry],
     lexid: int,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Index')
     query = f'INSERT INTO entry_index VALUES (({ENTRY_QUERY}),?)'
     for batch in _batch(_local_entries(entries)):
         data = (
-            (entry['id'], lexid, entry['index'],)
-            for entry in batch if entry.get('index')
+            (
+                entry['id'],
+                lexid,
+                entry['index'],
+            )
+            for entry in batch
+            if entry.get('index')
         )
         cur.executemany(query, data)
         progress.update(len(batch))
@@ -590,13 +612,14 @@ def _insert_forms(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Word Forms')
     query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?,?)'
     for batch in _batch(entries):
-        forms: list[tuple[str | None, int, str, int,
-                          str, str | None, str | None, int]] = []
+        forms: list[
+            tuple[str | None, int, str, int, str, str | None, str | None, int]
+        ] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
@@ -605,9 +628,16 @@ def _insert_forms(
                 written_form = entry['lemma']['writtenForm']
                 norm = normalize_form(written_form)
                 forms.append(
-                    (None, lexid, eid, lid,
-                     written_form, norm if norm != written_form else None,
-                     entry['lemma'].get('script'), 0)
+                    (
+                        None,
+                        lexid,
+                        eid,
+                        lid,
+                        written_form,
+                        norm if norm != written_form else None,
+                        entry['lemma'].get('script'),
+                        0,
+                    )
                 )
             for i, form in enumerate(_forms(entry), 1):
                 if _is_external(form):
@@ -616,9 +646,16 @@ def _insert_forms(
                 written_form = form['writtenForm']
                 norm = normalize_form(written_form)
                 forms.append(
-                    (form.get('id'), lexid, eid, lid,
-                     written_form, norm if norm != written_form else None,
-                     form.get('script'), i)
+                    (
+                        form.get('id'),
+                        lexid,
+                        eid,
+                        lid,
+                        written_form,
+                        norm if norm != written_form else None,
+                        form.get('script'),
+                        i,
+                    )
                 )
         cur.executemany(query, forms)
         progress.update(len(forms))
@@ -629,32 +666,50 @@ def _insert_pronunciations(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Pronunciations')
     query = f'INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?)'
     for batch in _batch(entries):
-        prons: list[tuple[str, int, str | None, int,
-                          str, str | None, str | None,
-                          bool, str | None]] = []
+        prons: list[
+            tuple[
+                str, int, str | None, int, str, str | None, str | None, bool, str | None
+            ]
+        ] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
             if entry.get('lemma'):
                 for p in entry['lemma'].get('pronunciations', []):
                     prons.append(
-                        (eid, lid, None, 0,
-                         p['text'], p.get('variety'), p.get('notation'),
-                         p.get('phonemic', True), p.get('audio'))
+                        (
+                            eid,
+                            lid,
+                            None,
+                            0,
+                            p['text'],
+                            p.get('variety'),
+                            p.get('notation'),
+                            p.get('phonemic', True),
+                            p.get('audio'),
+                        )
                     )
             for i, form in enumerate(_forms(entry), 1):
                 # rank is not valid in FORM_QUERY for external forms
                 rank = -1 if _is_external(form) else i
                 for p in form.get('pronunciations', []):
                     prons.append(
-                        (eid, lid, form.get('id'), rank,
-                         p['text'], p.get('variety'), p.get('notation'),
-                         p.get('phonemic', True), p.get('audio'))
+                        (
+                            eid,
+                            lid,
+                            form.get('id'),
+                            rank,
+                            p['text'],
+                            p.get('variety'),
+                            p.get('notation'),
+                            p.get('phonemic', True),
+                            p.get('audio'),
+                        )
                     )
         cur.executemany(query, prons)
         progress.update(len(prons))
@@ -665,7 +720,7 @@ def _insert_tags(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Word Form Tags')
     query = f'INSERT INTO tags VALUES (({FORM_QUERY}),?,?)'
@@ -694,7 +749,7 @@ def _insert_senses(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Senses')
     ssrank = {
@@ -718,18 +773,17 @@ def _insert_senses(
             (
                 sense['id'],
                 lexid,
-                entry['id'], lexidmap.get(entry['id'], lexid),
+                entry['id'],
+                lexidmap.get(entry['id'], lexid),
                 sense.get('n', i),
-                sense['synset'], lexidmap.get(sense['synset'], lexid),
+                sense['synset'],
+                lexidmap.get(sense['synset'], lexid),
                 # members can be sense or entry IDs
                 ssrank.get(
                     (sense['synset'], sense['id']),
-                    ssrank.get(
-                        (sense['synset'], entry['id']),
-                        DEFAULT_MEMBER_RANK
-                    )
+                    ssrank.get((sense['synset'], entry['id']), DEFAULT_MEMBER_RANK),
                 ),
-                sense.get('meta')
+                sense.get('meta'),
             )
             for entry in batch
             for i, sense in enumerate(_local_senses(_senses(entry)), 1)
@@ -755,13 +809,15 @@ def _insert_adjpositions(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ):
     progress.set(status='Sense Adjpositions')
-    data = [(s['id'], lexidmap.get(s['id'], lexid), s['adjposition'])
-            for e in entries
-            for s in _local_senses(_senses(e))
-            if s.get('adjposition')]
+    data = [
+        (s['id'], lexidmap.get(s['id'], lexid), s['adjposition'])
+        for e in entries
+        for s in _local_senses(_senses(e))
+        if s.get('adjposition')
+    ]
     query = f'INSERT INTO adjpositions VALUES (({SENSE_QUERY}),?)'
     cur.executemany(query, data)
 
@@ -771,16 +827,21 @@ def _insert_counts(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Counts')
-    data = [(lexid,
-             sense['id'], lexidmap.get(sense['id'], lexid),
-             count['value'],
-             count.get('meta'))
-            for entry in entries
-            for sense in _senses(entry)
-            for count in sense.get('counts', [])]
+    data = [
+        (
+            lexid,
+            sense['id'],
+            lexidmap.get(sense['id'], lexid),
+            count['value'],
+            count.get('meta'),
+        )
+        for entry in entries
+        for sense in _senses(entry)
+        for count in sense.get('counts', [])
+    ]
     query = f'INSERT INTO counts VALUES (null,?,({SENSE_QUERY}),?,?)'
     cur.executemany(query, data)
     progress.update(len(data))
@@ -802,8 +863,7 @@ def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
         for frame in lexicon.get('frames', [])
     }
     # all relevant senses are collected into the 'senses' key
-    id_senses_map = {sb['id']: sb['senses']
-                     for sb in synbhrs.values() if sb.get('id')}
+    id_senses_map = {sb['id']: sb['senses'] for sb in synbhrs.values() if sb.get('id')}
     for entry in _entries(lexicon):
         # for WN-LMF 1.1
         for sense in _local_senses(_senses(entry)):
@@ -817,8 +877,10 @@ def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
         for frame in entry.get('frames', []):
             subcat_frame = frame['subcategorizationFrame']
             if subcat_frame not in synbhrs:
-                synbhrs[subcat_frame] = {'subcategorizationFrame': subcat_frame,
-                                         'senses': []}
+                synbhrs[subcat_frame] = {
+                    'subcategorizationFrame': subcat_frame,
+                    'senses': [],
+                }
             senses = frame.get('senses', []) or all_senses
             synbhrs[subcat_frame]['senses'].extend(senses)
     return list(synbhrs.values())
@@ -829,13 +891,14 @@ def _insert_syntactic_behaviours(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Syntactic Behaviours')
 
     query = 'INSERT INTO syntactic_behaviours VALUES (null,?,?,?)'
-    sbdata = [(sb.get('id') or None, lexid, sb['subcategorizationFrame'])
-              for sb in synbhrs]
+    sbdata = [
+        (sb.get('id') or None, lexid, sb['subcategorizationFrame']) for sb in synbhrs
+    ]
     cur.executemany(query, sbdata)
 
     # syntactic behaviours don't have a required ID; index on frame
@@ -849,9 +912,11 @@ def _insert_syntactic_behaviours(
                   WHERE lexicon_rowid=? AND frame=?),
                 ({SENSE_QUERY}))
     '''
-    sbsdata = [(lexid, frame, sid, lexidmap.get(sid, lexid))
-               for frame in framemap
-               for sid in framemap[frame]]
+    sbsdata = [
+        (lexid, frame, sid, lexidmap.get(sid, lexid))
+        for frame in framemap
+        for sid in framemap[frame]
+    ]
     cur.executemany(query, sbsdata)
 
     progress.update(len(synbhrs))
@@ -862,14 +927,12 @@ def _insert_sense_relations(
     lexid: int,
     lexidmap: _LexIdMap,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Sense Relations')
     # need to separate relations into those targeting senses vs synsets
     synset_ids = {ss['id'] for ss in _synsets(lexicon)}
-    sense_ids = {s['id']
-                 for e in _entries(lexicon)
-                 for s in _senses(e)}
+    sense_ids = {s['id'] for e in _entries(lexicon) for s in _senses(e)}
     s_s_rels = []
     s_ss_rels = []
     for entry in _entries(lexicon):
@@ -897,11 +960,15 @@ def _insert_sense_relations(
         '''
         for batch in _batch(rels):
             data = [
-                (lexid,
-                 sense_id, slid,
-                 relation['target'], tlid,
-                 relation['relType'],
-                 relation.get('meta'))
+                (
+                    lexid,
+                    sense_id,
+                    slid,
+                    relation['target'],
+                    tlid,
+                    relation['relType'],
+                    relation.get('meta'),
+                )
                 for sense_id, slid, tlid, relation in batch
             ]
             cur.executemany(query, data)
@@ -914,7 +981,7 @@ def _insert_examples(
     lexidmap: _LexIdMap,
     table: str,
     cur: sqlite3.Cursor,
-    progress: ProgressHandler
+    progress: ProgressHandler,
 ) -> None:
     progress.set(status='Examples')
     if table == 'sense_examples':
@@ -923,11 +990,14 @@ def _insert_examples(
         query = f'INSERT INTO {table} VALUES (null,?,({SYNSET_QUERY}),?,?,?)'
     for batch in _batch(objs):
         data = [
-            (lexid,
-             obj['id'], lexidmap.get(obj['id'], lexid),
-             example['text'],
-             example.get('language'),
-             example.get('meta'))
+            (
+                lexid,
+                obj['id'],
+                lexidmap.get(obj['id'], lexid),
+                example['text'],
+                example.get('language'),
+                example.get('meta'),
+            )
             for obj in batch
             for example in obj.get('examples', [])
         ]
@@ -955,25 +1025,22 @@ def _add_ili(
 
         progress.flash('Updating ILI Status Names')
         statuses = set(info.get('status', 'active') for info in ili)
-        cur.executemany('INSERT OR IGNORE INTO ili_statuses VALUES (null,?)',
-                        [(stat,) for stat in sorted(statuses)])
+        cur.executemany(
+            'INSERT OR IGNORE INTO ili_statuses VALUES (null,?)',
+            [(stat,) for stat in sorted(statuses)],
+        )
 
         progress.set(count=0, total=len(ili), status='ILI')
         for batch in _batch(ili):
             data = [
-                (info['ili'],
-                 info.get('status', 'active'),
-                 info.get('definition'))
+                (info['ili'], info.get('status', 'active'), info.get('definition'))
                 for info in batch
             ]
             cur.executemany(query, data)
             progress.update(len(data))
 
 
-def remove(
-    lexicon: str,
-    progress_handler: type[ProgressHandler] = ProgressBar
-) -> None:
+def remove(lexicon: str, progress_handler: type[ProgressHandler] = ProgressBar) -> None:
     """Remove lexicon(s) from the database.
 
     The *lexicon* argument is a :ref:`lexicon specifier
@@ -1001,7 +1068,6 @@ def remove(
             extensions = get_lexicon_extensions(lexspec)
 
             with conn:
-
                 for ext_spec in reversed(extensions):
                     progress.set(status=f'{ext_spec} (extension)')
                     conn.execute(
@@ -1023,15 +1089,23 @@ def remove(
         conn.set_progress_handler(None, 0)
 
 
-def _entries(lex: _AnyLexicon) -> Sequence[_AnyEntry]: return lex.get('entries', [])
-def _forms(e: _AnyEntry) -> Sequence[_AnyForm]: return e.get('forms', [])
-def _senses(e: _AnyEntry) -> Sequence[_AnySense]: return e.get('senses', [])
-def _synsets(lex: _AnyLexicon) -> Sequence[_AnySynset]: return lex.get('synsets', [])
+def _entries(lex: _AnyLexicon) -> Sequence[_AnyEntry]:
+    return lex.get('entries', [])
 
 
-def _is_external(
-    x: _AnyForm | _AnyLemma | _AnyEntry | _AnySense | _AnySynset
-) -> bool:
+def _forms(e: _AnyEntry) -> Sequence[_AnyForm]:
+    return e.get('forms', [])
+
+
+def _senses(e: _AnyEntry) -> Sequence[_AnySense]:
+    return e.get('senses', [])
+
+
+def _synsets(lex: _AnyLexicon) -> Sequence[_AnySynset]:
+    return lex.get('synsets', [])
+
+
+def _is_external(x: _AnyForm | _AnyLemma | _AnyEntry | _AnySense | _AnySynset) -> bool:
     return x.get('external', False) is True
 
 

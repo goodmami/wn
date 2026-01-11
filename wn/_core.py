@@ -42,6 +42,7 @@ _INFERRED_SYNSET = '*INFERRED*'
 
 class _EntityType(str, enum.Enum):
     """Identifies the database table of an entity."""
+
     LEXICONS = 'lexicons'
     ENTRIES = 'entries'
     SENSES = 'senses'
@@ -84,10 +85,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
 
     def __eq__(self, other) -> bool:
         if isinstance(other, type(self)) or isinstance(self, type(other)):
-            return (
-                self.id == other.id
-                and self._lexicon == other._lexicon
-            )
+            return self.id == other.id and self._lexicon == other._lexicon
         return NotImplemented
 
     def __hash__(self) -> int:
@@ -95,11 +93,13 @@ class _LexiconDataElement(LexiconElementWithMetadata):
 
     def _get_lexicons(self) -> tuple[str, ...]:
         if self._lexconf.default_mode:
-            return tuple([
-                self._lexicon,
-                *get_lexicon_extension_bases(self._lexicon),
-                *get_lexicon_extensions(self._lexicon)
-            ])
+            return tuple(
+                [
+                    self._lexicon,
+                    *get_lexicon_extension_bases(self._lexicon),
+                    *get_lexicon_extensions(self._lexicon),
+                ]
+            )
         else:
             return self._lexconf.lexicons
 
@@ -120,6 +120,7 @@ class Pronunciation:
 @dataclass(frozen=True, slots=True)
 class Tag:
     """A general-purpose tag class for word forms."""
+
     __module__ = 'wn'
 
     tag: str
@@ -129,6 +130,7 @@ class Tag:
 @dataclass(frozen=True, slots=True)
 class Form(LexiconElement):
     """A word-form."""
+
     __module__ = 'wn'
 
     value: str
@@ -138,9 +140,7 @@ class Form(LexiconElement):
     _pronunciations: tuple[Pronunciation, ...] = field(
         default_factory=tuple, repr=False, compare=False
     )
-    _tags: tuple[Tag, ...] = field(
-        default_factory=tuple, repr=False, compare=False
-    )
+    _tags: tuple[Tag, ...] = field(default_factory=tuple, repr=False, compare=False)
 
     def pronunciations(self) -> list[Pronunciation]:
         return list(self._pronunciations)
@@ -169,7 +169,8 @@ def _make_form(
 
 class Word(_LexiconDataElement):
     """A class for words (also called lexical entries) in a wordnet."""
-    __slots__ = 'pos',
+
+    __slots__ = ('pos',)
     __module__ = 'wn'
 
     _ENTITY_TYPE = _EntityType.ENTRIES
@@ -288,12 +289,17 @@ class Word(_LexiconDataElement):
             [Word('ewn-magic-n'), Word('ewn-magic-n')]
 
         """
-        return [derived_sense.word()
-                for sense in self.senses()
-                for derived_sense in sense.get_related('derivation')]
+        return [
+            derived_sense.word()
+            for sense in self.senses()
+            for derived_sense in sense.get_related('derivation')
+        ]
 
     def translate(
-        self, lexicon: str | None = None, *, lang: str | None = None,
+        self,
+        lexicon: str | None = None,
+        *,
+        lang: str | None = None,
     ) -> dict[Sense, list[Word]]:
         """Return a mapping of word senses to lists of translated words.
 
@@ -306,7 +312,6 @@ class Word(_LexiconDataElement):
             >>> w = wn.words('water bottle', pos='n')[0]
             >>> for sense, words in w.translate(lang='ja').items():
             ...     print(sense, [jw.lemma() for jw in words])
-            ...
             Sense('ewn-water_bottle-n-04564934-01') ['水筒']
 
         """
@@ -381,7 +386,6 @@ T = TypeVar('T', bound='_Relatable')
 
 
 class _Relatable(_LexiconDataElement):
-
     @overload
     def relations(
         self: T, *args: str, data: Literal[False] = False
@@ -415,11 +419,7 @@ class _Relatable(_LexiconDataElement):
                 yield relatable
                 queue.extend(relatable.get_related(*args))
 
-    def relation_paths(
-        self: T,
-        *args: str,
-        end: T | None = None
-    ) -> Iterator[list[T]]:
+    def relation_paths(self: T, *args: str, end: T | None = None) -> Iterator[list[T]]:
         agenda: list[tuple[list[T], set[T]]] = [
             ([target], {self, target})
             for target in self.get_related(*args)
@@ -430,8 +430,11 @@ class _Relatable(_LexiconDataElement):
             if end is not None and path[-1] == end:
                 yield path
             else:
-                related = [target for target in path[-1].get_related(*args)
-                           if target not in visited]
+                related = [
+                    target
+                    for target in path[-1].get_related(*args)
+                    if target not in visited
+                ]
                 if related:
                     for synset in reversed(related):
                         new_path = list(path) + [synset]
@@ -444,6 +447,7 @@ class _Relatable(_LexiconDataElement):
 @dataclass(frozen=True, slots=True)
 class Example(LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
+
     __module__ = 'wn'
 
     text: str
@@ -459,6 +463,7 @@ class Example(LexiconElementWithMetadata):
 @dataclass(frozen=True, slots=True)
 class Definition(LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
+
     __module__ = 'wn'
 
     text: str
@@ -474,6 +479,7 @@ class Definition(LexiconElementWithMetadata):
 
 class Synset(_Relatable):
     """Class for modeling wordnet synsets."""
+
     __slots__ = 'pos', '_ili'
     __module__ = 'wn'
 
@@ -743,7 +749,6 @@ class Synset(_Relatable):
             >>> button_rels = wn.synsets('button')[0].relations()
             >>> for relname, sslist in button_rels.items():
             ...     print(relname, [ss.lemmas() for ss in sslist])
-            ...
             hypernym [['fixing', 'holdfast', 'fastener', 'fastening']]
             hyponym [['coat button'], ['shirt button']]
 
@@ -815,9 +820,7 @@ class Synset(_Relatable):
         for relname, lexicon, metadata, srcid, ssid, _, ili, *_ in iterable:
             if ili is None:
                 continue
-            synset_rel = Relation(
-                relname, srcid, ssid, lexicon, metadata=metadata
-            )
+            synset_rel = Relation(relname, srcid, ssid, lexicon, metadata=metadata)
             local_ss_rows = list(get_synsets_for_ilis([ili], lexicons=lexicons))
 
             if local_ss_rows:
@@ -844,24 +847,18 @@ class Synset(_Relatable):
         """Return the maximum taxonomy depth of the synset."""
         return taxonomy.max_depth(self, simulate_root=simulate_root)
 
-    def shortest_path(
-            self, other: Synset, simulate_root: bool = False
-    ) -> list[Synset]:
+    def shortest_path(self, other: Synset, simulate_root: bool = False) -> list[Synset]:
         """Return the shortest path from the synset to the *other* synset."""
-        return taxonomy.shortest_path(
-            self, other, simulate_root=simulate_root
-        )
+        return taxonomy.shortest_path(self, other, simulate_root=simulate_root)
 
     def common_hypernyms(
-            self, other: Synset, simulate_root: bool = False
+        self, other: Synset, simulate_root: bool = False
     ) -> list[Synset]:
         """Return the common hypernyms for the current and *other* synsets."""
-        return taxonomy.common_hypernyms(
-            self, other, simulate_root=simulate_root
-        )
+        return taxonomy.common_hypernyms(self, other, simulate_root=simulate_root)
 
     def lowest_common_hypernyms(
-            self, other: Synset, simulate_root: bool = False
+        self, other: Synset, simulate_root: bool = False
     ) -> list[Synset]:
         """Return the common hypernyms furthest from the root."""
         return taxonomy.lowest_common_hypernyms(
@@ -909,10 +906,7 @@ class Synset(_Relatable):
         traversed.
 
         """
-        return self.get_related(
-            'hypernym',
-            'instance_hypernym'
-        )
+        return self.get_related('hypernym', 'instance_hypernym')
 
     def hyponyms(self) -> list[Synset]:
         """Return the list of synsets related by any hyponym relation.
@@ -921,16 +915,10 @@ class Synset(_Relatable):
         traversed.
 
         """
-        return self.get_related(
-            'hyponym',
-            'instance_hyponym'
-        )
+        return self.get_related('hyponym', 'instance_hyponym')
 
     def translate(
-        self,
-        lexicon: str | None = None,
-        *,
-        lang: str | None = None
+        self, lexicon: str | None = None, *, lang: str | None = None
     ) -> list[Synset]:
         """Return a list of translated synsets.
 
@@ -959,6 +947,7 @@ class Synset(_Relatable):
 @dataclass(frozen=True, slots=True)
 class Count(LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
+
     __module__ = 'wn'
 
     value: int
@@ -968,6 +957,7 @@ class Count(LexiconElementWithMetadata):
 
 class Sense(_Relatable):
     """Class for modeling wordnet senses."""
+
     __slots__ = '_entry_id', '_synset_id'
     __module__ = 'wn'
 
@@ -1013,7 +1003,6 @@ class Sense(_Relatable):
         lexicons = self._get_lexicons()
         synset_data = next(find_synsets(id=self._synset_id, lexicons=lexicons))
         return Synset(*synset_data, _lexconf=self._lexconf)
-
 
     @overload
     def examples(self, *, data: Literal[False] = False) -> list[str]: ...
@@ -1079,7 +1068,7 @@ class Sense(_Relatable):
         if data:
             return [
                 Count(value, _lexicon=lex, _metadata=metadata)
-                for value, lex,metadata in count_data
+                for value, lex, metadata in count_data
             ]
         else:
             return [value for value, *_ in count_data]
@@ -1178,7 +1167,6 @@ class Sense(_Relatable):
             # now convert inner dicts to lists
             return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
 
-
     def get_related(self, *args: str) -> list[Sense]:
         """Return a list of related senses.
 
@@ -1190,7 +1178,6 @@ class Sense(_Relatable):
             >>> physics = wn.senses('physics', lexicon='ewn')[0]
             >>> for sense in physics.get_related('has_domain_topic'):
             ...     print(sense.word().lemma())
-            ...
             coherent
             chaotic
             incoherent
@@ -1208,9 +1195,7 @@ class Sense(_Relatable):
         iterable = get_sense_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, sid, eid, ssid, lexid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
-            sense = Sense(
-                sid, eid, ssid, lexid, _lexconf=self._lexconf
-            )
+            sense = Sense(sid, eid, ssid, lexid, _lexconf=self._lexconf)
             yield relation, sense
 
     def _iter_sense_synset_relations(
@@ -1220,16 +1205,11 @@ class Sense(_Relatable):
         iterable = get_sense_synset_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
-            synset = Synset(
-                ssid, pos, ili, lexid, _lexconf=self._lexconf
-            )
+            synset = Synset(ssid, pos, ili, lexid, _lexconf=self._lexconf)
             yield relation, synset
 
     def translate(
-        self,
-        lexicon: str | None = None,
-        *,
-        lang: str | None = None
+        self, lexicon: str | None = None, *, lang: str | None = None
     ) -> list[Sense]:
         """Return a list of translated senses.
 
@@ -1246,6 +1226,8 @@ class Sense(_Relatable):
 
         """
         synset = self.synset()
-        return [t_sense
-                for t_synset in synset.translate(lang=lang, lexicon=lexicon)
-                for t_sense in t_synset.senses()]
+        return [
+            t_sense
+            for t_synset in synset.translate(lang=lang, lexicon=lexicon)
+            for t_sense in t_synset.senses()
+        ]

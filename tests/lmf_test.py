@@ -1,4 +1,3 @@
-
 from xml.etree import ElementTree as ET
 
 from wn import lmf
@@ -114,11 +113,14 @@ def test_load_1_3(datadir):
     synsets = lexicon['synsets']
     assert synsets[0]['definitions'][0]['text'] == 'one two three'
     assert synsets[1]['definitions'][0]['text'] == 'one two three'
-    assert synsets[2]['definitions'][0]['text'] == '''
+    assert (
+        synsets[2]['definitions'][0]['text']
+        == '''
         one
           two
         three
       '''
+    )
 
 
 def test_load_1_4(datadir):

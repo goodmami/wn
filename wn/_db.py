@@ -40,6 +40,7 @@ COMPATIBLE_SCHEMA_HASHES = {
 
 # Optional metadata is stored as a JSON string
 
+
 def _adapt_dict(d: dict) -> bytes:
     return json.dumps(d).encode('utf-8')
 
@@ -63,6 +64,7 @@ pool: dict[AnyPath, sqlite3.Connection] = {}
 
 
 # The connect() function should be used for all connections
+
 
 def connect() -> sqlite3.Connection:
     dbpath = config.database_path
@@ -92,8 +94,10 @@ def _init_db(conn: sqlite3.Connection) -> None:
     schema = (resources.files('wn') / 'schema.sql').read_text()
     conn.executescript(schema)
     with conn:
-        conn.executemany('INSERT INTO ili_statuses VALUES (null,?)',
-                         [('presupposed',), ('proposed',)])
+        conn.executemany(
+            'INSERT INTO ili_statuses VALUES (null,?)',
+            [('presupposed',), ('proposed',)],
+        )
 
 
 def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
@@ -104,11 +108,14 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
         return
 
     logger.debug('current schema hash:\n  %s', hash)
-    logger.debug('compatible schema hashes:\n  %s',
-                 '\n  '.join(COMPATIBLE_SCHEMA_HASHES))
+    logger.debug(
+        'compatible schema hashes:\n  %s', '\n  '.join(COMPATIBLE_SCHEMA_HASHES)
+    )
     # otherwise, try to raise a helpful error message
-    msg = ("Wn's schema has changed and is no longer compatible with the "
-           f"database. Please move or delete {dbpath} and rebuild it.")
+    msg = (
+        "Wn's schema has changed and is no longer compatible with the "
+        f"database. Please move or delete {dbpath} and rebuild it."
+    )
     try:
         specs = conn.execute('SELECT id, version FROM lexicons').fetchall()
     except sqlite3.OperationalError as exc:
@@ -116,8 +123,7 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
     else:
         if specs:
             installed = '\n  '.join(
-                format_lexicon_specifier(id, ver)
-                for id, ver in specs
+                format_lexicon_specifier(id, ver) for id, ver in specs
             )
             msg += f" Lexicons currently installed:\n  {installed}"
         else:

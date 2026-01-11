@@ -1,4 +1,3 @@
-
 from math import log
 
 import pytest
@@ -21,9 +20,22 @@ synset_id = {
 
 
 words = [
-    'For', 'example', ':', 'random sample', '.',
-    'This', 'will', 'illustrate', 'and', 'exemplify', '.',
-    'A', 'sample', 'of', 'data', '.',
+    'For',
+    'example',
+    ':',
+    'random sample',
+    '.',
+    'This',
+    'will',
+    'illustrate',
+    'and',
+    'exemplify',
+    '.',
+    'A',
+    'sample',
+    'of',
+    'data',
+    '.',
 ]
 
 
@@ -113,8 +125,9 @@ def test_load(tmp_path):
     )
 
     get_synset_id = synset_id_formatter('test-en-{offset:04}-{pos}')
-    assert (wn.ic.load(icpath, w, get_synset_id=get_synset_id)
-            == wn.ic.compute(words, w, distribute_weight=False, smoothing=0.0))
+    assert wn.ic.load(icpath, w, get_synset_id=get_synset_id) == wn.ic.compute(
+        words, w, distribute_weight=False, smoothing=0.0
+    )
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -124,11 +137,5 @@ def test_information_content():
     info = w.synsets('information')[0]
     samp = w.synsets('sample')[0]
     # info is a root but not the only one, so its IC is not 0.0
-    assert wn.ic.information_content(info, ic) == -log(
-        ic['n'][info.id]
-        / ic['n'][None]
-    )
-    assert wn.ic.information_content(samp, ic) == -log(
-        ic['n'][samp.id]
-        / ic['n'][None]
-    )
+    assert wn.ic.information_content(info, ic) == -log(ic['n'][info.id] / ic['n'][None])
+    assert wn.ic.information_content(samp, ic) == -log(ic['n'][samp.id] / ic['n'][None])

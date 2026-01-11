@@ -1,4 +1,3 @@
-
 import logging
 from collections.abc import Sequence
 from pathlib import Path
@@ -19,9 +18,9 @@ logger = logging.getLogger('wn')
 
 
 def download(
-        project_or_url: str,
-        add: bool = True,
-        progress_handler: type[ProgressHandler] | None = ProgressBar,
+    project_or_url: str,
+    add: bool = True,
+    progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> Path:
     """Download the resource specified by *project_or_url*.
 

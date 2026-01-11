@@ -34,11 +34,7 @@ def projects() -> list[dict]:
     ]
 
 
-def lexicons(
-    *,
-    lexicon: str | None = "*",
-    lang: str | None = None
-) -> list[Lexicon]:
+def lexicons(*, lexicon: str | None = "*", lang: str | None = None) -> list[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
@@ -55,12 +51,7 @@ def lexicons(
         return w.lexicons()
 
 
-def word(
-    id: str,
-    *,
-    lexicon: str | None = None,
-    lang: str | None = None
-) -> Word:
+def word(id: str, *, lexicon: str | None = None, lang: str | None = None) -> Word:
     """Return the word with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -160,12 +151,7 @@ def lemmas(
     return Wordnet(lang=lang, lexicon=lexicon).lemmas(form=form, pos=pos, data=data)
 
 
-def synset(
-    id: str,
-    *,
-    lexicon: str | None = None,
-    lang: str | None = None
-) -> Synset:
+def synset(id: str, *, lexicon: str | None = None, lang: str | None = None) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -224,12 +210,7 @@ def senses(
     return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
-def sense(
-    id: str,
-    *,
-    lexicon: str | None = None,
-    lang: str | None = None
-) -> Sense:
+def sense(id: str, *, lexicon: str | None = None, lang: str | None = None) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and

@@ -21,9 +21,11 @@ DEFAULT_CONFIDENCE = 1.0
 
 Self = TypeVar("Self", bound='Lexicon')  # typing.Self, python_version>=3.11
 
+
 @dataclass(repr=False, eq=True, frozen=True, slots=True)
 class Lexicon(HasMetadata):
     """A class representing a wordnet lexicon."""
+
     __module__ = 'wn'
 
     _specifier: str
@@ -77,8 +79,7 @@ class Lexicon(HasMetadata):
     def requires(self) -> dict[str, Lexicon | None]:
         """Return the lexicon dependencies."""
         return dict(
-            (spec,
-             None if added is None else Lexicon.from_specifier(spec))
+            (spec, None if added is None else Lexicon.from_specifier(spec))
             for spec, _, added in get_lexicon_dependencies(self._specifier)
         )
 
@@ -125,14 +126,18 @@ class Lexicon(HasMetadata):
             f'  License: {self.license}',
         ]
         if full:
-            substrings.extend([
-                f'  Words  : {_desc_counts(find_entries, lexspecs)}',
-                f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
-            ])
-        substrings.extend([
-            f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
-            f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
-        ])
+            substrings.extend(
+                [
+                    f'  Words  : {_desc_counts(find_entries, lexspecs)}',
+                    f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
+                ]
+            )
+        substrings.extend(
+            [
+                f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
+                f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
+            ]
+        )
         return '\n'.join(substrings)
 
 

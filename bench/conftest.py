@@ -10,7 +10,6 @@ from wn import lmf
 
 @pytest.fixture
 def clean_db():
-
     def clean_db():
         wn.remove("*")
         dummy_lex = lmf.Lexicon(
@@ -45,10 +44,10 @@ def empty_db(clean_db, tmp_path):
 @pytest.fixture(scope="session")
 def mock_lmf():
     synsets: list[lmf.Synset] = [
-       * _make_synsets("n", 20000),
-       * _make_synsets("v", 10000),
-       * _make_synsets("a", 2000),
-       * _make_synsets("r", 1000),
+        *_make_synsets("n", 20000),
+        *_make_synsets("v", 10000),
+        *_make_synsets("a", 2000),
+        *_make_synsets("r", 1000),
     ]
     entries = _make_entries(synsets)
     lexicon = lmf.Lexicon(
@@ -92,7 +91,7 @@ def _make_synsets(pos: str, n: int) -> list[lmf.Synset]:
             relations=[],
             meta={},
         )
-        for i in range(1, n+1)
+        for i in range(1, n + 1)
     ]
     # add relations for nouns and verbs
     if pos in "nv":

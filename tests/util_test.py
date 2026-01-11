@@ -1,4 +1,3 @@
-
 from wn import util
 
 

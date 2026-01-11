@@ -1,4 +1,3 @@
-
 """
 Local configuration settings.
 """
@@ -25,8 +24,8 @@ with as_file(files('wn') / 'index.toml') as index_file:
 DEFAULT_DATA_DIRECTORY = Path.home() / '.wn_data'
 DATABASE_FILENAME = 'wn.db'
 
-class WNConfig:
 
+class WNConfig:
     def __init__(self):
         self._data_directory = DEFAULT_DATA_DIRECTORY
         self._projects = {}
@@ -246,9 +245,7 @@ class WNConfig:
             for version, info in project.get('versions', {}).items():
                 if 'url' in info and 'error' in project:
                     spec = format_lexicon_specifier(id, version)
-                    raise ConfigurationError(
-                        f'{spec} url specified with default error'
-                    )
+                    raise ConfigurationError(f'{spec} url specified with default error')
                 self.add_project_version(
                     id,
                     version,

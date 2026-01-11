@@ -63,4 +63,3 @@ def test_word_senses_with_wordnet(benchmark):
     w = wn.Wordnet("mock:1")
     word = w.words()[0]
     benchmark(word.senses)
-

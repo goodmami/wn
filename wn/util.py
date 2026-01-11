@@ -1,13 +1,11 @@
 """Wn utility classes."""
+
 import sys
 from collections.abc import Callable
 from typing import TextIO
 
 
-def synset_id_formatter(
-    fmt: str = '{prefix}-{offset:08}-{pos}',
-    **kwargs
-) -> Callable:
+def synset_id_formatter(fmt: str = '{prefix}-{offset:08}-{pos}', **kwargs) -> Callable:
     """Return a function for formatting synset ids.
 
     The *fmt* argument can be customized. It will be formatted using
@@ -177,7 +175,7 @@ class ProgressBar(ProgressHandler):
             fill = (num // total) * '#'
             part = ((num % total) * 3) // total
             if part:
-                fill += '-='[part-1]
+                fill += '-='[part - 1]
             bar = f' [{fill:<{width}}]'
             counter = f' ({count}/{total}{_kw["unit"]}) '
         else:

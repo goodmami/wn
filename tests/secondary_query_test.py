@@ -1,4 +1,3 @@
-
 import pytest
 
 import wn
@@ -24,18 +23,22 @@ def test_word_translate():
 
 @pytest.mark.usefixtures('mini_db')
 def test_sense_word():
-    assert (wn.sense('test-en-information-n-0001-01').word()
-            == wn.word('test-en-information-n'))
-    assert (wn.sense('test-es-información-n-0001-01').word()
-            == wn.word('test-es-información-n'))
+    assert wn.sense('test-en-information-n-0001-01').word() == wn.word(
+        'test-en-information-n'
+    )
+    assert wn.sense('test-es-información-n-0001-01').word() == wn.word(
+        'test-es-información-n'
+    )
 
 
 @pytest.mark.usefixtures('mini_db')
 def test_sense_synset():
-    assert (wn.sense('test-en-information-n-0001-01').synset()
-            == wn.synset('test-en-0001-n'))
-    assert (wn.sense('test-es-información-n-0001-01').synset()
-            == wn.synset('test-es-0001-n'))
+    assert wn.sense('test-en-information-n-0001-01').synset() == wn.synset(
+        'test-en-0001-n'
+    )
+    assert wn.sense('test-es-información-n-0001-01').synset() == wn.synset(
+        'test-es-0001-n'
+    )
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -159,10 +162,12 @@ def test_synset_translate():
 def test_word_sense_order(datadir):
     wn.add(datadir / 'sense-member-order.xml')
     assert [s.id for s in wn.word('test-foo-n').senses()] == [
-        "test-01-foo-n", "test-02-foo-n",
+        "test-01-foo-n",
+        "test-02-foo-n",
     ]
     assert [s.id for s in wn.word('test-bar-n').senses()] == [
-        "test-02-bar-n", "test-01-bar-n",
+        "test-02-bar-n",
+        "test-01-bar-n",
     ]
 
 
@@ -170,10 +175,12 @@ def test_word_sense_order(datadir):
 def test_synset_member_order(datadir):
     wn.add(datadir / 'sense-member-order.xml')
     assert [s.id for s in wn.synset('test-01-n').senses()] == [
-        "test-01-bar-n", "test-01-foo-n",
+        "test-01-bar-n",
+        "test-01-foo-n",
     ]
     assert [s.id for s in wn.synset('test-02-n').senses()] == [
-        "test-02-bar-n", "test-02-foo-n",
+        "test-02-bar-n",
+        "test-02-foo-n",
     ]
 
 
@@ -189,14 +196,18 @@ def test_confidence():
         wn.sense('test-en-information-n-0001-01').counts(data=True)[0].confidence()
     ) == 0.9
     assert (
-        wn.sense('test-en-exemplify-v-0003-01').relations(data=True)
-        .popitem()[0].confidence()
+        wn.sense('test-en-exemplify-v-0003-01')
+        .relations(data=True)
+        .popitem()[0]
+        .confidence()
     ) == 0.9
     # explicit value overrides default
     assert wn.word('test-en-example-n').confidence() == 1.0
     assert (
-        wn.sense('test-en-example-n-0002-01').relations(data=True)
-        .popitem()[0].confidence()
+        wn.sense('test-en-example-n-0002-01')
+        .relations(data=True)
+        .popitem()[0]
+        .confidence()
     ) == 0.5
     # values on parents don't override default on children
     assert wn.sense('test-en-example-n-0002-01').confidence() == 0.9
@@ -204,7 +215,6 @@ def test_confidence():
     assert wn.synset("test-en-0001-n").confidence() == 1.0
     assert wn.synset("test-en-0001-n").definition(data=True).confidence() == 0.95
     assert (
-        wn.synset("test-en-0001-n").relations(data=True)
-        .popitem()[0].confidence()
-    )== 0.8
+        wn.synset("test-en-0001-n").relations(data=True).popitem()[0].confidence()
+    ) == 0.8
     assert wn.synset("test-en-0001-n").examples(data=True)[0].confidence() == 0.7

@@ -1,4 +1,3 @@
-
 import argparse
 import json
 import logging
@@ -30,13 +29,15 @@ def _projects(args):
         key += 'c' if info['cache'] else '-'
         # key += 'a' if False else '-'  # TODO: check if project is added to db
         print(
-            '\t'.join((
-                key,
-                info['id'],
-                info['version'],
-                f"[{info['language'] or '---'}]",
-                info['label'] or '---',
-            ))
+            '\t'.join(
+                (
+                    key,
+                    info['id'],
+                    info['version'],
+                    f"[{info['language'] or '---'}]",
+                    info['label'] or '---',
+                )
+            )
         )
 
 
@@ -87,15 +88,18 @@ parser = argparse.ArgumentParser(
     prog='python3 -m wn',
     description="Manage Wn's wordnet data from the command line.",
 )
+parser.add_argument('-V', '--version', action='version', version=f'Wn {wn.__version__}')
 parser.add_argument(
-    '-V', '--version', action='version', version=f'Wn {wn.__version__}'
+    '-v',
+    '--verbose',
+    action='count',
+    dest='verbosity',
+    default=0,
+    help='increase verbosity (can repeat: -vv, -vvv)',
 )
 parser.add_argument(
-    '-v', '--verbose', action='count', dest='verbosity', default=0,
-    help='increase verbosity (can repeat: -vv, -vvv)'
-)
-parser.add_argument(
-    '-d', '--dir',
+    '-d',
+    '--dir',
     type=_path_type,
     help="data directory for Wn's database and cache",
 )
@@ -108,15 +112,15 @@ parser_download = sub_parsers.add_parser(
     description="Download wordnets and add them to Wn's database.",
     help='download wordnets',
 )
-parser_download.add_argument(
-    'target', nargs='+', help='project specifiers or URLs'
-)
+parser_download.add_argument('target', nargs='+', help='project specifiers or URLs')
 parser_download.add_argument(
     '--index', type=_file_path_type, help='project index to use for downloading'
 )
 parser_download.add_argument(
-    '--no-add', action='store_false', dest='add',
-    help='download and cache without adding to the database'
+    '--no-add',
+    action='store_false',
+    dest='add',
+    help='download and cache without adding to the database',
 )
 parser_download.set_defaults(func=_download)
 
@@ -126,12 +130,8 @@ parser_lexicons = sub_parsers.add_parser(
     description="Display a list of installed lexicons.",
     help='list installed lexicons',
 )
-parser_lexicons.add_argument(
-    '-l', '--lang', help='BCP 47 language code'
-)
-parser_lexicons.add_argument(
-    '--lexicon', help='lexicon specifiers'
-)
+parser_lexicons.add_argument('-l', '--lang', help='BCP 47 language code')
+parser_lexicons.add_argument('--lexicon', help='lexicon specifiers')
 parser_lexicons.set_defaults(func=_lexicons)
 
 
@@ -148,21 +148,20 @@ parser_projects.set_defaults(func=_projects)
 
 parser_validate = sub_parsers.add_parser(
     'validate',
-    description=(
-        "Validate a WN-LMF lexicon"
-    ),
+    description=("Validate a WN-LMF lexicon"),
     help='validate a lexicon',
 )
 parser_validate.add_argument(
     'FILE', type=_file_path_type, help='WN-LMF (XML) lexicon file to validate'
 )
 parser_validate.add_argument(
-    '--select', metavar='CHECKS', default='E,W',
-    help='comma-separated list of checks to run (default: E,W)'
+    '--select',
+    metavar='CHECKS',
+    default='E,W',
+    help='comma-separated list of checks to run (default: E,W)',
 )
 parser_validate.add_argument(
-    '--output-file', metavar='FILE',
-    help='write report to a JSON file'
+    '--output-file', metavar='FILE', help='write report to a JSON file'
 )
 parser_validate.set_defaults(func=_validate)
 

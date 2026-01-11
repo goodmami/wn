@@ -1,4 +1,3 @@
-
 """Synset similarity metrics."""
 
 import math
@@ -36,7 +35,7 @@ def path(synset1: Synset, synset2: Synset, simulate_root: bool = False) -> float
         >>> path(flip, turn_over, simulate_root=True)
         0.16666666666666666
 
-     """
+    """
     _check_if_pos_compatible(synset1.pos, synset2.pos)
     try:
         path = synset1.shortest_path(synset2, simulate_root=simulate_root)
@@ -82,14 +81,11 @@ def wup(synset1: Synset, synset2: Synset, simulate_root=False) -> float:
     i = len(synset1.shortest_path(lcs, simulate_root=simulate_root))
     j = len(synset2.shortest_path(lcs, simulate_root=simulate_root))
     k = lcs.max_depth() + 1
-    return (2*k) / (i + j + 2*k)
+    return (2 * k) / (i + j + 2 * k)
 
 
 def lch(
-    synset1: Synset,
-    synset2: Synset,
-    max_depth: int,
-    simulate_root: bool = False
+    synset1: Synset, synset2: Synset, max_depth: int, simulate_root: bool = False
 ) -> float:
     """Return the Leacock-Chodorow similarity between *synset1* and *synset2*.
 
@@ -215,10 +211,9 @@ def lin(synset1: Synset, synset2: Synset, ic: Freq) -> float:
 
 # Helper functions
 
+
 def _least_common_subsumers(
-    synset1: Synset,
-    synset2: Synset,
-    simulate_root: bool
+    synset1: Synset, synset2: Synset, simulate_root: bool
 ) -> list[Synset]:
     lcs = synset1.lowest_common_hypernyms(synset2, simulate_root=simulate_root)
     if not lcs:

@@ -25,7 +25,6 @@ C = TypeVar('C', Word, Sense, Synset)
 
 
 class Wordnet:
-
     """Class for interacting with wordnet data.
 
     A wordnet object acts essentially as a filter by first selecting
@@ -80,9 +79,13 @@ class Wordnet:
 
     """
 
-    __slots__ = ('_lexconf', '_default_mode',
-                 '_normalizer', 'lemmatizer',
-                 '_search_all_forms',)
+    __slots__ = (
+        '_lexconf',
+        '_default_mode',
+        '_normalizer',
+        'lemmatizer',
+        '_search_all_forms',
+    )
     __module__ = 'wn'
 
     def __init__(
@@ -109,7 +112,7 @@ class Wordnet:
 
         # default mode means any lexicon is searched or expanded upon,
         # but relation traversals only target the source's lexicon
-        default_mode = (not lexicon and not lang)
+        default_mode = not lexicon and not lang
         expand = _resolve_lexicon_dependencies(expand, lexicons, default_mode)
         expands = tuple(resolve_lexicon_specifiers(expand)) if expand else ()
 
@@ -139,11 +142,7 @@ class Wordnet:
         except StopIteration:
             raise Error(f'no such lexical entry: {id}') from None
 
-    def words(
-        self,
-        form: str | None = None,
-        pos: str | None = None
-    ) -> list[Word]:
+    def words(self, form: str | None = None, pos: str | None = None) -> list[Word]:
         """Return the list of matching words in this wordnet.
 
         Without any arguments, this function returns all words in the
@@ -160,7 +159,7 @@ class Wordnet:
         form: str | None = None,
         pos: str | None = None,
         *,
-        data: Literal[False] = False
+        data: Literal[False] = False,
     ) -> list[str]: ...
     @overload
     def lemmas(
@@ -168,25 +167,17 @@ class Wordnet:
         form: str | None = None,
         pos: str | None = None,
         *,
-        data: Literal[True] = True
+        data: Literal[True] = True,
     ) -> list[Form]: ...
 
     # fallback for non-literal bool argument
     @overload
     def lemmas(
-        self,
-        form: str | None = None,
-        pos: str | None = None,
-        *,
-        data: bool
+        self, form: str | None = None, pos: str | None = None, *, data: bool
     ) -> list[str] | list[Form]: ...
 
     def lemmas(
-        self,
-        form: str | None = None,
-        pos: str | None = None,
-        *,
-        data: bool = False
+        self, form: str | None = None, pos: str | None = None, *, data: bool = False
     ) -> list[str] | list[Form]:
         """Return the list of lemmas for matching words in this wordnet.
 
@@ -236,10 +227,7 @@ class Wordnet:
             raise Error(f'no such synset: {id}') from None
 
     def synsets(
-        self,
-        form: str | None = None,
-        pos: str | None = None,
-        ili: str | None = None
+        self, form: str | None = None, pos: str | None = None, ili: str | None = None
     ) -> list[Synset]:
         """Return the list of matching synsets in this wordnet.
 
@@ -262,11 +250,7 @@ class Wordnet:
         except StopIteration:
             raise Error(f'no such sense: {id}') from None
 
-    def senses(
-        self,
-        form: str | None = None,
-        pos: str | None = None
-    ) -> list[Sense]:
+    def senses(self, form: str | None = None, pos: str | None = None) -> list[Sense]:
         """Return the list of matching senses in this wordnet.
 
         Without any arguments, this function returns all senses in the
@@ -331,10 +315,7 @@ def _resolve_lexicon_dependencies(
 
 
 def _find_lemmas(
-    w: Wordnet,
-    form: str | None,
-    pos: str | None,
-    load_details: bool = False
+    w: Wordnet, form: str | None, pos: str | None, load_details: bool = False
 ) -> Iterator[tuple]:
     """Return an iterator of matching lemma form data.
 
@@ -371,7 +352,7 @@ def _query_with_forms(
     query_func: Callable,
     forms: dict[str | None, set[str]],
     normalize: NormalizeFunction | None,
-    kwargs: dict
+    kwargs: dict,
 ) -> list[tuple]:
     """Query database with forms, falling back to normalized forms if needed.
 
@@ -398,7 +379,7 @@ def _find_helper(
     query_func: Callable,
     form: str | None,
     pos: str | None,
-    ili: str | None = None
+    ili: str | None = None,
 ) -> list[C]:
     """Return the list of matching wordnet entities.
 
@@ -419,8 +400,10 @@ def _find_helper(
 
     # easy case is when there is no form
     if form is None:
-        return [cls(*data, _lexconf=w._lexconf)  # type: ignore
-                for data in query_func(pos=pos, **kwargs)]
+        return [
+            cls(*data, _lexconf=w._lexconf)  # type: ignore
+            for data in query_func(pos=pos, **kwargs)
+        ]
 
     # if there's a form, we may need to lemmatize and normalize
     normalize = w._normalizer

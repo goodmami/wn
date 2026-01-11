@@ -1,4 +1,3 @@
-
 """
 Reader for the Lexical Markup Framework (LMF) format.
 """
@@ -70,9 +69,11 @@ _DC_ATTRS = [
 _NS_ATTRS = {
     version: dict(
         [(f'{uri} {attr}', attr) for attr in _DC_ATTRS]
-        + [('status', 'status'),
-           ('note', 'note'),
-           ('confidenceScore', 'confidenceScore')]
+        + [
+            ('status', 'status'),
+            ('note', 'note'),
+            ('confidenceScore', 'confidenceScore'),
+        ]
     )
     for version, uri in _DC_URIS.items()
 }
@@ -95,17 +96,19 @@ _LMF_1_0_ELEMS: dict[str, str] = {
     'SynsetRelation': 'relations',
 }
 _LMF_1_1_ELEMS = dict(_LMF_1_0_ELEMS)
-_LMF_1_1_ELEMS.update({
-    'Requires': 'requires',
-    'Extends': 'extends',
-    'Pronunciation': 'pronunciations',
-    'LexiconExtension': 'lexicons',
-    'ExternalLexicalEntry': 'entries',
-    'ExternalLemma': 'lemma',
-    'ExternalForm': 'forms',
-    'ExternalSense': 'senses',
-    'ExternalSynset': 'synsets',
-})
+_LMF_1_1_ELEMS.update(
+    {
+        'Requires': 'requires',
+        'Extends': 'extends',
+        'Pronunciation': 'pronunciations',
+        'LexiconExtension': 'lexicons',
+        'ExternalLexicalEntry': 'entries',
+        'ExternalLemma': 'lemma',
+        'ExternalForm': 'forms',
+        'ExternalSense': 'senses',
+        'ExternalSynset': 'synsets',
+    }
+)
 _VALID_ELEMS = {
     '1.0': _LMF_1_0_ELEMS,
     '1.1': _LMF_1_1_ELEMS,
@@ -173,8 +176,7 @@ _HasMeta = TypedDict('_HasMeta', {'meta': Metadata | None}, total=False)
 _External = TypedDict('_External', {'external': Literal['true']})
 
 
-class ILIDefinition(_HasText, _HasMeta):
-    ...
+class ILIDefinition(_HasText, _HasMeta): ...
 
 
 class Definition(_HasText, _HasMeta, total=False):
@@ -249,16 +251,14 @@ class Lemma(_MaybeScript, _FormChildren):
     partOfSpeech: str
 
 
-class ExternalLemma(_FormChildren, _External):
-    ...
+class ExternalLemma(_FormChildren, _External): ...
 
 
 class Form(_MaybeId, _MaybeScript, _FormChildren):
     writtenForm: str
 
 
-class ExternalForm(_HasId, _FormChildren, _External):
-    ...
+class ExternalForm(_HasId, _FormChildren, _External): ...
 
 
 class _SyntacticBehaviourBase(_MaybeId):
@@ -332,6 +332,7 @@ class LexicalResource(TypedDict):
 
 # Reading ##############################################################
 
+
 def is_lmf(source: AnyPath) -> bool:
     """Return True if *source* is a WN-LMF file."""
     source = Path(source).expanduser()
@@ -400,10 +401,7 @@ def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
             if lextype != b'Extends':
                 infos.append(info)
             elif len(infos) > 0:
-                infos[-1]['extends'] = {
-                    "id": info["id"],
-                    "version": info["version"]
-                }
+                infos[-1]['extends'] = {"id": info["id"], "version": info["version"]}
             else:
                 raise LMFError('invalid use of <Extends> in WN-LMF file')
 
@@ -414,8 +412,7 @@ _Elem = dict[str, Any]  # basic type for the loaded XML data
 
 
 def load(
-    source: AnyPath,
-    progress_handler: type[ProgressHandler] | None = ProgressBar
+    source: AnyPath, progress_handler: type[ProgressHandler] | None = ProgressBar
 ) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
@@ -444,8 +441,9 @@ def load(
 
     resource: LexicalResource = {
         'lmf_version': version,
-        'lexicons': [_validate(lex)
-                     for lex in root['lexical-resource'].get('lexicons', [])],
+        'lexicons': [
+            _validate(lex) for lex in root['lexical-resource'].get('lexicons', [])
+        ],
     }
 
     return resource
@@ -520,6 +518,7 @@ def _unexpected(name: str, p: xml.parsers.expat.XMLParserType) -> LMFError:
 
 
 # Validation ###########################################################
+
 
 def _validate(elem: _Elem) -> Lexicon | LexiconExtension:
     ext = elem.get('extends')
@@ -643,6 +642,7 @@ def _validate_metadata(elem: _Elem) -> None:
 
 # Serialization ########################################################
 
+
 def dump(resource: LexicalResource, destination: AnyPath) -> None:
     """Write wordnets in the WN-LMF format.
 
@@ -666,9 +666,7 @@ def dump(resource: LexicalResource, destination: AnyPath) -> None:
 
 
 def _dump_lexicon(
-    lexicon: Lexicon | LexiconExtension,
-    out: TextIO,
-    version: VersionInfo
+    lexicon: Lexicon | LexiconExtension, out: TextIO, version: VersionInfo
 ) -> None:
     lexicontype = 'LexiconExtension' if lexicon.get('extends') else 'Lexicon'
     attrib = _build_lexicon_attrib(lexicon, version)
@@ -700,8 +698,7 @@ def _dump_lexicon(
 
 
 def _build_lexicon_attrib(
-    lexicon: Lexicon | LexiconExtension,
-    version: VersionInfo
+    lexicon: Lexicon | LexiconExtension, version: VersionInfo
 ) -> dict[str, str]:
     attrib = {
         'id': lexicon['id'],
@@ -721,9 +718,7 @@ def _build_lexicon_attrib(
     return attrib
 
 
-def _dump_dependency(
-    dep: Dependency, deptype: str, out: TextIO
-) -> None:
+def _dump_dependency(dep: Dependency, deptype: str, out: TextIO) -> None:
     attrib = {'id': dep['id'], 'version': dep['version']}
     if dep.get('url'):
         attrib['url'] = dep['url']
@@ -751,19 +746,17 @@ def _dump_lexical_entry(
         elem = ET.Element('LexicalEntry', attrib=attrib)
         elem.append(_build_lemma(entry['lemma'], version))
         if version < (1, 1):
-            frames = [_build_syntactic_behaviour(sb, version)
-                      for sb in entry.get('frames', [])]
+            frames = [
+                _build_syntactic_behaviour(sb, version)
+                for sb in entry.get('frames', [])
+            ]
     elem.extend([_build_form(form, version) for form in entry.get('forms', [])])
-    elem.extend([_build_sense(sense, version)
-                 for sense in entry.get('senses', [])])
+    elem.extend([_build_sense(sense, version) for sense in entry.get('senses', [])])
     elem.extend(frames)
     print(_tostring(elem, 2), file=out)
 
 
-def _build_lemma(
-    lemma: Lemma | ExternalLemma,
-    version: VersionInfo
-) -> ET.Element:
+def _build_lemma(lemma: Lemma | ExternalLemma, version: VersionInfo) -> ET.Element:
     if lemma.get('external', False):
         elem = ET.Element('ExternalLemma')
     else:
@@ -842,8 +835,9 @@ def _build_sense(
         if version >= (1, 1) and sense.get('subcat'):
             attrib['subcat'] = ' '.join(sense['subcat'])
         elem = ET.Element('Sense', attrib=attrib)
-    elem.extend([_build_relation(rel, 'SenseRelation')
-                 for rel in sense.get('relations', [])])
+    elem.extend(
+        [_build_relation(rel, 'SenseRelation') for rel in sense.get('relations', [])]
+    )
     elem.extend([_build_example(ex) for ex in sense.get('examples', [])])
     elem.extend([_build_count(cnt) for cnt in sense.get('counts', [])])
     return elem
@@ -866,9 +860,7 @@ def _build_count(count: Count) -> ET.Element:
 
 
 def _dump_synset(
-    synset: Synset | ExternalSynset,
-    out: TextIO,
-    version: VersionInfo
+    synset: Synset | ExternalSynset, out: TextIO, version: VersionInfo
 ) -> None:
     attrib: dict[str, str] = {'id': synset['id']}
     if synset.get('external', False):
@@ -891,8 +883,9 @@ def _dump_synset(
         elem.extend([_build_definition(defn) for defn in synset.get('definitions', [])])
         if synset.get('ili_definition'):
             elem.append(_build_ili_definition(synset['ili_definition']))
-    elem.extend([_build_relation(rel, 'SynsetRelation')
-                 for rel in synset.get('relations', [])])
+    elem.extend(
+        [_build_relation(rel, 'SynsetRelation') for rel in synset.get('relations', [])]
+    )
     elem.extend([_build_example(ex) for ex in synset.get('examples', [])])
     print(_tostring(elem, 2), file=out)
 
@@ -922,17 +915,14 @@ def _build_relation(relation: Relation, elemtype: str) -> ET.Element:
 
 
 def _dump_syntactic_behaviour(
-    syntactic_behaviour: SyntacticBehaviour,
-    out: TextIO,
-    version: VersionInfo
+    syntactic_behaviour: SyntacticBehaviour, out: TextIO, version: VersionInfo
 ) -> None:
     elem = _build_syntactic_behaviour(syntactic_behaviour, version)
     print(_tostring(elem, 2), file=out)
 
 
 def _build_syntactic_behaviour(
-    syntactic_behaviour: SyntacticBehaviour,
-    version: VersionInfo
+    syntactic_behaviour: SyntacticBehaviour, version: VersionInfo
 ) -> ET.Element:
     attrib = {'subcategorizationFrame': syntactic_behaviour['subcategorizationFrame']}
     if version >= (1, 1) and syntactic_behaviour.get('id'):
@@ -942,14 +932,10 @@ def _build_syntactic_behaviour(
     return ET.Element('SyntacticBehaviour', attrib=attrib)
 
 
-def _tostring(
-    elem: ET.Element, level: int, short_empty_elements: bool = True
-) -> str:
+def _tostring(elem: ET.Element, level: int, short_empty_elements: bool = True) -> str:
     _indent(elem, level)
     return ('  ' * level) + ET.tostring(
-        elem,
-        encoding='unicode',
-        short_empty_elements=short_empty_elements
+        elem, encoding='unicode', short_empty_elements=short_empty_elements
     )
 
 

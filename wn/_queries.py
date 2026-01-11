@@ -13,25 +13,25 @@ from wn._metadata import Metadata
 # Local Types
 
 _Pronunciation = tuple[
-    str,   # value
-    str | None,   # variety
-    str | None,   # notation
+    str,  # value
+    str | None,  # variety
+    str | None,  # notation
     bool,  # phonemic
-    str | None,   # audio
+    str | None,  # audio
 ]
 _Tag = tuple[str, str]  # tag, category
 _Form = tuple[
-    str,            # form
+    str,  # form
     str | None,  # id
     str | None,  # script
-    str,            # lexicon
+    str,  # lexicon
     list[_Pronunciation],  # pronunciations
     list[_Tag],  # tags
 ]
 _Word = tuple[
-    str,          # id
-    str,          # pos
-    str,          # lexicon specifier
+    str,  # id
+    str,  # pos
+    str,  # lexicon specifier
 ]
 _Synset = tuple[
     str,  # id
@@ -79,9 +79,9 @@ _Sense_Relation = tuple[
 ]
 _Count = tuple[int, str, Metadata]  # count, lexicon, metadata
 _SyntacticBehaviour = tuple[
-    str,       # id
-    str,       # frame
-    list[str]  # sense ids
+    str,  # id
+    str,  # frame
+    list[str],  # sense ids
 ]
 _ExistingILI = tuple[
     str,  # id
@@ -96,16 +96,16 @@ _ProposedILI = tuple[
     Metadata,
 ]
 _Lexicon = tuple[
-    str,       # specifier
-    str,       # id
-    str,       # label
-    str,       # language
-    str,       # email
-    str,       # license
-    str,       # version
-    str,       # url
-    str,       # citation
-    str,       # logo
+    str,  # specifier
+    str,  # id
+    str,  # label
+    str,  # language
+    str,  # email
+    str,  # license
+    str,  # version
+    str,  # url
+    str,  # citation
+    str,  # logo
     Metadata | None,  # metadata
 ]
 
@@ -131,9 +131,7 @@ def resolve_lexicon_specifiers(
         specifiers.extend(row[0] for row in cur.execute(query, params))
     # only raise an error when the query specifies something
     if not specifiers and (lexicon != '*' or lang is not None):
-        raise Error(
-            f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
-        )
+        raise Error(f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}')
     return specifiers
 
 
@@ -330,11 +328,7 @@ def _load_lemmas_with_details(
 
     # Group results by form_rowid and process pronunciations/tags
     forms_dict: dict[
-        int,
-        tuple[
-            str, str | None, str | None, str,
-            list[_Pronunciation], list[_Tag]
-        ]
+        int, tuple[str, str | None, str | None, str, list[_Pronunciation], list[_Tag]]
     ] = {}
 
     for row in conn.execute(query, params):
@@ -649,6 +643,7 @@ def get_expanded_synset_relations(
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
 
+
 def get_definitions(
     synset_id: str,
     lexicons: Sequence[str],
@@ -745,10 +740,7 @@ def get_syntactic_behaviours(
 
 
 def _get_senses(
-    id: str,
-    sourcetype: str,
-    lexicons: Sequence[str],
-    order_by_rank: bool = True
+    id: str, sourcetype: str, lexicons: Sequence[str], order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     conn = connect()
     match sourcetype:
@@ -776,17 +768,13 @@ def _get_senses(
 
 
 def get_entry_senses(
-    sense_id: str,
-    lexicons: Sequence[str],
-    order_by_rank: bool = True
+    sense_id: str, lexicons: Sequence[str], order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     yield from _get_senses(sense_id, 'entry', lexicons, order_by_rank)
 
 
 def get_synset_members(
-    synset_id: str,
-    lexicons: Sequence[str],
-    order_by_rank: bool = True
+    synset_id: str, lexicons: Sequence[str], order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     yield from _get_senses(synset_id, 'synset', lexicons, order_by_rank)
 
@@ -897,9 +885,7 @@ _SANITIZED_METADATA_TABLES = {
 }
 
 
-def get_metadata(
-    id: str, lexicon: str, table: str
-) -> Metadata:
+def get_metadata(id: str, lexicon: str, table: str) -> Metadata:
     tablename = _SANITIZED_METADATA_TABLES.get(table)
     if tablename is None:
         raise Error(f"'{table}' does not contain metadata")
@@ -990,9 +976,7 @@ def get_sense_counts(sense_id: str, lexicons: Sequence[str]) -> list[_Count]:
          WHERE s.id = ?
            AND lex.specifier IN ({_qs(lexicons)})
     '''
-    rows: list[_Count] = conn.execute(
-        query, (sense_id, *lexicons)
-    ).fetchall()
+    rows: list[_Count] = conn.execute(query, (sense_id, *lexicons)).fetchall()
     return rows
 
 
@@ -1043,9 +1027,16 @@ def get_sense_n(sense_id: str, lexicon: str) -> int | None:
     return None
 
 
-def _qs(xs: Collection) -> str: return ','.join('?' * len(xs))
-def _vs(xs: Collection) -> str: return ','.join(['(?)'] * len(xs))
-def _kws(xs: Collection) -> str: return ','.join(f':{x}' for x in xs)
+def _qs(xs: Collection) -> str:
+    return ','.join('?' * len(xs))
+
+
+def _vs(xs: Collection) -> str:
+    return ','.join(['(?)'] * len(xs))
+
+
+def _kws(xs: Collection) -> str:
+    return ','.join(f':{x}' for x in xs)
 
 
 def _query_forms(

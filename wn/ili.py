@@ -40,6 +40,7 @@ class ILIStatus(str, Enum):
 @dataclass(slots=True)
 class ILIDefinition(HasMetadata):
     """Class for modeling ILI definitions."""
+
     __module__ = 'wn'
 
     text: str
@@ -64,7 +65,6 @@ class ILIDefinition(HasMetadata):
 
 
 class ILIProtocol(Protocol):
-
     _definition_text: str | None
     _definition_metadata: Metadata | None
 
@@ -112,6 +112,7 @@ class ILIProtocol(Protocol):
 @dataclass(frozen=True, slots=True)
 class ILI(ILIProtocol):
     """A class for interlingual indices."""
+
     __module__ = 'wn'
 
     id: str
@@ -222,8 +223,7 @@ def get_all(
             _definition_text=defn,
             _definition_metadata=meta,
         )
-        for id, status, defn, meta
-        in find_ilis(status=status, lexicons=lexicons)
+        for id, status, defn, meta in find_ilis(status=status, lexicons=lexicons)
     ]
 
 
@@ -274,9 +274,7 @@ def get_all_proposed(lexicon: str | None = None) -> list[ProposedILI]:
 
     """
     lexicons = lexicon.split() if lexicon else []
-    return [
-        ProposedILI(*row) for row in find_proposed_ilis(lexicons=lexicons)
-    ]
+    return [ProposedILI(*row) for row in find_proposed_ilis(lexicons=lexicons)]
 
 
 def is_ili_tsv(source: AnyPath) -> bool:
@@ -295,6 +293,7 @@ def is_ili_tsv(source: AnyPath) -> bool:
         except (StopIteration, IndexError):
             pass
     return False
+
 
 def load_tsv(source: AnyPath) -> Iterator[dict[str, str]]:
     """Yield data from an ILI tab-separated-value file.

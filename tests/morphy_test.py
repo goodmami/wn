@@ -1,4 +1,3 @@
-
 import pytest
 
 import wn
@@ -16,11 +15,15 @@ def test_morphy_uninitialized():
     assert m('exemplifying', 'v') == {'v': {'exemplifying', 'exemplify', 'exemplifye'}}
     assert m('data', 'n') == {'n': {'data'}}
     assert m('datums', 'n') == {'n': {'datums', 'datum'}}  # expected false positive
-    assert m('examples', None) == {None: {'examples'},
-                                   'n': {'example'},
-                                   'v': {'example', 'exampl'}}
-    assert m('exemplifying', None) == {None: {'exemplifying'},
-                                       'v': {'exemplify', 'exemplifye'}}
+    assert m('examples', None) == {
+        None: {'examples'},
+        'n': {'example'},
+        'v': {'example', 'exampl'},
+    }
+    assert m('exemplifying', None) == {
+        None: {'exemplifying'},
+        'v': {'exemplify', 'exemplifye'},
+    }
     assert m('data', None) == {None: {'data'}}
 
 

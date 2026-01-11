@@ -132,7 +132,6 @@ def hypernym_paths(
         >>> for path in wn.taxonomy.hypernym_paths(dog):
         ...     for i, ss in enumerate(path):
         ...         print(' ' * i, ss, ss.lemmas()[0])
-        ...
          Synset('pwn-02083346-n') canine
           Synset('pwn-02075296-n') carnivore
            Synset('pwn-01886756-n') eutherian mammal
@@ -179,7 +178,7 @@ def min_depth(synset: wn.Synset, simulate_root: bool = False) -> int:
     """
     return min(
         (len(path) for path in synset.hypernym_paths(simulate_root=simulate_root)),
-        default=0
+        default=0,
     )
 
 
@@ -203,7 +202,7 @@ def max_depth(synset: wn.Synset, simulate_root: bool = False) -> int:
     """
     return max(
         (len(path) for path in synset.hypernym_paths(simulate_root=simulate_root)),
-        default=0
+        default=0,
     )
 
 
@@ -233,7 +232,7 @@ def _shortest_hyp_paths(
             for dist, ss in enumerate(path):
                 if ss in common:
                     # synset or other subpath to ss (not including ss)
-                    subpaths[ss][which].append(path[:dist + 1])
+                    subpaths[ss][which].append(path[: dist + 1])
                     # keep maximum depth
                     depth = len(path) - dist - 1
                     if ss not in depths or depths[ss] < depth:
@@ -269,7 +268,6 @@ def shortest_path(
         >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
         >>> for ss in wn.taxonomy.shortest_path(dog, squirrel):
         ...     print(ss.lemmas())
-        ...
         ['canine', 'canid']
         ['carnivore']
         ['eutherian mammal', 'placental', 'placental mammal', 'eutherian']
@@ -303,7 +301,6 @@ def common_hypernyms(
         >>> squirrel = ewn.synsets('squirrel', pos='n')[0]
         >>> for ss in wn.taxonomy.common_hypernyms(dog, squirrel):
         ...     print(ss.lemmas())
-        ...
         ['entity']
         ['physical entity']
         ['object', 'physical object']

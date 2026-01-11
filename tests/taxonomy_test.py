@@ -1,4 +1,3 @@
-
 import pytest
 
 import wn
@@ -16,19 +15,25 @@ from wn.taxonomy import (
 @pytest.mark.usefixtures('mini_db')
 def test_roots():
     en = wn.Wordnet('test-en')
-    assert set(roots(en, pos='n')) == {en.synset('test-en-0001-n'),
-                                       en.synset('test-en-0008-n')}
-    assert set(roots(en, pos='v')) == {en.synset('test-en-0003-v'),
-                                       en.synset('test-en-0007-v')}
+    assert set(roots(en, pos='n')) == {
+        en.synset('test-en-0001-n'),
+        en.synset('test-en-0008-n'),
+    }
+    assert set(roots(en, pos='v')) == {
+        en.synset('test-en-0003-v'),
+        en.synset('test-en-0007-v'),
+    }
     assert roots(en, pos='a') == []
     assert set(roots(en)) == set(roots(en, pos='n') + roots(en, pos='v'))
 
     # with no expand relations and no relation of its own, every
     # synset looks like a root
     es = wn.Wordnet('test-es')
-    assert set(roots(es, pos='n')) == {es.synset('test-es-0001-n'),
-                                       es.synset('test-es-0002-n'),
-                                       es.synset('test-es-0005-n')}
+    assert set(roots(es, pos='n')) == {
+        es.synset('test-es-0001-n'),
+        es.synset('test-es-0002-n'),
+        es.synset('test-es-0005-n'),
+    }
 
     es = wn.Wordnet('test-es', expand='test-en')
     assert roots(es, pos='n') == [es.synset('test-es-0001-n')]
@@ -37,11 +42,15 @@ def test_roots():
 @pytest.mark.usefixtures('mini_db')
 def test_leaves():
     en = wn.Wordnet('test-en')
-    assert set(leaves(en, pos='n')) == {en.synset('test-en-0005-n'),
-                                        en.synset('test-en-0006-n'),
-                                        en.synset('test-en-0008-n')}
-    assert set(leaves(en, pos='v')) == {en.synset('test-en-0003-v'),
-                                        en.synset('test-en-0007-v')}
+    assert set(leaves(en, pos='n')) == {
+        en.synset('test-en-0005-n'),
+        en.synset('test-en-0006-n'),
+        en.synset('test-en-0008-n'),
+    }
+    assert set(leaves(en, pos='v')) == {
+        en.synset('test-en-0003-v'),
+        en.synset('test-en-0007-v'),
+    }
 
 
 @pytest.mark.usefixtures('mini_db')
@@ -92,7 +101,9 @@ def test_shortest_path():
     with pytest.raises(wn.Error):
         shortest_path(example, exemplify)
     assert shortest_path(example, exemplify, simulate_root=True) == [
-        information, inferred_root, exemplify
+        information,
+        inferred_root,
+        exemplify,
     ]
 
 

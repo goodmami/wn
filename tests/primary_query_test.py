@@ -1,4 +1,3 @@
-
 import pytest
 
 import wn
@@ -115,7 +114,12 @@ def test_lemmas_mini_1_4():
     assert len(lemmas_with_data) == 6  # includes duplicate 'baz'
     assert all(isinstance(lemma, wn.Form) for lemma in lemmas_with_data)
     assert [f.value for f in lemmas_with_data] == [
-        'Foo Bar', 'foo bar', 'baz', 'BAZ', 'Baz', 'baz'
+        'Foo Bar',
+        'foo bar',
+        'baz',
+        'BAZ',
+        'Baz',
+        'baz',
     ]
 
     # Test deduplication

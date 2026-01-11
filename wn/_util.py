@@ -16,18 +16,17 @@ def version_info(version_string: str) -> VersionInfo:
 def is_url(string: str) -> bool:
     """Return True if *string* appears to be a URL."""
     # TODO: ETags?
-    return any(string.startswith(scheme)
-               for scheme in ('http://', 'https://'))
+    return any(string.startswith(scheme) for scheme in ('http://', 'https://'))
 
 
 def is_gzip(path: Path) -> bool:
     """Return True if the file at *path* appears to be gzipped."""
-    return _inspect_file_signature(path, b'\x1F\x8B')
+    return _inspect_file_signature(path, b'\x1f\x8b')
 
 
 def is_lzma(path: Path) -> bool:
     """Return True if the file at *path* appears to be lzma-compressed."""
-    return _inspect_file_signature(path, b'\xFD7zXZ\x00')
+    return _inspect_file_signature(path, b'\xfd7zXZ\x00')
 
 
 def is_xml(path: Path) -> bool:
