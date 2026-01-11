@@ -1,7 +1,7 @@
+import pytest
+
 import wn
 from wn import lmf
-
-import pytest
 
 
 @pytest.mark.benchmark(group="lmf.load", warmup=True)

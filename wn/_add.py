@@ -2,27 +2,26 @@
 Adding and removing lexicons to/from the database.
 """
 
-from collections.abc import Iterable, Iterator, Sequence
-from typing import TypeVar, cast
-from pathlib import Path
-from itertools import islice
-import sqlite3
 import logging
+import sqlite3
+from collections.abc import Iterable, Iterator, Sequence
+from itertools import islice
+from pathlib import Path
+from typing import TypeVar, cast
 
-import wn
-from wn._types import AnyPath
-from wn._db import connect
-from wn._queries import (
-    resolve_lexicon_specifiers,
-    get_lexicon_extensions,
-)
-from wn._util import normalize_form, format_lexicon_specifier
-from wn.util import ProgressHandler, ProgressBar
-from wn.project import iterpackages
-from wn import constants
-from wn import lmf
+from wn import constants, lmf
 from wn import ili as _ili
-
+from wn._config import config
+from wn._db import connect
+from wn._exceptions import Error
+from wn._queries import (
+    get_lexicon_extensions,
+    resolve_lexicon_specifiers,
+)
+from wn._types import AnyPath
+from wn._util import format_lexicon_specifier, normalize_form
+from wn.project import iterpackages
+from wn.util import ProgressBar, ProgressHandler
 
 log = logging.getLogger('wn')
 
@@ -103,7 +102,7 @@ def add(
     progress = progress_handler(message='Database')
 
     log.info('adding project to database')
-    log.info('  database: %s', wn.config.database_path)
+    log.info('  database: %s', config.database_path)
     log.info('  project file: %s', source)
 
     try:
@@ -114,7 +113,7 @@ def add(
                 case constants._ILI:
                     _add_ili(package.resource_file(), progress)
                 case _:
-                    raise wn.Error(f'unknown package type: {package.type}')
+                    raise Error(f'unknown package type: {package.type}')
     finally:
         progress.close()
 
@@ -342,7 +341,7 @@ def _insert_lexicon(
     lexid = cur.lastrowid
 
     if not isinstance(lexid, int):
-        raise wn.Error('failed to insert lexicon')
+        raise Error('failed to insert lexicon')
 
     query = '''
         UPDATE lexicon_dependencies
@@ -884,7 +883,7 @@ def _insert_sense_relations(
                 elif target_id in synset_ids:
                     s_ss_rels.append((sense['id'], slid, tlid, relation))
                 else:
-                    raise wn.Error(
+                    raise Error(
                         f'relation target is not a known sense or synset: {target_id}'
                     )
     hyperparams = [

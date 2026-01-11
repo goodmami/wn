@@ -15,11 +15,10 @@ from wn._queries import (
     resolve_lexicon_specifiers,
 )
 from wn._types import (
-    NormalizeFunction,
     LemmatizeFunction,
+    NormalizeFunction,
 )
 from wn._util import normalize_form
-
 
 # Useful for factory functions of Word, Sense, or Synset
 C = TypeVar('C', Word, Sense, Synset)

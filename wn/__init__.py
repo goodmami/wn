@@ -38,32 +38,41 @@ __all__ = (
     'WnWarning',
 )
 
+from wn._add import add, add_lexical_resource, remove
+from wn._config import config  # noqa: F401
+from wn._core import (
+    Count,
+    Definition,
+    Example,
+    Form,
+    Pronunciation,
+    Relation,
+    Sense,
+    Synset,
+    Tag,
+    Word,
+)
+from wn._download import download
 from wn._exceptions import (
-    Error,
-    DatabaseError,
     ConfigurationError,
+    DatabaseError,
+    Error,
     ProjectError,
     WnWarning,
 )
-from wn._config import config  # noqa: F401
-from wn._add import add, add_lexical_resource, remove
 from wn._export import export
-from wn._download import download
 from wn._lexicon import Lexicon
-from wn._core import (
-    Word, Form, Pronunciation, Tag,
-    Sense, Example, Count,
-    Synset, Definition,
-    Relation,
-)
 from wn._module_functions import (
-    projects,
+    lemmas,
     lexicons,
-    word, words, lemmas,
-    sense, senses,
-    synset, synsets,
+    projects,
+    sense,
+    senses,
+    synset,
+    synsets,
+    word,
+    words,
 )
 from wn._wordnet import Wordnet
-
 
 __version__ = '0.14.0'

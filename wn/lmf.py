@@ -3,28 +3,21 @@
 Reader for the Lexical Markup Framework (LMF) format.
 """
 
-from typing import (
-    Any,
-    BinaryIO,
-    Literal,
-    TextIO,
-    TypedDict,
-    cast
-)
 import re
-from pathlib import Path
 import xml.etree.ElementTree as ET  # for general XML parsing
 import xml.parsers.expat  # for fast scanning of Lexicon versions
+from pathlib import Path
+from typing import Any, BinaryIO, Literal, TextIO, TypedDict, cast
 from xml.sax.saxutils import quoteattr
 
-import wn
+from wn._exceptions import Error
 from wn._metadata import Metadata
 from wn._types import AnyPath, VersionInfo
 from wn._util import is_xml, version_info
-from wn.util import ProgressHandler, ProgressBar
+from wn.util import ProgressBar, ProgressHandler
 
 
-class LMFError(wn.Error):
+class LMFError(Error):
     """Raised on invalid LMF-XML documents."""
 
 

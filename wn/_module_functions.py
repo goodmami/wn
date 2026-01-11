@@ -1,7 +1,11 @@
 from typing import Literal, overload
 
-import wn
+from wn._config import config
+from wn._core import Form, Sense, Synset, Word
+from wn._exceptions import Error
+from wn._lexicon import Lexicon
 from wn._util import format_lexicon_specifier
+from wn._wordnet import Wordnet
 
 
 def projects() -> list[dict]:
@@ -21,9 +25,9 @@ def projects() -> list[dict]:
         'Open English WordNet'
 
     """
-    index = wn.config.index
+    index = config.index
     return [
-        wn.config.get_project_info(format_lexicon_specifier(project_id, version))
+        config.get_project_info(format_lexicon_specifier(project_id, version))
         for project_id, project_info in index.items()
         for version in project_info.get('versions', [])
         if 'resource_urls' in project_info['versions'][version]
@@ -34,7 +38,7 @@ def lexicons(
     *,
     lexicon: str | None = "*",
     lang: str | None = None
-) -> list[wn.Lexicon]:
+) -> list[Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
     Example:
@@ -44,8 +48,8 @@ def lexicons(
 
     """
     try:
-        w = wn.Wordnet(lang=lang, lexicon=lexicon or '*')
-    except wn.Error:
+        w = Wordnet(lang=lang, lexicon=lexicon or '*')
+    except Error:
         return []
     else:
         return w.lexicons()
@@ -56,7 +60,7 @@ def word(
     *,
     lexicon: str | None = None,
     lang: str | None = None
-) -> wn.Word:
+) -> Word:
     """Return the word with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -67,7 +71,7 @@ def word(
     Word('ewn-cell-n')
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).word(id)
+    return Wordnet(lang=lang, lexicon=lexicon).word(id)
 
 
 def words(
@@ -76,7 +80,7 @@ def words(
     *,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[wn.Word]:
+) -> list[Word]:
     """Return the list of matching words.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -91,7 +95,7 @@ def words(
     [Word('ewn-scurry-n'), Word('ewn-scurry-v')]
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
+    return Wordnet(lang=lang, lexicon=lexicon).words(form=form, pos=pos)
 
 
 @overload
@@ -113,7 +117,7 @@ def lemmas(
     data: Literal[True] = True,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[wn.Form]: ...
+) -> list[Form]: ...
 
 
 @overload
@@ -124,7 +128,7 @@ def lemmas(
     data: bool,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[str] | list[wn.Form]: ...
+) -> list[str] | list[Form]: ...
 
 
 def lemmas(
@@ -134,7 +138,7 @@ def lemmas(
     data: bool = False,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[str] | list[wn.Form]:
+) -> list[str] | list[Form]:
     """Return the list of lemmas for matching words.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -153,7 +157,7 @@ def lemmas(
     11617
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).lemmas(form=form, pos=pos, data=data)
+    return Wordnet(lang=lang, lexicon=lexicon).lemmas(form=form, pos=pos, data=data)
 
 
 def synset(
@@ -161,7 +165,7 @@ def synset(
     *,
     lexicon: str | None = None,
     lang: str | None = None
-) -> wn.Synset:
+) -> Synset:
     """Return the synset with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -172,7 +176,7 @@ def synset(
     Synset('ewn-03311152-n')
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).synset(id=id)
 
 
 def synsets(
@@ -182,7 +186,7 @@ def synsets(
     *,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[wn.Synset]:
+) -> list[Synset]:
     """Return the list of matching synsets.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -195,7 +199,7 @@ def synsets(
     [Synset('ewn-00983308-v')]
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
+    return Wordnet(lang=lang, lexicon=lexicon).synsets(form=form, pos=pos, ili=ili)
 
 
 def senses(
@@ -204,7 +208,7 @@ def senses(
     *,
     lexicon: str | None = None,
     lang: str | None = None,
-) -> list[wn.Sense]:
+) -> list[Sense]:
     """Return the list of matching senses.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -217,7 +221,7 @@ def senses(
     [Sense('ewn-twig-n-13184889-02')]
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
+    return Wordnet(lang=lang, lexicon=lexicon).senses(form=form, pos=pos)
 
 
 def sense(
@@ -225,7 +229,7 @@ def sense(
     *,
     lexicon: str | None = None,
     lang: str | None = None
-) -> wn.Sense:
+) -> Sense:
     """Return the sense with *id* in *lexicon*.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -236,4 +240,4 @@ def sense(
     Sense('ewn-flutter-v-01903884-02')
 
     """
-    return wn.Wordnet(lang=lang, lexicon=lexicon).sense(id=id)
+    return Wordnet(lang=lang, lexicon=lexicon).sense(id=id)

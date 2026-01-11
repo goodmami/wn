@@ -3,15 +3,13 @@ import pytest
 
 import wn
 from wn.taxonomy import (
-    roots,
-    leaves,
-    taxonomy_depth,
     hypernym_paths,
-    min_depth,
+    leaves,
     max_depth,
+    min_depth,
+    roots,
     shortest_path,
-    # common_hypernyms,
-    # lowest_common_hypernyms,
+    taxonomy_depth,
 )
 
 

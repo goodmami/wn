@@ -1,5 +1,6 @@
 from wn import project
 
+
 def test_is_package_directory(datadir):
     assert project.is_package_directory(datadir / "test-package")
     assert not project.is_package_directory(datadir)

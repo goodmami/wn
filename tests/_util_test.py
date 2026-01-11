@@ -1,5 +1,5 @@
 
-from wn._util import flatten, unique_list, normalize_form
+from wn._util import flatten, normalize_form, unique_list
 
 
 def test_flatten():

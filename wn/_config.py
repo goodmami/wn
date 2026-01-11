@@ -5,18 +5,18 @@ Local configuration settings.
 
 from collections.abc import Sequence
 from importlib.resources import as_file, files
-from typing import Any
 from pathlib import Path
+from typing import Any
 
 try:
     import tomllib  # python_version >= 3.11
 except ImportError:
     import tomli as tomllib  # type: ignore
 
-from wn import ConfigurationError, ProjectError
+from wn._exceptions import ConfigurationError, ProjectError
 from wn._types import AnyPath
+from wn._util import format_lexicon_specifier, short_hash, split_lexicon_specifier
 from wn.constants import _WORDNET
-from wn._util import short_hash, format_lexicon_specifier, split_lexicon_specifier
 
 # The index file is a project file of Wn
 with as_file(files('wn') / 'index.toml') as index_file:

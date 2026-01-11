@@ -1,11 +1,10 @@
 """Non-public Wn utilities."""
 
-from collections.abc import Iterable, Hashable
-from typing import TypeVar
-from pathlib import Path
 import hashlib
-from unicodedata import normalize, combining
-
+from collections.abc import Hashable, Iterable
+from pathlib import Path
+from typing import TypeVar
+from unicodedata import combining, normalize
 
 from wn._types import VersionInfo
 

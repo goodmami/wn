@@ -1,7 +1,7 @@
 
 from collections.abc import Callable, Mapping, Sequence
-from typing import Any, TypeAlias
 from pathlib import Path
+from typing import Any, TypeAlias
 
 # For the below, use type statement instead of TypeAlias from Python 3.12
 

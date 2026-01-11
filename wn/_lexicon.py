@@ -6,16 +6,15 @@ from typing import Callable, NamedTuple, Protocol, Sequence, TypeVar
 from wn._metadata import HasMetadata, Metadata
 from wn._queries import (
     find_entries,
+    find_ilis,
     find_senses,
     find_synsets,
-    find_ilis,
     get_lexicon,
     get_lexicon_dependencies,
-    get_lexicon_extensions,
     get_lexicon_extension_bases,
+    get_lexicon_extensions,
     get_modified,
 )
-
 
 DEFAULT_CONFIDENCE = 1.0
 

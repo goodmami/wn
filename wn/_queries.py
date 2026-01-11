@@ -2,14 +2,13 @@
 Database retrieval queries.
 """
 
+import itertools
 from collections.abc import Collection, Iterator, Sequence
 from typing import cast
-import itertools
 
-import wn
-from wn._metadata import Metadata
 from wn._db import connect
-
+from wn._exceptions import Error
+from wn._metadata import Metadata
 
 # Local Types
 
@@ -132,7 +131,7 @@ def resolve_lexicon_specifiers(
         specifiers.extend(row[0] for row in cur.execute(query, params))
     # only raise an error when the query specifies something
     if not specifiers and (lexicon != '*' or lang is not None):
-        raise wn.Error(
+        raise Error(
             f'no lexicon found with lang={lang!r} and lexicon={lexicon!r}'
         )
     return specifiers
@@ -684,7 +683,7 @@ def get_examples(
     conn = connect()
     prefix = _SANITIZED_EXAMPLE_PREFIXES.get(table)
     if prefix is None:
-        raise wn.Error(f"'{table}' does not have examples")
+        raise Error(f"'{table}' does not have examples")
     query = f'''
         SELECT ex.example, ex.language, lex.specifier, ex.metadata
           FROM {prefix}_examples AS ex
@@ -758,7 +757,7 @@ def _get_senses(
         case 'synset':
             sourcealias = 'ss'
         case _:
-            raise wn.Error(f'invalid sense source type: {sourcetype}')
+            raise Error(f'invalid sense source type: {sourcetype}')
     order_col = f"{sourcetype}_rank" if order_by_rank else "rowid"
     query = f'''
         SELECT s.id, e.id, ss.id, slex.specifier
@@ -903,7 +902,7 @@ def get_metadata(
 ) -> Metadata:
     tablename = _SANITIZED_METADATA_TABLES.get(table)
     if tablename is None:
-        raise wn.Error(f"'{table}' does not contain metadata")
+        raise Error(f"'{table}' does not contain metadata")
     query = f'''
         SELECT tbl.metadata
           FROM {tablename} AS tbl
@@ -949,7 +948,7 @@ _SANITIZED_LEXICALIZED_TABLES = {
 def get_lexicalized(id: str, lexicon: str, table: str) -> bool:
     conn = connect()
     if table not in _SANITIZED_LEXICALIZED_TABLES:
-        raise wn.Error(f"'{table}' does not mark lexicalization")
+        raise Error(f"'{table}' does not mark lexicalization")
     tablename, column = _SANITIZED_LEXICALIZED_TABLES[table]
     if not id or not lexicon:
         return False

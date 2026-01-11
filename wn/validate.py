@@ -29,7 +29,6 @@ W502  Relation is a self-loop.
 
 """
 
-from typing import cast
 from collections import Counter
 from collections.abc import (
     Callable,
@@ -37,16 +36,16 @@ from collections.abc import (
     Sequence,
 )
 from itertools import chain
+from typing import cast
 
 from wn import lmf
 from wn.constants import (
+    REVERSE_RELATIONS,
     SENSE_RELATIONS,
     SENSE_SYNSET_RELATIONS,
     SYNSET_RELATIONS,
-    REVERSE_RELATIONS,
 )
-from wn.util import ProgressHandler, ProgressBar
-
+from wn.util import ProgressBar, ProgressHandler
 
 _Ids = dict[str, Counter]
 _Result = dict[str, dict]

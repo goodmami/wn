@@ -8,7 +8,7 @@ from typing import TypeAlias
 
 import wn
 from wn._types import LemmatizeResult
-from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV, PARTS_OF_SPEECH
+from wn.constants import ADJ, ADJ_SAT, ADV, NOUN, PARTS_OF_SPEECH, VERB
 
 POSExceptionMap: TypeAlias = dict[str, set[str]]
 ExceptionMap: TypeAlias = dict[str, POSExceptionMap]

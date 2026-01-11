@@ -1,5 +1,5 @@
 from collections.abc import Iterator
-from itertools import product, cycle
+from itertools import cycle, product
 from pathlib import Path
 
 import pytest

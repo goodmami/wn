@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import wn
-from wn.constants import ADJ, ADJ_SAT
 from wn._util import flatten
-
+from wn.constants import ADJ, ADJ_SAT
 
 _FAKE_ROOT = '*ROOT*'
 

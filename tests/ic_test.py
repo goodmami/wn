@@ -4,10 +4,9 @@ from math import log
 import pytest
 
 import wn
-from wn.constants import (NOUN, VERB, ADJ, ADV)
-from wn.util import synset_id_formatter
 import wn.ic
-
+from wn.constants import ADJ, ADV, NOUN, VERB
+from wn.util import synset_id_formatter
 
 synset_id = {
     'information': 'test-en-0001-n',

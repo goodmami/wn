@@ -1,16 +1,15 @@
 
+import logging
 from collections.abc import Sequence
 from pathlib import Path
-import logging
 
 import httpx
 
-import wn
-from wn._util import is_url
-from wn.util import ProgressHandler, ProgressBar
 from wn._add import add as add_to_db
-from wn import config
-
+from wn._config import config
+from wn._exceptions import Error
+from wn._util import is_url
+from wn.util import ProgressBar, ProgressHandler
 
 CHUNK_SIZE = 8 * 1024  # how many KB to read at a time
 TIMEOUT = 10  # number of seconds to wait for a server response
@@ -64,15 +63,15 @@ def download(
         elif urls:
             path = _download(urls, progress)
         else:
-            raise wn.Error('no urls to download')
+            raise Error('no urls to download')
     finally:
         progress.close()
 
     if add:
         try:
             add_to_db(path, progress_handler=progress_handler)
-        except wn.Error as exc:
-            raise wn.Error(
+        except Error as exc:
+            raise Error(
                 f'could not add downloaded file: {path}\n  You might try '
                 'deleting the cached file and trying the download again.'
             ) from exc
@@ -113,7 +112,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
                 path.unlink(missing_ok=True)
                 last_count = progress.kwargs['count']
                 if i == len(urls):
-                    raise wn.Error(f'download failed at {last_count} bytes') from exc
+                    raise Error(f'download failed at {last_count} bytes') from exc
                 else:
                     logger.info(
                         'download failed at %d bytes; trying next url', last_count
@@ -124,7 +123,7 @@ def _download(urls: Sequence[str], progress: ProgressHandler) -> Path:
     except KeyboardInterrupt as exc:
         path.unlink(missing_ok=True)
         last_count = progress.kwargs['count']
-        raise wn.Error(f'download cancelled at {last_count} bytes') from exc
+        raise Error(f'download cancelled at {last_count} bytes') from exc
     except Exception:
         path.unlink(missing_ok=True)
         raise

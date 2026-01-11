@@ -1,6 +1,5 @@
 
-from wn._core import Word, Synset
-
+from wn._core import Synset, Word
 
 # Word-based Metrics
 

@@ -4,8 +4,8 @@
 import math
 
 import wn
-from wn.constants import ADJ, ADJ_SAT
 from wn._core import Synset
+from wn.constants import ADJ, ADJ_SAT
 from wn.ic import Freq, information_content
 
 

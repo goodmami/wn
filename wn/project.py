@@ -3,22 +3,20 @@
 Wordnet and ILI Packages and Collections
 """
 
-from collections.abc import Iterator
-from pathlib import Path
-import tarfile
-import tempfile
 import gzip
 import lzma
 import shutil
+import tarfile
+import tempfile
+from collections.abc import Iterator
+from pathlib import Path
 
-
-import wn
+from wn import ili, lmf
+from wn._config import config
+from wn._exceptions import Error
 from wn._types import AnyPath
-from wn.constants import _WORDNET, _ILI
 from wn._util import is_gzip, is_lzma
-from wn import lmf
-from wn import ili
-
+from wn.constants import _ILI, _WORDNET
 
 _ADDITIONAL_FILE_SUFFIXES = ('', '.txt', '.md', '.rst')
 
@@ -116,9 +114,9 @@ class Package(Project):
         """Return the path of the package's resource file."""
         files = _package_directory_types(self._path)
         if not files:
-            raise wn.Error(f'no resource found in package: {self._path!s}')
+            raise Error(f'no resource found in package: {self._path!s}')
         elif len(files) > 1:
-            raise wn.Error(f'multiple resource found in package: {self._path!s}')
+            raise Error(f'multiple resource found in package: {self._path!s}')
         return files[0][0]
 
 
@@ -184,9 +182,9 @@ def get_project(
         raise TypeError('expected a project specifier or a path')
 
     if project:
-        info = wn.config.get_project_info(project)
+        info = config.get_project_info(project)
         if not info['cache']:
-            raise wn.Error(
+            raise Error(
                 f'{project} is not cached; try `wn.download({project!r}` first'
             )
         path = info['cache']
@@ -209,7 +207,7 @@ def _get_project_from_path(
             return Collection(path), tmp_path
 
         else:
-            raise wn.Error(
+            raise Error(
                 f'does not appear to be a valid package or collection: {path!s}'
             )
 
@@ -220,7 +218,7 @@ def _get_project_from_path(
             tar.extractall(path=tmpdir_)
             contents = list(tmpdir_.iterdir())
             if len(contents) != 1:
-                raise wn.Error(
+                raise Error(
                     'archive may only have one resource, package, or collection'
                 )
             return _get_project_from_path(contents[0], tmp_path=tmpdir_)
@@ -230,7 +228,7 @@ def _get_project_from_path(
         if lmf.is_lmf(decompressed) or ili.is_ili_tsv(decompressed):
             return ResourceOnlyPackage(decompressed), tmp_path
         else:
-            raise wn.Error(
+            raise Error(
                 f'not a valid lexical resource: {path!s}'
             )
 
@@ -269,7 +267,7 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
             case Collection():
                 yield from project.packages()
             case _:
-                raise wn.Error(f'unexpected project type: {project.__class__.__name__}')
+                raise Error(f'unexpected project type: {project.__class__.__name__}')
     finally:
         if tmp_path and delete:
             if tmp_path.is_dir():
@@ -277,7 +275,7 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
             elif tmp_path.is_file():
                 tmp_path.unlink()
             else:
-                raise wn.Error(f'could not remove temporary path: {tmp_path}')
+                raise Error(f'could not remove temporary path: {tmp_path}')
 
 
 def _get_decompressed(
@@ -302,7 +300,7 @@ def _get_decompressed(
             tmp.close()  # Windows cannot reliably reopen until it's closed
 
         except (OSError, EOFError, lzma.LZMAError) as exc:
-            raise wn.Error(f'could not decompress file: {source}') from exc
+            raise Error(f'could not decompress file: {source}') from exc
 
         # if tmp_path is not None, the compressed file was in a
         # temporary directory, so return that. Otherwise the new path
@@ -319,10 +317,10 @@ def _check_tar(tar: tarfile.TarFile) -> None:
     """
     for info in tar.getmembers():
         if not (info.isfile() or info.isdir()):
-            raise wn.Error(
+            raise Error(
                 f'tarfile member is not a regular file or directory: {info.name}'
             )
         if info.name.startswith('/') or '..' in info.name:
-            raise wn.Error(
+            raise Error(
                 f'tarfile member paths may not be absolute or contain ..: {info.name}'
             )

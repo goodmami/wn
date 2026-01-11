@@ -1,15 +1,15 @@
 
-import sys
 import argparse
-from pathlib import Path
 import json
 import logging
+import sys
+from pathlib import Path
 
 import wn
-from wn.project import iterpackages
 from wn import lmf
-from wn.validate import validate
 from wn._util import format_lexicon_specifier
+from wn.project import iterpackages
+from wn.validate import validate
 
 
 def _download(args):

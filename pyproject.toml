@@ -92,6 +92,7 @@ select = [
   "C90",    # McCabe cyclomatic complexity
   "E",      # pycodestyle
   "F",      # Pyflakes
+  "I",      # isort
   "W",      # pycodestyle
 ]
 

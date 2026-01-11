@@ -5,6 +5,7 @@ from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
 from typing import Literal, TypeVar, overload
 
+from wn import taxonomy
 from wn._lexicon import (
     LexiconConfiguration,
     LexiconElement,
@@ -14,28 +15,27 @@ from wn._metadata import Metadata
 from wn._queries import (
     find_entries,
     find_synsets,
-    get_lexicon_extension_bases,
-    get_lexicon_extensions,
+    get_adjposition,
+    get_definitions,
     get_entry_forms,
     get_entry_senses,
+    get_examples,
+    get_expanded_synset_relations,
+    get_lexfile,
+    get_lexicalized,
+    get_lexicon_extension_bases,
+    get_lexicon_extensions,
+    get_metadata,
+    get_sense_counts,
     get_sense_relations,
     get_sense_synset_relations,
-    get_synset_relations,
-    get_expanded_synset_relations,
     get_synset_members,
+    get_synset_relations,
     get_synsets_for_ilis,
-    get_examples,
-    get_definitions,
     get_syntactic_behaviours,
-    get_metadata,
-    get_lexicalized,
-    get_adjposition,
-    get_sense_counts,
-    get_lexfile,
     resolve_lexicon_specifiers,
 )
 from wn._util import unique_list
-from wn import taxonomy
 
 _INFERRED_SYNSET = '*INFERRED*'
 

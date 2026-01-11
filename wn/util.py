@@ -1,7 +1,7 @@
 """Wn utility classes."""
+import sys
 from collections.abc import Callable
 from typing import TextIO
-import sys
 
 
 def synset_id_formatter(

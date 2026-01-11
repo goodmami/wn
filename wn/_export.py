@@ -2,39 +2,38 @@
 from collections.abc import Sequence
 from typing import cast
 
-import wn
 from wn import lmf
+from wn._exceptions import Error
 from wn._lexicon import Lexicon
 from wn._metadata import Metadata
 from wn._queries import (
     find_entries,
+    find_proposed_ilis,
     find_senses,
     find_synsets,
     find_syntactic_behaviours,
-    find_proposed_ilis,
+    get_adjposition,
+    get_definitions,
     get_entry_forms,
     get_entry_index,
     get_entry_senses,
-    get_sense_n,
-    get_sense_relations,
-    get_sense_synset_relations,
-    get_synset_relations,
-    get_synset_members,
     get_examples,
-    get_definitions,
-    get_metadata,
-    get_proposed_ili_metadata,
-    get_lexicalized,
-    get_adjposition,
-    get_sense_counts,
     get_lexfile,
+    get_lexicalized,
     get_lexicon,
     get_lexicon_dependencies,
     get_lexicon_extension_bases,
+    get_metadata,
+    get_proposed_ili_metadata,
+    get_sense_counts,
+    get_sense_n,
+    get_sense_relations,
+    get_sense_synset_relations,
+    get_synset_members,
+    get_synset_relations,
 )
 from wn._types import AnyPath, VersionInfo
-from wn._util import version_info, split_lexicon_specifier
-
+from wn._util import split_lexicon_specifier, version_info
 
 PROPOSED_ILI_ID = "in"  # special case for proposed ILIs
 
@@ -79,7 +78,7 @@ def _precheck(lexicons: Sequence[Lexicon]) -> None:
         idset.update(row[0] for row in find_synsets(lexicons=lexspecs))
         # TODO: syntactic behaviours
         if all_ids.intersection(idset):
-            raise wn.Error('cannot export: non-unique identifiers in lexicons')
+            raise Error('cannot export: non-unique identifiers in lexicons')
         all_ids |= idset
 
 

@@ -5,8 +5,8 @@ import pytest
 
 import wn
 from wn import similarity as sim
-from wn.taxonomy import taxonomy_depth
 from wn.ic import information_content as infocont
+from wn.taxonomy import taxonomy_depth
 
 
 def get_synsets(w):

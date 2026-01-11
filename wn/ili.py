@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from itertools import zip_longest
 from pathlib import Path
-from typing import Literal, Protocol, overload, TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, Protocol, overload
 
 from wn._lexicon import Lexicon, LexiconElementWithMetadata
 from wn._metadata import HasMetadata, Metadata

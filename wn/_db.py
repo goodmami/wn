@@ -2,16 +2,16 @@
 Storage back-end interface.
 """
 
+import json
+import logging
+import sqlite3
 from importlib import resources
 from pathlib import Path
-import json
-import sqlite3
-import logging
 
-import wn
+from wn._config import config
+from wn._exceptions import DatabaseError
 from wn._types import AnyPath
-from wn._util import short_hash, format_lexicon_specifier
-
+from wn._util import format_lexicon_specifier, short_hash
 
 logger = logging.getLogger('wn')
 
@@ -65,15 +65,15 @@ pool: dict[AnyPath, sqlite3.Connection] = {}
 # The connect() function should be used for all connections
 
 def connect() -> sqlite3.Connection:
-    dbpath = wn.config.database_path
+    dbpath = config.database_path
     if dbpath not in pool:
-        if not wn.config.data_directory.exists():
-            wn.config.data_directory.mkdir(parents=True, exist_ok=True)
+        if not config.data_directory.exists():
+            config.data_directory.mkdir(parents=True, exist_ok=True)
         initialized = dbpath.is_file()
         conn = sqlite3.connect(
             str(dbpath),
             detect_types=sqlite3.PARSE_DECLTYPES,
-            check_same_thread=not wn.config.allow_multithreading,
+            check_same_thread=not config.allow_multithreading,
         )
         # foreign key support needs to be enabled for each connection
         conn.execute('PRAGMA foreign_keys = ON')
@@ -112,7 +112,7 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
     try:
         specs = conn.execute('SELECT id, version FROM lexicons').fetchall()
     except sqlite3.OperationalError as exc:
-        raise wn.DatabaseError(msg) from exc
+        raise DatabaseError(msg) from exc
     else:
         if specs:
             installed = '\n  '.join(
@@ -122,7 +122,7 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
             msg += f" Lexicons currently installed:\n  {installed}"
         else:
             msg += ' No lexicons are currently installed.'
-        raise wn.DatabaseError(msg)
+        raise DatabaseError(msg)
 
 
 def schema_hash(conn: sqlite3.Connection) -> str:
