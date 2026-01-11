@@ -87,9 +87,9 @@ def add(
     source: AnyPath,
     progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> None:
-    """Add the LMF file at *source* to the database.
+    """Add the LMF or ILI file at *source* to the database.
 
-    The file at *source* may be gzip-compressed or plain text XML.
+    The file at *source* may be gzip-compressed or plain text file.
 
     >>> wn.add('english-wordnet-2020.xml')
     Added ewn:2020 (English WordNet)

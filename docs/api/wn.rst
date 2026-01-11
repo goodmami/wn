@@ -32,15 +32,6 @@ queries.
 .. autofunction:: synset
 .. autofunction:: synsets
 .. autofunction:: lexicons
-.. function:: ili
-
-   :info: Deprecated
-          See :func:`wn.ili.get`
-
-.. function:: ilis
-
-   :info: Deprecated
-          See :func:`wn.ili.get_all`
 
 
 The Wordnet Class
@@ -55,15 +46,6 @@ The Wordnet Class
    .. automethod:: senses
    .. automethod:: synset
    .. automethod:: synsets
-   .. method:: ili
-
-      Removed as of v1.0.0. See :func:`wn.ili.get` instead.
-
-   .. method:: ilis
-
-      Removed as of v1.0.0. See :func:`wn.ili.get_all` and
-      :func:`wn.ili.get_all_proposed` instead.
-
    .. automethod:: lexicons
    .. automethod:: expanded_lexicons
    .. automethod:: describe
