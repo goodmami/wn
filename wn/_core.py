@@ -3,7 +3,7 @@ from __future__ import annotations
 import enum
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, Optional, TypeVar, Union, overload
+from typing import Literal, TypeVar, overload
 
 from wn._lexicon import (
     LexiconConfiguration,
@@ -104,37 +104,36 @@ class _LexiconDataElement(LexiconElementWithMetadata):
             return self._lexconf.lexicons
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Pronunciation:
     """A class for word form pronunciations."""
 
     __module__ = 'wn'
 
     value: str
-    variety: Optional[str] = None
-    notation: Optional[str] = None
+    variety: str | None = None
+    notation: str | None = None
     phonemic: bool = True
-    audio: Optional[str] = None
+    audio: str | None = None
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Tag:
     """A general-purpose tag class for word forms."""
     __module__ = 'wn'
-    __slots__ = 'tag', 'category'
 
     tag: str
     category: str
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Form(LexiconElement):
     """A word-form."""
     __module__ = 'wn'
 
     value: str
-    id: Optional[str] = field(default=None, repr=False, compare=False)
-    script: Optional[str] = field(default=None, repr=False)
+    id: str | None = field(default=None, repr=False, compare=False)
+    script: str | None = field(default=None, repr=False)
     _lexicon: str = field(default='', repr=False, compare=False)
     _pronunciations: tuple[Pronunciation, ...] = field(
         default_factory=tuple, repr=False, compare=False
@@ -152,10 +151,10 @@ class Form(LexiconElement):
 
 def _make_form(
     form: str,
-    id: Optional[str],
-    script: Optional[str],
+    id: str | None,
+    script: str | None,
     lexicon: str,
-    prons: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]],
+    prons: list[tuple[str, str | None, str | None, bool, str | None]],
     tags: list[tuple[str, str]],
 ) -> Form:
     return Form(
@@ -197,9 +196,9 @@ class Word(_LexiconDataElement):
 
     # fallback for non-literal bool argument
     @overload
-    def lemma(self, *, data: bool) -> Union[str, Form]: ...
+    def lemma(self, *, data: bool) -> str | Form: ...
 
-    def lemma(self, *, data: bool = False) -> Union[str, Form]:
+    def lemma(self, *, data: bool = False) -> str | Form:
         """Return the canonical form of the word.
 
         If the *data* argument is :python:`False` (the default), the
@@ -228,9 +227,9 @@ class Word(_LexiconDataElement):
 
     # fallback for non-literal bool argument
     @overload
-    def forms(self, *, data: bool) -> Union[list[str], list[Form]]: ...
+    def forms(self, *, data: bool) -> list[str] | list[Form]: ...
 
-    def forms(self, *, data: bool = False) -> Union[list[str], list[Form]]:
+    def forms(self, *, data: bool = False) -> list[str] | list[Form]:
         """Return the list of all encoded forms of the word.
 
         If the *data* argument is :python:`False` (the default), the
@@ -252,7 +251,7 @@ class Word(_LexiconDataElement):
         else:
             return [form for form, *_ in form_data]
 
-    def senses(self) -> list['Sense']:
+    def senses(self) -> list[Sense]:
         """Return the list of senses of the word.
 
         Example:
@@ -269,7 +268,7 @@ class Word(_LexiconDataElement):
         """Return the word's metadata."""
         return get_metadata(self.id, self._lexicon, 'entries')
 
-    def synsets(self) -> list['Synset']:
+    def synsets(self) -> list[Synset]:
         """Return the list of synsets of the word.
 
         Example:
@@ -280,7 +279,7 @@ class Word(_LexiconDataElement):
         """
         return [sense.synset() for sense in self.senses()]
 
-    def derived_words(self) -> list['Word']:
+    def derived_words(self) -> list[Word]:
         """Return the list of words linked through derivations on the senses.
 
         Example:
@@ -294,8 +293,8 @@ class Word(_LexiconDataElement):
                 for derived_sense in sense.get_related('derivation')]
 
     def translate(
-        self, lexicon: Optional[str] = None, *, lang: Optional[str] = None,
-    ) -> dict['Sense', list['Word']]:
+        self, lexicon: str | None = None, *, lang: str | None = None,
+    ) -> dict[Sense, list[Word]]:
         """Return a mapping of word senses to lists of translated words.
 
         Arguments:
@@ -329,7 +328,7 @@ class Relation(LexiconElementWithMetadata):
     name: str
     source_id: str
     target_id: str
-    _metadata: Optional[Metadata]
+    _metadata: Metadata | None
 
     def __init__(
         self,
@@ -338,7 +337,7 @@ class Relation(LexiconElementWithMetadata):
         target_id: str,
         lexicon: str,
         *,
-        metadata: Optional[Metadata] = None,
+        metadata: Metadata | None = None,
     ):
         self.name = name
         self.source_id = source_id
@@ -368,7 +367,7 @@ class Relation(LexiconElementWithMetadata):
         return hash(datum)
 
     @property
-    def subtype(self) -> Optional[str]:
+    def subtype(self) -> str | None:
         """
         The value of the ``dc:type`` metadata.
 
@@ -419,7 +418,7 @@ class _Relatable(_LexiconDataElement):
     def relation_paths(
         self: T,
         *args: str,
-        end: Optional[T] = None
+        end: T | None = None
     ) -> Iterator[list[T]]:
         agenda: list[tuple[list[T], set[T]]] = [
             ([target], {self, target})
@@ -442,31 +441,31 @@ class _Relatable(_LexiconDataElement):
                     yield path
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Example(LexiconElementWithMetadata):
     """Class for modeling Sense and Synset examples."""
     __module__ = 'wn'
 
     text: str
-    language: Optional[str] = None
+    language: str | None = None
     _lexicon: str = ''
-    _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
+    _metadata: Metadata | None = field(default=None, repr=False, compare=False)
 
     def metadata(self) -> Metadata:
         """Return the example's metadata."""
         return self._metadata if self._metadata is not None else {}
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Definition(LexiconElementWithMetadata):
     """Class for modeling Synset definitions."""
     __module__ = 'wn'
 
     text: str
-    language: Optional[str] = None
-    source_sense_id: Optional[str] = field(default=None, compare=False)
+    language: str | None = None
+    source_sense_id: str | None = field(default=None, compare=False)
     _lexicon: str = ''
-    _metadata: Optional[Metadata] = field(default=None, compare=False, repr=False)
+    _metadata: Metadata | None = field(default=None, compare=False, repr=False)
 
     def metadata(self) -> Metadata:
         """Return the example's metadata."""
@@ -481,13 +480,13 @@ class Synset(_Relatable):
     _ENTITY_TYPE = _EntityType.SYNSETS
 
     pos: str
-    _ili: Optional[str]
+    _ili: str | None
 
     def __init__(
         self,
         id: str,
         pos: str,
-        ili: Optional[str] = None,
+        ili: str | None = None,
         _lexicon: str = '',
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
@@ -499,7 +498,7 @@ class Synset(_Relatable):
     def empty(
         cls,
         id: str,
-        ili: Optional[str] = None,
+        ili: str | None = None,
         _lexicon: str = '',
         _lexconf: LexiconConfiguration = _EMPTY_LEXCONFIG,
     ):
@@ -522,19 +521,19 @@ class Synset(_Relatable):
         return f'Synset({self.id!r})'
 
     @property
-    def ili(self) -> Optional[str]:
+    def ili(self) -> str | None:
         return self._ili
 
     @overload
-    def definition(self, *, data: Literal[False] = False) -> Optional[str]: ...
+    def definition(self, *, data: Literal[False] = False) -> str | None: ...
     @overload
-    def definition(self, *, data: Literal[True] = True) -> Optional[Definition]: ...
+    def definition(self, *, data: Literal[True] = True) -> Definition | None: ...
 
     # fallback for non-literal bool argument
     @overload
-    def definition(self, *, data: bool) -> Union[str, Definition, None]: ...
+    def definition(self, *, data: bool) -> str | Definition | None: ...
 
-    def definition(self, *, data: bool = False) -> Union[str, Definition, None]:
+    def definition(self, *, data: bool = False) -> str | Definition | None:
         """Return the first definition found for the synset.
 
         If the *data* argument is :python:`False` (the default), the
@@ -572,9 +571,9 @@ class Synset(_Relatable):
 
     # fallback for non-literal bool argument
     @overload
-    def definitions(self, *, data: bool) -> Union[list[str], list[Definition]]: ...
+    def definitions(self, *, data: bool) -> list[str] | list[Definition]: ...
 
-    def definitions(self, *, data: bool = False) -> Union[list[str], list[Definition]]:
+    def definitions(self, *, data: bool = False) -> list[str] | list[Definition]:
         """Return the list of definitions for the synset.
 
         If the *data* argument is :python:`False` (the default), the
@@ -613,9 +612,9 @@ class Synset(_Relatable):
 
     # fallback for non-literal bool argument
     @overload
-    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
+    def examples(self, *, data: bool) -> list[str] | list[Example]: ...
 
-    def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
+    def examples(self, *, data: bool = False) -> list[str] | list[Example]:
         """Return the list of examples for the synset.
 
         If the *data* argument is :python:`False` (the default), the
@@ -638,7 +637,7 @@ class Synset(_Relatable):
         else:
             return [text for text, *_ in exs]
 
-    def senses(self) -> list['Sense']:
+    def senses(self) -> list[Sense]:
         """Return the list of sense members of the synset.
 
         Example:
@@ -655,7 +654,7 @@ class Synset(_Relatable):
         """Return True if the synset is lexicalized."""
         return get_lexicalized(self.id, self._lexicon, 'synsets')
 
-    def lexfile(self) -> Optional[str]:
+    def lexfile(self) -> str | None:
         """Return the lexicographer file name for this synset, if any."""
         return get_lexfile(self.id, self._lexicon)
 
@@ -681,9 +680,9 @@ class Synset(_Relatable):
 
     # fallback for non-literal bool argument
     @overload
-    def lemmas(self, *, data: bool) -> Union[list[str], list[Form]]: ...
+    def lemmas(self, *, data: bool) -> list[str] | list[Form]: ...
 
-    def lemmas(self, *, data: bool = False) -> Union[list[str], list[Form]]:
+    def lemmas(self, *, data: bool = False) -> list[str] | list[Form]:
         """Return the list of lemmas of words for the synset.
 
         If the *data* argument is :python:`False` (the default), the
@@ -759,7 +758,7 @@ class Synset(_Relatable):
                 # now convert inner dicts to lists
             return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
 
-    def get_related(self, *args: str) -> list['Synset']:
+    def get_related(self, *args: str) -> list[Synset]:
         """Return the list of related synsets.
 
         One or more relation names may be given as positional
@@ -779,7 +778,7 @@ class Synset(_Relatable):
         """
         return unique_list(synset for _, synset in self._iter_relations(*args))
 
-    def _iter_relations(self, *args: str) -> Iterator[tuple[Relation, 'Synset']]:
+    def _iter_relations(self, *args: str) -> Iterator[tuple[Relation, Synset]]:
         # first get relations from the current lexicon(s)
         yield from self._iter_local_relations(args)
         # then attempt to expand via ILI
@@ -789,7 +788,7 @@ class Synset(_Relatable):
     def _iter_local_relations(
         self,
         args: Sequence[str],
-    ) -> Iterator[tuple[Relation, 'Synset']]:
+    ) -> Iterator[tuple[Relation, Synset]]:
         _lexconf = self._lexconf
         lexicons = self._get_lexicons()
         iterable = get_synset_relations(self.id, self._lexicon, args, lexicons)
@@ -807,7 +806,7 @@ class Synset(_Relatable):
     def _iter_expanded_relations(
         self,
         args: Sequence[str],
-    ) -> Iterator[tuple[Relation, 'Synset']]:
+    ) -> Iterator[tuple[Relation, Synset]]:
         assert self._ili is not None, 'cannot get expanded relations without an ILI'
         _lexconf = self._lexconf
         lexicons = self._get_lexicons()
@@ -833,7 +832,7 @@ class Synset(_Relatable):
                 )
                 yield synset_rel, synset
 
-    def hypernym_paths(self, simulate_root: bool = False) -> list[list['Synset']]:
+    def hypernym_paths(self, simulate_root: bool = False) -> list[list[Synset]]:
         """Return the list of hypernym paths to a root synset."""
         return taxonomy.hypernym_paths(self, simulate_root=simulate_root)
 
@@ -846,30 +845,30 @@ class Synset(_Relatable):
         return taxonomy.max_depth(self, simulate_root=simulate_root)
 
     def shortest_path(
-            self, other: 'Synset', simulate_root: bool = False
-    ) -> list['Synset']:
+            self, other: Synset, simulate_root: bool = False
+    ) -> list[Synset]:
         """Return the shortest path from the synset to the *other* synset."""
         return taxonomy.shortest_path(
             self, other, simulate_root=simulate_root
         )
 
     def common_hypernyms(
-            self, other: 'Synset', simulate_root: bool = False
-    ) -> list['Synset']:
+            self, other: Synset, simulate_root: bool = False
+    ) -> list[Synset]:
         """Return the common hypernyms for the current and *other* synsets."""
         return taxonomy.common_hypernyms(
             self, other, simulate_root=simulate_root
         )
 
     def lowest_common_hypernyms(
-            self, other: 'Synset', simulate_root: bool = False
-    ) -> list['Synset']:
+            self, other: Synset, simulate_root: bool = False
+    ) -> list[Synset]:
         """Return the common hypernyms furthest from the root."""
         return taxonomy.lowest_common_hypernyms(
             self, other, simulate_root=simulate_root
         )
 
-    def holonyms(self) -> list['Synset']:
+    def holonyms(self) -> list[Synset]:
         """Return the list of synsets related by any holonym relation.
 
         Any of the following relations are traversed: ``holonym``,
@@ -886,7 +885,7 @@ class Synset(_Relatable):
             'holo_substance',
         )
 
-    def meronyms(self) -> list['Synset']:
+    def meronyms(self) -> list[Synset]:
         """Return the list of synsets related by any meronym relation.
 
         Any of the following relations are traversed: ``meronym``,
@@ -903,7 +902,7 @@ class Synset(_Relatable):
             'mero_substance',
         )
 
-    def hypernyms(self) -> list['Synset']:
+    def hypernyms(self) -> list[Synset]:
         """Return the list of synsets related by any hypernym relation.
 
         Both the ``hypernym`` and ``instance_hypernym`` relations are
@@ -915,7 +914,7 @@ class Synset(_Relatable):
             'instance_hypernym'
         )
 
-    def hyponyms(self) -> list['Synset']:
+    def hyponyms(self) -> list[Synset]:
         """Return the list of synsets related by any hyponym relation.
 
         Both the ``hyponym`` and ``instance_hyponym`` relations are
@@ -931,8 +930,8 @@ class Synset(_Relatable):
         self,
         lexicon: str | None = None,
         *,
-        lang: Optional[str] = None
-    ) -> list['Synset']:
+        lang: str | None = None
+    ) -> list[Synset]:
         """Return a list of translated synsets.
 
         Arguments:
@@ -957,14 +956,14 @@ class Synset(_Relatable):
         ]
 
 
-@dataclass(frozen=True)  # slots=True from Python 3.10
+@dataclass(frozen=True, slots=True)
 class Count(LexiconElementWithMetadata):
     """A count of sense occurrences in some corpus."""
     __module__ = 'wn'
 
     value: int
     _lexicon: str = ''
-    _metadata: Optional[Metadata] = field(default=None, repr=False, compare=False)
+    _metadata: Metadata | None = field(default=None, repr=False, compare=False)
 
 
 class Sense(_Relatable):
@@ -1023,9 +1022,9 @@ class Sense(_Relatable):
 
     # fallback for non-literal bool argument
     @overload
-    def examples(self, *, data: bool) -> Union[list[str], list[Example]]: ...
+    def examples(self, *, data: bool) -> list[str] | list[Example]: ...
 
-    def examples(self, *, data: bool = False) -> Union[list[str], list[Example]]:
+    def examples(self, *, data: bool = False) -> list[str] | list[Example]:
         """Return the list of examples for the sense.
 
         If the *data* argument is :python:`False` (the default), the
@@ -1046,7 +1045,7 @@ class Sense(_Relatable):
         """Return True if the sense is lexicalized."""
         return get_lexicalized(self.id, self._lexicon, 'senses')
 
-    def adjposition(self) -> Optional[str]:
+    def adjposition(self) -> str | None:
         """Return the adjective position of the sense.
 
         Values include :python:`"a"` (attributive), :python:`"p"`
@@ -1071,9 +1070,9 @@ class Sense(_Relatable):
 
     # fallback for non-literal bool argument
     @overload
-    def counts(self, *, data: bool) -> Union[list[int], list[Count]]: ...
+    def counts(self, *, data: bool) -> list[int] | list[Count]: ...
 
-    def counts(self, *, data: bool = False) -> Union[list[int], list[Count]]:
+    def counts(self, *, data: bool = False) -> list[int] | list[Count]:
         """Return the corpus counts stored for this sense."""
         lexicons = self._get_lexicons()
         count_data = list(get_sense_counts(self.id, lexicons))
@@ -1180,7 +1179,7 @@ class Sense(_Relatable):
             return {relname: list(ss_dict) for relname, ss_dict in relmap.items()}
 
 
-    def get_related(self, *args: str) -> list['Sense']:
+    def get_related(self, *args: str) -> list[Sense]:
         """Return a list of related senses.
 
         One or more relation types should be passed as arguments which
@@ -1205,7 +1204,7 @@ class Sense(_Relatable):
             synset for _, synset in self._iter_sense_synset_relations(*args)
         )
 
-    def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, 'Sense']]:
+    def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, Sense]]:
         iterable = get_sense_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, sid, eid, ssid, lexid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
@@ -1217,7 +1216,7 @@ class Sense(_Relatable):
     def _iter_sense_synset_relations(
         self,
         *args: str,
-    ) -> Iterator[tuple[Relation, 'Synset']]:
+    ) -> Iterator[tuple[Relation, Synset]]:
         iterable = get_sense_synset_relations(self.id, args, self._get_lexicons())
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
@@ -1228,10 +1227,10 @@ class Sense(_Relatable):
 
     def translate(
         self,
-        lexicon: Optional[str] = None,
+        lexicon: str | None = None,
         *,
-        lang: Optional[str] = None
-    ) -> list['Sense']:
+        lang: str | None = None
+    ) -> list[Sense]:
         """Return a list of translated senses.
 
         Arguments:

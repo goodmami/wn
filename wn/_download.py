@@ -1,6 +1,5 @@
 
 from collections.abc import Sequence
-from typing import Optional
 from pathlib import Path
 import logging
 
@@ -23,7 +22,7 @@ logger = logging.getLogger('wn')
 def download(
         project_or_url: str,
         add: bool = True,
-        progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
+        progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> Path:
     """Download the resource specified by *project_or_url*.
 
@@ -81,7 +80,7 @@ def download(
     return path
 
 
-def _get_cache_path_and_urls(project_or_url: str) -> tuple[Optional[Path], list[str]]:
+def _get_cache_path_and_urls(project_or_url: str) -> tuple[Path | None, list[str]]:
     if is_url(project_or_url):
         return config.get_cache_path(project_or_url), [project_or_url]
     else:

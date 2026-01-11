@@ -29,7 +29,7 @@ W502  Relation is a self-loop.
 
 """
 
-from typing import Optional, Union, cast
+from typing import cast
 from collections import Counter
 from collections.abc import (
     Callable,
@@ -51,7 +51,7 @@ from wn.util import ProgressHandler, ProgressBar
 _Ids = dict[str, Counter]
 _Result = dict[str, dict]
 _CheckFunction = Callable[[lmf.Lexicon, _Ids], _Result]
-_Report = dict[str, dict[str, Union[str, _Result]]]
+_Report = dict[str, dict[str, str | _Result]]
 
 
 def _non_unique_id(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -255,7 +255,7 @@ def _synset_relations(lex: lmf.Lexicon) -> Iterator[tuple[lmf.Synset, lmf.Relati
             yield (ss, r)
 
 
-def _get_dc_type(r: lmf.Relation) -> Optional[str]:
+def _get_dc_type(r: lmf.Relation) -> str | None:
     return (r.get('meta') or {}).get('type')
 
 
@@ -308,9 +308,9 @@ def _select_checks(select: Sequence[str]) -> list[tuple[str, _CheckFunction, str
 # Main function
 
 def validate(
-    lex: Union[lmf.Lexicon, lmf.LexiconExtension],
+    lex: lmf.Lexicon | lmf.LexiconExtension,
     select: Sequence[str] = ('E', 'W'),
-    progress_handler: Optional[type[ProgressHandler]] = ProgressBar
+    progress_handler: type[ProgressHandler] | None = ProgressBar
 ) -> _Report:
     """Check *lex* for validity and return a report of the results.
 

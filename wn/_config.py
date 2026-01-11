@@ -5,7 +5,7 @@ Local configuration settings.
 
 from collections.abc import Sequence
 from importlib.resources import as_file, files
-from typing import Any, Optional
+from typing import Any
 from pathlib import Path
 
 try:
@@ -90,10 +90,10 @@ class WNConfig:
         self,
         id: str,
         type: str = _WORDNET,
-        label: Optional[str] = None,
-        language: Optional[str] = None,
-        license: Optional[str] = None,
-        error: Optional[str] = None,
+        label: str | None = None,
+        language: str | None = None,
+        license: str | None = None,
+        error: str | None = None,
     ) -> None:
         """Add a new wordnet project to the index.
 
@@ -124,9 +124,9 @@ class WNConfig:
         self,
         id: str,
         version: str,
-        url: Optional[str] = None,
-        error: Optional[str] = None,
-        license: Optional[str] = None,
+        url: str | None = None,
+        error: str | None = None,
+        license: str | None = None,
     ) -> None:
         """Add a new resource version for a project.
 
@@ -289,7 +289,7 @@ class WNConfig:
 def _get_cache_path_for_urls(
     config: WNConfig,
     urls: Sequence[str],
-) -> Optional[Path]:
+) -> Path | None:
     for url in urls:
         path = config.get_cache_path(url)
         if path.is_file():

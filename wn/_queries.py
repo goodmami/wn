@@ -3,7 +3,7 @@ Database retrieval queries.
 """
 
 from collections.abc import Collection, Iterator, Sequence
-from typing import Optional, cast
+from typing import cast
 import itertools
 
 import wn
@@ -15,16 +15,16 @@ from wn._db import connect
 
 _Pronunciation = tuple[
     str,   # value
-    Optional[str],   # variety
-    Optional[str],   # notation
+    str | None,   # variety
+    str | None,   # notation
     bool,  # phonemic
-    Optional[str],   # audio
+    str | None,   # audio
 ]
 _Tag = tuple[str, str]  # tag, category
 _Form = tuple[
     str,            # form
-    Optional[str],  # id
-    Optional[str],  # script
+    str | None,  # id
+    str | None,  # script
     str,            # lexicon
     list[_Pronunciation],  # pronunciations
     list[_Tag],  # tags
@@ -55,13 +55,13 @@ _Definition = tuple[
     str,  # language
     str,  # sourceSense
     str,  # lexicon
-    Optional[Metadata],  # metadata
+    Metadata | None,  # metadata
 ]
 _Example = tuple[
     str,  # text
     str,  # language
     str,  # lexicon
-    Optional[Metadata],  # metadata
+    Metadata | None,  # metadata
 ]
 _Sense = tuple[
     str,  # id
@@ -87,7 +87,7 @@ _SyntacticBehaviour = tuple[
 _ExistingILI = tuple[
     str,  # id
     str,  # status
-    Optional[str],  # definition
+    str | None,  # definition
     Metadata,
 ]
 _ProposedILI = tuple[
@@ -107,13 +107,13 @@ _Lexicon = tuple[
     str,       # url
     str,       # citation
     str,       # logo
-    Optional[Metadata],  # metadata
+    Metadata | None,  # metadata
 ]
 
 
 def resolve_lexicon_specifiers(
     lexicon: str,
-    lang: Optional[str] = None,
+    lang: str | None = None,
 ) -> list[str]:
     cur = connect().cursor()
     specifiers: list[str] = []
@@ -145,7 +145,7 @@ def get_lexicon(lexicon: str) -> _Lexicon:
         FROM lexicons
         WHERE specifier = ?
     '''
-    row: Optional[_Lexicon] = connect().execute(query, (lexicon,)).fetchone()
+    row: _Lexicon | None = connect().execute(query, (lexicon,)).fetchone()
     if row is None:
         raise LookupError(lexicon)  # should we have a WnLookupError?
     return row
@@ -221,7 +221,7 @@ def get_ili(id: str) -> _ExistingILI | None:
 
 
 def find_ilis(
-    status: Optional[str] = None,
+    status: str | None = None,
     lexicons: Sequence[str] = (),
 ) -> Iterator[_ExistingILI]:
     query = '''
@@ -253,7 +253,7 @@ def find_ilis(
 
 
 def find_proposed_ilis(
-    synset_id: Optional[str] = None,
+    synset_id: str | None = None,
     lexicons: Sequence[str] = (),
 ) -> Iterator[_ProposedILI]:
     query = '''
@@ -276,9 +276,9 @@ def find_proposed_ilis(
 
 
 def find_entries(
-    id: Optional[str] = None,
+    id: str | None = None,
     forms: Sequence[str] = (),
-    pos: Optional[str] = None,
+    pos: str | None = None,
     lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
@@ -333,7 +333,7 @@ def _load_lemmas_with_details(
     forms_dict: dict[
         int,
         tuple[
-            str, Optional[str], Optional[str], str,
+            str, str | None, str | None, str,
             list[_Pronunciation], list[_Tag]
         ]
     ] = {}
@@ -364,7 +364,7 @@ def _load_lemmas_with_details(
 
 def find_lemmas(
     forms: Sequence[str] = (),
-    pos: Optional[str] = None,
+    pos: str | None = None,
     lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
@@ -405,9 +405,9 @@ def find_lemmas(
 
 
 def find_senses(
-    id: Optional[str] = None,
+    id: str | None = None,
     forms: Sequence[str] = (),
-    pos: Optional[str] = None,
+    pos: str | None = None,
     lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
@@ -452,10 +452,10 @@ def find_senses(
 
 
 def find_synsets(
-    id: Optional[str] = None,
+    id: str | None = None,
     forms: Sequence[str] = (),
-    pos: Optional[str] = None,
-    ili: Optional[str] = None,
+    pos: str | None = None,
+    ili: str | None = None,
     lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
@@ -697,7 +697,7 @@ def get_examples(
 
 
 def find_syntactic_behaviours(
-    id: Optional[str] = None,
+    id: str | None = None,
     lexicons: Sequence[str] = (),
 ) -> Iterator[_SyntacticBehaviour]:
     conn = connect()
@@ -752,12 +752,13 @@ def _get_senses(
     order_by_rank: bool = True
 ) -> Iterator[_Sense]:
     conn = connect()
-    if sourcetype == 'entry':
-        sourcealias = 'e'
-    elif sourcetype == 'synset':
-        sourcealias = 'ss'
-    else:
-        raise wn.Error(f'invalid sense source type: {sourcetype}')
+    match sourcetype:
+        case 'entry':
+            sourcealias = 'e'
+        case 'synset':
+            sourcealias = 'ss'
+        case _:
+            raise wn.Error(f'invalid sense source type: {sourcetype}')
     order_col = f"{sourcetype}_rank" if order_by_rank else "rowid"
     query = f'''
         SELECT s.id, e.id, ss.id, slex.specifier
@@ -964,7 +965,7 @@ def get_lexicalized(id: str, lexicon: str, table: str) -> bool:
     return bool(conn.execute(query, (id, lexicon)).fetchone()[0])
 
 
-def get_adjposition(sense_id: str, lexicon: str) -> Optional[str]:
+def get_adjposition(sense_id: str, lexicon: str) -> str | None:
     conn = connect()
     query = '''
         SELECT adjposition
@@ -996,7 +997,7 @@ def get_sense_counts(sense_id: str, lexicons: Sequence[str]) -> list[_Count]:
     return rows
 
 
-def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
+def get_lexfile(synset_id: str, lexicon: str) -> str | None:
     conn = connect()
     query = '''
         SELECT lf.name
@@ -1012,7 +1013,7 @@ def get_lexfile(synset_id: str, lexicon: str) -> Optional[str]:
     return None
 
 
-def get_entry_index(entry_id: str, lexicon: str) -> Optional[str]:
+def get_entry_index(entry_id: str, lexicon: str) -> str | None:
     conn = connect()
     query = '''
         SELECT idx.lemma
@@ -1028,7 +1029,7 @@ def get_entry_index(entry_id: str, lexicon: str) -> Optional[str]:
     return None
 
 
-def get_sense_n(sense_id: str, lexicon: str) -> Optional[int]:
+def get_sense_n(sense_id: str, lexicon: str) -> int | None:
     conn = connect()
     query = '''
         SELECT s.entry_rank
@@ -1079,7 +1080,7 @@ def _query_forms(
 
 def _build_entry_conditions(
     forms: Sequence[str],
-    pos: Optional[str],
+    pos: str | None,
     lexicons: Sequence[str],
     normalized: bool,
     search_all_forms: bool,

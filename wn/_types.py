@@ -1,27 +1,29 @@
 
 from collections.abc import Callable, Mapping, Sequence
-from typing import Any, Optional, Union
+from typing import Any, TypeAlias
 from pathlib import Path
 
+# For the below, use type statement instead of TypeAlias from Python 3.12
+
 # For functions taking a filesystem path as a str or a pathlib.Path
-AnyPath = Union[str, Path]
+AnyPath: TypeAlias = str | Path
 
 # LMF versions for comparison
-VersionInfo = tuple[int, ...]
+VersionInfo: TypeAlias = tuple[int, ...]
 
 # Synset and Sense relations map a relation type to one or more ids
-RelationMap = Mapping[str, Sequence[str]]
+RelationMap: TypeAlias = Mapping[str, Sequence[str]]
 
 # User-facing metadata representation
-Metadata = dict[str, Any]
+Metadata: TypeAlias = dict[str, Any]
 
 # A callable that returns a normalized word form for a given word form
-NormalizeFunction = Callable[[str], str]
+NormalizeFunction: TypeAlias = Callable[[str], str]
 
 # Lemmatization returns a mapping of parts of speech (or None) to
 # lists of wordforms that are potential lemmas for some query word
-LemmatizeResult = dict[Optional[str], set[str]]
+LemmatizeResult: TypeAlias = dict[str | None, set[str]]
 
 # A callable that returns a LemmatizationResult for a given word form
 # and optional part of speech
-LemmatizeFunction = Callable[[str, Optional[str]], LemmatizeResult]
+LemmatizeFunction: TypeAlias = Callable[[str, str | None], LemmatizeResult]

@@ -3,15 +3,15 @@
 
 """
 
-from typing import Optional
 from enum import Flag, auto
+from typing import TypeAlias
 
 import wn
 from wn._types import LemmatizeResult
 from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV, PARTS_OF_SPEECH
 
-POSExceptionMap = dict[str, set[str]]
-ExceptionMap = dict[str, POSExceptionMap]
+POSExceptionMap: TypeAlias = dict[str, set[str]]
+ExceptionMap: TypeAlias = dict[str, POSExceptionMap]
 
 
 class _System(Flag):
@@ -28,7 +28,7 @@ _WN = _System.WN
 _ALL = _System.ALL
 
 
-Rule = tuple[str, str, _System]
+Rule: TypeAlias = tuple[str, str, _System]
 
 DETACHMENT_RULES: dict[str, list[Rule]] = {
     NOUN: [
@@ -94,7 +94,7 @@ class Morphy:
 
     """
 
-    def __init__(self, wordnet: Optional[wn.Wordnet] = None):
+    def __init__(self, wordnet: wn.Wordnet | None = None):
         self._rules = {
             pos: [rule for rule in rules if rule[2] & _System.WN]
             for pos, rules in DETACHMENT_RULES.items()
@@ -120,7 +120,7 @@ class Morphy:
         self._exceptions = exceptions
         self._all_lemmas = all_lemmas
 
-    def __call__(self, form: str, pos: Optional[str] = None) -> LemmatizeResult:
+    def __call__(self, form: str, pos: str | None = None) -> LemmatizeResult:
         result = {}
         if not self._initialized:
             result[pos] = {form}  # always include original when not initialized

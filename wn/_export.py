@@ -1,6 +1,6 @@
 
 from collections.abc import Sequence
-from typing import Optional, cast
+from typing import cast
 
 import wn
 from wn import lmf
@@ -178,7 +178,7 @@ def _export_lexical_entries(
 
 
 def _export_pronunciations(
-    rows: list[tuple[str, Optional[str], Optional[str], bool, Optional[str]]]
+    rows: list[tuple[str, str | None, str | None, bool, str | None]]
 ) -> list[lmf.Pronunciation]:
     prons: list[lmf.Pronunciation] = []
     for text, variety, notation, phonemic, audio in rows:
@@ -205,7 +205,7 @@ def _export_senses(
     entry_id,
     lexspec: str,
     sbmap: _SBMap,
-    index: Optional[str],
+    index: str | None,
     version: VersionInfo,
 ) -> list[lmf.Sense]:
     senses: list[lmf.Sense] = []
@@ -317,12 +317,12 @@ def _export_definitions(
     ]
 
 
-def _export_ili_definition(synset: str) -> Optional[lmf.ILIDefinition]:
+def _export_ili_definition(synset: str) -> lmf.ILIDefinition | None:
     _, lexspec, defn, _ = next(
         find_proposed_ilis(synset_id=synset),
         (None, None, None, None)
     )
-    ilidef: Optional[lmf.ILIDefinition] = None
+    ilidef: lmf.ILIDefinition | None = None
     if defn:
         meta = None
         if lexspec is not None:
@@ -377,5 +377,5 @@ def _export_metadata(id: str, lexicon: str, table: str) -> lmf.Metadata:
     return cast(lmf.Metadata, get_metadata(id, lexicon, table))
 
 
-def _cast_metadata(metadata: Optional[Metadata]) -> lmf.Metadata:
+def _cast_metadata(metadata: Metadata | None) -> lmf.Metadata:
     return cast(lmf.Metadata, metadata or {})

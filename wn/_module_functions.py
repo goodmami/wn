@@ -1,4 +1,4 @@
-from typing import Literal, Optional, Union, overload
+from typing import Literal, overload
 
 import wn
 from wn._util import format_lexicon_specifier
@@ -32,8 +32,8 @@ def projects() -> list[dict]:
 
 def lexicons(
     *,
-    lexicon: Optional[str] = "*",
-    lang: Optional[str] = None
+    lexicon: str | None = "*",
+    lang: str | None = None
 ) -> list[wn.Lexicon]:
     """Return the lexicons matching a language or lexicon specifier.
 
@@ -54,8 +54,8 @@ def lexicons(
 def word(
     id: str,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
+    lexicon: str | None = None,
+    lang: str | None = None
 ) -> wn.Word:
     """Return the word with *id* in *lexicon*.
 
@@ -71,11 +71,11 @@ def word(
 
 
 def words(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
+    lexicon: str | None = None,
+    lang: str | None = None,
 ) -> list[wn.Word]:
     """Return the list of matching words.
 
@@ -96,45 +96,45 @@ def words(
 
 @overload
 def lemmas(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
     data: Literal[False] = False,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
+    lexicon: str | None = None,
+    lang: str | None = None,
 ) -> list[str]: ...
 
 
 @overload
 def lemmas(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
     data: Literal[True] = True,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
+    lexicon: str | None = None,
+    lang: str | None = None,
 ) -> list[wn.Form]: ...
 
 
 @overload
 def lemmas(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
     data: bool,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> Union[list[str], list[wn.Form]]: ...
+    lexicon: str | None = None,
+    lang: str | None = None,
+) -> list[str] | list[wn.Form]: ...
 
 
 def lemmas(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
     data: bool = False,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
-) -> Union[list[str], list[wn.Form]]:
+    lexicon: str | None = None,
+    lang: str | None = None,
+) -> list[str] | list[wn.Form]:
     """Return the list of lemmas for matching words.
 
     This will create a :class:`Wordnet` object using the *lang* and
@@ -159,8 +159,8 @@ def lemmas(
 def synset(
     id: str,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
+    lexicon: str | None = None,
+    lang: str | None = None
 ) -> wn.Synset:
     """Return the synset with *id* in *lexicon*.
 
@@ -176,12 +176,12 @@ def synset(
 
 
 def synsets(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
-    ili: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
+    ili: str | None = None,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
+    lexicon: str | None = None,
+    lang: str | None = None,
 ) -> list[wn.Synset]:
     """Return the list of matching synsets.
 
@@ -199,11 +199,11 @@ def synsets(
 
 
 def senses(
-    form: Optional[str] = None,
-    pos: Optional[str] = None,
+    form: str | None = None,
+    pos: str | None = None,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None,
+    lexicon: str | None = None,
+    lang: str | None = None,
 ) -> list[wn.Sense]:
     """Return the list of matching senses.
 
@@ -223,8 +223,8 @@ def senses(
 def sense(
     id: str,
     *,
-    lexicon: Optional[str] = None,
-    lang: Optional[str] = None
+    lexicon: str | None = None,
+    lang: str | None = None
 ) -> wn.Sense:
     """Return the sense with *id* in *lexicon*.
 

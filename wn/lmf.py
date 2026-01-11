@@ -7,10 +7,8 @@ from typing import (
     Any,
     BinaryIO,
     Literal,
-    Optional,
     TextIO,
     TypedDict,
-    Union,
     cast
 )
 import re
@@ -178,7 +176,7 @@ _HasSynset = TypedDict('_HasSynset', {'synset': str})
 _MaybeId = TypedDict('_MaybeId', {'id': str}, total=False)
 _HasText = TypedDict('_HasText', {'text': str})
 _MaybeScript = TypedDict('_MaybeScript', {'script': str}, total=False)
-_HasMeta = TypedDict('_HasMeta', {'meta': Optional[Metadata]}, total=False)
+_HasMeta = TypedDict('_HasMeta', {'meta': Metadata | None}, total=False)
 _External = TypedDict('_External', {'external': Literal['true']})
 
 
@@ -291,8 +289,8 @@ class LexicalEntry(_LexicalEntryBase):
 
 class ExternalLexicalEntry(_HasId, _External, total=False):
     lemma: ExternalLemma
-    forms: list[Union[Form, ExternalForm]]
-    senses: list[Union[Sense, ExternalSense]]
+    forms: list[Form | ExternalForm]
+    senses: list[Sense | ExternalSense]
 
 
 class LexiconSpecifier(_HasId):  # public but not an LMF entry
@@ -329,14 +327,14 @@ class _LexiconExtensionBase(_LexiconBase):
 
 class LexiconExtension(_LexiconExtensionBase, total=False):
     requires: list[Dependency]
-    entries: list[Union[LexicalEntry, ExternalLexicalEntry]]
-    synsets: list[Union[Synset, ExternalSynset]]
+    entries: list[LexicalEntry | ExternalLexicalEntry]
+    synsets: list[Synset | ExternalSynset]
     frames: list[SyntacticBehaviour]
 
 
 class LexicalResource(TypedDict):
     lmf_version: str
-    lexicons: list[Union[Lexicon, LexiconExtension]]
+    lexicons: list[Lexicon | LexiconExtension]
 
 
 # Reading ##############################################################
@@ -371,8 +369,8 @@ def _read_header(fh: BinaryIO) -> str:
 
 
 class ScanInfo(LexiconSpecifier):
-    label: Optional[str]
-    extends: Optional[LexiconSpecifier]
+    label: str | None
+    extends: LexiconSpecifier | None
 
 
 def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
@@ -424,7 +422,7 @@ _Elem = dict[str, Any]  # basic type for the loaded XML data
 
 def load(
     source: AnyPath,
-    progress_handler: Optional[type[ProgressHandler]] = ProgressBar
+    progress_handler: type[ProgressHandler] | None = ProgressBar
 ) -> LexicalResource:
     """Load wordnets encoded in the WN-LMF format.
 
@@ -530,7 +528,7 @@ def _unexpected(name: str, p: xml.parsers.expat.XMLParserType) -> LMFError:
 
 # Validation ###########################################################
 
-def _validate(elem: _Elem) -> Union[Lexicon, LexiconExtension]:
+def _validate(elem: _Elem) -> Lexicon | LexiconExtension:
     ext = elem.get('extends')
     if ext:
         assert 'id' in ext
@@ -675,7 +673,7 @@ def dump(resource: LexicalResource, destination: AnyPath) -> None:
 
 
 def _dump_lexicon(
-    lexicon: Union[Lexicon, LexiconExtension],
+    lexicon: Lexicon | LexiconExtension,
     out: TextIO,
     version: VersionInfo
 ) -> None:
@@ -709,7 +707,7 @@ def _dump_lexicon(
 
 
 def _build_lexicon_attrib(
-    lexicon: Union[Lexicon, LexiconExtension],
+    lexicon: Lexicon | LexiconExtension,
     version: VersionInfo
 ) -> dict[str, str]:
     attrib = {
@@ -741,7 +739,7 @@ def _dump_dependency(
 
 
 def _dump_lexical_entry(
-    entry: Union[LexicalEntry, ExternalLexicalEntry],
+    entry: LexicalEntry | ExternalLexicalEntry,
     out: TextIO,
     version: VersionInfo,
 ) -> None:
@@ -770,7 +768,7 @@ def _dump_lexical_entry(
 
 
 def _build_lemma(
-    lemma: Union[Lemma, ExternalLemma],
+    lemma: Lemma | ExternalLemma,
     version: VersionInfo
 ) -> ET.Element:
     if lemma.get('external', False):
@@ -790,7 +788,7 @@ def _build_lemma(
     return elem
 
 
-def _build_form(form: Union[Form, ExternalForm], version: VersionInfo) -> ET.Element:
+def _build_form(form: Form | ExternalForm, version: VersionInfo) -> ET.Element:
     attrib = {}
     if version >= (1, 1) and form.get('id'):
         attrib['id'] = form['id']
@@ -832,7 +830,7 @@ def _build_tag(tag: Tag) -> ET.Element:
 
 
 def _build_sense(
-    sense: Union[Sense, ExternalSense],
+    sense: Sense | ExternalSense,
     version: VersionInfo,
 ) -> ET.Element:
     attrib = {'id': sense['id']}
@@ -875,7 +873,7 @@ def _build_count(count: Count) -> ET.Element:
 
 
 def _dump_synset(
-    synset: Union[Synset, ExternalSynset],
+    synset: Synset | ExternalSynset,
     out: TextIO,
     version: VersionInfo
 ) -> None:
@@ -975,7 +973,7 @@ def _indent(elem: ET.Element, level: int) -> None:
         elem[-1].tail = self_indent
 
 
-def _meta_dict(meta: Optional[Metadata]) -> dict[str, str]:
+def _meta_dict(meta: Metadata | None) -> dict[str, str]:
     if meta is not None:
         # Literal keys are required for typing purposes, so first
         # construct the dict and then remove those that weren't specified.

@@ -3,7 +3,7 @@ Adding and removing lexicons to/from the database.
 """
 
 from collections.abc import Iterable, Iterator, Sequence
-from typing import Optional, TypeVar, Union, cast
+from typing import TypeVar, cast
 from pathlib import Path
 from itertools import islice
 import sqlite3
@@ -11,7 +11,6 @@ import logging
 
 import wn
 from wn._types import AnyPath
-from wn.constants import _WORDNET, _ILI
 from wn._db import connect
 from wn._queries import (
     resolve_lexicon_specifiers,
@@ -20,6 +19,7 @@ from wn._queries import (
 from wn._util import normalize_form, format_lexicon_specifier
 from wn.util import ProgressHandler, ProgressBar
 from wn.project import iterpackages
+from wn import constants
 from wn import lmf
 from wn import ili as _ili
 
@@ -75,17 +75,17 @@ LEXFILE_QUERY = '''
      WHERE lf.name = ?
 '''
 
-_AnyLexicon = Union[lmf.Lexicon, lmf.LexiconExtension]
-_AnyEntry = Union[lmf.LexicalEntry, lmf.ExternalLexicalEntry]
-_AnyLemma = Union[lmf.Lemma, lmf.ExternalLemma]
-_AnyForm = Union[lmf.Form, lmf.ExternalForm]
-_AnySense = Union[lmf.Sense, lmf.ExternalSense]
-_AnySynset = Union[lmf.Synset, lmf.ExternalSynset]
+_AnyLexicon = lmf.Lexicon | lmf.LexiconExtension
+_AnyEntry = lmf.LexicalEntry | lmf.ExternalLexicalEntry
+_AnyLemma = lmf.Lemma | lmf.ExternalLemma
+_AnyForm = lmf.Form | lmf.ExternalForm
+_AnySense = lmf.Sense | lmf.ExternalSense
+_AnySynset = lmf.Synset | lmf.ExternalSynset
 
 
 def add(
     source: AnyPath,
-    progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
+    progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> None:
     """Add the LMF file at *source* to the database.
 
@@ -108,12 +108,13 @@ def add(
 
     try:
         for package in iterpackages(source):
-            if package.type == _WORDNET:
-                _add_lmf(package.resource_file(), progress, progress_handler)
-            elif package.type == _ILI:
-                _add_ili(package.resource_file(), progress)
-            else:
-                raise wn.Error(f'unknown package type: {package.type}')
+            match package.type:
+                case constants._WORDNET:
+                    _add_lmf(package.resource_file(), progress, progress_handler)
+                case constants._ILI:
+                    _add_ili(package.resource_file(), progress)
+                case _:
+                    raise wn.Error(f'unknown package type: {package.type}')
     finally:
         progress.close()
 
@@ -142,7 +143,7 @@ def _add_lmf(
 
 def add_lexical_resource(
     resource: lmf.LexicalResource,
-    progress_handler: Optional[type[ProgressHandler]] = ProgressBar,
+    progress_handler: type[ProgressHandler] | None = ProgressBar,
 ) -> None:
     """Add the lexical resource *resource* to the database.
 
@@ -231,7 +232,7 @@ def _add_lexical_resource(
 
 
 def _precheck(
-    infos: Sequence[Union[lmf.ScanInfo, lmf.Lexicon, lmf.LexiconExtension]],
+    infos: Sequence[lmf.ScanInfo | lmf.Lexicon | lmf.LexiconExtension],
     progress: ProgressHandler,
 ) -> dict[str, bool]:
     skipmap: dict[str, bool] = {}
@@ -242,7 +243,7 @@ def _precheck(
             key = format_lexicon_specifier(info['id'], info['version'])
 
             # TODO: MyPy seems to think this can be Any and I'm not sure why
-            base: Optional[lmf.LexiconSpecifier] = info.get('extends')  # type: ignore
+            base: lmf.LexiconSpecifier | None = info.get('extends')  # type: ignore
 
             skipmap[key] = False
             reason = ''
@@ -595,8 +596,8 @@ def _insert_forms(
     progress.set(status='Word Forms')
     query = f'INSERT INTO forms VALUES (null,?,?,({ENTRY_QUERY}),?,?,?,?)'
     for batch in _batch(entries):
-        forms: list[tuple[Optional[str], int, str, int,
-                          str, Optional[str], Optional[str], int]] = []
+        forms: list[tuple[str | None, int, str, int,
+                          str, str | None, str | None, int]] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
@@ -634,9 +635,9 @@ def _insert_pronunciations(
     progress.set(status='Pronunciations')
     query = f'INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?)'
     for batch in _batch(entries):
-        prons: list[tuple[str, int, Optional[str], int,
-                          str, Optional[str], Optional[str],
-                          bool, Optional[str]]] = []
+        prons: list[tuple[str, int, str | None, int,
+                          str, str | None, str | None,
+                          bool, str | None]] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
@@ -670,7 +671,7 @@ def _insert_tags(
     progress.set(status='Word Form Tags')
     query = f'INSERT INTO tags VALUES (({FORM_QUERY}),?,?)'
     for batch in _batch(entries):
-        tags: list[tuple[str, int, Optional[str], int, str, str]] = []
+        tags: list[tuple[str, int, str | None, int, str, str]] = []
         for entry in batch:
             eid = entry['id']
             lid = lexidmap.get(eid, lexid)
@@ -909,7 +910,7 @@ def _insert_sense_relations(
 
 
 def _insert_examples(
-    objs: Sequence[Union[lmf.Sense, lmf.ExternalSense, lmf.Synset, lmf.ExternalSynset]],
+    objs: Sequence[lmf.Sense | lmf.ExternalSense | lmf.Synset | lmf.ExternalSynset],
     lexid: int,
     lexidmap: _LexIdMap,
     table: str,
@@ -972,7 +973,7 @@ def _add_ili(
 
 def remove(
     lexicon: str,
-    progress_handler: Optional[type[ProgressHandler]] = ProgressBar
+    progress_handler: type[ProgressHandler] = ProgressBar
 ) -> None:
     """Remove lexicon(s) from the database.
 
@@ -1030,7 +1031,7 @@ def _synsets(lex: _AnyLexicon) -> Sequence[_AnySynset]: return lex.get('synsets'
 
 
 def _is_external(
-    x: Union[_AnyForm, _AnyLemma, _AnyEntry, _AnySense, _AnySynset]
+    x: _AnyForm | _AnyLemma | _AnyEntry | _AnySense | _AnySynset
 ) -> bool:
     return x.get('external', False) is True
 

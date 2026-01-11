@@ -4,7 +4,6 @@ Wordnet and ILI Packages and Collections
 """
 
 from collections.abc import Iterator
-from typing import Optional
 from pathlib import Path
 import tarfile
 import tempfile
@@ -40,7 +39,7 @@ def _package_directory_types(path: Path) -> list[tuple[Path, str]]:
     return types
 
 
-def _resource_file_type(path: Path) -> Optional[str]:
+def _resource_file_type(path: Path) -> str | None:
     if lmf.is_lmf(path):
         return _WORDNET
     elif ili.is_ili_tsv(path):
@@ -74,19 +73,19 @@ class Project:
         """
         return self._path
 
-    def readme(self) -> Optional[Path]:
+    def readme(self) -> Path | None:
         """Return the path of the README file, or :data:`None` if none exists."""
         return self._find_file(self._path / 'README', _ADDITIONAL_FILE_SUFFIXES)
 
-    def license(self) -> Optional[Path]:
+    def license(self) -> Path | None:
         """Return the path of the license, or :data:`None` if none exists."""
         return self._find_file(self._path / 'LICENSE', _ADDITIONAL_FILE_SUFFIXES)
 
-    def citation(self) -> Optional[Path]:
+    def citation(self) -> Path | None:
         """Return the path of the citation, or :data:`None` if none exists."""
         return self._find_file(self._path / 'citation', ('.bib',))
 
-    def _find_file(self, base: Path, suffixes: tuple[str, ...]) -> Optional[Path]:
+    def _find_file(self, base: Path, suffixes: tuple[str, ...]) -> Path | None:
         for suffix in suffixes:
             base = base.with_suffix(suffix)
             if base.is_file():
@@ -103,7 +102,7 @@ class Package(Project):
     """
 
     @property
-    def type(self) -> Optional[str]:
+    def type(self) -> str | None:
         """Return the name of the type of resource contained by the package.
 
         Valid return values are:
@@ -157,8 +156,8 @@ class Collection(Project):
 
 def get_project(
     *,
-    project: Optional[str] = None,
-    path: Optional[AnyPath] = None,
+    project: str | None = None,
+    path: AnyPath | None = None,
 ) -> Project:
     """Return the :class:`Project` object for *project* or *path*.
 
@@ -198,8 +197,8 @@ def get_project(
 
 
 def _get_project_from_path(
-    path: AnyPath, tmp_path: Optional[Path] = None,
-) -> tuple[Project, Optional[Path]]:
+    path: AnyPath, tmp_path: Path | None = None,
+) -> tuple[Project, Path | None]:
     path = Path(path).expanduser()
 
     if path.is_dir():
@@ -264,12 +263,13 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
     project, tmp_path = _get_project_from_path(path)
 
     try:
-        if isinstance(project, Package):
-            yield project
-        elif isinstance(project, Collection):
-            yield from project.packages()
-        else:
-            raise wn.Error(f'unexpected project type: {project.__class__.__name__}')
+        match project:
+            case Package():
+                yield project
+            case Collection():
+                yield from project.packages()
+            case _:
+                raise wn.Error(f'unexpected project type: {project.__class__.__name__}')
     finally:
         if tmp_path and delete:
             if tmp_path.is_dir():
@@ -282,8 +282,8 @@ def iterpackages(path: AnyPath, delete: bool = True) -> Iterator[Package]:
 
 def _get_decompressed(
     source: Path,
-    tmp_path: Optional[Path],
-) -> tuple[Path, Optional[Path]]:
+    tmp_path: Path | None,
+) -> tuple[Path, Path | None]:
     gzipped = is_gzip(source)
     xzipped = is_lzma(source)
     if not (gzipped or xzipped):

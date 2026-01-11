@@ -4,7 +4,7 @@ specificity.
 
 """
 
-from typing import Optional, TextIO
+from typing import TextIO, TypeAlias
 from pathlib import Path
 from collections import Counter
 from collections.abc import Callable, Iterable, Iterator
@@ -18,7 +18,7 @@ from wn.util import synset_id_formatter
 
 # Just use a subset of all available parts of speech
 IC_PARTS_OF_SPEECH = frozenset((NOUN, VERB, ADJ, ADV))
-Freq = dict[str, dict[Optional[str], float]]
+Freq: TypeAlias = dict[str, dict[str | None, float]]
 
 
 def information_content(synset: Synset, freq: Freq) -> float:
@@ -157,7 +157,7 @@ def compute(
 def load(
     source: AnyPath,
     wordnet: Wordnet,
-    get_synset_id: Optional[Callable] = None,
+    get_synset_id: Callable | None = None,
 ) -> Freq:
     """Load an Information Content mapping from a file.
 

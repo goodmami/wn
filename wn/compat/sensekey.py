@@ -50,13 +50,13 @@ This module has four functions:
 
 """
 
-from typing import Callable, Optional
+from typing import Callable, TypeAlias
 
 import wn
 from wn._util import split_lexicon_specifier
 
-SensekeyGetter = Callable[[wn.Sense], Optional[str]]
-SenseGetter = Callable[[str], Optional[wn.Sense]]
+SensekeyGetter: TypeAlias = Callable[[wn.Sense], str | None]
+SenseGetter: TypeAlias = Callable[[str], wn.Sense | None]
 
 METADATA_LEXICONS = {
     # OMW 1.4
@@ -189,7 +189,7 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
     """
     if lexicon in METADATA_LEXICONS:
 
-        def getter(sense: wn.Sense) -> Optional[str]:
+        def getter(sense: wn.Sense) -> str | None:
             return sense.metadata().get('identifier')
 
     elif lexicon in SENSE_ID_LEXICONS:
@@ -197,7 +197,7 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
         lexid, _ = split_lexicon_specifier(lexicon)
         prefix = f"{lexid}-"
 
-        def getter(sense: wn.Sense) -> Optional[str]:
+        def getter(sense: wn.Sense) -> str | None:
             sense_key = sense.id.removeprefix(prefix)
             # check if sense id is likely an escaped sense key
             if '__' in sense_key:
@@ -210,7 +210,7 @@ def sense_key_getter(lexicon: str) -> SensekeyGetter:
     return getter
 
 
-def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGetter:
+def sense_getter(lexicon: str, wordnet: wn.Wordnet | None = None) -> SenseGetter:
     """Return a function that gets the sense for a sense key.
 
     The *lexicon* argument determines how the function will retrieve
@@ -251,7 +251,7 @@ def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGet
         if None in sense_key_map:
             sense_key_map.pop(None)  # senses without sense keys
 
-        def getter(sense_key: str) -> Optional[wn.Sense]:
+        def getter(sense_key: str) -> wn.Sense | None:
             if sense_id := sense_key_map.get(sense_key):
                 return wordnet.sense(sense_id)
             return None
@@ -260,7 +260,7 @@ def sense_getter(lexicon: str, wordnet: Optional[wn.Wordnet] = None) -> SenseGet
         flavor = SENSE_ID_LEXICONS[lexicon]
         lexid, _ = split_lexicon_specifier(lexicon)
 
-        def getter(sense_key: str) -> Optional[wn.Sense]:
+        def getter(sense_key: str) -> wn.Sense | None:
             sense_id = f'{lexid}-{escape(sense_key, flavor=flavor)}'
             try:
                 return wordnet.sense(sense_id)

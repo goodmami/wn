@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 import wn
 from wn.constants import ADJ, ADJ_SAT
 from wn._util import flatten
@@ -12,7 +10,7 @@ from wn._util import flatten
 _FAKE_ROOT = '*ROOT*'
 
 
-def roots(wordnet: wn.Wordnet, pos: Optional[str] = None) -> list[wn.Synset]:
+def roots(wordnet: wn.Wordnet, pos: str | None = None) -> list[wn.Synset]:
     """Return the list of root synsets in *wordnet*.
 
     Arguments:
@@ -34,7 +32,7 @@ def roots(wordnet: wn.Wordnet, pos: Optional[str] = None) -> list[wn.Synset]:
     return [ss for ss in _synsets_for_pos(wordnet, pos) if not ss.hypernyms()]
 
 
-def leaves(wordnet: wn.Wordnet, pos: Optional[str] = None) -> list[wn.Synset]:
+def leaves(wordnet: wn.Wordnet, pos: str | None = None) -> list[wn.Synset]:
     """Return the list of leaf synsets in *wordnet*.
 
     Arguments:
@@ -86,7 +84,7 @@ def taxonomy_depth(wordnet: wn.Wordnet, pos: str) -> int:
     return depth
 
 
-def _synsets_for_pos(wordnet: wn.Wordnet, pos: Optional[str]) -> list[wn.Synset]:
+def _synsets_for_pos(wordnet: wn.Wordnet, pos: str | None) -> list[wn.Synset]:
     """Get the list of synsets for a part of speech. If *pos* is 'a' or
     's', also include those for the other.
 
