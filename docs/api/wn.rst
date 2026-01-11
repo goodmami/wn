@@ -127,7 +127,7 @@ Sense Objects
    .. automethod:: metadata
    .. automethod:: confidence
    .. automethod:: relations
-   .. automethod:: relation_map
+   .. automethod:: synset_relations
    .. automethod:: get_related
    .. automethod:: get_related_synsets
    .. automethod:: closure
@@ -171,7 +171,6 @@ Synset Objects
    .. automethod:: holonyms
    .. automethod:: meronyms
    .. automethod:: relations
-   .. automethod:: relation_map
    .. automethod:: get_related
    .. automethod:: closure
    .. automethod:: relation_paths
