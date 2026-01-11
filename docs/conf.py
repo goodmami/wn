@@ -17,11 +17,11 @@
 
 # -- Project information -----------------------------------------------------
 
+import wn
+
 project = "wn"
 copyright = "2020, Michael Wayne Goodman"
 author = "Michael Wayne Goodman"
-
-import wn
 
 # The short X.Y version
 version = ".".join(wn.__version__.split(".")[:2])
