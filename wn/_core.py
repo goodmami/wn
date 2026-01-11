@@ -392,6 +392,12 @@ class _Relatable(_LexiconDataElement):
         self: T, *args: str, data: Literal[True] = True
     ) -> dict[Relation, T]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def relations(
+        self: T, *args: str, data: bool = False
+    ) -> dict[str, list[T]] | dict[Relation, T]: ...
+
     def relations(
         self: T, *args: str, data: bool = False
     ) -> dict[str, list[T]] | dict[Relation, T]:
@@ -707,6 +713,12 @@ class Synset(_Relatable):
     def relations(
         self, *args: str, data: Literal[True] = True
     ) -> dict[Relation, Synset]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Synset]] | dict[Relation, Synset]: ...
 
     def relations(
         self, *args: str, data: bool = False
@@ -1086,6 +1098,12 @@ class Sense(_Relatable):
         self, *args: str, data: Literal[True] = True
     ) -> dict[Relation, Sense]: ...
 
+    # fallback for non-literal bool argument
+    @overload
+    def relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Sense]] | dict[Relation, Sense]: ...
+
     def relations(
         self, *args: str, data: bool = False
     ) -> dict[str, list[Sense]] | dict[Relation, Sense]:
@@ -1115,6 +1133,21 @@ class Sense(_Relatable):
                 relmap.setdefault(relation.name, {})[sense] = True
             # now convert inner dicts to lists
             return {relname: list(s_dict) for relname, s_dict in relmap.items()}
+
+    @overload
+    def synset_relations(
+        self, *args: str, data: Literal[False] = False
+    ) -> dict[str, list[Synset]]: ...
+    @overload
+    def synset_relations(
+        self, *args: str, data: Literal[True] = True
+    ) -> dict[Relation, Synset]: ...
+
+    # fallback for non-literal bool argument
+    @overload
+    def synset_relations(
+        self, *args: str, data: bool = False
+    ) -> dict[str, list[Synset]] | dict[Relation, Synset]: ...
 
     def synset_relations(
         self, *args: str, data: bool = False
