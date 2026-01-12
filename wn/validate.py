@@ -367,7 +367,7 @@ def validate(
     if lex.get("extends"):
         print("validation of lexicon extensions is not supported")
         return {}
-    lex = cast(lmf.Lexicon, lex)
+    lex = cast("lmf.Lexicon", lex)
 
     if progress_handler is None:
         progress_handler = ProgressHandler

@@ -353,8 +353,8 @@ def _export_syntactic_behaviours_1_1(
 
 
 def _export_metadata(id: str, lexicon: str, table: str) -> lmf.Metadata:
-    return cast(lmf.Metadata, get_metadata(id, lexicon, table))
+    return cast("lmf.Metadata", get_metadata(id, lexicon, table))
 
 
 def _cast_metadata(metadata: Metadata | None) -> lmf.Metadata:
-    return cast(lmf.Metadata, metadata or {})
+    return cast("lmf.Metadata", metadata or {})

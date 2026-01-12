@@ -7,7 +7,6 @@ definitions and any metadata, for synsets and lexicons.
 
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import zip_longest
@@ -15,7 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Literal, Protocol, overload
 
 from wn._lexicon import Lexicon, LexiconElementWithMetadata
-from wn._metadata import HasMetadata, Metadata
+from wn._metadata import HasMetadata
 from wn._queries import (
     find_ilis,
     find_proposed_ilis,
@@ -24,7 +23,10 @@ from wn._queries import (
 from wn._wordnet import Wordnet
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from wn._core import Synset
+    from wn._metadata import Metadata
     from wn._types import AnyPath
 
 

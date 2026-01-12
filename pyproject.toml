@@ -96,6 +96,7 @@ select = [
   "I",      # isort
   "LOG",    # logging
   "SIM",    # simplifications
+  "TC",     # type checking
   "UP",     # newer python features
   "W",      # pycodestyle
 ]

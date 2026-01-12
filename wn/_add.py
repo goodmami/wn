@@ -382,7 +382,7 @@ def _insert_lexicon(
         cur.executemany(query.format(table="lexicon_dependencies"), params)
 
     if lexicon.get("extends"):
-        lexicon = cast(lmf.LexiconExtension, lexicon)
+        lexicon = cast("lmf.LexiconExtension", lexicon)
         param_dict = dict(lexicon["extends"])
         param_dict.setdefault("url", None)
         param_dict["lid"] = lexid
@@ -624,7 +624,7 @@ def _insert_forms(
             eid = entry["id"]
             lid = lexidmap.get(eid, lexid)
             if not _is_external(entry):
-                entry = cast(lmf.LexicalEntry, entry)
+                entry = cast("lmf.LexicalEntry", entry)
                 written_form = entry["lemma"]["writtenForm"]
                 norm = normalize_form(written_form)
                 forms.append(
@@ -642,7 +642,7 @@ def _insert_forms(
             for i, form in enumerate(_forms(entry), 1):
                 if _is_external(form):
                     continue
-                form = cast(lmf.Form, form)
+                form = cast("lmf.Form", form)
                 written_form = form["writtenForm"]
                 norm = normalize_form(written_form)
                 forms.append(
@@ -872,7 +872,7 @@ def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
         # for WN-LMF 1.0
         if _is_external(entry) or not entry.get("frames"):
             continue
-        entry = cast(lmf.LexicalEntry, entry)
+        entry = cast("lmf.LexicalEntry", entry)
         all_senses = [s["id"] for s in _senses(entry)]
         for frame in entry.get("frames", []):
             subcat_frame = frame["subcategorizationFrame"]
@@ -1113,18 +1113,18 @@ def _local_synsets(synsets: Sequence[_AnySynset]) -> Iterator[lmf.Synset]:
     for ss in synsets:
         if _is_external(ss):
             continue
-        yield cast(lmf.Synset, ss)
+        yield cast("lmf.Synset", ss)
 
 
 def _local_entries(entries: Sequence[_AnyEntry]) -> Iterator[lmf.LexicalEntry]:
     for e in entries:
         if _is_external(e):
             continue
-        yield cast(lmf.LexicalEntry, e)
+        yield cast("lmf.LexicalEntry", e)
 
 
 def _local_senses(senses: Sequence[_AnySense]) -> Iterator[lmf.Sense]:
     for s in senses:
         if _is_external(s):
             continue
-        yield cast(lmf.Sense, s)
+        yield cast("lmf.Sense", s)

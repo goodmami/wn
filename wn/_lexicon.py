@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
-from typing import NamedTuple, Protocol, TypeVar
+from typing import TYPE_CHECKING, NamedTuple, Protocol, TypeVar
 
-from wn._metadata import HasMetadata, Metadata
+from wn._metadata import HasMetadata
 from wn._queries import (
     find_entries,
     find_ilis,
@@ -16,6 +15,11 @@ from wn._queries import (
     get_lexicon_extensions,
     get_modified,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
+
+    from wn._metadata import Metadata
 
 DEFAULT_CONFIDENCE = 1.0
 

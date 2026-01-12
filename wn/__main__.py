@@ -66,7 +66,7 @@ def _validate(args):
                     for _code, check in report.items():
                         if not check["items"]:
                             continue
-                        print(f'  {check["message"]}')
+                        print(f"  {check['message']}")
                         for id, context in check["items"].items():
                             print(f"    {id}: {context}" if context else f"    {id}")
 

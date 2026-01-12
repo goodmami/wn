@@ -420,7 +420,7 @@ def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
                 "extends": None,
             }
             if "id" not in info or "version" not in info:
-                raise LMFError(f'<{lextype.decode("utf-8")}> missing id or version')
+                raise LMFError(f"<{lextype.decode('utf-8')}> missing id or version")
             if lextype != b"Extends":
                 infos.append(info)
             elif len(infos) > 0:
@@ -549,10 +549,10 @@ def _validate(elem: _Elem) -> Lexicon | LexiconExtension:
         assert "id" in ext
         assert "version" in ext
         _validate_lexicon(elem, True)
-        return cast(LexiconExtension, elem)
+        return cast("LexiconExtension", elem)
     else:
         _validate_lexicon(elem, False)
-        return cast(Lexicon, elem)
+        return cast("Lexicon", elem)
 
 
 def _validate_lexicon(elem: _Elem, extension: bool) -> None:
@@ -702,7 +702,7 @@ def _dump_lexicon(
     if version >= (1, 1):
         if lexicontype == "LexiconExtension":
             assert lexicon.get("extends")
-            lexicon = cast(LexiconExtension, lexicon)
+            lexicon = cast("LexiconExtension", lexicon)
             _dump_dependency(lexicon["extends"], "Extends", out)
         for req in lexicon.get("requires", []):
             _dump_dependency(req, "Requires", out)
@@ -762,7 +762,7 @@ def _dump_lexical_entry(
             assert entry["lemma"].get("external", False)
             elem.append(_build_lemma(entry["lemma"], version))
     else:
-        entry = cast(LexicalEntry, entry)
+        entry = cast("LexicalEntry", entry)
         if version >= (1, 4) and entry.get("index"):
             attrib["index"] = entry["index"]
         attrib.update(_meta_dict(entry.get("meta")))
@@ -783,7 +783,7 @@ def _build_lemma(lemma: Lemma | ExternalLemma, version: VersionInfo) -> ET.Eleme
     if lemma.get("external", False):
         elem = ET.Element("ExternalLemma")
     else:
-        lemma = cast(Lemma, lemma)
+        lemma = cast("Lemma", lemma)
         attrib = {"writtenForm": lemma["writtenForm"]}
         if lemma.get("script"):
             attrib["script"] = lemma["script"]
@@ -804,7 +804,7 @@ def _build_form(form: Form | ExternalForm, version: VersionInfo) -> ET.Element:
     if form.get("external", False):
         elem = ET.Element("ExternalForm", attrib=attrib)
     else:
-        form = cast(Form, form)
+        form = cast("Form", form)
         attrib["writtenForm"] = form["writtenForm"]
         if form.get("script"):
             attrib["script"] = form["script"]
@@ -846,7 +846,7 @@ def _build_sense(
     if sense.get("external"):
         elem = ET.Element("ExternalSense", attrib=attrib)
     else:
-        sense = cast(Sense, sense)
+        sense = cast("Sense", sense)
         attrib["synset"] = sense["synset"]
         if version >= (1, 4) and sense.get("n"):
             attrib["n"] = str(sense["n"])
@@ -890,7 +890,7 @@ def _dump_synset(
         elem = ET.Element("ExternalSynset", attrib=attrib)
         elem.extend([_build_definition(defn) for defn in synset.get("definitions", [])])
     else:
-        synset = cast(Synset, synset)
+        synset = cast("Synset", synset)
         attrib["ili"] = synset["ili"]
         if synset.get("partOfSpeech"):
             attrib["partOfSpeech"] = synset["partOfSpeech"]

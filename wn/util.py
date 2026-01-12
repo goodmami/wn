@@ -177,10 +177,10 @@ class ProgressBar(ProgressHandler):
             if part:
                 fill += "-="[part - 1]
             bar = f" [{fill:<{width}}]"
-            counter = f' ({count}/{total}{_kw["unit"]}) '
+            counter = f" ({count}/{total}{_kw['unit']}) "
         else:
             bar = ""
-            counter = f' ({count}{_kw["unit"]}) '
+            counter = f" ({count}{_kw['unit']}) "
 
         return self.FMT.format(bar=bar, counter=counter, **_kw)
 

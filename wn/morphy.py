@@ -153,7 +153,7 @@ class Morphy:
         for suffix, repl, _ in self._rules[pos]:
             # avoid applying rules that perform full suppletion
             if form.endswith(suffix) and len(suffix) < len(form):
-                candidate = f"{form[:-len(suffix)]}{repl}"
+                candidate = f"{form[: -len(suffix)]}{repl}"
                 if not initialized or candidate in all_lemmas:
                     candidates.add(candidate)
 

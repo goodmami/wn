@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import enum
-from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, TypeVar, overload
+from typing import TYPE_CHECKING, Literal, TypeVar, overload
 
 from wn import taxonomy
 from wn._lexicon import (
@@ -11,7 +10,6 @@ from wn._lexicon import (
     LexiconElement,
     LexiconElementWithMetadata,
 )
-from wn._metadata import Metadata
 from wn._queries import (
     find_entries,
     find_synsets,
@@ -36,6 +34,12 @@ from wn._queries import (
     resolve_lexicon_specifiers,
 )
 from wn._util import unique_list
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator, Sequence
+
+    from wn._metadata import Metadata
+
 
 _INFERRED_SYNSET = "*INFERRED*"
 

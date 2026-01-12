@@ -341,13 +341,13 @@ def _load_lemmas_with_details(
 
         # Add pronunciation if present
         if pron_data[0] is not None:  # value
-            pron = cast(_Pronunciation, pron_data)
+            pron = cast("_Pronunciation", pron_data)
             if pron not in forms_dict[form_rowid][4]:
                 forms_dict[form_rowid][4].append(pron)
 
         # Add tag if present
         if tag_data[0] is not None:  # tag
-            tag = cast(_Tag, tag_data)
+            tag = cast("_Tag", tag_data)
             if tag not in forms_dict[form_rowid][5]:
                 forms_dict[form_rowid][5].append(tag)
 
@@ -716,7 +716,7 @@ def find_syntactic_behaviours(
         query += "\n WHERE " + "\n   AND ".join(conditions)
     rows: Iterator[tuple[str, str, str]] = conn.execute(query, params)
     for key, group in itertools.groupby(rows, lambda row: row[0:2]):
-        id, frame = cast(tuple[str, str], key)
+        id, frame = cast("tuple[str, str]", key)
         sense_ids = [row[2] for row in group]
         yield id, frame, sense_ids
 
@@ -897,7 +897,7 @@ def get_metadata(id: str, lexicon: str, table: str) -> Metadata:
            AND lex.specifier = ?
     """
     return cast(
-        Metadata,
+        "Metadata",
         connect().execute(query, (id, lexicon)).fetchone()[0] or {},
     )  # TODO: benchmark using a TypeGuard
 
@@ -905,7 +905,7 @@ def get_metadata(id: str, lexicon: str, table: str) -> Metadata:
 def get_ili_metadata(id: str) -> Metadata:
     query = "SELECT metadata FROM ilis WHERE id = ?"
     return cast(
-        Metadata,
+        "Metadata",
         connect().execute(query, (id,)).fetchone()[0] or {},
     )
 
@@ -920,7 +920,7 @@ def get_proposed_ili_metadata(synset: str, lexicon: str) -> Metadata:
            AND lex.specifier = ?
     """
     return cast(
-        Metadata,
+        "Metadata",
         connect().execute(query, (synset, lexicon)).fetchone()[0] or {},
     )
 
