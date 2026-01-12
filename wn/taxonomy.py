@@ -103,12 +103,12 @@ def _hypernym_paths(
 ) -> list[list[wn.Synset]]:
     paths = list(synset.relation_paths("hypernym", "instance_hypernym"))
     if include_self:
-        paths = [[synset] + path for path in paths] or [[synset]]
+        paths = [[synset, *path] for path in paths] or [[synset]]
     if simulate_root and synset.id != _FAKE_ROOT:
         root = wn.Synset.empty(
             id=_FAKE_ROOT, _lexicon=synset._lexicon, _lexconf=synset._lexconf
         )
-        paths = [path + [root] for path in paths] or [[root]]
+        paths = [[*path, root] for path in paths] or [[root]]
     return paths
 
 

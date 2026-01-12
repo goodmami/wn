@@ -80,11 +80,11 @@ class Wordnet:
     """
 
     __slots__ = (
-        "_lexconf",
         "_default_mode",
+        "_lexconf",
         "_normalizer",
-        "lemmatizer",
         "_search_all_forms",
+        "lemmatizer",
     )
     __module__ = "wn"
 

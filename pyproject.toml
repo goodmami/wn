@@ -96,6 +96,7 @@ select = [
   "I",      # isort
   "LOG",    # logging
   "PT",     # pytest style
+  "RUF",    # ruff-specific fixes
   "SIM",    # simplifications
   "TC",     # type checking
   "UP",     # newer python features

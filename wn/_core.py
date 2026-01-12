@@ -72,7 +72,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
     configuration of lexicons used in the original query.
     """
 
-    __slots__ = "id", "_lexconf"
+    __slots__ = "_lexconf", "id"
 
     id: str
     _lexconf: LexiconConfiguration
@@ -329,7 +329,7 @@ class Word(_LexiconDataElement):
 class Relation(LexiconElementWithMetadata):
     """A class to model relations between senses or synsets."""
 
-    __slots__ = "name", "source_id", "target_id", "_metadata", "_lexicon"
+    __slots__ = "_lexicon", "_metadata", "name", "source_id", "target_id"
     __module__ = "wn"
 
     name: str
@@ -439,7 +439,7 @@ class _Relatable(_LexiconDataElement):
                 ]
                 if related:
                     for synset in reversed(related):
-                        new_path = list(path) + [synset]
+                        new_path = [*path, synset]
                         new_visited = visited | {synset}
                         agenda.append((new_path, new_visited))
                 elif end is None:
@@ -482,7 +482,7 @@ class Definition(LexiconElementWithMetadata):
 class Synset(_Relatable):
     """Class for modeling wordnet synsets."""
 
-    __slots__ = "pos", "_ili"
+    __slots__ = "_ili", "pos"
     __module__ = "wn"
 
     _ENTITY_TYPE = _EntityType.SYNSETS
