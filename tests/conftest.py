@@ -39,7 +39,7 @@ def mini_db_dir(datadir, tmp_path_factory):
         wn.add(datadir / "mini-ili.tsv")
         wn._db.clear_connections()
 
-    yield Path(dir)
+    return Path(dir)
 
 
 @pytest.fixture
@@ -48,7 +48,7 @@ def mini_lmf_compressed(datadir, tmp_path):
     path = tmp_path / "temp.xml.xz"
     with lzma.open(path, "w") as f:
         f.write(data)
-    yield Path(path)
+    return Path(path)
 
 
 @pytest.fixture(scope="session")
@@ -60,7 +60,7 @@ def mini_db_1_1_dir(datadir, tmp_path_factory):
         wn.add(datadir / "mini-lmf-1.1.xml")
         wn._db.clear_connections()
 
-    yield Path(dir)
+    return Path(dir)
 
 
 @pytest.fixture(scope="session")
@@ -71,7 +71,7 @@ def mini_db_1_4_dir(datadir, tmp_path_factory):
         wn.add(datadir / "mini-lmf-1.4.xml")
         wn._db.clear_connections()
 
-    yield Path(dir)
+    return Path(dir)
 
 
 @pytest.fixture

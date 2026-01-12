@@ -71,7 +71,7 @@ def mock_db_dir(mock_lmf, tmp_path_factory):
         wn.add_lexical_resource(mock_lmf, progress_handler=None)
         wn._db.clear_connections()
 
-    yield Path(dir)
+    return Path(dir)
 
 
 @pytest.fixture

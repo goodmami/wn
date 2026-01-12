@@ -95,6 +95,7 @@ select = [
   "F",      # Pyflakes
   "I",      # isort
   "LOG",    # logging
+  "PT",     # pytest style
   "SIM",    # simplifications
   "TC",     # type checking
   "UP",     # newer python features
