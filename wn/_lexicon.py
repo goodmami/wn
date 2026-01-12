@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
-from typing import Callable, NamedTuple, Protocol, Sequence, TypeVar
+from typing import NamedTuple, Protocol, TypeVar
 
 from wn._metadata import HasMetadata, Metadata
 from wn._queries import (
@@ -78,10 +79,10 @@ class Lexicon(HasMetadata):
 
     def requires(self) -> dict[str, Lexicon | None]:
         """Return the lexicon dependencies."""
-        return dict(
-            (spec, None if added is None else Lexicon.from_specifier(spec))
+        return {
+            spec: (None if added is None else Lexicon.from_specifier(spec))
             for spec, _, added in get_lexicon_dependencies(self._specifier)
-        )
+        }
 
     def extends(self) -> Lexicon | None:
         """Return the lexicon this lexicon extends, if any.

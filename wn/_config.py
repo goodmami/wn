@@ -193,16 +193,16 @@ class WNConfig:
 
         urls = info.get("resource_urls", [])
 
-        return dict(
-            id=id,
-            version=version,
-            type=project["type"],
-            label=project["label"],
-            language=project["language"],
-            license=info.get("license", project.get("license")),
-            resource_urls=urls,
-            cache=_get_cache_path_for_urls(self, urls),
-        )
+        return {
+            "id": id,
+            "version": version,
+            "type": project["type"],
+            "label": project["label"],
+            "language": project["language"],
+            "license": info.get("license", project.get("license")),
+            "resource_urls": urls,
+            "cache": _get_cache_path_for_urls(self, urls),
+        }
 
     def get_cache_path(self, url: str) -> Path:
         """Return the path for caching *url*.

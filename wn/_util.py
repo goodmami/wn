@@ -60,7 +60,7 @@ H = TypeVar("H", bound=Hashable)
 
 def unique_list(items: Iterable[H]) -> list[H]:
     # use a dictionary as an order-preserving set
-    targets = {item: True for item in items}
+    targets = dict.fromkeys(items, True)
     return list(targets)
 
 

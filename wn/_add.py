@@ -307,9 +307,9 @@ def _sum_counts(lex: _AnyLexicon) -> int:
 
 
 def _update_lookup_tables(lexicon: _AnyLexicon, cur: sqlite3.Cursor) -> None:
-    reltypes = set(
+    reltypes = {
         rel["relType"] for ss in _synsets(lexicon) for rel in ss.get("relations", [])
-    )
+    }
     reltypes.update(
         rel["relType"]
         for e in _entries(lexicon)
@@ -1024,7 +1024,7 @@ def _add_ili(
         ili = list(_ili.load_tsv(source))
 
         progress.flash("Updating ILI Status Names")
-        statuses = set(info.get("status", "active") for info in ili)
+        statuses = {info.get("status", "active") for info in ili}
         cur.executemany(
             "INSERT OR IGNORE INTO ili_statuses VALUES (null,?)",
             [(stat,) for stat in sorted(statuses)],

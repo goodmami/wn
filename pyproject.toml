@@ -89,9 +89,13 @@ line-length = 88
 [tool.ruff.lint]
 select = [
   "B",      # flake8-bugbear
+  "C4",     # comprehensions
   "C90",    # McCabe cyclomatic complexity
   "E",      # pycodestyle
   "F",      # Pyflakes
   "I",      # isort
+  "LOG",    # logging
+  "SIM",    # simplifications
+  "UP",     # newer python features
   "W",      # pycodestyle
 ]

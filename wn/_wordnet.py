@@ -1,7 +1,7 @@
 import textwrap
 import warnings
-from collections.abc import Iterator
-from typing import Callable, Literal, Sequence, TypeVar, overload
+from collections.abc import Callable, Iterator, Sequence
+from typing import Literal, TypeVar, overload
 
 from wn._core import Form, Pronunciation, Sense, Synset, Tag, Word
 from wn._exceptions import Error, WnWarning

@@ -50,7 +50,8 @@ This module has four functions:
 
 """
 
-from typing import Callable, TypeAlias
+from collections.abc import Callable
+from typing import TypeAlias
 
 import wn
 from wn._util import split_lexicon_specifier

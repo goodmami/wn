@@ -289,7 +289,7 @@ def _get_decompressed(
     if not (gzipped or xzipped):
         return source, tmp_path
     else:
-        tmp = tempfile.NamedTemporaryFile(suffix=".xml", delete=False)
+        tmp = tempfile.NamedTemporaryFile(suffix=".xml", delete=False)  # noqa: SIM115
         path = Path(tmp.name)
         try:
             if gzipped:

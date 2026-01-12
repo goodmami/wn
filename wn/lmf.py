@@ -166,14 +166,37 @@ _META_ELEMS = {  # elements with metadata
 # `total=False` are used to model optionality. For more information
 # about this tactic, see https://www.python.org/dev/peps/pep-0589/.
 
-_HasId = TypedDict("_HasId", {"id": str})
-_HasILI = TypedDict("_HasILI", {"ili": str})
-_HasSynset = TypedDict("_HasSynset", {"synset": str})
-_MaybeId = TypedDict("_MaybeId", {"id": str}, total=False)
-_HasText = TypedDict("_HasText", {"text": str})
-_MaybeScript = TypedDict("_MaybeScript", {"script": str}, total=False)
-_HasMeta = TypedDict("_HasMeta", {"meta": Metadata | None}, total=False)
-_External = TypedDict("_External", {"external": Literal["true"]})
+
+class _HasId(TypedDict):
+    id: str
+
+
+class _HasILI(TypedDict):
+    ili: str
+
+
+class _HasSynset(TypedDict):
+    synset: str
+
+
+class _MaybeId(TypedDict, total=False):
+    id: str
+
+
+class _HasText(TypedDict):
+    text: str
+
+
+class _MaybeScript(TypedDict, total=False):
+    script: str
+
+
+class _HasMeta(TypedDict, total=False):
+    meta: Metadata | None
+
+
+class _External(TypedDict):
+    external: Literal["true"]
 
 
 class ILIDefinition(_HasText, _HasMeta): ...
@@ -571,7 +594,7 @@ def _validate_forms(elems: list[_Elem], extension: bool) -> None:
         for pron in elem.get("pronunciations", []):
             pron.setdefault("text", "")
             if pron.get("phonemic"):
-                pron["phonemic"] = False if pron["phonemic"] == "false" else True
+                pron["phonemic"] = pron["phonemic"] != "false"
         for tag in elem.get("tags", []):
             tag.setdefault("text", "")
             assert "category" in tag
@@ -597,7 +620,7 @@ def _validate_senses(elems: list[_Elem], extension: bool) -> None:
             cnt["value"] = int(cnt.pop("text"))
             cnt.setdefault("meta")
         if elem.get("lexicalized"):
-            elem["lexicalized"] = False if elem["lexicalized"] == "false" else True
+            elem["lexicalized"] = elem["lexicalized"] != "false"
         if elem.get("subcat"):
             elem["subcat"] = elem["subcat"].split()
         if elem.get("n"):
@@ -630,7 +653,7 @@ def _validate_synsets(elems: list[_Elem], extension: bool) -> None:
             ex.setdefault("text", "")
             ex.setdefault("meta")
         if elem.get("lexicalized"):
-            elem["lexicalized"] = False if elem["lexicalized"] == "false" else True
+            elem["lexicalized"] = elem["lexicalized"] != "false"
         if elem.get("members"):
             elem["members"] = elem["members"].split()
 

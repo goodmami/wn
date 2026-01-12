@@ -93,12 +93,10 @@ class _LexiconDataElement(LexiconElementWithMetadata):
 
     def _get_lexicons(self) -> tuple[str, ...]:
         if self._lexconf.default_mode:
-            return tuple(
-                [
-                    self._lexicon,
-                    *get_lexicon_extension_bases(self._lexicon),
-                    *get_lexicon_extensions(self._lexicon),
-                ]
+            return (
+                self._lexicon,
+                *get_lexicon_extension_bases(self._lexicon),
+                *get_lexicon_extensions(self._lexicon),
             )
         else:
             return self._lexconf.lexicons
