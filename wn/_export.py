@@ -1,10 +1,8 @@
 from collections.abc import Sequence
-from typing import cast
 
 from wn import lmf
 from wn._exceptions import Error
 from wn._lexicon import Lexicon
-from wn._metadata import Metadata
 from wn._queries import (
     find_entries,
     find_proposed_ilis,
@@ -107,7 +105,7 @@ def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
         "citation": lexicon.citation or "",
         "entries": _export_lexical_entries(spec, sbmap, version),
         "synsets": _export_synsets(spec, version),
-        "meta": _cast_metadata(lexicon.metadata()),
+        "meta": lexicon.metadata(),
     }
     if version >= (1, 1):
         lex["logo"] = lexicon.logo or ""
@@ -189,7 +187,7 @@ def _export_pronunciations(
 
 
 def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:
-    return [{"text": text, "category": category} for text, category in rows]
+    return [lmf.Tag(text=text, category=category) for text, category in rows]
 
 
 def _export_senses(
@@ -227,11 +225,11 @@ def _export_sense_relations(
     sense_id: str, lexicons: Sequence[str]
 ) -> list[lmf.Relation]:
     relations: list[lmf.Relation] = [
-        {"target": id, "relType": type, "meta": _cast_metadata(metadata)}
+        lmf.Relation(target=id, relType=type, meta=metadata)
         for type, _, metadata, id, *_ in get_sense_relations(sense_id, "*", lexicons)
     ]
     relations.extend(
-        {"target": id, "relType": type, "meta": _cast_metadata(metadata)}
+        lmf.Relation(target=id, relType=type, meta=metadata)
         for type, _, metadata, _, id, *_ in get_sense_synset_relations(
             sense_id, "*", lexicons
         )
@@ -241,14 +239,14 @@ def _export_sense_relations(
 
 def _export_examples(id: str, table: str, lexicons: Sequence[str]) -> list[lmf.Example]:
     return [
-        {"text": text, "language": language, "meta": _cast_metadata(metadata)}
+        lmf.Example(text=text, language=language, meta=metadata)
         for text, language, _, metadata in get_examples(id, table, lexicons)
     ]
 
 
 def _export_counts(sense_id: str, lexicons: Sequence[str]) -> list[lmf.Count]:
     return [
-        {"value": val, "meta": _cast_metadata(metadata)}
+        lmf.Count(value=val, meta=metadata)
         for val, _, metadata in get_sense_counts(sense_id, lexicons)
     ]
 
@@ -287,12 +285,12 @@ def _export_definitions(
     lexicons: Sequence[str],
 ) -> list[lmf.Definition]:
     return [
-        {
-            "text": text,
-            "language": language,
-            "sourceSense": sense_id,
-            "meta": _cast_metadata(metadata),
-        }
+        lmf.Definition(
+            text=text,
+            language=language,
+            sourceSense=sense_id,
+            meta=metadata
+        )
         for text, language, sense_id, _, metadata in get_definitions(
             synset_id, lexicons
         )
@@ -308,7 +306,7 @@ def _export_ili_definition(synset: str) -> lmf.ILIDefinition | None:
         meta = None
         if lexspec is not None:
             meta = get_proposed_ili_metadata(synset, lexspec)
-        ilidef = {"text": defn, "meta": _cast_metadata(meta)}
+        ilidef = {"text": defn, "meta": meta}
     return ilidef
 
 
@@ -317,7 +315,7 @@ def _export_synset_relations(
     synset_lexicon: str,
 ) -> list[lmf.Relation]:
     return [
-        {"target": id, "relType": type, "meta": _cast_metadata(metadata)}
+        lmf.Relation(target=id, relType=type, meta=metadata)
         for type, _, metadata, _, id, *_ in get_synset_relations(
             synset_id, synset_lexicon, "*", (synset_lexicon,)
         )
@@ -347,14 +345,10 @@ def _export_syntactic_behaviours_1_1(
     lexicons: Sequence[str],
 ) -> list[lmf.SyntacticBehaviour]:
     return [
-        {"id": id or "", "subcategorizationFrame": frame}
+        lmf.SyntacticBehaviour(id=id or "", subcategorizationFrame=frame)
         for id, frame, _ in find_syntactic_behaviours(lexicons=lexicons)
     ]
 
 
 def _export_metadata(id: str, lexicon: str, table: str) -> lmf.Metadata:
-    return cast("lmf.Metadata", get_metadata(id, lexicon, table))
-
-
-def _cast_metadata(metadata: Metadata | None) -> lmf.Metadata:
-    return cast("lmf.Metadata", metadata or {})
+    return get_metadata(id, lexicon, table)

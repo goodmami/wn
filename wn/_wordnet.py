@@ -138,7 +138,8 @@ class Wordnet:
         """Return the first word in this wordnet with identifier *id*."""
         iterable = find_entries(id=id, lexicons=self._lexconf.lexicons)
         try:
-            return Word(*next(iterable), _lexconf=self._lexconf)
+            id, pos, lex = next(iterable)
+            return Word(id, pos, _lexicon=lex, _lexconf=self._lexconf)
         except StopIteration:
             raise Error(f"no such lexical entry: {id}") from None
 
@@ -222,7 +223,8 @@ class Wordnet:
         """Return the first synset in this wordnet with identifier *id*."""
         iterable = find_synsets(id=id, lexicons=self._lexconf.lexicons)
         try:
-            return Synset(*next(iterable), _lexconf=self._lexconf)
+            id, pos, ili, lex = next(iterable)
+            return Synset(id, pos, ili=ili, _lexicon=lex, _lexconf=self._lexconf)
         except StopIteration:
             raise Error(f"no such synset: {id}") from None
 
@@ -246,7 +248,8 @@ class Wordnet:
         """Return the first sense in this wordnet with identifier *id*."""
         iterable = find_senses(id=id, lexicons=self._lexconf.lexicons)
         try:
-            return Sense(*next(iterable), _lexconf=self._lexconf)
+            id, eid, ssid, lex = next(iterable)
+            return Sense(id, eid, ssid, _lexicon=lex, _lexconf=self._lexconf)
         except StopIteration:
             raise Error(f"no such sense: {id}") from None
 
@@ -399,6 +402,8 @@ def _find_helper(
         kwargs["ili"] = ili
 
     # easy case is when there is no form
+    # (for type checking, it is hard to guess the correct number of
+    #  fields in data, so ignore here and further down)
     if form is None:
         return [
             cls(*data, _lexconf=w._lexconf)  # type: ignore
@@ -420,7 +425,10 @@ def _find_helper(
 
     # we want unique results here, but a set can make the order
     # erratic, so filter manually
-    results = [cls(*data, _lexconf=w._lexconf) for data in results_data]  # type: ignore
+    results = [
+        cls(*data, _lexconf=w._lexconf)  # type: ignore
+        for data in results_data
+    ]
     unique_results: list[C] = []
     seen: set[C] = set()
     for result in results:

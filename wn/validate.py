@@ -35,7 +35,7 @@ from collections.abc import (
     Sequence,
 )
 from itertools import chain
-from typing import cast
+from typing import TypedDict, cast
 
 from wn import lmf
 from wn.constants import (
@@ -49,7 +49,14 @@ from wn.util import ProgressBar, ProgressHandler
 _Ids = dict[str, Counter]
 _Result = dict[str, dict]
 _CheckFunction = Callable[[lmf.Lexicon, _Ids], _Result]
-_Report = dict[str, dict[str, str | _Result]]
+
+
+class _Check(TypedDict):
+    message: str
+    items: _Result
+
+
+_Report = dict[str, _Check]
 
 
 def _non_unique_id(lex: lmf.Lexicon, ids: _Ids) -> _Result:
@@ -386,8 +393,10 @@ def validate(
 
     report: _Report = {}
     for code, func, message in checks:
-        progress.set(status=func.__name__.replace("_", " "))
-        report[code] = {"message": message, "items": func(lex, ids)}
+        progress.set(
+            status=getattr(func, "__name__", "(unknown test)").replace("_", " ")
+        )
+        report[code] = _Check(message=message, items=func(lex, ids))
         progress.update()
     progress.set(status="")
     progress.close()

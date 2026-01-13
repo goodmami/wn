@@ -990,8 +990,8 @@ class Sense(_Relatable):
 
         """
         lexicons = self._get_lexicons()
-        word_data = next(find_entries(id=self._entry_id, lexicons=lexicons))
-        return Word(*word_data, _lexconf=self._lexconf)
+        id, pos, lex = next(find_entries(id=self._entry_id, lexicons=lexicons))
+        return Word(id, pos, _lexicon=lex, _lexconf=self._lexconf)
 
     def synset(self) -> Synset:
         """Return the synset of the sense.
@@ -1003,8 +1003,8 @@ class Sense(_Relatable):
 
         """
         lexicons = self._get_lexicons()
-        synset_data = next(find_synsets(id=self._synset_id, lexicons=lexicons))
-        return Synset(*synset_data, _lexconf=self._lexconf)
+        id, pos, ili, lex = next(find_synsets(id=self._synset_id, lexicons=lexicons))
+        return Synset(id, pos, ili=ili, _lexicon=lex, _lexconf=self._lexconf)
 
     @overload
     def examples(self, *, data: Literal[False] = False) -> list[str]: ...

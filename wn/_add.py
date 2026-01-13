@@ -247,7 +247,6 @@ def _precheck(
         for info in infos:
             key = format_lexicon_specifier(info["id"], info["version"])
 
-            # TODO: MyPy seems to think this can be Any and I'm not sure why
             base: lmf.LexiconSpecifier | None = info.get("extends")  # type: ignore
 
             skipmap[key] = False
@@ -855,11 +854,11 @@ def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
     # IDs are not required and frame strings must be unique in a
     # lexicon, so lookup syntactic behaviours by the frame string
     synbhrs: dict[str, lmf.SyntacticBehaviour] = {
-        frame["subcategorizationFrame"]: {
-            "id": frame["id"],
-            "subcategorizationFrame": frame["subcategorizationFrame"],
-            "senses": frame.get("senses", []),
-        }
+        frame["subcategorizationFrame"]: lmf.SyntacticBehaviour(
+            id=frame["id"],
+            subcategorizationFrame=frame["subcategorizationFrame"],
+            senses=frame.get("senses", []),
+        )
         for frame in lexicon.get("frames", [])
     }
     # all relevant senses are collected into the 'senses' key
@@ -877,10 +876,10 @@ def _collect_frames(lexicon: _AnyLexicon) -> list[lmf.SyntacticBehaviour]:
         for frame in entry.get("frames", []):
             subcat_frame = frame["subcategorizationFrame"]
             if subcat_frame not in synbhrs:
-                synbhrs[subcat_frame] = {
-                    "subcategorizationFrame": subcat_frame,
-                    "senses": [],
-                }
+                synbhrs[subcat_frame] = lmf.SyntacticBehaviour(
+                    subcategorizationFrame=subcat_frame,
+                    senses=[],
+                )
             senses = frame.get("senses", []) or all_senses
             synbhrs[subcat_frame]["senses"].extend(senses)
     return list(synbhrs.values())

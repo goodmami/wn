@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Any
 
 try:
-    import tomllib  # python_version >= 3.11
+    # python_version >= 3.11
+    import tomllib  # type: ignore
 except ImportError:
     import tomli as tomllib  # type: ignore
 

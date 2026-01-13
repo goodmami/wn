@@ -68,6 +68,15 @@ dependencies = [
 [tool.hatch.envs.mypy.scripts]
 check = "mypy wn/"
 
+[tool.hatch.envs.types]
+dependencies = [
+  "wn[dev]",
+  "ty",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "ty check {args:wn/}"
+
 [tool.hatch.envs.docs]
 dependencies = [
   "wn",

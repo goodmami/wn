@@ -243,7 +243,8 @@ def _shortest_hyp_paths(
         from_self_subpaths, from_other_subpaths = subpaths[ss]
         shortest_from_self = min(from_self_subpaths, key=len)
         # for the other path, we need to reverse it and remove the pivot synset
-        shortest_from_other = min(from_other_subpaths, key=len)[-2::-1]
+        # (ty doesn't infer the result of min() correctly, hence the ignore)
+        shortest_from_other = min(from_other_subpaths, key=len)[-2::-1]  # type: ignore
         shortest[(ss, depths[ss])] = shortest_from_self + shortest_from_other
 
     return shortest
