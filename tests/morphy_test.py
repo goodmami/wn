@@ -1,4 +1,3 @@
-
 import pytest
 
 import wn
@@ -9,43 +8,47 @@ def test_morphy_uninitialized():
     # An unintialized Morphy isn't very bright, but it starts up
     # fast. It relies on the database to filter bad items.
     m = morphy.Morphy()
-    assert m('example', 'n') == {'n': {'example'}}
-    assert m('examples', 'n') == {'n': {'examples', 'example'}}
-    assert m('examples', 'v') == {'v': {'examples', 'example', 'exampl'}}
-    assert m('exemplifying', 'n') == {'n': {'exemplifying'}}
-    assert m('exemplifying', 'v') == {'v': {'exemplifying', 'exemplify', 'exemplifye'}}
-    assert m('data', 'n') == {'n': {'data'}}
-    assert m('datums', 'n') == {'n': {'datums', 'datum'}}  # expected false positive
-    assert m('examples', None) == {None: {'examples'},
-                                   'n': {'example'},
-                                   'v': {'example', 'exampl'}}
-    assert m('exemplifying', None) == {None: {'exemplifying'},
-                                       'v': {'exemplify', 'exemplifye'}}
-    assert m('data', None) == {None: {'data'}}
+    assert m("example", "n") == {"n": {"example"}}
+    assert m("examples", "n") == {"n": {"examples", "example"}}
+    assert m("examples", "v") == {"v": {"examples", "example", "exampl"}}
+    assert m("exemplifying", "n") == {"n": {"exemplifying"}}
+    assert m("exemplifying", "v") == {"v": {"exemplifying", "exemplify", "exemplifye"}}
+    assert m("data", "n") == {"n": {"data"}}
+    assert m("datums", "n") == {"n": {"datums", "datum"}}  # expected false positive
+    assert m("examples", None) == {
+        None: {"examples"},
+        "n": {"example"},
+        "v": {"example", "exampl"},
+    }
+    assert m("exemplifying", None) == {
+        None: {"exemplifying"},
+        "v": {"exemplify", "exemplifye"},
+    }
+    assert m("data", None) == {None: {"data"}}
 
 
-@pytest.mark.usefixtures('mini_db')
+@pytest.mark.usefixtures("mini_db")
 def test_morphy_initialized():
-    w = wn.Wordnet('test-en:1')
+    w = wn.Wordnet("test-en:1")
     m = morphy.Morphy(wordnet=w)
-    assert m('example', 'n') == {'n': {'example'}}
-    assert m('examples', 'n') == {'n': {'example'}}
-    assert m('examples', 'v') == {}
-    assert m('exemplifying', 'n') == {}
-    assert m('exemplifying', 'v') == {'v': {'exemplify'}}
-    assert m('data', 'n') == {'n': {'datum'}}
-    assert m('datums', 'n') == {'n': {'datum'}}  # expected false positive
-    assert m('examples', None) == {'n': {'example'}}
-    assert m('exemplifying', None) == {'v': {'exemplify'}}
-    assert m('data', None) == {'n': {'datum'}}
+    assert m("example", "n") == {"n": {"example"}}
+    assert m("examples", "n") == {"n": {"example"}}
+    assert m("examples", "v") == {}
+    assert m("exemplifying", "n") == {}
+    assert m("exemplifying", "v") == {"v": {"exemplify"}}
+    assert m("data", "n") == {"n": {"datum"}}
+    assert m("datums", "n") == {"n": {"datum"}}  # expected false positive
+    assert m("examples", None) == {"n": {"example"}}
+    assert m("exemplifying", None) == {"v": {"exemplify"}}
+    assert m("data", None) == {"n": {"datum"}}
 
 
-@pytest.mark.usefixtures('mini_db')
+@pytest.mark.usefixtures("mini_db")
 def test_issue_154():
     # https://github.com/goodmami/wn/issues/154
-    w = wn.Wordnet('test-en:1')
-    assert w.words('exemplifies') == [w.word('test-en-exemplify-v')]
-    assert w.words('samples') == []
-    w = wn.Wordnet('test-en:1', lemmatizer=morphy.Morphy())
-    assert w.words('exemplifies') == [w.word('test-en-exemplify-v')]
-    assert w.words('samples') == [w.word('test-en-sample-n')]
+    w = wn.Wordnet("test-en:1")
+    assert w.words("exemplifies") == [w.word("test-en-exemplify-v")]
+    assert w.words("samples") == []
+    w = wn.Wordnet("test-en:1", lemmatizer=morphy.Morphy())
+    assert w.words("exemplifies") == [w.word("test-en-exemplify-v")]
+    assert w.words("samples") == [w.word("test-en-sample-n")]

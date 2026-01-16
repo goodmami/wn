@@ -71,7 +71,7 @@ follows:
 
 .. code-block:: python
 
-   lemmatizer(s: str, pos: Optional[str]) -> Dict[Optional[str], Set[str]]
+   lemmatizer(s: str, pos: str | None) -> Dict[str | None, Set[str]]
 
 The part-of-speech may be used by the function to determine which
 morphological rules to apply. If the given part-of-speech is

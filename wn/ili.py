@@ -7,15 +7,14 @@ definitions and any metadata, for synsets and lexicons.
 
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import zip_longest
 from pathlib import Path
-from typing import Literal, Protocol, overload, TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, Protocol, overload
 
 from wn._lexicon import Lexicon, LexiconElementWithMetadata
-from wn._metadata import HasMetadata, Metadata
+from wn._metadata import HasMetadata
 from wn._queries import (
     find_ilis,
     find_proposed_ilis,
@@ -24,12 +23,15 @@ from wn._queries import (
 from wn._wordnet import Wordnet
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from wn._core import Synset
+    from wn._metadata import Metadata
     from wn._types import AnyPath
 
 
 class ILIStatus(str, Enum):
-    __module__ = 'wn'
+    __module__ = "wn"
 
     UNKNOWN = "unknown"  # no information available
     ACTIVE = "active"  # attested in ILI file and marked as active
@@ -40,7 +42,8 @@ class ILIStatus(str, Enum):
 @dataclass(slots=True)
 class ILIDefinition(HasMetadata):
     """Class for modeling ILI definitions."""
-    __module__ = 'wn'
+
+    __module__ = "wn"
 
     text: str
     _metadata: Metadata | None = field(default=None, compare=False, repr=False)
@@ -64,7 +67,6 @@ class ILIDefinition(HasMetadata):
 
 
 class ILIProtocol(Protocol):
-
     _definition_text: str | None
     _definition_metadata: Metadata | None
 
@@ -104,7 +106,7 @@ class ILIProtocol(Protocol):
                 self._definition_text,
                 _metadata=self._definition_metadata,
                 # lexicon is defined only for proposed ILIs
-                _lexicon=getattr(self, '_lexicon', None),
+                _lexicon=getattr(self, "_lexicon", None),
             )
         return self._definition_text
 
@@ -112,7 +114,8 @@ class ILIProtocol(Protocol):
 @dataclass(frozen=True, slots=True)
 class ILI(ILIProtocol):
     """A class for interlingual indices."""
-    __module__ = 'wn'
+
+    __module__ = "wn"
 
     id: str
     status: ILIStatus = field(
@@ -128,7 +131,7 @@ class ILI(ILIProtocol):
 
 @dataclass(frozen=True, slots=True)
 class ProposedILI(LexiconElementWithMetadata, ILIProtocol):
-    __module__ = 'wn'
+    __module__ = "wn"
 
     _synset: str
     _lexicon: str
@@ -222,8 +225,7 @@ def get_all(
             _definition_text=defn,
             _definition_metadata=meta,
         )
-        for id, status, defn, meta
-        in find_ilis(status=status, lexicons=lexicons)
+        for id, status, defn, meta in find_ilis(status=status, lexicons=lexicons)
     ]
 
 
@@ -274,9 +276,7 @@ def get_all_proposed(lexicon: str | None = None) -> list[ProposedILI]:
 
     """
     lexicons = lexicon.split() if lexicon else []
-    return [
-        ProposedILI(*row) for row in find_proposed_ilis(lexicons=lexicons)
-    ]
+    return [ProposedILI(*row) for row in find_proposed_ilis(lexicons=lexicons)]
 
 
 def is_ili_tsv(source: AnyPath) -> bool:
@@ -290,11 +290,12 @@ def is_ili_tsv(source: AnyPath) -> bool:
     source = Path(source).expanduser()
     if source.is_file():
         try:
-            with source.open('rb') as fh:
-                return next(fh).split(b'\t')[0] in (b'ili', b'ILI')
+            with source.open("rb") as fh:
+                return next(fh).split(b"\t")[0] in (b"ili", b"ILI")
         except (StopIteration, IndexError):
             pass
     return False
+
 
 def load_tsv(source: AnyPath) -> Iterator[dict[str, str]]:
     """Yield data from an ILI tab-separated-value file.
@@ -313,14 +314,14 @@ def load_tsv(source: AnyPath) -> Iterator[dict[str, str]]:
 
     """
     source = Path(source).expanduser()
-    with source.open(encoding='utf-8') as fh:
-        header = next(fh).rstrip('\r\n')
-        fields = tuple(map(str.lower, header.split('\t')))
+    with source.open(encoding="utf-8") as fh:
+        header = next(fh).rstrip("\r\n")
+        fields = tuple(map(str.lower, header.split("\t")))
         for line in fh:
             yield dict(
                 zip_longest(
                     fields,
-                    line.rstrip('\r\n').split('\t'),
-                    fillvalue='',
+                    line.rstrip("\r\n").split("\t"),
+                    fillvalue="",
                 )
             )

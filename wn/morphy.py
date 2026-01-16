@@ -1,21 +1,19 @@
+"""A simple English lemmatizer that finds and removes known suffixes."""
 
-"""A simple English lemmatizer that finds and removes known suffixes.
-
-"""
-
-from typing import Optional
 from enum import Flag, auto
+from typing import TypeAlias
 
 import wn
 from wn._types import LemmatizeResult
-from wn.constants import NOUN, VERB, ADJ, ADJ_SAT, ADV, PARTS_OF_SPEECH
+from wn.constants import ADJ, ADJ_SAT, ADV, NOUN, PARTS_OF_SPEECH, VERB
 
-POSExceptionMap = dict[str, set[str]]
-ExceptionMap = dict[str, POSExceptionMap]
+POSExceptionMap: TypeAlias = dict[str, set[str]]
+ExceptionMap: TypeAlias = dict[str, POSExceptionMap]
 
 
 class _System(Flag):
     """Flags to track suffix rules in various implementations of Morphy."""
+
     PWN = auto()
     NLTK = auto()
     WN = auto()
@@ -28,37 +26,37 @@ _WN = _System.WN
 _ALL = _System.ALL
 
 
-Rule = tuple[str, str, _System]
+Rule: TypeAlias = tuple[str, str, _System]
 
 DETACHMENT_RULES: dict[str, list[Rule]] = {
     NOUN: [
-        ("s",    "",    _ALL),
-        ("ces",  "x",   _WN),
-        ("ses",  "s",   _ALL),
-        ("ves",  "f",   _NLTK | _WN),
+        ("s", "", _ALL),
+        ("ces", "x", _WN),
+        ("ses", "s", _ALL),
+        ("ves", "f", _NLTK | _WN),
         ("ives", "ife", _WN),
-        ("xes",  "x",   _ALL),
-        ("xes",  "xis", _WN),
-        ("zes",  "z",   _ALL),
-        ("ches", "ch",  _ALL),
-        ("shes", "sh",  _ALL),
-        ("men",  "man", _ALL),
-        ("ies",  "y",   _ALL),
+        ("xes", "x", _ALL),
+        ("xes", "xis", _WN),
+        ("zes", "z", _ALL),
+        ("ches", "ch", _ALL),
+        ("shes", "sh", _ALL),
+        ("men", "man", _ALL),
+        ("ies", "y", _ALL),
     ],
     VERB: [
-        ("s",   "",  _ALL),
+        ("s", "", _ALL),
         ("ies", "y", _ALL),
-        ("es",  "e", _ALL),
-        ("es",  "",  _ALL),
-        ("ed",  "e", _ALL),
-        ("ed",  "",  _ALL),
+        ("es", "e", _ALL),
+        ("es", "", _ALL),
+        ("ed", "e", _ALL),
+        ("ed", "", _ALL),
         ("ing", "e", _ALL),
-        ("ing", "",  _ALL),
+        ("ing", "", _ALL),
     ],
     ADJ: [
-        ("er",  "",  _ALL),
-        ("est", "",  _ALL),
-        ("er",  "e", _ALL),
+        ("er", "", _ALL),
+        ("est", "", _ALL),
+        ("er", "e", _ALL),
         ("est", "e", _ALL),
     ],
     ADV: [],
@@ -81,20 +79,20 @@ class Morphy:
 
         >>> import wn
         >>> from wn.morphy import Morphy
-        >>> ewn = wn.Wordnet('ewn:2020')
+        >>> ewn = wn.Wordnet("ewn:2020")
         >>> m = Morphy(ewn)
-        >>> m('axes', pos='n')
+        >>> m("axes", pos="n")
         {'n': {'axe', 'ax', 'axis'}}
-        >>> m('geese', pos='n')
+        >>> m("geese", pos="n")
         {'n': {'goose'}}
-        >>> m('gooses')
+        >>> m("gooses")
         {'n': {'goose'}, 'v': {'goose'}}
-        >>> m('goosing')
+        >>> m("goosing")
         {'v': {'goose'}}
 
     """
 
-    def __init__(self, wordnet: Optional[wn.Wordnet] = None):
+    def __init__(self, wordnet: wn.Wordnet | None = None):
         self._rules = {
             pos: [rule for rule in rules if rule[2] & _System.WN]
             for pos, rules in DETACHMENT_RULES.items()
@@ -120,7 +118,7 @@ class Morphy:
         self._exceptions = exceptions
         self._all_lemmas = all_lemmas
 
-    def __call__(self, form: str, pos: Optional[str] = None) -> LemmatizeResult:
+    def __call__(self, form: str, pos: str | None = None) -> LemmatizeResult:
         result = {}
         if not self._initialized:
             result[pos] = {form}  # always include original when not initialized
@@ -155,7 +153,7 @@ class Morphy:
         for suffix, repl, _ in self._rules[pos]:
             # avoid applying rules that perform full suppletion
             if form.endswith(suffix) and len(suffix) < len(form):
-                candidate = f'{form[:-len(suffix)]}{repl}'
+                candidate = f"{form[: -len(suffix)]}{repl}"
                 if not initialized or candidate in all_lemmas:
                     candidates.add(candidate)
 

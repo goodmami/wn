@@ -1,31 +1,37 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, NamedTuple, Protocol, Sequence, TypeVar
+from typing import TYPE_CHECKING, NamedTuple, Protocol, TypeVar
 
-from wn._metadata import HasMetadata, Metadata
+from wn._metadata import HasMetadata
 from wn._queries import (
     find_entries,
+    find_ilis,
     find_senses,
     find_synsets,
-    find_ilis,
     get_lexicon,
     get_lexicon_dependencies,
-    get_lexicon_extensions,
     get_lexicon_extension_bases,
+    get_lexicon_extensions,
     get_modified,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
+
+    from wn._metadata import Metadata
 
 DEFAULT_CONFIDENCE = 1.0
 
 
-Self = TypeVar("Self", bound='Lexicon')  # typing.Self, python_version>=3.11
+Self = TypeVar("Self", bound="Lexicon")  # typing.Self, python_version>=3.11
+
 
 @dataclass(repr=False, eq=True, frozen=True, slots=True)
 class Lexicon(HasMetadata):
     """A class representing a wordnet lexicon."""
-    __module__ = 'wn'
+
+    __module__ = "wn"
 
     _specifier: str
     id: str
@@ -58,7 +64,7 @@ class Lexicon(HasMetadata):
         )
 
     def __repr__(self):
-        return f'<Lexicon {self._specifier} [{self.language}]>'
+        return f"<Lexicon {self._specifier} [{self.language}]>"
 
     def specifier(self) -> str:
         """Return the *id:version* lexicon specifier."""
@@ -77,11 +83,10 @@ class Lexicon(HasMetadata):
 
     def requires(self) -> dict[str, Lexicon | None]:
         """Return the lexicon dependencies."""
-        return dict(
-            (spec,
-             None if added is None else Lexicon.from_specifier(spec))
+        return {
+            spec: (None if added is None else Lexicon.from_specifier(spec))
             for spec, _, added in get_lexicon_dependencies(self._specifier)
-        )
+        }
 
     def extends(self) -> Lexicon | None:
         """Return the lexicon this lexicon extends, if any.
@@ -120,21 +125,25 @@ class Lexicon(HasMetadata):
         """
         lexspecs = (self.specifier(),)
         substrings: list[str] = [
-            f'{self._specifier}',
-            f'  Label  : {self.label}',
-            f'  URL    : {self.url}',
-            f'  License: {self.license}',
+            f"{self._specifier}",
+            f"  Label  : {self.label}",
+            f"  URL    : {self.url}",
+            f"  License: {self.license}",
         ]
         if full:
-            substrings.extend([
-                f'  Words  : {_desc_counts(find_entries, lexspecs)}',
-                f'  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}',
-            ])
-        substrings.extend([
-            f'  Synsets: {_desc_counts(find_synsets, lexspecs)}',
-            f'  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}',
-        ])
-        return '\n'.join(substrings)
+            substrings.extend(
+                [
+                    f"  Words  : {_desc_counts(find_entries, lexspecs)}",
+                    f"  Senses : {sum(1 for _ in find_senses(lexicons=lexspecs))}",
+                ]
+            )
+        substrings.extend(
+            [
+                f"  Synsets: {_desc_counts(find_synsets, lexspecs)}",
+                f"  ILIs   : {sum(1 for _ in find_ilis(lexicons=lexspecs)):>6}",
+            ]
+        )
+        return "\n".join(substrings)
 
 
 def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
@@ -144,8 +153,8 @@ def _desc_counts(query: Callable, lexspecs: Sequence[str]) -> str:
             count[pos] = 1
         else:
             count[pos] += 1
-    subcounts = ', '.join(f'{pos}: {count[pos]}' for pos in sorted(count))
-    return f'{sum(count.values()):>6} ({subcounts})'
+    subcounts = ", ".join(f"{pos}: {count[pos]}" for pos in sorted(count))
+    return f"{sum(count.values()):>6} ({subcounts})"
 
 
 class LexiconElement(Protocol):

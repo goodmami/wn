@@ -1,5 +1,6 @@
 from wn import project
 
+
 def test_is_package_directory(datadir):
     assert project.is_package_directory(datadir / "test-package")
     assert not project.is_package_directory(datadir)
@@ -29,17 +30,14 @@ def test_get_project(datadir):
 
 def test_iterpackages(datadir):
     # for now, collection.packages() does not return contained resource files
-    pkg_names = {
-        pkg.resource_file().name
-        for pkg in project.iterpackages(datadir)
-    }
+    pkg_names = {pkg.resource_file().name for pkg in project.iterpackages(datadir)}
     assert "mini-lmf-1.0.xml" not in pkg_names
     assert "test-wn.xml" in pkg_names
 
     # explicitly giving a resource file path works, though
     pkg_names = {
         pkg.resource_file().name
-        for pkg in project.iterpackages(datadir /  "mini-lmf-1.0.xml")
+        for pkg in project.iterpackages(datadir / "mini-lmf-1.0.xml")
     }
     assert "mini-lmf-1.0.xml" in pkg_names
     assert "test-wn.xml" not in pkg_names

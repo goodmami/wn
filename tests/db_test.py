@@ -1,4 +1,3 @@
-
 import sqlite3
 import threading
 
@@ -8,14 +7,14 @@ import wn
 from wn import lmf
 
 
-@pytest.mark.usefixtures('mini_db')
+@pytest.mark.usefixtures("mini_db")
 def test_schema_compatibility():
     conn = sqlite3.connect(str(wn.config.database_path))
     schema_hash = wn._db.schema_hash(conn)
     assert schema_hash in wn._db.COMPATIBLE_SCHEMA_HASHES
 
 
-@pytest.mark.usefixtures('mini_db')
+@pytest.mark.usefixtures("mini_db")
 def test_db_multithreading():
     """
     See https://github.com/goodmami/wn/issues/86
@@ -48,18 +47,18 @@ def test_db_multithreading():
 
 def test_remove_extension(datadir, tmp_path):
     old_data_dir = wn.config.data_directory
-    wn.config.data_directory = tmp_path / 'wn_data_1_1_trigger'
-    wn.add(datadir / 'mini-lmf-1.0.xml')
-    wn.add(datadir / 'mini-lmf-1.1.xml')
+    wn.config.data_directory = tmp_path / "wn_data_1_1_trigger"
+    wn.add(datadir / "mini-lmf-1.0.xml")
+    wn.add(datadir / "mini-lmf-1.1.xml")
     assert len(wn.lexicons()) == 4
-    wn.remove('test-en-ext')
+    wn.remove("test-en-ext")
     assert len(wn.lexicons()) == 3
-    wn.remove('test-ja')
+    wn.remove("test-ja")
     assert len(wn.lexicons()) == 2
-    wn.add(datadir / 'mini-lmf-1.1.xml')
+    wn.add(datadir / "mini-lmf-1.1.xml")
     assert len(wn.lexicons()) == 4
-    wn.remove('test-en')
-    assert {lex.id for lex in wn.lexicons()} == {'test-es', 'test-ja'}
+    wn.remove("test-en")
+    assert {lex.id for lex in wn.lexicons()} == {"test-es", "test-ja"}
     wn.config.data_directory = old_data_dir
     # close any open DB connections before teardown
     for conn in wn._db.pool.values():
@@ -68,10 +67,10 @@ def test_remove_extension(datadir, tmp_path):
 
 def test_add_lexical_resource(datadir, tmp_path):
     old_data_dir = wn.config.data_directory
-    wn.config.data_directory = tmp_path / 'wn_data_add_lexical_resource'
-    wn.add_lexical_resource(lmf.load(datadir / 'mini-lmf-1.0.xml'))
+    wn.config.data_directory = tmp_path / "wn_data_add_lexical_resource"
+    wn.add_lexical_resource(lmf.load(datadir / "mini-lmf-1.0.xml"))
     assert len(wn.lexicons()) == 2
-    wn.add_lexical_resource(lmf.load(datadir / 'mini-lmf-1.1.xml'))
+    wn.add_lexical_resource(lmf.load(datadir / "mini-lmf-1.1.xml"))
     assert len(wn.lexicons()) == 4
     wn.config.data_directory = old_data_dir
     # close any open DB connections before teardown

@@ -68,6 +68,15 @@ dependencies = [
 [tool.hatch.envs.mypy.scripts]
 check = "mypy wn/"
 
+[tool.hatch.envs.types]
+dependencies = [
+  "wn[dev]",
+  "ty",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "ty check {args:wn/}"
+
 [tool.hatch.envs.docs]
 dependencies = [
   "wn",
@@ -89,14 +98,16 @@ line-length = 88
 [tool.ruff.lint]
 select = [
   "B",      # flake8-bugbear
+  "C4",     # comprehensions
   "C90",    # McCabe cyclomatic complexity
   "E",      # pycodestyle
   "F",      # Pyflakes
+  "I",      # isort
+  "LOG",    # logging
+  "PT",     # pytest style
+  "RUF",    # ruff-specific fixes
+  "SIM",    # simplifications
+  "TC",     # type checking
+  "UP",     # newer python features
   "W",      # pycodestyle
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"docs/conf.py" = ["E402"]
-
-[tool.ruff.format]
-quote-style = "single"

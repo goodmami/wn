@@ -1,24 +1,22 @@
-
 """Information Content is a corpus-based metrics of synset or sense
 specificity.
 
 """
 
-from typing import Optional, TextIO
-from pathlib import Path
 from collections import Counter
 from collections.abc import Callable, Iterable, Iterator
 from math import log
+from pathlib import Path
+from typing import TextIO, TypeAlias
 
 from wn import Synset, Wordnet
 from wn._types import AnyPath
-from wn.constants import NOUN, VERB, ADJ, ADV, ADJ_SAT
+from wn.constants import ADJ, ADJ_SAT, ADV, NOUN, VERB
 from wn.util import synset_id_formatter
-
 
 # Just use a subset of all available parts of speech
 IC_PARTS_OF_SPEECH = frozenset((NOUN, VERB, ADJ, ADV))
-Freq = dict[str, dict[Optional[str], float]]
+Freq: TypeAlias = dict[str, dict[str | None, float]]
 
 
 def information_content(synset: Synset, freq: Freq) -> float:
@@ -73,7 +71,7 @@ def compute(
     corpus: Iterable[str],
     wordnet: Wordnet,
     distribute_weight: bool = True,
-    smoothing: float = 1.0
+    smoothing: float = 1.0,
 ) -> Freq:
     """Compute Information Content weights from a corpus.
 
@@ -92,19 +90,19 @@ def compute(
 
     Example:
         >>> import wn, wn.ic, wn.morphy
-        >>> ewn = wn.Wordnet('ewn:2020', lemmatizer=wn.morphy.morphy)
+        >>> ewn = wn.Wordnet("ewn:2020", lemmatizer=wn.morphy.morphy)
         >>> freq = wn.ic.compute(["Dogs", "run", ".", "Cats", "sleep", "."], ewn)
-        >>> dog = ewn.synsets('dog', pos='n')[0]
-        >>> cat = ewn.synsets('cat', pos='n')[0]
-        >>> frog = ewn.synsets('frog', pos='n')[0]
-        >>> freq['n'][dog.id]
+        >>> dog = ewn.synsets("dog", pos="n")[0]
+        >>> cat = ewn.synsets("cat", pos="n")[0]
+        >>> frog = ewn.synsets("frog", pos="n")[0]
+        >>> freq["n"][dog.id]
         1.125
-        >>> freq['n'][cat.id]
+        >>> freq["n"][cat.id]
         1.1
-        >>> freq['n'][frog.id]  # no occurrence; smoothing value only
+        >>> freq["n"][frog.id]  # no occurrence; smoothing value only
         1.0
         >>> carnivore = dog.lowest_common_hypernyms(cat)[0]
-        >>> freq['n'][carnivore.id]
+        >>> freq["n"][carnivore.id]
         1.3250000000000002
     """
     freq = _initialize(wordnet, smoothing)
@@ -157,7 +155,7 @@ def compute(
 def load(
     source: AnyPath,
     wordnet: Wordnet,
-    get_synset_id: Optional[Callable] = None,
+    get_synset_id: Callable | None = None,
 ) -> Freq:
     """Load an Information Content mapping from a file.
 
@@ -179,8 +177,8 @@ def load(
     Example:
 
         >>> import wn, wn.ic
-        >>> pwn = wn.Wordnet('pwn:3.0')
-        >>> path = '~/nltk_data/corpora/wordnet_ic/ic-brown-resnik-add1.dat'
+        >>> pwn = wn.Wordnet("pwn:3.0")
+        >>> path = "~/nltk_data/corpora/wordnet_ic/ic-brown-resnik-add1.dat"
         >>> freq = wn.ic.load(path, pwn)
 
     """
@@ -216,7 +214,4 @@ def _parse_ic_file(icfile: TextIO) -> Iterator[tuple[int, str, float, bool]]:
     next(icfile)  # skip header
     for line in icfile:
         ssinfo, value, *isroot = line.split()
-        yield (int(ssinfo[:-1]),
-               ssinfo[-1],
-               float(value),
-               bool(isroot))
+        yield (int(ssinfo[:-1]), ssinfo[-1], float(value), bool(isroot))

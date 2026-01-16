@@ -15,7 +15,7 @@ tests = [
 test_ids = [f"{code}-{i}" for code, i in tests]
 
 
-@pytest.mark.parametrize("code,i", tests, ids=test_ids)
+@pytest.mark.parametrize(("code", "i"), tests, ids=test_ids)
 def test_validate(datadir, code: str, i: int) -> None:
     path = datadir / f"{code}-{i}.xml"
     lex = lmf.load(path, progress_handler=None)["lexicons"][0]
