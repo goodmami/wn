@@ -165,6 +165,7 @@ _META_ELEMS = {  # elements with metadata
 # WN-LMF type-checking is handled via TypedDicts.  Inheritance and
 # `total=False` are used to model optionality. For more information
 # about this tactic, see https://www.python.org/dev/peps/pep-0589/.
+# From Python 3.11, we can use typing.Required / typing.NotRequired.
 
 
 class _HasId(TypedDict):
@@ -404,7 +405,7 @@ def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
     infos: list[ScanInfo] = []
 
     lex_re = re.compile(b"<(Lexicon|LexiconExtension|Extends)\\b([^>]*)>", flags=re.M)
-    attr_re = re.compile(b"""\\b(id|version|label)=["']([^"']+)["']""", flags=re.M)
+    attr_re = re.compile(b"""\\b(id|ref|version|label)=["']([^"']+)["']""", flags=re.M)
 
     with open(source, "rb") as fh:
         for m in lex_re.finditer(fh.read()):
@@ -414,12 +415,12 @@ def scan_lexicons(source: AnyPath) -> list[ScanInfo]:
                 for _m in attr_re.finditer(remainder)
             }
             info: ScanInfo = {
-                "id": attrs["id"],
-                "version": attrs["version"],
+                "id": attrs.get("id", attrs.get("ref", "(unknown id)")),
+                "version": attrs.get("version", "(unknown version)"),
                 "label": attrs.get("label"),
                 "extends": None,
             }
-            if "id" not in info or "version" not in info:
+            if info["id"] is None or info["version"] is None:
                 raise LMFError(f"<{lextype.decode('utf-8')}> missing id or version")
             if lextype != b"Extends":
                 infos.append(info)
@@ -546,6 +547,8 @@ def _unexpected(name: str, p: xml.parsers.expat.XMLParserType) -> LMFError:
 def _validate(elem: _Elem) -> Lexicon | LexiconExtension:
     ext = elem.get("extends")
     if ext:
+        if "ref" in ext:
+            ext["id"] = ext.pop("ref")  # normalize ref to id internally
         assert "id" in ext
         assert "version" in ext
         _validate_lexicon(elem, True)
@@ -559,6 +562,8 @@ def _validate_lexicon(elem: _Elem, extension: bool) -> None:
     for attr in "id", "version", "label", "language", "email", "license":
         assert attr in elem, f"<Lexicon> missing required attribute: {attr}"
     for dep in elem.get("requires", []):
+        if "ref" in dep:
+            dep["id"] = dep.pop("ref")  # normalize ref to id internally
         assert "id" in dep
         assert "version" in dep
     _validate_entries(elem.get("entries", []), extension)
@@ -703,9 +708,9 @@ def _dump_lexicon(
         if lexicontype == "LexiconExtension":
             assert lexicon.get("extends")
             lexicon = cast("LexiconExtension", lexicon)
-            _dump_dependency(lexicon["extends"], "Extends", out)
+            _dump_dependency(lexicon["extends"], "Extends", out, version)
         for req in lexicon.get("requires", []):
-            _dump_dependency(req, "Requires", out)
+            _dump_dependency(req, "Requires", out, version)
 
     for entry in lexicon.get("entries", []):
         _dump_lexical_entry(entry, out, version)
@@ -741,8 +746,11 @@ def _build_lexicon_attrib(
     return attrib
 
 
-def _dump_dependency(dep: Dependency, deptype: str, out: TextIO) -> None:
-    attrib = {"id": dep["id"], "version": dep["version"]}
+def _dump_dependency(
+    dep: Dependency, deptype: str, out: TextIO, version: VersionInfo
+) -> None:
+    id_ref_key = "id" if version < (1, 4) else "ref"
+    attrib = {id_ref_key: dep["id"], "version": dep["version"]}
     if dep.get("url"):
         attrib["url"] = dep["url"]
     elem = ET.Element(deptype, attrib=attrib)

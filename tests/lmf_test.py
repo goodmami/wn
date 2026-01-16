@@ -76,8 +76,8 @@ def test_load_1_0(datadir):
     assert sense["id"] == "test-en-information-n-0001-01"
     assert sense["synset"] == "test-en-0001-n"
     assert len(sense.get("relations", [])) == 0
-    # assert sense['relations'][0]['target'] == 'test-en-exemplify-v-01023137-01'
-    # assert sense['relations'][0]['type'] == 'derivation'
+    # assert sense["relations"][0]["target"] == "test-en-exemplify-v-01023137-01"
+    # assert sense["relations"][0]["type"] == "derivation"
 
     assert len(lexicon.get("frames", [])) == 0  # frames are on lexical entry
     assert len(lexicon["entries"][6]["frames"]) == 2
@@ -97,7 +97,7 @@ def test_load_1_1(datadir):
     lexicon = lexicons[0]
     assert lexicon["id"] == "test-ja"
     assert lexicon["version"] == "1"
-    # assert lexicon.logo == 'logo.svg'
+    # assert lexicon.logo == "logo.svg"
     assert lexicon.get("requires") == [{"id": "test-en", "version": "1"}]
 
     lexicon = lexicons[1]
@@ -126,7 +126,7 @@ def test_load_1_3(datadir):
 def test_load_1_4(datadir):
     resource = lmf.load(datadir / "mini-lmf-1.4.xml")
     lexicons = resource["lexicons"]
-    assert len(lexicons) == 1
+    assert len(lexicons) == 2
     lexicon = lexicons[0]
     assert lexicon["entries"][0].get("index") == "foo_bar"
     assert lexicon["entries"][1].get("index") == "foo_bar"
@@ -143,6 +143,10 @@ def test_load_1_4(datadir):
     assert lexicon["entries"][4]["senses"][0].get("n") == 2
     assert lexicon["entries"][4]["senses"][1].get("n") is None
     assert lexicon["entries"][5]["senses"][0].get("n") == 1
+
+    extension = lexicons[1]
+    assert extension["id"] == "test-ext-1.4"
+    assert extension.get("extends") == {"id": "test-1.4", "version": "1"}
 
 
 def test_dump(datadir, tmp_path):

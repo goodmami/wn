@@ -66,4 +66,14 @@ WN-LMF 1.4 has the following changes:
 
   </Lexicon>
 
+  <LexiconExtension id="test-ext-1.4"
+                    label="Testing WN-LMF 1.4 extensions"
+                    language="zxx"
+                    email="maintainer@example.com"
+                    license="https://creativecommons.org/licenses/by/4.0/"
+                    version="1">
+    <!-- WN-LMF 1.4 changes the 'id' attribute to 'ref' in Requires and Extends -->
+    <Extends ref="test-1.4" version="1" />
+  </LexiconExtension>
+
 </LexicalResource>

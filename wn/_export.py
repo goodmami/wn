@@ -289,7 +289,7 @@ def _export_definitions(
             text=text,
             language=language,
             sourceSense=sense_id,
-            meta=metadata
+            meta=metadata,
         )
         for text, language, sense_id, _, metadata in get_definitions(
             synset_id, lexicons

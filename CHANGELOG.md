@@ -38,6 +38,7 @@ Notable changes in this release:
     - `destination`
     - `body_part`
     - `vehicle`
+  - `ref` attribute for `<Requires>` and `<Extends>` ([#301])
 * `wn.ili` module
 * `wn.Sense.synset_relations()` ([#271])
 
@@ -914,3 +915,4 @@ abandoned, but this is an entirely new codebase.
 [#286]: https://github.com/goodmami/wn/issues/286
 [#291]: https://github.com/goodmami/wn/issues/291
 [#295]: https://github.com/goodmami/wn/issues/295
+[#301]: https://github.com/goodmami/wn/issues/301

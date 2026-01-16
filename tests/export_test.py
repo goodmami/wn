@@ -1,3 +1,4 @@
+import re
 from xml.etree import ElementTree as ET
 
 import pytest
@@ -32,6 +33,8 @@ def test_export_1_4(datadir, tmp_path):
 
     # remove comments, indentation, etc.
     orig = ET.canonicalize(from_file=datadir / "mini-lmf-1.4.xml", strip_text=True)
+    # temporary until support for exporting extensions
+    orig = re.sub(r"\s*<LexiconExtension.*</LexiconExtension>\s*", "", orig, flags=re.M)
     temp = ET.canonicalize(from_file=tmppath, strip_text=True)
     # additional transformation to help with debugging
     orig = orig.replace("<", "\n<")
