@@ -64,6 +64,7 @@ Notable changes in this release:
 ### Fixed
 
 * WN-LMF 1.1+ `<Pronunciation>` exported properly ([#302])
+* WN-LMF 1.1+ `subcat` attribute exported properly ([#302])
 
 ### Documentation
 

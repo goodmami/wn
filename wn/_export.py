@@ -89,10 +89,9 @@ def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
     # WN-LMF 1.0 lexicons put syntactic behaviours on lexical entries
     # WN-LMF 1.1 lexicons use a 'subcat' IDREFS attribute
     sbmap: _SBMap = {}
-    if version < (1, 1):
-        for sbid, frame, sids in find_syntactic_behaviours(lexicons=lexicons):
-            for sid in sids:
-                sbmap.setdefault(sid, []).append((sbid, frame))
+    for sbid, frame, sids in find_syntactic_behaviours(lexicons=lexicons):
+        for sid in sids:
+            sbmap.setdefault(sid, []).append((sbid, frame))
 
     lex: lmf.Lexicon = {
         "id": lexicon.id,
