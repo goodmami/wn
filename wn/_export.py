@@ -183,6 +183,7 @@ def _export_pronunciations(
             pron["phonemic"] = phonemic
         if audio is not None:
             pron["audio"] = audio
+        prons.append(pron)
     return prons
 
 

@@ -61,6 +61,10 @@ Notable changes in this release:
 * `wn.Sense.relations()`: return `wn.Relation` to `wn.Sense` mapping when
   using `data=True` ([#271])
 
+### Fixed
+
+* WN-LMF 1.1+ `<Pronunciation>` exported properly ([#302])
+
 ### Documentation
 
 * Correct docstring for `wn.taxonomy.taxonomy_depth()` ([#291])
@@ -916,3 +920,4 @@ abandoned, but this is an entirely new codebase.
 [#291]: https://github.com/goodmami/wn/issues/291
 [#295]: https://github.com/goodmami/wn/issues/295
 [#301]: https://github.com/goodmami/wn/issues/301
+[#302]: https://github.com/goodmami/wn/issues/302
