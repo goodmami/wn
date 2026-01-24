@@ -72,6 +72,11 @@
 
     <!-- add sense relation -->
     <ExternalLexicalEntry id="test-en-information-n">
+      <ExternalLemma>
+        <!-- pronunciations copied from the Open English Wordnet 2024 (CC-BY-4.0) -->
+        <Pronunciation variety="GB">ˌɪnfəˈmeɪʃən</Pronunciation>
+        <Pronunciation variety="US">ˌɪnfɚˈmeɪʃən</Pronunciation>
+      </ExternalLemma>
       <ExternalSense id="test-en-information-n-0001-01">
         <SenseRelation relType="pertainym" target="test-en-ext-info-n-0001-01" />
       </ExternalSense>

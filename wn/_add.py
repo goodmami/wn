@@ -668,11 +668,22 @@ def _insert_pronunciations(
     progress: ProgressHandler,
 ) -> None:
     progress.set(status="Pronunciations")
-    query = f"INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?)"
+    query = f"INSERT INTO pronunciations VALUES (({FORM_QUERY}),?,?,?,?,?,?)"
     for batch in _batch(entries):
         prons: list[
             tuple[
-                str, int, str | None, int, str, str | None, str | None, bool, str | None
+                # FORM_QUERY args
+                str,  # entry id
+                int,  # entry lexid
+                str | None,  # optional form id
+                int,  # rank
+                # pronunciation fields
+                int,  # pronunciation lexid
+                str,  # text
+                str | None,  # variety
+                str | None,  # notation
+                bool,  # phonemic
+                str | None,  # audio
             ]
         ] = []
         for entry in batch:
@@ -686,6 +697,7 @@ def _insert_pronunciations(
                             lid,
                             None,
                             0,
+                            lexid,
                             p["text"],
                             p.get("variety"),
                             p.get("notation"),
@@ -703,6 +715,7 @@ def _insert_pronunciations(
                             lid,
                             form.get("id"),
                             rank,
+                            lexid,
                             p["text"],
                             p.get("variety"),
                             p.get("notation"),
@@ -722,21 +735,39 @@ def _insert_tags(
     progress: ProgressHandler,
 ) -> None:
     progress.set(status="Word Form Tags")
-    query = f"INSERT INTO tags VALUES (({FORM_QUERY}),?,?)"
+    query = f"INSERT INTO tags VALUES (({FORM_QUERY}),?,?,?)"
     for batch in _batch(entries):
-        tags: list[tuple[str, int, str | None, int, str, str]] = []
+        tags: list[tuple[str, int, str | None, int, int, str, str]] = []
         for entry in batch:
             eid = entry["id"]
             lid = lexidmap.get(eid, lexid)
             if entry.get("lemma"):
                 for tag in entry["lemma"].get("tags", []):
-                    tags.append((eid, lid, None, 0, tag["text"], tag["category"]))
+                    tags.append(
+                        (
+                            eid,
+                            lid,
+                            None,
+                            0,
+                            lexid,
+                            tag["text"],
+                            tag["category"],
+                        )
+                    )
             for i, form in enumerate(_forms(entry), 1):
                 # rank is not valid in FORM_QUERY for external forms
                 rank = -1 if _is_external(form) else i
                 for tag in form.get("tags", []):
                     tags.append(
-                        (eid, lid, form.get("id"), rank, tag["text"], tag["category"])
+                        (
+                            eid,
+                            lid,
+                            form.get("id"),
+                            rank,
+                            lexid,
+                            tag["text"],
+                            tag["category"],
+                        )
                     )
         cur.executemany(query, tags)
         progress.update(len(tags))

@@ -12,6 +12,7 @@ Notable changes in this release:
 * Add `specifier` column to `lexicon` table ([#234])
 * Remove `lexicalized` column from `synsets` and `senses` ([#248])
 * Add `unlexicalized_synsets` and `unlexicalized_senses` tables ([#248])
+* Add `lexicon_rowid` column to `pronunciations` and `tags` ([#303])
 
 ### Added
 
@@ -41,6 +42,8 @@ Notable changes in this release:
   - `ref` attribute for `<Requires>` and `<Extends>` ([#301])
 * `wn.ili` module
 * `wn.Sense.synset_relations()` ([#271])
+* `wn.Pronunciation.lexicon()` method ([#303])
+* `wn.Tag.lexicon()` method ([#303])
 
 ### Removed
 
@@ -922,3 +925,4 @@ abandoned, but this is an entirely new codebase.
 [#295]: https://github.com/goodmami/wn/issues/295
 [#301]: https://github.com/goodmami/wn/issues/301
 [#302]: https://github.com/goodmami/wn/issues/302
+[#303]: https://github.com/goodmami/wn/issues/303

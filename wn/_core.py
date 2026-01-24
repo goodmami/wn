@@ -10,6 +10,8 @@ from wn._lexicon import (
     LexiconElement,
     LexiconElementWithMetadata,
 )
+from wn._queries import Pronunciation as PronunciationTuple
+from wn._queries import Tag as TagTuple
 from wn._queries import (
     find_entries,
     find_synsets,
@@ -107,7 +109,7 @@ class _LexiconDataElement(LexiconElementWithMetadata):
 
 
 @dataclass(frozen=True, slots=True)
-class Pronunciation:
+class Pronunciation(LexiconElement):
     """A class for word form pronunciations."""
 
     __module__ = "wn"
@@ -117,16 +119,18 @@ class Pronunciation:
     notation: str | None = None
     phonemic: bool = True
     audio: str | None = None
+    _lexicon: str = field(default="", repr=False, compare=False)
 
 
 @dataclass(frozen=True, slots=True)
-class Tag:
+class Tag(LexiconElement):
     """A general-purpose tag class for word forms."""
 
     __module__ = "wn"
 
     tag: str
     category: str
+    _lexicon: str = field(default="", repr=False, compare=False)
 
 
 @dataclass(frozen=True, slots=True)
@@ -156,8 +160,8 @@ def _make_form(
     id: str | None,
     script: str | None,
     lexicon: str,
-    prons: list[tuple[str, str | None, str | None, bool, str | None]],
-    tags: list[tuple[str, str]],
+    prons: list[PronunciationTuple],
+    tags: list[TagTuple],
 ) -> Form:
     return Form(
         form,
