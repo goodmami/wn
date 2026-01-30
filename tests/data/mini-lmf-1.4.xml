@@ -73,7 +73,7 @@ WN-LMF 1.4 has the following changes:
                     license="https://creativecommons.org/licenses/by/4.0/"
                     version="1">
     <!-- WN-LMF 1.4 changes the 'id' attribute to 'ref' in Requires and Extends -->
-    <Extends ref="test-1.4" version="1" />
+    <Extends ref="test-en" version="1" url="https://example.com/test-en" />
   </LexiconExtension>
 
 </LexicalResource>

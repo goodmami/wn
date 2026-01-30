@@ -68,7 +68,7 @@
                     version="1"
                     url="https://example.com/test-en-ext">
 
-    <Extends id="test-en" version="1" />
+    <Extends id="test-en" version="1" url="https://example.com/test-en" />
 
     <!-- add sense relation -->
     <ExternalLexicalEntry id="test-en-information-n">

@@ -109,13 +109,14 @@ def test_lemmas_empty():
 
 @pytest.mark.usefixtures("mini_db_1_4")
 def test_lemmas_mini_1_4():
-    all_lemmas = wn.lemmas()
+    wordnet = wn.Wordnet(lexicon="test-1.4")
+    all_lemmas = wordnet.lemmas()
     assert len(all_lemmas) == 5
     assert all(isinstance(lemma, str) for lemma in all_lemmas)
     assert all_lemmas == ["Foo Bar", "foo bar", "baz", "BAZ", "Baz"]
 
     # data=True should return Form objects and should not dedup
-    lemmas_with_data = wn.lemmas(data=True)
+    lemmas_with_data = wordnet.lemmas(data=True)
     assert len(lemmas_with_data) == 6  # includes duplicate 'baz'
     assert all(isinstance(lemma, wn.Form) for lemma in lemmas_with_data)
     assert [f.value for f in lemmas_with_data] == [
@@ -128,29 +129,27 @@ def test_lemmas_mini_1_4():
     ]
 
     # Test deduplication
-    baz_lemmas = wn.lemmas("baz", data=False)
+    baz_lemmas = wordnet.lemmas("baz", data=False)
     assert baz_lemmas == ["baz", "BAZ", "Baz"]
 
     # With data=True, no dedup
-    baz_forms = wn.lemmas("baz", data=True)
+    baz_forms = wordnet.lemmas("baz", data=True)
     assert [f.value for f in baz_forms] == ["baz", "BAZ", "Baz", "baz"]
 
     # Filter by POS
-    assert len(wn.lemmas(pos="n")) == 5  # Foo Bar, foo bar, baz, BAZ, Baz
-    assert len(wn.lemmas(pos="v")) == 1  # baz
-    assert len(wn.lemmas(pos="q")) == 0  # fake pos
+    assert len(wordnet.lemmas(pos="n")) == 5  # Foo Bar, foo bar, baz, BAZ, Baz
+    assert len(wordnet.lemmas(pos="v")) == 1  # baz
+    assert len(wordnet.lemmas(pos="q")) == 0  # fake pos
 
     # Verify lemmas() returns same results as words() + .lemma()
-    words = wn.words()
+    words = wordnet.words()
     lemmas_from_words = [w.lemma() for w in words]
-    lemmas_direct = wn.lemmas()
+    lemmas_direct = wordnet.lemmas()
     assert set(lemmas_from_words) == set(lemmas_direct)
 
-    # Test Wordnet instance method
-    wordnet = wn.Wordnet()
-    assert len(wordnet.lemmas()) == 5  # data=False by default
-    assert len(wordnet.lemmas(pos="v")) == 1
-    assert len(wordnet.lemmas(data=True)) == 6
+    # Test wn module function to wordnet instance method
+    assert wn.lemmas(lexicon="test-1.4") == wordnet.lemmas()
+    assert wn.lemmas(data=True, lexicon="test-1.4") == wordnet.lemmas(data=True)
 
     with pytest.raises(wn.Error):
         wn.lemmas(lang="unk")

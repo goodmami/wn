@@ -689,8 +689,8 @@ def _insert_pronunciations(
         for entry in batch:
             eid = entry["id"]
             lid = lexidmap.get(eid, lexid)
-            if entry.get("lemma"):
-                for p in entry["lemma"].get("pronunciations", []):
+            if lemma := entry.get("lemma"):
+                for p in lemma.get("pronunciations", []):
                     prons.append(
                         (
                             eid,
@@ -741,8 +741,8 @@ def _insert_tags(
         for entry in batch:
             eid = entry["id"]
             lid = lexidmap.get(eid, lexid)
-            if entry.get("lemma"):
-                for tag in entry["lemma"].get("tags", []):
+            if lemma := entry.get("lemma"):
+                for tag in lemma.get("tags", []):
                     tags.append(
                         (
                             eid,

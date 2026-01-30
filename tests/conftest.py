@@ -68,6 +68,7 @@ def mini_db_1_4_dir(datadir, tmp_path_factory):
     dir = tmp_path_factory.mktemp("wn_data_mini_1_4")
     with pytest.MonkeyPatch.context() as m:
         m.setattr(wn.config, "data_directory", dir)
+        wn.add(datadir / "mini-lmf-1.0.xml")
         wn.add(datadir / "mini-lmf-1.4.xml")
         wn._db.clear_connections()
 

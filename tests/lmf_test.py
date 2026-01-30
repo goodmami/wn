@@ -102,7 +102,11 @@ def test_load_1_1(datadir):
 
     lexicon = lexicons[1]
     assert lexicon["id"] == "test-en-ext"
-    assert lexicon.get("extends") == {"id": "test-en", "version": "1"}
+    assert lexicon.get("extends") == {
+        "id": "test-en",
+        "url": "https://example.com/test-en",
+        "version": "1",
+    }
 
 
 def test_load_1_3(datadir):
@@ -146,7 +150,11 @@ def test_load_1_4(datadir):
 
     extension = lexicons[1]
     assert extension["id"] == "test-ext-1.4"
-    assert extension.get("extends") == {"id": "test-1.4", "version": "1"}
+    assert extension.get("extends") == {
+        "id": "test-en",
+        "version": "1",
+        "url": "https://example.com/test-en",
+    }
 
 
 def test_dump(datadir, tmp_path):
