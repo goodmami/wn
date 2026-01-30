@@ -63,6 +63,8 @@ Notable changes in this release:
   using `data=True` ([#271])
 * `wn.Sense.relations()`: return `wn.Relation` to `wn.Sense` mapping when
   using `data=True` ([#271])
+* Queries of relations can specify different lexicons for source and target
+  (part of [#103]; not a user-facing change)
 
 ### Fixed
 
@@ -858,6 +860,7 @@ abandoned, but this is an entirely new codebase.
 [#97]: https://github.com/goodmami/wn/issues/97
 [#98]: https://github.com/goodmami/wn/issues/98
 [#99]: https://github.com/goodmami/wn/issues/99
+[#103]: https://github.com/goodmami/wn/issues/103
 [#104]: https://github.com/goodmami/wn/issues/104
 [#105]: https://github.com/goodmami/wn/issues/105
 [#106]: https://github.com/goodmami/wn/issues/106
