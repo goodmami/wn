@@ -12,6 +12,7 @@ Notable changes in this release:
 * Add `specifier` column to `lexicon` table ([#234])
 * Remove `lexicalized` column from `synsets` and `senses` ([#248])
 * Add `unlexicalized_synsets` and `unlexicalized_senses` tables ([#248])
+* Add `lexicon_rowid` column to `pronunciations` and `tags` ([#303])
 
 ### Added
 
@@ -38,8 +39,11 @@ Notable changes in this release:
     - `destination`
     - `body_part`
     - `vehicle`
+  - `ref` attribute for `<Requires>` and `<Extends>` ([#301])
 * `wn.ili` module
 * `wn.Sense.synset_relations()` ([#271])
+* `wn.Pronunciation.lexicon()` method ([#303])
+* `wn.Tag.lexicon()` method ([#303])
 
 ### Removed
 
@@ -59,6 +63,11 @@ Notable changes in this release:
   using `data=True` ([#271])
 * `wn.Sense.relations()`: return `wn.Relation` to `wn.Sense` mapping when
   using `data=True` ([#271])
+
+### Fixed
+
+* WN-LMF 1.1+ `<Pronunciation>` exported properly ([#302])
+* WN-LMF 1.1+ `subcat` attribute exported properly ([#302])
 
 ### Documentation
 
@@ -914,3 +923,6 @@ abandoned, but this is an entirely new codebase.
 [#286]: https://github.com/goodmami/wn/issues/286
 [#291]: https://github.com/goodmami/wn/issues/291
 [#295]: https://github.com/goodmami/wn/issues/295
+[#301]: https://github.com/goodmami/wn/issues/301
+[#302]: https://github.com/goodmami/wn/issues/302
+[#303]: https://github.com/goodmami/wn/issues/303

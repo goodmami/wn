@@ -4,6 +4,9 @@ from wn import lmf
 from wn._exceptions import Error
 from wn._lexicon import Lexicon
 from wn._queries import (
+    Form,
+    Pronunciation,
+    Tag,
     find_entries,
     find_proposed_ilis,
     find_senses,
@@ -89,10 +92,9 @@ def _export_lexicon(lexicon: Lexicon, version: VersionInfo) -> lmf.Lexicon:
     # WN-LMF 1.0 lexicons put syntactic behaviours on lexical entries
     # WN-LMF 1.1 lexicons use a 'subcat' IDREFS attribute
     sbmap: _SBMap = {}
-    if version < (1, 1):
-        for sbid, frame, sids in find_syntactic_behaviours(lexicons=lexicons):
-            for sid in sids:
-                sbmap.setdefault(sid, []).append((sbid, frame))
+    for sbid, frame, sids in find_syntactic_behaviours(lexicons=lexicons):
+        for sid in sids:
+            sbmap.setdefault(sid, []).append((sbid, frame))
 
     lex: lmf.Lexicon = {
         "id": lexicon.id,
@@ -134,60 +136,74 @@ def _export_lexical_entries(
 ) -> list[lmf.LexicalEntry]:
     lexicons = (lexspec,)
     entries: list[lmf.LexicalEntry] = []
-    for id, pos, *_ in find_entries(lexicons=lexicons):
-        forms = list(get_entry_forms(id, lexicons))
+    for id, pos, lex in find_entries(lexicons=lexicons):
+        if lex != lexspec:
+            raise Error("external entries are not yet supported")
+        lemma, forms = _get_entry_forms(id, lexspec, "")
         index = get_entry_index(id, lexspec)
-        entry: lmf.LexicalEntry = {
-            "id": id,
-            "lemma": {
-                "writtenForm": forms[0][0],
-                "partOfSpeech": pos,
-                "script": forms[0][2] or "",
-                "tags": _export_tags(forms[0][5]),
-            },
-            "forms": [],
-        }
-        if version >= (1, 4) and index:
-            entry["index"] = index
-        entry["senses"] = _export_senses(id, lexspec, sbmap, index, version)
-        entry["meta"] = _export_metadata(id, lexspec, "entries")
-        if version >= (1, 1):
-            entry["lemma"]["pronunciations"] = _export_pronunciations(forms[0][4])
-        for form, fid, script, _, prons, tags in forms[1:]:
-            _form: lmf.Form = {
-                "id": fid or "",
-                "writtenForm": form,
-                "script": script or "",
-                "tags": _export_tags(tags),
-            }
-            if version >= (1, 1):
-                _form["pronunciations"] = _export_pronunciations(prons)
-            entry["forms"].append(_form)
+        entry = lmf.LexicalEntry(
+            id=id,
+            lemma=_export_lemma(lemma, pos),
+            forms=[_export_form(form) for form in forms],
+            index=index or "",
+            senses=_export_senses(id, lexspec, sbmap, index, version),
+            meta=_export_metadata(id, lexspec, "entries"),
+        )
         if version < (1, 1):
+            # cleanup 1.1+ features
+            entry["lemma"].pop("pronunciations", None)
+            for form in entry["forms"]:
+                form.pop("pronunciations", None)
+            # 1.0 has syntactic behaviours on each entry
             entry["frames"] = _export_syntactic_behaviours_1_0(entry, sbmap)
+        if version < (1, 4) or not index:
+            entry.pop("index", None)
         entries.append(entry)
     return entries
 
 
-def _export_pronunciations(
-    rows: list[tuple[str, str | None, str | None, bool, str | None]],
-) -> list[lmf.Pronunciation]:
-    prons: list[lmf.Pronunciation] = []
-    for text, variety, notation, phonemic, audio in rows:
-        pron = lmf.Pronunciation(text=text)
-        if variety is not None:
-            pron["variety"] = variety
-        if notation is not None:
-            pron["notation"] = notation
-        if not phonemic:
-            pron["phonemic"] = phonemic
-        if audio is not None:
-            pron["audio"] = audio
-    return prons
+def _get_entry_forms(id: str, lexspec: str, basespec: str) -> tuple[Form, list[Form]]:
+    lexicons = (lexspec, basespec)
+    all_forms: list[Form] = list(get_entry_forms(id, lexicons))
+    # the first result is always the lemma
+    return all_forms[0], all_forms[1:]
 
 
-def _export_tags(rows: list[tuple[str, str]]) -> list[lmf.Tag]:
-    return [lmf.Tag(text=text, category=category) for text, category in rows]
+def _export_lemma(form: Form, pos: str) -> lmf.Lemma:
+    return lmf.Lemma(
+        writtenForm=form[0],
+        partOfSpeech=pos,
+        script=(form[2] or ""),
+        pronunciations=_export_pronunciations(form[4]),
+        tags=_export_tags(form[5]),
+    )
+
+
+def _export_form(form: Form) -> lmf.Form:
+    return lmf.Form(
+        writtenForm=form[0],
+        id=form[1] or "",
+        script=form[2] or "",
+        pronunciations=_export_pronunciations(form[4]),
+        tags=_export_tags(form[5]),
+    )
+
+
+def _export_pronunciations(rows: list[Pronunciation]) -> list[lmf.Pronunciation]:
+    return [
+        lmf.Pronunciation(
+            text=text,
+            variety=variety or "",
+            notation=notation or "",
+            phonemic=phonemic,
+            audio=audio or "",
+        )
+        for text, variety, notation, phonemic, audio, _ in rows
+    ]
+
+
+def _export_tags(rows: list[Tag]) -> list[lmf.Tag]:
+    return [lmf.Tag(text=text, category=category) for text, category, _ in rows]
 
 
 def _export_senses(
@@ -289,7 +305,7 @@ def _export_definitions(
             text=text,
             language=language,
             sourceSense=sense_id,
-            meta=metadata
+            meta=metadata,
         )
         for text, language, sense_id, _, metadata in get_definitions(
             synset_id, lexicons

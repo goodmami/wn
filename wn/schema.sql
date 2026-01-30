@@ -103,6 +103,7 @@ CREATE INDEX form_norm_index ON forms (normalized_form);
 
 CREATE TABLE pronunciations (
     form_rowid INTEGER NOT NULL REFERENCES forms (rowid) ON DELETE CASCADE,
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     value TEXT,
     variety TEXT,
     notation TEXT,
@@ -113,6 +114,7 @@ CREATE INDEX pronunciation_form_index ON pronunciations (form_rowid);
 
 CREATE TABLE tags (
     form_rowid INTEGER NOT NULL REFERENCES forms (rowid) ON DELETE CASCADE,
+    lexicon_rowid INTEGER NOT NULL REFERENCES lexicons(rowid) ON DELETE CASCADE,
     tag TEXT,
     category TEXT
 );

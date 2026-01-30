@@ -12,21 +12,22 @@ from wn._metadata import Metadata
 
 # Local Types
 
-_Pronunciation = tuple[
+Pronunciation = tuple[
     str,  # value
     str | None,  # variety
     str | None,  # notation
     bool,  # phonemic
     str | None,  # audio
+    str,  # lexicon specifier
 ]
-_Tag = tuple[str, str]  # tag, category
-_Form = tuple[
+Tag = tuple[str, str, str]  # tag, category, lexicon specifier
+Form = tuple[
     str,  # form
     str | None,  # id
     str | None,  # script
     str,  # lexicon
-    list[_Pronunciation],  # pronunciations
-    list[_Tag],  # tags
+    list[Pronunciation],  # pronunciations
+    list[Tag],  # tags
 ]
 _Word = tuple[
     str,  # id
@@ -62,7 +63,7 @@ _Example = tuple[
     str,  # lexicon
     Metadata | None,  # metadata
 ]
-_Sense = tuple[
+Sense = tuple[
     str,  # id
     str,  # entry_id
     str,  # synset_id
@@ -72,7 +73,7 @@ _Sense_Relation = tuple[
     str,  # rel_name
     str,  # lexicon
     Metadata,  # metadata
-    str,  # _Sense...
+    str,  # Sense...
     str,
     str,
     str,
@@ -281,13 +282,13 @@ def find_entries(
     search_all_forms: bool = False,
 ) -> Iterator[_Word]:
     conn = connect()
-    cte, conditions, params = _build_entry_conditions(
+    cte, cteparams, conditions, condparams = _build_entry_conditions(
         forms, pos, lexicons, normalized, search_all_forms
     )
 
     if id:
         conditions.insert(0, "e.id = ?")
-        params.insert(0, id)
+        condparams.insert(0, id)
 
     condition = ""
     if conditions:
@@ -302,25 +303,36 @@ def find_entries(
          ORDER BY e.rowid ASC
     """
 
-    rows: Iterator[_Word] = conn.execute(query, params)
+    rows: Iterator[_Word] = conn.execute(query, cteparams + condparams)
     yield from rows
 
 
 def _load_lemmas_with_details(
-    conn, cte: str, condition: str, params: list
-) -> Iterator[_Form]:
+    conn,
+    cte: str,
+    cteparams: list,
+    conditions: list[str],
+    condparams: list,
+    with_lexicons: bool,
+) -> Iterator[Form]:
     """Load lemmas with pronunciations and tags (full details)."""
+    plex_cond = "AND plex.specifier IN lexspecs" if with_lexicons else ""
+    tlex_cond = "AND tlex.specifier IN lexspecs" if with_lexicons else ""
+    condition = ""
+    if conditions:
+        condition = "AND " + "\n           AND ".join(conditions)
     query = f"""
           {cte}
-        SELECT DISTINCT f.rowid, f.form, f.id, f.script,
-               lex.specifier,
-               p.value, p.variety, p.notation, p.phonemic, p.audio,
-               t.tag, t.category
+        SELECT DISTINCT f.rowid, f.form, f.id, f.script, lex.specifier,
+               p.value, p.variety, p.notation, p.phonemic, p.audio, plex.specifier,
+               t.tag, t.category, tlex.specifier
           FROM forms AS f
           JOIN entries AS e ON e.rowid = f.entry_rowid
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
           LEFT JOIN pronunciations AS p ON p.form_rowid = f.rowid
+          LEFT JOIN lexicons AS plex ON plex.rowid = p.lexicon_rowid {plex_cond}
           LEFT JOIN tags AS t ON t.form_rowid = f.rowid
+          LEFT JOIN lexicons AS tlex ON tlex.rowid = t.lexicon_rowid {tlex_cond}
          WHERE f.rank = 0
          {condition}
          ORDER BY f.rowid ASC
@@ -328,26 +340,26 @@ def _load_lemmas_with_details(
 
     # Group results by form_rowid and process pronunciations/tags
     forms_dict: dict[
-        int, tuple[str, str | None, str | None, str, list[_Pronunciation], list[_Tag]]
+        int, tuple[str, str | None, str | None, str, list[Pronunciation], list[Tag]]
     ] = {}
 
-    for row in conn.execute(query, params):
+    for row in conn.execute(query, cteparams + condparams):
         form_rowid, form, form_id, script, lexicon = row[0:5]
-        pron_data = row[5:10]
-        tag_data = row[10:12]
+        pron_data = row[5:11]
+        tag_data = row[11:14]
 
         if form_rowid not in forms_dict:
             forms_dict[form_rowid] = (form, form_id, script, lexicon, [], [])
 
         # Add pronunciation if present
         if pron_data[0] is not None:  # value
-            pron = cast("_Pronunciation", pron_data)
+            pron = cast("Pronunciation", pron_data)
             if pron not in forms_dict[form_rowid][4]:
                 forms_dict[form_rowid][4].append(pron)
 
         # Add tag if present
         if tag_data[0] is not None:  # tag
-            tag = cast("_Tag", tag_data)
+            tag = cast("Tag", tag_data)
             if tag not in forms_dict[form_rowid][5]:
                 forms_dict[form_rowid][5].append(tag)
 
@@ -362,23 +374,22 @@ def find_lemmas(
     normalized: bool = False,
     search_all_forms: bool = False,
     load_details: bool = False,
-) -> Iterator[_Form]:
+) -> Iterator[Form]:
     """Find lemmas matching the given criteria.
 
     Returns form data for the lemma of each matching entry.
     If load_details is False, pronunciations and tags are not loaded.
     """
     conn = connect()
-    cte, conditions, params = _build_entry_conditions(
+    cte, cteparams, conditions, condparams = _build_entry_conditions(
         forms, pos, lexicons, normalized, search_all_forms
     )
 
-    condition = ""
-    if conditions:
-        condition = "AND " + "\n           AND ".join(conditions)
-
     if not load_details:
         # Fast path: don't load pronunciations and tags
+        condition = ""
+        if conditions:
+            condition = "AND " + "\n           AND ".join(conditions)
         query = f"""
               {cte}
             SELECT f.form, f.id, f.script, lex.specifier
@@ -389,12 +400,14 @@ def find_lemmas(
              {condition}
              ORDER BY f.rowid ASC
         """
-        for row in conn.execute(query, params):
+        for row in conn.execute(query, cteparams + condparams):
             form, form_id, script, lexicon = row
             yield (form, form_id, script, lexicon, [], [])
     else:
         # Full path: load pronunciations and tags
-        yield from _load_lemmas_with_details(conn, cte, condition, params)
+        yield from _load_lemmas_with_details(
+            conn, cte, cteparams, conditions, condparams, bool(lexicons)
+        )
 
 
 def find_senses(
@@ -404,9 +417,9 @@ def find_senses(
     lexicons: Sequence[str] = (),
     normalized: bool = False,
     search_all_forms: bool = False,
-) -> Iterator[_Sense]:
+) -> Iterator[Sense]:
     conn = connect()
-    cte = ""
+    ctes: list[str] = []
     params: list = []
     conditions = []
     order = "s.rowid"
@@ -414,7 +427,7 @@ def find_senses(
         conditions.append("s.id = ?")
         params.append(id)
     if forms:
-        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        ctes, subquery = _query_forms(forms, normalized, search_all_forms)
         conditions.append(f"s.entry_rowid IN {subquery}")
         params.extend(forms)
         order = "s.lexicon_rowid, e.pos, s.entry_rank"
@@ -424,6 +437,10 @@ def find_senses(
     if lexicons:
         conditions.append(f"slex.specifier IN ({_qs(lexicons)})")
         params.extend(lexicons)
+
+    cte = ""
+    if ctes:
+        cte = "WITH " + ",\n         ".join(ctes)
 
     condition = ""
     if conditions:
@@ -440,7 +457,7 @@ def find_senses(
          ORDER BY {order} ASC
     """
 
-    rows: Iterator[_Sense] = conn.execute(query, params)
+    rows: Iterator[Sense] = conn.execute(query, params)
     yield from rows
 
 
@@ -454,7 +471,7 @@ def find_synsets(
     search_all_forms: bool = False,
 ) -> Iterator[_Synset]:
     conn = connect()
-    cte = ""
+    ctes: list[str] = []
     join = ""
     conditions = []
     order = "ss.rowid"
@@ -463,7 +480,7 @@ def find_synsets(
         conditions.append("ss.id = ?")
         params.append(id)
     if forms:
-        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        ctes, subquery = _query_forms(forms, normalized, search_all_forms)
         join = f"""\
           JOIN (SELECT _s.entry_rowid, _s.synset_rowid, _s.entry_rank
                   FROM senses AS _s
@@ -485,6 +502,10 @@ def find_synsets(
         conditions.append(f"sslex.specifier IN ({_qs(lexicons)})")
         params.extend(lexicons)
 
+    cte = ""
+    if ctes:
+        cte = "WITH " + ",\n         ".join(ctes)
+
     condition = ""
     if conditions:
         condition = "WHERE " + "\n           AND ".join(conditions)
@@ -505,28 +526,39 @@ def find_synsets(
     yield from rows
 
 
-def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[_Form]:
+def get_entry_forms(id: str, lexicons: Sequence[str]) -> Iterator[Form]:
     form_query = f"""
+          WITH lexspecs(s) AS (VALUES {_vs(lexicons)})
         SELECT f.rowid, f.form, f.id, f.script, lex.specifier
           FROM forms AS f
           JOIN entries AS e ON e.rowid = entry_rowid
           JOIN lexicons AS lex ON lex.rowid = e.lexicon_rowid
          WHERE e.id = ?
-           AND lex.specifier IN ({_qs(lexicons)})
+           AND lex.specifier IN lexspecs
          ORDER BY f.rank
     """
-    pron_query = """
-        SELECT value, variety, notation, phonemic, audio
-          FROM pronunciations
+    pron_query = f"""
+          WITH lexspecs(s) AS (VALUES {_vs(lexicons)})
+        SELECT p.value, p.variety, p.notation, p.phonemic, p.audio, lex.specifier
+          FROM pronunciations AS p
+          JOIN lexicons AS lex ON lex.rowid = p.lexicon_rowid
          WHERE form_rowid = ?
+           AND lex.specifier IN lexspecs
     """
-    tag_query = "SELECT tag, category FROM tags WHERE form_rowid = ?"
+    tag_query = f"""
+          WITH lexspecs(s) AS (VALUES {_vs(lexicons)})
+        SELECT t.tag, t.category, lex.specifier
+          FROM tags AS t
+          JOIN lexicons AS lex ON lex.rowid = t.lexicon_rowid
+         WHERE form_rowid = ?
+           AND lex.specifier IN lexspecs
+    """
 
     cur = connect().cursor()
-    for row in cur.execute(form_query, (id, *lexicons)).fetchall():
-        params = (row[0],)
-        prons: list[_Pronunciation] = cur.execute(pron_query, params).fetchall()
-        tags: list[_Tag] = cur.execute(tag_query, params).fetchall()
+    for row in cur.execute(form_query, (*lexicons, id)).fetchall():
+        params = (*lexicons, row[0])
+        prons: list[Pronunciation] = cur.execute(pron_query, params).fetchall()
+        tags: list[Tag] = cur.execute(tag_query, params).fetchall()
         yield (*row[1:], prons, tags)
 
 
@@ -741,7 +773,7 @@ def get_syntactic_behaviours(
 
 def _get_senses(
     id: str, sourcetype: str, lexicons: Sequence[str], order_by_rank: bool = True
-) -> Iterator[_Sense]:
+) -> Iterator[Sense]:
     conn = connect()
     match sourcetype:
         case "entry":
@@ -769,13 +801,13 @@ def _get_senses(
 
 def get_entry_senses(
     sense_id: str, lexicons: Sequence[str], order_by_rank: bool = True
-) -> Iterator[_Sense]:
+) -> Iterator[Sense]:
     yield from _get_senses(sense_id, "entry", lexicons, order_by_rank)
 
 
 def get_synset_members(
     synset_id: str, lexicons: Sequence[str], order_by_rank: bool = True
-) -> Iterator[_Sense]:
+) -> Iterator[Sense]:
     yield from _get_senses(synset_id, "synset", lexicons, order_by_rank)
 
 
@@ -1044,17 +1076,16 @@ def _query_forms(
     normalized: bool,
     search_all_forms: bool,
     indexed: bool = True,
-) -> tuple[str, str]:
+) -> tuple[list[str], str]:
     or_norm = "OR f.normalized_form IN wordforms" if normalized else ""
     and_rank = "" if search_all_forms else "AND f.rank = 0"
-    cte = f"""
-      WITH
-        wordforms(s) AS (VALUES {_vs(forms)}),
-        matched_entries(rowid) AS
+    ctes: list[str] = [
+        f"wordforms(s) AS (VALUES {_vs(forms)})",
+        f"""matched_entries(rowid) AS
           (SELECT f.entry_rowid
              FROM forms AS f
-            WHERE (f.form IN wordforms {or_norm}) {and_rank})
-    """
+            WHERE (f.form IN wordforms {or_norm}) {and_rank})""",
+    ]
     subquery = "matched_entries"
     if indexed:
         subquery = """\
@@ -1065,7 +1096,7 @@ def _query_forms(
                     JOIN entry_index AS _idx ON _idx.entry_rowid = _me.rowid
                     JOIN entry_index AS idx ON idx.lemma = _idx.lemma)
         """
-    return cte, subquery
+    return ctes, subquery
 
 
 def _build_entry_conditions(
@@ -1074,26 +1105,33 @@ def _build_entry_conditions(
     lexicons: Sequence[str],
     normalized: bool,
     search_all_forms: bool,
-) -> tuple[str, list[str], list]:
+) -> tuple[str, list[str], list[str], list[str]]:
     """Build CTE, conditions, and parameters for entry-based queries.
 
     Returns:
         tuple of (cte, conditions, params)
     """
-    cte = ""
+    ctes: list[str] = []
+    cteparams: list[str] = []
     subquery = ""
-    params: list = []
-    conditions = []
+    conditions: list[str] = []
+    condparams: list[str] = []
 
+    if lexicons:
+        ctes.append(f"lexspecs(s) AS (VALUES {_vs(lexicons)})")
+        conditions.append("lex.specifier IN lexspecs")
+        cteparams.extend(lexicons)
     if forms:
-        cte, subquery = _query_forms(forms, normalized, search_all_forms)
+        ctes_, subquery = _query_forms(forms, normalized, search_all_forms)
+        ctes.extend(ctes_)
         conditions.append(f"e.rowid IN {subquery}")
-        params.extend(forms)
+        cteparams.extend(forms)
     if pos:
         conditions.append("e.pos = ?")
-        params.append(pos)
-    if lexicons:
-        conditions.append(f"lex.specifier IN ({_qs(lexicons)})")
-        params.extend(lexicons)
+        condparams.append(pos)
 
-    return cte, conditions, params
+    cte = ""
+    if ctes:
+        cte = "WITH " + ",\n               ".join(ctes)
+
+    return cte, cteparams, conditions, condparams

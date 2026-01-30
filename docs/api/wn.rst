@@ -321,6 +321,8 @@ Additional Classes
 
       A URI to an associated audio file.
 
+   .. automethod:: lexicon
+
 
 .. autoclass:: Tag
 
@@ -334,6 +336,8 @@ Additional Classes
    .. autoattribute:: category
 
       The category, or kind, of the tag.
+
+   .. automethod:: lexicon
 
 
 .. autoclass:: Count

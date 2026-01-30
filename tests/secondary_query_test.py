@@ -21,6 +21,27 @@ def test_word_translate():
     assert len(wn.word("test-es-ejemplo-n").translate(lang="en")) == 1
 
 
+@pytest.mark.usefixtures("mini_db_1_1")
+def test_word_lemma_tags():
+    en = wn.Wordnet("test-en")
+    assert en.word("test-en-exemplify-v").lemma(data=True).tags() == []
+    ext = wn.Wordnet("test-en test-en-ext")
+    assert ext.word("test-en-exemplify-v").lemma(data=True).tags() == [
+        wn.Tag(tag="INF", category="tense")
+    ]
+
+
+@pytest.mark.usefixtures("mini_db_1_1")
+def test_word_lemma_pronunciations():
+    en = wn.Wordnet("test-en")
+    assert en.word("test-en-information-n").lemma(data=True).pronunciations() == []
+    ext = wn.Wordnet("test-en test-en-ext")
+    assert ext.word("test-en-information-n").lemma(data=True).pronunciations() == [
+        wn.Pronunciation(value="ˌɪnfəˈmeɪʃən", variety="GB"),  # noqa: RUF001
+        wn.Pronunciation(value="ˌɪnfɚˈmeɪʃən", variety="US"),  # noqa: RUF001
+    ]
+
+
 @pytest.mark.usefixtures("mini_db")
 def test_sense_word():
     assert wn.sense("test-en-information-n-0001-01").word() == wn.word(
