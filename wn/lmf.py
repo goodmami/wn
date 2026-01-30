@@ -197,7 +197,7 @@ class _HasMeta(TypedDict, total=False):
 
 
 class _External(TypedDict):
-    external: Literal["true"]
+    external: Literal[True]
 
 
 class ILIDefinition(_HasText, _HasMeta): ...
@@ -305,7 +305,7 @@ class LexicalEntry(_LexicalEntryBase):
 
 
 class ExternalLexicalEntry(_HasId, _External, total=False):
-    lemma: ExternalLemma
+    lemma: ExternalLemma | None
     forms: list[Form | ExternalForm]
     senses: list[Sense | ExternalSense]
 
@@ -315,7 +315,7 @@ class LexiconSpecifier(_HasId):  # public but not an LMF entry
 
 
 class Dependency(LexiconSpecifier, total=False):
-    url: str
+    url: str | None
 
 
 class _LexiconRequired(LexiconSpecifier, _HasMeta):
@@ -751,8 +751,8 @@ def _dump_dependency(
 ) -> None:
     id_ref_key = "id" if version < (1, 4) else "ref"
     attrib = {id_ref_key: dep["id"], "version": dep["version"]}
-    if dep.get("url"):
-        attrib["url"] = dep["url"]
+    if (url := dep.get("url")) is not None:
+        attrib["url"] = url
     elem = ET.Element(deptype, attrib=attrib)
     print(_tostring(elem, 2), file=out)
 
@@ -766,9 +766,9 @@ def _dump_lexical_entry(
     attrib = {"id": entry["id"]}
     if entry.get("external", False):
         elem = ET.Element("ExternalLexicalEntry", attrib=attrib)
-        if entry.get("lemma"):
-            assert entry["lemma"].get("external", False)
-            elem.append(_build_lemma(entry["lemma"], version))
+        if (lemma := entry.get("lemma")) is not None:
+            assert lemma.get("external", False)
+            elem.append(_build_lemma(lemma, version))
     else:
         entry = cast("LexicalEntry", entry)
         if version >= (1, 4) and entry.get("index"):

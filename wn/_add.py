@@ -203,9 +203,9 @@ def _add_lexical_resource(
             entries: Sequence[_AnyEntry] = _entries(lexicon)
             synbhrs: Sequence[lmf.SyntacticBehaviour] = _collect_frames(lexicon)
 
-            lexid, extid = _insert_lexicon(lexicon, cur, progress)
+            lexid, baseid = _insert_lexicon(lexicon, cur, progress)
 
-            lexidmap = _build_lexid_map(lexicon, lexid, extid)
+            lexidmap = _build_lexid_map(lexicon, lexid, baseid)
 
             _insert_synsets(synsets, lexid, cur, progress)
             _insert_entries(entries, lexid, cur, progress)
@@ -386,14 +386,14 @@ def _insert_lexicon(
         param_dict.setdefault("url", None)
         param_dict["lid"] = lexid
         cur.execute(query.format(table="lexicon_extensions"), param_dict)
-        extid = cur.execute(
+        baseid = cur.execute(
             "SELECT rowid FROM lexicons WHERE id=? AND version=?",
             (param_dict["id"], param_dict["version"]),
         ).fetchone()[0]
     else:
-        extid = lexid
+        baseid = lexid
 
-    return lexid, extid
+    return lexid, baseid
 
 
 _LexIdMap = dict[str, int]
