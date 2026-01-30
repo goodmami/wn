@@ -1,5 +1,5 @@
 from collections.abc import Iterator, Sequence
-from typing import NamedTuple
+from typing import Literal, NamedTuple, overload
 
 from wn import lmf
 from wn._exceptions import Error
@@ -25,6 +25,7 @@ from wn._queries import (
     get_lexicon_dependencies,
     get_metadata,
     get_proposed_ili_metadata,
+    get_relation_targets,
     get_sense_counts,
     get_sense_n,
     get_sense_relations,
@@ -49,7 +50,7 @@ def export(
     - identifiers on wordnet entities must be unique in all lexicons
     - lexicons extensions may not be exported with their dependents
 
-    >>> w = wn.Wordnet(lexicon="cmnwn zsmwn")
+    >>> w = wn.Wordnet(lexicon="omw-cmn:1.4 omw-zsm:1.4")
     >>> wn.export(w.lexicons(), "cmn-zsm.xml")
 
     Args:
@@ -95,6 +96,8 @@ class _LMFExporter:
     # The following are reset for each lexicon that is exported
     lexspecs: _LexSpecs
     sbmap: _SBMap
+    external_sense_ids: set[str]  # necessary external senses
+    external_synset_ids: set[str]  # necessary external synsets
 
     def __init__(self, version: str) -> None:
         if version not in lmf.SUPPORTED_VERSIONS:
@@ -102,6 +105,8 @@ class _LMFExporter:
         self.version = version_info(version)
         self.lexspecs = _LexSpecs("", "")
         self.sbmap = {}
+        self.external_sense_ids = set()
+        self.external_synset_ids = set()
 
     def export(self, lexicon: Lexicon) -> lmf.Lexicon | lmf.LexiconExtension:
         base = lexicon.extends()
@@ -112,7 +117,9 @@ class _LMFExporter:
         if base is None:
             return self._lexicon(lexicon)
         else:
-            raise Error(f"cannot export lexicon extension: {lexicon.specifier()}")
+            self.external_sense_ids = _get_external_sense_ids(self.lexspecs)
+            self.external_synset_ids = _get_external_synset_ids(self.lexspecs)
+            return self._lexicon_extension(lexicon, base)
 
     def _lexicon(self, lexicon: Lexicon) -> lmf.Lexicon:
         lex = lmf.Lexicon(
@@ -124,8 +131,8 @@ class _LMFExporter:
             version=lexicon.version,
             url=lexicon.url or "",
             citation=lexicon.citation or "",
-            entries=list(self._entries()),
-            synsets=list(self._synsets()),
+            entries=list(self._entries(False)),
+            synsets=list(self._synsets(False)),
             meta=lexicon.metadata(),
         )
         if self.version >= (1, 1):
@@ -145,12 +152,24 @@ class _LMFExporter:
     def _dependency(self, id: str, version: str, url: str | None) -> lmf.Dependency:
         return lmf.Dependency(id=id, version=version, url=url)
 
-    def _entries(self) -> Iterator[lmf.LexicalEntry]:
+    @overload
+    def _entries(
+        self, extension: Literal[True]
+    ) -> Iterator[lmf.LexicalEntry | lmf.ExternalLexicalEntry]: ...
+
+    @overload
+    def _entries(self, extension: Literal[False]) -> Iterator[lmf.LexicalEntry]: ...
+
+    def _entries(
+        self, extension: Literal[True, False]
+    ) -> Iterator[lmf.LexicalEntry | lmf.ExternalLexicalEntry]:
         lexspec = self.lexspecs.primary
-        lexicons = (lexspec,)
+        lexicons = self.lexspecs if extension else (lexspec,)
         for id, pos, lex in find_entries(lexicons=lexicons):
             if lex == lexspec:
                 yield self._entry(id, pos)
+            elif extension and (entry := self._ext_entry(id)):
+                yield entry
 
     def _entry(self, id: str, pos: str) -> lmf.LexicalEntry:
         lexspec = self.lexspecs.primary
@@ -161,7 +180,7 @@ class _LMFExporter:
             lemma=self._lemma(lemma, pos),
             forms=[self._form(form) for form in forms],
             index=index or "",
-            senses=list(self._senses(id, index)),
+            senses=list(self._senses(id, index, False)),
             meta=self._metadata(id, "entries"),
         )
         if self.version < (1, 1):
@@ -215,13 +234,27 @@ class _LMFExporter:
             if lex == lexspec
         ]
 
-    def _senses(self, id: str, index: str | None) -> Iterator[lmf.Sense]:
+    @overload
+    def _senses(
+        self, id: str, index: str | None, extension: Literal[True]
+    ) -> Iterator[lmf.Sense | lmf.ExternalSense]: ...
+
+    @overload
+    def _senses(
+        self, id: str, index: str | None, extension: Literal[False]
+    ) -> Iterator[lmf.Sense]: ...
+
+    def _senses(
+        self, id: str, index: str | None, extension: Literal[True, False]
+    ) -> Iterator[lmf.Sense | lmf.ExternalSense]:
         lexspec = self.lexspecs.primary
-        lexicons = (lexspec,)
+        lexicons = self.lexspecs if extension else (lexspec,)
         for i, sense in enumerate(get_entry_senses(id, lexicons, False), 1):
-            _, _, _, lex = sense
+            sid, _, _, lex = sense
             if lex == lexspec:
                 yield self._sense(sense, index, i)
+            elif extension and (ext_sense := self._ext_sense(sid)):
+                yield ext_sense
 
     def _sense(self, sense: Sense, index: str | None, i: int) -> lmf.Sense:
         id, _, synset_id, lexspec = sense
@@ -272,12 +305,24 @@ class _LMFExporter:
             for val, _, metadata in get_sense_counts(sense_id, lexicons)
         ]
 
-    def _synsets(self) -> Iterator[lmf.Synset]:
+    @overload
+    def _synsets(
+        self, extension: Literal[True]
+    ) -> Iterator[lmf.Synset | lmf.ExternalSynset]: ...
+
+    @overload
+    def _synsets(self, extension: Literal[False]) -> Iterator[lmf.Synset]: ...
+
+    def _synsets(
+        self, extension: Literal[True, False]
+    ) -> Iterator[lmf.Synset | lmf.ExternalSynset]:
         lexspec = self.lexspecs.primary
-        lexicons = (lexspec,)
+        lexicons = self.lexspecs if extension else (lexspec,)
         for id, pos, ili, lex in find_synsets(lexicons=lexicons):
             if lex == lexspec:
                 yield self._synset(id, pos, ili)
+            elif extension and (ext_synset := self._ext_synset(id)):
+                yield ext_synset
 
     def _synset(self, id: str, pos: str, ili: str) -> lmf.Synset:
         lexspec = self.lexspecs.primary
@@ -371,6 +416,122 @@ class _LMFExporter:
     def _metadata(self, id: str, table: str) -> lmf.Metadata:
         return get_metadata(id, self.lexspecs.primary, table)
 
+    ### Lexicon Extensions ###################################################
+
+    def _lexicon_extension(
+        self, lexicon: Lexicon, base: Lexicon
+    ) -> lmf.LexiconExtension:
+        lexspec = self.lexspecs.primary
+        if self.version < (1, 1):
+            raise Error(
+                f"cannot export lexicon extension {lexspec} with WN-LMF version < 1.1"
+            )
+        lex = lmf.LexiconExtension(
+            id=lexicon.id,
+            label=lexicon.label,
+            language=lexicon.language,
+            email=lexicon.email,
+            license=lexicon.license,
+            version=lexicon.version,
+            url=lexicon.url or "",
+            citation=lexicon.citation or "",
+            logo=lexicon.logo or "",
+            extends=self._dependency(base.id, base.version, base.url),
+            requires=self._requires(),
+            entries=list(self._entries(True)),
+            synsets=list(self._synsets(True)),
+            frames=self._syntactic_behaviours_1_1(),
+            meta=lexicon.metadata(),
+        )
+        return lex
+
+    def _ext_entry(self, id: str) -> lmf.ExternalLexicalEntry | None:
+        lexspec = self.lexspecs.primary
+        lemma, forms = _get_entry_forms(id, self.lexspecs)
+        index = get_entry_index(id, lexspec)
+        ext_lemma = self._ext_lemma(lemma)
+        ext_forms = self._ext_forms(forms)
+        ext_senses = list(self._senses(id, index, True))
+        if ext_lemma or ext_forms or ext_senses:
+            return lmf.ExternalLexicalEntry(
+                external=True,
+                id=id,
+                lemma=ext_lemma,
+                forms=ext_forms,
+                senses=ext_senses,
+            )
+        return None
+
+    def _ext_lemma(self, lemma: Form) -> lmf.ExternalLemma | None:
+        _, _, _, _, pronunciations, tags = lemma
+        ext_prons = self._pronunciations(pronunciations)
+        ext_tags = self._tags(tags)
+        if ext_prons or ext_tags:
+            return lmf.ExternalLemma(
+                external=True,
+                pronunciations=ext_prons,
+                tags=ext_tags,
+            )
+        return None
+
+    def _ext_forms(self, forms: list[Form]) -> list[lmf.Form | lmf.ExternalForm]:
+        lexspec = self.lexspecs.primary
+        ext_forms: list[lmf.Form | lmf.ExternalForm] = []
+        for form in forms:
+            if form[3] == lexspec:
+                ext_forms.append(self._form(form))
+            elif ext_form := self._ext_form(form):
+                ext_forms.append(ext_form)
+        return ext_forms
+
+    def _ext_form(self, form: Form) -> lmf.ExternalForm | None:
+        value, id, _, _, prons, tags = form
+        ext_prons = self._pronunciations(prons)
+        ext_tags = self._tags(tags)
+        if ext_prons or ext_tags:
+            if not id:
+                raise Error(f"cannot export external form {value!r} without an id")
+            return lmf.ExternalForm(
+                external=True,
+                id=id,
+                pronunciations=ext_prons,
+                tags=ext_tags,
+            )
+        return None
+
+    def _ext_sense(self, id: str) -> lmf.ExternalSense | None:
+        ext_relations = self._sense_relations(id)
+        ext_examples = self._examples(id, "senses")
+        ext_counts = self._counts(id)
+        if ext_relations or ext_examples or ext_counts or id in self.external_sense_ids:
+            return lmf.ExternalSense(
+                external=True,
+                id=id,
+                relations=ext_relations,
+                examples=ext_examples,
+                counts=ext_counts,
+            )
+        return None
+
+    def _ext_synset(self, id: str) -> lmf.ExternalSynset | None:
+        ext_definitions = self._definitions(id)
+        ext_relations = self._synset_relations(id, self.lexspecs.base)
+        ext_examples = self._examples(id, "synsets")
+        if (
+            ext_definitions
+            or ext_relations
+            or ext_examples
+            or id in self.external_synset_ids
+        ):
+            return lmf.ExternalSynset(
+                external=True,
+                id=id,
+                definitions=ext_definitions,
+                relations=ext_relations,
+                examples=ext_examples,
+            )
+        return None
+
 
 ### Helper Functions #########################################################
 
@@ -402,3 +563,27 @@ def _get_sense_n(id: str, lexspec: str, index: str | None, i: int) -> int:
     if n is not None and (index is not None or n != i):
         return n
     return 0
+
+
+def _get_external_sense_ids(lexspecs: _LexSpecs) -> set[str]:
+    """Get ids of external senses needed for an extension."""
+    return get_relation_targets(
+        "sense_relations", "senses", (lexspecs.primary,), lexspecs
+    )
+
+
+def _get_external_synset_ids(lexspecs: _LexSpecs) -> set[str]:
+    """Get ids of external synsets needed for an extension."""
+    return (
+        get_relation_targets(
+            "synset_relations", "synsets", (lexspecs.primary,), lexspecs
+        )
+        | get_relation_targets(
+            "sense_synset_relations", "synsets", (lexspecs.primary,), lexspecs
+        )
+        | {
+            sense[2]
+            for sense in find_senses(lexicons=lexspecs)
+            if sense[3] != lexspecs.base
+        }
+    )

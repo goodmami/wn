@@ -44,6 +44,7 @@ Notable changes in this release:
 * `wn.Sense.synset_relations()` ([#271])
 * `wn.Pronunciation.lexicon()` method ([#303])
 * `wn.Tag.lexicon()` method ([#303])
+* Support for exporting lexicon extensions ([#103])
 
 ### Removed
 
