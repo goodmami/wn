@@ -585,6 +585,7 @@ def get_synset_relations(
     synset_lexicon: str,
     relation_types: Collection[str],
     lexicons: Sequence[str],
+    target_lexicons: Sequence[str],
 ) -> Iterator[_Synset_Relation]:
     conn = connect()
     params: list = []
@@ -593,6 +594,7 @@ def get_synset_relations(
         constraint = f"WHERE type IN ({_qs(relation_types)})"
         params.extend(relation_types)
     params.extend(lexicons)
+    params.extend(target_lexicons)
     params.append(synset_id)
     params.append(synset_lexicon)
     query = f"""
@@ -602,6 +604,9 @@ def get_synset_relations(
           lexrowids(rowid) AS
             (SELECT rowid FROM lexicons
               WHERE specifier IN ({_vs(lexicons)})),
+          tgtlexrowids(rowid) AS
+            (SELECT rowid FROM lexicons
+              WHERE specifier IN ({_vs(target_lexicons)})),
           srcsynset(rowid) AS
             (SELECT ss.rowid
                FROM synsets AS ss
@@ -624,7 +629,7 @@ def get_synset_relations(
           JOIN lexicons AS lex ON lex.rowid = srel.lexicon_rowid
           JOIN lexicons AS tgtlex ON tgtlex.rowid = tgt.lexicon_rowid
           LEFT JOIN ilis AS tgtili ON tgtili.rowid = tgt.ili_rowid  -- might be null
-         WHERE tgt.lexicon_rowid IN lexrowids  -- ensure target is included
+         WHERE tgt.lexicon_rowid IN tgtlexrowids  -- ensure target is included
     """
     result_rows: Iterator[_Synset_Relation] = conn.execute(query, params)
     yield from result_rows
@@ -815,6 +820,7 @@ def get_sense_relations(
     sense_id: str,
     relation_types: Collection[str],
     lexicons: Sequence[str],
+    target_lexicons: Sequence[str],
 ) -> Iterator[_Sense_Relation]:
     params: list = []
     constraint = ""
@@ -822,13 +828,16 @@ def get_sense_relations(
         constraint = f"WHERE type IN ({_qs(relation_types)})"
         params.extend(relation_types)
     params.extend(lexicons)
+    params.extend(target_lexicons)
     params.append(sense_id)
     query = f"""
         WITH
           rt(rowid, type) AS
             (SELECT rowid, type FROM relation_types {constraint}),
           lexrowids(rowid) AS
-            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)}))
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)})),
+          tgtlexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(target_lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         s.id, e.id, ss.id, slex.specifier
           FROM (SELECT rt.type,
@@ -844,7 +853,7 @@ def get_sense_relations(
                ) AS rel
           JOIN senses AS s
             ON s.rowid = rel.target_rowid
-           AND s.lexicon_rowid IN lexrowids
+           AND s.lexicon_rowid IN tgtlexrowids
           JOIN lexicons AS slex
             ON slex.rowid = s.lexicon_rowid
           JOIN entries AS e
@@ -860,6 +869,7 @@ def get_sense_synset_relations(
     sense_id: str,
     relation_types: Collection[str],
     lexicons: Sequence[str],
+    target_lexicons: Sequence[str],
 ) -> Iterator[_Synset_Relation]:
     params: list = []
     constraint = ""
@@ -867,13 +877,16 @@ def get_sense_synset_relations(
         constraint = f"WHERE type IN ({_qs(relation_types)})"
         params.extend(relation_types)
     params.extend(lexicons)
+    params.extend(target_lexicons)
     params.append(sense_id)
     query = f"""
         WITH
           rt(rowid, type) AS
             (SELECT rowid, type FROM relation_types {constraint}),
           lexrowids(rowid) AS
-            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)}))
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)})),
+          tgtlexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(target_lexicons)}))
         SELECT DISTINCT rel.type, rel.lexicon, rel.metadata,
                         rel.source_rowid, tgt.id, tgt.pos,
                         (SELECT ilis.id FROM ilis WHERE ilis.rowid = tgt.ili_rowid),
@@ -892,12 +905,44 @@ def get_sense_synset_relations(
                ) AS rel
           JOIN synsets AS tgt
             ON tgt.rowid = rel.target_rowid
-           AND tgt.lexicon_rowid IN lexrowids
+           AND tgt.lexicon_rowid IN tgtlexrowids
           JOIN lexicons AS tgtlex
             ON tgtlex.rowid = tgt.lexicon_rowid
     """
     rows: Iterator[_Synset_Relation] = connect().execute(query, params)
     yield from rows
+
+
+def get_relation_targets(
+    rel_table: str,
+    tgt_table: str,
+    lexicons: Sequence[str],
+    target_lexicons: Sequence[str],
+) -> set[str]:
+    if rel_table not in {
+        "sense_relations",
+        "sense_synset_relations",
+        "synset_relations",
+    }:
+        raise ValueError(f"invalid relation table: {rel_table}")
+    if tgt_table not in ("senses", "synsets"):
+        raise ValueError(f"invalid target table: {tgt_table}")
+    params: list = [*lexicons, *target_lexicons]
+    query = f"""
+        WITH
+          lexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(lexicons)})),
+          tgtlexrowids(rowid) AS
+            (SELECT rowid FROM lexicons WHERE specifier IN ({_vs(target_lexicons)}))
+        SELECT DISTINCT tgt.id
+          FROM {rel_table} AS srel
+          JOIN lexicons AS lex ON srel.lexicon_rowid = lex.rowid
+          JOIN {tgt_table} AS tgt ON tgt.rowid = srel.target_rowid
+         WHERE srel.lexicon_rowid IN lexrowids
+           AND tgt.lexicon_rowid IN tgtlexrowids
+    """
+    rows: Iterator[str] = connect().execute(query, params)
+    return {row[0] for row in rows}
 
 
 _SANITIZED_METADATA_TABLES = {

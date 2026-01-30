@@ -802,7 +802,9 @@ class Synset(_Relatable):
     ) -> Iterator[tuple[Relation, Synset]]:
         _lexconf = self._lexconf
         lexicons = self._get_lexicons()
-        iterable = get_synset_relations(self.id, self._lexicon, args, lexicons)
+        iterable = get_synset_relations(
+            self.id, self._lexicon, args, lexicons, lexicons
+        )
         for relname, rellex, metadata, _, ssid, pos, ili, tgtlex in iterable:
             synset_rel = Relation(relname, self.id, ssid, rellex, metadata=metadata)
             synset = Synset(
@@ -1198,7 +1200,8 @@ class Sense(_Relatable):
         )
 
     def _iter_sense_relations(self, *args: str) -> Iterator[tuple[Relation, Sense]]:
-        iterable = get_sense_relations(self.id, args, self._get_lexicons())
+        lexicons = self._get_lexicons()
+        iterable = get_sense_relations(self.id, args, lexicons, lexicons)
         for relname, lexicon, metadata, sid, eid, ssid, lexid in iterable:
             relation = Relation(relname, self.id, sid, lexicon, metadata=metadata)
             sense = Sense(sid, eid, ssid, lexid, _lexconf=self._lexconf)
@@ -1208,7 +1211,8 @@ class Sense(_Relatable):
         self,
         *args: str,
     ) -> Iterator[tuple[Relation, Synset]]:
-        iterable = get_sense_synset_relations(self.id, args, self._get_lexicons())
+        lexicons = self._get_lexicons()
+        iterable = get_sense_synset_relations(self.id, args, lexicons, lexicons)
         for relname, lexicon, metadata, _, ssid, pos, ili, lexid in iterable:
             relation = Relation(relname, self.id, ssid, lexicon, metadata=metadata)
             synset = Synset(ssid, pos, ili, lexid, _lexconf=self._lexconf)
