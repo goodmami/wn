@@ -10,6 +10,10 @@
   label = "Open English WordNet"
   language = "en"
   license = "https://creativecommons.org/licenses/by/4.0/"
+  [oewn.versions."2025+"]
+    url = "https://en-word.net/static/english-wordnet-2025-plus.xml.gz"
+  [oewn.versions.2025]
+    url = "https://en-word.net/static/english-wordnet-2025.xml.gz"
   [oewn.versions.2024]
     url = """
       https://en-word.net/static/english-wordnet-2024.xml.gz
