@@ -25,7 +25,7 @@ This module has four functions:
 
 1. :func:`escape` transforms a sense key into a form that is valid for
    XML IDs. The *flavor* keyword argument specifies the escaping
-   mechanism and it defaults to :python:`"oewn"`.
+   mechanism and it defaults to :python:`"oewn-v2"`.
 
 2. :func:`unescape` transforms an escaped sense key back into the
    original form. The *flavor* keyword is the same as with
@@ -82,6 +82,8 @@ SENSE_ID_LEXICONS = {  # specifier:flavor
     "oewn:2022": "oewn",
     "oewn:2023": "oewn",
     "oewn:2024": "oewn",
+    "oewn:2025": "oewn-v2",
+    "oewn:2025+": "oewn-v2",
 }
 
 OEWN_LEMMA_UNESCAPE_SEQUENCES = [
@@ -93,15 +95,46 @@ OEWN_LEMMA_UNESCAPE_SEQUENCES = [
     ("-sl-", "/"),
 ]
 
+OEWN_V2_LEMMA_UNESCAPE_SEQUENCES = [
+    ("-apos-", "'"),
+    ("-colon-", ":"),
+    ("-excl-", "!"),
+    ("-num-", "#"),
+    ("-dollar-", "$"),
+    ("-percnt-", "%"),
+    ("-amp-", "&"),
+    ("-lpar-", "("),
+    ("-rpar-", ")"),
+    ("-ast-", "*"),
+    ("-plus-", "+"),
+    ("-comma-", ","),
+    ("-sol-", "/"),
+    ("-lbrace-", "{"),
+    ("-vert-", "|"),
+    ("-rbrace-", "}"),
+    ("-tilde-", "~"),
+    ("-cent-", "¢"),
+    ("-pound-", "£"),
+    ("-sect-", "§"),
+    ("-copy-", "©"),
+    ("-reg-", "®"),
+    ("-deg-", "°"),
+    ("-acute-", "´"),  # noqa: RUF001
+    ("-para-", "¶"),
+    ("-ordm-", "º"),
+    ("--", "-"),
+]
 
-def unescape(s: str, /, flavor: str = "oewn") -> str:
+
+def unescape(s: str, /, flavor: str = "oewn-v2") -> str:
     """Return the original form of an escaped sense key.
 
     The *flavor* argument specifies how the unescaping will be done.
-    Its default (and only) value is :python:`"oewn"`, which escapes
-    like the Open English Wordnet, including separate rules for the
-    left and right side of the ``__`` delimiter.
-
+    Its default value is :python:`"oewn-v2"`, which unescapes like the
+    Open English Wordnet 2025 editions, including separate rules for the
+    left and right side of the ``__`` delimiter. The other possible
+    value is ``"oewn"``, which unescapes like the Open English Wordnet
+    2024 and prior editions.
 
     >>> from wn.compat import sensekey
     >>> sensekey.unescape("ceramic__3.01.00..")
@@ -116,15 +149,18 @@ def unescape(s: str, /, flavor: str = "oewn") -> str:
     'ceramic%3:01:00::'
 
     """
-    if flavor == "oewn":
-        return _unescape_oewn(s)
-    else:
-        raise ValueError(f"unsupported flavor: {flavor}")
+    match flavor:
+        case "oewn":
+            return _unescape_oewn(s, OEWN_LEMMA_UNESCAPE_SEQUENCES)
+        case "oewn-v2":
+            return _unescape_oewn(s, OEWN_V2_LEMMA_UNESCAPE_SEQUENCES)
+        case _:
+            raise ValueError(f"unsupported flavor: {flavor}")
 
 
-def _unescape_oewn(s: str) -> str:
+def _unescape_oewn(s: str, escape_sequences: list[tuple[str, str]]) -> str:
     lemma, _, rest = s.partition("__")
-    for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
+    for esc, char in escape_sequences:
         lemma = lemma.replace(esc, char)
     rest = rest.replace(".", ":").replace("-sp-", "_")
     if rest:
@@ -133,28 +169,33 @@ def _unescape_oewn(s: str) -> str:
         return lemma
 
 
-def escape(sense_key: str, /, flavor: str = "oewn") -> str:
+def escape(sense_key: str, /, flavor: str = "oewn-v2") -> str:
     """Return an escaped sense key that is valid for XML IDs.
 
     The *flavor* argument specifies how the escaping will be done. Its
-    default (and only) value is :python:`"oewn"`, which escapes like
-    the Open English Wordnet, including separate rules for the left
-    and right side of the ``%`` delimiter.
+    default value is :python:`"oewn-v2"`, which escapes like the Open
+    English Wordnet 2025 editions, including separate rules for the left
+    and right side of the ``%`` delimiter. The other possible
+    value is ``"oewn"``, which escapes like the Open English Wordnet
+    2024 and prior editions.
 
     >>> from wn.compat import sensekey
     >>> sensekey.escape("ceramic%3:01:00::")
     'ceramic__3.01.00..'
 
     """
-    if flavor == "oewn":
-        return _escape_oewn(sense_key)
-    else:
-        raise ValueError(f"unsupported flavor: {flavor}")
+    match flavor:
+        case "oewn":
+            return _escape_oewn(sense_key, OEWN_LEMMA_UNESCAPE_SEQUENCES)
+        case "oewn-v2":
+            return _escape_oewn(sense_key, OEWN_V2_LEMMA_UNESCAPE_SEQUENCES)
+        case _:
+            raise ValueError(f"unsupported flavor: {flavor}")
 
 
-def _escape_oewn(sense_key: str) -> str:
+def _escape_oewn(sense_key: str, escape_sequences: list[tuple[str, str]]) -> str:
     lemma, _, rest = sense_key.partition("%")
-    for esc, char in OEWN_LEMMA_UNESCAPE_SEQUENCES:
+    for esc, char in reversed(escape_sequences):
         lemma = lemma.replace(char, esc)
     rest = rest.replace(":", ".").replace("_", "-sp-")
     if rest:

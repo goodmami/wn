@@ -45,6 +45,10 @@ Notable changes in this release:
 * `wn.Pronunciation.lexicon()` method ([#303])
 * `wn.Tag.lexicon()` method ([#303])
 * Support for exporting lexicon extensions ([#103])
+* `wn.compat.sensekey` supports the `oewn-v2` flavor for escaping and
+  unescaping for the scheme used by OEWN 2025 ([#292])
+* `wn.compat.sensekey` supports the `oewn:2025` and `oewn:2025+` lexicons for
+  the `sense_key_getter` and `sense_getter` functions ([#292])
 
 ### Removed
 
@@ -926,6 +930,7 @@ abandoned, but this is an entirely new codebase.
 [#285]: https://github.com/goodmami/wn/issues/285
 [#286]: https://github.com/goodmami/wn/issues/286
 [#291]: https://github.com/goodmami/wn/issues/291
+[#292]: https://github.com/goodmami/wn/issues/292
 [#295]: https://github.com/goodmami/wn/issues/295
 [#301]: https://github.com/goodmami/wn/issues/301
 [#302]: https://github.com/goodmami/wn/issues/302
