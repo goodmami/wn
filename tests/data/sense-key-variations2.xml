@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.1.dtd">
+<LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
+
+  <Lexicon id="oewn"
+           label="Open Engish Wordnet sample"
+           language="en"
+           email="maintainer@example.com"
+           license="https://creativecommons.org/licenses/by/4.0"
+           version="2025"
+           url="https://github.com/globalwordnet/english-wordnet">
+    <LexicalEntry id="oewn--apos-s_Gravenhage-n">
+      <Lemma writtenForm="&apos;s Gravenhage" partOfSpeech="n"/>
+      <Sense id="oewn--apos-s_gravenhage__1.15.00.." synset="oewn-08970180-n"/>
+    </LexicalEntry>
+    <Synset id="oewn-08970180-n" ili="" />
+  </Lexicon>
+
+</LexicalResource>
