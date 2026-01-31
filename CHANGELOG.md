@@ -6,6 +6,12 @@ Notable changes in this release:
 * A new version of the database schema requires a database rebuild
 * A new `wn.ili` module deals with ILI files and objects; interlingual
   queries still use the `Synset.ili` member, which is now a simple `str`
+* The Open English Wordnet versions 2025 and 2025+ are added to the index
+
+### Index
+
+* Add `oewn:2025` ([#294])
+* Add `oewn:2025+` ([#294])
 
 ### Schema
 
@@ -931,6 +937,7 @@ abandoned, but this is an entirely new codebase.
 [#286]: https://github.com/goodmami/wn/issues/286
 [#291]: https://github.com/goodmami/wn/issues/291
 [#292]: https://github.com/goodmami/wn/issues/292
+[#294]: https://github.com/goodmami/wn/issues/294
 [#295]: https://github.com/goodmami/wn/issues/295
 [#301]: https://github.com/goodmami/wn/issues/301
 [#302]: https://github.com/goodmami/wn/issues/302
