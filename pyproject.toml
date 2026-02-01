@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 license = {file = "LICENSE"}
 keywords = ["wordnet", "interlingual", "linguistics", "language", "library"]
 authors = [
-  {name = "Michael Wayne Goodman", email = "goodman.m.w@gmail.com"}
+  {name = "Michael Wayne Goodman", email = "1428419+goodmami@users.noreply.github.com"}
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
