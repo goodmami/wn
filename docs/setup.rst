@@ -96,6 +96,35 @@ from a TOML_ file via the :py:data:`wn.config` object's
    )
 
 
+Rebuilding the Database
+-----------------------
+
+New versions of Wn may occasionally alter the database schema in a way
+that makes an existing database incompatible with the code. You will
+see an error like this (abbreviated):
+
+>>> import wn
+>>> wn.Wordnet("oewn:2024")
+Traceback (most recent call last):
+  [...]
+wn.DatabaseError: Wn's schema has changed and is no longer compatible with the database.
+Lexicons currently installed:
+  odenet:1.4
+  oewn:2023
+  oewn:2024
+  omw-arb:1.4
+  [...]]
+Run wn.reset_database(rebuild=True) to rebuild the database.
+
+You can then run, as directed, :func:`wn.reset_database` with
+``rebuild=True``, which will delete the database, initialize a new one,
+and attempt to add all the lexicons that were previously added. You can
+also run with ``rebuild=False`` to reinitialize the database without
+re-adding lexicons, or alternatively simply delete the database file
+from your filesystem. See the documentation for
+:func:`wn.reset_database` for more information.
+
+
 Installing From Source
 ----------------------
 

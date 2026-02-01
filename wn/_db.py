@@ -66,7 +66,7 @@ pool: dict[AnyPath, sqlite3.Connection] = {}
 # The connect() function should be used for all connections
 
 
-def connect() -> sqlite3.Connection:
+def connect(check_schema: bool = True) -> sqlite3.Connection:
     dbpath = config.database_path
     if dbpath not in pool:
         if not config.data_directory.exists():
@@ -84,7 +84,8 @@ def connect() -> sqlite3.Connection:
         if not initialized:
             logger.info("initializing database: %s", dbpath)
             _init_db(conn)
-        _check_schema_compatibility(conn, dbpath)
+        if check_schema:
+            _check_schema_compatibility(conn, dbpath)
 
         pool[dbpath] = conn
     return pool[dbpath]
@@ -112,23 +113,34 @@ def _check_schema_compatibility(conn: sqlite3.Connection, dbpath: Path) -> None:
         "compatible schema hashes:\n  %s", "\n  ".join(COMPATIBLE_SCHEMA_HASHES)
     )
     # otherwise, try to raise a helpful error message
-    msg = (
-        "Wn's schema has changed and is no longer compatible with the "
-        f"database. Please move or delete {dbpath} and rebuild it."
-    )
+    msg = "Wn's schema has changed and is no longer compatible with the database."
+    try:
+        specs = list_lexicons_safe(conn)
+    except DatabaseError as exc:
+        raise DatabaseError(msg) from exc
+    if specs:
+        installed = "\n  ".join(specs)
+        msg += (
+            f"\nLexicons currently installed:\n  {installed}"
+            "\nRun wn.reset_database(rebuild=True) to rebuild the database."
+        )
+    else:
+        msg += (
+            "\nNo lexicons are currently installed."
+            "\nRun wn.reset_database() to re-initialize the database."
+        )
+    raise DatabaseError(msg)
+
+
+def list_lexicons_safe(conn: sqlite3.Connection | None = None) -> list[str]:
+    """Return the list of lexicon specifiers for added lexicons."""
+    if conn is None:
+        conn = connect(check_schema=False)
     try:
         specs = conn.execute("SELECT id, version FROM lexicons").fetchall()
     except sqlite3.OperationalError as exc:
-        raise DatabaseError(msg) from exc
-    else:
-        if specs:
-            installed = "\n  ".join(
-                format_lexicon_specifier(id, ver) for id, ver in specs
-            )
-            msg += f" Lexicons currently installed:\n  {installed}"
-        else:
-            msg += " No lexicons are currently installed."
-        raise DatabaseError(msg)
+        raise DatabaseError("could not list lexicons") from exc
+    return [format_lexicon_specifier(id, ver) for id, ver in specs]
 
 
 def schema_hash(conn: sqlite3.Connection) -> str:

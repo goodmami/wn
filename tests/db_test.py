@@ -76,3 +76,11 @@ def test_add_lexical_resource(datadir, tmp_path):
     # close any open DB connections before teardown
     for conn in wn._db.pool.values():
         conn.close()
+
+
+@pytest.mark.usefixtures("empty_db")
+def test_reset_database(datadir):
+    wn.add(datadir / "mini-lmf-1.0.xml")
+    assert {lex.specifier() for lex in wn.lexicons()} == {"test-en:1", "test-es:1"}
+    wn.reset_database(rebuild=False)  # cannot rebuild from unindexed local files
+    assert wn.lexicons() == []
