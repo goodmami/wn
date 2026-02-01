@@ -4,8 +4,8 @@ FAQ
 Is Wn related to the NLTK's `nltk.corpus.wordnet` module?
 ---------------------------------------------------------
 
-Only in spirit. There was an effort to develop the `NLTK`_\ 's module as a
-standalone package (see https://github.com/nltk/wordnet/), but
+Only in spirit. There was an effort to develop the `NLTK`_\ 's module as
+a standalone package (see https://github.com/nltk/wordnet/), but
 development had slowed. Wn has the same broad goals and a similar API
 as that standalone package, but fundamental architectural differences
 demanded a complete rewrite, so Wn was created as a separate
@@ -49,8 +49,10 @@ other projects, is specifically the data distributed by Princeton in
 the `WNDB`_ format. The `Open Multilingual Wordnet <OMW_>`_ (OMW)
 packages an export of the WordNet data as the *OMW English Wordnet
 based on WordNet 3.0* which is used by Wn (with the lexicon ID
-``omw-en``). It also has a similar export for WordNet 3.1 data
-(``omw-en31``). Both of these are highly compatible with the original
+``omw-en``). It also has a similar export for WordNets 1.5, 1.6, 1.7,
+1.7.1, 2.0, 2.1, and 3.1 data (``omw-en15``, ``omw-en16``, ``omw-en17``,
+``omw-en171``, ``omw-en20``, ``omw-en21``, and ``omw-en31``,
+respectively). All of these are highly compatible with the original
 data and can be used as drop-in replacements.
 
 Prior to Wn version 0.9 (and, correspondingly, prior to the `OMW
@@ -63,7 +65,9 @@ Wordnet based on WordNet 3.0/3.1* (``omw-en:1.4`` and
 compatible with the original WordNet data, and the 1.4 versions are
 even more compatible than the previous ``pwn:3.0`` and ``pwn:3.1``
 lexicons, so it is strongly recommended to use them over the previous
-versions.
+versions. Similarly, the 2.0 version of OMW is more compatible yet.
+The data corresponding to WordNet versions 1.5 through 2.1 are only
+available from OMW 2.0.
 
 .. _OMW data: https://github.com/omwn/omw-data
 

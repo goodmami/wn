@@ -85,19 +85,19 @@ index. This is helpful to see what is available for downloading.
 .. code-block::
 
    $ python -m wn projects
-   ic	cili	1.0	[---]	Collaborative Interlingual Index
-   ic	oewn	2025+	[en]	Open English WordNet
-   ic	oewn	2025	[en]	Open English WordNet
-   ic	oewn	2024	[en]	Open English WordNet
-   ic	oewn	2023	[en]	Open English WordNet
-   ic	oewn	2022	[en]	Open English WordNet
-   ic	oewn	2021	[en]	Open English WordNet
-   ic	ewn	2020	[en]	Open English WordNet
-   ic	ewn	2019	[en]	Open English WordNet
-   i-	odenet	1.4	[de]	Open German WordNet
-   ic	odenet	1.3	[de]	Open German WordNet
-   ic	omw	1.4	[mul]	Open Multilingual Wordnet
-   ic	omw-en	1.4	[en]	OMW English Wordnet based on WordNet 3.0
+   ic      cili    1.0     [---]   Collaborative Interlingual Index
+   ic      oewn    2025+   [en]    Open English WordNet
+   ic      oewn    2025    [en]    Open English WordNet
+   ic      oewn    2024    [en]    Open English WordNet
+   ic      oewn    2023    [en]    Open English WordNet
+   ic      oewn    2022    [en]    Open English WordNet
+   ic      oewn    2021    [en]    Open English WordNet
+   ic      ewn     2020    [en]    Open English WordNet
+   ic      ewn     2019    [en]    Open English WordNet
+   ic      odenet  1.4     [de]    Open German WordNet
+   i-      odenet  1.3     [de]    Open German WordNet
+   ic      omw     2.0     [mul]   Open Multilingual Wordnet
+   ic      omw     1.4     [mul]   Open Multilingual Wordnet
    ...
 
 

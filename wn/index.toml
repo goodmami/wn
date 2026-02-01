@@ -63,6 +63,8 @@
   label = "Open Multilingual Wordnet"
   language = "mul"
   license = "Please consult the LICENSE files included with the individual wordnets. Note that all permit redistribution."
+  [omw.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-2.0.tar.xz"
   [omw.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-1.4.tar.xz"
   [omw.versions."1.3"]
@@ -73,14 +75,65 @@
   label = "OMW English Wordnet based on WordNet 3.0"
   language = "en"
   license = "https://wordnet.princeton.edu/license-and-commercial-use"
+  [omw-en.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en-2.0.tar.xz"
   [omw-en.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-en-1.4.tar.xz"
 
+[omw-en15]
+  label = "OMW English Wordnet based on WordNet-1.5"
+  language = "en"
+  license = "WordNet-1.5 License"
+
+  [omw-en15.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en15-2.0.tar.xz"
+
+[omw-en16]
+  label = "OMW English Wordnet based on WordNet-1.6"
+  language = "en"
+  license = "WordNet-1.6 License"
+
+  [omw-en16.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en16-2.0.tar.xz"
+
+[omw-en17]
+  label = "OMW English Wordnet based on WordNet-1.7"
+  language = "en"
+  license = "https://wordnetcode.princeton.edu/1.7/LICENSE"
+
+  [omw-en17.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en17-2.0.tar.xz"
+
+[omw-en171]
+  label = "OMW English Wordnet based on WordNet-1.7.1"
+  language = "en"
+  license = "https://wordnetcode.princeton.edu/1.7.1/LICENSE"
+
+  [omw-en171.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en171-2.0.tar.xz"
+
+[omw-en20]
+  label = "OMW English Wordnet based on WordNet-2.0"
+  language = "en"
+  license = "https://wordnetcode.princeton.edu/2.0/LICENSE"
+
+  [omw-en20.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en20-2.0.tar.xz"
+
+[omw-en21]
+  label = "OMW English Wordnet based on WordNet-2.1"
+  language = "en"
+  license = "https://wordnetcode.princeton.edu/2.1/LICENSE"
+
+  [omw-en21.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en21-2.0.tar.xz"
 
 [omw-en31]
   label = "OMW English Wordnet based on WordNet 3.1"
   language = "en"
   license = "https://wordnet.princeton.edu/license-and-commercial-use"
+  [omw-en31.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-en31-2.0.tar.xz"
   [omw-en31.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-en31-1.4.tar.xz"
 
@@ -89,6 +142,8 @@
   label = "Arabic WordNet (AWN v2)"
   language = "arb"
   license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-arb.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-arb-2.0.tar.xz"
   [omw-arb.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-arb-1.4.tar.xz"
 
@@ -97,6 +152,8 @@
   label = "BulTreeBank Wordnet (BTB-WN)"
   language = "bg"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-bg.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-bg-2.0.tar.xz"
   [omw-bg.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-bg-1.4.tar.xz"
 
@@ -105,6 +162,8 @@
   label = "Multilingual Central Repository (Catalan)"
   language = "ca"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-ca.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-ca-2.0.tar.xz"
   [omw-ca.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-ca-1.4.tar.xz"
 
@@ -113,6 +172,8 @@
   label = "Chinese Open Wordnet"
   language = "cmn-Hans"
   license = "wordnet"
+  [omw-cmn.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-cmn-2.0.tar.xz"
   [omw-cmn.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-cmn-1.4.tar.xz"
 
@@ -121,6 +182,8 @@
   label = "DanNet"
   language = "da"
   license = "wordnet"
+  [omw-da.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-da-2.0.tar.xz"
   [omw-da.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-da-1.4.tar.xz"
 
@@ -129,6 +192,8 @@
   label = "Greek Wordnet"
   language = "el"
   license = "https://opensource.org/licenses/Apache-2.0"
+  [omw-el.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-el-2.0.tar.xz"
   [omw-el.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-el-1.4.tar.xz"
 
@@ -137,6 +202,8 @@
   label = "Multilingual Central Repository (Spanish)"
   language = "es"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-es.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-es-2.0.tar.xz"
   [omw-es.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-es-1.4.tar.xz"
 
@@ -145,6 +212,8 @@
   label = "Multilingual Central Repository (Basque)"
   language = "eu"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-eu.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-eu-2.0.tar.xz"
   [omw-eu.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-eu-1.4.tar.xz"
 
@@ -153,6 +222,8 @@
   label = "FinnWordNet"
   language = "fi"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-fi.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-fi-2.0.tar.xz"
   [omw-fi.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-fi-1.4.tar.xz"
 
@@ -161,6 +232,8 @@
   label = "WOLF (Wordnet Libre du Français)"
   language = "fr"
   license = "http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html"
+  [omw-fr.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-fr-2.0.tar.xz"
   [omw-fr.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-fr-1.4.tar.xz"
 
@@ -169,6 +242,8 @@
   label = "Multilingual Central Repository (Galician)"
   language = "gl"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-gl.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-gl-2.0.tar.xz"
   [omw-gl.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-gl-1.4.tar.xz"
 
@@ -177,6 +252,8 @@
   label = "Hebrew Wordnet"
   language = "he"
   license = "wordnet"
+  [omw-he.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-he-2.0.tar.xz"
   [omw-he.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-he-1.4.tar.xz"
 
@@ -185,6 +262,8 @@
   label = "Croatian Wordnet"
   language = "hr"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-hr.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-hr-2.0.tar.xz"
   [omw-hr.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-hr-1.4.tar.xz"
 
@@ -193,6 +272,8 @@
   label = "Wordnet Bahasa (Indonesian)"
   language = "id"
   license = "https://opensource.org/licenses/MIT/"
+  [omw-id.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-id-2.0.tar.xz"
   [omw-id.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-id-1.4.tar.xz"
 
@@ -201,6 +282,8 @@
   label = "IceWordNet"
   language = "is"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-is.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-is-2.0.tar.xz"
   [omw-is.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-is-1.4.tar.xz"
 
@@ -209,6 +292,8 @@
   label = "MultiWordNet (Italian)"
   language = "it"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-it.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-it-2.0.tar.xz"
   [omw-it.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-it-1.4.tar.xz"
 
@@ -217,6 +302,8 @@
   label = "ItalWordNet"
   language = "it"
   license = "http://opendefinition.org/licenses/odc-by/"
+  [omw-iwn.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-iwn-2.0.tar.xz"
   [omw-iwn.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-iwn-1.4.tar.xz"
 
@@ -225,6 +312,8 @@
   label = "Japanese Wordnet"
   language = "ja"
   license = "wordnet"
+  [omw-ja.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-ja-2.0.tar.xz"
   [omw-ja.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-ja-1.4.tar.xz"
 
@@ -233,6 +322,8 @@
   label = "Lithuanian  WordNet"
   language = "lt"
   license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-lt.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-lt-2.0.tar.xz"
   [omw-lt.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-lt-1.4.tar.xz"
 
@@ -241,6 +332,8 @@
   label = "Norwegian Wordnet (Bokmål)"
   language = "nb"
   license = "wordnet"
+  [omw-nb.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-nb-2.0.tar.xz"
   [omw-nb.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-nb-1.4.tar.xz"
 
@@ -249,6 +342,8 @@
   label = "Open Dutch WordNet"
   language = "nl"
   license = "https://creativecommons.org/licenses/by-sa/4.0/"
+  [omw-nl.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-nl-2.0.tar.xz"
   [omw-nl.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-nl-1.4.tar.xz"
 
@@ -257,6 +352,8 @@
   label = "Norwegian Wordnet (Nynorsk)"
   language = "nn"
   license = "wordnet"
+  [omw-nn.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-nn-2.0.tar.xz"
   [omw-nn.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-nn-1.4.tar.xz"
 
@@ -265,6 +362,8 @@
   label = "plWordNet"
   language = "pl"
   license = "wordnet"
+  [omw-pl.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-pl-2.0.tar.xz"
   [omw-pl.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-pl-1.4.tar.xz"
 
@@ -273,6 +372,8 @@
   label = "OpenWN-PT"
   language = "pt"
   license = "https://creativecommons.org/licenses/by-sa/"
+  [omw-pt.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-pt-2.0.tar.xz"
   [omw-pt.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-pt-1.4.tar.xz"
 
@@ -281,6 +382,8 @@
   label = "Romanian Wordnet"
   language = "ro"
   license = "https://creativecommons.org/licenses/by-sa/"
+  [omw-ro.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-ro-2.0.tar.xz"
   [omw-ro.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-ro-1.4.tar.xz"
 
@@ -289,6 +392,8 @@
   label = "Slovak WordNet"
   language = "sk"
   license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-sk.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-sk-2.0.tar.xz"
   [omw-sk.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-sk-1.4.tar.xz"
 
@@ -297,6 +402,8 @@
   label = "sloWNet"
   language = "sl"
   license = "https://creativecommons.org/licenses/by-sa/3.0/"
+  [omw-sl.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-sl-2.0.tar.xz"
   [omw-sl.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-sl-1.4.tar.xz"
 
@@ -305,6 +412,8 @@
   label = "Albanet"
   language = "sq"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-sq.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-sq-2.0.tar.xz"
   [omw-sq.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-sq-1.4.tar.xz"
 
@@ -313,6 +422,8 @@
   label = "WordNet-SALDO"
   language = "sv"
   license = "https://creativecommons.org/licenses/by/3.0/"
+  [omw-sv.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-sv-2.0.tar.xz"
   [omw-sv.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-sv-1.4.tar.xz"
 
@@ -321,6 +432,8 @@
   label = "Thai Wordnet"
   language = "th"
   license = "wordnet"
+  [omw-th.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-th-2.0.tar.xz"
   [omw-th.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-th-1.4.tar.xz"
 
@@ -329,6 +442,8 @@
   label = "Wordnet Bahasa (Malaysian)"
   language = "zsm"
   license = "https://opensource.org/licenses/MIT/"
+  [omw-zsm.versions."2.0"]
+    url = "https://github.com/omwn/omw-data/releases/download/v2.0/omw-zsm-2.0.tar.xz"
   [omw-zsm.versions."1.4"]
     url = "https://github.com/omwn/omw-data/releases/download/v1.4/omw-zsm-1.4.tar.xz"
 

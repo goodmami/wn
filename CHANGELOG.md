@@ -12,6 +12,7 @@ Notable changes in this release:
 
 * Add `oewn:2025` ([#294])
 * Add `oewn:2025+` ([#294])
+* Add `omw:2.0`, including `2.0` versions of individual OMW lexicons ([#300])
 
 ### Schema
 
@@ -940,6 +941,7 @@ abandoned, but this is an entirely new codebase.
 [#292]: https://github.com/goodmami/wn/issues/292
 [#294]: https://github.com/goodmami/wn/issues/294
 [#295]: https://github.com/goodmami/wn/issues/295
+[#300]: https://github.com/goodmami/wn/issues/300
 [#301]: https://github.com/goodmami/wn/issues/301
 [#302]: https://github.com/goodmami/wn/issues/302
 [#303]: https://github.com/goodmami/wn/issues/303
