@@ -2,11 +2,16 @@
 
 ## [Unreleased][unreleased]
 
+## [v1.0.0]
+
+**Release date: 2026-01-31**
+
 Notable changes in this release:
 * A new version of the database schema requires a database rebuild
 * A new `wn.ili` module deals with ILI files and objects; interlingual
   queries still use the `Synset.ili` member, which is now a simple `str`
 * The Open English Wordnet versions 2025 and 2025+ are added to the index
+* The Open Multilingual Wordnet 2.0 is added to the index
 
 ### Index
 
@@ -799,6 +804,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v1.0.0]: ../../releases/tag/v1.0.0
 [v0.14.0]: ../../releases/tag/v0.14.0
 [v0.13.0]: ../../releases/tag/v0.13.0
 [v0.12.0]: ../../releases/tag/v0.12.0
