@@ -9,7 +9,6 @@
   <img src="https://img.shields.io/pypi/pyversions/wn.svg?style=flat-square" alt="Python Support">
   <a href="https://github.com/goodmami/wn/actions?query=workflow%3A%22tests%22"><img src="https://github.com/goodmami/wn/workflows/tests/badge.svg" alt="tests"></a>
   <a href="https://wn.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/wn/badge/?version=latest&style=flat-square" alt="Documentation Status"></a>
-  <a href="https://anaconda.org/conda-forge/wn"><img src="https://img.shields.io/conda/vn/conda-forge/wn.svg?&style=flat-square" alt="Conda-Forge Version"></a>
   <br>
   <a href="https://github.com/goodmami/wn#available-wordnets">Available Wordnets</a>
   | <a href="https://wn.readthedocs.io/">Documentation</a>
@@ -31,12 +30,16 @@ Install it from PyPI using **pip**:
 pip install wn
 ```
 
-Or install using **conda** from the conda-forge channel
-([conda-forge/wn-feedstock](https://github.com/conda-forge/wn-feedstock)):
-
-```sh
-conda install -c conda-forge wn
-```
+> [!IMPORTANT]
+> Existing users of Wn may encounter an error about an incompatible database schema.
+> The remedy is to rebuild the database. There is a new function to help with this:
+> ```pycon
+> >>> wn.reset_database(rebuild=True)  # re-add any indexed lexicons
+> ```
+> or
+> ```pycon
+> >>> wn.reset_database()  # initialize without re-adding; start from scratch
+> ```
 
 ## Getting Started
 

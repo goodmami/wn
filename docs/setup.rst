@@ -17,17 +17,6 @@ Install the latest release from `PyPI <https://pypi.org/project/wn>`_:
    pip install wn
 
 
-Installing with Conda
----------------------
-
-Alternatively, if you use the `Anaconda <https://anaconda.org/>`
-distribution of Python, you can install with conda:
-
-.. code-block:: bash
-
-   conda install -c conda-forge wn
-
-
 The Data Directory
 ------------------
 
