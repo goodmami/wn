@@ -29,6 +29,7 @@ __all__ = (
     "lexicons",
     "projects",
     "remove",
+    "reset_database",
     "sense",
     "senses",
     "synset",
@@ -65,6 +66,7 @@ from wn._module_functions import (
     lemmas,
     lexicons,
     projects,
+    reset_database,
     sense,
     senses,
     synset,
@@ -74,4 +76,4 @@ from wn._module_functions import (
 )
 from wn._wordnet import Wordnet
 
-__version__ = "0.14.0"
+__version__ = "1.0.0rc0"

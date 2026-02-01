@@ -55,6 +55,7 @@ Notable changes in this release:
   unescaping for the scheme used by OEWN 2025 ([#292])
 * `wn.compat.sensekey` supports the `oewn:2025` and `oewn:2025+` lexicons for
   the `sense_key_getter` and `sense_getter` functions ([#292])
+* `wn.reset_database()` function for reinitializing an outdated database.
 
 ### Removed
 

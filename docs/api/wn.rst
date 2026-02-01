@@ -14,6 +14,7 @@ Project Management Functions
 .. autofunction:: remove
 .. autofunction:: export
 .. autofunction:: projects
+.. autofunction:: reset_database
 
 
 Wordnet Query Functions

@@ -60,7 +60,7 @@ class WNConfig:
         self._dbpath = dir / DATABASE_FILENAME
 
     @property
-    def database_path(self):
+    def database_path(self) -> Path:
         """The path to the database file.
 
         The database path is derived from :attr:`data_directory` and
@@ -70,7 +70,7 @@ class WNConfig:
         return self._dbpath
 
     @property
-    def downloads_directory(self):
+    def downloads_directory(self) -> Path:
         """The file system directory where downloads are cached.
 
         The downloads directory is derived from :attr:`data_directory`
