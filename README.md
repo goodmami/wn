@@ -14,7 +14,6 @@
   | <a href="https://wn.readthedocs.io/">Documentation</a>
   | <a href="https://wn.readthedocs.io/en/latest/faq.html">FAQ</a>
   | <a href="https://wn.readthedocs.io/en/latest/guides/nltk-migration.html">Migrating from NLTK</a>
-  | <a href="https://github.com/goodmami/wn/projects">Roadmap</a>
   |  <a href="https://github.com/goodmami/wn#citation">Citation</a>
 </p>
 
@@ -28,6 +27,12 @@ Install it from PyPI using **pip**:
 
 ```sh
 pip install wn
+```
+
+or **uv**:
+
+```
+uv add wn
 ```
 
 > [!IMPORTANT]
