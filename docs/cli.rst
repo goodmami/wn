@@ -118,7 +118,7 @@ problems and print a report.
 
    .. code-block::
 
-      $ python -m wn validate --select E W201 W204 deWordNet.xml
+      $ python -m wn validate --select E,W201,W204 deWordNet.xml
 
 .. option:: --output-file FILE
 
