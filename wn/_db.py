@@ -34,7 +34,7 @@ DEBUG = False
 # >>> wn._db.schema_hash(conn)
 #
 COMPATIBLE_SCHEMA_HASHES = {
-    "8348fc1a6254f514294a1dc70458e0733742935d",
+    "f439c9bd27f809f64ee42896fb0fc20c5d00fd99",
 }
 
 
@@ -144,7 +144,13 @@ def list_lexicons_safe(conn: sqlite3.Connection | None = None) -> list[str]:
 
 
 def schema_hash(conn: sqlite3.Connection) -> str:
-    query = "SELECT sql FROM sqlite_master WHERE NOT sql ISNULL"
+    query = """
+        SELECT sql
+          FROM sqlite_schema
+         WHERE NOT sql ISNULL
+           AND name NOT LIKE 'sqlite_stat%'
+         ORDER BY sql ASC
+    """
     schema = "\n\n".join(row[0] for row in conn.execute(query))
     return short_hash(schema)
 
