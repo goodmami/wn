@@ -9,9 +9,9 @@ from itertools import islice
 from pathlib import Path
 from typing import TypeVar, cast
 
-from wn import constants, lmf
 from wn import ili as _ili
-from wn._config import config
+from wn import lmf
+from wn._config import ResourceType, config
 from wn._db import connect
 from wn._exceptions import Error
 from wn._queries import (
@@ -108,9 +108,9 @@ def add(
     try:
         for package in iterpackages(source):
             match package.type:
-                case constants._WORDNET:
+                case ResourceType.WORDNET:
                     _add_lmf(package.resource_file(), progress, progress_handler)
-                case constants._ILI:
+                case ResourceType.ILI:
                     _add_ili(package.resource_file(), progress)
                 case _:
                     raise Error(f"unknown package type: {package.type}")

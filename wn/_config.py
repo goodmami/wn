@@ -3,6 +3,7 @@ Local configuration settings.
 """
 
 from collections.abc import Sequence
+from enum import Enum
 from importlib.resources import as_file, files
 from pathlib import Path
 from typing import Any
@@ -16,7 +17,6 @@ except ImportError:
 from wn._exceptions import ConfigurationError, ProjectError
 from wn._types import AnyPath
 from wn._util import format_lexicon_specifier, short_hash, split_lexicon_specifier
-from wn.constants import _WORDNET
 
 # The index file is a project file of Wn
 with as_file(files("wn") / "index.toml") as index_file:
@@ -25,6 +25,10 @@ with as_file(files("wn") / "index.toml") as index_file:
 DEFAULT_DATA_DIRECTORY = Path.home() / ".wn_data"
 DATABASE_FILENAME = "wn.db"
 
+
+class ResourceType(str, Enum):
+    WORDNET = 'wordnet'
+    ILI = 'ili'
 
 class WNConfig:
     def __init__(self):
@@ -89,7 +93,7 @@ class WNConfig:
     def add_project(
         self,
         id: str,
-        type: str = _WORDNET,
+        type: ResourceType = ResourceType.WORDNET,
         label: str | None = None,
         language: str | None = None,
         license: str | None = None,
@@ -111,7 +115,7 @@ class WNConfig:
         if id in self._projects:
             raise ValueError(f"project already added: {id}")
         self._projects[id] = {
-            "type": type,
+            "type": ResourceType(type),
             "label": label,
             "language": language,
             "versions": {},
@@ -237,7 +241,7 @@ class WNConfig:
             else:
                 self.add_project(
                     id,
-                    type=project.get("type", _WORDNET),
+                    type=project.get("type", ResourceType.WORDNET),
                     label=project.get("label"),
                     language=project.get("language"),
                     license=project.get("license"),

@@ -342,8 +342,3 @@ LEXICOGRAPHER_FILES = {
     "verb.weather": 43,
     "adj.ppl": 44,
 }
-
-# resource types
-
-_WORDNET = "wordnet"
-_ILI = "ili"
