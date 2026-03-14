@@ -3,7 +3,7 @@
 import hashlib
 from collections.abc import Hashable, Iterable
 from pathlib import Path
-from typing import TypeVar
+from typing import Any, TypeGuard, TypeVar
 from unicodedata import combining, normalize
 
 from wn._types import VersionInfo
@@ -32,6 +32,10 @@ def is_lzma(path: Path) -> bool:
 def is_xml(path: Path) -> bool:
     """Return True if the file at *path* appears to be an XML file."""
     return _inspect_file_signature(path, b"<?xml ")
+
+
+def is_str_key_dict(obj: Any) -> TypeGuard[dict[str, Any]]:
+    return isinstance(obj, dict) and all(isinstance(key ,str) for key in obj)
 
 
 def _inspect_file_signature(path: Path, signature: bytes) -> bool:

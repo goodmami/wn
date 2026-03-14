@@ -1,6 +1,6 @@
 from typing import Literal, overload
 
-from wn._config import config
+from wn._config import ResolvedProjectInfo, config
 from wn._core import Form, Sense, Synset, Word
 from wn._db import clear_connections, connect, list_lexicons_safe
 from wn._download import download
@@ -10,7 +10,7 @@ from wn._util import format_lexicon_specifier
 from wn._wordnet import Wordnet
 
 
-def projects() -> list[dict]:
+def projects() -> list[ResolvedProjectInfo]:
     """Return the list of indexed projects.
 
     This returns the same dictionaries of information as
@@ -32,7 +32,7 @@ def projects() -> list[dict]:
         config.get_project_info(format_lexicon_specifier(project_id, version))
         for project_id, project_info in index.items()
         for version in project_info.get("versions", [])
-        if "resource_urls" in project_info["versions"][version]
+        if not project_info["versions"][version]["error"]
     ]
 
 
