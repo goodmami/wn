@@ -4,6 +4,7 @@ Local configuration settings.
 
 from collections.abc import Sequence
 from enum import Enum
+from fnmatch import fnmatch
 from importlib.resources import as_file, files
 from pathlib import Path
 from typing import Any, TypedDict
@@ -60,6 +61,13 @@ class ResolvedProjectInfo(TypedDict):
     license: str | None
     resource_urls: list[str]
     cache: Path | None
+
+
+class CacheEntry(TypedDict):
+    path: Path
+    id: str | None
+    version: str | None
+    url: str | None
 
 
 class WNConfig:
@@ -242,12 +250,48 @@ class WNConfig:
     def get_cache_path(self, url: str) -> Path:
         """Return the path for caching *url*.
 
-        Note that in general this is just a path operation and does
+        Note that this is just a path operation and does
         not signify that the file exists in the file system.
 
         """
         filename = short_hash(url)
         return self.downloads_directory / filename
+
+    def list_cache_entries(self, arg: str = "*") -> list[CacheEntry]:
+        """Return a list of cached resources.
+
+        Use *arg* as a pattern to match project specifiers. It
+        defaults to `"*"` to select all cached entries.
+
+        Each entry on the list is a dictionary with the keys:
+        * `"path"` -- the path of the cached file
+        * `"id"`  -- the ID of the cached resource
+        * `"version"` -- the version of the cached resource
+        * `"url"` -- the URL of the cached resource
+
+        Note that cached files are stored with a hash of their URL as
+        the filename and that it is not feasible to recover the URL
+        from the hash alone. Therefore, for lexicons downloaded with a
+        URL that does not appear in the index, the ID, version, and URL
+        and will be :python:`None` instead.
+        """
+        arg = arg.strip()
+        cache_map = _cache_map(self)
+        entries: list[CacheEntry] = []
+        for cache_path in self.downloads_directory.iterdir():
+            if cache_path in cache_map:
+                id, version, url = cache_map[cache_path]
+                specifier = format_lexicon_specifier(id, version)
+                if not (fnmatch(specifier, arg) or url == arg):
+                    continue
+                entries.append(
+                    CacheEntry(path=cache_path, id=id, version=version, url=url)
+                )
+            elif arg in ("*", "*:*"):
+                entries.append(
+                    CacheEntry(path=cache_path, id=None, version=None, url=None)
+                )
+        return entries
 
     def update(self, data: dict[str, Any]) -> None:
         """Update the configuration with items in *data*.
@@ -342,6 +386,22 @@ def _get_cache_path_for_urls(
         if path.is_file():
             return path
     return None
+
+
+def _cache_map(config: WNConfig) -> dict[str, tuple[str, str, str]]:
+    """Return a dict of cache hashes to resource info tuples.
+
+    Each tuple contains the id, version, and URL of the indexed
+    resource. The hash is based on the URL and the tuple only contains
+    information from the index. They do not indicate whether the
+    resource has been cached.
+    """
+    return {
+        config.get_cache_path(url): (id, version, url)
+        for id, p_info in config.index.items()
+        for version, v_info in p_info["versions"].items()
+        for url in v_info["resource_urls"]
+    }
 
 
 config = WNConfig()

@@ -2,6 +2,12 @@
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* `cache` subcommand ([#313])
+* `wn.config.list_cache_entries()` method ([#313])
+
+
 ## [v1.0.0]
 
 **Release date: 2026-01-31**
@@ -951,3 +957,4 @@ abandoned, but this is an entirely new codebase.
 [#301]: https://github.com/goodmami/wn/issues/301
 [#302]: https://github.com/goodmami/wn/issues/302
 [#303]: https://github.com/goodmami/wn/issues/303
+[#313]: https://github.com/goodmami/wn/issues/313

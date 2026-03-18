@@ -40,6 +40,38 @@ specifiers or URLs.
    database.
 
 
+cache
+-----
+
+View the files in the download cache. The ``download`` command caches the (often
+compressed) files to the filesystem prior to adding to Wn's database. The files
+are renamed with a hash of the URL to avoid name clashes, but this also makes it
+hard to determine what a particular file is. This command cross-references the
+downloaded files with what is in the index. An optional project specifier
+argument can help narrow down the results.
+
+.. code-block:: console
+
+   $ python -m wn cache  # many results; abbreviated here
+   af909070c29845b952d1799551bffc302e28d2c5        own-en  1.0.0   https://github.com/own-pt/openWordnet-PT/releases/download/v1.0.0/own-en.tar.gz
+   e25af66e46775b00d689619787013e6a35e5cbf7        oewn    2025    https://en-word.net/static/english-wordnet-2025.xml.gz
+   5a26d97a0081996db4cd621638a8a9b0da09aa25        odenet  1.4     https://github.com/hdaSprachtechnologie/odenet/releases/download/v1.4/odenet-1.4.tar.xz
+   [...]
+   $ python -m wn cache "oewn:2025*" # narrowed results
+   e25af66e46775b00d689619787013e6a35e5cbf7        oewn    2025    https://en-word.net/static/english-wordnet-2025.xml.gz
+   0f5371187dcfe7e05f2a93ab85b4e1168859a5c2        oewn    2025+   https://en-word.net/static/english-wordnet-2025-plus.xml.gz
+
+.. option:: --full-paths-only
+
+   Only print the full path of each cache file. This can be useful when one
+   wants to pipe the results to other commands. For example, on Unix-like
+   systems, the following will delete matching cache entries:
+
+   .. code-block:: console
+
+      $ python -m wn cache --full-paths-only "omw*:1.4" | xargs rm
+
+
 lexicons
 --------
 
