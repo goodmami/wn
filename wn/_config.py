@@ -3,9 +3,11 @@ Local configuration settings.
 """
 
 from collections.abc import Sequence
+from enum import Enum
+from fnmatch import fnmatch
 from importlib.resources import as_file, files
 from pathlib import Path
-from typing import Any
+from typing import Any, TypedDict
 
 try:
     # python_version >= 3.11
@@ -15,8 +17,12 @@ except ImportError:
 
 from wn._exceptions import ConfigurationError, ProjectError
 from wn._types import AnyPath
-from wn._util import format_lexicon_specifier, short_hash, split_lexicon_specifier
-from wn.constants import _WORDNET
+from wn._util import (
+    format_lexicon_specifier,
+    is_str_key_dict,
+    short_hash,
+    split_lexicon_specifier,
+)
 
 # The index file is a project file of Wn
 with as_file(files("wn") / "index.toml") as index_file:
@@ -26,7 +32,47 @@ DEFAULT_DATA_DIRECTORY = Path.home() / ".wn_data"
 DATABASE_FILENAME = "wn.db"
 
 
+class ResourceType(str, Enum):
+    WORDNET = "wordnet"
+    ILI = "ili"
+
+
+class VersionInfo(TypedDict):
+    resource_urls: list[str]
+    license: str | None
+    error: str | None
+
+
+class ProjectInfo(TypedDict):
+    type: ResourceType
+    label: str | None
+    language: str | None
+    license: str | None
+    error: str | None
+    versions: dict[str, VersionInfo]
+
+
+class ResolvedProjectInfo(TypedDict):
+    id: str
+    version: str
+    type: ResourceType
+    label: str | None
+    language: str | None
+    license: str | None
+    resource_urls: list[str]
+    cache: Path | None
+
+
+class CacheEntry(TypedDict):
+    path: Path
+    id: str | None
+    version: str | None
+    url: str | None
+
+
 class WNConfig:
+    _projects: dict[str, ProjectInfo]
+
     def __init__(self):
         self._data_directory = DEFAULT_DATA_DIRECTORY
         self._projects = {}
@@ -52,7 +98,7 @@ class WNConfig:
         return dir
 
     @data_directory.setter
-    def data_directory(self, path):
+    def data_directory(self, path: AnyPath) -> None:
         dir = Path(path).expanduser()
         if dir.exists() and not dir.is_dir():
             raise ConfigurationError(f"path exists and is not a directory: {dir}")
@@ -82,14 +128,14 @@ class WNConfig:
         return dir
 
     @property
-    def index(self) -> dict[str, dict]:
+    def index(self) -> dict[str, ProjectInfo]:
         """The project index."""
         return self._projects
 
     def add_project(
         self,
         id: str,
-        type: str = _WORDNET,
+        type: ResourceType = ResourceType.WORDNET,
         label: str | None = None,
         language: str | None = None,
         license: str | None = None,
@@ -110,15 +156,14 @@ class WNConfig:
         """
         if id in self._projects:
             raise ValueError(f"project already added: {id}")
-        self._projects[id] = {
-            "type": type,
-            "label": label,
-            "language": language,
-            "versions": {},
-            "license": license,
-        }
-        if error:
-            self._projects[id]["error"] = error
+        self._projects[id] = ProjectInfo(
+            type=ResourceType(type),
+            label=label,
+            language=language,
+            license=license,
+            error=error,
+            versions={},
+        )
 
     def add_project_version(
         self,
@@ -142,22 +187,19 @@ class WNConfig:
               is accessed
 
         """
-        version_data: dict[str, Any]
-        if url and not error:
-            version_data = {"resource_urls": url.split()}
-        elif error and not url:
-            version_data = {"error": error}
-        elif url and error:
+        if url and error:
             spec = format_lexicon_specifier(id, version)
             raise ConfigurationError(f"{spec} specifies both url and redirect")
-        else:
-            version_data = {}
-        if license:
-            version_data["license"] = license
+
+        version_data = VersionInfo(
+            resource_urls=url.split() if (url and not error) else [],
+            license=license,
+            error=error,
+        )
         project = self._projects[id]
         project["versions"][version] = version_data
 
-    def get_project_info(self, arg: str) -> dict:
+    def get_project_info(self, arg: str) -> ResolvedProjectInfo:
         """Return information about an indexed project version.
 
         If the project has been downloaded and cached, the ``"cache"``
@@ -177,8 +219,8 @@ class WNConfig:
         id, version = split_lexicon_specifier(arg)
         if id not in self._projects:
             raise ProjectError(f"no such project id: {id}")
-        project: dict = self._projects[id]
-        if "error" in project:
+        project: ProjectInfo = self._projects[id]
+        if project["error"]:
             raise ProjectError(project["error"])
 
         versions: dict = project["versions"]
@@ -189,33 +231,69 @@ class WNConfig:
         elif version not in versions:
             raise ProjectError(f"no such version: {version!r} ({id})")
         info = versions[version]
-        if "error" in info:
+        if info["error"]:
             raise ProjectError(info["error"])
 
         urls = info.get("resource_urls", [])
 
-        return {
-            "id": id,
-            "version": version,
-            "type": project["type"],
-            "label": project["label"],
-            "language": project["language"],
-            "license": info.get("license", project.get("license")),
-            "resource_urls": urls,
-            "cache": _get_cache_path_for_urls(self, urls),
-        }
+        return ResolvedProjectInfo(
+            id=id,
+            version=version,
+            type=project["type"],
+            label=project["label"],
+            language=project["language"],
+            license=info.get("license", project.get("license")),
+            resource_urls=urls,
+            cache=_get_cache_path_for_urls(self, urls),
+        )
 
     def get_cache_path(self, url: str) -> Path:
         """Return the path for caching *url*.
 
-        Note that in general this is just a path operation and does
+        Note that this is just a path operation and does
         not signify that the file exists in the file system.
 
         """
         filename = short_hash(url)
         return self.downloads_directory / filename
 
-    def update(self, data: dict) -> None:
+    def list_cache_entries(self, arg: str = "*") -> list[CacheEntry]:
+        """Return a list of cached resources.
+
+        Use *arg* as a pattern to match project specifiers. It
+        defaults to `"*"` to select all cached entries.
+
+        Each entry on the list is a dictionary with the keys:
+        * `"path"` -- the path of the cached file
+        * `"id"`  -- the ID of the cached resource
+        * `"version"` -- the version of the cached resource
+        * `"url"` -- the URL of the cached resource
+
+        Note that cached files are stored with a hash of their URL as
+        the filename and that it is not feasible to recover the URL
+        from the hash alone. Therefore, for lexicons downloaded with a
+        URL that does not appear in the index, the ID, version, and URL
+        and will be :python:`None` instead.
+        """
+        arg = arg.strip()
+        cache_map = _cache_map(self)
+        entries: list[CacheEntry] = []
+        for cache_path in self.downloads_directory.iterdir():
+            if cache_path in cache_map:
+                id, version, url = cache_map[cache_path]
+                specifier = format_lexicon_specifier(id, version)
+                if not (fnmatch(specifier, arg) or url == arg):
+                    continue
+                entries.append(
+                    CacheEntry(path=cache_path, id=id, version=version, url=url)
+                )
+            elif arg in ("*", "*:*"):
+                entries.append(
+                    CacheEntry(path=cache_path, id=None, version=None, url=None)
+                )
+        return entries
+
+    def update(self, data: dict[str, Any]) -> None:
         """Update the configuration with items in *data*.
 
         Items are only inserted or replaced, not deleted. If a project
@@ -225,9 +303,22 @@ class WNConfig:
         to the indexed project.
 
         """
-        if "data_directory" in data:
-            self.data_directory = data["data_directory"]
-        for id, project in data.get("index", {}).items():
+        if datadir := data.get("data_directory"):
+            if not isinstance(datadir, (str, Path)):
+                raise ConfigurationError(
+                    "data_directory must be a str or Path, "
+                    f"not {type(datadir).__name__}"
+                )
+            self.data_directory = datadir
+        if index := data.get("index", {}):
+            if not is_str_key_dict(index):
+                raise ConfigurationError("index must be a dict with str keys")
+            self._update_index(index)
+
+    def _update_index(self, index: dict[str, Any]) -> None:
+        for id, project in index.items():
+            if not is_str_key_dict(project):
+                raise ConfigurationError(f"invalid project: {project}")
             if id in self._projects:
                 # validate that they are the same
                 _project = self._projects[id]
@@ -237,14 +328,14 @@ class WNConfig:
             else:
                 self.add_project(
                     id,
-                    type=project.get("type", _WORDNET),
+                    type=project.get("type", ResourceType.WORDNET),
                     label=project.get("label"),
                     language=project.get("language"),
                     license=project.get("license"),
                     error=project.get("error"),
                 )
             for version, info in project.get("versions", {}).items():
-                if "url" in info and "error" in project:
+                if info.get("url") and project.get("error"):
                     spec = format_lexicon_specifier(id, version)
                     raise ConfigurationError(f"{spec} url specified with default error")
                 self.add_project_version(
@@ -281,6 +372,8 @@ class WNConfig:
                 index = tomllib.load(indexfile)
             except tomllib.TOMLDecodeError as exc:
                 raise ConfigurationError("malformed index file") from exc
+            if not is_str_key_dict(index):
+                raise ConfigurationError("invalid index file")
         self.update({"index": index})
 
 
@@ -293,6 +386,22 @@ def _get_cache_path_for_urls(
         if path.is_file():
             return path
     return None
+
+
+def _cache_map(config: WNConfig) -> dict[Path, tuple[str, str, str]]:
+    """Return a dict of cache hashes to resource info tuples.
+
+    Each tuple contains the id, version, and URL of the indexed
+    resource. The hash is based on the URL and the tuple only contains
+    information from the index. They do not indicate whether the
+    resource has been cached.
+    """
+    return {
+        config.get_cache_path(url): (id, version, url)
+        for id, p_info in config.index.items()
+        for version, v_info in p_info["versions"].items()
+        for url in v_info["resource_urls"]
+    }
 
 
 config = WNConfig()

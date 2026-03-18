@@ -11,19 +11,38 @@ from wn.project import iterpackages
 from wn.validate import validate
 
 
-def _download(args):
+def _download(args: argparse.Namespace) -> None:
     if args.index:
         wn.config.load_index(args.index)
     for target in args.target:
         wn.download(target, add=args.add)
 
 
-def _lexicons(args):
+def _cache(args: argparse.Namespace) -> None:
+    cache_entries = wn.config.list_cache_entries(args.ARG)
+    if args.full_paths_only:
+        for cache_entry in cache_entries:
+            print(str(cache_entry["path"]))
+    else:
+        for cache_entry in cache_entries:
+            print(
+                "\t".join(
+                    [
+                        str(cache_entry["path"].name),
+                        cache_entry["id"] or "?",
+                        cache_entry["version"] or "?",
+                        cache_entry["url"] or "?",
+                    ]
+                )
+            )
+
+
+def _lexicons(args: argparse.Namespace) -> None:
     for lex in wn.lexicons(lang=args.lang, lexicon=args.lexicon):
         print("\t".join((lex.id, lex.version, f"[{lex.language}]", lex.label)))
 
 
-def _projects(args):
+def _projects(args: argparse.Namespace) -> None:
     for info in wn.projects():
         key = "i"
         key += "c" if info["cache"] else "-"
@@ -41,7 +60,7 @@ def _projects(args):
         )
 
 
-def _validate(args):
+def _validate(args: argparse.Namespace) -> None:
     all_valid = True
     selectseq = [check.strip() for check in args.select.split(",")]
     for package in iterpackages(args.FILE):
@@ -124,6 +143,24 @@ parser_download.add_argument(
 )
 parser_download.set_defaults(func=_download)
 
+
+parser_cache = sub_parsers.add_parser(
+    "cache",
+    description="View Wn's download cache.",
+    help="view the download cache",
+)
+parser_cache.add_argument(
+    "ARG",
+    help="project specifier or URL",
+    nargs="?",
+    default="*",
+)
+parser_cache.add_argument(
+    "--full-paths-only",
+    action="store_true",
+    help="print the full paths of cache entries without other data",
+)
+parser_cache.set_defaults(func=_cache)
 
 parser_lexicons = sub_parsers.add_parser(
     "lexicons",

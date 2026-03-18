@@ -11,11 +11,10 @@ from collections.abc import Iterator
 from pathlib import Path
 
 from wn import ili, lmf
-from wn._config import config
+from wn._config import ResourceType, config
 from wn._exceptions import Error
 from wn._types import AnyPath
 from wn._util import is_gzip, is_lzma
-from wn.constants import _ILI, _WORDNET
 
 _ADDITIONAL_FILE_SUFFIXES = ("", ".txt", ".md", ".rst")
 
@@ -38,9 +37,9 @@ def _package_directory_types(path: Path) -> list[tuple[Path, str]]:
 
 def _resource_file_type(path: Path) -> str | None:
     if lmf.is_lmf(path):
-        return _WORDNET
+        return ResourceType.WORDNET
     elif ili.is_ili_tsv(path):
-        return _ILI
+        return ResourceType.ILI
     return None
 
 

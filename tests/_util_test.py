@@ -1,4 +1,10 @@
-from wn._util import flatten, normalize_form, unique_list
+from wn._util import (
+    flatten,
+    format_lexicon_specifier,
+    normalize_form,
+    split_lexicon_specifier,
+    unique_list,
+)
 
 
 def test_flatten():
@@ -28,3 +34,19 @@ def test_normalize_form():
     assert normalize_form("so\xf1ar") == "sonar"  # soñar with single ñ character
     assert normalize_form("son\u0303ar") == "sonar"  # soñar with combining tilde
     assert normalize_form("Weiß") == "weiss"
+
+
+def test_format_lexicon_specifier():
+    assert format_lexicon_specifier("", "") == ":"
+    assert format_lexicon_specifier("foo", "") == "foo:"
+    assert format_lexicon_specifier("", "bar") == ":bar"
+    assert format_lexicon_specifier("foo", "bar") == "foo:bar"
+
+
+def test_split_lexicon_specifier():
+    assert split_lexicon_specifier("") == ("", "")
+    assert split_lexicon_specifier(":") == ("", "")
+    assert split_lexicon_specifier("foo") == ("foo", "")
+    assert split_lexicon_specifier("foo:") == ("foo", "")
+    assert split_lexicon_specifier(":bar") == ("", "bar")
+    assert split_lexicon_specifier("foo:bar") == ("foo", "bar")
