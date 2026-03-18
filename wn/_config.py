@@ -33,8 +33,8 @@ DATABASE_FILENAME = "wn.db"
 
 
 class ResourceType(str, Enum):
-    WORDNET = 'wordnet'
-    ILI = 'ili'
+    WORDNET = "wordnet"
+    ILI = "ili"
 
 
 class VersionInfo(TypedDict):
@@ -388,7 +388,7 @@ def _get_cache_path_for_urls(
     return None
 
 
-def _cache_map(config: WNConfig) -> dict[str, tuple[str, str, str]]:
+def _cache_map(config: WNConfig) -> dict[Path, tuple[str, str, str]]:
     """Return a dict of cache hashes to resource info tuples.
 
     Each tuple contains the id, version, and URL of the indexed

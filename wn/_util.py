@@ -35,7 +35,7 @@ def is_xml(path: Path) -> bool:
 
 
 def is_str_key_dict(obj: Any) -> TypeGuard[dict[str, Any]]:
-    return isinstance(obj, dict) and all(isinstance(key ,str) for key in obj)
+    return isinstance(obj, dict) and all(isinstance(key, str) for key in obj)
 
 
 def _inspect_file_signature(path: Path, signature: bytes) -> bool:

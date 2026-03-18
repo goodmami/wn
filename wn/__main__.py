@@ -36,6 +36,7 @@ def _cache(args: argparse.Namespace) -> None:
                 )
             )
 
+
 def _lexicons(args: argparse.Namespace) -> None:
     for lex in wn.lexicons(lang=args.lang, lexicon=args.lexicon):
         print("\t".join((lex.id, lex.version, f"[{lex.language}]", lex.label)))
