@@ -21,6 +21,16 @@ def test_word_translate():
     assert len(wn.word("test-es-ejemplo-n").translate(lang="en")) == 1
 
 
+@pytest.mark.usefixtures("mini_db")
+def test_word_translate_issue_316():
+    # https://github.com/goodmami/wn/issues/316
+    es = wn.Wordnet("test-es")
+    es_w = es.word("test-es-información-n")
+    translations = es_w.translate(lexicon="test-en")
+    assert len(translations) == 1
+    assert next(iter(translations.values()))[0].forms() == ["information"]
+
+
 @pytest.mark.usefixtures("mini_db_1_1")
 def test_word_lemma_tags():
     en = wn.Wordnet("test-en")
@@ -118,6 +128,14 @@ def test_sense_translate():
 
 
 @pytest.mark.usefixtures("mini_db")
+def test_sense_translate_issue_316():
+    # https://github.com/goodmami/wn/issues/316
+    es = wn.Wordnet("test-es")
+    es_s = es.sense("test-es-información-n-0001-01")
+    assert es_s.translate(lexicon="test-en")[0].counts() == [3]
+
+
+@pytest.mark.usefixtures("mini_db")
 def test_synset_senses():
     assert len(wn.synset("test-en-0003-v").senses()) == 2
     assert len(wn.synset("test-es-0003-v").senses()) == 2
@@ -177,6 +195,17 @@ def test_synset_lexicalized():
 def test_synset_translate():
     assert len(wn.synset("test-en-0001-n").translate(lang="es")) == 1
     assert len(wn.synset("test-es-0001-n").translate(lang="en")) == 1
+
+
+@pytest.mark.usefixtures("mini_db")
+def test_synset_translate_issue_316():
+    # https://github.com/goodmami/wn/issues/316
+    es = wn.Wordnet("test-es")
+    en = wn.Wordnet("test-en")
+    es_ss = es.synset("test-es-0001-n")
+    en_ss = en.synset("test-en-0001-n")
+    assert es_ss.translate(lexicon="test-en")[0].definition() == en_ss.definition()
+    assert en_ss.translate(lexicon="test-es")[0].definition() == es_ss.definition()
 
 
 @pytest.mark.usefixtures("uninitialized_datadir")
