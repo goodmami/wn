@@ -947,7 +947,7 @@ class Synset(_Relatable):
             return []
         lexicons = resolve_lexicon_specifiers(lexicon=(lexicon or "*"), lang=lang)
         lexconf = LexiconConfiguration(
-            lexicons=lexicons, expands=(), default_mode=False
+            lexicons=tuple(lexicons), expands=(), default_mode=False
         )
         return [
             Synset(*data, _lexconf=lexconf)
