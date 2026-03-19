@@ -7,6 +7,18 @@
 * `cache` subcommand ([#313])
 * `wn.config.list_cache_entries()` method ([#313])
 
+### Changed
+
+* The schema hashing function is now resilient to ordering and SQL DB
+  operations ([#319])
+
+### Fixed
+
+* `Synset.translate()` resets the lexicon configuration of the
+  translated sysets ([#316]); `Sense.translate()` and
+  `Word.translate()` derive from `Synset.translate()` so nothing
+  special needs to be done for them.
+
 
 ## [v1.0.0]
 
@@ -958,3 +970,5 @@ abandoned, but this is an entirely new codebase.
 [#302]: https://github.com/goodmami/wn/issues/302
 [#303]: https://github.com/goodmami/wn/issues/303
 [#313]: https://github.com/goodmami/wn/issues/313
+[#316]: https://github.com/goodmami/wn/issues/316
+[#319]: https://github.com/goodmami/wn/issues/319

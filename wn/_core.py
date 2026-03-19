@@ -946,8 +946,11 @@ class Synset(_Relatable):
         if not ili:
             return []
         lexicons = resolve_lexicon_specifiers(lexicon=(lexicon or "*"), lang=lang)
+        lexconf = LexiconConfiguration(
+            lexicons=lexicons, expands=(), default_mode=False
+        )
         return [
-            Synset(*data, _lexconf=self._lexconf)
+            Synset(*data, _lexconf=lexconf)
             for data in get_synsets_for_ilis((ili,), lexicons)
         ]
 
