@@ -6,6 +6,7 @@
 
 * `cache` subcommand ([#313])
 * `wn.config.list_cache_entries()` method ([#313])
+* Support for `WN_DATA_DIR` environment variable ([#314])
 
 ### Changed
 
@@ -970,5 +971,6 @@ abandoned, but this is an entirely new codebase.
 [#302]: https://github.com/goodmami/wn/issues/302
 [#303]: https://github.com/goodmami/wn/issues/303
 [#313]: https://github.com/goodmami/wn/issues/313
+[#314]: https://github.com/goodmami/wn/issues/314
 [#316]: https://github.com/goodmami/wn/issues/316
 [#319]: https://github.com/goodmami/wn/issues/319
