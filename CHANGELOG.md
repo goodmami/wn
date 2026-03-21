@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v1.1.0]
+
+**Release date: 2026-03-21**
+
 ### Added
 
 * `cache` subcommand ([#313])
@@ -823,6 +828,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v1.1.0]: ../../releases/tag/v1.1.0
 [v1.0.0]: ../../releases/tag/v1.0.0
 [v0.14.0]: ../../releases/tag/v0.14.0
 [v0.13.0]: ../../releases/tag/v0.13.0
