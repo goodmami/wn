@@ -2,6 +2,7 @@
 Local configuration settings.
 """
 
+import os
 from collections.abc import Sequence
 from enum import Enum
 from fnmatch import fnmatch
@@ -28,7 +29,7 @@ from wn._util import (
 with as_file(files("wn") / "index.toml") as index_file:
     INDEX_FILE_PATH = index_file
 # The directory where downloaded and added data will be stored.
-DEFAULT_DATA_DIRECTORY = Path.home() / ".wn_data"
+DEFAULT_DATA_DIR = Path.home() / ".wn_data"
 DATABASE_FILENAME = "wn.db"
 
 
@@ -74,7 +75,7 @@ class WNConfig:
     _projects: dict[str, ProjectInfo]
 
     def __init__(self):
-        self._data_directory = DEFAULT_DATA_DIRECTORY
+        self._data_directory = Path(os.getenv("WN_DATA_DIR", default=DEFAULT_DATA_DIR))
         self._projects = {}
         self._dbpath = self._data_directory / DATABASE_FILENAME
         self.allow_multithreading = False

@@ -53,12 +53,27 @@ change the directory Wn uses for storing data locally, modify the
    import wn
    wn.config.data_directory = '~/Projects/wn_data'
 
+You can alternatively set the ``WN_DATA_DIR`` environment variable
+prior to importing Wn. On Unix-like systems, this would look like:
+
+.. code-block:: console
+
+   $ export WN_DATA_DIR=~/path/to/wn_data
+   $ python3 ...
+
+If you are using Wn from the command line, a third option is to use
+the ``--dir`` or ``-d`` option:
+
+.. code-block:: console
+
+   $ python3 -m wn --dir ~/path/to/wn_data download ...
+
 There are some things to note:
 
 - The downloads directory and database path are always relative to the
   data directory and cannot be changed directly.
 - This change only affects subsequent operations, so any data in the
-  previous location will not be moved nor deleted.
+  previous location will not be moved or deleted.
 - This change only affects the current session. If you want a script
   or application to always use the new location, it must reset the
   data directory each time it is initialized.
