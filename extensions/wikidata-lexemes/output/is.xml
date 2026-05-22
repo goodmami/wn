@@ -16,6 +16,9 @@
     </LexicalEntry>
     <LexicalEntry id="L941785">
       <Lemma writtenForm="ég" partOfSpeech="h"/>
+      <Form writtenForm="mig"/>
+      <Form writtenForm="mér"/>
+      <Form writtenForm="mín"/>
       <Sense id="L941785-S1" synset="wikidata-is-L941785-S1" ili="wikidata-is-L941785-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>

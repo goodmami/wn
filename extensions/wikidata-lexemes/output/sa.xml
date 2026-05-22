@@ -16,6 +16,11 @@
     </LexicalEntry>
     <LexicalEntry id="L687616">
       <Lemma writtenForm="मद्" partOfSpeech="h"/>
+      <Form writtenForm="अहम्"/>
+      <Form writtenForm="मम"/>
+      <Form writtenForm="माम्"/>
+      <Form writtenForm="मया"/>
+      <Form writtenForm="मह्यम्"/>
       <Sense id="L687616-S1" synset="wikidata-sa-L687616-S1" ili="wikidata-sa-L687616-S1">
         <Definition>I</Definition>
       </Sense>
@@ -40,6 +45,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1013990">
       <Lemma writtenForm="क" partOfSpeech="h"/>
+      <Form writtenForm="कः"/>
+      <Form writtenForm="का"/>
+      <Form writtenForm="किम्"/>
       <Sense id="L1013990-S1" synset="wikidata-sa-L1013990-S1" ili="wikidata-sa-L1013990-S1">
         <Definition>کو، کوݨ</Definition>
       </Sense>
@@ -418,6 +426,12 @@
     </LexicalEntry>
     <LexicalEntry id="L943484">
       <Lemma writtenForm="यद्" partOfSpeech="h"/>
+      <Form writtenForm="यः"/>
+      <Form writtenForm="या"/>
+      <Form writtenForm="यस्य"/>
+      <Form writtenForm="येन"/>
+      <Form writtenForm="यस्मिन्"/>
+      <Form writtenForm="ये"/>
       <Sense id="L943484-S1" synset="wikidata-sa-L943484-S1" ili="wikidata-sa-L943484-S1">
         <Definition>who, which, what</Definition>
       </Sense>
@@ -499,6 +513,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1001746">
       <Lemma writtenForm="ति" partOfSpeech="x"/>
+      <Form writtenForm="तः"/>
+      <Form writtenForm="न्ति"/>
+      <Form writtenForm="सि"/>
+      <Form writtenForm="थः"/>
+      <Form writtenForm="थ"/>
+      <Form writtenForm="मि"/>
+      <Form writtenForm="वः"/>
+      <Form writtenForm="मः"/>
       <Sense id="L1001746-S1" synset="wikidata-sa-L1001746-S1" ili="wikidata-sa-L1001746-S1">
         <Definition>(लट)</Definition>
       </Sense>
@@ -507,12 +529,6 @@
       <Lemma writtenForm="अम्" partOfSpeech="x"/>
       <Sense id="L1005743-S1" synset="wikidata-sa-L1005743-S1" ili="wikidata-sa-L1005743-S1">
         <Definition>(verbal affix creating nominal forms)</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1094434">
-      <Lemma writtenForm="‎√कृ" partOfSpeech="x"/>
-      <Sense id="L1094434-S1" synset="wikidata-sa-L1094434-S1" ili="wikidata-sa-L1094434-S1">
-        <Definition>(करण)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1095292">
@@ -596,14 +612,9 @@
         <Definition>اور</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L621167">
-      <Lemma writtenForm="यद्" partOfSpeech="h"/>
-      <Sense id="L621167-S1" synset="wikidata-sa-L621167-S1" ili="wikidata-sa-L621167-S1">
-        <Definition>کَوݨ</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L738441">
       <Lemma writtenForm="स" partOfSpeech="x"/>
+      <Form writtenForm="ष"/>
       <Sense id="L738441-S1" synset="wikidata-sa-L738441-S1" ili="wikidata-sa-L738441-S1">
         <Definition>بھوِکھت کال دا حرف</Definition>
       </Sense>
@@ -619,6 +630,7 @@
     </LexicalEntry>
     <LexicalEntry id="L778656">
       <Lemma writtenForm="एक" partOfSpeech="a"/>
+      <Form writtenForm="एकः"/>
       <Sense id="L778656-S1" synset="wikidata-sa-L778656-S1" ili="wikidata-sa-L778656-S1">
         <Definition>one</Definition>
       </Sense>
@@ -637,6 +649,7 @@
     </LexicalEntry>
     <LexicalEntry id="L998807">
       <Lemma writtenForm="ई" partOfSpeech="x"/>
+      <Form writtenForm="ईय"/>
       <Sense id="L998807-S1" synset="wikidata-sa-L998807-S1" ili="wikidata-sa-L998807-S1">
         <Definition>(affix forming passive verb stems)</Definition>
       </Sense>
@@ -697,6 +710,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1134198">
       <Lemma writtenForm="एतद्" partOfSpeech="h"/>
+      <Form writtenForm="एष"/>
+      <Form writtenForm="एषा"/>
+      <Form writtenForm="एतस्य"/>
+      <Form writtenForm="एतायाः"/>
       <Sense id="L1134198-S1" synset="wikidata-sa-L1134198-S1" ili="wikidata-sa-L1134198-S1">
         <Definition>this</Definition>
       </Sense>
@@ -792,12 +809,6 @@
       <Lemma writtenForm="‎√दृश्" partOfSpeech="x"/>
       <Sense id="L1121737-S1" synset="wikidata-sa-L1121737-S1" ili="wikidata-sa-L1121737-S1">
         <Definition>(دیکھݨ دا عمل)</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1125093">
-      <Lemma writtenForm="‎√अस्" partOfSpeech="x"/>
-      <Sense id="L1125093-S1" synset="wikidata-sa-L1125093-S1" ili="wikidata-sa-L1125093-S1">
-        <Definition>(being)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1132974">
@@ -1127,9 +1138,6 @@
     <Synset id="wikidata-sa-L1005743-S1" ili="wikidata-sa-L1005743-S1" partOfSpeech="x">
       <Definition>(verbal affix creating nominal forms)</Definition>
     </Synset>
-    <Synset id="wikidata-sa-L1094434-S1" ili="wikidata-sa-L1094434-S1" partOfSpeech="x">
-      <Definition>(करण)</Definition>
-    </Synset>
     <Synset id="wikidata-sa-L1095292-S1" ili="wikidata-sa-L1095292-S1" partOfSpeech="x">
       <Definition>(اُڈݨ دا عمل)</Definition>
     </Synset>
@@ -1171,9 +1179,6 @@
     </Synset>
     <Synset id="wikidata-sa-L621142-S1" ili="wikidata-sa-L621142-S1" partOfSpeech="c">
       <Definition>اور</Definition>
-    </Synset>
-    <Synset id="wikidata-sa-L621167-S1" ili="wikidata-sa-L621167-S1" partOfSpeech="h">
-      <Definition>کَوݨ</Definition>
     </Synset>
     <Synset id="wikidata-sa-L738441-S1" ili="wikidata-sa-L738441-S1" partOfSpeech="x">
       <Definition>بھوِکھت کال دا حرف</Definition>
@@ -1279,9 +1284,6 @@
     </Synset>
     <Synset id="wikidata-sa-L1121737-S1" ili="wikidata-sa-L1121737-S1" partOfSpeech="x">
       <Definition>(دیکھݨ دا عمل)</Definition>
-    </Synset>
-    <Synset id="wikidata-sa-L1125093-S1" ili="wikidata-sa-L1125093-S1" partOfSpeech="x">
-      <Definition>(being)</Definition>
     </Synset>
     <Synset id="wikidata-sa-L1132974-S1" ili="wikidata-sa-L1132974-S1" partOfSpeech="x">
       <Definition>(becoming bad or corrupted)</Definition>

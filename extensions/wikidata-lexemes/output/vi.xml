@@ -10,6 +10,7 @@
     <Extends id="omw-vi" version="1.4"/>
     <LexicalEntry id="L619034">
       <Lemma writtenForm="và" partOfSpeech="c"/>
+      <Form writtenForm="&amp;"/>
       <Sense id="L619034-S1" synset="wikidata-vi-L619034-S1" ili="l1385-s1">
         <Definition>liên kết các từ và câu với nhau</Definition>
       </Sense>

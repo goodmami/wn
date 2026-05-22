@@ -19,6 +19,7 @@
     </LexicalEntry>
     <LexicalEntry id="L614062">
       <Lemma writtenForm="ndi" partOfSpeech="h"/>
+      <Form writtenForm="ndị"/>
       <Sense id="L614062-S1" synset="wikidata-ig-L614062-S1" ili="wikidata-ig-L614062-S1">
         <Definition>These</Definition>
       </Sense>
@@ -49,12 +50,14 @@
     </LexicalEntry>
     <LexicalEntry id="L618903">
       <Lemma writtenForm="-la" partOfSpeech="x"/>
+      <Form writtenForm="-laà"/>
       <Sense id="L618903-S1" synset="wikidata-ig-L618903-S1" ili="wikidata-ig-L618903-S1">
         <Definition>used in negative commands</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L622279">
       <Lemma writtenForm="ya na" partOfSpeech="p"/>
+      <Form writtenForm="na ya"/>
       <Sense id="L622279-S1" synset="wikidata-ig-L622279-S1" ili="wikidata-ig-L622279-S1">
         <Definition>With</Definition>
       </Sense>
@@ -76,24 +79,33 @@
     </LexicalEntry>
     <LexicalEntry id="L640203">
       <Lemma writtenForm="na" partOfSpeech="p"/>
+      <Form writtenForm="n&apos;"/>
       <Sense id="L640203-S1" synset="wikidata-ig-L640203-S1" ili="wikidata-ig-L640203-S1">
         <Definition>in, on, during, without, etc.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L642983">
       <Lemma writtenForm="abụọ" partOfSpeech="m"/>
+      <Form writtenForm="abọọ"/>
+      <Form writtenForm="abụa"/>
       <Sense id="L642983-S1" synset="wikidata-ig-L642983-S1" ili="wikidata-ig-L642983-S1">
         <Definition>two</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L643900">
       <Lemma writtenForm="otu" partOfSpeech="c"/>
+      <Form writtenForm="etu"/>
       <Sense id="L643900-S1" synset="wikidata-ig-L643900-S1" ili="wikidata-ig-L643900-S1">
         <Definition>just as, like</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L700297">
       <Lemma writtenForm="gọ" partOfSpeech="x"/>
+      <Form writtenForm="agọla"/>
+      <Form writtenForm="ga-agọ"/>
+      <Form writtenForm="&quot;na-agọ&quot;"/>
+      <Form writtenForm="gọrọ"/>
+      <Form writtenForm="ịgọ"/>
       <Sense id="L700297-S1" synset="wikidata-ig-L700297-S1" ili="wikidata-ig-L700297-S1">
         <Definition>proclaim upon  something or someone; pray over something or someone</Definition>
       </Sense>
@@ -136,6 +148,7 @@
     </LexicalEntry>
     <LexicalEntry id="L747359">
       <Lemma writtenForm="gwọ̄" partOfSpeech="v"/>
+      <Form writtenForm="gwọ"/>
       <Sense id="L747359-S1" synset="wikidata-ig-L747359-S1" ili="wikidata-ig-L747359-S1">
         <Definition>sit with legs folded in(humans); curl body together in a rest position(reptiles)</Definition>
       </Sense>
@@ -178,6 +191,9 @@
     </LexicalEntry>
     <LexicalEntry id="L614681">
       <Lemma writtenForm="mụ" partOfSpeech="h"/>
+      <Form writtenForm="e- - m"/>
+      <Form writtenForm="a- - m"/>
+      <Form writtenForm="mmụ"/>
       <Sense id="L614681-S1" synset="wikidata-ig-L614681-S1" ili="wikidata-ig-L614681-S1">
         <Definition>I</Definition>
       </Sense>
@@ -196,6 +212,7 @@
     </LexicalEntry>
     <LexicalEntry id="L643891">
       <Lemma writtenForm="-ta" partOfSpeech="x"/>
+      <Form writtenForm="-te"/>
       <Sense id="L643891-S1" synset="wikidata-ig-L643891-S1" ili="wikidata-ig-L643891-S1">
         <Definition>towards</Definition>
       </Sense>
@@ -208,14 +225,9 @@
     </LexicalEntry>
     <LexicalEntry id="L722373">
       <Lemma writtenForm="onwem" partOfSpeech="h"/>
+      <Form writtenForm="Onwem"/>
       <Sense id="L722373-S1" synset="wikidata-ig-L722373-S1" ili="wikidata-ig-L722373-S1">
         <Definition>Myself</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L723687">
-      <Lemma writtenForm="Ogu iri na ise" partOfSpeech="m"/>
-      <Sense id="L723687-S1" synset="wikidata-ig-L723687-S1" ili="wikidata-ig-L723687-S1">
-        <Definition>Fifteen games</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L739918">
@@ -226,6 +238,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1011633">
       <Lemma writtenForm="à" partOfSpeech="d"/>
+      <Form writtenForm="a"/>
       <Sense id="L1011633-S1" synset="wikidata-ig-L1011633-S1" ili="wikidata-ig-L1011633-S1">
         <Definition>used to identify a person or thing that is close at hand, indicated, or experienced; this</Definition>
       </Sense>
@@ -247,6 +260,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1215643">
       <Lemma writtenForm="iri isii na ise" partOfSpeech="m"/>
+      <Form writtenForm="Iri isii na ise"/>
       <Sense id="L1215643-S1" synset="wikidata-ig-L1215643-S1" ili="wikidata-ig-L1215643-S1">
         <Definition>Iri isii na ise</Definition>
       </Sense>
@@ -265,24 +279,34 @@
     </LexicalEntry>
     <LexicalEntry id="L614401">
       <Lemma writtenForm="ọ" partOfSpeech="h"/>
+      <Form writtenForm="O"/>
       <Sense id="L614401-S4" synset="wikidata-ig-L614401-S4" ili="wikidata-ig-L614401-S4">
         <Definition>the singular, subject, third-person pronoun of the Igbo language (heavy vowel harmonizer); he; she; it</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L614674">
       <Lemma writtenForm="anyị" partOfSpeech="h"/>
+      <Form writtenForm="ayị"/>
       <Sense id="L614674-S1" synset="wikidata-ig-L614674-S1" ili="wikidata-ig-L614674-S1">
         <Definition>we</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L614684">
       <Lemma writtenForm="gị" partOfSpeech="h"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="ị"/>
+      <Form writtenForm="ngị"/>
       <Sense id="L614684-S1" synset="wikidata-ig-L614684-S1" ili="wikidata-ig-L614684-S1">
         <Definition>you (singular)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L618900">
       <Lemma writtenForm="-ri" partOfSpeech="x"/>
+      <Form writtenForm="-rụ"/>
+      <Form writtenForm="-ru"/>
+      <Form writtenForm="-rị"/>
+      <Form writtenForm="-ra"/>
+      <Form writtenForm="-re"/>
       <Sense id="L618900-S1" synset="wikidata-ig-L618900-S1" ili="wikidata-ig-L618900-S1">
         <Definition>denotes past with action verbs and present with non-alternating stative verbs</Definition>
       </Sense>
@@ -301,6 +325,7 @@
     </LexicalEntry>
     <LexicalEntry id="L747365">
       <Lemma writtenForm="gbā ākā" partOfSpeech="v"/>
+      <Form writtenForm="Verb"/>
       <Sense id="L747365-S1" synset="wikidata-ig-L747365-S1" ili="wikidata-ig-L747365-S1">
         <Definition>be empty-handed; be left with nothing</Definition>
       </Sense>
@@ -337,26 +362,23 @@
     </LexicalEntry>
     <LexicalEntry id="L1019484">
       <Lemma writtenForm="mbà" partOfSpeech="i"/>
+      <Form writtenForm="Mba"/>
       <Sense id="L1019484-S1" synset="wikidata-ig-L1019484-S1" ili="wikidata-ig-L1019484-S1">
         <Definition>an expression of negative outcome, disagreement or refusal; no</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1215573">
       <Lemma writtenForm="ịrị iteghete na anọ" partOfSpeech="m"/>
+      <Form writtenForm="ịrị ịteghete na anọ"/>
       <Sense id="L1215573-S1" synset="wikidata-ig-L1215573-S1" ili="wikidata-ig-L1215573-S1">
         <Definition>Ninety four</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L594255">
       <Lemma writtenForm="daalu" partOfSpeech="i"/>
+      <Form writtenForm="da alụ"/>
       <Sense id="L594255-S1" synset="wikidata-ig-L594255-S1" ili="wikidata-ig-L594255-S1">
         <Definition>Thank you</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L614071">
-      <Lemma writtenForm="Ịgba nkwụ" partOfSpeech="v"/>
-      <Sense id="L614071-S1" synset="wikidata-ig-L614071-S1" ili="wikidata-ig-L614071-S1">
-        <Definition>Traditional marriage</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L614688">
@@ -367,6 +389,7 @@
     </LexicalEntry>
     <LexicalEntry id="L617740">
       <Lemma writtenForm="m" partOfSpeech="h"/>
+      <Form writtenForm="mụ"/>
       <Sense id="L617740-S1" synset="wikidata-ig-L617740-S1" ili="wikidata-ig-L617740-S1">
         <Definition>I, me</Definition>
       </Sense>
@@ -406,6 +429,7 @@
     </LexicalEntry>
     <LexicalEntry id="L692323">
       <Lemma writtenForm="dákwàsà" partOfSpeech="x"/>
+      <Form writtenForm="Dákwàsà"/>
       <Sense id="L692323-S1" synset="wikidata-ig-L692323-S1" ili="wikidata-ig-L692323-S1">
         <Definition>fall upon befall</Definition>
       </Sense>
@@ -418,6 +442,7 @@
     </LexicalEntry>
     <LexicalEntry id="L722425">
       <Lemma writtenForm="arụkwaghịm" partOfSpeech="h"/>
+      <Form writtenForm="Arụkwaghịm"/>
       <Sense id="L722425-S1" synset="wikidata-ig-L722425-S1" ili="wikidata-ig-L722425-S1">
         <Definition>Resignation</Definition>
       </Sense>
@@ -499,6 +524,7 @@
     </LexicalEntry>
     <LexicalEntry id="L712534">
       <Lemma writtenForm="n&apos;ime" partOfSpeech="p"/>
+      <Form writtenForm="n’ime"/>
       <Sense id="L712534-S1" synset="wikidata-ig-L712534-S1" ili="wikidata-ig-L712534-S1">
         <Definition>Between</Definition>
       </Sense>
@@ -515,12 +541,6 @@
         <Definition>second</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L748105">
-      <Lemma writtenForm="ànyị" partOfSpeech="h"/>
-      <Sense id="L748105-S1" synset="wikidata-ig-L748105-S1" ili="wikidata-ig-L748105-S1">
-        <Definition>we; us; our</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1018492">
       <Lemma writtenForm="dịkà" partOfSpeech="c"/>
       <Sense id="L1018492-S1" synset="wikidata-ig-L1018492-S1" ili="wikidata-ig-L1018492-S1">
@@ -529,6 +549,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1019088">
       <Lemma writtenForm="gba aka" partOfSpeech="v"/>
+      <Form writtenForm="Empty handed"/>
       <Sense id="L1019088-S1" synset="wikidata-ig-L1019088-S1" ili="wikidata-ig-L1019088-S1">
         <Definition>have nothing in one&apos;s hand, be empty-handed</Definition>
       </Sense>
@@ -537,12 +558,6 @@
       <Lemma writtenForm="eē" partOfSpeech="i"/>
       <Sense id="L1019487-S1" synset="wikidata-ig-L1019487-S1" ili="wikidata-ig-L1019487-S1">
         <Definition>an expression positive, agreement to, or acceptance of what was said; yes</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1215656">
-      <Lemma writtenForm="Iri ise na isii" partOfSpeech="m"/>
-      <Sense id="L1215656-S1" synset="wikidata-ig-L1215656-S1" ili="wikidata-ig-L1215656-S1">
-        <Definition>Sixty-six</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1215705">
@@ -565,6 +580,9 @@
     </LexicalEntry>
     <LexicalEntry id="L614683">
       <Lemma writtenForm="ya" partOfSpeech="h"/>
+      <Form writtenForm="o"/>
+      <Form writtenForm="ọ"/>
+      <Form writtenForm="nya"/>
       <Sense id="L614683-S1" synset="wikidata-ig-L614683-S1" ili="wikidata-ig-L614683-S1">
         <Definition>he or she</Definition>
       </Sense>
@@ -607,18 +625,22 @@
     </LexicalEntry>
     <LexicalEntry id="L646355">
       <Lemma writtenForm="tupu" partOfSpeech="c"/>
+      <Form writtenForm="tutuu"/>
+      <Form writtenForm="tutu"/>
       <Sense id="L646355-S1" synset="wikidata-ig-L646355-S1" ili="wikidata-ig-L646355-S1">
         <Definition>before</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L708447">
       <Lemma writtenForm="nwanne m nwokè" partOfSpeech="h"/>
+      <Form writtenForm="Ig"/>
       <Sense id="L708447-S1" synset="wikidata-ig-L708447-S1" ili="wikidata-ig-L708447-S1">
         <Definition>my brother</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L712401">
       <Lemma writtenForm="na-akpote" partOfSpeech="v"/>
+      <Form writtenForm="Akpote"/>
       <Sense id="L712401-S1" synset="wikidata-ig-L712401-S1" ili="wikidata-ig-L712401-S1">
         <Definition>Awaking</Definition>
       </Sense>
@@ -631,6 +653,7 @@
     </LexicalEntry>
     <LexicalEntry id="L713909">
       <Lemma writtenForm="mmiri na-ezo ụbọchị" partOfSpeech="r"/>
+      <Form writtenForm="ụbọchị oké ifufe"/>
       <Sense id="L713909-S1" synset="wikidata-ig-L713909-S1" ili="wikidata-ig-L713909-S1">
         <Definition>Rainy day</Definition>
       </Sense>
@@ -712,6 +735,7 @@
     </LexicalEntry>
     <LexicalEntry id="L716875">
       <Lemma writtenForm="dị nsọ" partOfSpeech="h"/>
+      <Form writtenForm="ezi omume"/>
       <Sense id="L716875-S1" synset="wikidata-ig-L716875-S1" ili="wikidata-ig-L716875-S1">
         <Definition>Holy</Definition>
       </Sense>
@@ -763,6 +787,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1215633">
       <Lemma writtenForm="iri isii na ano" partOfSpeech="m"/>
+      <Form writtenForm="Iri isii ma ano"/>
       <Sense id="L1215633-S1" synset="wikidata-ig-L1215633-S1" ili="wikidata-ig-L1215633-S1">
         <Definition>Sixty-four</Definition>
       </Sense>
@@ -775,12 +800,16 @@
     </LexicalEntry>
     <LexicalEntry id="L614066">
       <Lemma writtenForm="unu" partOfSpeech="h"/>
+      <Form writtenForm="ụnụ"/>
+      <Form writtenForm="nnụ"/>
       <Sense id="L614066-S1" synset="wikidata-ig-L614066-S1" ili="wikidata-ig-L614066-S1">
         <Definition>you (plural)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L614673">
       <Lemma writtenForm="ha" partOfSpeech="h"/>
+      <Form writtenForm="e- - ha"/>
+      <Form writtenForm="a- - ha"/>
       <Sense id="L614673-S1" synset="wikidata-ig-L614673-S1" ili="wikidata-ig-L614673-S1">
         <Definition>They</Definition>
       </Sense>
@@ -811,32 +840,17 @@
     </LexicalEntry>
     <LexicalEntry id="L618883">
       <Lemma writtenForm="-a" partOfSpeech="x"/>
+      <Form writtenForm="-e"/>
+      <Form writtenForm="-ọ"/>
+      <Form writtenForm="-o"/>
       <Sense id="L618883-S1" synset="wikidata-ig-L618883-S1" ili="wikidata-ig-L618883-S1">
         <Definition>completive or open vowel suffix, used with most verbs in the imperative, the subjunctive, and the sequential forms</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L622360">
-      <Lemma writtenForm="Anụ ụlọ" partOfSpeech="h"/>
-      <Sense id="L622360-S1" synset="wikidata-ig-L622360-S1" ili="wikidata-ig-L622360-S1">
-        <Definition>Domestic animal</Definition>
-      </Sense>
-      <Sense id="L622360-S2" synset="wikidata-ig-L622360-S2" ili="wikidata-ig-L622360-S2">
-        <Definition>dabbar gida</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L622647">
       <Lemma writtenForm="gbasara" partOfSpeech="p"/>
       <Sense id="L622647-S1" synset="wikidata-ig-L622647-S1" ili="wikidata-ig-L622647-S1">
         <Definition>About</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L622996">
-      <Lemma writtenForm="Ndi ahụ" partOfSpeech="h"/>
-      <Sense id="L622996-S1" synset="wikidata-ig-L622996-S1" ili="wikidata-ig-L622996-S1">
-        <Definition>Those</Definition>
-      </Sense>
-      <Sense id="L622996-S2" synset="wikidata-ig-L622996-S2" ili="wikidata-ig-L622996-S2">
-        <Definition>wadanda</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L623436">
@@ -853,6 +867,7 @@
     </LexicalEntry>
     <LexicalEntry id="L640143">
       <Lemma writtenForm="e" partOfSpeech="h"/>
+      <Form writtenForm="a"/>
       <Sense id="L640143-S1" synset="wikidata-ig-L640143-S1" ili="wikidata-ig-L640143-S1">
         <Definition>one (impersonal pronoun)</Definition>
       </Sense>
@@ -865,6 +880,8 @@
     </LexicalEntry>
     <LexicalEntry id="L646356">
       <Lemma writtenForm="kama" partOfSpeech="c"/>
+      <Form writtenForm="tama"/>
+      <Form writtenForm="ntama"/>
       <Sense id="L646356-S1" synset="wikidata-ig-L646356-S1" ili="wikidata-ig-L646356-S1">
         <Definition>instead of</Definition>
       </Sense>
@@ -1022,9 +1039,6 @@
     <Synset id="wikidata-ig-L722373-S1" ili="wikidata-ig-L722373-S1" partOfSpeech="h">
       <Definition>Myself</Definition>
     </Synset>
-    <Synset id="wikidata-ig-L723687-S1" ili="wikidata-ig-L723687-S1" partOfSpeech="m">
-      <Definition>Fifteen games</Definition>
-    </Synset>
     <Synset id="wikidata-ig-L739918-S1" ili="wikidata-ig-L739918-S1" partOfSpeech="d">
       <Definition>most; plenty; a large number</Definition>
     </Synset>
@@ -1093,9 +1107,6 @@
     </Synset>
     <Synset id="wikidata-ig-L594255-S1" ili="wikidata-ig-L594255-S1" partOfSpeech="i">
       <Definition>Thank you</Definition>
-    </Synset>
-    <Synset id="wikidata-ig-L614071-S1" ili="wikidata-ig-L614071-S1" partOfSpeech="v">
-      <Definition>Traditional marriage</Definition>
     </Synset>
     <Synset id="wikidata-ig-L614688-S1" ili="wikidata-ig-L614688-S1" partOfSpeech="c">
       <Definition>Either/or</Definition>
@@ -1181,9 +1192,6 @@
     <Synset id="wikidata-ig-L747370-S1" ili="wikidata-ig-L747370-S1" partOfSpeech="d">
       <Definition>second</Definition>
     </Synset>
-    <Synset id="wikidata-ig-L748105-S1" ili="wikidata-ig-L748105-S1" partOfSpeech="h">
-      <Definition>we; us; our</Definition>
-    </Synset>
     <Synset id="wikidata-ig-L1018492-S1" ili="wikidata-ig-L1018492-S1" partOfSpeech="c">
       <Definition>as; for instance; looks like</Definition>
     </Synset>
@@ -1192,9 +1200,6 @@
     </Synset>
     <Synset id="wikidata-ig-L1019487-S1" ili="wikidata-ig-L1019487-S1" partOfSpeech="i">
       <Definition>an expression positive, agreement to, or acceptance of what was said; yes</Definition>
-    </Synset>
-    <Synset id="wikidata-ig-L1215656-S1" ili="wikidata-ig-L1215656-S1" partOfSpeech="m">
-      <Definition>Sixty-six</Definition>
     </Synset>
     <Synset id="wikidata-ig-L1215705-S1" ili="wikidata-ig-L1215705-S1" partOfSpeech="m">
       <Definition>One hundred and eight</Definition>
@@ -1343,20 +1348,8 @@
     <Synset id="wikidata-ig-L618883-S1" ili="wikidata-ig-L618883-S1" partOfSpeech="x">
       <Definition>completive or open vowel suffix, used with most verbs in the imperative, the subjunctive, and the sequential forms</Definition>
     </Synset>
-    <Synset id="wikidata-ig-L622360-S1" ili="wikidata-ig-L622360-S1" partOfSpeech="h">
-      <Definition>Domestic animal</Definition>
-    </Synset>
-    <Synset id="wikidata-ig-L622360-S2" ili="wikidata-ig-L622360-S2" partOfSpeech="h">
-      <Definition>dabbar gida</Definition>
-    </Synset>
     <Synset id="wikidata-ig-L622647-S1" ili="wikidata-ig-L622647-S1" partOfSpeech="p">
       <Definition>About</Definition>
-    </Synset>
-    <Synset id="wikidata-ig-L622996-S1" ili="wikidata-ig-L622996-S1" partOfSpeech="h">
-      <Definition>Those</Definition>
-    </Synset>
-    <Synset id="wikidata-ig-L622996-S2" ili="wikidata-ig-L622996-S2" partOfSpeech="h">
-      <Definition>wadanda</Definition>
     </Synset>
     <Synset id="wikidata-ig-L623436-S1" ili="wikidata-ig-L623436-S1" partOfSpeech="v">
       <Definition>to call</Definition>

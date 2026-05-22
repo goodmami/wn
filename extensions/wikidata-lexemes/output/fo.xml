@@ -41,6 +41,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1378883">
       <Lemma writtenForm="tríggir" partOfSpeech="m"/>
+      <Form writtenForm="trý"/>
+      <Form writtenForm="tríggjar"/>
+      <Form writtenForm="trimum"/>
       <Sense id="L1378883-S1" synset="wikidata-fo-L1378883-S1" ili="wikidata-fo-L1378883-S1">
         <Definition>tallet tre</Definition>
       </Sense>

@@ -29,6 +29,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1767">
       <Lemma writtenForm="daripada" partOfSpeech="p"/>
+      <Form writtenForm="daripadanya"/>
+      <Form writtenForm="daripadamu"/>
+      <Form writtenForm="daripadaku"/>
+      <Form writtenForm="drpd"/>
       <Sense id="L1767-S1" synset="wikidata-ms-L1767-S1" ili="wikidata-ms-L1767-S1">
         <Definition>from (initial place, time)</Definition>
       </Sense>
@@ -42,6 +46,7 @@
     </LexicalEntry>
     <LexicalEntry id="L15616">
       <Lemma writtenForm="aku" partOfSpeech="h"/>
+      <Form writtenForm="daku"/>
       <Sense id="L15616-S1" synset="wikidata-ms-L15616-S1" ili="wikidata-ms-L15616-S1">
         <Definition>kata ganti diri pertama mufrad</Definition>
       </Sense>
@@ -67,36 +72,45 @@
     </LexicalEntry>
     <LexicalEntry id="L450406">
       <Lemma writtenForm="yang" partOfSpeech="c"/>
+      <Form writtenForm="yg"/>
       <Sense id="L450406-S1" synset="wikidata-ms-L450406-S1" ili="wikidata-ms-L450406-S1">
         <Definition>which</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L450596">
       <Lemma writtenForm="dengan" partOfSpeech="c"/>
+      <Form writtenForm="dgn"/>
       <Sense id="L450596-S1" synset="wikidata-ms-L450596-S1" ili="wikidata-ms-L450596-S1">
         <Definition>and</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L450600">
       <Lemma writtenForm="itu" partOfSpeech="h"/>
+      <Form writtenForm="tu"/>
       <Sense id="L450600-S1" synset="wikidata-ms-L450600-S1" ili="wikidata-ms-L450600-S1">
         <Definition>that</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L458041">
       <Lemma writtenForm="pasang" partOfSpeech="m"/>
+      <Form writtenForm="sepasang"/>
+      <Form writtenForm="berpasang-pasang"/>
       <Sense id="L458041-S1" synset="wikidata-ms-L458041-S1" ili="wikidata-ms-L458041-S1">
         <Definition>(classifier for pairs)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L473648">
       <Lemma writtenForm="ia" partOfSpeech="h"/>
+      <Form writtenForm="ialah"/>
+      <Form writtenForm="iakah"/>
+      <Form writtenForm="ianya"/>
       <Sense id="L473648-S1" synset="wikidata-ms-L473648-S1" ili="wikidata-ms-L473648-S1">
         <Definition>it</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L477332">
       <Lemma writtenForm="sebagai" partOfSpeech="p"/>
+      <Form writtenForm="sbg"/>
       <Sense id="L477332-S1" synset="wikidata-ms-L477332-S1" ili="wikidata-ms-L477332-S1">
         <Definition>as</Definition>
       </Sense>
@@ -110,18 +124,27 @@
     </LexicalEntry>
     <LexicalEntry id="L480617">
       <Lemma writtenForm="kaki" partOfSpeech="m"/>
+      <Form writtenForm="sekaki"/>
+      <Form writtenForm="berkaki-kaki"/>
       <Sense id="L480617-S1" synset="wikidata-ms-L480617-S1" ili="wikidata-ms-L480617-S1">
         <Definition>classifier for objects with stalk (eg. umbrella, mushroom)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L480621">
       <Lemma writtenForm="batang" partOfSpeech="m"/>
+      <Form writtenForm="sebatang"/>
+      <Form writtenForm="batang-batang"/>
+      <Form writtenForm="berbatang-batang"/>
       <Sense id="L480621-S1" synset="wikidata-ms-L480621-S1" ili="wikidata-ms-L480621-S1">
         <Definition>classifier for long, hard and straight objects</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L481468">
       <Lemma writtenForm="juta" partOfSpeech="d"/>
+      <Form writtenForm="sejuta"/>
+      <Form writtenForm="berjuta-juta"/>
+      <Form writtenForm="berjuta"/>
+      <Form writtenForm="jutaan"/>
       <Sense id="L481468-S1" synset="wikidata-ms-L481468-S1" ili="wikidata-ms-L481468-S1">
         <Definition>million</Definition>
       </Sense>
@@ -140,6 +163,8 @@
     </LexicalEntry>
     <LexicalEntry id="L686394">
       <Lemma writtenForm="buku" partOfSpeech="m"/>
+      <Form writtenForm="sebuku"/>
+      <Form writtenForm="berbuku-buku"/>
       <Sense id="L686394-S1" synset="wikidata-ms-L686394-S1" ili="wikidata-ms-L686394-S1">
         <Definition>classifier for blocky objects</Definition>
       </Sense>
@@ -170,6 +195,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1406995">
       <Lemma writtenForm="al" partOfSpeech="d"/>
+      <Form writtenForm="ul"/>
       <Sense id="L1406995-S1" synset="wikidata-ms-L1406995-S1" ili="wikidata-ms-L1406995-S1">
         <Definition>(kata penentu yang bererti itu)</Definition>
       </Sense>
@@ -185,6 +211,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1408543">
       <Lemma writtenForm="jenis" partOfSpeech="d"/>
+      <Form writtenForm="sejenis"/>
+      <Form writtenForm="berjenis-jenis"/>
       <Sense id="L1408543-S1" synset="wikidata-ms-L1408543-S1" ili="wikidata-ms-L1408543-S1">
         <Definition>macam; bangsa</Definition>
       </Sense>
@@ -200,6 +228,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1408653">
       <Lemma writtenForm="jumlah" partOfSpeech="d"/>
+      <Form writtenForm="sejumlah"/>
+      <Form writtenForm="berjumlah-jumlah"/>
       <Sense id="L1408653-S1" synset="wikidata-ms-L1408653-S1" ili="wikidata-ms-L1408653-S1">
         <Definition>total</Definition>
       </Sense>
@@ -215,6 +245,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1449330">
       <Lemma writtenForm="era" partOfSpeech="d"/>
+      <Form writtenForm="seera"/>
+      <Form writtenForm="berera-era"/>
       <Sense id="L1449330-S1" synset="wikidata-ms-L1449330-S1" ili="wikidata-ms-L1449330-S1">
         <Definition>zaman, waktu</Definition>
       </Sense>
@@ -233,6 +265,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1766">
       <Lemma writtenForm="dari" partOfSpeech="p"/>
+      <Form writtenForm="dariku"/>
+      <Form writtenForm="darimu"/>
+      <Form writtenForm="darinya"/>
+      <Form writtenForm="dr"/>
       <Sense id="L1766-S1" synset="wikidata-ms-L1766-S1" ili="wikidata-ms-L1766-S1">
         <Definition>from</Definition>
       </Sense>
@@ -245,24 +281,32 @@
     </LexicalEntry>
     <LexicalEntry id="L450595">
       <Lemma writtenForm="dengan" partOfSpeech="p"/>
+      <Form writtenForm="denganku"/>
+      <Form writtenForm="denganmu"/>
+      <Form writtenForm="dengannya"/>
+      <Form writtenForm="dgn"/>
       <Sense id="L450595-S1" synset="wikidata-ms-L450595-S1" ili="wikidata-ms-L450595-S1">
         <Definition>with</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L450598">
       <Lemma writtenForm="ini" partOfSpeech="h"/>
+      <Form writtenForm="inilah"/>
       <Sense id="L450598-S1" synset="wikidata-ms-L450598-S1" ili="wikidata-ms-L450598-S1">
         <Definition>this</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L465071">
       <Lemma writtenForm="kerana" partOfSpeech="c"/>
+      <Form writtenForm="karena"/>
+      <Form writtenForm="karna"/>
       <Sense id="L465071-S1" synset="wikidata-ms-L465071-S1" ili="wikidata-ms-L465071-S1">
         <Definition>because</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L477356">
       <Lemma writtenForm="apa" partOfSpeech="d"/>
+      <Form writtenForm="apakah"/>
       <Sense id="L477356-S1" synset="wikidata-ms-L477356-S1" ili="wikidata-ms-L477356-S1">
         <Definition>what</Definition>
       </Sense>
@@ -288,6 +332,7 @@
     </LexicalEntry>
     <LexicalEntry id="L479848">
       <Lemma writtenForm="sebelum" partOfSpeech="p"/>
+      <Form writtenForm="sebelumnya"/>
       <Sense id="L479848-S1" synset="wikidata-ms-L479848-S1" ili="wikidata-ms-L479848-S1">
         <Definition>before</Definition>
       </Sense>
@@ -300,12 +345,15 @@
     </LexicalEntry>
     <LexicalEntry id="L679456">
       <Lemma writtenForm="siapa" partOfSpeech="q"/>
+      <Form writtenForm="siapa-siapa"/>
+      <Form writtenForm="sesiapa"/>
       <Sense id="L679456-S1" synset="wikidata-ms-L679456-S1" ili="wikidata-ms-L679456-S1">
         <Definition>who</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L733054">
       <Lemma writtenForm="makin" partOfSpeech="r"/>
+      <Form writtenForm="semakin"/>
       <Sense id="L733054-S1" synset="wikidata-ms-L733054-S1" ili="wikidata-ms-L733054-S1">
         <Definition>more</Definition>
       </Sense>
@@ -318,6 +366,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1085652">
       <Lemma writtenForm="sisir" partOfSpeech="m"/>
+      <Form writtenForm="sesisir"/>
+      <Form writtenForm="bersisir-sisir"/>
       <Sense id="L1085652-S1" synset="wikidata-ms-L1085652-S1" ili="wikidata-ms-L1085652-S1">
         <Definition>classifier for a row of bananas</Definition>
       </Sense>
@@ -336,12 +386,16 @@
     </LexicalEntry>
     <LexicalEntry id="L1407946">
       <Lemma writtenForm="belah" partOfSpeech="m"/>
+      <Form writtenForm="sebelah"/>
+      <Form writtenForm="berbelah-belah"/>
       <Sense id="L1407946-S1" synset="wikidata-ms-L1407946-S1" ili="wikidata-ms-L1407946-S1">
         <Definition>(classifier for pairs)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408120">
       <Lemma writtenForm="saat" partOfSpeech="d"/>
+      <Form writtenForm="sesaat"/>
+      <Form writtenForm="bersaat-saat"/>
       <Sense id="L1408120-S1" synset="wikidata-ms-L1408120-S1" ili="wikidata-ms-L1408120-S1">
         <Definition>sekon, detik</Definition>
       </Sense>
@@ -363,6 +417,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1409398">
       <Lemma writtenForm="gram" partOfSpeech="d"/>
+      <Form writtenForm="segram"/>
+      <Form writtenForm="bergram-gram"/>
       <Sense id="L1409398-S1" synset="wikidata-ms-L1409398-S1" ili="wikidata-ms-L1409398-S1">
         <Definition>0.001 kilogram</Definition>
       </Sense>
@@ -387,6 +443,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1453925">
       <Lemma writtenForm="sedang" partOfSpeech="c"/>
+      <Form writtenForm="sedangkan"/>
       <Sense id="L1453925-S1" synset="wikidata-ms-L1453925-S1" ili="wikidata-ms-L1453925-S1">
         <Definition>whereas</Definition>
       </Sense>
@@ -429,6 +486,8 @@
     </LexicalEntry>
     <LexicalEntry id="L452341">
       <Lemma writtenForm="biji" partOfSpeech="m"/>
+      <Form writtenForm="sebiji"/>
+      <Form writtenForm="berbiji-biji"/>
       <Sense id="L452341-S1" synset="wikidata-ms-L452341-S1" ili="wikidata-ms-L452341-S1">
         <Definition>classifier for small objects, fruits</Definition>
         <Example>Demi angin yang menerbang dan menaburkan (debu, biji-bijian benih dan lain-lainnya</Example>
@@ -436,12 +495,16 @@
     </LexicalEntry>
     <LexicalEntry id="L475562">
       <Lemma writtenForm="bersama" partOfSpeech="p"/>
+      <Form writtenForm="bersamaku"/>
+      <Form writtenForm="bersamamu"/>
+      <Form writtenForm="bersamanya"/>
       <Sense id="L475562-S1" synset="wikidata-ms-L475562-S1" ili="wikidata-ms-L475562-S1">
         <Definition>together with</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L477343">
       <Lemma writtenForm="seperti" partOfSpeech="p"/>
+      <Form writtenForm="spt"/>
       <Sense id="L477343-S1" synset="wikidata-ms-L477343-S1" ili="wikidata-ms-L477343-S1">
         <Definition>like; as</Definition>
       </Sense>
@@ -460,6 +523,7 @@
     </LexicalEntry>
     <LexicalEntry id="L480440">
       <Lemma writtenForm="pula" partOfSpeech="r"/>
+      <Form writtenForm="pulak"/>
       <Sense id="L480440-S1" synset="wikidata-ms-L480440-S1" ili="wikidata-ms-L480440-S1">
         <Definition>again; in turn</Definition>
       </Sense>
@@ -487,6 +551,8 @@
     </LexicalEntry>
     <LexicalEntry id="L625699">
       <Lemma writtenForm="ulas" partOfSpeech="m"/>
+      <Form writtenForm="seulas"/>
+      <Form writtenForm="berulas-ulas"/>
       <Sense id="L625699-S1" synset="wikidata-ms-L625699-S1" ili="wikidata-ms-L625699-S1">
         <Definition>classifier for fruit flesh</Definition>
       </Sense>
@@ -499,18 +565,23 @@
     </LexicalEntry>
     <LexicalEntry id="L1085623">
       <Lemma writtenForm="tongkol" partOfSpeech="m"/>
+      <Form writtenForm="setongkol"/>
+      <Form writtenForm="bertongkol-tongkol"/>
       <Sense id="L1085623-S1" synset="wikidata-ms-L1085623-S1" ili="wikidata-ms-L1085623-S1">
         <Definition>(classifier for corn and fruits that are quite big and hard)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1319285">
       <Lemma writtenForm="mengapa" partOfSpeech="q"/>
+      <Form writtenForm="mengapakah"/>
+      <Form writtenForm="mengapalah"/>
       <Sense id="L1319285-S1" synset="wikidata-ms-L1319285-S1" ili="wikidata-ms-L1319285-S1">
         <Definition>why</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1407688">
       <Lemma writtenForm="alaihissalam" partOfSpeech="i"/>
+      <Form writtenForm="a.s."/>
       <Sense id="L1407688-S1" synset="wikidata-ms-L1407688-S1" ili="wikidata-ms-L1407688-S1">
         <Definition>peace be upon him</Definition>
       </Sense>
@@ -529,6 +600,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1410972">
       <Lemma writtenForm="keping" partOfSpeech="m"/>
+      <Form writtenForm="sekeping"/>
+      <Form writtenForm="berkeping-keping"/>
       <Sense id="L1410972-S1" synset="wikidata-ms-L1410972-S1" ili="wikidata-ms-L1410972-S1">
         <Definition>(penjodoh bilangan untuk benda-benda yang pipih atau tipis atau yang lebar meluas)</Definition>
       </Sense>
@@ -562,6 +635,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1763">
       <Lemma writtenForm="antara" partOfSpeech="p"/>
+      <Form writtenForm="antaraku"/>
+      <Form writtenForm="antarakau"/>
+      <Form writtenForm="antaramu"/>
+      <Form writtenForm="antaranya"/>
       <Sense id="L1763-S1" synset="wikidata-ms-L1763-S1" ili="wikidata-ms-L1763-S1">
         <Definition>between</Definition>
       </Sense>
@@ -579,12 +656,16 @@
     </LexicalEntry>
     <LexicalEntry id="L450410">
       <Lemma writtenForm="buah" partOfSpeech="m"/>
+      <Form writtenForm="sebuah"/>
+      <Form writtenForm="berbuah-buah"/>
+      <Form writtenForm="sesebuah"/>
       <Sense id="L450410-S1" synset="wikidata-ms-L450410-S1" ili="wikidata-ms-L450410-S1">
         <Definition>classifier for huge objects</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L450599">
       <Lemma writtenForm="itu" partOfSpeech="d"/>
+      <Form writtenForm="tu"/>
       <Sense id="L450599-S1" synset="wikidata-ms-L450599-S1" ili="wikidata-ms-L450599-S1">
         <Definition>that</Definition>
       </Sense>
@@ -597,6 +678,9 @@
     </LexicalEntry>
     <LexicalEntry id="L477329">
       <Lemma writtenForm="oleh" partOfSpeech="p"/>
+      <Form writtenForm="olehku"/>
+      <Form writtenForm="olehmu"/>
+      <Form writtenForm="olehnya"/>
       <Sense id="L477329-S1" synset="wikidata-ms-L477329-S1" ili="wikidata-ms-L477329-S1">
         <Definition>by</Definition>
       </Sense>
@@ -627,18 +711,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1085822">
       <Lemma writtenForm="bentuk" partOfSpeech="m"/>
+      <Form writtenForm="sebentuk"/>
+      <Form writtenForm="berbentuk-bentuk"/>
       <Sense id="L1085822-S1" synset="wikidata-ms-L1085822-S1" ili="wikidata-ms-L1085822-S1">
         <Definition>classifier for curved items</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1407691">
       <Lemma writtenForm="anak kepada" partOfSpeech="p"/>
+      <Form writtenForm="a/k"/>
       <Sense id="L1407691-S1" synset="wikidata-ms-L1407691-S1" ili="wikidata-ms-L1407691-S1">
         <Definition>child of</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1407695">
       <Lemma writtenForm="anak perempuan kepada" partOfSpeech="p"/>
+      <Form writtenForm="a/p"/>
       <Sense id="L1407695-S1" synset="wikidata-ms-L1407695-S1" ili="wikidata-ms-L1407695-S1">
         <Definition>daughter of</Definition>
         <SenseRelation relType="hypernym" target="wikidata-ms-L1407691-S1"/>
@@ -664,6 +752,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1409377">
       <Lemma writtenForm="abad" partOfSpeech="d"/>
+      <Form writtenForm="seabad"/>
+      <Form writtenForm="berabad-abad"/>
       <Sense id="L1409377-S1" synset="wikidata-ms-L1409377-S1" ili="wikidata-ms-L1409377-S1">
         <Definition>kurun</Definition>
       </Sense>
@@ -676,6 +766,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1457402">
       <Lemma writtenForm="semesta" partOfSpeech="d"/>
+      <Form writtenForm="sesemesta"/>
+      <Form writtenForm="bersemesta-semesta"/>
+      <Form writtenForm="semesta-semesta"/>
       <Sense id="L1457402-S1" synset="wikidata-ms-L1457402-S1" ili="wikidata-ms-L1457402-S1">
         <Definition>whole; entire</Definition>
       </Sense>
@@ -694,6 +787,8 @@
     </LexicalEntry>
     <LexicalEntry id="L184919">
       <Lemma writtenForm="ekor" partOfSpeech="m"/>
+      <Form writtenForm="seekor"/>
+      <Form writtenForm="berekor-ekor"/>
       <Sense id="L184919-S1" synset="wikidata-ms-L184919-S1" ili="wikidata-ms-L184919-S1">
         <Definition>penjodoh bilangan untuk haiwan</Definition>
         <Example>ada rapang lima belas ekor</Example>
@@ -701,6 +796,8 @@
     </LexicalEntry>
     <LexicalEntry id="L202863">
       <Lemma writtenForm="bilah" partOfSpeech="m"/>
+      <Form writtenForm="sebilah"/>
+      <Form writtenForm="berbilah-bilah"/>
       <Sense id="L202863-S1" synset="wikidata-ms-L202863-S1" ili="wikidata-ms-L202863-S1">
         <Definition>classifier for blade objects (eg. sword, knife)</Definition>
         <Example>Hang Tuah dan kelima bersaudara itu pun sudah memanggung tiga-tiga bilah seligi pada seorang.</Example>
@@ -708,12 +805,17 @@
     </LexicalEntry>
     <LexicalEntry id="L450616">
       <Lemma writtenForm="orang" partOfSpeech="m"/>
+      <Form writtenForm="seorang"/>
+      <Form writtenForm="berorang-orang"/>
       <Sense id="L450616-S1" synset="wikidata-ms-L450616-S1" ili="wikidata-ms-L450616-S1">
         <Definition>penjodoh bilangan untuk manusia</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L476551">
       <Lemma writtenForm="hingga" partOfSpeech="c"/>
+      <Form writtenForm="sehingga"/>
+      <Form writtenForm="sehinggalah"/>
+      <Form writtenForm="sehinggakan"/>
       <Sense id="L476551-S1" synset="wikidata-ms-L476551-S1" ili="wikidata-ms-L476551-S1">
         <Definition>until</Definition>
       </Sense>
@@ -744,6 +846,7 @@
     </LexicalEntry>
     <LexicalEntry id="L477345">
       <Lemma writtenForm="bahawa" partOfSpeech="c"/>
+      <Form writtenForm="bahwa"/>
       <Sense id="L477345-S1" synset="wikidata-ms-L477345-S1" ili="wikidata-ms-L477345-S1">
         <Definition>that</Definition>
       </Sense>
@@ -795,6 +898,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1408133">
       <Lemma writtenForm="unit" partOfSpeech="d"/>
+      <Form writtenForm="seunit"/>
+      <Form writtenForm="berunit-unit"/>
       <Sense id="L1408133-S1" synset="wikidata-ms-L1408133-S1" ili="wikidata-ms-L1408133-S1">
         <Definition>satuan</Definition>
       </Sense>
@@ -807,6 +912,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1409378">
       <Lemma writtenForm="kurun" partOfSpeech="d"/>
+      <Form writtenForm="sekurun"/>
+      <Form writtenForm="berkurun-kurun"/>
       <Sense id="L1409378-S1" synset="wikidata-ms-L1409378-S1" ili="wikidata-ms-L1409378-S1">
         <Definition>abad</Definition>
       </Sense>
@@ -846,12 +953,16 @@
     </LexicalEntry>
     <LexicalEntry id="L477341">
       <Lemma writtenForm="bagi" partOfSpeech="p"/>
+      <Form writtenForm="bagiku"/>
+      <Form writtenForm="bagimu"/>
+      <Form writtenForm="baginya"/>
       <Sense id="L477341-S1" synset="wikidata-ms-L477341-S1" ili="wikidata-ms-L477341-S1">
         <Definition>for</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L477349">
       <Lemma writtenForm="lepas" partOfSpeech="p"/>
+      <Form writtenForm="selepas"/>
       <Sense id="L477349-S1" synset="wikidata-ms-L477349-S1" ili="wikidata-ms-L477349-S1">
         <Definition>after</Definition>
       </Sense>
@@ -864,6 +975,9 @@
     </LexicalEntry>
     <LexicalEntry id="L479983">
       <Lemma writtenForm="terhadap" partOfSpeech="p"/>
+      <Form writtenForm="terhadapku"/>
+      <Form writtenForm="terhadapmu"/>
+      <Form writtenForm="terhadapnya"/>
       <Sense id="L479983-S1" synset="wikidata-ms-L479983-S1" ili="wikidata-ms-L479983-S1">
         <Definition>towards</Definition>
       </Sense>
@@ -882,6 +996,8 @@
     </LexicalEntry>
     <LexicalEntry id="L481506">
       <Lemma writtenForm="helai" partOfSpeech="m"/>
+      <Form writtenForm="sehelai"/>
+      <Form writtenForm="berhelai-helai"/>
       <Sense id="L481506-S1" synset="wikidata-ms-L481506-S1" ili="wikidata-ms-L481506-S1">
         <Definition>classifier for thin, wide objects</Definition>
       </Sense>
@@ -912,6 +1028,8 @@
     </LexicalEntry>
     <LexicalEntry id="L700180">
       <Lemma writtenForm="hamparan" partOfSpeech="m"/>
+      <Form writtenForm="sehamparan"/>
+      <Form writtenForm="berhamparan-hamparan"/>
       <Sense id="L700180-S1" synset="wikidata-ms-L700180-S1" ili="wikidata-ms-L700180-S1">
         <Definition>classifier for something that seems to be widely spread (eg. mat, land, field, beach)</Definition>
       </Sense>
@@ -930,18 +1048,24 @@
     </LexicalEntry>
     <LexicalEntry id="L1407947">
       <Lemma writtenForm="bidang" partOfSpeech="m"/>
+      <Form writtenForm="sebidang"/>
+      <Form writtenForm="berbidang-bidang"/>
       <Sense id="L1407947-S1" synset="wikidata-ms-L1407947-S1" ili="wikidata-ms-L1407947-S1">
         <Definition>(classifier for flat, spread out things)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408098">
       <Lemma writtenForm="hektar" partOfSpeech="d"/>
+      <Form writtenForm="sehektar"/>
+      <Form writtenForm="berhektar-hektar"/>
       <Sense id="L1408098-S1" synset="wikidata-ms-L1408098-S1" ili="wikidata-ms-L1408098-S1">
         <Definition>ukuran luas yang besarnya 2.471 ekar</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408099">
       <Lemma writtenForm="meter" partOfSpeech="d"/>
+      <Form writtenForm="semeter"/>
+      <Form writtenForm="bermeter-meter"/>
       <Sense id="L1408099-S1" synset="wikidata-ms-L1408099-S1" ili="wikidata-ms-L1408099-S1">
         <Definition>39.37 inci; 100 sentimeter</Definition>
       </Sense>
@@ -954,6 +1078,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1408605">
       <Lemma writtenForm="tahun" partOfSpeech="d"/>
+      <Form writtenForm="setahun"/>
+      <Form writtenForm="bertahun-tahun"/>
+      <Form writtenForm="taun"/>
       <Sense id="L1408605-S1" synset="wikidata-ms-L1408605-S1" ili="wikidata-ms-L1408605-S1">
         <Definition>warsa</Definition>
       </Sense>
@@ -967,12 +1094,16 @@
     </LexicalEntry>
     <LexicalEntry id="L1409376">
       <Lemma writtenForm="patah" partOfSpeech="m"/>
+      <Form writtenForm="sepatah"/>
+      <Form writtenForm="berpatah-patah"/>
       <Sense id="L1409376-S1" synset="wikidata-ms-L1409376-S1" ili="wikidata-ms-L1409376-S1">
         <Definition>(penjodoh bilangan untuk kata)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1415899">
       <Lemma writtenForm="rumpun" partOfSpeech="d"/>
+      <Form writtenForm="serumpun"/>
+      <Form writtenForm="berrumpun-rumpun"/>
       <Sense id="L1415899-S1" synset="wikidata-ms-L1415899-S1" ili="wikidata-ms-L1415899-S1">
         <Definition>group</Definition>
       </Sense>
@@ -983,21 +1114,22 @@
         <Definition>all seven</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L691">
-      <Lemma writtenForm="saya" partOfSpeech="h"/>
-      <Sense id="L691-S1" synset="wikidata-ms-L691-S1" ili="wikidata-ms-L691-S1">
-        <Definition>my (first person possessive determiner)</Definition>
-        <Example>Surat rayuan saya telah diserahkan kepada Dewan Rakyat.</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1770">
       <Lemma writtenForm="kepada" partOfSpeech="p"/>
+      <Form writtenForm="kepadaku"/>
+      <Form writtenForm="kepadamu"/>
+      <Form writtenForm="kepadanya"/>
+      <Form writtenForm="kpd"/>
       <Sense id="L1770-S1" synset="wikidata-ms-L1770-S1" ili="wikidata-ms-L1770-S1">
         <Definition>to</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1772">
       <Lemma writtenForm="untuk" partOfSpeech="p"/>
+      <Form writtenForm="untukku"/>
+      <Form writtenForm="untukmu"/>
+      <Form writtenForm="untuknya"/>
+      <Form writtenForm="utk"/>
       <Sense id="L1772-S1" synset="wikidata-ms-L1772-S1" ili="wikidata-ms-L1772-S1">
         <Definition>for</Definition>
       </Sense>
@@ -1010,6 +1142,9 @@
     </LexicalEntry>
     <LexicalEntry id="L311431">
       <Lemma writtenForm="pada" partOfSpeech="p"/>
+      <Form writtenForm="padanya"/>
+      <Form writtenForm="padamu"/>
+      <Form writtenForm="pd"/>
       <Sense id="L311431-S1" synset="wikidata-ms-L311431-S1" ili="wikidata-ms-L311431-S1">
         <Definition>on (time)</Definition>
       </Sense>
@@ -1040,12 +1175,14 @@
     </LexicalEntry>
     <LexicalEntry id="L479971">
       <Lemma writtenForm="tiap" partOfSpeech="d"/>
+      <Form writtenForm="setiap"/>
       <Sense id="L479971-S1" synset="wikidata-ms-L479971-S1" ili="wikidata-ms-L479971-S1">
         <Definition>each</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L479988">
       <Lemma writtenForm="peR- -an" partOfSpeech="x"/>
+      <Form writtenForm="per- -an"/>
       <Sense id="L479988-S1" synset="wikidata-ms-L479988-S1" ili="wikidata-ms-L479988-S1">
         <Definition>(place)</Definition>
       </Sense>
@@ -1076,18 +1213,24 @@
     </LexicalEntry>
     <LexicalEntry id="L618502">
       <Lemma writtenForm="bilion" partOfSpeech="d"/>
+      <Form writtenForm="sebilion"/>
+      <Form writtenForm="berbilion-bilion"/>
       <Sense id="L618502-S1" synset="wikidata-ms-L618502-S1" ili="wikidata-ms-L618502-S1">
         <Definition>billion</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L625698">
       <Lemma writtenForm="laras" partOfSpeech="m"/>
+      <Form writtenForm="selaras"/>
+      <Form writtenForm="berlaras-laras"/>
       <Sense id="L625698-S1" synset="wikidata-ms-L625698-S1" ili="wikidata-ms-L625698-S1">
         <Definition>classifier for weapon</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L643271">
       <Lemma writtenForm="utas" partOfSpeech="m"/>
+      <Form writtenForm="seutas"/>
+      <Form writtenForm="berutas-utas"/>
       <Sense id="L643271-S1" synset="wikidata-ms-L643271-S1" ili="wikidata-ms-L643271-S1">
         <Definition>classifier for rope-like items like ropes, threads, necklaces</Definition>
       </Sense>
@@ -1100,6 +1243,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1085042">
       <Lemma writtenForm="rol" partOfSpeech="m"/>
+      <Form writtenForm="serol"/>
+      <Form writtenForm="berrol-rol"/>
       <Sense id="L1085042-S1" synset="wikidata-ms-L1085042-S1" ili="wikidata-ms-L1085042-S1">
         <Definition>roll</Definition>
       </Sense>
@@ -1112,6 +1257,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1388837">
       <Lemma writtenForm="kumpulan" partOfSpeech="d"/>
+      <Form writtenForm="sekumpulan"/>
+      <Form writtenForm="berkumpulan-kumpulan"/>
       <Sense id="L1388837-S1" synset="wikidata-ms-L1388837-S1" ili="wikidata-ms-L1388837-S1">
         <Definition>a group of</Definition>
       </Sense>
@@ -1124,6 +1271,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1407692">
       <Lemma writtenForm="anak lelaki kepada" partOfSpeech="p"/>
+      <Form writtenForm="a/l"/>
       <Sense id="L1407692-S1" synset="wikidata-ms-L1407692-S1" ili="wikidata-ms-L1407692-S1">
         <Definition>son of</Definition>
         <SenseRelation relType="hypernym" target="wikidata-ms-L1407691-S1"/>
@@ -1131,18 +1279,23 @@
     </LexicalEntry>
     <LexicalEntry id="L1408100">
       <Lemma writtenForm="dekad" partOfSpeech="d"/>
+      <Form writtenForm="sedekad"/>
+      <Form writtenForm="berdekad-dekad"/>
       <Sense id="L1408100-S1" synset="wikidata-ms-L1408100-S1" ili="wikidata-ms-L1408100-S1">
         <Definition>jangka masa sepuluh tahun, dasawarsa</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408631">
       <Lemma writtenForm="kilometer" partOfSpeech="d"/>
+      <Form writtenForm="sekilometer"/>
+      <Form writtenForm="berkilometer-kilometer"/>
       <Sense id="L1408631-S1" synset="wikidata-ms-L1408631-S1" ili="wikidata-ms-L1408631-S1">
         <Definition>seribu meter</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408783">
       <Lemma writtenForm="seri" partOfSpeech="y"/>
+      <Form writtenForm="sri"/>
       <Sense id="L1408783-S1" synset="wikidata-ms-L1408783-S1" ili="wikidata-ms-L1408783-S1">
         <Definition>(panggilan untuk memuliakan)</Definition>
       </Sense>
@@ -1155,12 +1308,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1409569">
       <Lemma writtenForm="ons" partOfSpeech="d"/>
+      <Form writtenForm="seons"/>
+      <Form writtenForm="berons-ons"/>
       <Sense id="L1409569-S1" synset="wikidata-ms-L1409569-S1" ili="wikidata-ms-L1409569-S1">
         <Definition>auns</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1412410">
       <Lemma writtenForm="di bawah" partOfSpeech="p"/>
+      <Form writtenForm="dibawah"/>
       <Sense id="L1412410-S1" synset="wikidata-ms-L1412410-S1" ili="wikidata-ms-L1412410-S1">
         <Definition>di tempat yang lebih rendah</Definition>
       </Sense>
@@ -1191,6 +1347,7 @@
     </LexicalEntry>
     <LexicalEntry id="L477351">
       <Lemma writtenForm="tetapi" partOfSpeech="c"/>
+      <Form writtenForm="tapi"/>
       <Sense id="L477351-S1" synset="wikidata-ms-L477351-S1" ili="wikidata-ms-L477351-S1">
         <Definition>but</Definition>
       </Sense>
@@ -1239,6 +1396,8 @@
     </LexicalEntry>
     <LexicalEntry id="L700497">
       <Lemma writtenForm="naskhah" partOfSpeech="m"/>
+      <Form writtenForm="senaskhah"/>
+      <Form writtenForm="bernaskhah-naskhah"/>
       <Sense id="L700497-S1" synset="wikidata-ms-L700497-S1" ili="wikidata-ms-L700497-S1">
         <Definition>classifier for reading material</Definition>
       </Sense>
@@ -1269,6 +1428,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1084271">
       <Lemma writtenForm="sayat" partOfSpeech="m"/>
+      <Form writtenForm="sesayat"/>
+      <Form writtenForm="bersayat-sayat"/>
       <Sense id="L1084271-S1" synset="wikidata-ms-L1084271-S1" ili="wikidata-ms-L1084271-S1">
         <Definition>classifier for thing that have been cut or thinly sliced</Definition>
       </Sense>
@@ -1293,12 +1454,16 @@
     </LexicalEntry>
     <LexicalEntry id="L1400413">
       <Lemma writtenForm="sekiranya" partOfSpeech="c"/>
+      <Form writtenForm="sekira"/>
+      <Form writtenForm="kiranya"/>
       <Sense id="L1400413-S1" synset="wikidata-ms-L1400413-S1" ili="wikidata-ms-L1400413-S1">
         <Definition>if</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408122">
       <Lemma writtenForm="dekade" partOfSpeech="d"/>
+      <Form writtenForm="sedekade"/>
+      <Form writtenForm="berdekade-dekade"/>
       <Sense id="L1408122-S1" synset="wikidata-ms-L1408122-S1" ili="wikidata-ms-L1408122-S1">
         <Definition>dekad, dasawarsa</Definition>
       </Sense>
@@ -1311,6 +1476,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1408659">
       <Lemma writtenForm="are" partOfSpeech="d"/>
+      <Form writtenForm="seare"/>
+      <Form writtenForm="berare-are"/>
       <Sense id="L1408659-S1" synset="wikidata-ms-L1408659-S1" ili="wikidata-ms-L1408659-S1">
         <Definition>ukuran luas, 100 m²</Definition>
       </Sense>
@@ -1853,10 +2020,6 @@
     </Synset>
     <Synset id="wikidata-ms-L1474633-S1" ili="wikidata-ms-L1474633-S1" partOfSpeech="d">
       <Definition>all seven</Definition>
-    </Synset>
-    <Synset id="wikidata-ms-L691-S1" ili="wikidata-ms-L691-S1" partOfSpeech="h">
-      <Definition>my (first person possessive determiner)</Definition>
-      <Example>Surat rayuan saya telah diserahkan kepada Dewan Rakyat.</Example>
     </Synset>
     <Synset id="wikidata-ms-L1770-S1" ili="wikidata-ms-L1770-S1" partOfSpeech="p">
       <Definition>to</Definition>

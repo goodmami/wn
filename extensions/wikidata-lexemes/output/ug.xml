@@ -22,12 +22,22 @@
     </LexicalEntry>
     <LexicalEntry id="L414242">
       <Lemma writtenForm="بىز" partOfSpeech="h"/>
+      <Form writtenForm="بىزنىڭ"/>
+      <Form writtenForm="بىزگە"/>
+      <Form writtenForm="بىزنى"/>
+      <Form writtenForm="بىزدە"/>
+      <Form writtenForm="بىزدىن"/>
       <Sense id="L414242-S1" synset="wikidata-ug-L414242-S1" ili="wikidata-ug-L414242-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L349254">
       <Lemma writtenForm="مەن" partOfSpeech="h"/>
+      <Form writtenForm="مېنىڭ‎"/>
+      <Form writtenForm="ماڭا‎"/>
+      <Form writtenForm="مېنى‎"/>
+      <Form writtenForm="مەندە‎"/>
+      <Form writtenForm="مەندىن‎"/>
       <Sense id="L349254-S1" synset="wikidata-ug-L349254-S1" ili="wikidata-ug-L349254-S1">
         <Definition>I; first person singular pronoun</Definition>
       </Sense>

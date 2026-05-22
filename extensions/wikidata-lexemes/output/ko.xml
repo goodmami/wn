@@ -22,6 +22,7 @@
     </LexicalEntry>
     <LexicalEntry id="L741731">
       <Lemma writtenForm="나" partOfSpeech="y"/>
+      <Form writtenForm="이나"/>
       <Sense id="L741731-S1" synset="wikidata-ko-L741731-S1" ili="wikidata-ko-L741731-S1">
         <Definition>(indicates a guess at the amount or extent of something)</Definition>
       </Sense>
@@ -146,18 +147,16 @@
     </LexicalEntry>
     <LexicalEntry id="L745330">
       <Lemma writtenForm="저" partOfSpeech="h"/>
+      <Form writtenForm="제"/>
       <Sense id="L745330-S1" synset="wikidata-ko-L745330-S1" ili="wikidata-ko-L745330-S1">
         <Definition>formal first person singular: I</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L745334">
-      <Lemma writtenForm="저" partOfSpeech="h"/>
-      <Sense id="L745334-S1" synset="wikidata-ko-L745334-S1" ili="wikidata-ko-L745334-S1">
-        <Definition>he or she (formal third person pronoun)</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L748823">
       <Lemma writtenForm="오" partOfSpeech="x"/>
+      <Form writtenForm="옵"/>
+      <Form writtenForm="으옵"/>
+      <Form writtenForm="으오"/>
       <Sense id="L748823-S1" synset="wikidata-ko-L748823-S1" ili="wikidata-ko-L748823-S1">
         <Definition>(politeness marker used in hasoseo-che)</Definition>
       </Sense>
@@ -257,6 +256,7 @@
     </LexicalEntry>
     <LexicalEntry id="L246">
       <Lemma writtenForm="나" partOfSpeech="h"/>
+      <Form writtenForm="내"/>
       <Sense id="L246-S1" synset="wikidata-ko-L246-S1" ili="wikidata-ko-L246-S1">
         <Definition>informal first person singular, I</Definition>
       </Sense>
@@ -284,6 +284,8 @@
     </LexicalEntry>
     <LexicalEntry id="L742821">
       <Lemma writtenForm="었" partOfSpeech="x"/>
+      <Form writtenForm="았"/>
+      <Form writtenForm="였"/>
       <Sense id="L742821-S1" synset="wikidata-ko-L742821-S1" ili="wikidata-ko-L742821-S1">
         <Definition>(general past/perfective indicator)</Definition>
       </Sense>
@@ -293,6 +295,8 @@
     </LexicalEntry>
     <LexicalEntry id="L742826">
       <Lemma writtenForm="었었" partOfSpeech="x"/>
+      <Form writtenForm="았었"/>
+      <Form writtenForm="였었"/>
       <Sense id="L742826-S1" synset="wikidata-ko-L742826-S1" ili="wikidata-ko-L742826-S1">
         <Definition>(past perfective indicator with implication of not being true at the present time)</Definition>
       </Sense>
@@ -486,6 +490,7 @@
     </LexicalEntry>
     <LexicalEntry id="L747175">
       <Lemma writtenForm="리" partOfSpeech="x"/>
+      <Form writtenForm="으리"/>
       <Sense id="L747175-S1" synset="wikidata-ko-L747175-S1" ili="wikidata-ko-L747175-S1">
         <Definition>(speculation/prediction indicator)</Definition>
       </Sense>
@@ -495,6 +500,8 @@
     </LexicalEntry>
     <LexicalEntry id="L747178">
       <Lemma writtenForm="어" partOfSpeech="x"/>
+      <Form writtenForm="아"/>
+      <Form writtenForm="여"/>
       <Sense id="L747178-S1" synset="wikidata-ko-L747178-S1" ili="wikidata-ko-L747178-S1">
         <Definition>(infinitive marker; used to connect verbs with certain following auxiliaries)</Definition>
       </Sense>
@@ -578,6 +585,8 @@
     </LexicalEntry>
     <LexicalEntry id="L740747">
       <Lemma writtenForm="을" partOfSpeech="y"/>
+      <Form writtenForm="를"/>
+      <Form writtenForm="ᆯ"/>
       <Sense id="L740747-S1" synset="wikidata-ko-L740747-S1" ili="wikidata-ko-L740747-S1">
         <Definition>(direct object particle)</Definition>
       </Sense>
@@ -608,6 +617,8 @@
     </LexicalEntry>
     <LexicalEntry id="L748850">
       <Lemma writtenForm="사오" partOfSpeech="x"/>
+      <Form writtenForm="사옵"/>
+      <Form writtenForm="삽"/>
       <Sense id="L748850-S1" synset="wikidata-ko-L748850-S1" ili="wikidata-ko-L748850-S1">
         <Definition>(politeness marker used in hasoseo-che)</Definition>
       </Sense>
@@ -683,6 +694,7 @@
     </LexicalEntry>
     <LexicalEntry id="L742365">
       <Lemma writtenForm="시" partOfSpeech="x"/>
+      <Form writtenForm="으시"/>
       <Sense id="L742365-S1" synset="wikidata-ko-L742365-S1" ili="wikidata-ko-L742365-S1">
         <Definition>(honorific used in deference to the topic of the statement)</Definition>
       </Sense>
@@ -693,12 +705,6 @@
         <Definition>the number 10^8</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L745338">
-      <Lemma writtenForm="저" partOfSpeech="h"/>
-      <Sense id="L745338-S1" synset="wikidata-ko-L745338-S1" ili="wikidata-ko-L745338-S1">
-        <Definition>that over there</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L745339">
       <Lemma writtenForm="저" partOfSpeech="d"/>
       <Sense id="L745339-S1" synset="wikidata-ko-L745339-S1" ili="wikidata-ko-L745339-S1">
@@ -707,6 +713,7 @@
     </LexicalEntry>
     <LexicalEntry id="L747169">
       <Lemma writtenForm="이다" partOfSpeech="y"/>
+      <Form writtenForm="이"/>
       <Sense id="L747169-S1" synset="wikidata-ko-L747169-S1" ili="wikidata-ko-L747169-S1">
         <Definition>(copula)</Definition>
       </Sense>
@@ -768,6 +775,14 @@
     </LexicalEntry>
     <LexicalEntry id="L14167">
       <Lemma writtenForm="너희" partOfSpeech="h"/>
+      <Form writtenForm="너희가"/>
+      <Form writtenForm="너희는"/>
+      <Form writtenForm="너희를"/>
+      <Form writtenForm="너희도"/>
+      <Form writtenForm="너희에게"/>
+      <Form writtenForm="너희와"/>
+      <Form writtenForm="너희의"/>
+      <Form writtenForm="너희만"/>
       <Sense id="L14167-S1" synset="wikidata-ko-L14167-S1" ili="wikidata-ko-L14167-S1">
         <Definition>(informal second person plural pronoun)</Definition>
       </Sense>
@@ -780,6 +795,7 @@
     </LexicalEntry>
     <LexicalEntry id="L740723">
       <Lemma writtenForm="이" partOfSpeech="y"/>
+      <Form writtenForm="가"/>
       <Sense id="L740723-S1" synset="wikidata-ko-L740723-S1" ili="wikidata-ko-L740723-S1">
         <Definition>(subject particle)</Definition>
       </Sense>
@@ -909,6 +925,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1220261">
       <Lemma writtenForm="어서" partOfSpeech="x"/>
+      <Form writtenForm="아서"/>
+      <Form writtenForm="여서"/>
       <Sense id="L1220261-S1" synset="wikidata-ko-L1220261-S1" ili="wikidata-ko-L1220261-S1">
         <Definition>(indicates a sequential relationship between two events)</Definition>
       </Sense>
@@ -1047,9 +1065,6 @@
     </Synset>
     <Synset id="wikidata-ko-L745330-S1" ili="wikidata-ko-L745330-S1" partOfSpeech="h">
       <Definition>formal first person singular: I</Definition>
-    </Synset>
-    <Synset id="wikidata-ko-L745334-S1" ili="wikidata-ko-L745334-S1" partOfSpeech="h">
-      <Definition>he or she (formal third person pronoun)</Definition>
     </Synset>
     <Synset id="wikidata-ko-L748823-S1" ili="wikidata-ko-L748823-S1" partOfSpeech="x">
       <Definition>(politeness marker used in hasoseo-che)</Definition>
@@ -1344,9 +1359,6 @@
     </Synset>
     <Synset id="wikidata-ko-L742650-S1" ili="wikidata-ko-L742650-S1" partOfSpeech="m">
       <Definition>the number 10^8</Definition>
-    </Synset>
-    <Synset id="wikidata-ko-L745338-S1" ili="wikidata-ko-L745338-S1" partOfSpeech="h">
-      <Definition>that over there</Definition>
     </Synset>
     <Synset id="wikidata-ko-L745339-S1" ili="wikidata-ko-L745339-S1" partOfSpeech="d">
       <Definition>that over there</Definition>

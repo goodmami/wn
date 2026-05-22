@@ -10,6 +10,7 @@
     <Extends id="omw-mt" version="1.4"/>
     <LexicalEntry id="L473425">
       <Lemma writtenForm="li" partOfSpeech="h"/>
+      <Form writtenForm="illi"/>
       <Sense id="L473425-S1" synset="wikidata-mt-L473425-S1" ili="wikidata-mt-L473425-S1">
         <Definition>that</Definition>
       </Sense>
@@ -66,18 +67,25 @@
     </LexicalEntry>
     <LexicalEntry id="L26538">
       <Lemma writtenForm="tlieta" partOfSpeech="m"/>
+      <Form writtenForm="tliet"/>
+      <Form writtenForm="tlett"/>
+      <Form writtenForm="tlitt"/>
       <Sense id="L26538-S1" synset="wikidata-mt-L26538-S1" ili="wikidata-mt-L26538-S1">
         <Definition>in-numru kardinali tlieta</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L26540">
       <Lemma writtenForm="erbgħa" partOfSpeech="m"/>
+      <Form writtenForm="erba&apos;"/>
+      <Form writtenForm="erbat"/>
       <Sense id="L26540-S1" synset="wikidata-mt-L26540-S1" ili="wikidata-mt-L26540-S1">
         <Definition>the number four</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L26578">
       <Lemma writtenForm="disgħa" partOfSpeech="m"/>
+      <Form writtenForm="disa&apos;"/>
+      <Form writtenForm="disat"/>
       <Sense id="L26578-S1" synset="wikidata-mt-L26578-S1" ili="wikidata-mt-L26578-S1">
         <Definition>the number nine</Definition>
       </Sense>
@@ -135,12 +143,15 @@
     </LexicalEntry>
     <LexicalEntry id="L26533">
       <Lemma writtenForm="tnejn" partOfSpeech="m"/>
+      <Form writtenForm="żewġ"/>
+      <Form writtenForm="żewġt"/>
       <Sense id="L26533-S1" synset="wikidata-mt-L26533-S1" ili="wikidata-mt-L26533-S1">
         <Definition>the number two</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L26554">
       <Lemma writtenForm="sitta" partOfSpeech="m"/>
+      <Form writtenForm="sitt"/>
       <Sense id="L26554-S1" synset="wikidata-mt-L26554-S1" ili="wikidata-mt-L26554-S1">
         <Definition>the number six</Definition>
       </Sense>
@@ -234,6 +245,8 @@
     </LexicalEntry>
     <LexicalEntry id="L26539">
       <Lemma writtenForm="ħamsa" partOfSpeech="m"/>
+      <Form writtenForm="ħames"/>
+      <Form writtenForm="ħamest"/>
       <Sense id="L26539-S1" synset="wikidata-mt-L26539-S1" ili="wikidata-mt-L26539-S1">
         <Definition>the number five</Definition>
       </Sense>
@@ -312,12 +325,15 @@
     </LexicalEntry>
     <LexicalEntry id="L26532">
       <Lemma writtenForm="wieħed" partOfSpeech="m"/>
+      <Form writtenForm="waħda"/>
       <Sense id="L26532-S1" synset="wikidata-mt-L26532-S1" ili="wikidata-mt-L26532-S1">
         <Definition>the number one</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L26559">
       <Lemma writtenForm="sebgħa" partOfSpeech="m"/>
+      <Form writtenForm="seba&apos;"/>
+      <Form writtenForm="sebat"/>
       <Sense id="L26559-S1" synset="wikidata-mt-L26559-S1" ili="wikidata-mt-L26559-S1">
         <Definition>the number seven</Definition>
       </Sense>
@@ -405,6 +421,8 @@
     </LexicalEntry>
     <LexicalEntry id="L26580">
       <Lemma writtenForm="għaxra" partOfSpeech="m"/>
+      <Form writtenForm="għaxar"/>
+      <Form writtenForm="għaxart"/>
       <Sense id="L26580-S1" synset="wikidata-mt-L26580-S1" ili="wikidata-mt-L26580-S1">
         <Definition>the number ten</Definition>
       </Sense>
@@ -417,6 +435,25 @@
     </LexicalEntry>
     <LexicalEntry id="L314589">
       <Lemma writtenForm="il-" partOfSpeech="d"/>
+      <Form writtenForm="iċ-"/>
+      <Form writtenForm="id-"/>
+      <Form writtenForm="in-"/>
+      <Form writtenForm="ir-"/>
+      <Form writtenForm="is-"/>
+      <Form writtenForm="it-"/>
+      <Form writtenForm="ix-"/>
+      <Form writtenForm="iz-"/>
+      <Form writtenForm="iż-"/>
+      <Form writtenForm="l-"/>
+      <Form writtenForm="ċ-"/>
+      <Form writtenForm="d-"/>
+      <Form writtenForm="n-"/>
+      <Form writtenForm="r-"/>
+      <Form writtenForm="s-"/>
+      <Form writtenForm="t-"/>
+      <Form writtenForm="x-"/>
+      <Form writtenForm="z-"/>
+      <Form writtenForm="ż-"/>
       <Sense id="L314589-S1" synset="wikidata-mt-L314589-S1" ili="wikidata-mt-L314589-S1">
         <Definition>artiklu definit</Definition>
       </Sense>
@@ -501,6 +538,8 @@
     </LexicalEntry>
     <LexicalEntry id="L26576">
       <Lemma writtenForm="tmienja" partOfSpeech="m"/>
+      <Form writtenForm="tmien"/>
+      <Form writtenForm="tmint"/>
       <Sense id="L26576-S1" synset="wikidata-mt-L26576-S1" ili="wikidata-mt-L26576-S1">
         <Definition>the number eight</Definition>
       </Sense>

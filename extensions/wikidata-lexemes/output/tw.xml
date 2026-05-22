@@ -10,6 +10,7 @@
     <Extends id="omw-tw" version="1.4"/>
     <LexicalEntry id="L686722">
       <Lemma writtenForm="Ɔha" partOfSpeech="m"/>
+      <Form writtenForm="Aha"/>
       <Sense id="L686722-S1" synset="wikidata-tw-L686722-S1" ili="wikidata-tw-L686722-S1">
         <Definition>Ɛyɛ edu mu mmɔho du</Definition>
       </Sense>
@@ -28,24 +29,28 @@
     </LexicalEntry>
     <LexicalEntry id="L1136888">
       <Lemma writtenForm="mmoadabi" partOfSpeech="n"/>
+      <Form writtenForm="abɛbɛ"/>
       <Sense id="L1136888-S1" synset="wikidata-tw-L1136888-S1" ili="wikidata-tw-L1136888-S1">
         <Definition>ɔyɛ mmoa bi a kasɛɛ nni wɔn mu</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1136854">
       <Lemma writtenForm="nuabarima" partOfSpeech="n"/>
+      <Form writtenForm="nuabarimanom"/>
       <Sense id="L1136854-S1" synset="wikidata-tw-L1136854-S1" ili="wikidata-tw-L1136854-S1">
         <Definition>obi a ne nua yɛ barima</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1136858">
       <Lemma writtenForm="abeawa" partOfSpeech="n"/>
+      <Form writtenForm="mmeawa"/>
       <Sense id="L1136858-S1" synset="wikidata-tw-L1136858-S1" ili="wikidata-tw-L1136858-S1">
         <Definition>nipa a ɔyɛ ɔbaa na ɔnyinii pii.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1136878">
       <Lemma writtenForm="afiri" partOfSpeech="n"/>
+      <Form writtenForm="mfiri"/>
       <Sense id="L1136878-S1" synset="wikidata-tw-L1136878-S1" ili="wikidata-tw-L1136878-S1">
         <Definition>adeɛ bi ɛyɛ dwuma a ɛmerɛ</Definition>
       </Sense>
@@ -64,6 +69,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1136885">
       <Lemma writtenForm="nkoekoemmoa" partOfSpeech="n"/>
+      <Form writtenForm="nkoekoemmo"/>
       <Sense id="L1136885-S1" synset="wikidata-tw-L1136885-S1" ili="wikidata-tw-L1136885-S1">
         <Definition>ɔyɛ mmoa be a nnompe nni wcn mu</Definition>
       </Sense>

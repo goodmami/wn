@@ -32,6 +32,7 @@
     </LexicalEntry>
     <LexicalEntry id="L2325">
       <Lemma writtenForm="dan" partOfSpeech="c"/>
+      <Form writtenForm="&amp;"/>
       <Sense id="L2325-S1" synset="wikidata-id-L2325-S1" ili="l1385-s1">
         <Definition>serta</Definition>
       </Sense>
@@ -69,6 +70,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1372065">
       <Lemma writtenForm="tampak" partOfSpeech="n"/>
+      <Form writtenForm="ketampakan"/>
+      <Form writtenForm="tampaknya"/>
+      <Form writtenForm="tampak-tampak"/>
       <Sense id="L1372065-S1" synset="wikidata-id-L1372065-S1" ili="wikidata-id-L1372065-S1">
         <Definition>sesuatu yang dapat dilihat</Definition>
         <Example>Dua helikopter PBB tampak diparkir di landasan.</Example>
@@ -84,6 +88,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1137695">
       <Lemma writtenForm="buah" partOfSpeech="m"/>
+      <Form writtenForm="sebuah"/>
       <Sense id="L1137695-S1" synset="wikidata-id-L1137695-S1" ili="wikidata-id-L1137695-S1">
         <Definition>penggolongan untuk objek besar</Definition>
         <Example>diberi rezeki buah-buahan dalam surga-surga itu.</Example>
@@ -110,6 +115,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1330953">
       <Lemma writtenForm="meng-i" partOfSpeech="x"/>
+      <Form writtenForm="me-i"/>
+      <Form writtenForm="mem-i"/>
+      <Form writtenForm="men-i"/>
+      <Form writtenForm="meny-i"/>
       <Sense id="L1330953-S1" synset="wikidata-id-L1330953-S1" ili="wikidata-id-L1330953-S1">
         <Definition>konfiks pembentuk verba</Definition>
       </Sense>
@@ -128,6 +137,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1331007">
       <Lemma writtenForm="ter-i" partOfSpeech="x"/>
+      <Form writtenForm="te-i"/>
       <Sense id="L1331007-S1" synset="wikidata-id-L1331007-S1" ili="wikidata-id-L1331007-S1">
         <Definition>konfiks pembentuk verba</Definition>
         <Example>Ter-i adalah sebuah konfiks pembentuk verba. Contohnya terkhianati.</Example>
@@ -135,6 +145,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1331008">
       <Lemma writtenForm="ter-kan" partOfSpeech="x"/>
+      <Form writtenForm="te-kan"/>
       <Sense id="L1331008-S1" synset="wikidata-id-L1331008-S1" ili="wikidata-id-L1331008-S1">
         <Definition>konfiks pembentuk verba</Definition>
       </Sense>
@@ -156,6 +167,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1137682">
       <Lemma writtenForm="biji" partOfSpeech="m"/>
+      <Form writtenForm="sebiji"/>
       <Sense id="L1137682-S1" synset="wikidata-id-L1137682-S1" ili="wikidata-id-L1137682-S1">
         <Definition>penggolongan untuk benda-benda kecil, buah-buahan</Definition>
         <Example>biji buah karet.</Example>
@@ -163,6 +175,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1137706">
       <Lemma writtenForm="lembar" partOfSpeech="m"/>
+      <Form writtenForm="selembar"/>
+      <Form writtenForm="utas"/>
+      <Form writtenForm="seutas"/>
       <Sense id="L1137706-S1" synset="wikidata-id-L1137706-S1" ili="wikidata-id-L1137706-S1">
         <Definition>kata penggolong bagi benda yang panjang</Definition>
         <Example>daon djeroek poeroet satoe lembar</Example>
@@ -188,6 +203,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1137669">
       <Lemma writtenForm="ekor" partOfSpeech="m"/>
+      <Form writtenForm="seekor"/>
       <Sense id="L1137669-S1" synset="wikidata-id-L1137669-S1" ili="wikidata-id-L1137669-S1">
         <Definition>penggolongan untuk hewan</Definition>
         <Example>ber siap-siaplah Ganim bin Ayub dengan sebuah kafilah terdiri dari puluhan ekor unta untuk membawa barang dagangannya yang banyak itu.</Example>
@@ -195,6 +211,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1137700">
       <Lemma writtenForm="helai" partOfSpeech="m"/>
+      <Form writtenForm="sehelai"/>
       <Sense id="L1137700-S1" synset="wikidata-id-L1137700-S1" ili="wikidata-id-L1137700-S1">
         <Definition>kata penggolong untuk barang yang tipis atau halus</Definition>
         <Example>bunga yang menakjubkan diikuti helai demi helai</Example>
@@ -218,6 +235,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1330951">
       <Lemma writtenForm="meng-kan" partOfSpeech="x"/>
+      <Form writtenForm="me-kan"/>
+      <Form writtenForm="mem-kan"/>
+      <Form writtenForm="men-kan"/>
+      <Form writtenForm="meny-kan"/>
       <Sense id="L1330951-S1" synset="wikidata-id-L1330951-S1" ili="wikidata-id-L1330951-S1">
         <Definition>konfiks pembentuk verba</Definition>
       </Sense>
@@ -251,6 +272,11 @@
     </LexicalEntry>
     <LexicalEntry id="L479450">
       <Lemma writtenForm="peN- -an" partOfSpeech="x"/>
+      <Form writtenForm="pe-an"/>
+      <Form writtenForm="pem-an"/>
+      <Form writtenForm="pen-an"/>
+      <Form writtenForm="peng-an"/>
+      <Form writtenForm="peny-an"/>
       <Sense id="L479450-S1" synset="wikidata-id-L479450-S1" ili="wikidata-id-L479450-S1">
         <Definition>konfiks pembentuk nomina</Definition>
       </Sense>

@@ -10,6 +10,9 @@
     <Extends id="omw-pt" version="1.4"/>
     <LexicalEntry id="L46853">
       <Lemma writtenForm="um" partOfSpeech="d"/>
+      <Form writtenForm="uns"/>
+      <Form writtenForm="uma"/>
+      <Form writtenForm="umas"/>
       <Sense id="L46853-S1" synset="wikidata-pt-L46853-S1" ili="wikidata-pt-L46853-S1">
         <Definition>a, an</Definition>
         <Example>Após a morte de Lênin, em 1924, Stalin ascende ao poder, iniciando um período de autoritarismo</Example>
@@ -17,6 +20,7 @@
     </LexicalEntry>
     <LexicalEntry id="L46867">
       <Lemma writtenForm="dois" partOfSpeech="m"/>
+      <Form writtenForm="duas"/>
       <Sense id="L46867-S1" synset="wikidata-pt-L46867-S1" ili="l329-s1">
         <Definition>número cardinal</Definition>
         <Example>Dois dias depois, convidou os seus dous validos para um banquete no palacio</Example>
@@ -24,6 +28,23 @@
     </LexicalEntry>
     <LexicalEntry id="L488745">
       <Lemma writtenForm="ele" partOfSpeech="h"/>
+      <Form writtenForm="eles"/>
+      <Form writtenForm="dele"/>
+      <Form writtenForm="aquele"/>
+      <Form writtenForm="esse"/>
+      <Form writtenForm="este"/>
+      <Form writtenForm="nele"/>
+      <Form writtenForm="ela"/>
+      <Form writtenForm="se"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="consigo"/>
+      <Form writtenForm="o"/>
+      <Form writtenForm="a"/>
+      <Form writtenForm="lhe"/>
+      <Form writtenForm="elas"/>
+      <Form writtenForm="os"/>
+      <Form writtenForm="as"/>
+      <Form writtenForm="lhes"/>
       <Sense id="L488745-S1" synset="wikidata-pt-L488745-S1" ili="l485-s1">
         <Definition>pronominal pessoal masculino</Definition>
         <Example>Para ele, nada existe além da natureza observável.</Example>
@@ -43,6 +64,9 @@
     </LexicalEntry>
     <LexicalEntry id="L492444">
       <Lemma writtenForm="algum" partOfSpeech="h"/>
+      <Form writtenForm="alguma"/>
+      <Form writtenForm="alguns"/>
+      <Form writtenForm="algumas"/>
       <Sense id="L492444-S1" synset="wikidata-pt-L492444-S1" ili="wikidata-pt-L492444-S1">
         <Definition>indica qualquer um dos indivíduos da espécie mencionada, mas sem determinar qual</Definition>
         <Example>De um modo geral, literatura é o que foi escrito sobre algum assunto</Example>
@@ -64,6 +88,9 @@
     </LexicalEntry>
     <LexicalEntry id="L669660">
       <Lemma writtenForm="outro" partOfSpeech="h"/>
+      <Form writtenForm="outros"/>
+      <Form writtenForm="outra"/>
+      <Form writtenForm="outras"/>
       <Sense id="L669660-S1" synset="wikidata-pt-L669660-S1" ili="l1323942-s2">
         <Definition>um diferente</Definition>
       </Sense>
@@ -99,6 +126,10 @@
     </LexicalEntry>
     <LexicalEntry id="L43388">
       <Lemma writtenForm="ela" partOfSpeech="h"/>
+      <Form writtenForm="aquela"/>
+      <Form writtenForm="nela"/>
+      <Form writtenForm="essa"/>
+      <Form writtenForm="esta"/>
       <Sense id="L43388-S1" synset="wikidata-pt-L43388-S1" ili="l484-s1">
         <Definition>pronominal pessoal feminino</Definition>
         <Example>Mas ela não lhe foi fiel.</Example>
@@ -114,6 +145,7 @@
     </LexicalEntry>
     <LexicalEntry id="L502640">
       <Lemma writtenForm="qualquer" partOfSpeech="h"/>
+      <Form writtenForm="quaisquer"/>
       <Sense id="L502640-S1" synset="wikidata-pt-L502640-S1" ili="wikidata-pt-L502640-S1">
         <Definition>todo, todos</Definition>
         <Example>Qualquer pessoa nota sua presença.</Example>
@@ -143,6 +175,9 @@
     </LexicalEntry>
     <LexicalEntry id="L670817">
       <Lemma writtenForm="primeiro" partOfSpeech="m"/>
+      <Form writtenForm="primeiros"/>
+      <Form writtenForm="primeira"/>
+      <Form writtenForm="primeiras"/>
       <Sense id="L670817-S1" synset="wikidata-pt-L670817-S1" ili="wikidata-pt-L670817-S1">
         <Definition>número ordinal para 1</Definition>
       </Sense>
@@ -215,6 +250,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1217794">
       <Lemma writtenForm="da silva" partOfSpeech="r"/>
+      <Form writtenForm="da Silva"/>
       <Sense id="L1217794-S1" synset="wikidata-pt-L1217794-S1" ili="wikidata-pt-L1217794-S1">
         <Definition>totalmente</Definition>
         <Example>Cuidado com José, que ele é doidinho da silva.</Example>
@@ -234,6 +270,9 @@
     </LexicalEntry>
     <LexicalEntry id="L2782">
       <Lemma writtenForm="o" partOfSpeech="d"/>
+      <Form writtenForm="os"/>
+      <Form writtenForm="a"/>
+      <Form writtenForm="as"/>
       <Sense id="L2782-S1" synset="wikidata-pt-L2782-S1" ili="l2768-s1">
         <Definition>artigo definido que denota gênero e número à palavra a que se refere</Definition>
       </Sense>
@@ -277,6 +316,9 @@
     </LexicalEntry>
     <LexicalEntry id="L503959">
       <Lemma writtenForm="esse" partOfSpeech="h"/>
+      <Form writtenForm="esses"/>
+      <Form writtenForm="essa"/>
+      <Form writtenForm="essas"/>
       <Sense id="L503959-S1" synset="wikidata-pt-L503959-S1" ili="wikidata-pt-L503959-S1">
         <Definition>faz referência a algo que está perto de quem ouve</Definition>
         <Example>Pegue esse copo aí.</Example>
@@ -288,6 +330,7 @@
     </LexicalEntry>
     <LexicalEntry id="L618867">
       <Lemma writtenForm="para" partOfSpeech="p"/>
+      <Form writtenForm="pra"/>
       <Sense id="L618867-S1" synset="wikidata-pt-L618867-S1" ili="wikidata-pt-L618867-S1">
         <Definition>indica direção</Definition>
         <Example>Ele pediu que você fosse pra lá.</Example>
@@ -317,6 +360,9 @@
     </LexicalEntry>
     <LexicalEntry id="L674368">
       <Lemma writtenForm="muito" partOfSpeech="h"/>
+      <Form writtenForm="muitos"/>
+      <Form writtenForm="muita"/>
+      <Form writtenForm="muitas"/>
       <Sense id="L674368-S1" synset="wikidata-pt-L674368-S1" ili="wikidata-pt-L674368-S1">
         <Definition>many, much</Definition>
       </Sense>
@@ -348,6 +394,7 @@
     </LexicalEntry>
     <LexicalEntry id="L676568">
       <Lemma writtenForm="qual" partOfSpeech="h"/>
+      <Form writtenForm="quais"/>
       <Sense id="L676568-S1" synset="wikidata-pt-L676568-S1" ili="wikidata-pt-L676568-S1">
         <Definition>refere-se a algo anteriormente falado</Definition>
         <Example>Vi Júlio, o qual não encontrava fazia anos.</Example>
@@ -395,6 +442,9 @@
     </LexicalEntry>
     <LexicalEntry id="L503961">
       <Lemma writtenForm="aquele" partOfSpeech="h"/>
+      <Form writtenForm="aquela"/>
+      <Form writtenForm="aqueles"/>
+      <Form writtenForm="aquelas"/>
       <Sense id="L503961-S1" synset="wikidata-pt-L503961-S1" ili="wikidata-pt-L503961-S1">
         <Definition>faz referência a algo que está longe de quem fala e de quem ouve</Definition>
       </Sense>
@@ -434,12 +484,26 @@
     </LexicalEntry>
     <LexicalEntry id="L44970">
       <Lemma writtenForm="um" partOfSpeech="m"/>
+      <Form writtenForm="uma"/>
       <Sense id="L44970-S1" synset="wikidata-pt-L44970-S1" ili="l327-s1">
         <Definition>número cardinal</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L307268">
       <Lemma writtenForm="elu" partOfSpeech="h"/>
+      <Form writtenForm="delu"/>
+      <Form writtenForm="elus"/>
+      <Form writtenForm="delus"/>
+      <Form writtenForm="aquelu"/>
+      <Form writtenForm="essu"/>
+      <Form writtenForm="estu"/>
+      <Form writtenForm="nelu"/>
+      <Form writtenForm="praquelu"/>
+      <Form writtenForm="naquelu"/>
+      <Form writtenForm="destu"/>
+      <Form writtenForm="daquelu"/>
+      <Form writtenForm="dessu"/>
+      <Form writtenForm="nessu"/>
       <Sense id="L307268-S1" synset="wikidata-pt-L307268-S1" ili="l371-s1">
         <Definition>pronome neutro de terceira pessoa</Definition>
         <SenseRelation relType="similar" target="wikidata-pt-L43388-S3"/>
@@ -486,6 +550,9 @@
     </LexicalEntry>
     <LexicalEntry id="L503957">
       <Lemma writtenForm="este" partOfSpeech="h"/>
+      <Form writtenForm="estes"/>
+      <Form writtenForm="esta"/>
+      <Form writtenForm="estas"/>
       <Sense id="L503957-S1" synset="wikidata-pt-L503957-S1" ili="wikidata-pt-L503957-S1">
         <Definition>faz referência a algo que está perto de quem fala</Definition>
         <Example>Pegue este copo aqui.</Example>
@@ -539,6 +606,7 @@
     </LexicalEntry>
     <LexicalEntry id="L983857">
       <Lemma writtenForm="calma aí" partOfSpeech="i"/>
+      <Form writtenForm="calmaí"/>
       <Sense id="L983857-S1" synset="wikidata-pt-L983857-S1" ili="wikidata-pt-L983857-S1">
         <Definition>acalme-se</Definition>
       </Sense>
@@ -554,6 +622,9 @@
     </LexicalEntry>
     <LexicalEntry id="L983906">
       <Lemma writtenForm="aff" partOfSpeech="i"/>
+      <Form writtenForm="af"/>
+      <Form writtenForm="affs"/>
+      <Form writtenForm="afs"/>
       <Sense id="L983906-S1" synset="wikidata-pt-L983906-S1" ili="wikidata-pt-L983906-S1">
         <Definition>ave!</Definition>
       </Sense>
@@ -570,6 +641,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1141751">
       <Lemma writtenForm="vossemecê" partOfSpeech="h"/>
+      <Form writtenForm="vossemecês"/>
       <Sense id="L1141751-S1" synset="wikidata-pt-L1141751-S1" ili="wikidata-pt-L1141751-S1">
         <Definition>tu</Definition>
       </Sense>
@@ -682,12 +754,22 @@
     </LexicalEntry>
     <LexicalEntry id="L480992">
       <Lemma writtenForm="teu" partOfSpeech="h"/>
+      <Form writtenForm="vossas"/>
+      <Form writtenForm="vossos"/>
+      <Form writtenForm="vossa"/>
+      <Form writtenForm="vosso"/>
+      <Form writtenForm="tuas"/>
+      <Form writtenForm="teus"/>
+      <Form writtenForm="tua"/>
       <Sense id="L480992-S1" synset="wikidata-pt-L480992-S1" ili="wikidata-pt-L480992-S1">
         <Definition>indica posse na segunda pessoa</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L480996">
       <Lemma writtenForm="seu" partOfSpeech="h"/>
+      <Form writtenForm="suas"/>
+      <Form writtenForm="seus"/>
+      <Form writtenForm="sua"/>
       <Sense id="L480996-S1" synset="wikidata-pt-L480996-S1" ili="wikidata-pt-L480996-S1">
         <Definition>indica posse na terceira pessoa</Definition>
         <Example>Entre seus triunfos, notável é a conquista da Índia, dominando o povo pelo seu poder místico.</Example>
@@ -710,6 +792,12 @@
     </LexicalEntry>
     <LexicalEntry id="L491661">
       <Lemma writtenForm="eu" partOfSpeech="h"/>
+      <Form writtenForm="nós"/>
+      <Form writtenForm="me"/>
+      <Form writtenForm="mim"/>
+      <Form writtenForm="comigo"/>
+      <Form writtenForm="nos"/>
+      <Form writtenForm="conosco"/>
       <Sense id="L491661-S1" synset="wikidata-pt-L491661-S1" ili="wikidata-pt-L491661-S1">
         <Definition>indica a primeira pessoa gramatical</Definition>
       </Sense>
@@ -730,14 +818,9 @@
         <Example>A previsão diz que choverá mais tarde, então teremos que esperar aqui mais um pouco.</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L900094">
-      <Lemma writtenForm="ó" partOfSpeech="i"/>
-      <Sense id="L900094-S1" synset="wikidata-pt-L900094-S1" ili="wikidata-pt-L900094-S1">
-        <Definition>oh, ei</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1073013">
       <Lemma writtenForm="cê" partOfSpeech="h"/>
+      <Form writtenForm="cês"/>
       <Sense id="L1073013-S1" synset="wikidata-pt-L1073013-S1" ili="wikidata-pt-L1073013-S1">
         <Definition>tu, você</Definition>
       </Sense>
@@ -768,18 +851,33 @@
     </LexicalEntry>
     <LexicalEntry id="L480984">
       <Lemma writtenForm="meu" partOfSpeech="h"/>
+      <Form writtenForm="nossas"/>
+      <Form writtenForm="nossos"/>
+      <Form writtenForm="nossa"/>
+      <Form writtenForm="nosso"/>
+      <Form writtenForm="minhas"/>
+      <Form writtenForm="meus"/>
+      <Form writtenForm="minha"/>
       <Sense id="L480984-S1" synset="wikidata-pt-L480984-S1" ili="wikidata-pt-L480984-S1">
         <Definition>indica posse na primeira pessoa</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491664">
       <Lemma writtenForm="tu" partOfSpeech="h"/>
+      <Form writtenForm="vós"/>
+      <Form writtenForm="te"/>
+      <Form writtenForm="ti"/>
+      <Form writtenForm="contigo"/>
+      <Form writtenForm="vos"/>
+      <Form writtenForm="se"/>
+      <Form writtenForm="convosco"/>
       <Sense id="L491664-S1" synset="wikidata-pt-L491664-S1" ili="wikidata-pt-L491664-S1">
         <Definition>indica a segunda pessoa gramatical</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L500873">
       <Lemma writtenForm="você" partOfSpeech="h"/>
+      <Form writtenForm="vocês"/>
       <Sense id="L500873-S1" synset="wikidata-pt-L500873-S1" ili="wikidata-pt-L500873-S1">
         <Definition>indica a segunda pessoa gramatical</Definition>
       </Sense>
@@ -812,18 +910,6 @@
       <Lemma writtenForm="que" partOfSpeech="c"/>
       <Sense id="L647640-S1" synset="wikidata-pt-L647640-S1" ili="wikidata-pt-L647640-S1">
         <Definition>that</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L901082">
-      <Lemma writtenForm="Virgem Maria" partOfSpeech="i"/>
-      <Sense id="L901082-S1" synset="wikidata-pt-L901082-S1" ili="wikidata-pt-L901082-S1">
-        <Definition>Nossa Senhora!, meu Deus!</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L983904">
-      <Lemma writtenForm="ave" partOfSpeech="i"/>
-      <Sense id="L983904-S1" synset="wikidata-pt-L983904-S1" ili="wikidata-pt-L983904-S1">
-        <Definition>salve</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119757">
@@ -1329,9 +1415,6 @@
       <Definition>portanto, consequentemente</Definition>
       <Example>A previsão diz que choverá mais tarde, então teremos que esperar aqui mais um pouco.</Example>
     </Synset>
-    <Synset id="wikidata-pt-L900094-S1" ili="wikidata-pt-L900094-S1" partOfSpeech="i">
-      <Definition>oh, ei</Definition>
-    </Synset>
     <Synset id="wikidata-pt-L1073013-S1" ili="wikidata-pt-L1073013-S1" partOfSpeech="h">
       <Definition>tu, você</Definition>
     </Synset>
@@ -1376,12 +1459,6 @@
     </Synset>
     <Synset id="wikidata-pt-L647640-S1" ili="wikidata-pt-L647640-S1" partOfSpeech="c">
       <Definition>that</Definition>
-    </Synset>
-    <Synset id="wikidata-pt-L901082-S1" ili="wikidata-pt-L901082-S1" partOfSpeech="i">
-      <Definition>Nossa Senhora!, meu Deus!</Definition>
-    </Synset>
-    <Synset id="wikidata-pt-L983904-S1" ili="wikidata-pt-L983904-S1" partOfSpeech="i">
-      <Definition>salve</Definition>
     </Synset>
     <Synset id="wikidata-pt-L1119757-S1" ili="wikidata-pt-L1119757-S1" partOfSpeech="r">
       <Definition>&quot;at the price of bananas&quot;: cheaply</Definition>

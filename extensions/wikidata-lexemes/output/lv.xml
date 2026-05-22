@@ -31,18 +31,30 @@
     </LexicalEntry>
     <LexicalEntry id="L941799">
       <Lemma writtenForm="es" partOfSpeech="h"/>
+      <Form writtenForm="manis"/>
+      <Form writtenForm="man"/>
+      <Form writtenForm="mani"/>
+      <Form writtenForm="ar mani"/>
+      <Form writtenForm="manī"/>
       <Sense id="L941799-S1" synset="wikidata-lv-L941799-S1" ili="wikidata-lv-L941799-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1138159">
       <Lemma writtenForm="abi" partOfSpeech="h"/>
+      <Form writtenForm="abu"/>
+      <Form writtenForm="abiem"/>
+      <Form writtenForm="abus"/>
+      <Form writtenForm="abos"/>
       <Sense id="L1138159-S1" synset="wikidata-lv-L1138159-S1" ili="wikidata-lv-L1138159-S1">
         <Definition>viens un otrs</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1138161">
       <Lemma writtenForm="abas" partOfSpeech="h"/>
+      <Form writtenForm="abu"/>
+      <Form writtenForm="abām"/>
+      <Form writtenForm="abās"/>
       <Sense id="L1138161-S1" synset="wikidata-lv-L1138161-S1" ili="wikidata-lv-L1138161-S1">
         <Definition>die eine und die andere</Definition>
       </Sense>

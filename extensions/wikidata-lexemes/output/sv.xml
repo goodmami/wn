@@ -111,6 +111,7 @@
     </LexicalEntry>
     <LexicalEntry id="L251646">
       <Lemma writtenForm="Andersson" partOfSpeech="n"/>
+      <Form writtenForm="Anderssons"/>
       <Sense id="L251646-S1" synset="wikidata-sv-L251646-S1" ili="wikidata-sv-L251646-S1">
         <Definition>efternamn</Definition>
         <Example>I dag behandlar vi Anderssons betänkande.</Example>
@@ -130,12 +131,16 @@
     </LexicalEntry>
     <LexicalEntry id="L579547">
       <Lemma writtenForm="välkommen" partOfSpeech="i"/>
+      <Form writtenForm="välkommet"/>
+      <Form writtenForm="välkomne"/>
+      <Form writtenForm="välkomna"/>
       <Sense id="L579547-S1" synset="wikidata-sv-L579547-S1" ili="wikidata-sv-L579547-S1">
         <Definition>hälsning</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L579584">
       <Lemma writtenForm="trettiofyra" partOfSpeech="m"/>
+      <Form writtenForm="trettiofyras"/>
       <Sense id="L579584-S1" synset="wikidata-sv-L579584-S1" ili="wikidata-sv-L579584-S1">
         <Definition>siffran 34</Definition>
       </Sense>
@@ -204,6 +209,8 @@
     </LexicalEntry>
     <LexicalEntry id="L46792">
       <Lemma writtenForm="först" partOfSpeech="m"/>
+      <Form writtenForm="första"/>
+      <Form writtenForm="förste"/>
       <Sense id="L46792-S1" synset="wikidata-sv-L46792-S1" ili="wikidata-sv-L46792-S1">
         <Definition>first</Definition>
       </Sense>
@@ -244,6 +251,8 @@
     </LexicalEntry>
     <LexicalEntry id="L47067">
       <Lemma writtenForm="den" partOfSpeech="d"/>
+      <Form writtenForm="det"/>
+      <Form writtenForm="de"/>
       <Sense id="L47067-S1" synset="wikidata-sv-L47067-S1" ili="wikidata-sv-L47067-S1">
         <Definition>definite article, when preceding an adjective preceding a noun</Definition>
       </Sense>
@@ -296,14 +305,9 @@
         <Definition>ord som används för att visa nekande</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L579272">
-      <Lemma writtenForm="in-" partOfSpeech="x"/>
-      <Sense id="L579272-S1" synset="wikidata-sv-L579272-S1" ili="wikidata-sv-L579272-S1">
-        <Definition>motsats</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L587284">
       <Lemma writtenForm="elfte" partOfSpeech="m"/>
+      <Form writtenForm="elftes"/>
       <Sense id="L587284-S1" synset="wikidata-sv-L587284-S1" ili="wikidata-sv-L587284-S1">
         <Definition>som har nummer 11 i ordningen</Definition>
       </Sense>
@@ -337,6 +341,8 @@
     </LexicalEntry>
     <LexicalEntry id="L35645">
       <Lemma writtenForm="han" partOfSpeech="h"/>
+      <Form writtenForm="hans"/>
+      <Form writtenForm="honom"/>
       <Sense id="L35645-S1" synset="wikidata-sv-L35645-S1" ili="wikidata-sv-L35645-S1">
         <Definition>pronomen för personer av manskön</Definition>
         <Example>Det var hans ord.</Example>
@@ -352,6 +358,10 @@
     </LexicalEntry>
     <LexicalEntry id="L35715">
       <Lemma writtenForm="ni" partOfSpeech="h"/>
+      <Form writtenForm="ert"/>
+      <Form writtenForm="era"/>
+      <Form writtenForm="er"/>
+      <Form writtenForm="ers"/>
       <Sense id="L35715-S1" synset="wikidata-sv-L35715-S1" ili="wikidata-sv-L35715-S1">
         <Definition>you (plural or formal singular)</Definition>
       </Sense>
@@ -364,6 +374,7 @@
     </LexicalEntry>
     <LexicalEntry id="L46944">
       <Lemma writtenForm="fem" partOfSpeech="m"/>
+      <Form writtenForm="fems"/>
       <Sense id="L46944-S1" synset="wikidata-sv-L46944-S1" ili="l333-s1">
         <Definition>talet mellan fyra och sex</Definition>
         <Example>Fyra av fem nya jobb skapas bland Sveriges småföretag och det är där potentialen finns.</Example>
@@ -371,6 +382,10 @@
     </LexicalEntry>
     <LexicalEntry id="L46969">
       <Lemma writtenForm="vi" partOfSpeech="h"/>
+      <Form writtenForm="oss"/>
+      <Form writtenForm="våra"/>
+      <Form writtenForm="vår"/>
+      <Form writtenForm="vårt"/>
       <Sense id="L46969-S1" synset="wikidata-sv-L46969-S1" ili="wikidata-sv-L46969-S1">
         <Definition>talarna eller talaren och minst en till</Definition>
         <Example>Låt oss enas om en sak.</Example>
@@ -390,6 +405,9 @@
     </LexicalEntry>
     <LexicalEntry id="L47279">
       <Lemma writtenForm="jag" partOfSpeech="h"/>
+      <Form writtenForm="mig"/>
+      <Form writtenForm="min"/>
+      <Form writtenForm="mina"/>
       <Sense id="L47279-S1" synset="wikidata-sv-L47279-S1" ili="wikidata-sv-L47279-S1">
         <Definition>första person singular</Definition>
         <Example>Det är min önskan.</Example>
@@ -422,6 +440,7 @@
     </LexicalEntry>
     <LexicalEntry id="L579172">
       <Lemma writtenForm="arton" partOfSpeech="m"/>
+      <Form writtenForm="artons"/>
       <Sense id="L579172-S1" synset="wikidata-sv-L579172-S1" ili="wikidata-sv-L579172-S1">
         <Definition>naturligt tal</Definition>
         <SenseRelation relType="similar" target="wikidata-sv-L579173-S1"/>
@@ -490,6 +509,7 @@
     </LexicalEntry>
     <LexicalEntry id="L35648">
       <Lemma writtenForm="och" partOfSpeech="c"/>
+      <Form writtenForm="&amp;"/>
       <Sense id="L35648-S1" synset="wikidata-sv-L35648-S1" ili="l1385-s1">
         <Definition>samordnar språkliga enheter (ord, fraser, satsdelar och satser) på samma grammatiska nivå </Definition>
         <Example>Envar skall äga rätt till tankefrihet, samvetsfrihet och religionsfrihet.</Example>
@@ -497,6 +517,11 @@
     </LexicalEntry>
     <LexicalEntry id="L35696">
       <Lemma writtenForm="annan" partOfSpeech="h"/>
+      <Form writtenForm="andra"/>
+      <Form writtenForm="andre"/>
+      <Form writtenForm="annat"/>
+      <Form writtenForm="annans"/>
+      <Form writtenForm="andras"/>
       <Sense id="L35696-S1" synset="wikidata-sv-L35696-S1" ili="wikidata-sv-L35696-S1">
         <Definition>inte den tidigare nämnda</Definition>
       </Sense>
@@ -518,6 +543,8 @@
     </LexicalEntry>
     <LexicalEntry id="L46909">
       <Lemma writtenForm="sin" partOfSpeech="h"/>
+      <Form writtenForm="sina"/>
+      <Form writtenForm="sitt"/>
       <Sense id="L46909-S1" synset="wikidata-sv-L46909-S1" ili="wikidata-sv-L46909-S1">
         <Definition>(third-person singular personal possessive) belonging to him</Definition>
       </Sense>
@@ -635,6 +662,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1412569">
       <Lemma writtenForm="sålt taska åt räven" partOfSpeech="t"/>
+      <Form writtenForm="han som sålde taska åt räven"/>
       <Sense id="L1412569-S1" synset="wikidata-sv-L1412569-S1" ili="wikidata-sv-L1412569-S1">
         <Definition>gjort bort sig</Definition>
       </Sense>
@@ -672,6 +700,11 @@
     </LexicalEntry>
     <LexicalEntry id="L47266">
       <Lemma writtenForm="någon" partOfSpeech="h"/>
+      <Form writtenForm="något"/>
+      <Form writtenForm="någons"/>
+      <Form writtenForm="några"/>
+      <Form writtenForm="någras"/>
+      <Form writtenForm="nån"/>
       <Sense id="L47266-S1" synset="wikidata-sv-L47266-S1" ili="wikidata-sv-L47266-S1">
         <Definition>someone/anyone</Definition>
       </Sense>
@@ -709,6 +742,7 @@
     </LexicalEntry>
     <LexicalEntry id="L589003">
       <Lemma writtenForm="sjuhundra" partOfSpeech="m"/>
+      <Form writtenForm="sjuhundras"/>
       <Sense id="L589003-S1" synset="wikidata-sv-L589003-S1" ili="wikidata-sv-L589003-S1">
         <Definition>talet 700</Definition>
       </Sense>
@@ -751,6 +785,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1524731">
       <Lemma writtenForm="somlig" partOfSpeech="h"/>
+      <Form writtenForm="somligt"/>
+      <Form writtenForm="somliga"/>
+      <Form writtenForm="somligas"/>
       <Sense id="L1524731-S1" synset="wikidata-sv-L1524731-S1" ili="wikidata-sv-L1524731-S1">
         <Definition>viss, en del</Definition>
       </Sense>
@@ -775,6 +812,7 @@
     </LexicalEntry>
     <LexicalEntry id="L35727">
       <Lemma writtenForm="av" partOfSpeech="p"/>
+      <Form writtenForm="af"/>
       <Sense id="L35727-S1" synset="wikidata-sv-L35727-S1" ili="wikidata-sv-L35727-S1">
         <Definition>of (a part of something)</Definition>
       </Sense>
@@ -788,12 +826,16 @@
     </LexicalEntry>
     <LexicalEntry id="L46704">
       <Lemma writtenForm="hon" partOfSpeech="h"/>
+      <Form writtenForm="henne"/>
+      <Form writtenForm="hennes"/>
       <Sense id="L46704-S1" synset="wikidata-sv-L46704-S1" ili="wikidata-sv-L46704-S1">
         <Definition>personligt pronomen som refererar till en kvinna</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L46771">
       <Lemma writtenForm="ingen" partOfSpeech="h"/>
+      <Form writtenForm="inget"/>
+      <Form writtenForm="inga"/>
       <Sense id="L46771-S1" synset="wikidata-sv-L46771-S1" ili="wikidata-sv-L46771-S1">
         <Definition>inte någon</Definition>
       </Sense>
@@ -881,12 +923,15 @@
     </LexicalEntry>
     <LexicalEntry id="L482698">
       <Lemma writtenForm="attan" partOfSpeech="i"/>
+      <Form writtenForm="attans"/>
       <Sense id="L482698-S1" synset="wikidata-sv-L482698-S1" ili="l705189-s1">
         <Definition>när något inte går som man vill</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L485065">
       <Lemma writtenForm="man" partOfSpeech="h"/>
+      <Form writtenForm="en"/>
+      <Form writtenForm="ens"/>
       <Sense id="L485065-S1" synset="wikidata-sv-L485065-S1" ili="wikidata-sv-L485065-S1">
         <Definition>one</Definition>
       </Sense>
@@ -987,6 +1032,9 @@
     </LexicalEntry>
     <LexicalEntry id="L35695">
       <Lemma writtenForm="all" partOfSpeech="h"/>
+      <Form writtenForm="alla"/>
+      <Form writtenForm="allt"/>
+      <Form writtenForm="allas"/>
       <Sense id="L35695-S1" synset="wikidata-sv-L35695-S1" ili="wikidata-sv-L35695-S1">
         <Definition>hela mängden</Definition>
       </Sense>
@@ -1106,6 +1154,8 @@
     </LexicalEntry>
     <LexicalEntry id="L35710">
       <Lemma writtenForm="min" partOfSpeech="h"/>
+      <Form writtenForm="mitt"/>
+      <Form writtenForm="mina"/>
       <Sense id="L35710-S1" synset="wikidata-sv-L35710-S1" ili="wikidata-sv-L35710-S1">
         <Definition>som tillhör mig</Definition>
       </Sense>
@@ -1134,6 +1184,7 @@
     </LexicalEntry>
     <LexicalEntry id="L46772">
       <Lemma writtenForm="en" partOfSpeech="d"/>
+      <Form writtenForm="ett"/>
       <Sense id="L46772-S1" synset="wikidata-sv-L46772-S1" ili="wikidata-sv-L46772-S1">
         <Definition>indefinite article</Definition>
       </Sense>
@@ -1170,6 +1221,10 @@
     </LexicalEntry>
     <LexicalEntry id="L47887">
       <Lemma writtenForm="du" partOfSpeech="h"/>
+      <Form writtenForm="dig"/>
+      <Form writtenForm="ditt"/>
+      <Form writtenForm="din"/>
+      <Form writtenForm="dina"/>
       <Sense id="L47887-S1" synset="wikidata-sv-L47887-S1" ili="wikidata-sv-L47887-S1">
         <Definition>personligt pronomen</Definition>
       </Sense>
@@ -1204,6 +1259,8 @@
     </LexicalEntry>
     <LexicalEntry id="L404552">
       <Lemma writtenForm="själv" partOfSpeech="h"/>
+      <Form writtenForm="självt"/>
+      <Form writtenForm="själva"/>
       <Sense id="L404552-S1" synset="wikidata-sv-L404552-S1" ili="wikidata-sv-L404552-S1">
         <Definition>utan hjälp eller påverkan</Definition>
       </Sense>
@@ -1427,9 +1484,6 @@
     </Synset>
     <Synset id="wikidata-sv-L498524-S1" ili="wikidata-sv-L498524-S1" partOfSpeech="i">
       <Definition>ord som används för att visa nekande</Definition>
-    </Synset>
-    <Synset id="wikidata-sv-L579272-S1" ili="wikidata-sv-L579272-S1" partOfSpeech="x">
-      <Definition>motsats</Definition>
     </Synset>
     <Synset id="wikidata-sv-L587284-S1" ili="wikidata-sv-L587284-S1" partOfSpeech="m">
       <Definition>som har nummer 11 i ordningen</Definition>

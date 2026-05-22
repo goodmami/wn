@@ -29,7 +29,19 @@ python create_extensions.py
 This will:
 1. Filter lexemes to exclude nouns, verbs, adjectives, adverbs, and phrases
 2. Build an interlingual index (ILI) linking senses across languages via English
-3. Generate XML extension files in `extensions/` for each language
+3. For lexemes with no Wikidata senses, fall back to the English Wiktionary REST API (filters out reference-only definitions, onomatopoeia, dialectal/archaic terms not covered by omw-en)
+4. Generate XML extension files in `output/` for each language
+
+Set `LANG_FILTER=en` to restrict generation to a single language while iterating.
+
+### Caching
+
+Web requests are cached on disk under `extras/` (gitignored):
+- `extras/wikidata/` — POS/language Q-code metadata
+- `extras/wiktionary/` — Wiktionary REST `definition` responses
+- `extras/wiktionary-cats/` — Wiktionary page categories (action API)
+
+To force a refresh of a cached entry, delete the corresponding file.
 
 ## Output
 

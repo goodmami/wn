@@ -10,6 +10,7 @@
     <Extends id="omw-oj" version="1.4"/>
     <LexicalEntry id="L1529603">
       <Lemma writtenForm="misi-" partOfSpeech="v"/>
+      <Form writtenForm="mishi-"/>
       <Sense id="L1529603-S1" synset="wikidata-oj-L1529603-S1" ili="wikidata-oj-L1529603-S1">
         <Definition>gichi-</Definition>
       </Sense>

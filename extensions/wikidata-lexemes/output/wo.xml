@@ -10,12 +10,44 @@
     <Extends id="omw-wo" version="1.4"/>
     <LexicalEntry id="L1403739">
       <Lemma writtenForm="yi" partOfSpeech="d"/>
+      <Form writtenForm="ñi"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="ji"/>
+      <Form writtenForm="bi"/>
+      <Form writtenForm="gi"/>
+      <Form writtenForm="ki"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="wi"/>
+      <Form writtenForm="ya"/>
+      <Form writtenForm="ña"/>
+      <Form writtenForm="sa"/>
+      <Form writtenForm="ja"/>
+      <Form writtenForm="ba"/>
+      <Form writtenForm="ga"/>
+      <Form writtenForm="ka"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="ma"/>
+      <Form writtenForm="wa"/>
+      <Form writtenForm="fi"/>
+      <Form writtenForm="fa"/>
+      <Form writtenForm="ci"/>
+      <Form writtenForm="ca"/>
+      <Form writtenForm="ni"/>
+      <Form writtenForm="na"/>
       <Sense id="L1403739-S1" synset="wikidata-wo-L1403739-S1" ili="wikidata-wo-L1403739-S1">
         <Definition>the; these, those</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1403744">
       <Lemma writtenForm="y" partOfSpeech="c"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="ub"/>
+      <Form writtenForm="ug"/>
+      <Form writtenForm="uk"/>
+      <Form writtenForm="um"/>
+      <Form writtenForm="uw"/>
       <Sense id="L1403744-S1" synset="wikidata-wo-L1403744-S1" ili="wikidata-wo-L1403744-S1">
         <Definition>(links nominals in genitive construction) of</Definition>
       </Sense>

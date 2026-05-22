@@ -19,6 +19,9 @@
     </LexicalEntry>
     <LexicalEntry id="L911">
       <Lemma writtenForm="nokon" partOfSpeech="d"/>
+      <Form writtenForm="noka"/>
+      <Form writtenForm="noko"/>
+      <Form writtenForm="nokre"/>
       <Sense id="L911-S1" synset="wikidata-nn-L911-S1" ili="wikidata-nn-L911-S1">
         <Definition>some</Definition>
       </Sense>
@@ -50,6 +53,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9813">
       <Lemma writtenForm="vi" partOfSpeech="h"/>
+      <Form writtenForm="oss"/>
       <Sense id="L9813-S1" synset="wikidata-nn-L9813-S1" ili="wikidata-nn-L9813-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
@@ -68,6 +72,8 @@
     </LexicalEntry>
     <LexicalEntry id="L11402">
       <Lemma writtenForm="einkvan" partOfSpeech="d"/>
+      <Form writtenForm="eikor"/>
+      <Form writtenForm="eitkvart"/>
       <Sense id="L11402-S1" synset="wikidata-nn-L11402-S1" ili="wikidata-nn-L11402-S1">
         <Definition>any</Definition>
         <SenseRelation relType="similar" target="wikidata-nn-L911-S2"/>
@@ -276,12 +282,6 @@
         <Definition>used as a predicative</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1234896">
-      <Lemma writtenForm="det" partOfSpeech="d"/>
-      <Sense id="L1234896-S1" synset="wikidata-nn-L1234896-S1" ili="wikidata-nn-L1234896-S1">
-        <Definition>the</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1473615">
       <Lemma writtenForm="kvekk" partOfSpeech="i"/>
       <Sense id="L1473615-S1" synset="wikidata-nn-L1473615-S1" ili="wikidata-nn-L1473615-S1">
@@ -356,6 +356,8 @@
     </LexicalEntry>
     <LexicalEntry id="L9924">
       <Lemma writtenForm="som" partOfSpeech="d"/>
+      <Form writtenForm="somt"/>
+      <Form writtenForm="somme"/>
       <Sense id="L9924-S1" synset="wikidata-nn-L9924-S1" ili="wikidata-nn-L9924-S1">
         <Definition>some (a few)</Definition>
       </Sense>
@@ -549,6 +551,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1230977">
       <Lemma writtenForm="hin" partOfSpeech="d"/>
+      <Form writtenForm="hi"/>
+      <Form writtenForm="hitt"/>
+      <Form writtenForm="hine"/>
       <Sense id="L1230977-S1" synset="wikidata-nn-L1230977-S1" ili="wikidata-nn-L1230977-S1">
         <Definition>the other (out of two, when used in singular); the others (out of several, when used in plural)</Definition>
       </Sense>
@@ -590,18 +595,21 @@
     </LexicalEntry>
     <LexicalEntry id="L847">
       <Lemma writtenForm="me" partOfSpeech="h"/>
+      <Form writtenForm="oss"/>
       <Sense id="L847-S1" synset="wikidata-nn-L847-S1" ili="wikidata-nn-L847-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L849">
       <Lemma writtenForm="de" partOfSpeech="h"/>
+      <Form writtenForm="dykk"/>
       <Sense id="L849-S1" synset="wikidata-nn-L849-S1" ili="wikidata-nn-L849-S1">
         <Definition>second-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L851">
       <Lemma writtenForm="ho" partOfSpeech="h"/>
+      <Form writtenForm="henne"/>
       <Sense id="L851-S1" synset="wikidata-nn-L851-S1" ili="wikidata-nn-L851-S1">
         <Definition>she; third-person singular pronoun</Definition>
       </Sense>
@@ -630,6 +638,9 @@
     </LexicalEntry>
     <LexicalEntry id="L993">
       <Lemma writtenForm="eigen" partOfSpeech="d"/>
+      <Form writtenForm="eiga"/>
+      <Form writtenForm="eige"/>
+      <Form writtenForm="eigne"/>
       <Sense id="L993-S1" synset="wikidata-nn-L993-S1" ili="wikidata-nn-L993-S1">
         <Definition>(one&apos;s) own</Definition>
       </Sense>
@@ -648,6 +659,9 @@
     </LexicalEntry>
     <LexicalEntry id="L9777">
       <Lemma writtenForm="ein" partOfSpeech="d"/>
+      <Form writtenForm="ei"/>
+      <Form writtenForm="eit"/>
+      <Form writtenForm="eitt"/>
       <Sense id="L9777-S1" synset="wikidata-nn-L9777-S1" ili="wikidata-nn-L9777-S1">
         <Definition>a/an (indefinite article)</Definition>
       </Sense>
@@ -690,6 +704,9 @@
     </LexicalEntry>
     <LexicalEntry id="L740631">
       <Lemma writtenForm="din" partOfSpeech="d"/>
+      <Form writtenForm="di"/>
+      <Form writtenForm="ditt"/>
+      <Form writtenForm="dine"/>
       <Sense id="L740631-S1" synset="wikidata-nn-L740631-S1" ili="wikidata-nn-L740631-S1">
         <Definition>your, yours</Definition>
       </Sense>
@@ -703,6 +720,9 @@
     </LexicalEntry>
     <LexicalEntry id="L743186">
       <Lemma writtenForm="sin" partOfSpeech="d"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="sitt"/>
+      <Form writtenForm="sine"/>
       <Sense id="L743186-S1" synset="wikidata-nn-L743186-S1" ili="wikidata-nn-L743186-S1">
         <Definition>his, her/hers or its</Definition>
       </Sense>
@@ -936,6 +956,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1000">
       <Lemma writtenForm="eg" partOfSpeech="h"/>
+      <Form writtenForm="meg"/>
       <Sense id="L1000-S1" synset="wikidata-nn-L1000-S1" ili="wikidata-nn-L1000-S1">
         <Definition>I; first-person singular pronoun; the speaker</Definition>
       </Sense>
@@ -1038,6 +1059,9 @@
     </LexicalEntry>
     <LexicalEntry id="L741087">
       <Lemma writtenForm="min" partOfSpeech="d"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="mitt"/>
+      <Form writtenForm="mine"/>
       <Sense id="L741087-S1" synset="wikidata-nn-L741087-S1" ili="wikidata-nn-L741087-S1">
         <Definition>my, mine</Definition>
       </Sense>
@@ -1116,12 +1140,6 @@
       <Lemma writtenForm="hennar" partOfSpeech="d"/>
       <Sense id="L992162-S1" synset="wikidata-nn-L992162-S1" ili="wikidata-nn-L992162-S1">
         <Definition>her, hers</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L992164">
-      <Lemma writtenForm="deira" partOfSpeech="d"/>
-      <Sense id="L992164-S1" synset="wikidata-nn-L992164-S1" ili="wikidata-nn-L992164-S1">
-        <Definition>your, yours (plural)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1000757">
@@ -1248,6 +1266,7 @@
     </LexicalEntry>
     <LexicalEntry id="L19937">
       <Lemma writtenForm="kvar" partOfSpeech="d"/>
+      <Form writtenForm="kvart"/>
       <Sense id="L19937-S1" synset="wikidata-nn-L19937-S1" ili="wikidata-nn-L19937-S1">
         <Definition>every</Definition>
       </Sense>
@@ -1533,9 +1552,10 @@
     </LexicalEntry>
     <LexicalEntry id="L740650">
       <Lemma writtenForm="éin" partOfSpeech="d"/>
+      <Form writtenForm="éi"/>
+      <Form writtenForm="eitt"/>
       <Sense id="L740650-S1" synset="wikidata-nn-L740650-S1" ili="wikidata-nn-L740650-S1">
         <Definition>talet 1</Definition>
-        <SenseRelation relType="similar" target="wikidata-nn-L2201-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L741265">
@@ -1663,6 +1683,8 @@
     </LexicalEntry>
     <LexicalEntry id="L938">
       <Lemma writtenForm="annan" partOfSpeech="d"/>
+      <Form writtenForm="anna"/>
+      <Form writtenForm="andre"/>
       <Sense id="L938-S1" synset="wikidata-nn-L938-S1" ili="wikidata-nn-L938-S1">
         <Definition>rekkjetal til to</Definition>
       </Sense>
@@ -1677,13 +1699,6 @@
       <Lemma writtenForm="fjorten" partOfSpeech="d"/>
       <Sense id="L1014-S1" synset="wikidata-nn-L1014-S1" ili="wikidata-nn-L1014-S1">
         <Definition>tal</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L2201">
-      <Lemma writtenForm="ein" partOfSpeech="d"/>
-      <Sense id="L2201-S1" synset="wikidata-nn-L2201-S1" ili="wikidata-nn-L2201-S1">
-        <Definition>talet 1</Definition>
-        <SenseRelation relType="similar" target="wikidata-nn-L740650-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L3022">
@@ -1747,6 +1762,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9810">
       <Lemma writtenForm="du" partOfSpeech="h"/>
+      <Form writtenForm="deg"/>
       <Sense id="L9810-S1" synset="wikidata-nn-L9810-S1" ili="wikidata-nn-L9810-S1">
         <Definition>second-person singular pronoun</Definition>
       </Sense>
@@ -1784,17 +1800,10 @@
     </LexicalEntry>
     <LexicalEntry id="L740590">
       <Lemma writtenForm="denne" partOfSpeech="d"/>
+      <Form writtenForm="dette"/>
+      <Form writtenForm="desse"/>
       <Sense id="L740590-S1" synset="wikidata-nn-L740590-S1" ili="wikidata-nn-L740590-S1">
         <Definition>this</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L740635">
-      <Lemma writtenForm="enn" partOfSpeech="c"/>
-      <Sense id="L740635-S1" synset="wikidata-nn-L740635-S1" ili="wikidata-nn-L740635-S1">
-        <Definition>how/what about …</Definition>
-      </Sense>
-      <Sense id="L740635-S2" synset="wikidata-nn-L740635-S2" ili="wikidata-nn-L740635-S2">
-        <Definition>what if …</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L740647">
@@ -1828,12 +1837,6 @@
         <SenseRelation relType="similar" target="wikidata-nn-L741263-S4"/>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L743409">
-      <Lemma writtenForm="den" partOfSpeech="d"/>
-      <Sense id="L743409-S1" synset="wikidata-nn-L743409-S1" ili="wikidata-nn-L743409-S1">
-        <Definition>the</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L743541">
       <Lemma writtenForm="med" partOfSpeech="c"/>
       <Sense id="L743541-S1" synset="wikidata-nn-L743541-S1" ili="wikidata-nn-L743541-S1">
@@ -1843,6 +1846,8 @@
     </LexicalEntry>
     <LexicalEntry id="L743971">
       <Lemma writtenForm="vår" partOfSpeech="d"/>
+      <Form writtenForm="vårt"/>
+      <Form writtenForm="våre"/>
       <Sense id="L743971-S1" synset="wikidata-nn-L743971-S1" ili="wikidata-nn-L743971-S1">
         <Definition>our</Definition>
       </Sense>
@@ -1962,6 +1967,7 @@
     </LexicalEntry>
     <LexicalEntry id="L904">
       <Lemma writtenForm="sjølv" partOfSpeech="d"/>
+      <Form writtenForm="sjølve"/>
       <Sense id="L904-S1" synset="wikidata-nn-L904-S1" ili="wikidata-nn-L904-S1">
         <Definition>self</Definition>
       </Sense>
@@ -2030,6 +2036,8 @@
     </LexicalEntry>
     <LexicalEntry id="L739902">
       <Lemma writtenForm="all" partOfSpeech="d"/>
+      <Form writtenForm="alt"/>
+      <Form writtenForm="alle"/>
       <Sense id="L739902-S1" synset="wikidata-nn-L739902-S1" ili="wikidata-nn-L739902-S1">
         <Definition>all</Definition>
       </Sense>
@@ -2057,6 +2065,8 @@
     </LexicalEntry>
     <LexicalEntry id="L740872">
       <Lemma writtenForm="ingen" partOfSpeech="d"/>
+      <Form writtenForm="inga"/>
+      <Form writtenForm="inkje"/>
       <Sense id="L740872-S1" synset="wikidata-nn-L740872-S1" ili="wikidata-nn-L740872-S1">
         <Definition>no/none</Definition>
       </Sense>
@@ -2172,6 +2182,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1101738">
       <Lemma writtenForm="hen" partOfSpeech="h"/>
+      <Form writtenForm="hens"/>
       <Sense id="L1101738-S1" synset="wikidata-nn-L1101738-S1" ili="wikidata-nn-L1101738-S1">
         <Definition>they; gender-neutral third-person singular pronoun</Definition>
       </Sense>
@@ -2218,12 +2229,6 @@
         <SenseRelation relType="similar" target="wikidata-nn-L1224361-S1"/>
         <SenseRelation relType="similar" target="wikidata-nn-L1224362-S1"/>
         <SenseRelation relType="similar" target="wikidata-nn-L1224363-S1"/>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1234894">
-      <Lemma writtenForm="det" partOfSpeech="d"/>
-      <Sense id="L1234894-S1" synset="wikidata-nn-L1234894-S1" ili="wikidata-nn-L1234894-S1">
-        <Definition>that (one)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1315421">
@@ -2386,9 +2391,6 @@
     </Synset>
     <Synset id="wikidata-nn-L1234895-S3" ili="wikidata-nn-L1234895-S3" partOfSpeech="d">
       <Definition>used as a predicative</Definition>
-    </Synset>
-    <Synset id="wikidata-nn-L1234896-S1" ili="wikidata-nn-L1234896-S1" partOfSpeech="d">
-      <Definition>the</Definition>
     </Synset>
     <Synset id="wikidata-nn-L1473615-S1" ili="wikidata-nn-L1473615-S1" partOfSpeech="i">
       <Definition>used to imitate the sound of frogs or ducks</Definition>
@@ -2831,9 +2833,6 @@
     <Synset id="wikidata-nn-L992162-S1" ili="wikidata-nn-L992162-S1" partOfSpeech="d">
       <Definition>her, hers</Definition>
     </Synset>
-    <Synset id="wikidata-nn-L992164-S1" ili="wikidata-nn-L992164-S1" partOfSpeech="d">
-      <Definition>your, yours (plural)</Definition>
-    </Synset>
     <Synset id="wikidata-nn-L1000757-S1" ili="wikidata-nn-L1000757-S1" partOfSpeech="p">
       <Definition>behind</Definition>
     </Synset>
@@ -3137,9 +3136,6 @@
     <Synset id="wikidata-nn-L1014-S1" ili="wikidata-nn-L1014-S1" partOfSpeech="d">
       <Definition>tal</Definition>
     </Synset>
-    <Synset id="wikidata-nn-L2201-S1" ili="wikidata-nn-L2201-S1" partOfSpeech="d">
-      <Definition>talet 1</Definition>
-    </Synset>
     <Synset id="wikidata-nn-L3022-S1" ili="wikidata-nn-L3022-S1" partOfSpeech="p">
       <Definition>over, above</Definition>
     </Synset>
@@ -3203,12 +3199,6 @@
     <Synset id="wikidata-nn-L740590-S1" ili="wikidata-nn-L740590-S1" partOfSpeech="d">
       <Definition>this</Definition>
     </Synset>
-    <Synset id="wikidata-nn-L740635-S1" ili="wikidata-nn-L740635-S1" partOfSpeech="c">
-      <Definition>how/what about …</Definition>
-    </Synset>
-    <Synset id="wikidata-nn-L740635-S2" ili="wikidata-nn-L740635-S2" partOfSpeech="c">
-      <Definition>what if …</Definition>
-    </Synset>
     <Synset id="wikidata-nn-L740647-S1" ili="wikidata-nn-L740647-S1" partOfSpeech="h">
       <Definition>one; a general pronoun</Definition>
     </Synset>
@@ -3226,9 +3216,6 @@
     </Synset>
     <Synset id="wikidata-nn-L741262-S4" ili="wikidata-nn-L741262-S4" partOfSpeech="i">
       <Definition>used to calm someone down</Definition>
-    </Synset>
-    <Synset id="wikidata-nn-L743409-S1" ili="wikidata-nn-L743409-S1" partOfSpeech="d">
-      <Definition>the</Definition>
     </Synset>
     <Synset id="wikidata-nn-L743541-S1" ili="wikidata-nn-L743541-S1" partOfSpeech="c">
       <Definition>while</Definition>
@@ -3415,9 +3402,6 @@
     </Synset>
     <Synset id="wikidata-nn-L1224364-S1" ili="wikidata-nn-L1224364-S1" partOfSpeech="i">
       <Definition>oh well, oh really</Definition>
-    </Synset>
-    <Synset id="wikidata-nn-L1234894-S1" ili="wikidata-nn-L1234894-S1" partOfSpeech="d">
-      <Definition>that (one)</Definition>
     </Synset>
     <Synset id="wikidata-nn-L1315421-S1" ili="wikidata-nn-L1315421-S1" partOfSpeech="i">
       <Definition>damn!</Definition>

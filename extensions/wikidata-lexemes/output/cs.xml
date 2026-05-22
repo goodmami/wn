@@ -27,30 +27,38 @@
     </LexicalEntry>
     <LexicalEntry id="L43692">
       <Lemma writtenForm="něco" partOfSpeech="h"/>
+      <Form writtenForm="něčeho"/>
+      <Form writtenForm="něčemu"/>
+      <Form writtenForm="něčem"/>
+      <Form writtenForm="něčím"/>
       <Sense id="L43692-S1" synset="wikidata-cs-L43692-S1" ili="wikidata-cs-L43692-S1">
         <Definition>zastupuje neurčitou, obecnou věc</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L54683">
       <Lemma writtenForm="devět" partOfSpeech="m"/>
+      <Form writtenForm="devíti"/>
       <Sense id="L54683-S1" synset="wikidata-cs-L54683-S1" ili="wikidata-cs-L54683-S1">
         <Definition>označuje počet 9</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L54685">
       <Lemma writtenForm="sedm" partOfSpeech="m"/>
+      <Form writtenForm="sedmi"/>
       <Sense id="L54685-S1" synset="wikidata-cs-L54685-S1" ili="wikidata-cs-L54685-S1">
         <Definition>označuje počet 7</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55024">
       <Lemma writtenForm="šestnáct" partOfSpeech="m"/>
+      <Form writtenForm="šestnácti"/>
       <Sense id="L55024-S1" synset="wikidata-cs-L55024-S1" ili="wikidata-cs-L55024-S1">
         <Definition>označuje počet 16</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55035">
       <Lemma writtenForm="devadesát" partOfSpeech="m"/>
+      <Form writtenForm="devadesáti"/>
       <Sense id="L55035-S1" synset="wikidata-cs-L55035-S1" ili="wikidata-cs-L55035-S1">
         <Definition>označuje počet 90</Definition>
       </Sense>
@@ -84,30 +92,75 @@
     </LexicalEntry>
     <LexicalEntry id="L470375">
       <Lemma writtenForm="osmina" partOfSpeech="m"/>
+      <Form writtenForm="osminy"/>
+      <Form writtenForm="osmině"/>
+      <Form writtenForm="osminu"/>
+      <Form writtenForm="osmino"/>
+      <Form writtenForm="osminou"/>
+      <Form writtenForm="osmin"/>
+      <Form writtenForm="osminám"/>
+      <Form writtenForm="osminách"/>
+      <Form writtenForm="osminami"/>
       <Sense id="L470375-S1" synset="wikidata-cs-L470375-S1" ili="wikidata-cs-L470375-S1">
         <Definition>jedna z osmi stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470376">
       <Lemma writtenForm="devítina" partOfSpeech="m"/>
+      <Form writtenForm="devítiny"/>
+      <Form writtenForm="devítině"/>
+      <Form writtenForm="devítinu"/>
+      <Form writtenForm="devítino"/>
+      <Form writtenForm="devítinou"/>
+      <Form writtenForm="devítin"/>
+      <Form writtenForm="devítinám"/>
+      <Form writtenForm="devítinách"/>
+      <Form writtenForm="devítinami"/>
       <Sense id="L470376-S1" synset="wikidata-cs-L470376-S1" ili="wikidata-cs-L470376-S1">
         <Definition>jedna z devíti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470386">
       <Lemma writtenForm="devatenáctina" partOfSpeech="m"/>
+      <Form writtenForm="devatenáctiny"/>
+      <Form writtenForm="devatenáctině"/>
+      <Form writtenForm="devatenáctinu"/>
+      <Form writtenForm="devatenáctino"/>
+      <Form writtenForm="devatenáctinou"/>
+      <Form writtenForm="devatenáctin"/>
+      <Form writtenForm="devatenáctinám"/>
+      <Form writtenForm="devatenáctinách"/>
+      <Form writtenForm="devatenáctinami"/>
       <Sense id="L470386-S1" synset="wikidata-cs-L470386-S1" ili="wikidata-cs-L470386-S1">
         <Definition>jedna z devatenácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470390">
       <Lemma writtenForm="padesátina" partOfSpeech="m"/>
+      <Form writtenForm="padesátiny"/>
+      <Form writtenForm="padesátině"/>
+      <Form writtenForm="padesátinu"/>
+      <Form writtenForm="padesátino"/>
+      <Form writtenForm="padesátinou"/>
+      <Form writtenForm="padesátin"/>
+      <Form writtenForm="padesátinám"/>
+      <Form writtenForm="padesátinách"/>
+      <Form writtenForm="padesátinami"/>
       <Sense id="L470390-S1" synset="wikidata-cs-L470390-S1" ili="wikidata-cs-L470390-S1">
         <Definition>jedna z padesáti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470395">
       <Lemma writtenForm="setina" partOfSpeech="m"/>
+      <Form writtenForm="setiny"/>
+      <Form writtenForm="setině"/>
+      <Form writtenForm="setinu"/>
+      <Form writtenForm="setino"/>
+      <Form writtenForm="setinou"/>
+      <Form writtenForm="setin"/>
+      <Form writtenForm="setinám"/>
+      <Form writtenForm="setinách"/>
+      <Form writtenForm="setinami"/>
       <Sense id="L470395-S1" synset="wikidata-cs-L470395-S1" ili="wikidata-cs-L470395-S1">
         <Definition>jedna ze sta stejných částí celku</Definition>
       </Sense>
@@ -230,6 +283,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1373298">
       <Lemma writtenForm="politická strana" partOfSpeech="t"/>
+      <Form writtenForm="politické strany"/>
       <Sense id="L1373298-S1" synset="wikidata-cs-L1373298-S1" ili="wikidata-cs-L1373298-S1">
         <Definition>politická organizace sdružující osoby se stejnou ideologií a nominující kandidáty do veřejných úřadů</Definition>
       </Sense>
@@ -485,50 +539,78 @@
         <Definition>uzavřená místnost, do které je vháněn plyn, což způsobuje smrt otravou nebo zadušením</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1551466">
-      <Lemma writtenForm="Rubikova kostka" partOfSpeech="t"/>
-      <Sense id="L1551466-S1" synset="wikidata-cs-L1551466-S1" ili="wikidata-cs-L1551466-S1">
-        <Definition>hlavolam</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L55027">
       <Lemma writtenForm="devatenáct" partOfSpeech="m"/>
+      <Form writtenForm="devatenácti"/>
       <Sense id="L55027-S1" synset="wikidata-cs-L55027-S1" ili="wikidata-cs-L55027-S1">
         <Definition>označuje počet 19</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55028">
       <Lemma writtenForm="dvacet" partOfSpeech="m"/>
+      <Form writtenForm="dvaceti"/>
       <Sense id="L55028-S1" synset="wikidata-cs-L55028-S1" ili="wikidata-cs-L55028-S1">
         <Definition>označuje počet 20</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55032">
       <Lemma writtenForm="šedesát" partOfSpeech="m"/>
+      <Form writtenForm="šedesáti"/>
       <Sense id="L55032-S1" synset="wikidata-cs-L55032-S1" ili="wikidata-cs-L55032-S1">
         <Definition>označuje počet 60</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55034">
       <Lemma writtenForm="osmdesát" partOfSpeech="m"/>
+      <Form writtenForm="osmdesáti"/>
       <Sense id="L55034-S1" synset="wikidata-cs-L55034-S1" ili="wikidata-cs-L55034-S1">
         <Definition>označuje počet 80</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55040">
       <Lemma writtenForm="čtvrtý" partOfSpeech="m"/>
+      <Form writtenForm="čtvrtého"/>
+      <Form writtenForm="čtvrtému"/>
+      <Form writtenForm="čtvrtém"/>
+      <Form writtenForm="čtvrtým"/>
+      <Form writtenForm="čtvrtá"/>
+      <Form writtenForm="čtvrté"/>
+      <Form writtenForm="čtvrtou"/>
+      <Form writtenForm="čtvrtí"/>
+      <Form writtenForm="čtvrtých"/>
+      <Form writtenForm="čtvrtými"/>
       <Sense id="L55040-S1" synset="wikidata-cs-L55040-S1" ili="wikidata-cs-L55040-S1">
         <Definition>vyjadřuje pořadí na 4. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55059">
       <Lemma writtenForm="padesátý" partOfSpeech="m"/>
+      <Form writtenForm="padesátého"/>
+      <Form writtenForm="padesátému"/>
+      <Form writtenForm="padesátém"/>
+      <Form writtenForm="padesátým"/>
+      <Form writtenForm="padesátá"/>
+      <Form writtenForm="padesáté"/>
+      <Form writtenForm="padesátou"/>
+      <Form writtenForm="padesátí"/>
+      <Form writtenForm="padesátých"/>
+      <Form writtenForm="padesátými"/>
       <Sense id="L55059-S1" synset="wikidata-cs-L55059-S1" ili="wikidata-cs-L55059-S1">
         <Definition>vyjadřuje pořadí na 50. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55063">
       <Lemma writtenForm="devadesátý" partOfSpeech="m"/>
+      <Form writtenForm="devadesátého"/>
+      <Form writtenForm="devadesátému"/>
+      <Form writtenForm="devadesátém"/>
+      <Form writtenForm="devadesátým"/>
+      <Form writtenForm="devadesátá"/>
+      <Form writtenForm="devadesáté"/>
+      <Form writtenForm="devadesátou"/>
+      <Form writtenForm="devadesátí"/>
+      <Form writtenForm="devadesátých"/>
+      <Form writtenForm="devadesátými"/>
       <Sense id="L55063-S1" synset="wikidata-cs-L55063-S1" ili="wikidata-cs-L55063-S1">
         <Definition>vyjadřuje pořadí na 90. místě</Definition>
       </Sense>
@@ -545,26 +627,40 @@
         <Definition>rozloučení</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L408188">
-      <Lemma writtenForm="Svatý otec" partOfSpeech="t"/>
-      <Sense id="L408188-S1" synset="wikidata-cs-L408188-S1" ili="wikidata-cs-L408188-S1">
-        <Definition>papež</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L450168">
       <Lemma writtenForm="nula" partOfSpeech="m"/>
+      <Form writtenForm="nuly"/>
+      <Form writtenForm="nule"/>
+      <Form writtenForm="nulu"/>
+      <Form writtenForm="nulo"/>
+      <Form writtenForm="nulou"/>
       <Sense id="L450168-S1" synset="wikidata-cs-L450168-S1" ili="wikidata-cs-L450168-S1">
         <Definition>označuje žádný počet</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470382">
       <Lemma writtenForm="patnáctina" partOfSpeech="m"/>
+      <Form writtenForm="patnáctiny"/>
+      <Form writtenForm="patnáctině"/>
+      <Form writtenForm="patnáctinu"/>
+      <Form writtenForm="patnáctino"/>
+      <Form writtenForm="patnáctinou"/>
+      <Form writtenForm="patnáctin"/>
+      <Form writtenForm="patnáctinám"/>
+      <Form writtenForm="patnáctinách"/>
+      <Form writtenForm="patnáctinami"/>
       <Sense id="L470382-S1" synset="wikidata-cs-L470382-S1" ili="wikidata-cs-L470382-S1">
         <Definition>jedna z patnácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1333603">
       <Lemma writtenForm="husí kůže" partOfSpeech="t"/>
+      <Form writtenForm="husí kůži"/>
+      <Form writtenForm="husí kůží"/>
+      <Form writtenForm="husích kůží"/>
+      <Form writtenForm="husím kůžím"/>
+      <Form writtenForm="husích kůžích"/>
+      <Form writtenForm="husími kůžemi"/>
       <Sense id="L1333603-S1" synset="wikidata-cs-L1333603-S1" ili="wikidata-cs-L1333603-S1">
         <Definition>fyziologická reakce těla</Definition>
       </Sense>
@@ -653,12 +749,30 @@
     </LexicalEntry>
     <LexicalEntry id="L1372886">
       <Lemma writtenForm="biliarda" partOfSpeech="m"/>
+      <Form writtenForm="biliardy"/>
+      <Form writtenForm="biliardě"/>
+      <Form writtenForm="biliardu"/>
+      <Form writtenForm="biliardo"/>
+      <Form writtenForm="biliardou"/>
+      <Form writtenForm="biliard"/>
+      <Form writtenForm="biliardám"/>
+      <Form writtenForm="biliardách"/>
+      <Form writtenForm="biliardami"/>
       <Sense id="L1372886-S1" synset="wikidata-cs-L1372886-S1" ili="wikidata-cs-L1372886-S1">
         <Definition>natural number with value 10¹⁵, named one quadrillion or one billiard depending on the scale; also one thousand, million, million</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1372887">
       <Lemma writtenForm="miliarda" partOfSpeech="m"/>
+      <Form writtenForm="miliardy"/>
+      <Form writtenForm="miliardě"/>
+      <Form writtenForm="miliardu"/>
+      <Form writtenForm="miliardo"/>
+      <Form writtenForm="miliardou"/>
+      <Form writtenForm="miliard"/>
+      <Form writtenForm="miliardám"/>
+      <Form writtenForm="miliardách"/>
+      <Form writtenForm="miliardami"/>
       <Sense id="L1372887-S1" synset="wikidata-cs-L1372887-S1" ili="l1804-s1">
         <Definition>natural number with the value 10⁹, named one billion or one milliard</Definition>
       </Sense>
@@ -983,42 +1097,92 @@
     </LexicalEntry>
     <LexicalEntry id="L33476">
       <Lemma writtenForm="já" partOfSpeech="h"/>
+      <Form writtenForm="mě"/>
+      <Form writtenForm="mne"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="mně"/>
+      <Form writtenForm="mnou"/>
       <Sense id="L33476-S1" synset="wikidata-cs-L33476-S1" ili="wikidata-cs-L33476-S1">
         <Definition>označuje mluvčího promluvy</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L53477">
       <Lemma writtenForm="jeden" partOfSpeech="m"/>
+      <Form writtenForm="jednoho"/>
+      <Form writtenForm="jednomu"/>
+      <Form writtenForm="jednom"/>
+      <Form writtenForm="jedním"/>
+      <Form writtenForm="jedna"/>
+      <Form writtenForm="jedné"/>
+      <Form writtenForm="jednu"/>
+      <Form writtenForm="jednou"/>
+      <Form writtenForm="jedno"/>
       <Sense id="L53477-S1" synset="wikidata-cs-L53477-S1" ili="wikidata-cs-L53477-S1">
         <Definition>označuje počet 1</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55031">
       <Lemma writtenForm="padesát" partOfSpeech="m"/>
+      <Form writtenForm="padesáti"/>
       <Sense id="L55031-S1" synset="wikidata-cs-L55031-S1" ili="wikidata-cs-L55031-S1">
         <Definition>označuje počet 50</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55039">
       <Lemma writtenForm="třetí" partOfSpeech="m"/>
+      <Form writtenForm="třetího"/>
+      <Form writtenForm="třetímu"/>
+      <Form writtenForm="třetím"/>
+      <Form writtenForm="třetích"/>
+      <Form writtenForm="třetími"/>
       <Sense id="L55039-S1" synset="wikidata-cs-L55039-S1" ili="wikidata-cs-L55039-S1">
         <Definition>vyjadřuje pořadí na 3. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55041">
       <Lemma writtenForm="pátý" partOfSpeech="m"/>
+      <Form writtenForm="pátého"/>
+      <Form writtenForm="pátému"/>
+      <Form writtenForm="pátém"/>
+      <Form writtenForm="pátým"/>
+      <Form writtenForm="pátá"/>
+      <Form writtenForm="páté"/>
+      <Form writtenForm="pátou"/>
+      <Form writtenForm="pátí"/>
+      <Form writtenForm="pátých"/>
+      <Form writtenForm="pátými"/>
       <Sense id="L55041-S1" synset="wikidata-cs-L55041-S1" ili="wikidata-cs-L55041-S1">
         <Definition>vyjadřuje pořadí na 5. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55045">
       <Lemma writtenForm="devátý" partOfSpeech="m"/>
+      <Form writtenForm="devátého"/>
+      <Form writtenForm="devátému"/>
+      <Form writtenForm="devátém"/>
+      <Form writtenForm="devátým"/>
+      <Form writtenForm="devátá"/>
+      <Form writtenForm="deváté"/>
+      <Form writtenForm="devátou"/>
+      <Form writtenForm="devátí"/>
+      <Form writtenForm="devátých"/>
+      <Form writtenForm="devátými"/>
       <Sense id="L55045-S1" synset="wikidata-cs-L55045-S1" ili="wikidata-cs-L55045-S1">
         <Definition>vyjadřuje pořadí na 9. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55051">
       <Lemma writtenForm="patnáctý" partOfSpeech="m"/>
+      <Form writtenForm="patnáctého"/>
+      <Form writtenForm="patnáctému"/>
+      <Form writtenForm="patnáctém"/>
+      <Form writtenForm="patnáctým"/>
+      <Form writtenForm="patnáctá"/>
+      <Form writtenForm="patnácté"/>
+      <Form writtenForm="patnáctou"/>
+      <Form writtenForm="patnáctí"/>
+      <Form writtenForm="patnáctých"/>
+      <Form writtenForm="patnáctými"/>
       <Sense id="L55051-S1" synset="wikidata-cs-L55051-S1" ili="wikidata-cs-L55051-S1">
         <Definition>vyjadřuje pořadí na 15. místě</Definition>
       </Sense>
@@ -1050,30 +1214,73 @@
     </LexicalEntry>
     <LexicalEntry id="L456559">
       <Lemma writtenForm="poslední pomazání" partOfSpeech="t"/>
+      <Form writtenForm="posledního pomazání"/>
+      <Form writtenForm="poslednímu pomazání"/>
+      <Form writtenForm="posledním pomazání"/>
+      <Form writtenForm="posledních pomazání"/>
+      <Form writtenForm="posledním pomazáním"/>
+      <Form writtenForm="posledních pomazáních"/>
+      <Form writtenForm="posledními pomazáními"/>
       <Sense id="L456559-S1" synset="wikidata-cs-L456559-S1" ili="wikidata-cs-L456559-S1">
         <Definition>dřívější označení svátosti nemocných</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470372">
       <Lemma writtenForm="pětina" partOfSpeech="m"/>
+      <Form writtenForm="pětiny"/>
+      <Form writtenForm="pětině"/>
+      <Form writtenForm="pětinu"/>
+      <Form writtenForm="pětino"/>
+      <Form writtenForm="pětinou"/>
+      <Form writtenForm="pětin"/>
+      <Form writtenForm="pětinám"/>
+      <Form writtenForm="pětinách"/>
+      <Form writtenForm="pětinami"/>
       <Sense id="L470372-S1" synset="wikidata-cs-L470372-S1" ili="wikidata-cs-L470372-S1">
         <Definition>jedna z pěti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470385">
       <Lemma writtenForm="osmnáctina" partOfSpeech="m"/>
+      <Form writtenForm="osmnáctiny"/>
+      <Form writtenForm="osmnáctině"/>
+      <Form writtenForm="osmnáctinu"/>
+      <Form writtenForm="osmnáctino"/>
+      <Form writtenForm="osmnáctinou"/>
+      <Form writtenForm="osmnáctin"/>
+      <Form writtenForm="osmnáctinám"/>
+      <Form writtenForm="osmnáctinách"/>
+      <Form writtenForm="osmnáctinami"/>
       <Sense id="L470385-S1" synset="wikidata-cs-L470385-S1" ili="wikidata-cs-L470385-S1">
         <Definition>jedna z osmnácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470396">
       <Lemma writtenForm="tisícina" partOfSpeech="m"/>
+      <Form writtenForm="tisíciny"/>
+      <Form writtenForm="tisícině"/>
+      <Form writtenForm="tisícinu"/>
+      <Form writtenForm="tisícino"/>
+      <Form writtenForm="tisícinou"/>
+      <Form writtenForm="tisícin"/>
+      <Form writtenForm="tisícinám"/>
+      <Form writtenForm="tisícinách"/>
+      <Form writtenForm="tisícinami"/>
       <Sense id="L470396-S1" synset="wikidata-cs-L470396-S1" ili="wikidata-cs-L470396-S1">
         <Definition>jedna z tisíce stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470623">
       <Lemma writtenForm="polovina" partOfSpeech="m"/>
+      <Form writtenForm="poloviny"/>
+      <Form writtenForm="polovině"/>
+      <Form writtenForm="polovinu"/>
+      <Form writtenForm="polovino"/>
+      <Form writtenForm="polovinou"/>
+      <Form writtenForm="polovin"/>
+      <Form writtenForm="polovinám"/>
+      <Form writtenForm="polovinách"/>
+      <Form writtenForm="polovinami"/>
       <Sense id="L470623-S1" synset="wikidata-cs-L470623-S1" ili="wikidata-cs-L470623-S1">
         <Definition>jedna ze dvou stejných částí celku</Definition>
       </Sense>
@@ -1176,12 +1383,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1373342">
       <Lemma writtenForm="bílá hůl" partOfSpeech="t"/>
+      <Form writtenForm="bílé hole"/>
       <Sense id="L1373342-S1" synset="wikidata-cs-L1373342-S1" ili="wikidata-cs-L1373342-S1">
         <Definition>výrazná hůl používaná při chůzi nevidomými</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1373343">
       <Lemma writtenForm="bílá paní" partOfSpeech="t"/>
+      <Form writtenForm="bílé paní"/>
       <Sense id="L1373343-S1" synset="wikidata-cs-L1373343-S1" ili="wikidata-cs-L1373343-S1">
         <Definition>strašidelná ženská postava z hradů a zámků</Definition>
       </Sense>
@@ -1470,42 +1679,53 @@
     </LexicalEntry>
     <LexicalEntry id="L43416">
       <Lemma writtenForm="my" partOfSpeech="h"/>
+      <Form writtenForm="nás"/>
+      <Form writtenForm="nám"/>
+      <Form writtenForm="námi"/>
       <Sense id="L43416-S1" synset="wikidata-cs-L43416-S1" ili="wikidata-cs-L43416-S1">
         <Definition>označuje skupinu mluvčích promluvy</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L44544">
       <Lemma writtenForm="šest" partOfSpeech="m"/>
+      <Form writtenForm="šesti"/>
       <Sense id="L44544-S1" synset="wikidata-cs-L44544-S1" ili="wikidata-cs-L44544-S1">
         <Definition>označuje počet 6</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L48331">
-      <Lemma writtenForm="ty" partOfSpeech="h"/>
-      <Sense id="L48331-S1" synset="wikidata-cs-L48331-S1" ili="wikidata-cs-L48331-S1">
-        <Definition>second person singular, you</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L55021">
       <Lemma writtenForm="třináct" partOfSpeech="m"/>
+      <Form writtenForm="třinácti"/>
       <Sense id="L55021-S1" synset="wikidata-cs-L55021-S1" ili="wikidata-cs-L55021-S1">
         <Definition>označuje počet 13</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55023">
       <Lemma writtenForm="patnáct" partOfSpeech="m"/>
+      <Form writtenForm="patnácti"/>
       <Sense id="L55023-S1" synset="wikidata-cs-L55023-S1" ili="wikidata-cs-L55023-S1">
         <Definition>označuje počet 15</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55025">
       <Lemma writtenForm="sedmnáct" partOfSpeech="m"/>
+      <Form writtenForm="sedmnácti"/>
       <Sense id="L55025-S1" synset="wikidata-cs-L55025-S1" ili="wikidata-cs-L55025-S1">
         <Definition>označuje počet 17</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55037">
       <Lemma writtenForm="prvý" partOfSpeech="m"/>
+      <Form writtenForm="prvého"/>
+      <Form writtenForm="prvému"/>
+      <Form writtenForm="prvém"/>
+      <Form writtenForm="prvým"/>
+      <Form writtenForm="prvá"/>
+      <Form writtenForm="prvé"/>
+      <Form writtenForm="prvou"/>
+      <Form writtenForm="prví"/>
+      <Form writtenForm="prvých"/>
+      <Form writtenForm="prvými"/>
       <Sense id="L55037-S1" synset="wikidata-cs-L55037-S1" ili="wikidata-cs-L55037-S1">
         <Definition>vyjadřuje pořadí na 1. místě</Definition>
         <SenseRelation relType="similar" target="wikidata-cs-L55036-S1"/>
@@ -1513,30 +1733,78 @@
     </LexicalEntry>
     <LexicalEntry id="L55046">
       <Lemma writtenForm="desátý" partOfSpeech="m"/>
+      <Form writtenForm="desátého"/>
+      <Form writtenForm="desátému"/>
+      <Form writtenForm="desátém"/>
+      <Form writtenForm="desátým"/>
+      <Form writtenForm="desátá"/>
+      <Form writtenForm="desáté"/>
+      <Form writtenForm="desátou"/>
+      <Form writtenForm="desátí"/>
+      <Form writtenForm="desátých"/>
+      <Form writtenForm="desátými"/>
       <Sense id="L55046-S1" synset="wikidata-cs-L55046-S1" ili="wikidata-cs-L55046-S1">
         <Definition>vyjadřuje pořadí na 10. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55050">
       <Lemma writtenForm="čtrnáctý" partOfSpeech="m"/>
+      <Form writtenForm="čtrnáctého"/>
+      <Form writtenForm="čtrnáctému"/>
+      <Form writtenForm="čtrnáctém"/>
+      <Form writtenForm="čtrnáctým"/>
+      <Form writtenForm="čtrnáctá"/>
+      <Form writtenForm="čtrnácté"/>
+      <Form writtenForm="čtrnáctou"/>
+      <Form writtenForm="čtrnáctí"/>
+      <Form writtenForm="čtrnáctých"/>
+      <Form writtenForm="čtrnáctými"/>
       <Sense id="L55050-S1" synset="wikidata-cs-L55050-S1" ili="wikidata-cs-L55050-S1">
         <Definition>vyjadřuje pořadí na 14. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55057">
       <Lemma writtenForm="třicátý" partOfSpeech="m"/>
+      <Form writtenForm="třicátého"/>
+      <Form writtenForm="třicátému"/>
+      <Form writtenForm="třicátém"/>
+      <Form writtenForm="třicátým"/>
+      <Form writtenForm="třicátá"/>
+      <Form writtenForm="třicáté"/>
+      <Form writtenForm="třicátou"/>
+      <Form writtenForm="třicátí"/>
+      <Form writtenForm="třicátých"/>
+      <Form writtenForm="třicátými"/>
       <Sense id="L55057-S1" synset="wikidata-cs-L55057-S1" ili="wikidata-cs-L55057-S1">
         <Definition>vyjadřuje pořadí na 30. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55060">
       <Lemma writtenForm="šedesátý" partOfSpeech="m"/>
+      <Form writtenForm="šedesátého"/>
+      <Form writtenForm="šedesátému"/>
+      <Form writtenForm="šedesátém"/>
+      <Form writtenForm="šedesátým"/>
+      <Form writtenForm="šedesátá"/>
+      <Form writtenForm="šedesáté"/>
+      <Form writtenForm="šedesátou"/>
+      <Form writtenForm="šedesátí"/>
+      <Form writtenForm="šedesátých"/>
+      <Form writtenForm="šedesátými"/>
       <Sense id="L55060-S1" synset="wikidata-cs-L55060-S1" ili="wikidata-cs-L55060-S1">
         <Definition>vyjadřuje pořadí na 60. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55066">
       <Lemma writtenForm="sto" partOfSpeech="m"/>
+      <Form writtenForm="sta"/>
+      <Form writtenForm="stu"/>
+      <Form writtenForm="stem"/>
+      <Form writtenForm="set"/>
+      <Form writtenForm="stům"/>
+      <Form writtenForm="stech"/>
+      <Form writtenForm="sty"/>
+      <Form writtenForm="stě"/>
       <Sense id="L55066-S1" synset="wikidata-cs-L55066-S1" ili="wikidata-cs-L55066-S1">
         <Definition>vyjadřuje počet 100</Definition>
       </Sense>
@@ -1557,15 +1825,10 @@
     </LexicalEntry>
     <LexicalEntry id="L228284">
       <Lemma writtenForm="jako máku" partOfSpeech="t"/>
+      <Form writtenForm="jako maku"/>
       <Sense id="L228284-S1" synset="wikidata-cs-L228284-S1" ili="wikidata-cs-L228284-S1">
         <Definition>velmi mnoho</Definition>
         <Example>A děcek mají jako máku.</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L253506">
-      <Lemma writtenForm="Ludolfovo číslo" partOfSpeech="t"/>
-      <Sense id="L253506-S1" synset="wikidata-cs-L253506-S1" ili="wikidata-cs-L253506-S1">
-        <Definition>matematická konstanta vyjadřující poměr mezi obvodem a průměrem kružnice</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L290304">
@@ -1878,12 +2141,6 @@
         <Definition>druh ptáka rodu Pteroglossus</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1378178">
-      <Lemma writtenForm="aratinga aztécký" partOfSpeech="t"/>
-      <Sense id="L1378178-S1" synset="wikidata-cs-L1378178-S1" ili="wikidata-cs-L1378178-S1">
-        <Definition>druh ptáka rodu Aratinga</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1378181">
       <Lemma writtenForm="aratinga hnědohrdlý" partOfSpeech="t"/>
       <Sense id="L1378181-S1" synset="wikidata-cs-L1378181-S1" ili="wikidata-cs-L1378181-S1">
@@ -2003,54 +2260,80 @@
     </LexicalEntry>
     <LexicalEntry id="L23250">
       <Lemma writtenForm="bez" partOfSpeech="p"/>
+      <Form writtenForm="beze"/>
       <Sense id="L23250-S1" synset="wikidata-cs-L23250-S1" ili="wikidata-cs-L23250-S1">
         <Definition>vyjma</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L44079">
       <Lemma writtenForm="tři" partOfSpeech="m"/>
+      <Form writtenForm="tří"/>
+      <Form writtenForm="třech"/>
+      <Form writtenForm="třem"/>
+      <Form writtenForm="třemi"/>
       <Sense id="L44079-S1" synset="wikidata-cs-L44079-S1" ili="wikidata-cs-L44079-S1">
         <Definition>označuje počet 3</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L44080">
       <Lemma writtenForm="čtyři" partOfSpeech="m"/>
+      <Form writtenForm="čtyř"/>
+      <Form writtenForm="čtyřech"/>
+      <Form writtenForm="čtyřem"/>
+      <Form writtenForm="čtyřmi"/>
       <Sense id="L44080-S1" synset="wikidata-cs-L44080-S1" ili="wikidata-cs-L44080-S1">
         <Definition>označuje počet 4</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L44543">
       <Lemma writtenForm="pět" partOfSpeech="m"/>
+      <Form writtenForm="pěti"/>
       <Sense id="L44543-S1" synset="wikidata-cs-L44543-S1" ili="wikidata-cs-L44543-S1">
         <Definition>označuje počet 5</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L45563">
       <Lemma writtenForm="ona" partOfSpeech="h"/>
+      <Form writtenForm="jí"/>
+      <Form writtenForm="ní"/>
+      <Form writtenForm="ji"/>
+      <Form writtenForm="ni"/>
       <Sense id="L45563-S1" synset="wikidata-cs-L45563-S1" ili="l484-s1">
         <Definition>odkazovaná osoba ženského rodu</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L53159">
       <Lemma writtenForm="vy" partOfSpeech="h"/>
+      <Form writtenForm="vás"/>
+      <Form writtenForm="vám"/>
+      <Form writtenForm="vámi"/>
       <Sense id="L53159-S1" synset="wikidata-cs-L53159-S1" ili="wikidata-cs-L53159-S1">
         <Definition>wy</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L54686">
       <Lemma writtenForm="dva" partOfSpeech="m"/>
+      <Form writtenForm="dvou"/>
+      <Form writtenForm="dvěma"/>
+      <Form writtenForm="dvě"/>
       <Sense id="L54686-S1" synset="wikidata-cs-L54686-S1" ili="wikidata-cs-L54686-S1">
         <Definition>označuje počet 2</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55026">
       <Lemma writtenForm="osmnáct" partOfSpeech="m"/>
+      <Form writtenForm="osmnácti"/>
       <Sense id="L55026-S1" synset="wikidata-cs-L55026-S1" ili="wikidata-cs-L55026-S1">
         <Definition>označuje počet 18</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55036">
       <Lemma writtenForm="první" partOfSpeech="m"/>
+      <Form writtenForm="prvního"/>
+      <Form writtenForm="prvnímu"/>
+      <Form writtenForm="prvním"/>
+      <Form writtenForm="prvních"/>
+      <Form writtenForm="prvními"/>
       <Sense id="L55036-S1" synset="wikidata-cs-L55036-S1" ili="wikidata-cs-L55036-S1">
         <Definition>vyjadřuje pořadí na 1. místě</Definition>
         <SenseRelation relType="similar" target="wikidata-cs-L55037-S1"/>
@@ -2058,42 +2341,112 @@
     </LexicalEntry>
     <LexicalEntry id="L55044">
       <Lemma writtenForm="osmý" partOfSpeech="m"/>
+      <Form writtenForm="osmého"/>
+      <Form writtenForm="osmému"/>
+      <Form writtenForm="osmém"/>
+      <Form writtenForm="osmým"/>
+      <Form writtenForm="osmá"/>
+      <Form writtenForm="osmé"/>
+      <Form writtenForm="osmou"/>
+      <Form writtenForm="osmí"/>
+      <Form writtenForm="osmých"/>
+      <Form writtenForm="osmými"/>
       <Sense id="L55044-S1" synset="wikidata-cs-L55044-S1" ili="wikidata-cs-L55044-S1">
         <Definition>vyjadřuje pořadí na 8. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55048">
       <Lemma writtenForm="dvanáctý" partOfSpeech="m"/>
+      <Form writtenForm="dvanáctého"/>
+      <Form writtenForm="dvanáctému"/>
+      <Form writtenForm="dvanáctém"/>
+      <Form writtenForm="dvanáctým"/>
+      <Form writtenForm="dvanáctá"/>
+      <Form writtenForm="dvanácté"/>
+      <Form writtenForm="dvanáctou"/>
+      <Form writtenForm="dvanáctí"/>
+      <Form writtenForm="dvanáctých"/>
+      <Form writtenForm="dvanáctými"/>
       <Sense id="L55048-S1" synset="wikidata-cs-L55048-S1" ili="wikidata-cs-L55048-S1">
         <Definition>vyjadřuje pořadí na 12. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55049">
       <Lemma writtenForm="třináctý" partOfSpeech="m"/>
+      <Form writtenForm="třináctého"/>
+      <Form writtenForm="třináctému"/>
+      <Form writtenForm="třináctém"/>
+      <Form writtenForm="třináctým"/>
+      <Form writtenForm="třináctá"/>
+      <Form writtenForm="třinácté"/>
+      <Form writtenForm="třináctou"/>
+      <Form writtenForm="třináctí"/>
+      <Form writtenForm="třináctých"/>
+      <Form writtenForm="třináctými"/>
       <Sense id="L55049-S1" synset="wikidata-cs-L55049-S1" ili="wikidata-cs-L55049-S1">
         <Definition>vyjadřuje pořadí na 13. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55052">
       <Lemma writtenForm="šestnáctý" partOfSpeech="m"/>
+      <Form writtenForm="šestnáctého"/>
+      <Form writtenForm="šestnáctému"/>
+      <Form writtenForm="šestnáctém"/>
+      <Form writtenForm="šestnáctým"/>
+      <Form writtenForm="šestnáctá"/>
+      <Form writtenForm="šestnácté"/>
+      <Form writtenForm="šestnáctou"/>
+      <Form writtenForm="šestnáctí"/>
+      <Form writtenForm="šestnáctých"/>
+      <Form writtenForm="šestnáctými"/>
       <Sense id="L55052-S1" synset="wikidata-cs-L55052-S1" ili="wikidata-cs-L55052-S1">
         <Definition>vyjadřuje pořadí na 16. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55054">
       <Lemma writtenForm="osmnáctý" partOfSpeech="m"/>
+      <Form writtenForm="osmnáctého"/>
+      <Form writtenForm="osmnáctému"/>
+      <Form writtenForm="osmnáctém"/>
+      <Form writtenForm="osmnáctým"/>
+      <Form writtenForm="osmnáctá"/>
+      <Form writtenForm="osmnácté"/>
+      <Form writtenForm="osmnáctou"/>
+      <Form writtenForm="osmnáctí"/>
+      <Form writtenForm="osmnáctých"/>
+      <Form writtenForm="osmnáctými"/>
       <Sense id="L55054-S1" synset="wikidata-cs-L55054-S1" ili="wikidata-cs-L55054-S1">
         <Definition>vyjadřuje pořadí na 18. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55058">
       <Lemma writtenForm="čtyřicátý" partOfSpeech="m"/>
+      <Form writtenForm="čtyřicátého"/>
+      <Form writtenForm="čtyřicátému"/>
+      <Form writtenForm="čtyřicátém"/>
+      <Form writtenForm="čtyřicátým"/>
+      <Form writtenForm="čtyřicátá"/>
+      <Form writtenForm="čtyřicáté"/>
+      <Form writtenForm="čtyřicátou"/>
+      <Form writtenForm="čtyřicátí"/>
+      <Form writtenForm="čtyřicátých"/>
+      <Form writtenForm="čtyřicátými"/>
       <Sense id="L55058-S1" synset="wikidata-cs-L55058-S1" ili="wikidata-cs-L55058-S1">
         <Definition>vyjadřuje pořadí na 40. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55062">
       <Lemma writtenForm="osmdesátý" partOfSpeech="m"/>
+      <Form writtenForm="osmdesátého"/>
+      <Form writtenForm="osmdesátému"/>
+      <Form writtenForm="osmdesátém"/>
+      <Form writtenForm="osmdesátým"/>
+      <Form writtenForm="osmdesátá"/>
+      <Form writtenForm="osmdesáté"/>
+      <Form writtenForm="osmdesátou"/>
+      <Form writtenForm="osmdesátí"/>
+      <Form writtenForm="osmdesátých"/>
+      <Form writtenForm="osmdesátými"/>
       <Sense id="L55062-S1" synset="wikidata-cs-L55062-S1" ili="wikidata-cs-L55062-S1">
         <Definition>vyjadřuje pořadí na 80. místě</Definition>
       </Sense>
@@ -2124,36 +2477,85 @@
     </LexicalEntry>
     <LexicalEntry id="L470374">
       <Lemma writtenForm="sedmina" partOfSpeech="m"/>
+      <Form writtenForm="sedminy"/>
+      <Form writtenForm="sedmině"/>
+      <Form writtenForm="sedminu"/>
+      <Form writtenForm="sedmino"/>
+      <Form writtenForm="sedminou"/>
+      <Form writtenForm="sedmin"/>
+      <Form writtenForm="sedminám"/>
+      <Form writtenForm="sedminách"/>
+      <Form writtenForm="sedminami"/>
       <Sense id="L470374-S1" synset="wikidata-cs-L470374-S1" ili="wikidata-cs-L470374-S1">
         <Definition>jedna ze sedmi stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470377">
       <Lemma writtenForm="desetina" partOfSpeech="m"/>
+      <Form writtenForm="desetiny"/>
+      <Form writtenForm="desetině"/>
+      <Form writtenForm="desetinu"/>
+      <Form writtenForm="desetino"/>
+      <Form writtenForm="desetinou"/>
+      <Form writtenForm="desetin"/>
+      <Form writtenForm="desetinám"/>
+      <Form writtenForm="desetinách"/>
+      <Form writtenForm="desetinami"/>
       <Sense id="L470377-S1" synset="wikidata-cs-L470377-S1" ili="wikidata-cs-L470377-S1">
         <Definition>jedna z deseti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470381">
       <Lemma writtenForm="čtrnáctina" partOfSpeech="m"/>
+      <Form writtenForm="čtrnáctiny"/>
+      <Form writtenForm="čtrnáctině"/>
+      <Form writtenForm="čtrnáctinu"/>
+      <Form writtenForm="čtrnáctino"/>
+      <Form writtenForm="čtrnáctinou"/>
+      <Form writtenForm="čtrnáctin"/>
+      <Form writtenForm="čtrnáctinám"/>
+      <Form writtenForm="čtrnáctinách"/>
+      <Form writtenForm="čtrnáctinami"/>
       <Sense id="L470381-S1" synset="wikidata-cs-L470381-S1" ili="wikidata-cs-L470381-S1">
         <Definition>jedna ze čtrnácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470384">
       <Lemma writtenForm="sedmnáctina" partOfSpeech="m"/>
+      <Form writtenForm="sedmnáctiny"/>
+      <Form writtenForm="sedmnáctině"/>
+      <Form writtenForm="sedmnáctinu"/>
+      <Form writtenForm="sedmnáctino"/>
+      <Form writtenForm="sedmnáctinou"/>
+      <Form writtenForm="sedmnáctin"/>
+      <Form writtenForm="sedmnáctinám"/>
+      <Form writtenForm="sedmnáctinách"/>
+      <Form writtenForm="sedmnáctinami"/>
       <Sense id="L470384-S1" synset="wikidata-cs-L470384-S1" ili="wikidata-cs-L470384-S1">
         <Definition>jedna ze sedmnácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470394">
       <Lemma writtenForm="devadesátina" partOfSpeech="m"/>
+      <Form writtenForm="devadesátiny"/>
+      <Form writtenForm="devadesátině"/>
+      <Form writtenForm="devadesátinu"/>
+      <Form writtenForm="devadesátino"/>
+      <Form writtenForm="devadesátinou"/>
+      <Form writtenForm="devadesátin"/>
+      <Form writtenForm="devadesátinám"/>
+      <Form writtenForm="devadesátinách"/>
+      <Form writtenForm="devadesátinami"/>
       <Sense id="L470394-S1" synset="wikidata-cs-L470394-S1" ili="wikidata-cs-L470394-S1">
         <Definition>jedna z devadesáti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L582361">
       <Lemma writtenForm="olympijské hry" partOfSpeech="t"/>
+      <Form writtenForm="olympijských her"/>
+      <Form writtenForm="olympijským hrám"/>
+      <Form writtenForm="olympijských hrách"/>
+      <Form writtenForm="olympijskými hrami"/>
       <Sense id="L582361-S1" synset="wikidata-cs-L582361-S1" ili="wikidata-cs-L582361-S1">
         <Definition>sportovní událost</Definition>
       </Sense>
@@ -2474,44 +2876,71 @@
     </LexicalEntry>
     <LexicalEntry id="L54687">
       <Lemma writtenForm="deset" partOfSpeech="m"/>
+      <Form writtenForm="deseti"/>
+      <Form writtenForm="desíti"/>
       <Sense id="L54687-S1" synset="wikidata-cs-L54687-S1" ili="wikidata-cs-L54687-S1">
         <Definition>označuje počet 10</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55018">
       <Lemma writtenForm="jedenáct" partOfSpeech="m"/>
+      <Form writtenForm="jedenácti"/>
       <Sense id="L55018-S1" synset="wikidata-cs-L55018-S1" ili="wikidata-cs-L55018-S1">
         <Definition>označuje počet 11</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55030">
       <Lemma writtenForm="čtyřicet" partOfSpeech="m"/>
+      <Form writtenForm="čtyřiceti"/>
       <Sense id="L55030-S1" synset="wikidata-cs-L55030-S1" ili="wikidata-cs-L55030-S1">
         <Definition>označuje počet 40</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55055">
       <Lemma writtenForm="devatenáctý" partOfSpeech="m"/>
+      <Form writtenForm="devatenáctého"/>
+      <Form writtenForm="devatenáctému"/>
+      <Form writtenForm="devatenáctém"/>
+      <Form writtenForm="devatenáctým"/>
+      <Form writtenForm="devatenáctá"/>
+      <Form writtenForm="devatenácté"/>
+      <Form writtenForm="devatenáctou"/>
+      <Form writtenForm="devatenáctí"/>
+      <Form writtenForm="devatenáctých"/>
+      <Form writtenForm="devatenáctými"/>
       <Sense id="L55055-S1" synset="wikidata-cs-L55055-S1" ili="wikidata-cs-L55055-S1">
         <Definition>vyjadřuje pořadí na 19. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55064">
       <Lemma writtenForm="stý" partOfSpeech="m"/>
+      <Form writtenForm="stého"/>
+      <Form writtenForm="stému"/>
+      <Form writtenForm="stém"/>
+      <Form writtenForm="stým"/>
+      <Form writtenForm="stá"/>
+      <Form writtenForm="sté"/>
+      <Form writtenForm="stou"/>
+      <Form writtenForm="stí"/>
+      <Form writtenForm="stých"/>
+      <Form writtenForm="stými"/>
       <Sense id="L55064-S1" synset="wikidata-cs-L55064-S1" ili="wikidata-cs-L55064-S1">
         <Definition>vyjadřuje pořadí na 100. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L297692">
       <Lemma writtenForm="slepičí prdelka" partOfSpeech="t"/>
+      <Form writtenForm="slepičí prdelky"/>
+      <Form writtenForm="slepičí prdelce"/>
+      <Form writtenForm="slepičí prdelku"/>
+      <Form writtenForm="slepičí prdelko"/>
+      <Form writtenForm="slepičí prdelkou"/>
+      <Form writtenForm="slepičích prdelek"/>
+      <Form writtenForm="slepičím prdelkám"/>
+      <Form writtenForm="slepičích prdelkách"/>
+      <Form writtenForm="slepičími prdelkami"/>
       <Sense id="L297692-S1" synset="wikidata-cs-L297692-S1" ili="wikidata-cs-L297692-S1">
         <Definition>kdo neudrží nic v tajnosti</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L408049">
-      <Lemma writtenForm="Achillova pata" partOfSpeech="t"/>
-      <Sense id="L408049-S1" synset="wikidata-cs-L408049-S1" ili="wikidata-cs-L408049-S1">
-        <Definition>zranitelné místo, slabina</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L414097">
@@ -2525,54 +2954,135 @@
     </LexicalEntry>
     <LexicalEntry id="L470370">
       <Lemma writtenForm="třetina" partOfSpeech="m"/>
+      <Form writtenForm="třetiny"/>
+      <Form writtenForm="třetině"/>
+      <Form writtenForm="třetinu"/>
+      <Form writtenForm="třetino"/>
+      <Form writtenForm="třetinou"/>
+      <Form writtenForm="třetin"/>
+      <Form writtenForm="třetinám"/>
+      <Form writtenForm="třetinách"/>
+      <Form writtenForm="třetinami"/>
       <Sense id="L470370-S1" synset="wikidata-cs-L470370-S1" ili="wikidata-cs-L470370-S1">
         <Definition>jedna ze tří stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470371">
       <Lemma writtenForm="čtvrtina" partOfSpeech="m"/>
+      <Form writtenForm="čtvrtiny"/>
+      <Form writtenForm="čtvrtině"/>
+      <Form writtenForm="čtvrtinu"/>
+      <Form writtenForm="čtvrtino"/>
+      <Form writtenForm="čtvrtinou"/>
+      <Form writtenForm="čtvrtin"/>
+      <Form writtenForm="čtvrtinám"/>
+      <Form writtenForm="čtvrtinách"/>
+      <Form writtenForm="čtvrtinami"/>
       <Sense id="L470371-S1" synset="wikidata-cs-L470371-S1" ili="wikidata-cs-L470371-S1">
         <Definition>jedna ze čtyř stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470379">
       <Lemma writtenForm="dvanáctina" partOfSpeech="m"/>
+      <Form writtenForm="dvanáctiny"/>
+      <Form writtenForm="dvanáctině"/>
+      <Form writtenForm="dvanáctinu"/>
+      <Form writtenForm="dvanáctino"/>
+      <Form writtenForm="dvanáctinou"/>
+      <Form writtenForm="dvanáctin"/>
+      <Form writtenForm="dvanáctinám"/>
+      <Form writtenForm="dvanáctinách"/>
+      <Form writtenForm="dvanáctinami"/>
       <Sense id="L470379-S1" synset="wikidata-cs-L470379-S1" ili="wikidata-cs-L470379-S1">
         <Definition>jedna z dvanácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470383">
       <Lemma writtenForm="šestnáctina" partOfSpeech="m"/>
+      <Form writtenForm="šestnáctiny"/>
+      <Form writtenForm="šestnáctině"/>
+      <Form writtenForm="šestnáctinu"/>
+      <Form writtenForm="šestnáctino"/>
+      <Form writtenForm="šestnáctinou"/>
+      <Form writtenForm="šestnáctin"/>
+      <Form writtenForm="šestnáctinám"/>
+      <Form writtenForm="šestnáctinách"/>
+      <Form writtenForm="šestnáctinami"/>
       <Sense id="L470383-S1" synset="wikidata-cs-L470383-S1" ili="wikidata-cs-L470383-S1">
         <Definition>jedna ze šestnácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470388">
       <Lemma writtenForm="třicetina" partOfSpeech="m"/>
+      <Form writtenForm="třicetiny"/>
+      <Form writtenForm="třicetině"/>
+      <Form writtenForm="třicetinu"/>
+      <Form writtenForm="třicetino"/>
+      <Form writtenForm="třicetinou"/>
+      <Form writtenForm="třicetin"/>
+      <Form writtenForm="třicetinám"/>
+      <Form writtenForm="třicetinách"/>
+      <Form writtenForm="třicetinami"/>
       <Sense id="L470388-S1" synset="wikidata-cs-L470388-S1" ili="wikidata-cs-L470388-S1">
         <Definition>jedna ze třiceti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470391">
       <Lemma writtenForm="šedesátina" partOfSpeech="m"/>
+      <Form writtenForm="šedesátiny"/>
+      <Form writtenForm="šedesátině"/>
+      <Form writtenForm="šedesátinu"/>
+      <Form writtenForm="šedesátino"/>
+      <Form writtenForm="šedesátinou"/>
+      <Form writtenForm="šedesátin"/>
+      <Form writtenForm="šedesátinám"/>
+      <Form writtenForm="šedesátinách"/>
+      <Form writtenForm="šedesátinami"/>
       <Sense id="L470391-S1" synset="wikidata-cs-L470391-S1" ili="wikidata-cs-L470391-S1">
         <Definition>jedna ze šedesáti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470392">
       <Lemma writtenForm="sedmdesátina" partOfSpeech="m"/>
+      <Form writtenForm="sedmdesátiny"/>
+      <Form writtenForm="sedmdesátině"/>
+      <Form writtenForm="sedmdesátinu"/>
+      <Form writtenForm="sedmdesátino"/>
+      <Form writtenForm="sedmdesátinou"/>
+      <Form writtenForm="sedmdesátin"/>
+      <Form writtenForm="sedmdesátinám"/>
+      <Form writtenForm="sedmdesátinách"/>
+      <Form writtenForm="sedmdesátinami"/>
       <Sense id="L470392-S1" synset="wikidata-cs-L470392-S1" ili="wikidata-cs-L470392-S1">
         <Definition>jedna ze sedmdesáti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470393">
       <Lemma writtenForm="osmdesátina" partOfSpeech="m"/>
+      <Form writtenForm="osmdesátiny"/>
+      <Form writtenForm="osmdesátině"/>
+      <Form writtenForm="osmdesátinu"/>
+      <Form writtenForm="osmdesátino"/>
+      <Form writtenForm="osmdesátinou"/>
+      <Form writtenForm="osmdesátin"/>
+      <Form writtenForm="osmdesátinám"/>
+      <Form writtenForm="osmdesátinách"/>
+      <Form writtenForm="osmdesátinami"/>
       <Sense id="L470393-S1" synset="wikidata-cs-L470393-S1" ili="wikidata-cs-L470393-S1">
         <Definition>jedna z osmdesáti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L613533">
       <Lemma writtenForm="černá díra" partOfSpeech="t"/>
+      <Form writtenForm="černé díry"/>
+      <Form writtenForm="černé díře"/>
+      <Form writtenForm="černou díru"/>
+      <Form writtenForm="černá díro"/>
+      <Form writtenForm="černou dírou"/>
+      <Form writtenForm="černých děr"/>
+      <Form writtenForm="černým dírám"/>
+      <Form writtenForm="černých dírách"/>
+      <Form writtenForm="černými dírami"/>
       <Sense id="L613533-S1" synset="wikidata-cs-L613533-S1" ili="wikidata-cs-L613533-S1">
         <Definition>extrémně hmotný vesmírný objekt</Definition>
       </Sense>
@@ -2978,24 +3488,41 @@
     </LexicalEntry>
     <LexicalEntry id="L54684">
       <Lemma writtenForm="osm" partOfSpeech="m"/>
+      <Form writtenForm="osmi"/>
       <Sense id="L54684-S1" synset="wikidata-cs-L54684-S1" ili="wikidata-cs-L54684-S1">
         <Definition>označuje počet 8</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55020">
       <Lemma writtenForm="dvanáct" partOfSpeech="m"/>
+      <Form writtenForm="dvanácti"/>
       <Sense id="L55020-S1" synset="wikidata-cs-L55020-S1" ili="wikidata-cs-L55020-S1">
         <Definition>označuje počet 12</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55047">
       <Lemma writtenForm="jedenáctý" partOfSpeech="m"/>
+      <Form writtenForm="jedenáctého"/>
+      <Form writtenForm="jedenáctému"/>
+      <Form writtenForm="jedenáctém"/>
+      <Form writtenForm="jedenáctým"/>
+      <Form writtenForm="jedenáctá"/>
+      <Form writtenForm="jedenácté"/>
+      <Form writtenForm="jedenáctou"/>
+      <Form writtenForm="jedenáctí"/>
+      <Form writtenForm="jedenáctých"/>
+      <Form writtenForm="jedenáctými"/>
       <Sense id="L55047-S1" synset="wikidata-cs-L55047-S1" ili="wikidata-cs-L55047-S1">
         <Definition>vyjadřuje pořadí na 11. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55065">
       <Lemma writtenForm="tisící" partOfSpeech="m"/>
+      <Form writtenForm="tisícího"/>
+      <Form writtenForm="tisícímu"/>
+      <Form writtenForm="tisícím"/>
+      <Form writtenForm="tisících"/>
+      <Form writtenForm="tisícími"/>
       <Sense id="L55065-S1" synset="wikidata-cs-L55065-S1" ili="wikidata-cs-L55065-S1">
         <Definition>vyjadřuje pořadí na 1000. místě</Definition>
       </Sense>
@@ -3020,24 +3547,52 @@
     </LexicalEntry>
     <LexicalEntry id="L469079">
       <Lemma writtenForm="spíš" partOfSpeech="y"/>
+      <Form writtenForm="spíše"/>
       <Sense id="L469079-S1" synset="wikidata-cs-L469079-S1" ili="wikidata-cs-L469079-S1">
         <Definition>vyjadřuje vyšší pravděpodobnost</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470373">
       <Lemma writtenForm="šestina" partOfSpeech="m"/>
+      <Form writtenForm="šestiny"/>
+      <Form writtenForm="šestině"/>
+      <Form writtenForm="šestinu"/>
+      <Form writtenForm="šestino"/>
+      <Form writtenForm="šestinou"/>
+      <Form writtenForm="šestin"/>
+      <Form writtenForm="šestinám"/>
+      <Form writtenForm="šestinách"/>
+      <Form writtenForm="šestinami"/>
       <Sense id="L470373-S1" synset="wikidata-cs-L470373-S1" ili="wikidata-cs-L470373-S1">
         <Definition>jedna ze šesti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470380">
       <Lemma writtenForm="třináctina" partOfSpeech="m"/>
+      <Form writtenForm="třináctiny"/>
+      <Form writtenForm="třináctině"/>
+      <Form writtenForm="třináctinu"/>
+      <Form writtenForm="třináctino"/>
+      <Form writtenForm="třináctinou"/>
+      <Form writtenForm="třináctin"/>
+      <Form writtenForm="třináctinám"/>
+      <Form writtenForm="třináctinách"/>
+      <Form writtenForm="třináctinami"/>
       <Sense id="L470380-S1" synset="wikidata-cs-L470380-S1" ili="wikidata-cs-L470380-S1">
         <Definition>jedna ze třinácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470387">
       <Lemma writtenForm="dvacetina" partOfSpeech="m"/>
+      <Form writtenForm="dvacetiny"/>
+      <Form writtenForm="dvacetině"/>
+      <Form writtenForm="dvacetinu"/>
+      <Form writtenForm="dvacetino"/>
+      <Form writtenForm="dvacetinou"/>
+      <Form writtenForm="dvacetin"/>
+      <Form writtenForm="dvacetinám"/>
+      <Form writtenForm="dvacetinách"/>
+      <Form writtenForm="dvacetinami"/>
       <Sense id="L470387-S1" synset="wikidata-cs-L470387-S1" ili="wikidata-cs-L470387-S1">
         <Definition>jedna z dvaceti stejných částí celku</Definition>
       </Sense>
@@ -3193,6 +3748,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1373384">
       <Lemma writtenForm="milion" partOfSpeech="m"/>
+      <Form writtenForm="milionu"/>
+      <Form writtenForm="milione"/>
+      <Form writtenForm="milionem"/>
+      <Form writtenForm="miliony"/>
+      <Form writtenForm="milionů"/>
+      <Form writtenForm="milionům"/>
+      <Form writtenForm="milionech"/>
       <Sense id="L1373384-S1" synset="wikidata-cs-L1373384-S1" ili="wikidata-cs-L1373384-S1">
         <Definition>natural number of   1,000,000</Definition>
       </Sense>
@@ -3458,60 +4020,129 @@
     </LexicalEntry>
     <LexicalEntry id="L55022">
       <Lemma writtenForm="čtrnáct" partOfSpeech="m"/>
+      <Form writtenForm="čtrnácti"/>
       <Sense id="L55022-S1" synset="wikidata-cs-L55022-S1" ili="wikidata-cs-L55022-S1">
         <Definition>označuje počet 14</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55029">
       <Lemma writtenForm="třicet" partOfSpeech="m"/>
+      <Form writtenForm="třiceti"/>
       <Sense id="L55029-S1" synset="wikidata-cs-L55029-S1" ili="wikidata-cs-L55029-S1">
         <Definition>označuje počet 30</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55033">
       <Lemma writtenForm="sedmdesát" partOfSpeech="m"/>
+      <Form writtenForm="sedmdesáti"/>
       <Sense id="L55033-S1" synset="wikidata-cs-L55033-S1" ili="wikidata-cs-L55033-S1">
         <Definition>označuje počet 70</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55038">
       <Lemma writtenForm="druhý" partOfSpeech="m"/>
+      <Form writtenForm="druhého"/>
+      <Form writtenForm="druhému"/>
+      <Form writtenForm="druhém"/>
+      <Form writtenForm="druhým"/>
+      <Form writtenForm="druhá"/>
+      <Form writtenForm="druhé"/>
+      <Form writtenForm="druhou"/>
+      <Form writtenForm="druzí"/>
+      <Form writtenForm="druhých"/>
+      <Form writtenForm="druhými"/>
       <Sense id="L55038-S1" synset="wikidata-cs-L55038-S1" ili="wikidata-cs-L55038-S1">
         <Definition>vyjadřuje pořadí na 2. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55042">
       <Lemma writtenForm="šestý" partOfSpeech="m"/>
+      <Form writtenForm="šestého"/>
+      <Form writtenForm="šestému"/>
+      <Form writtenForm="šestém"/>
+      <Form writtenForm="šestým"/>
+      <Form writtenForm="šestá"/>
+      <Form writtenForm="šesté"/>
+      <Form writtenForm="šestou"/>
+      <Form writtenForm="šestí"/>
+      <Form writtenForm="šestých"/>
+      <Form writtenForm="šestými"/>
       <Sense id="L55042-S1" synset="wikidata-cs-L55042-S1" ili="wikidata-cs-L55042-S1">
         <Definition>vyjadřuje pořadí na 6. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55043">
       <Lemma writtenForm="sedmý" partOfSpeech="m"/>
+      <Form writtenForm="sedmého"/>
+      <Form writtenForm="sedmému"/>
+      <Form writtenForm="sedmém"/>
+      <Form writtenForm="sedmým"/>
+      <Form writtenForm="sedmá"/>
+      <Form writtenForm="sedmé"/>
+      <Form writtenForm="sedmou"/>
+      <Form writtenForm="sedmí"/>
+      <Form writtenForm="sedmých"/>
+      <Form writtenForm="sedmými"/>
       <Sense id="L55043-S1" synset="wikidata-cs-L55043-S1" ili="wikidata-cs-L55043-S1">
         <Definition>vyjadřuje pořadí na 7. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55053">
       <Lemma writtenForm="sedmnáctý" partOfSpeech="m"/>
+      <Form writtenForm="sedmnáctého"/>
+      <Form writtenForm="sedmnáctému"/>
+      <Form writtenForm="sedmnáctém"/>
+      <Form writtenForm="sedmnáctým"/>
+      <Form writtenForm="sedmnáctá"/>
+      <Form writtenForm="sedmnácté"/>
+      <Form writtenForm="sedmnáctou"/>
+      <Form writtenForm="sedmnáctí"/>
+      <Form writtenForm="sedmnáctých"/>
+      <Form writtenForm="sedmnáctými"/>
       <Sense id="L55053-S1" synset="wikidata-cs-L55053-S1" ili="wikidata-cs-L55053-S1">
         <Definition>vyjadřuje pořadí na 17. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55056">
       <Lemma writtenForm="dvacátý" partOfSpeech="m"/>
+      <Form writtenForm="dvacátého"/>
+      <Form writtenForm="dvacátému"/>
+      <Form writtenForm="dvacátém"/>
+      <Form writtenForm="dvacátým"/>
+      <Form writtenForm="dvacátá"/>
+      <Form writtenForm="dvacáté"/>
+      <Form writtenForm="dvacátou"/>
+      <Form writtenForm="dvacátí"/>
+      <Form writtenForm="dvacátých"/>
+      <Form writtenForm="dvacátými"/>
       <Sense id="L55056-S1" synset="wikidata-cs-L55056-S1" ili="wikidata-cs-L55056-S1">
         <Definition>vyjadřuje pořadí na 20. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55061">
       <Lemma writtenForm="sedmdesátý" partOfSpeech="m"/>
+      <Form writtenForm="sedmdesátého"/>
+      <Form writtenForm="sedmdesátému"/>
+      <Form writtenForm="sedmdesátém"/>
+      <Form writtenForm="sedmdesátým"/>
+      <Form writtenForm="sedmdesátá"/>
+      <Form writtenForm="sedmdesáté"/>
+      <Form writtenForm="sedmdesátou"/>
+      <Form writtenForm="sedmdesátí"/>
+      <Form writtenForm="sedmdesátých"/>
+      <Form writtenForm="sedmdesátými"/>
       <Sense id="L55061-S1" synset="wikidata-cs-L55061-S1" ili="wikidata-cs-L55061-S1">
         <Definition>vyjadřuje pořadí na 70. místě</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L55067">
       <Lemma writtenForm="tisíc" partOfSpeech="m"/>
+      <Form writtenForm="tisíce"/>
+      <Form writtenForm="tisíci"/>
+      <Form writtenForm="tisícem"/>
+      <Form writtenForm="tisíců"/>
+      <Form writtenForm="tisícům"/>
+      <Form writtenForm="tisících"/>
       <Sense id="L55067-S1" synset="wikidata-cs-L55067-S1" ili="wikidata-cs-L55067-S1">
         <Definition>vyjadřuje počet 1000</Definition>
       </Sense>
@@ -3556,6 +4187,7 @@
     </LexicalEntry>
     <LexicalEntry id="L448268">
       <Lemma writtenForm="asi" partOfSpeech="y"/>
+      <Form writtenForm="as"/>
       <Sense id="L448268-S1" synset="wikidata-cs-L448268-S1" ili="wikidata-cs-L448268-S1">
         <Definition>pravděpodobně, možná</Definition>
       </Sense>
@@ -3571,12 +4203,30 @@
     </LexicalEntry>
     <LexicalEntry id="L470378">
       <Lemma writtenForm="jedenáctina" partOfSpeech="m"/>
+      <Form writtenForm="jedenáctiny"/>
+      <Form writtenForm="jedenáctině"/>
+      <Form writtenForm="jedenáctinu"/>
+      <Form writtenForm="jedenáctino"/>
+      <Form writtenForm="jedenáctinou"/>
+      <Form writtenForm="jedenáctin"/>
+      <Form writtenForm="jedenáctinám"/>
+      <Form writtenForm="jedenáctinách"/>
+      <Form writtenForm="jedenáctinami"/>
       <Sense id="L470378-S1" synset="wikidata-cs-L470378-S1" ili="wikidata-cs-L470378-S1">
         <Definition>jedna z jedenácti stejných částí celku</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470389">
       <Lemma writtenForm="čtyřicetina" partOfSpeech="m"/>
+      <Form writtenForm="čtyřicetiny"/>
+      <Form writtenForm="čtyřicetině"/>
+      <Form writtenForm="čtyřicetinu"/>
+      <Form writtenForm="čtyřicetino"/>
+      <Form writtenForm="čtyřicetinou"/>
+      <Form writtenForm="čtyřicetin"/>
+      <Form writtenForm="čtyřicetinám"/>
+      <Form writtenForm="čtyřicetinách"/>
+      <Form writtenForm="čtyřicetinami"/>
       <Sense id="L470389-S1" synset="wikidata-cs-L470389-S1" ili="wikidata-cs-L470389-S1">
         <Definition>jedna ze čtyřiceti stejných částí celku</Definition>
       </Sense>
@@ -4179,9 +4829,6 @@
     <Synset id="wikidata-cs-L1550632-S1" ili="wikidata-cs-L1550632-S1" partOfSpeech="t">
       <Definition>uzavřená místnost, do které je vháněn plyn, což způsobuje smrt otravou nebo zadušením</Definition>
     </Synset>
-    <Synset id="wikidata-cs-L1551466-S1" ili="wikidata-cs-L1551466-S1" partOfSpeech="t">
-      <Definition>hlavolam</Definition>
-    </Synset>
     <Synset id="wikidata-cs-L55027-S1" ili="wikidata-cs-L55027-S1" partOfSpeech="m">
       <Definition>označuje počet 19</Definition>
     </Synset>
@@ -4208,9 +4855,6 @@
     </Synset>
     <Synset id="wikidata-cs-L408174-S1" ili="wikidata-cs-L408174-S1" partOfSpeech="t">
       <Definition>rozloučení</Definition>
-    </Synset>
-    <Synset id="wikidata-cs-L408188-S1" ili="wikidata-cs-L408188-S1" partOfSpeech="t">
-      <Definition>papež</Definition>
     </Synset>
     <Synset id="wikidata-cs-L450168-S1" ili="wikidata-cs-L450168-S1" partOfSpeech="m">
       <Definition>označuje žádný počet</Definition>
@@ -4678,9 +5322,6 @@
     <Synset id="wikidata-cs-L44544-S1" ili="wikidata-cs-L44544-S1" partOfSpeech="m">
       <Definition>označuje počet 6</Definition>
     </Synset>
-    <Synset id="wikidata-cs-L48331-S1" ili="wikidata-cs-L48331-S1" partOfSpeech="h">
-      <Definition>second person singular, you</Definition>
-    </Synset>
     <Synset id="wikidata-cs-L55021-S1" ili="wikidata-cs-L55021-S1" partOfSpeech="m">
       <Definition>označuje počet 13</Definition>
     </Synset>
@@ -4717,9 +5358,6 @@
     <Synset id="wikidata-cs-L228284-S1" ili="wikidata-cs-L228284-S1" partOfSpeech="t">
       <Definition>velmi mnoho</Definition>
       <Example>A děcek mají jako máku.</Example>
-    </Synset>
-    <Synset id="wikidata-cs-L253506-S1" ili="wikidata-cs-L253506-S1" partOfSpeech="t">
-      <Definition>matematická konstanta vyjadřující poměr mezi obvodem a průměrem kružnice</Definition>
     </Synset>
     <Synset id="wikidata-cs-L290304-S1" ili="wikidata-cs-L290304-S1" partOfSpeech="t">
       <Definition>zkušený námořník</Definition>
@@ -4876,9 +5514,6 @@
     </Synset>
     <Synset id="wikidata-cs-L1378173-S1" ili="wikidata-cs-L1378173-S1" partOfSpeech="t">
       <Definition>druh ptáka rodu Pteroglossus</Definition>
-    </Synset>
-    <Synset id="wikidata-cs-L1378178-S1" ili="wikidata-cs-L1378178-S1" partOfSpeech="t">
-      <Definition>druh ptáka rodu Aratinga</Definition>
     </Synset>
     <Synset id="wikidata-cs-L1378181-S1" ili="wikidata-cs-L1378181-S1" partOfSpeech="t">
       <Definition>druh ptáka rodu Eupsittula</Definition>
@@ -5188,9 +5823,6 @@
     </Synset>
     <Synset id="wikidata-cs-L297692-S1" ili="wikidata-cs-L297692-S1" partOfSpeech="t">
       <Definition>kdo neudrží nic v tajnosti</Definition>
-    </Synset>
-    <Synset id="wikidata-cs-L408049-S1" ili="wikidata-cs-L408049-S1" partOfSpeech="t">
-      <Definition>zranitelné místo, slabina</Definition>
     </Synset>
     <Synset id="wikidata-cs-L414097-S1" ili="wikidata-cs-L414097-S1" partOfSpeech="y">
       <Definition>ano</Definition>

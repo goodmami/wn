@@ -118,6 +118,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1136283">
       <Lemma writtenForm="арав" partOfSpeech="m"/>
+      <Form writtenForm="арва"/>
       <Sense id="L1136283-S1" synset="wikidata-mn-L1136283-S1" ili="wikidata-mn-L1136283-S1">
         <Definition>ten</Definition>
       </Sense>

@@ -55,6 +55,7 @@
     </LexicalEntry>
     <LexicalEntry id="L708895">
       <Lemma writtenForm="didab" partOfSpeech="m"/>
+      <Form writtenForm="diɗaɓo"/>
       <Sense id="L708895-S1" synset="wikidata-ff-L708895-S1" ili="wikidata-ff-L708895-S1">
         <Definition>second</Definition>
       </Sense>
@@ -175,6 +176,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1078011">
       <Lemma writtenForm="Cele" partOfSpeech="x"/>
+      <Form writtenForm="celal"/>
       <Sense id="L1078011-S1" synset="wikidata-ff-L1078011-S1" ili="wikidata-ff-L1078011-S1">
         <Definition>emph.of thinness of liquids</Definition>
       </Sense>
@@ -265,6 +267,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1078867">
       <Lemma writtenForm="Fasirmaaji" partOfSpeech="x"/>
+      <Form writtenForm="Fasa"/>
       <Sense id="L1078867-S1" synset="wikidata-ff-L1078867-S1" ili="wikidata-ff-L1078867-S1">
         <Definition>Highway robberies</Definition>
       </Sense>
@@ -451,6 +454,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1083663">
       <Lemma writtenForm="gasi" partOfSpeech="x"/>
+      <Form writtenForm="gasol"/>
       <Sense id="L1083663-S1" synset="wikidata-ff-L1083663-S1" ili="wikidata-ff-L1083663-S1">
         <Definition>ditche</Definition>
       </Sense>
@@ -508,6 +512,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1121464">
       <Lemma writtenForm="Jaami&apos;iije" partOfSpeech="x"/>
+      <Form writtenForm="Jaami&apos;iire"/>
       <Sense id="L1121464-S1" synset="wikidata-ff-L1121464-S1" ili="wikidata-ff-L1121464-S1">
         <Definition>Large mosques</Definition>
       </Sense>
@@ -581,12 +586,6 @@
         <Definition>Conqueror places (towns)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1187306">
-      <Lemma writtenForm="Jaami&apos;iije" partOfSpeech="x"/>
-      <Sense id="L1187306-S1" synset="wikidata-ff-L1187306-S1" ili="wikidata-ff-L1187306-S1">
-        <Definition>Large mosques</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1187472">
       <Lemma writtenForm="Jalɓeeji" partOfSpeech="x"/>
       <Sense id="L1187472-S1" synset="wikidata-ff-L1187472-S1" ili="wikidata-ff-L1187472-S1">
@@ -646,14 +645,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1311660">
       <Lemma writtenForm="Jonte" partOfSpeech="x"/>
+      <Form writtenForm="Yontere"/>
       <Sense id="L1311660-S1" synset="wikidata-ff-L1311660-S1" ili="wikidata-ff-L1311660-S1">
         <Definition>Fever</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1462026">
-      <Lemma writtenForm="Citta boɗeeje" partOfSpeech="x"/>
-      <Sense id="L1462026-S1" synset="wikidata-ff-L1462026-S1" ili="wikidata-ff-L1462026-S1">
-        <Definition>Red pepper</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1462028">
@@ -817,6 +811,7 @@
     </LexicalEntry>
     <LexicalEntry id="L870477">
       <Lemma writtenForm="habaru" partOfSpeech="n"/>
+      <Form writtenForm="habaruuji"/>
       <Sense id="L870477-S1" synset="wikidata-ff-L870477-S1" ili="wikidata-ff-L870477-S1">
         <Definition>news</Definition>
       </Sense>
@@ -883,6 +878,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1077341">
       <Lemma writtenForm="Mbudi" partOfSpeech="x"/>
+      <Form writtenForm="Mbudu"/>
       <Sense id="L1077341-S1" synset="wikidata-ff-L1077341-S1" ili="wikidata-ff-L1077341-S1">
         <Definition>poligamia</Definition>
       </Sense>
@@ -1058,12 +1054,6 @@
         <Definition>Felt affection for</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1081552">
-      <Lemma writtenForm="Giiwaaje" partOfSpeech="x"/>
-      <Sense id="L1081552-S1" synset="wikidata-ff-L1081552-S1" ili="wikidata-ff-L1081552-S1">
-        <Definition>Used in the phase</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1081826">
       <Lemma writtenForm="Geeseeji" partOfSpeech="x"/>
       <Sense id="L1081826-S1" synset="wikidata-ff-L1081826-S1" ili="wikidata-ff-L1081826-S1">
@@ -1072,18 +1062,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1082332">
       <Lemma writtenForm="gawe" partOfSpeech="x"/>
+      <Form writtenForm="wawlere"/>
       <Sense id="L1082332-S1" synset="wikidata-ff-L1082332-S1" ili="wikidata-ff-L1082332-S1">
         <Definition>grains</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1082368">
       <Lemma writtenForm="gaylooje" partOfSpeech="x"/>
+      <Form writtenForm="wayla"/>
       <Sense id="L1082368-S1" synset="wikidata-ff-L1082368-S1" ili="wikidata-ff-L1082368-S1">
         <Definition>hyaena which can become a human</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1082407">
       <Lemma writtenForm="ge&apos;elɗe" partOfSpeech="x"/>
+      <Form writtenForm="ye&apos;elde"/>
       <Sense id="L1082407-S1" synset="wikidata-ff-L1082407-S1" ili="wikidata-ff-L1082407-S1">
         <Definition>pulse</Definition>
       </Sense>
@@ -1093,6 +1086,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1082421">
       <Lemma writtenForm="geɓre" partOfSpeech="x"/>
+      <Form writtenForm="yeɓre"/>
       <Sense id="L1082421-S1" synset="wikidata-ff-L1082421-S1" ili="wikidata-ff-L1082421-S1">
         <Definition>divisions</Definition>
       </Sense>
@@ -1139,22 +1133,10 @@
         <Definition>A kind of gown with short sleeves see jaba2</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1121403">
-      <Lemma writtenForm="Jaaliiɓe" partOfSpeech="x"/>
-      <Sense id="L1121403-S1" synset="wikidata-ff-L1121403-S1" ili="wikidata-ff-L1121403-S1">
-        <Definition>Conquerors</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1187031">
       <Lemma writtenForm="Jaakanɗe" partOfSpeech="x"/>
       <Sense id="L1187031-S1" synset="wikidata-ff-L1187031-S1" ili="wikidata-ff-L1187031-S1">
         <Definition>Occasions of helping</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187066">
-      <Lemma writtenForm="ii&apos;amje" partOfSpeech="x"/>
-      <Sense id="L1187066-S1" synset="wikidata-ff-L1187066-S1" ili="wikidata-ff-L1187066-S1">
-        <Definition>Alfromosia SP.a tree pale leave and flat pods</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1187088">
@@ -1183,6 +1165,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1187273">
       <Lemma writtenForm="mi yi&apos;aay ko njammi" partOfSpeech="x"/>
+      <Form writtenForm="mi yi&apos;aay ko njamɓmi"/>
       <Sense id="L1187273-S1" synset="wikidata-ff-L1187273-S1" ili="wikidata-ff-L1187273-S1">
         <Definition>I do not see see what I am to get</Definition>
       </Sense>
@@ -1264,6 +1247,7 @@
     </LexicalEntry>
     <LexicalEntry id="L706394">
       <Lemma writtenForm="lokotoroojo" partOfSpeech="h"/>
+      <Form writtenForm="lokotorooɓe"/>
       <Sense id="L706394-S1" synset="wikidata-ff-L706394-S1" ili="wikidata-ff-L706394-S1">
         <Definition>doctor</Definition>
       </Sense>
@@ -1366,6 +1350,7 @@
     </LexicalEntry>
     <LexicalEntry id="L888747">
       <Lemma writtenForm="soobaajo" partOfSpeech="h"/>
+      <Form writtenForm="soobaa&apos;en"/>
       <Sense id="L888747-S1" synset="wikidata-ff-L888747-S1" ili="wikidata-ff-L888747-S1">
         <Definition>friend</Definition>
       </Sense>
@@ -1568,12 +1553,6 @@
         <Definition>Large hoes</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1079877">
-      <Lemma writtenForm="Galluuje" partOfSpeech="x"/>
-      <Sense id="L1079877-S1" synset="wikidata-ff-L1079877-S1" ili="wikidata-ff-L1079877-S1">
-        <Definition>Towns,urban, municipalities</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1080047">
       <Lemma writtenForm="Hakkunde&apos;en" partOfSpeech="x"/>
       <Sense id="L1080047-S1" synset="wikidata-ff-L1080047-S1" ili="wikidata-ff-L1080047-S1">
@@ -1652,18 +1631,6 @@
         <Definition>Camels</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1081821">
-      <Lemma writtenForm="Geese" partOfSpeech="x"/>
-      <Sense id="L1081821-S1" synset="wikidata-ff-L1081821-S1" ili="wikidata-ff-L1081821-S1">
-        <Definition>Webs</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081825">
-      <Lemma writtenForm="Geese" partOfSpeech="x"/>
-      <Sense id="L1081825-S1" synset="wikidata-ff-L1081825-S1" ili="wikidata-ff-L1081825-S1">
-        <Definition>Udders</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1081856">
       <Lemma writtenForm="Gelɗeeji" partOfSpeech="x"/>
       <Sense id="L1081856-S1" synset="wikidata-ff-L1081856-S1" ili="wikidata-ff-L1081856-S1">
@@ -1695,24 +1662,6 @@
       <Lemma writtenForm="Geɗeeji" partOfSpeech="x"/>
       <Sense id="L1085112-S1" synset="wikidata-ff-L1085112-S1" ili="wikidata-ff-L1085112-S1">
         <Definition>Unit</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1085113">
-      <Lemma writtenForm="Geleme" partOfSpeech="x"/>
-      <Sense id="L1085113-S1" synset="wikidata-ff-L1085113-S1" ili="wikidata-ff-L1085113-S1">
-        <Definition>The calves of the legs</Definition>
-      </Sense>
-      <Sense id="L1085113-S2" synset="wikidata-ff-L1085113-S2" ili="wikidata-ff-L1085113-S2">
-        <Definition>Fleshy hind parts of the human legs below the knees</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1085115">
-      <Lemma writtenForm="Gelle" partOfSpeech="x"/>
-      <Sense id="L1085115-S1" synset="wikidata-ff-L1085115-S1" ili="wikidata-ff-L1085115-S1">
-        <Definition>Homelands</Definition>
-      </Sense>
-      <Sense id="L1085115-S2" synset="wikidata-ff-L1085115-S2" ili="wikidata-ff-L1085115-S2">
-        <Definition>Towns</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1085140">
@@ -1750,20 +1699,12 @@
     </LexicalEntry>
     <LexicalEntry id="L1120914">
       <Lemma writtenForm="Jaariya&apos;en" partOfSpeech="x"/>
+      <Form writtenForm="Jaariyaajo"/>
       <Sense id="L1120914-S1" synset="wikidata-ff-L1120914-S1" ili="wikidata-ff-L1120914-S1">
         <Definition>Handmaids</Definition>
       </Sense>
       <Sense id="L1120914-S2" synset="wikidata-ff-L1120914-S2" ili="wikidata-ff-L1120914-S2">
         <Definition>Female servants</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1120915">
-      <Lemma writtenForm="Jaariyaaje" partOfSpeech="x"/>
-      <Sense id="L1120915-S1" synset="wikidata-ff-L1120915-S1" ili="wikidata-ff-L1120915-S1">
-        <Definition>Trees</Definition>
-      </Sense>
-      <Sense id="L1120915-S2" synset="wikidata-ff-L1120915-S2" ili="wikidata-ff-L1120915-S2">
-        <Definition>Chevalieri</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1120926">
@@ -1774,6 +1715,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1121419">
       <Lemma writtenForm="Jaaman&apos;en" partOfSpeech="x"/>
+      <Form writtenForm="Jaaman"/>
       <Sense id="L1121419-S1" synset="wikidata-ff-L1121419-S1" ili="wikidata-ff-L1121419-S1">
         <Definition>Germans</Definition>
       </Sense>
@@ -1829,12 +1771,6 @@
         <Definition>Fruit</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1462025">
-      <Lemma writtenForm="Dar ɓokki" partOfSpeech="x"/>
-      <Sense id="L1462025-S1" synset="wikidata-ff-L1462025-S1" ili="wikidata-ff-L1462025-S1">
-        <Definition>False baobab</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L702028">
       <Lemma writtenForm="amma" partOfSpeech="c"/>
       <Sense id="L702028-S1" synset="wikidata-ff-L702028-S1" ili="wikidata-ff-L702028-S1">
@@ -1883,12 +1819,6 @@
         <Definition>healthy</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L702075">
-      <Lemma writtenForm="sendude" partOfSpeech="n"/>
-      <Sense id="L702075-S1" synset="wikidata-ff-L702075-S1" ili="wikidata-ff-L702075-S1">
-        <Definition>hold in contempt</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L704004">
       <Lemma writtenForm="go&apos;o" partOfSpeech="h"/>
       <Sense id="L704004-S1" synset="wikidata-ff-L704004-S1" ili="wikidata-ff-L704004-S1">
@@ -1905,18 +1835,6 @@
       <Lemma writtenForm="Hande" partOfSpeech="p"/>
       <Sense id="L704961-S1" synset="wikidata-ff-L704961-S1" ili="wikidata-ff-L704961-S1">
         <Definition>To bray</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L705015">
-      <Lemma writtenForm="A hiirtiima" partOfSpeech="q"/>
-      <Sense id="L705015-S1" synset="wikidata-ff-L705015-S1" ili="wikidata-ff-L705015-S1">
-        <Definition>Have you had dinner</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L705181">
-      <Lemma writtenForm="To dou" partOfSpeech="p"/>
-      <Sense id="L705181-S1" synset="wikidata-ff-L705181-S1" ili="wikidata-ff-L705181-S1">
-        <Definition>On top</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L705360">
@@ -1948,6 +1866,7 @@
     </LexicalEntry>
     <LexicalEntry id="L712152">
       <Lemma writtenForm="wuluure" partOfSpeech="m"/>
+      <Form writtenForm="guluuje"/>
       <Sense id="L712152-S1" synset="wikidata-ff-L712152-S1" ili="wikidata-ff-L712152-S1">
         <Definition>thousand</Definition>
       </Sense>
@@ -2096,12 +2015,6 @@
         <Definition>men of measured gait</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1077942">
-      <Lemma writtenForm="Ndesaaji" partOfSpeech="x"/>
-      <Sense id="L1077942-S1" synset="wikidata-ff-L1077942-S1" ili="wikidata-ff-L1077942-S1">
-        <Definition>Stores</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1078065">
       <Lemma writtenForm="ndiyamji" partOfSpeech="x"/>
       <Sense id="L1078065-S1" synset="wikidata-ff-L1078065-S1" ili="wikidata-ff-L1078065-S1">
@@ -2148,12 +2061,6 @@
       <Lemma writtenForm="Base" partOfSpeech="x"/>
       <Sense id="L1078619-S1" synset="wikidata-ff-L1078619-S1" ili="wikidata-ff-L1078619-S1">
         <Definition>Straw mats</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1078641">
-      <Lemma writtenForm="Nditti" partOfSpeech="x"/>
-      <Sense id="L1078641-S1" synset="wikidata-ff-L1078641-S1" ili="wikidata-ff-L1078641-S1">
-        <Definition>Synodont catfish</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1078709">
@@ -2291,18 +2198,6 @@
         <Definition>Waves</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1084036">
-      <Lemma writtenForm="Geese" partOfSpeech="x"/>
-      <Sense id="L1084036-S1" synset="wikidata-ff-L1084036-S1" ili="wikidata-ff-L1084036-S1">
-        <Definition>Faces</Definition>
-      </Sense>
-      <Sense id="L1084036-S2" synset="wikidata-ff-L1084036-S2" ili="wikidata-ff-L1084036-S2">
-        <Definition>Countenances</Definition>
-      </Sense>
-      <Sense id="L1084036-S3" synset="wikidata-ff-L1084036-S3" ili="wikidata-ff-L1084036-S3">
-        <Definition>The fronts</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1085107">
       <Lemma writtenForm="Gejji" partOfSpeech="x"/>
       <Sense id="L1085107-S1" synset="wikidata-ff-L1085107-S1" ili="wikidata-ff-L1085107-S1">
@@ -2313,12 +2208,6 @@
       <Lemma writtenForm="Gembol" partOfSpeech="x"/>
       <Sense id="L1085119-S1" synset="wikidata-ff-L1085119-S1" ili="wikidata-ff-L1085119-S1">
         <Definition>A copy</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1085155">
-      <Lemma writtenForm="Geelooɗi" partOfSpeech="x"/>
-      <Sense id="L1085155-S1" synset="wikidata-ff-L1085155-S1" ili="wikidata-ff-L1085155-S1">
-        <Definition>Camels</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1085157">
@@ -2366,14 +2255,9 @@
         <Definition>Destitute ones</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1085717">
-      <Lemma writtenForm="Jabaaji" partOfSpeech="x"/>
-      <Sense id="L1085717-S1" synset="wikidata-ff-L1085717-S1" ili="wikidata-ff-L1085717-S1">
-        <Definition>Red cow, see</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1121407">
       <Lemma writtenForm="Jaalna" partOfSpeech="x"/>
+      <Form writtenForm="Jaala"/>
       <Sense id="L1121407-S1" synset="wikidata-ff-L1121407-S1" ili="wikidata-ff-L1121407-S1">
         <Definition>Give victory over</Definition>
       </Sense>
@@ -2424,12 +2308,6 @@
       <Lemma writtenForm="Jartooji" partOfSpeech="x"/>
       <Sense id="L1187930-S1" synset="wikidata-ff-L1187930-S1" ili="wikidata-ff-L1187930-S1">
         <Definition>Files</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187961">
-      <Lemma writtenForm="Jayngool jayli" partOfSpeech="x"/>
-      <Sense id="L1187961-S1" synset="wikidata-ff-L1187961-S1" ili="wikidata-ff-L1187961-S1">
-        <Definition>The prophet (SAWS)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1188000">
@@ -2483,12 +2361,6 @@
         <Definition>Ashamed</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L702592">
-      <Lemma writtenForm="faa" partOfSpeech="c"/>
-      <Sense id="L702592-S1" synset="wikidata-ff-L702592-S1" ili="wikidata-ff-L702592-S1">
-        <Definition>for</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L703918">
       <Lemma writtenForm="gaɗa" partOfSpeech="p"/>
       <Sense id="L703918-S1" synset="wikidata-ff-L703918-S1" ili="wikidata-ff-L703918-S1">
@@ -2519,12 +2391,6 @@
         <Definition>in</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L705544">
-      <Lemma writtenForm="nder" partOfSpeech="p"/>
-      <Sense id="L705544-S1" synset="wikidata-ff-L705544-S1" ili="wikidata-ff-L705544-S1">
-        <Definition>inside</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L705545">
       <Lemma writtenForm="ndeye" partOfSpeech="q"/>
       <Sense id="L705545-S1" synset="wikidata-ff-L705545-S1" ili="wikidata-ff-L705545-S1">
@@ -2533,18 +2399,21 @@
     </LexicalEntry>
     <LexicalEntry id="L705639">
       <Lemma writtenForm="pullo" partOfSpeech="h"/>
+      <Form writtenForm="fulɓe"/>
       <Sense id="L705639-S1" synset="wikidata-ff-L705639-S1" ili="wikidata-ff-L705639-S1">
         <Definition>fulani person</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L706078">
       <Lemma writtenForm="hemre" partOfSpeech="m"/>
+      <Form writtenForm="keme"/>
       <Sense id="L706078-S1" synset="wikidata-ff-L706078-S1" ili="wikidata-ff-L706078-S1">
         <Definition>hundred</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L706120">
       <Lemma writtenForm="kaaɗo" partOfSpeech="h"/>
+      <Form writtenForm="haaɓe"/>
       <Sense id="L706120-S1" synset="wikidata-ff-L706120-S1" ili="wikidata-ff-L706120-S1">
         <Definition>fulani man</Definition>
       </Sense>
@@ -2557,6 +2426,7 @@
     </LexicalEntry>
     <LexicalEntry id="L711948">
       <Lemma writtenForm="waaru" partOfSpeech="n"/>
+      <Form writtenForm="waaruuji"/>
       <Sense id="L711948-S1" synset="wikidata-ff-L711948-S1" ili="wikidata-ff-L711948-S1">
         <Definition>wooden trough</Definition>
       </Sense>
@@ -2590,12 +2460,14 @@
     </LexicalEntry>
     <LexicalEntry id="L776412">
       <Lemma writtenForm="pukaraajo" partOfSpeech="n"/>
+      <Form writtenForm="fukaraa&apos;be"/>
       <Sense id="L776412-S1" synset="wikidata-ff-L776412-S1" ili="wikidata-ff-L776412-S1">
         <Definition>student</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L776481">
       <Lemma writtenForm="pullo" partOfSpeech="n"/>
+      <Form writtenForm="ful&apos;be"/>
       <Sense id="L776481-S1" synset="wikidata-ff-L776481-S1" ili="wikidata-ff-L776481-S1">
         <Definition>fulani, pullo</Definition>
       </Sense>
@@ -2650,6 +2522,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1077635">
       <Lemma writtenForm="ayyee" partOfSpeech="v"/>
+      <Form writtenForm="ayyaa"/>
       <Sense id="L1077635-S1" synset="wikidata-ff-L1077635-S1" ili="wikidata-ff-L1077635-S1">
         <Definition>allas!</Definition>
       </Sense>
@@ -2700,12 +2573,6 @@
       <Lemma writtenForm="Aleewaaji" partOfSpeech="x"/>
       <Sense id="L1078522-S1" synset="wikidata-ff-L1078522-S1" ili="wikidata-ff-L1078522-S1">
         <Definition>Sweetmeat</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1078555">
-      <Lemma writtenForm="Bami" partOfSpeech="x"/>
-      <Sense id="L1078555-S1" synset="wikidata-ff-L1078555-S1" ili="wikidata-ff-L1078555-S1">
-        <Definition>Ropes made from grass stings</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1078608">
@@ -2888,29 +2755,9 @@
         <Definition>Returned pilgrims</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1081790">
-      <Lemma writtenForm="Geɗe" partOfSpeech="x"/>
-      <Sense id="L1081790-S1" synset="wikidata-ff-L1081790-S1" ili="wikidata-ff-L1081790-S1">
-        <Definition>Shares</Definition>
-      </Sense>
-      <Sense id="L1081790-S2" synset="wikidata-ff-L1081790-S2" ili="wikidata-ff-L1081790-S2">
-        <Definition>Portion</Definition>
-      </Sense>
-      <Sense id="L1081790-S3" synset="wikidata-ff-L1081790-S3" ili="wikidata-ff-L1081790-S3">
-        <Definition>Lots</Definition>
-      </Sense>
-      <Sense id="L1081790-S4" synset="wikidata-ff-L1081790-S4" ili="wikidata-ff-L1081790-S4">
-        <Definition>Fates</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081813">
-      <Lemma writtenForm="Geeraaɗe" partOfSpeech="x"/>
-      <Sense id="L1081813-S1" synset="wikidata-ff-L1081813-S1" ili="wikidata-ff-L1081813-S1">
-        <Definition>Eggs</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1082341">
       <Lemma writtenForm="gawlitatanɗe" partOfSpeech="x"/>
+      <Form writtenForm="wawlita"/>
       <Sense id="L1082341-S1" synset="wikidata-ff-L1082341-S1" ili="wikidata-ff-L1082341-S1">
         <Definition>Occasions of shouting</Definition>
       </Sense>
@@ -2925,18 +2772,6 @@
       <Lemma writtenForm="Geje" partOfSpeech="x"/>
       <Sense id="L1085105-S1" synset="wikidata-ff-L1085105-S1" ili="wikidata-ff-L1085105-S1">
         <Definition>The green leaves of the tobacco plant</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1085121">
-      <Lemma writtenForm="Gempeƴƴe" partOfSpeech="x"/>
-      <Sense id="L1085121-S1" synset="wikidata-ff-L1085121-S1" ili="wikidata-ff-L1085121-S1">
-        <Definition>Waves</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1085212">
-      <Lemma writtenForm="Geera&apos;en" partOfSpeech="x"/>
-      <Sense id="L1085212-S1" synset="wikidata-ff-L1085212-S1" ili="wikidata-ff-L1085212-S1">
-        <Definition>Married women without children</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1085564">
@@ -2977,35 +2812,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1121408">
       <Lemma writtenForm="Jaalooje" partOfSpeech="x"/>
+      <Form writtenForm="Jaaloore"/>
       <Sense id="L1121408-S1" synset="wikidata-ff-L1121408-S1" ili="wikidata-ff-L1121408-S1">
         <Definition>Skink_lizards</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1121461">
-      <Lemma writtenForm="Jaaman&apos;en" partOfSpeech="x"/>
-      <Sense id="L1121461-S1" synset="wikidata-ff-L1121461-S1" ili="wikidata-ff-L1121461-S1">
-        <Definition>Germans</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1189390">
-      <Lemma writtenForm="Jaadaaɓe" partOfSpeech="x"/>
-      <Sense id="L1189390-S1" synset="wikidata-ff-L1189390-S1" ili="wikidata-ff-L1189390-S1">
-        <Definition>Half-brothers</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1189398">
       <Lemma writtenForm="Iyeele" partOfSpeech="x"/>
       <Sense id="L1189398-S1" synset="wikidata-ff-L1189398-S1" ili="wikidata-ff-L1189398-S1">
         <Definition>Rain</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1311657">
-      <Lemma writtenForm="Jonte faɓɓooje" partOfSpeech="x"/>
-      <Sense id="L1311657-S1" synset="wikidata-ff-L1311657-S1" ili="wikidata-ff-L1311657-S1">
-        <Definition>Intermittent</Definition>
-      </Sense>
-      <Sense id="L1311657-S2" synset="wikidata-ff-L1311657-S2" ili="wikidata-ff-L1311657-S2">
-        <Definition>Fever</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1461984">
@@ -3050,12 +2865,6 @@
         <Definition>although</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L703921">
-      <Lemma writtenForm="gaɗa" partOfSpeech="p"/>
-      <Sense id="L703921-S1" synset="wikidata-ff-L703921-S1" ili="wikidata-ff-L703921-S1">
-        <Definition>behind</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L704060">
       <Lemma writtenForm="goram" partOfSpeech="h"/>
       <Sense id="L704060-S1" synset="wikidata-ff-L704060-S1" ili="wikidata-ff-L704060-S1">
@@ -3076,18 +2885,21 @@
     </LexicalEntry>
     <LexicalEntry id="L706474">
       <Lemma writtenForm="maamiyo" partOfSpeech="n"/>
+      <Form writtenForm="maamiraaɓe"/>
       <Sense id="L706474-S1" synset="wikidata-ff-L706474-S1" ili="wikidata-ff-L706474-S1">
         <Definition>grand parents</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L706528">
       <Lemma writtenForm="koyɗol" partOfSpeech="n"/>
+      <Form writtenForm="koyɗi"/>
       <Sense id="L706528-S1" synset="wikidata-ff-L706528-S1" ili="wikidata-ff-L706528-S1">
         <Definition>dream</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L706557">
       <Lemma writtenForm="ujunere" partOfSpeech="m"/>
+      <Form writtenForm="ujunaaji"/>
       <Sense id="L706557-S1" synset="wikidata-ff-L706557-S1" ili="wikidata-ff-L706557-S1">
         <Definition>thousand</Definition>
       </Sense>
@@ -3118,6 +2930,7 @@
     </LexicalEntry>
     <LexicalEntry id="L746963">
       <Lemma writtenForm="maa&apos;a" partOfSpeech="h"/>
+      <Form writtenForm="ma"/>
       <Sense id="L746963-S1" synset="wikidata-ff-L746963-S1" ili="wikidata-ff-L746963-S1">
         <Definition>your</Definition>
       </Sense>
@@ -3379,6 +3192,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1080635">
       <Lemma writtenForm="Hayruuji" partOfSpeech="x"/>
+      <Form writtenForm="Haayru"/>
       <Sense id="L1080635-S1" synset="wikidata-ff-L1080635-S1" ili="wikidata-ff-L1080635-S1">
         <Definition>benefit</Definition>
       </Sense>
@@ -3433,14 +3247,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1083657">
       <Lemma writtenForm="gasdeeji" partOfSpeech="x"/>
+      <Form writtenForm="gasɗeeru"/>
       <Sense id="L1083657-S1" synset="wikidata-ff-L1083657-S1" ili="wikidata-ff-L1083657-S1">
         <Definition>the bee-eaters</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1084038">
-      <Lemma writtenForm="Geese" partOfSpeech="x"/>
-      <Sense id="L1084038-S1" synset="wikidata-ff-L1084038-S1" ili="wikidata-ff-L1084038-S1">
-        <Definition>Udders</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1085525">
@@ -3460,27 +3269,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1121405">
       <Lemma writtenForm="Jaaliiɗe" partOfSpeech="x"/>
+      <Form writtenForm="Jaaliingo"/>
       <Sense id="L1121405-S1" synset="wikidata-ff-L1121405-S1" ili="wikidata-ff-L1121405-S1">
         <Definition>The superior places (towns)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1187050">
-      <Lemma writtenForm="Jaariya&apos;en" partOfSpeech="x"/>
-      <Sense id="L1187050-S1" synset="wikidata-ff-L1187050-S1" ili="wikidata-ff-L1187050-S1">
-        <Definition>Handmaids</Definition>
-      </Sense>
-      <Sense id="L1187050-S2" synset="wikidata-ff-L1187050-S2" ili="wikidata-ff-L1187050-S2">
-        <Definition>Female servants</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187193">
-      <Lemma writtenForm="Jabaaji" partOfSpeech="x"/>
-      <Sense id="L1187193-S1" synset="wikidata-ff-L1187193-S1" ili="wikidata-ff-L1187193-S1">
-        <Definition>Red cow</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1187228">
       <Lemma writtenForm="jaariyaahe" partOfSpeech="x"/>
+      <Form writtenForm="jaarihaahi"/>
       <Sense id="L1187228-S1" synset="wikidata-ff-L1187228-S1" ili="wikidata-ff-L1187228-S1">
         <Definition>Abbizzia chevalieri</Definition>
       </Sense>
@@ -3538,6 +3334,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1461959">
       <Lemma writtenForm="Jujuuji" partOfSpeech="x"/>
+      <Form writtenForm="Juju"/>
       <Sense id="L1461959-S1" synset="wikidata-ff-L1461959-S1" ili="wikidata-ff-L1461959-S1">
         <Definition>Parts</Definition>
       </Sense>
@@ -3581,24 +3378,6 @@
         <Definition>Sift</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L702077">
-      <Lemma writtenForm="sendude" partOfSpeech="n"/>
-      <Sense id="L702077-S1" synset="wikidata-ff-L702077-S1" ili="wikidata-ff-L702077-S1">
-        <Definition>Share</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L702078">
-      <Lemma writtenForm="sendurude" partOfSpeech="n"/>
-      <Sense id="L702078-S1" synset="wikidata-ff-L702078-S1" ili="wikidata-ff-L702078-S1">
-        <Definition>Seperate</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L702079">
-      <Lemma writtenForm="sendurude" partOfSpeech="n"/>
-      <Sense id="L702079-S1" synset="wikidata-ff-L702079-S1" ili="wikidata-ff-L702079-S1">
-        <Definition>Divide</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L702084">
       <Lemma writtenForm="Sewade" partOfSpeech="n"/>
       <Sense id="L702084-S1" synset="wikidata-ff-L702084-S1" ili="wikidata-ff-L702084-S1">
@@ -3613,6 +3392,7 @@
     </LexicalEntry>
     <LexicalEntry id="L702428">
       <Lemma writtenForm="e" partOfSpeech="c"/>
+      <Form writtenForm="he"/>
       <Sense id="L702428-S1" synset="wikidata-ff-L702428-S1" ili="wikidata-ff-L702428-S1">
         <Definition>and</Definition>
       </Sense>
@@ -3631,6 +3411,7 @@
     </LexicalEntry>
     <LexicalEntry id="L703611">
       <Lemma writtenForm="fettere" partOfSpeech="n"/>
+      <Form writtenForm="fette"/>
       <Sense id="L703611-S1" synset="wikidata-ff-L703611-S1" ili="wikidata-ff-L703611-S1">
         <Definition>glowing embers</Definition>
       </Sense>
@@ -3673,12 +3454,14 @@
     </LexicalEntry>
     <LexicalEntry id="L705818">
       <Lemma writtenForm="sappordu" partOfSpeech="m"/>
+      <Form writtenForm="capporɗi"/>
       <Sense id="L705818-S1" synset="wikidata-ff-L705818-S1" ili="wikidata-ff-L705818-S1">
         <Definition>index</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L706069">
       <Lemma writtenForm="jawo" partOfSpeech="n"/>
+      <Form writtenForm="jawe"/>
       <Sense id="L706069-S1" synset="wikidata-ff-L706069-S1" ili="wikidata-ff-L706069-S1">
         <Definition>bracelet</Definition>
       </Sense>
@@ -3722,15 +3505,6 @@
         <Definition>all, both, also</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L863655">
-      <Lemma writtenForm="en" partOfSpeech="h"/>
-      <Sense id="L863655-S1" synset="wikidata-ff-L863655-S1" ili="wikidata-ff-L863655-S1">
-        <Definition>we</Definition>
-      </Sense>
-      <Sense id="L863655-S2" synset="wikidata-ff-L863655-S2" ili="wikidata-ff-L863655-S2">
-        <Definition>us</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L886455">
       <Lemma writtenForm="sey to" partOfSpeech="p"/>
       <Sense id="L886455-S1" synset="wikidata-ff-L886455-S1" ili="wikidata-ff-L886455-S1">
@@ -3759,21 +3533,6 @@
       <Lemma writtenForm="Burmaaji" partOfSpeech="x"/>
       <Sense id="L1077166-S1" synset="wikidata-ff-L1077166-S1" ili="wikidata-ff-L1077166-S1">
         <Definition>Woman&apos;s fibre covers for a load</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1077283">
-      <Lemma writtenForm="Baalďe" partOfSpeech="x"/>
-      <Sense id="L1077283-S1" synset="wikidata-ff-L1077283-S1" ili="wikidata-ff-L1077283-S1">
-        <Definition>And</Definition>
-      </Sense>
-      <Sense id="L1077283-S2" synset="wikidata-ff-L1077283-S2" ili="wikidata-ff-L1077283-S2">
-        <Definition>Days</Definition>
-      </Sense>
-      <Sense id="L1077283-S3" synset="wikidata-ff-L1077283-S3" ili="wikidata-ff-L1077283-S3">
-        <Definition>Including the nights</Definition>
-      </Sense>
-      <Sense id="L1077283-S4" synset="wikidata-ff-L1077283-S4" ili="wikidata-ff-L1077283-S4">
-        <Definition>Stages on a journey</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1077467">
@@ -3842,18 +3601,6 @@
         <Definition>Objections</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1079343">
-      <Lemma writtenForm="Balanseeji" partOfSpeech="x"/>
-      <Sense id="L1079343-S1" synset="wikidata-ff-L1079343-S1" ili="wikidata-ff-L1079343-S1">
-        <Definition>Balance</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1079665">
-      <Lemma writtenForm="War ga&apos;en" partOfSpeech="x"/>
-      <Sense id="L1079665-S1" synset="wikidata-ff-L1079665-S1" ili="wikidata-ff-L1079665-S1">
-        <Definition>Come over here</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1079698">
       <Lemma writtenForm="Gajji" partOfSpeech="x"/>
       <Sense id="L1079698-S1" synset="wikidata-ff-L1079698-S1" ili="wikidata-ff-L1079698-S1">
@@ -3896,12 +3643,6 @@
         <Definition>hooks</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1080626">
-      <Lemma writtenForm="Ginnaaji dabbitaadi" partOfSpeech="x"/>
-      <Sense id="L1080626-S1" synset="wikidata-ff-L1080626-S1" ili="wikidata-ff-L1080626-S1">
-        <Definition>Induced hysteric</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1080750">
       <Lemma writtenForm="Gopeeje" partOfSpeech="x"/>
       <Sense id="L1080750-S1" synset="wikidata-ff-L1080750-S1" ili="wikidata-ff-L1080750-S1">
@@ -3912,27 +3653,6 @@
       <Lemma writtenForm="Gorgoobe" partOfSpeech="x"/>
       <Sense id="L1080759-S1" synset="wikidata-ff-L1080759-S1" ili="wikidata-ff-L1080759-S1">
         <Definition>Westerners</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081574">
-      <Lemma writtenForm="Gewe" partOfSpeech="x"/>
-      <Sense id="L1081574-S1" synset="wikidata-ff-L1081574-S1" ili="wikidata-ff-L1081574-S1">
-        <Definition>Creases</Definition>
-      </Sense>
-      <Sense id="L1081574-S2" synset="wikidata-ff-L1081574-S2" ili="wikidata-ff-L1081574-S2">
-        <Definition>Lines coursed by folding or crushing</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081815">
-      <Lemma writtenForm="Geeraɗe" partOfSpeech="x"/>
-      <Sense id="L1081815-S1" synset="wikidata-ff-L1081815-S1" ili="wikidata-ff-L1081815-S1">
-        <Definition>Eggs</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081845">
-      <Lemma writtenForm="Geje" partOfSpeech="x"/>
-      <Sense id="L1081845-S1" synset="wikidata-ff-L1081845-S1" ili="wikidata-ff-L1081845-S1">
-        <Definition>The green leaves of the tobacco plant</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1081870">
@@ -3958,6 +3678,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1082336">
       <Lemma writtenForm="gawkinaaje" partOfSpeech="x"/>
+      <Form writtenForm="wawkinaare"/>
       <Sense id="L1082336-S1" synset="wikidata-ff-L1082336-S1" ili="wikidata-ff-L1082336-S1">
         <Definition>Fine sights</Definition>
       </Sense>
@@ -3967,6 +3688,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1082427">
       <Lemma writtenForm="geccaaji" partOfSpeech="x"/>
+      <Form writtenForm="geccawol"/>
       <Sense id="L1082427-S1" synset="wikidata-ff-L1082427-S1" ili="wikidata-ff-L1082427-S1">
         <Definition>stories</Definition>
       </Sense>
@@ -3976,23 +3698,12 @@
     </LexicalEntry>
     <LexicalEntry id="L1083656">
       <Lemma writtenForm="gasɗe" partOfSpeech="x"/>
+      <Form writtenForm="Ngaska"/>
       <Sense id="L1083656-S1" synset="wikidata-ff-L1083656-S1" ili="wikidata-ff-L1083656-S1">
         <Definition>Pits</Definition>
       </Sense>
       <Sense id="L1083656-S2" synset="wikidata-ff-L1083656-S2" ili="wikidata-ff-L1083656-S2">
         <Definition>Holes</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1084035">
-      <Lemma writtenForm="Geese" partOfSpeech="x"/>
-      <Sense id="L1084035-S1" synset="wikidata-ff-L1084035-S1" ili="wikidata-ff-L1084035-S1">
-        <Definition>Webs</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1084040">
-      <Lemma writtenForm="Geeseeji" partOfSpeech="x"/>
-      <Sense id="L1084040-S1" synset="wikidata-ff-L1084040-S1" ili="wikidata-ff-L1084040-S1">
-        <Definition>Webs</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1085114">
@@ -4046,21 +3757,6 @@
         <Definition>Yellow-flowered shrubs use in fever</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1085722">
-      <Lemma writtenForm="Jabatti ladde" partOfSpeech="x"/>
-      <Sense id="L1085722-S1" synset="wikidata-ff-L1085722-S1" ili="wikidata-ff-L1085722-S1">
-        <Definition>The brown bus hornet; see njabattu.</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1120916">
-      <Lemma writtenForm="Jaarji" partOfSpeech="x"/>
-      <Sense id="L1120916-S1" synset="wikidata-ff-L1120916-S1" ili="wikidata-ff-L1120916-S1">
-        <Definition>Capital</Definition>
-      </Sense>
-      <Sense id="L1120916-S2" synset="wikidata-ff-L1120916-S2" ili="wikidata-ff-L1120916-S2">
-        <Definition>Accumulated wealth</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1120922">
       <Lemma writtenForm="Jaarumi&apos;en" partOfSpeech="x"/>
       <Sense id="L1120922-S1" synset="wikidata-ff-L1120922-S1" ili="wikidata-ff-L1120922-S1">
@@ -4089,12 +3785,6 @@
       <Lemma writtenForm="ii&apos;amji" partOfSpeech="x"/>
       <Sense id="L1187069-S1" synset="wikidata-ff-L1187069-S1" ili="wikidata-ff-L1187069-S1">
         <Definition>Blood</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187156">
-      <Lemma writtenForm="Jaarumi&apos;en" partOfSpeech="x"/>
-      <Sense id="L1187156-S1" synset="wikidata-ff-L1187156-S1" ili="wikidata-ff-L1187156-S1">
-        <Definition>Brave ones</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1187187">
@@ -4157,14 +3847,9 @@
         <Definition>Large sores in cattle</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1188013">
-      <Lemma writtenForm="Jawmiraabe" partOfSpeech="x"/>
-      <Sense id="L1188013-S1" synset="wikidata-ff-L1188013-S1" ili="wikidata-ff-L1188013-S1">
-        <Definition>Lord;owrner; master</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1380774">
       <Lemma writtenForm="Jurɓa" partOfSpeech="x"/>
+      <Form writtenForm="Jurɓaaɗo"/>
       <Sense id="L1380774-S1" synset="wikidata-ff-L1380774-S1" ili="wikidata-ff-L1380774-S1">
         <Definition>To be an idiot</Definition>
       </Sense>
@@ -4198,14 +3883,9 @@
     </LexicalEntry>
     <LexicalEntry id="L704653">
       <Lemma writtenForm="noone" partOfSpeech="n"/>
+      <Form writtenForm="nooneeji"/>
       <Sense id="L704653-S1" synset="wikidata-ff-L704653-S1" ili="wikidata-ff-L704653-S1">
         <Definition>Colour</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L705003">
-      <Lemma writtenForm="No kiir den?" partOfSpeech="q"/>
-      <Sense id="L705003-S1" synset="wikidata-ff-L705003-S1" ili="wikidata-ff-L705003-S1">
-        <Definition>How have we spent the evening?</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L705046">
@@ -4225,6 +3905,7 @@
     </LexicalEntry>
     <LexicalEntry id="L713859">
       <Lemma writtenForm="woou" partOfSpeech="t"/>
+      <Form writtenForm="woow-de"/>
       <Sense id="L713859-S1" synset="wikidata-ff-L713859-S1" ili="wikidata-ff-L713859-S1">
         <Definition>to   accustomed</Definition>
       </Sense>
@@ -4237,6 +3918,7 @@
     </LexicalEntry>
     <LexicalEntry id="L746962">
       <Lemma writtenForm="maa boo" partOfSpeech="c"/>
+      <Form writtenForm="maa du"/>
       <Sense id="L746962-S1" synset="wikidata-ff-L746962-S1" ili="wikidata-ff-L746962-S1">
         <Definition>or</Definition>
       </Sense>
@@ -4251,27 +3933,6 @@
       <Lemma writtenForm="a wari jam?" partOfSpeech="i"/>
       <Sense id="L768706-S1" synset="wikidata-ff-L768706-S1" ili="wikidata-ff-L768706-S1">
         <Definition>have you arrived well?</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L769931">
-      <Lemma writtenForm="Allah hokku on jam!" partOfSpeech="i"/>
-      <Sense id="L769931-S1" synset="wikidata-ff-L769931-S1" ili="wikidata-ff-L769931-S1">
-        <Definition>may Allah give you peace</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L770643">
-      <Lemma writtenForm="amin" partOfSpeech="h"/>
-      <Sense id="L770643-S1" synset="wikidata-ff-L770643-S1" ili="wikidata-ff-L770643-S1">
-        <Definition>our</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L770751">
-      <Lemma writtenForm="an" partOfSpeech="h"/>
-      <Sense id="L770751-S1" synset="wikidata-ff-L770751-S1" ili="wikidata-ff-L770751-S1">
-        <Definition>you</Definition>
-      </Sense>
-      <Sense id="L770751-S2" synset="wikidata-ff-L770751-S2" ili="wikidata-ff-L770751-S2">
-        <Definition>yourself</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L776202">
@@ -4319,18 +3980,6 @@
         <Definition>Persons who reached adulthood</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1077420">
-      <Lemma writtenForm="Balayji" partOfSpeech="x"/>
-      <Sense id="L1077420-S1" synset="wikidata-ff-L1077420-S1" ili="wikidata-ff-L1077420-S1">
-        <Definition>Weaver birds</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1077430">
-      <Lemma writtenForm="Bali" partOfSpeech="x"/>
-      <Sense id="L1077430-S1" synset="wikidata-ff-L1077430-S1" ili="wikidata-ff-L1077430-S1">
-        <Definition>See fronds of the young doum palm</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1077592">
       <Lemma writtenForm="Dalli" partOfSpeech="x"/>
       <Sense id="L1077592-S1" synset="wikidata-ff-L1077592-S1" ili="wikidata-ff-L1077592-S1">
@@ -4355,34 +4004,10 @@
         <Definition>handkerchiefs</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1078228">
-      <Lemma writtenForm="defte" partOfSpeech="x"/>
-      <Sense id="L1078228-S1" synset="wikidata-ff-L1078228-S1" ili="wikidata-ff-L1078228-S1">
-        <Definition>the four books; tawreeta, jabuura, linjiila, alkur&apos;aana, the books given to the prophets; the pentatech, the psalms, the gospel, the koran</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1078307">
       <Lemma writtenForm="deserle" partOfSpeech="x"/>
       <Sense id="L1078307-S1" synset="wikidata-ff-L1078307-S1" ili="wikidata-ff-L1078307-S1">
         <Definition>places where things are kept</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1079188">
-      <Lemma writtenForm="Haaje" partOfSpeech="x"/>
-      <Sense id="L1079188-S1" synset="wikidata-ff-L1079188-S1" ili="wikidata-ff-L1079188-S1">
-        <Definition>In objections</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1079489">
-      <Lemma writtenForm="Fasluuji" partOfSpeech="x"/>
-      <Sense id="L1079489-S1" synset="wikidata-ff-L1079489-S1" ili="wikidata-ff-L1079489-S1">
-        <Definition>Seasons; chapter</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1079511">
-      <Lemma writtenForm="Fasihante&apos;en" partOfSpeech="x"/>
-      <Sense id="L1079511-S1" synset="wikidata-ff-L1079511-S1" ili="wikidata-ff-L1079511-S1">
-        <Definition>eloquent ones;orator, facile writer; stylist</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1079684">
@@ -4499,51 +4124,6 @@
         <Definition>Pilgrims making the pilgrimage</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1081791">
-      <Lemma writtenForm="Geɗeeji" partOfSpeech="x"/>
-      <Sense id="L1081791-S1" synset="wikidata-ff-L1081791-S1" ili="wikidata-ff-L1081791-S1">
-        <Definition>Shares</Definition>
-      </Sense>
-      <Sense id="L1081791-S2" synset="wikidata-ff-L1081791-S2" ili="wikidata-ff-L1081791-S2">
-        <Definition>Portion</Definition>
-      </Sense>
-      <Sense id="L1081791-S3" synset="wikidata-ff-L1081791-S3" ili="wikidata-ff-L1081791-S3">
-        <Definition>Lots</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081794">
-      <Lemma writtenForm="Geedi" partOfSpeech="x"/>
-      <Sense id="L1081794-S1" synset="wikidata-ff-L1081794-S1" ili="wikidata-ff-L1081794-S1">
-        <Definition>Ant_eaters</Definition>
-      </Sense>
-      <Sense id="L1081794-S2" synset="wikidata-ff-L1081794-S2" ili="wikidata-ff-L1081794-S2">
-        <Definition>aardvarks</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081798">
-      <Lemma writtenForm="Geegeeji" partOfSpeech="x"/>
-      <Sense id="L1081798-S1" synset="wikidata-ff-L1081798-S1" ili="wikidata-ff-L1081798-S1">
-        <Definition>Cows with white body and black face</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081849">
-      <Lemma writtenForm="Gejji" partOfSpeech="x"/>
-      <Sense id="L1081849-S1" synset="wikidata-ff-L1081849-S1" ili="wikidata-ff-L1081849-S1">
-        <Definition>Oversight</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081860">
-      <Lemma writtenForm="Gelid" partOfSpeech="x"/>
-      <Sense id="L1081860-S1" synset="wikidata-ff-L1081860-S1" ili="wikidata-ff-L1081860-S1">
-        <Definition>Excuses</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1081869">
-      <Lemma writtenForm="Genaanle" partOfSpeech="x"/>
-      <Sense id="L1081869-S1" synset="wikidata-ff-L1081869-S1" ili="wikidata-ff-L1081869-S1">
-        <Definition>Graves</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1081965">
       <Lemma writtenForm="Hulkuuje" partOfSpeech="x"/>
       <Sense id="L1081965-S1" synset="wikidata-ff-L1081965-S1" ili="wikidata-ff-L1081965-S1">
@@ -4555,6 +4135,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1082355">
       <Lemma writtenForm="gaylitrirɗe" partOfSpeech="x"/>
+      <Form writtenForm="waylitirɗe"/>
       <Sense id="L1082355-S1" synset="wikidata-ff-L1082355-S1" ili="wikidata-ff-L1082355-S1">
         <Definition>the tropics</Definition>
       </Sense>
@@ -4564,6 +4145,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1082389">
       <Lemma writtenForm="gayye&apos;en" partOfSpeech="x"/>
+      <Form writtenForm="gayyeeno"/>
       <Sense id="L1082389-S1" synset="wikidata-ff-L1082389-S1" ili="wikidata-ff-L1082389-S1">
         <Definition>clever ones</Definition>
       </Sense>
@@ -4573,6 +4155,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1083654">
       <Lemma writtenForm="gasarɗe" partOfSpeech="x"/>
+      <Form writtenForm="wasarde"/>
       <Sense id="L1083654-S1" synset="wikidata-ff-L1083654-S1" ili="wikidata-ff-L1083654-S1">
         <Definition>Mines</Definition>
       </Sense>
@@ -4616,28 +4199,11 @@
         <Definition>Wonderful things</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1085723">
-      <Lemma writtenForm="Jabatti pucciiji" partOfSpeech="x"/>
-      <Sense id="L1085723-S1" synset="wikidata-ff-L1085723-S1" ili="wikidata-ff-L1085723-S1">
-        <Definition>Hornet, black hornet see njabattu</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1120749">
       <Lemma writtenForm="Jaaniraaɓe" partOfSpeech="x"/>
+      <Form writtenForm="Jaaniraawo"/>
       <Sense id="L1120749-S1" synset="wikidata-ff-L1120749-S1" ili="wikidata-ff-L1120749-S1">
         <Definition>Great grand sons</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1121400">
-      <Lemma writtenForm="Jaalagalji" partOfSpeech="x"/>
-      <Sense id="L1121400-S1" synset="wikidata-ff-L1121400-S1" ili="wikidata-ff-L1121400-S1">
-        <Definition>Victories</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1121466">
-      <Lemma writtenForm="Jaanaaji" partOfSpeech="x"/>
-      <Sense id="L1121466-S1" synset="wikidata-ff-L1121466-S1" ili="wikidata-ff-L1121466-S1">
-        <Definition>Cows similar in colour to</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1123961">
@@ -4646,46 +4212,10 @@
         <Definition>Female slaves</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1187006">
-      <Lemma writtenForm="Jaadiɗɗiraaɓe" partOfSpeech="x"/>
-      <Sense id="L1187006-S1" synset="wikidata-ff-L1187006-S1" ili="wikidata-ff-L1187006-S1">
-        <Definition>Anyone of two or more men married to sisters</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187037">
-      <Lemma writtenForm="Jaaniraaɓe" partOfSpeech="x"/>
-      <Sense id="L1187037-S1" synset="wikidata-ff-L1187037-S1" ili="wikidata-ff-L1187037-S1">
-        <Definition>Great-grand-sons</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1187073">
       <Lemma writtenForm="iidaali" partOfSpeech="x"/>
       <Sense id="L1187073-S1" synset="wikidata-ff-L1187073-S1" ili="wikidata-ff-L1187073-S1">
         <Definition>roaring; noise</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187160">
-      <Lemma writtenForm="Jaaruuji" partOfSpeech="x"/>
-      <Sense id="L1187160-S1" synset="wikidata-ff-L1187160-S1" ili="wikidata-ff-L1187160-S1">
-        <Definition>Lines</Definition>
-      </Sense>
-      <Sense id="L1187160-S2" synset="wikidata-ff-L1187160-S2" ili="wikidata-ff-L1187160-S2">
-        <Definition>Column</Definition>
-      </Sense>
-      <Sense id="L1187160-S3" synset="wikidata-ff-L1187160-S3" ili="wikidata-ff-L1187160-S3">
-        <Definition>Of men</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187191">
-      <Lemma writtenForm="Jabaaje" partOfSpeech="x"/>
-      <Sense id="L1187191-S1" synset="wikidata-ff-L1187191-S1" ili="wikidata-ff-L1187191-S1">
-        <Definition>Oribi</Definition>
-      </Sense>
-      <Sense id="L1187191-S2" synset="wikidata-ff-L1187191-S2" ili="wikidata-ff-L1187191-S2">
-        <Definition>Small African antelope</Definition>
-      </Sense>
-      <Sense id="L1187191-S3" synset="wikidata-ff-L1187191-S3" ili="wikidata-ff-L1187191-S3">
-        <Definition>Red flanked duyker</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1187267">
@@ -4698,18 +4228,6 @@
       <Lemma writtenForm="jaɓiri e junngo nyaamo" partOfSpeech="x"/>
       <Sense id="L1187283-S1" synset="wikidata-ff-L1187283-S1" ili="wikidata-ff-L1187283-S1">
         <Definition>he accepted with the right hand</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187299">
-      <Lemma writtenForm="Jaalooje" partOfSpeech="x"/>
-      <Sense id="L1187299-S1" synset="wikidata-ff-L1187299-S1" ili="wikidata-ff-L1187299-S1">
-        <Definition>Skink-lizards</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1187304">
-      <Lemma writtenForm="Jaaman&apos;en" partOfSpeech="x"/>
-      <Sense id="L1187304-S1" synset="wikidata-ff-L1187304-S1" ili="wikidata-ff-L1187304-S1">
-        <Definition>Germans</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1187461">
@@ -4767,12 +4285,6 @@
       <Lemma writtenForm="Goromi" partOfSpeech="x"/>
       <Sense id="L1461987-S1" synset="wikidata-ff-L1461987-S1" ili="wikidata-ff-L1461987-S1">
         <Definition>Seeds</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1462030">
-      <Lemma writtenForm="Tingyere gorɗe" partOfSpeech="x"/>
-      <Sense id="L1462030-S1" synset="wikidata-ff-L1462030-S1" ili="wikidata-ff-L1462030-S1">
-        <Definition>Spring onion</Definition>
       </Sense>
     </LexicalEntry>
     <Synset id="wikidata-ff-L678573-S1" ili="wikidata-ff-L678573-S1" partOfSpeech="x">
@@ -5096,9 +4608,6 @@
     <Synset id="wikidata-ff-L1187290-S1" ili="wikidata-ff-L1187290-S1" partOfSpeech="x">
       <Definition>Conqueror places (towns)</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1187306-S1" ili="wikidata-ff-L1187306-S1" partOfSpeech="x">
-      <Definition>Large mosques</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1187472-S1" ili="wikidata-ff-L1187472-S1" partOfSpeech="x">
       <Definition>Grey shrike</Definition>
     </Synset>
@@ -5131,9 +4640,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1311660-S1" ili="wikidata-ff-L1311660-S1" partOfSpeech="x">
       <Definition>Fever</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1462026-S1" ili="wikidata-ff-L1462026-S1" partOfSpeech="x">
-      <Definition>Red pepper</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1462028-S1" ili="wikidata-ff-L1462028-S1" partOfSpeech="x">
       <Definition>Hi</Definition>
@@ -5351,9 +4857,6 @@
     <Synset id="wikidata-ff-L1081526-S3" ili="wikidata-ff-L1081526-S3" partOfSpeech="x">
       <Definition>Felt affection for</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1081552-S1" ili="wikidata-ff-L1081552-S1" partOfSpeech="x">
-      <Definition>Used in the phase</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1081826-S1" ili="wikidata-ff-L1081826-S1" partOfSpeech="x">
       <Definition>Webs</Definition>
     </Synset>
@@ -5402,14 +4905,8 @@
     <Synset id="wikidata-ff-L1085727-S1" ili="wikidata-ff-L1085727-S1" partOfSpeech="x">
       <Definition>A kind of gown with short sleeves see jaba2</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1121403-S1" ili="wikidata-ff-L1121403-S1" partOfSpeech="x">
-      <Definition>Conquerors</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1187031-S1" ili="wikidata-ff-L1187031-S1" partOfSpeech="x">
       <Definition>Occasions of helping</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187066-S1" ili="wikidata-ff-L1187066-S1" partOfSpeech="x">
-      <Definition>Alfromosia SP.a tree pale leave and flat pods</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187088-S1" ili="wikidata-ff-L1187088-S1" partOfSpeech="x">
       <Definition>light, shininess</Definition>
@@ -5633,9 +5130,6 @@
     <Synset id="wikidata-ff-L1079876-S1" ili="wikidata-ff-L1079876-S1" partOfSpeech="x">
       <Definition>Large hoes</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1079877-S1" ili="wikidata-ff-L1079877-S1" partOfSpeech="x">
-      <Definition>Towns,urban, municipalities</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1080047-S1" ili="wikidata-ff-L1080047-S1" partOfSpeech="x">
       <Definition>Intermediaries</Definition>
     </Synset>
@@ -5681,12 +5175,6 @@
     <Synset id="wikidata-ff-L1081804-S1" ili="wikidata-ff-L1081804-S1" partOfSpeech="x">
       <Definition>Camels</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1081821-S1" ili="wikidata-ff-L1081821-S1" partOfSpeech="x">
-      <Definition>Webs</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081825-S1" ili="wikidata-ff-L1081825-S1" partOfSpeech="x">
-      <Definition>Udders</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1081856-S1" ili="wikidata-ff-L1081856-S1" partOfSpeech="x">
       <Definition>Units</Definition>
     </Synset>
@@ -5704,18 +5192,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1085112-S1" ili="wikidata-ff-L1085112-S1" partOfSpeech="x">
       <Definition>Unit</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085113-S1" ili="wikidata-ff-L1085113-S1" partOfSpeech="x">
-      <Definition>The calves of the legs</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085113-S2" ili="wikidata-ff-L1085113-S2" partOfSpeech="x">
-      <Definition>Fleshy hind parts of the human legs below the knees</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085115-S1" ili="wikidata-ff-L1085115-S1" partOfSpeech="x">
-      <Definition>Homelands</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085115-S2" ili="wikidata-ff-L1085115-S2" partOfSpeech="x">
-      <Definition>Towns</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1085140-S1" ili="wikidata-ff-L1085140-S1" partOfSpeech="x">
       <Definition>Ant_eaters</Definition>
@@ -5740,12 +5216,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1120914-S2" ili="wikidata-ff-L1120914-S2" partOfSpeech="x">
       <Definition>Female servants</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1120915-S1" ili="wikidata-ff-L1120915-S1" partOfSpeech="x">
-      <Definition>Trees</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1120915-S2" ili="wikidata-ff-L1120915-S2" partOfSpeech="x">
-      <Definition>Chevalieri</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1120926-S1" ili="wikidata-ff-L1120926-S1" partOfSpeech="x">
       <Definition>Lines i.e column</Definition>
@@ -5783,9 +5253,6 @@
     <Synset id="wikidata-ff-L1461982-S1" ili="wikidata-ff-L1461982-S1" partOfSpeech="x">
       <Definition>Fruit</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1462025-S1" ili="wikidata-ff-L1462025-S1" partOfSpeech="x">
-      <Definition>False baobab</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L702028-S1" ili="wikidata-ff-L702028-S1" partOfSpeech="c">
       <Definition>But</Definition>
     </Synset>
@@ -5810,9 +5277,6 @@
     <Synset id="wikidata-ff-L702066-S1" ili="wikidata-ff-L702066-S1" partOfSpeech="n">
       <Definition>healthy</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L702075-S1" ili="wikidata-ff-L702075-S1" partOfSpeech="n">
-      <Definition>hold in contempt</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L704004-S1" ili="wikidata-ff-L704004-S1" partOfSpeech="h">
       <Definition>one</Definition>
     </Synset>
@@ -5821,12 +5285,6 @@
     </Synset>
     <Synset id="wikidata-ff-L704961-S1" ili="wikidata-ff-L704961-S1" partOfSpeech="p">
       <Definition>To bray</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L705015-S1" ili="wikidata-ff-L705015-S1" partOfSpeech="q">
-      <Definition>Have you had dinner</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L705181-S1" ili="wikidata-ff-L705181-S1" partOfSpeech="p">
-      <Definition>On top</Definition>
     </Synset>
     <Synset id="wikidata-ff-L705360-S1" ili="wikidata-ff-L705360-S1" partOfSpeech="h">
       <Definition>she/he</Definition>
@@ -5924,9 +5382,6 @@
     <Synset id="wikidata-ff-L1077890-S1" ili="wikidata-ff-L1077890-S1" partOfSpeech="x">
       <Definition>men of measured gait</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1077942-S1" ili="wikidata-ff-L1077942-S1" partOfSpeech="x">
-      <Definition>Stores</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1078065-S1" ili="wikidata-ff-L1078065-S1" partOfSpeech="x">
       <Definition>same as diyeele</Definition>
     </Synset>
@@ -5950,9 +5405,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1078619-S1" ili="wikidata-ff-L1078619-S1" partOfSpeech="x">
       <Definition>Straw mats</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1078641-S1" ili="wikidata-ff-L1078641-S1" partOfSpeech="x">
-      <Definition>Synodont catfish</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1078709-S1" ili="wikidata-ff-L1078709-S1" partOfSpeech="x">
       <Definition>Full-grown</Definition>
@@ -6032,23 +5484,11 @@
     <Synset id="wikidata-ff-L1081868-S1" ili="wikidata-ff-L1081868-S1" partOfSpeech="x">
       <Definition>Waves</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1084036-S1" ili="wikidata-ff-L1084036-S1" partOfSpeech="x">
-      <Definition>Faces</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1084036-S2" ili="wikidata-ff-L1084036-S2" partOfSpeech="x">
-      <Definition>Countenances</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1084036-S3" ili="wikidata-ff-L1084036-S3" partOfSpeech="x">
-      <Definition>The fronts</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1085107-S1" ili="wikidata-ff-L1085107-S1" partOfSpeech="x">
       <Definition>Oversight</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1085119-S1" ili="wikidata-ff-L1085119-S1" partOfSpeech="x">
       <Definition>A copy</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085155-S1" ili="wikidata-ff-L1085155-S1" partOfSpeech="x">
-      <Definition>Camels</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1085157-S1" ili="wikidata-ff-L1085157-S1" partOfSpeech="x">
       <Definition>Camels</Definition>
@@ -6080,9 +5520,6 @@
     <Synset id="wikidata-ff-L1085706-S1" ili="wikidata-ff-L1085706-S1" partOfSpeech="x">
       <Definition>Destitute ones</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1085717-S1" ili="wikidata-ff-L1085717-S1" partOfSpeech="x">
-      <Definition>Red cow, see</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1121407-S1" ili="wikidata-ff-L1121407-S1" partOfSpeech="x">
       <Definition>Give victory over</Definition>
     </Synset>
@@ -6113,9 +5550,6 @@
     <Synset id="wikidata-ff-L1187930-S1" ili="wikidata-ff-L1187930-S1" partOfSpeech="x">
       <Definition>Files</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1187961-S1" ili="wikidata-ff-L1187961-S1" partOfSpeech="x">
-      <Definition>The prophet (SAWS)</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1188000-S1" ili="wikidata-ff-L1188000-S1" partOfSpeech="x">
       <Definition>grass-roofed huts through which entrances are made to a compound;</Definition>
     </Synset>
@@ -6143,9 +5577,6 @@
     <Synset id="wikidata-ff-L702073-S1" ili="wikidata-ff-L702073-S1" partOfSpeech="n">
       <Definition>Ashamed</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L702592-S1" ili="wikidata-ff-L702592-S1" partOfSpeech="c">
-      <Definition>for</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L703918-S1" ili="wikidata-ff-L703918-S1" partOfSpeech="p">
       <Definition>after</Definition>
     </Synset>
@@ -6160,9 +5591,6 @@
     </Synset>
     <Synset id="wikidata-ff-L705543-S1" ili="wikidata-ff-L705543-S1" partOfSpeech="p">
       <Definition>in</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L705544-S1" ili="wikidata-ff-L705544-S1" partOfSpeech="p">
-      <Definition>inside</Definition>
     </Synset>
     <Synset id="wikidata-ff-L705545-S1" ili="wikidata-ff-L705545-S1" partOfSpeech="q">
       <Definition>when?</Definition>
@@ -6253,9 +5681,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1078522-S1" ili="wikidata-ff-L1078522-S1" partOfSpeech="x">
       <Definition>Sweetmeat</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1078555-S1" ili="wikidata-ff-L1078555-S1" partOfSpeech="x">
-      <Definition>Ropes made from grass stings</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1078608-S1" ili="wikidata-ff-L1078608-S1" partOfSpeech="x">
       <Definition>Leave of a corn stalk</Definition>
@@ -6359,21 +5784,6 @@
     <Synset id="wikidata-ff-L1081703-S1" ili="wikidata-ff-L1081703-S1" partOfSpeech="x">
       <Definition>Returned pilgrims</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1081790-S1" ili="wikidata-ff-L1081790-S1" partOfSpeech="x">
-      <Definition>Shares</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081790-S2" ili="wikidata-ff-L1081790-S2" partOfSpeech="x">
-      <Definition>Portion</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081790-S3" ili="wikidata-ff-L1081790-S3" partOfSpeech="x">
-      <Definition>Lots</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081790-S4" ili="wikidata-ff-L1081790-S4" partOfSpeech="x">
-      <Definition>Fates</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081813-S1" ili="wikidata-ff-L1081813-S1" partOfSpeech="x">
-      <Definition>Eggs</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1082341-S1" ili="wikidata-ff-L1082341-S1" partOfSpeech="x">
       <Definition>Occasions of shouting</Definition>
     </Synset>
@@ -6382,12 +5792,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1085105-S1" ili="wikidata-ff-L1085105-S1" partOfSpeech="x">
       <Definition>The green leaves of the tobacco plant</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085121-S1" ili="wikidata-ff-L1085121-S1" partOfSpeech="x">
-      <Definition>Waves</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1085212-S1" ili="wikidata-ff-L1085212-S1" partOfSpeech="x">
-      <Definition>Married women without children</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1085564-S1" ili="wikidata-ff-L1085564-S1" partOfSpeech="x">
       <Definition>Occasions of shouting</Definition>
@@ -6416,20 +5820,8 @@
     <Synset id="wikidata-ff-L1121408-S1" ili="wikidata-ff-L1121408-S1" partOfSpeech="x">
       <Definition>Skink_lizards</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1121461-S1" ili="wikidata-ff-L1121461-S1" partOfSpeech="x">
-      <Definition>Germans</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1189390-S1" ili="wikidata-ff-L1189390-S1" partOfSpeech="x">
-      <Definition>Half-brothers</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1189398-S1" ili="wikidata-ff-L1189398-S1" partOfSpeech="x">
       <Definition>Rain</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1311657-S1" ili="wikidata-ff-L1311657-S1" partOfSpeech="x">
-      <Definition>Intermittent</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1311657-S2" ili="wikidata-ff-L1311657-S2" partOfSpeech="x">
-      <Definition>Fever</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1461984-S1" ili="wikidata-ff-L1461984-S1" partOfSpeech="x">
       <Definition>Fruit</Definition>
@@ -6451,9 +5843,6 @@
     </Synset>
     <Synset id="wikidata-ff-L702685-S1" ili="wikidata-ff-L702685-S1" partOfSpeech="c">
       <Definition>although</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L703921-S1" ili="wikidata-ff-L703921-S1" partOfSpeech="p">
-      <Definition>behind</Definition>
     </Synset>
     <Synset id="wikidata-ff-L704060-S1" ili="wikidata-ff-L704060-S1" partOfSpeech="h">
       <Definition>husband</Definition>
@@ -6668,9 +6057,6 @@
     <Synset id="wikidata-ff-L1083657-S1" ili="wikidata-ff-L1083657-S1" partOfSpeech="x">
       <Definition>the bee-eaters</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1084038-S1" ili="wikidata-ff-L1084038-S1" partOfSpeech="x">
-      <Definition>Udders</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1085525-S1" ili="wikidata-ff-L1085525-S1" partOfSpeech="x">
       <Definition>The bee_eaters</Definition>
     </Synset>
@@ -6682,15 +6068,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1121405-S1" ili="wikidata-ff-L1121405-S1" partOfSpeech="x">
       <Definition>The superior places (towns)</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187050-S1" ili="wikidata-ff-L1187050-S1" partOfSpeech="x">
-      <Definition>Handmaids</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187050-S2" ili="wikidata-ff-L1187050-S2" partOfSpeech="x">
-      <Definition>Female servants</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187193-S1" ili="wikidata-ff-L1187193-S1" partOfSpeech="x">
-      <Definition>Red cow</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187228-S1" ili="wikidata-ff-L1187228-S1" partOfSpeech="x">
       <Definition>Abbizzia chevalieri</Definition>
@@ -6751,15 +6128,6 @@
     </Synset>
     <Synset id="wikidata-ff-L702046-S1" ili="wikidata-ff-L702046-S1" partOfSpeech="n">
       <Definition>Sift</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L702077-S1" ili="wikidata-ff-L702077-S1" partOfSpeech="n">
-      <Definition>Share</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L702078-S1" ili="wikidata-ff-L702078-S1" partOfSpeech="n">
-      <Definition>Seperate</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L702079-S1" ili="wikidata-ff-L702079-S1" partOfSpeech="n">
-      <Definition>Divide</Definition>
     </Synset>
     <Synset id="wikidata-ff-L702084-S1" ili="wikidata-ff-L702084-S1" partOfSpeech="n">
       <Definition>Slender</Definition>
@@ -6824,12 +6192,6 @@
     <Synset id="wikidata-ff-L858562-S1" ili="wikidata-ff-L858562-S1" partOfSpeech="c">
       <Definition>all, both, also</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L863655-S1" ili="wikidata-ff-L863655-S1" partOfSpeech="h">
-      <Definition>we</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L863655-S2" ili="wikidata-ff-L863655-S2" partOfSpeech="h">
-      <Definition>us</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L886455-S1" ili="wikidata-ff-L886455-S1" partOfSpeech="p">
       <Definition>until</Definition>
     </Synset>
@@ -6844,18 +6206,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1077166-S1" ili="wikidata-ff-L1077166-S1" partOfSpeech="x">
       <Definition>Woman&apos;s fibre covers for a load</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1077283-S1" ili="wikidata-ff-L1077283-S1" partOfSpeech="x">
-      <Definition>And</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1077283-S2" ili="wikidata-ff-L1077283-S2" partOfSpeech="x">
-      <Definition>Days</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1077283-S3" ili="wikidata-ff-L1077283-S3" partOfSpeech="x">
-      <Definition>Including the nights</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1077283-S4" ili="wikidata-ff-L1077283-S4" partOfSpeech="x">
-      <Definition>Stages on a journey</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1077467-S1" ili="wikidata-ff-L1077467-S1" partOfSpeech="x">
       <Definition>The long straight shoots of the combretum species shrub</Definition>
@@ -6890,12 +6240,6 @@
     <Synset id="wikidata-ff-L1079182-S1" ili="wikidata-ff-L1079182-S1" partOfSpeech="x">
       <Definition>Objections</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1079343-S1" ili="wikidata-ff-L1079343-S1" partOfSpeech="x">
-      <Definition>Balance</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1079665-S1" ili="wikidata-ff-L1079665-S1" partOfSpeech="x">
-      <Definition>Come over here</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1079698-S1" ili="wikidata-ff-L1079698-S1" partOfSpeech="x">
       <Definition>Cows with horns twisted back</Definition>
     </Synset>
@@ -6920,26 +6264,11 @@
     <Synset id="wikidata-ff-L1080554-S1" ili="wikidata-ff-L1080554-S1" partOfSpeech="x">
       <Definition>hooks</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1080626-S1" ili="wikidata-ff-L1080626-S1" partOfSpeech="x">
-      <Definition>Induced hysteric</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1080750-S1" ili="wikidata-ff-L1080750-S1" partOfSpeech="x">
       <Definition>The tawny, yellowish-brown eagle</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1080759-S1" ili="wikidata-ff-L1080759-S1" partOfSpeech="x">
       <Definition>Westerners</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081574-S1" ili="wikidata-ff-L1081574-S1" partOfSpeech="x">
-      <Definition>Creases</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081574-S2" ili="wikidata-ff-L1081574-S2" partOfSpeech="x">
-      <Definition>Lines coursed by folding or crushing</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081815-S1" ili="wikidata-ff-L1081815-S1" partOfSpeech="x">
-      <Definition>Eggs</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081845-S1" ili="wikidata-ff-L1081845-S1" partOfSpeech="x">
-      <Definition>The green leaves of the tobacco plant</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1081870-S1" ili="wikidata-ff-L1081870-S1" partOfSpeech="x">
       <Definition>Living together</Definition>
@@ -6971,12 +6300,6 @@
     <Synset id="wikidata-ff-L1083656-S2" ili="wikidata-ff-L1083656-S2" partOfSpeech="x">
       <Definition>Holes</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1084035-S1" ili="wikidata-ff-L1084035-S1" partOfSpeech="x">
-      <Definition>Webs</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1084040-S1" ili="wikidata-ff-L1084040-S1" partOfSpeech="x">
-      <Definition>Webs</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1085114-S1" ili="wikidata-ff-L1085114-S1" partOfSpeech="x">
       <Definition>Excuses</Definition>
     </Synset>
@@ -7004,15 +6327,6 @@
     <Synset id="wikidata-ff-L1085719-S1" ili="wikidata-ff-L1085719-S1" partOfSpeech="x">
       <Definition>Yellow-flowered shrubs use in fever</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1085722-S1" ili="wikidata-ff-L1085722-S1" partOfSpeech="x">
-      <Definition>The brown bus hornet; see njabattu.</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1120916-S1" ili="wikidata-ff-L1120916-S1" partOfSpeech="x">
-      <Definition>Capital</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1120916-S2" ili="wikidata-ff-L1120916-S2" partOfSpeech="x">
-      <Definition>Accumulated wealth</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1120922-S1" ili="wikidata-ff-L1120922-S1" partOfSpeech="x">
       <Definition>Brave ones</Definition>
     </Synset>
@@ -7030,9 +6344,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1187069-S1" ili="wikidata-ff-L1187069-S1" partOfSpeech="x">
       <Definition>Blood</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187156-S1" ili="wikidata-ff-L1187156-S1" partOfSpeech="x">
-      <Definition>Brave ones</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187187-S1" ili="wikidata-ff-L1187187-S1" partOfSpeech="x">
       <Definition>Rivers</Definition>
@@ -7067,9 +6378,6 @@
     <Synset id="wikidata-ff-L1187956-S1" ili="wikidata-ff-L1187956-S1" partOfSpeech="x">
       <Definition>Large sores in cattle</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1188013-S1" ili="wikidata-ff-L1188013-S1" partOfSpeech="x">
-      <Definition>Lord;owrner; master</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1380774-S1" ili="wikidata-ff-L1380774-S1" partOfSpeech="x">
       <Definition>To be an idiot</Definition>
     </Synset>
@@ -7090,9 +6398,6 @@
     </Synset>
     <Synset id="wikidata-ff-L704653-S1" ili="wikidata-ff-L704653-S1" partOfSpeech="n">
       <Definition>Colour</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L705003-S1" ili="wikidata-ff-L705003-S1" partOfSpeech="q">
-      <Definition>How have we spent the evening?</Definition>
     </Synset>
     <Synset id="wikidata-ff-L705046-S1" ili="wikidata-ff-L705046-S1" partOfSpeech="h">
       <Definition>we, us</Definition>
@@ -7118,18 +6423,6 @@
     <Synset id="wikidata-ff-L768706-S1" ili="wikidata-ff-L768706-S1" partOfSpeech="i">
       <Definition>have you arrived well?</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L769931-S1" ili="wikidata-ff-L769931-S1" partOfSpeech="i">
-      <Definition>may Allah give you peace</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L770643-S1" ili="wikidata-ff-L770643-S1" partOfSpeech="h">
-      <Definition>our</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L770751-S1" ili="wikidata-ff-L770751-S1" partOfSpeech="h">
-      <Definition>you</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L770751-S2" ili="wikidata-ff-L770751-S2" partOfSpeech="h">
-      <Definition>yourself</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L776202-S1" ili="wikidata-ff-L776202-S1" partOfSpeech="x">
       <Definition>I am fine</Definition>
     </Synset>
@@ -7154,12 +6447,6 @@
     <Synset id="wikidata-ff-L1077331-S1" ili="wikidata-ff-L1077331-S1" partOfSpeech="x">
       <Definition>Persons who reached adulthood</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1077420-S1" ili="wikidata-ff-L1077420-S1" partOfSpeech="x">
-      <Definition>Weaver birds</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1077430-S1" ili="wikidata-ff-L1077430-S1" partOfSpeech="x">
-      <Definition>See fronds of the young doum palm</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1077592-S1" ili="wikidata-ff-L1077592-S1" partOfSpeech="x">
       <Definition>Marshy land, Oasis, swamps</Definition>
     </Synset>
@@ -7172,20 +6459,8 @@
     <Synset id="wikidata-ff-L1078083-S1" ili="wikidata-ff-L1078083-S1" partOfSpeech="x">
       <Definition>handkerchiefs</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1078228-S1" ili="wikidata-ff-L1078228-S1" partOfSpeech="x">
-      <Definition>the four books; tawreeta, jabuura, linjiila, alkur&apos;aana, the books given to the prophets; the pentatech, the psalms, the gospel, the koran</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1078307-S1" ili="wikidata-ff-L1078307-S1" partOfSpeech="x">
       <Definition>places where things are kept</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1079188-S1" ili="wikidata-ff-L1079188-S1" partOfSpeech="x">
-      <Definition>In objections</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1079489-S1" ili="wikidata-ff-L1079489-S1" partOfSpeech="x">
-      <Definition>Seasons; chapter</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1079511-S1" ili="wikidata-ff-L1079511-S1" partOfSpeech="x">
-      <Definition>eloquent ones;orator, facile writer; stylist</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1079684-S1" ili="wikidata-ff-L1079684-S1" partOfSpeech="x">
       <Definition>The holes in the game tile</Definition>
@@ -7250,33 +6525,6 @@
     <Synset id="wikidata-ff-L1081701-S1" ili="wikidata-ff-L1081701-S1" partOfSpeech="x">
       <Definition>Pilgrims making the pilgrimage</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1081791-S1" ili="wikidata-ff-L1081791-S1" partOfSpeech="x">
-      <Definition>Shares</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081791-S2" ili="wikidata-ff-L1081791-S2" partOfSpeech="x">
-      <Definition>Portion</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081791-S3" ili="wikidata-ff-L1081791-S3" partOfSpeech="x">
-      <Definition>Lots</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081794-S1" ili="wikidata-ff-L1081794-S1" partOfSpeech="x">
-      <Definition>Ant_eaters</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081794-S2" ili="wikidata-ff-L1081794-S2" partOfSpeech="x">
-      <Definition>aardvarks</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081798-S1" ili="wikidata-ff-L1081798-S1" partOfSpeech="x">
-      <Definition>Cows with white body and black face</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081849-S1" ili="wikidata-ff-L1081849-S1" partOfSpeech="x">
-      <Definition>Oversight</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081860-S1" ili="wikidata-ff-L1081860-S1" partOfSpeech="x">
-      <Definition>Excuses</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1081869-S1" ili="wikidata-ff-L1081869-S1" partOfSpeech="x">
-      <Definition>Graves</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1081965-S1" ili="wikidata-ff-L1081965-S1" partOfSpeech="x">
       <Definition>Helping of porridge</Definition>
     </Synset>
@@ -7325,59 +6573,20 @@
     <Synset id="wikidata-ff-L1085561-S2" ili="wikidata-ff-L1085561-S2" partOfSpeech="x">
       <Definition>Wonderful things</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1085723-S1" ili="wikidata-ff-L1085723-S1" partOfSpeech="x">
-      <Definition>Hornet, black hornet see njabattu</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1120749-S1" ili="wikidata-ff-L1120749-S1" partOfSpeech="x">
       <Definition>Great grand sons</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1121400-S1" ili="wikidata-ff-L1121400-S1" partOfSpeech="x">
-      <Definition>Victories</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1121466-S1" ili="wikidata-ff-L1121466-S1" partOfSpeech="x">
-      <Definition>Cows similar in colour to</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1123961-S1" ili="wikidata-ff-L1123961-S1" partOfSpeech="x">
       <Definition>Female slaves</Definition>
     </Synset>
-    <Synset id="wikidata-ff-L1187006-S1" ili="wikidata-ff-L1187006-S1" partOfSpeech="x">
-      <Definition>Anyone of two or more men married to sisters</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187037-S1" ili="wikidata-ff-L1187037-S1" partOfSpeech="x">
-      <Definition>Great-grand-sons</Definition>
-    </Synset>
     <Synset id="wikidata-ff-L1187073-S1" ili="wikidata-ff-L1187073-S1" partOfSpeech="x">
       <Definition>roaring; noise</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187160-S1" ili="wikidata-ff-L1187160-S1" partOfSpeech="x">
-      <Definition>Lines</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187160-S2" ili="wikidata-ff-L1187160-S2" partOfSpeech="x">
-      <Definition>Column</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187160-S3" ili="wikidata-ff-L1187160-S3" partOfSpeech="x">
-      <Definition>Of men</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187191-S1" ili="wikidata-ff-L1187191-S1" partOfSpeech="x">
-      <Definition>Oribi</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187191-S2" ili="wikidata-ff-L1187191-S2" partOfSpeech="x">
-      <Definition>Small African antelope</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187191-S3" ili="wikidata-ff-L1187191-S3" partOfSpeech="x">
-      <Definition>Red flanked duyker</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187267-S1" ili="wikidata-ff-L1187267-S1" partOfSpeech="x">
       <Definition>names,nouns</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187283-S1" ili="wikidata-ff-L1187283-S1" partOfSpeech="x">
       <Definition>he accepted with the right hand</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187299-S1" ili="wikidata-ff-L1187299-S1" partOfSpeech="x">
-      <Definition>Skink-lizards</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1187304-S1" ili="wikidata-ff-L1187304-S1" partOfSpeech="x">
-      <Definition>Germans</Definition>
     </Synset>
     <Synset id="wikidata-ff-L1187461-S1" ili="wikidata-ff-L1187461-S1" partOfSpeech="x">
       <Definition>Light saddled-cloth</Definition>
@@ -7408,9 +6617,6 @@
     </Synset>
     <Synset id="wikidata-ff-L1461987-S1" ili="wikidata-ff-L1461987-S1" partOfSpeech="x">
       <Definition>Seeds</Definition>
-    </Synset>
-    <Synset id="wikidata-ff-L1462030-S1" ili="wikidata-ff-L1462030-S1" partOfSpeech="x">
-      <Definition>Spring onion</Definition>
     </Synset>
   </LexiconExtension>
 </LexicalResource>

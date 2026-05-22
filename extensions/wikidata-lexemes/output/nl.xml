@@ -10,6 +10,7 @@
     <Extends id="omw-nl" version="1.4"/>
     <LexicalEntry id="L400">
       <Lemma writtenForm="vierhonderd" partOfSpeech="m"/>
+      <Form writtenForm="vierhonderden"/>
       <Sense id="L400-S1" synset="wikidata-nl-L400-S1" ili="wikidata-nl-L400-S1">
         <Definition>&quot;400&quot;, het getal tussen driehonderdnegenennegentig en vierhonderdeen, vier maal honderd</Definition>
         <Example>We zaten er met z&apos;n vierhonderden op een kluitje, ingeklemd door een strand en een weg met tientallen vrijwel eendere hotels.</Example>
@@ -23,6 +24,11 @@
     </LexicalEntry>
     <LexicalEntry id="L21951">
       <Lemma writtenForm="jouw" partOfSpeech="h"/>
+      <Form writtenForm="je"/>
+      <Form writtenForm="jouwe"/>
+      <Form writtenForm="jouwer"/>
+      <Form writtenForm="jouws"/>
+      <Form writtenForm="jouwen"/>
       <Sense id="L21951-S1" synset="wikidata-nl-L21951-S1" ili="wikidata-nl-L21951-S1">
         <Definition>van jou</Definition>
       </Sense>
@@ -35,18 +41,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1143025">
       <Lemma writtenForm="één" partOfSpeech="d"/>
+      <Form writtenForm="een"/>
       <Sense id="L1143025-S1" synset="wikidata-nl-L1143025-S1" ili="wikidata-nl-L1143025-S1">
         <Definition>one</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1222686">
       <Lemma writtenForm="twee" partOfSpeech="d"/>
+      <Form writtenForm="tweeën"/>
+      <Form writtenForm="tweetjes"/>
       <Sense id="L1222686-S1" synset="wikidata-nl-L1222686-S1" ili="wikidata-nl-L1222686-S1">
         <Definition>the number two</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1222825">
       <Lemma writtenForm="negen" partOfSpeech="m"/>
+      <Form writtenForm="negenen"/>
       <Sense id="L1222825-S1" synset="wikidata-nl-L1222825-S1" ili="wikidata-nl-L1222825-S1">
         <Definition>the number 9</Definition>
       </Sense>
@@ -65,6 +75,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1413879">
       <Lemma writtenForm="best" partOfSpeech="i"/>
+      <Form writtenForm="beste"/>
       <Sense id="L1413879-S1" synset="wikidata-nl-L1413879-S1" ili="wikidata-nl-L1413879-S1">
         <Definition>onverbogen vorm van de overtreffende trap van goed</Definition>
       </Sense>
@@ -77,6 +88,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1415200">
       <Lemma writtenForm="anderhalf" partOfSpeech="m"/>
+      <Form writtenForm="anderhalve"/>
       <Sense id="L1415200-S1" synset="wikidata-nl-L1415200-S1" ili="wikidata-nl-L1415200-S1">
         <Definition>één en een half, 1,5</Definition>
       </Sense>
@@ -89,6 +101,8 @@
     </LexicalEntry>
     <LexicalEntry id="L21942">
       <Lemma writtenForm="gij" partOfSpeech="h"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="ge"/>
       <Sense id="L21942-S1" synset="wikidata-nl-L21942-S1" ili="wikidata-nl-L21942-S1">
         <Definition>you</Definition>
       </Sense>
@@ -98,18 +112,31 @@
     </LexicalEntry>
     <LexicalEntry id="L21944">
       <Lemma writtenForm="zij" partOfSpeech="h"/>
+      <Form writtenForm="haar"/>
+      <Form writtenForm="ze"/>
+      <Form writtenForm="d&apos;r"/>
+      <Form writtenForm="haars"/>
+      <Form writtenForm="harer"/>
       <Sense id="L21944-S1" synset="wikidata-nl-L21944-S1" ili="wikidata-nl-L21944-S1">
         <Definition>persoonlijk voornaamwoord (enkelvoud)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21945">
       <Lemma writtenForm="hij" partOfSpeech="h"/>
+      <Form writtenForm="hem"/>
+      <Form writtenForm="ie"/>
+      <Form writtenForm="zijner"/>
+      <Form writtenForm="zijns"/>
       <Sense id="L21945-S1" synset="wikidata-nl-L21945-S1" ili="wikidata-nl-L21945-S1">
         <Definition>he, third person masculine singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21947">
       <Lemma writtenForm="wij" partOfSpeech="h"/>
+      <Form writtenForm="ons"/>
+      <Form writtenForm="we"/>
+      <Form writtenForm="onz"/>
+      <Form writtenForm="onzer"/>
       <Sense id="L21947-S1" synset="wikidata-nl-L21947-S1" ili="wikidata-nl-L21947-S1">
         <Definition>persoonlijk voornaamwoord</Definition>
       </Sense>
@@ -131,18 +158,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1216678">
       <Lemma writtenForm="die" partOfSpeech="h"/>
+      <Form writtenForm="hun"/>
+      <Form writtenForm="hen"/>
       <Sense id="L1216678-S1" synset="wikidata-nl-L1216678-S1" ili="wikidata-nl-L1216678-S1">
         <Definition>persoonlijk voornaamwoord</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1222827">
       <Lemma writtenForm="elf" partOfSpeech="m"/>
+      <Form writtenForm="L1222827"/>
       <Sense id="L1222827-S1" synset="wikidata-nl-L1222827-S1" ili="wikidata-nl-L1222827-S1">
         <Definition>the number 11</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1222837">
       <Lemma writtenForm="dertig" partOfSpeech="m"/>
+      <Form writtenForm="dertigen"/>
       <Sense id="L1222837-S1" synset="wikidata-nl-L1222837-S1" ili="wikidata-nl-L1222837-S1">
         <Definition>the number 30</Definition>
       </Sense>
@@ -179,12 +210,21 @@
     </LexicalEntry>
     <LexicalEntry id="L21950">
       <Lemma writtenForm="mijn" partOfSpeech="h"/>
+      <Form writtenForm="m&apos;n"/>
+      <Form writtenForm="mijne"/>
+      <Form writtenForm="mijner"/>
+      <Form writtenForm="mijns"/>
+      <Form writtenForm="mijnen"/>
       <Sense id="L21950-S1" synset="wikidata-nl-L21950-S1" ili="wikidata-nl-L21950-S1">
         <Definition>plaats waar delfstoffen worden gewonnen</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21959">
       <Lemma writtenForm="het" partOfSpeech="d"/>
+      <Form writtenForm="de"/>
+      <Form writtenForm="des"/>
+      <Form writtenForm="den"/>
+      <Form writtenForm="der"/>
       <Sense id="L21959-S3" synset="wikidata-nl-L21959-S3" ili="wikidata-nl-L21959-S3">
         <Definition>the (definite article)</Definition>
         <Example>Het huis.</Example>
@@ -192,6 +232,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1143024">
       <Lemma writtenForm="beide" partOfSpeech="h"/>
+      <Form writtenForm="beiden"/>
+      <Form writtenForm="beider"/>
       <Sense id="L1143024-S1" synset="wikidata-nl-L1143024-S1" ili="wikidata-nl-L1143024-S1">
         <Definition>de een en de ander van twee, het tweetal</Definition>
         <Example>Wat een schattige foto van beide honden.</Example>
@@ -199,6 +241,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1171758">
       <Lemma writtenForm="al" partOfSpeech="h"/>
+      <Form writtenForm="alle"/>
+      <Form writtenForm="aller"/>
+      <Form writtenForm="allen"/>
       <Sense id="L1171758-S2" synset="wikidata-nl-L1171758-S2" ili="wikidata-nl-L1171758-S2">
         <Definition>alle ; allemaal</Definition>
         <Example>Mag ik ervan uitgaan dat allen hiermee instemmen.</Example>
@@ -224,12 +269,18 @@
     </LexicalEntry>
     <LexicalEntry id="L21952">
       <Lemma writtenForm="uw" partOfSpeech="h"/>
+      <Form writtenForm="uwe"/>
+      <Form writtenForm="uwer"/>
+      <Form writtenForm="uws"/>
+      <Form writtenForm="uwen"/>
       <Sense id="L21952-S1" synset="wikidata-nl-L21952-S1" ili="wikidata-nl-L21952-S1">
         <Definition>your</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1130319">
       <Lemma writtenForm="weinig" partOfSpeech="h"/>
+      <Form writtenForm="weinige"/>
+      <Form writtenForm="weinigen"/>
       <Sense id="L1130319-S1" synset="wikidata-nl-L1130319-S1" ili="wikidata-nl-L1130319-S1">
         <Definition>a small amount</Definition>
       </Sense>
@@ -262,12 +313,6 @@
         <Definition>then</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L21949">
-      <Lemma writtenForm="zij" partOfSpeech="h"/>
-      <Sense id="L21949-S1" synset="wikidata-nl-L21949-S1" ili="wikidata-nl-L21949-S1">
-        <Definition>persoonlijk voornaamwoord (meervoud)</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1222687">
       <Lemma writtenForm="drie" partOfSpeech="m"/>
       <Sense id="L1222687-S1" synset="wikidata-nl-L1222687-S1" ili="wikidata-nl-L1222687-S1">
@@ -276,6 +321,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1222824">
       <Lemma writtenForm="acht" partOfSpeech="m"/>
+      <Form writtenForm="achten"/>
       <Sense id="L1222824-S1" synset="wikidata-nl-L1222824-S1" ili="wikidata-nl-L1222824-S1">
         <Definition>the number 8</Definition>
       </Sense>
@@ -315,12 +361,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1459591">
       <Lemma writtenForm="een" partOfSpeech="d"/>
+      <Form writtenForm="ene"/>
+      <Form writtenForm="eenre"/>
+      <Form writtenForm="ener"/>
+      <Form writtenForm="eentje"/>
       <Sense id="L1459591-S1" synset="wikidata-nl-L1459591-S1" ili="wikidata-nl-L1459591-S1">
         <Definition>komt na nul en vóór twee, in Arabische cijfers 1, in Romeinse cijfers</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21954">
       <Lemma writtenForm="haar" partOfSpeech="h"/>
+      <Form writtenForm="d&apos;r"/>
+      <Form writtenForm="heur"/>
+      <Form writtenForm="hare"/>
+      <Form writtenForm="haars"/>
+      <Form writtenForm="harer"/>
+      <Form writtenForm="haren"/>
       <Sense id="L21954-S1" synset="wikidata-nl-L21954-S1" ili="wikidata-nl-L21954-S1">
         <Definition>bezit aanduidend door een derde persoon vrouwelijk enkelvoud</Definition>
       </Sense>
@@ -360,6 +416,11 @@
     </LexicalEntry>
     <LexicalEntry id="L21940">
       <Lemma writtenForm="ik" partOfSpeech="h"/>
+      <Form writtenForm="mij"/>
+      <Form writtenForm="me"/>
+      <Form writtenForm="ikke"/>
+      <Form writtenForm="mijner"/>
+      <Form writtenForm="mijns"/>
       <Sense id="L21940-S1" synset="wikidata-nl-L21940-S1" ili="wikidata-nl-L21940-S1">
         <Definition>(voornaamwoord)</Definition>
       </Sense>
@@ -378,6 +439,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1222828">
       <Lemma writtenForm="twaalf" partOfSpeech="m"/>
+      <Form writtenForm="twaalven"/>
       <Sense id="L1222828-S1" synset="wikidata-nl-L1222828-S1" ili="wikidata-nl-L1222828-S1">
         <Definition>the number 12</Definition>
       </Sense>
@@ -396,41 +458,18 @@
     </LexicalEntry>
     <LexicalEntry id="L21941">
       <Lemma writtenForm="jij" partOfSpeech="h"/>
+      <Form writtenForm="jou"/>
+      <Form writtenForm="je"/>
+      <Form writtenForm="jouwer"/>
+      <Form writtenForm="jouws"/>
       <Sense id="L21941-S1" synset="wikidata-nl-L21941-S1" ili="wikidata-nl-L21941-S1">
         <Definition>you</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L21943">
-      <Lemma writtenForm="u" partOfSpeech="h"/>
-      <Sense id="L21943-S1" synset="wikidata-nl-L21943-S1" ili="wikidata-nl-L21943-S1">
-        <Definition>Sie</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L21948">
-      <Lemma writtenForm="jullie" partOfSpeech="h"/>
-      <Sense id="L21948-S1" synset="wikidata-nl-L21948-S1" ili="wikidata-nl-L21948-S1">
-        <Definition>you</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L21958">
-      <Lemma writtenForm="een" partOfSpeech="d"/>
-      <Sense id="L21958-S1" synset="wikidata-nl-L21958-S1" ili="wikidata-nl-L21958-S1">
-        <Definition>a</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L408603">
       <Lemma writtenForm="van" partOfSpeech="p"/>
       <Sense id="L408603-S1" synset="wikidata-nl-L408603-S1" ili="wikidata-nl-L408603-S1">
         <Definition>familienaam prefix</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L408607">
-      <Lemma writtenForm="die" partOfSpeech="h"/>
-      <Sense id="L408607-S1" synset="wikidata-nl-L408607-S1" ili="wikidata-nl-L408607-S1">
-        <Definition>wijst iets aan dat zich niet in de onmiddellijke nabijheid van de spreker bevindt</Definition>
-      </Sense>
-      <Sense id="L408607-S2" synset="wikidata-nl-L408607-S2" ili="wikidata-nl-L408607-S2">
-        <Definition>ter aankondiging van een bepaling</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1133245">
@@ -479,12 +518,6 @@
         <Definition>de ene stof is door de andere gemengd</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1202721">
-      <Lemma writtenForm="die" partOfSpeech="h"/>
-      <Sense id="L1202721-S1" synset="wikidata-nl-L1202721-S1" ili="wikidata-nl-L1202721-S1">
-        <Definition>in een bijzin die het nog niet geheel bekende antecedent nader bepaalt</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1211554">
       <Lemma writtenForm="iets" partOfSpeech="h"/>
       <Sense id="L1211554-S1" synset="wikidata-nl-L1211554-S1" ili="wikidata-nl-L1211554-S1">
@@ -519,15 +552,6 @@
       <Lemma writtenForm="nee" partOfSpeech="i"/>
       <Sense id="L1324958-S1" synset="wikidata-nl-L1324958-S1" ili="wikidata-nl-L1324958-S1">
         <Definition>ontkenning</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1459105">
-      <Lemma writtenForm="van" partOfSpeech="p"/>
-      <Sense id="L1459105-S1" synset="wikidata-nl-L1459105-S1" ili="wikidata-nl-L1459105-S1">
-        <Definition>geeft bezit aan</Definition>
-      </Sense>
-      <Sense id="L1459105-S2" synset="wikidata-nl-L1459105-S2" ili="wikidata-nl-L1459105-S2">
-        <Definition>geeft herkomst aan</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1462515">
@@ -678,9 +702,6 @@
     <Synset id="wikidata-nl-L1418722-S2" ili="wikidata-nl-L1418722-S2" partOfSpeech="c">
       <Definition>then</Definition>
     </Synset>
-    <Synset id="wikidata-nl-L21949-S1" ili="wikidata-nl-L21949-S1" partOfSpeech="h">
-      <Definition>persoonlijk voornaamwoord (meervoud)</Definition>
-    </Synset>
     <Synset id="wikidata-nl-L1222687-S1" ili="wikidata-nl-L1222687-S1" partOfSpeech="m">
       <Definition>the number three</Definition>
     </Synset>
@@ -750,23 +771,8 @@
     <Synset id="wikidata-nl-L21941-S1" ili="wikidata-nl-L21941-S1" partOfSpeech="h">
       <Definition>you</Definition>
     </Synset>
-    <Synset id="wikidata-nl-L21943-S1" ili="wikidata-nl-L21943-S1" partOfSpeech="h">
-      <Definition>Sie</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L21948-S1" ili="wikidata-nl-L21948-S1" partOfSpeech="h">
-      <Definition>you</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L21958-S1" ili="wikidata-nl-L21958-S1" partOfSpeech="d">
-      <Definition>a</Definition>
-    </Synset>
     <Synset id="wikidata-nl-L408603-S1" ili="wikidata-nl-L408603-S1" partOfSpeech="p">
       <Definition>familienaam prefix</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L408607-S1" ili="wikidata-nl-L408607-S1" partOfSpeech="h">
-      <Definition>wijst iets aan dat zich niet in de onmiddellijke nabijheid van de spreker bevindt</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L408607-S2" ili="wikidata-nl-L408607-S2" partOfSpeech="h">
-      <Definition>ter aankondiging van een bepaling</Definition>
     </Synset>
     <Synset id="wikidata-nl-L1133245-S1" ili="wikidata-nl-L1133245-S1" partOfSpeech="h">
       <Definition>such</Definition>
@@ -804,9 +810,6 @@
     <Synset id="wikidata-nl-L1165967-S10" ili="wikidata-nl-L1165967-S10" partOfSpeech="p">
       <Definition>de ene stof is door de andere gemengd</Definition>
     </Synset>
-    <Synset id="wikidata-nl-L1202721-S1" ili="wikidata-nl-L1202721-S1" partOfSpeech="h">
-      <Definition>in een bijzin die het nog niet geheel bekende antecedent nader bepaalt</Definition>
-    </Synset>
     <Synset id="wikidata-nl-L1211554-S1" ili="wikidata-nl-L1211554-S1" partOfSpeech="h">
       <Definition>een onbepaalde of niet-gespecificeerde, stoffelijke of onstoffelijke zaak; een ongenoemd voorwerp</Definition>
     </Synset>
@@ -824,12 +827,6 @@
     </Synset>
     <Synset id="wikidata-nl-L1324958-S1" ili="wikidata-nl-L1324958-S1" partOfSpeech="i">
       <Definition>ontkenning</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L1459105-S1" ili="wikidata-nl-L1459105-S1" partOfSpeech="p">
-      <Definition>geeft bezit aan</Definition>
-    </Synset>
-    <Synset id="wikidata-nl-L1459105-S2" ili="wikidata-nl-L1459105-S2" partOfSpeech="p">
-      <Definition>geeft herkomst aan</Definition>
     </Synset>
     <Synset id="wikidata-nl-L1462515-S1" ili="wikidata-nl-L1462515-S1" partOfSpeech="i">
       <Definition>drukt uit dat men dit eigenlijk had kunnen weten</Definition>

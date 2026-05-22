@@ -8,24 +8,6 @@
                     license="https://creativecommons.org/publicdomain/zero/1.0/"
                     version="1.0">
     <Extends id="omw-rn" version="1.4"/>
-    <LexicalEntry id="L1335101">
-      <Lemma writtenForm="Mirongo ine na gatatu" partOfSpeech="m"/>
-      <Sense id="L1335101-S1" synset="wikidata-rn-L1335101-S1" ili="wikidata-rn-L1335101-S1">
-        <Definition>Quarante trois</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335224">
-      <Lemma writtenForm="Mirongo ine n&apos;umunani" partOfSpeech="m"/>
-      <Sense id="L1335224-S1" synset="wikidata-rn-L1335224-S1" ili="wikidata-rn-L1335224-S1">
-        <Definition>Quarante huit</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335232">
-      <Lemma writtenForm="Mirongo itanu na rimwe" partOfSpeech="m"/>
-      <Sense id="L1335232-S1" synset="wikidata-rn-L1335232-S1" ili="wikidata-rn-L1335232-S1">
-        <Definition>Cinquante-et-un</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1401885">
       <Lemma writtenForm="na" partOfSpeech="p"/>
       <Sense id="L1401885-S1" synset="wikidata-rn-L1401885-S1" ili="wikidata-rn-L1401885-S1">
@@ -35,218 +17,20 @@
         <Definition>with, together with (comitative marker)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1335241">
-      <Lemma writtenForm="Mirongo itanu n&apos;umunani" partOfSpeech="m"/>
-      <Sense id="L1335241-S1" synset="wikidata-rn-L1335241-S1" ili="wikidata-rn-L1335241-S1">
-        <Definition>Cinquante huit</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335225">
-      <Lemma writtenForm="Mirongo ine n&apos;icenda" partOfSpeech="m"/>
-      <Sense id="L1335225-S1" synset="wikidata-rn-L1335225-S1" ili="wikidata-rn-L1335225-S1">
-        <Definition>Quarante neuf</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335240">
-      <Lemma writtenForm="Mirongo itanu n&apos;indwi" partOfSpeech="m"/>
-      <Sense id="L1335240-S1" synset="wikidata-rn-L1335240-S1" ili="wikidata-rn-L1335240-S1">
-        <Definition>Cinquante sept</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335243">
-      <Lemma writtenForm="Mirongo itanu n&apos;icenda" partOfSpeech="m"/>
-      <Sense id="L1335243-S1" synset="wikidata-rn-L1335243-S1" ili="wikidata-rn-L1335243-S1">
-        <Definition>Cinquante neuf</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335244">
-      <Lemma writtenForm="Mirongo itandatu" partOfSpeech="m"/>
-      <Sense id="L1335244-S1" synset="wikidata-rn-L1335244-S1" ili="wikidata-rn-L1335244-S1">
-        <Definition>Soixante</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335098">
-      <Lemma writtenForm="Mirongo ine na rimwe" partOfSpeech="m"/>
-      <Sense id="L1335098-S1" synset="wikidata-rn-L1335098-S1" ili="wikidata-rn-L1335098-S1">
-        <Definition>Forty one</Definition>
-      </Sense>
-      <Sense id="L1335098-S2" synset="wikidata-rn-L1335098-S2" ili="wikidata-rn-L1335098-S2">
-        <Definition>Quarante-et-un</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335099">
-      <Lemma writtenForm="Mirongo ine na kabiri" partOfSpeech="m"/>
-      <Sense id="L1335099-S1" synset="wikidata-rn-L1335099-S1" ili="wikidata-rn-L1335099-S1">
-        <Definition>Forty two</Definition>
-      </Sense>
-      <Sense id="L1335099-S2" synset="wikidata-rn-L1335099-S2" ili="wikidata-rn-L1335099-S2">
-        <Definition>Quarante deux</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335102">
-      <Lemma writtenForm="Mirongo ine na kane" partOfSpeech="m"/>
-      <Sense id="L1335102-S1" synset="wikidata-rn-L1335102-S1" ili="wikidata-rn-L1335102-S1">
-        <Definition>Quarante quatre</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335238">
-      <Lemma writtenForm="Mirongo itanu na gatanu" partOfSpeech="m"/>
-      <Sense id="L1335238-S1" synset="wikidata-rn-L1335238-S1" ili="wikidata-rn-L1335238-S1">
-        <Definition>Cinquante cinq</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1336791">
-      <Lemma writtenForm="Mirongo itandatu na rimwe" partOfSpeech="m"/>
-      <Sense id="L1336791-S1" synset="wikidata-rn-L1336791-S1" ili="wikidata-rn-L1336791-S1">
-        <Definition>Soixante-et-un</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335222">
-      <Lemma writtenForm="Mirongo ine na gatandatu" partOfSpeech="m"/>
-      <Sense id="L1335222-S1" synset="wikidata-rn-L1335222-S1" ili="wikidata-rn-L1335222-S1">
-        <Definition>Quarante six</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335234">
-      <Lemma writtenForm="Mirongo itanu na gatatu" partOfSpeech="m"/>
-      <Sense id="L1335234-S1" synset="wikidata-rn-L1335234-S1" ili="wikidata-rn-L1335234-S1">
-        <Definition>Cinquante trois</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1401886">
       <Lemma writtenForm="na" partOfSpeech="c"/>
       <Sense id="L1401886-S1" synset="wikidata-rn-L1401886-S1" ili="wikidata-rn-L1401886-S1">
         <Definition>and</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1334796">
-      <Lemma writtenForm="Mirongo ine" partOfSpeech="m"/>
-      <Sense id="L1334796-S1" synset="wikidata-rn-L1334796-S1" ili="wikidata-rn-L1334796-S1">
-        <Definition>Forty</Definition>
-      </Sense>
-      <Sense id="L1334796-S2" synset="wikidata-rn-L1334796-S2" ili="wikidata-rn-L1334796-S2">
-        <Definition>Quarante</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335221">
-      <Lemma writtenForm="Mirongo ine na gatanu" partOfSpeech="m"/>
-      <Sense id="L1335221-S1" synset="wikidata-rn-L1335221-S1" ili="wikidata-rn-L1335221-S1">
-        <Definition>Quarante cinq</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335223">
-      <Lemma writtenForm="Mirongo ine n&apos;indwi" partOfSpeech="m"/>
-      <Sense id="L1335223-S1" synset="wikidata-rn-L1335223-S1" ili="wikidata-rn-L1335223-S1">
-        <Definition>Quarante sept</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335235">
-      <Lemma writtenForm="Mirongo itanu na kane" partOfSpeech="m"/>
-      <Sense id="L1335235-S1" synset="wikidata-rn-L1335235-S1" ili="wikidata-rn-L1335235-S1">
-        <Definition>Cinquante quatre</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335226">
-      <Lemma writtenForm="Mirongo itanu" partOfSpeech="m"/>
-      <Sense id="L1335226-S1" synset="wikidata-rn-L1335226-S1" ili="wikidata-rn-L1335226-S1">
-        <Definition>Cinquante</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335233">
-      <Lemma writtenForm="Mirongo itanu na kabiri" partOfSpeech="m"/>
-      <Sense id="L1335233-S1" synset="wikidata-rn-L1335233-S1" ili="wikidata-rn-L1335233-S1">
-        <Definition>Cinquante deux</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1335239">
-      <Lemma writtenForm="Mirongo itanu na gatandatu" partOfSpeech="m"/>
-      <Sense id="L1335239-S1" synset="wikidata-rn-L1335239-S1" ili="wikidata-rn-L1335239-S1">
-        <Definition>Cinquante six</Definition>
-      </Sense>
-    </LexicalEntry>
-    <Synset id="wikidata-rn-L1335101-S1" ili="wikidata-rn-L1335101-S1" partOfSpeech="m">
-      <Definition>Quarante trois</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335224-S1" ili="wikidata-rn-L1335224-S1" partOfSpeech="m">
-      <Definition>Quarante huit</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335232-S1" ili="wikidata-rn-L1335232-S1" partOfSpeech="m">
-      <Definition>Cinquante-et-un</Definition>
-    </Synset>
     <Synset id="wikidata-rn-L1401885-S1" ili="wikidata-rn-L1401885-S1" partOfSpeech="p">
       <Definition>by (agent marker)</Definition>
     </Synset>
     <Synset id="wikidata-rn-L1401885-S2" ili="wikidata-rn-L1401885-S2" partOfSpeech="p">
       <Definition>with, together with (comitative marker)</Definition>
     </Synset>
-    <Synset id="wikidata-rn-L1335241-S1" ili="wikidata-rn-L1335241-S1" partOfSpeech="m">
-      <Definition>Cinquante huit</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335225-S1" ili="wikidata-rn-L1335225-S1" partOfSpeech="m">
-      <Definition>Quarante neuf</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335240-S1" ili="wikidata-rn-L1335240-S1" partOfSpeech="m">
-      <Definition>Cinquante sept</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335243-S1" ili="wikidata-rn-L1335243-S1" partOfSpeech="m">
-      <Definition>Cinquante neuf</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335244-S1" ili="wikidata-rn-L1335244-S1" partOfSpeech="m">
-      <Definition>Soixante</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335098-S1" ili="wikidata-rn-L1335098-S1" partOfSpeech="m">
-      <Definition>Forty one</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335098-S2" ili="wikidata-rn-L1335098-S2" partOfSpeech="m">
-      <Definition>Quarante-et-un</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335099-S1" ili="wikidata-rn-L1335099-S1" partOfSpeech="m">
-      <Definition>Forty two</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335099-S2" ili="wikidata-rn-L1335099-S2" partOfSpeech="m">
-      <Definition>Quarante deux</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335102-S1" ili="wikidata-rn-L1335102-S1" partOfSpeech="m">
-      <Definition>Quarante quatre</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335238-S1" ili="wikidata-rn-L1335238-S1" partOfSpeech="m">
-      <Definition>Cinquante cinq</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1336791-S1" ili="wikidata-rn-L1336791-S1" partOfSpeech="m">
-      <Definition>Soixante-et-un</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335222-S1" ili="wikidata-rn-L1335222-S1" partOfSpeech="m">
-      <Definition>Quarante six</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335234-S1" ili="wikidata-rn-L1335234-S1" partOfSpeech="m">
-      <Definition>Cinquante trois</Definition>
-    </Synset>
     <Synset id="wikidata-rn-L1401886-S1" ili="wikidata-rn-L1401886-S1" partOfSpeech="c">
       <Definition>and</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1334796-S1" ili="wikidata-rn-L1334796-S1" partOfSpeech="m">
-      <Definition>Forty</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1334796-S2" ili="wikidata-rn-L1334796-S2" partOfSpeech="m">
-      <Definition>Quarante</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335221-S1" ili="wikidata-rn-L1335221-S1" partOfSpeech="m">
-      <Definition>Quarante cinq</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335223-S1" ili="wikidata-rn-L1335223-S1" partOfSpeech="m">
-      <Definition>Quarante sept</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335235-S1" ili="wikidata-rn-L1335235-S1" partOfSpeech="m">
-      <Definition>Cinquante quatre</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335226-S1" ili="wikidata-rn-L1335226-S1" partOfSpeech="m">
-      <Definition>Cinquante</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335233-S1" ili="wikidata-rn-L1335233-S1" partOfSpeech="m">
-      <Definition>Cinquante deux</Definition>
-    </Synset>
-    <Synset id="wikidata-rn-L1335239-S1" ili="wikidata-rn-L1335239-S1" partOfSpeech="m">
-      <Definition>Cinquante six</Definition>
     </Synset>
   </LexiconExtension>
 </LexicalResource>

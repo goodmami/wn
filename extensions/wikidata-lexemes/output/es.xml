@@ -10,6 +10,9 @@
     <Extends id="omw-es" version="1.4"/>
     <LexicalEntry id="L11720">
       <Lemma writtenForm="un" partOfSpeech="d"/>
+      <Form writtenForm="una"/>
+      <Form writtenForm="unos"/>
+      <Form writtenForm="unas"/>
       <Sense id="L11720-S1" synset="wikidata-es-L11720-S1" ili="wikidata-es-L11720-S1">
         <Definition>a(n), indefinite article</Definition>
       </Sense>
@@ -43,6 +46,7 @@
     </LexicalEntry>
     <LexicalEntry id="L45673">
       <Lemma writtenForm="elle" partOfSpeech="h"/>
+      <Form writtenForm="elles"/>
       <Sense id="L45673-S1" synset="wikidata-es-L45673-S1" ili="l371-s1">
         <Definition>tercera persona neutral</Definition>
       </Sense>
@@ -147,6 +151,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1133162">
       <Lemma writtenForm="esotro" partOfSpeech="h"/>
+      <Form writtenForm="esotros"/>
+      <Form writtenForm="esotra"/>
+      <Form writtenForm="esotras"/>
       <Sense id="L1133162-S1" synset="wikidata-es-L1133162-S1" ili="wikidata-es-L1133162-S1">
         <Definition>ese otro</Definition>
       </Sense>
@@ -223,12 +230,14 @@
     </LexicalEntry>
     <LexicalEntry id="L56597">
       <Lemma writtenForm="nosotros" partOfSpeech="h"/>
+      <Form writtenForm="nosotras"/>
       <Sense id="L56597-S1" synset="wikidata-es-L56597-S1" ili="wikidata-es-L56597-S1">
         <Definition>pronombre personal en primera personal plural</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L56999">
       <Lemma writtenForm="vosotros" partOfSpeech="h"/>
+      <Form writtenForm="vosotras"/>
       <Sense id="L56999-S1" synset="wikidata-es-L56999-S1" ili="wikidata-es-L56999-S1">
         <Definition>second-person plural pronoun</Definition>
       </Sense>
@@ -303,6 +312,7 @@
     </LexicalEntry>
     <LexicalEntry id="L303609">
       <Lemma writtenForm="ella" partOfSpeech="h"/>
+      <Form writtenForm="ellas"/>
       <Sense id="L303609-S1" synset="wikidata-es-L303609-S1" ili="l484-s1">
         <Definition>pronombre en tercera persona femenina</Definition>
         <Example>Ella comentó que el mayor miedo que tenia se hizo realidad cuando contrajo el virus mientras vendía comida.</Example>
@@ -331,6 +341,7 @@
     </LexicalEntry>
     <LexicalEntry id="L646358">
       <Lemma writtenForm="quien" partOfSpeech="h"/>
+      <Form writtenForm="quienes"/>
       <Sense id="L646358-S1" synset="wikidata-es-L646358-S1" ili="wikidata-es-L646358-S1">
         <Definition>el cual; los cuales; hace referencia a una persona o personas ya referidas anteriormente</Definition>
         <Example>El actual arzobispo, quien fue entronizado en la catedral de la ciudad.</Example>
@@ -607,6 +618,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1081133">
       <Lemma writtenForm="érase una vez" partOfSpeech="t"/>
+      <Form writtenForm="éranse una vez"/>
       <Sense id="L1081133-S1" synset="wikidata-es-L1081133-S1" ili="wikidata-es-L1081133-S1">
         <Definition>frase común utilizada para introducir una narración de acontecimientos pasados, normalmente en cuentos de hadas y cuentos populares.</Definition>
       </Sense>
@@ -619,12 +631,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1348133">
       <Lemma writtenForm="ello" partOfSpeech="h"/>
+      <Form writtenForm="ellos"/>
       <Sense id="L1348133-S1" synset="wikidata-es-L1348133-S1" ili="wikidata-es-L1348133-S1">
         <Definition>pronombre personal, tercera persona singular neutra</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2776">
       <Lemma writtenForm="y" partOfSpeech="c"/>
+      <Form writtenForm="e"/>
       <Sense id="L2776-S1" synset="wikidata-es-L2776-S1" ili="wikidata-es-L2776-S1">
         <Definition>and; joins words and equal sentence parts together</Definition>
       </Sense>
@@ -660,6 +674,9 @@
     </LexicalEntry>
     <LexicalEntry id="L40745">
       <Lemma writtenForm="poco" partOfSpeech="h"/>
+      <Form writtenForm="pocos"/>
+      <Form writtenForm="poca"/>
+      <Form writtenForm="pocas"/>
       <Sense id="L40745-S1" synset="wikidata-es-L40745-S1" ili="wikidata-es-L40745-S1">
         <Definition>cantidad o número escaso</Definition>
         <Example>Vinieron pocos de sus compañeros de clase.</Example>
@@ -686,6 +703,7 @@
     </LexicalEntry>
     <LexicalEntry id="L40978">
       <Lemma writtenForm="o" partOfSpeech="c"/>
+      <Form writtenForm="u"/>
       <Sense id="L40978-S1" synset="wikidata-es-L40978-S1" ili="wikidata-es-L40978-S1">
         <Definition>indica diferencia, separación o alternativa</Definition>
         <Example>Ganar o perder</Example>
@@ -792,6 +810,7 @@
     </LexicalEntry>
     <LexicalEntry id="L711974">
       <Lemma writtenForm="entre semana" partOfSpeech="r"/>
+      <Form writtenForm="entresemana"/>
       <Sense id="L711974-S1" synset="wikidata-es-L711974-S1" ili="wikidata-es-L711974-S1">
         <Definition>en cualquiera de los días comprendidos entre el lunes y el viernes, ambos incluidos</Definition>
       </Sense>
@@ -851,12 +870,15 @@
     </LexicalEntry>
     <LexicalEntry id="L56588">
       <Lemma writtenForm="mi" partOfSpeech="h"/>
+      <Form writtenForm="mis"/>
       <Sense id="L56588-S2" synset="wikidata-es-L56588-S2" ili="wikidata-es-L56588-S2">
         <Definition>a mía, a mío</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L56677">
       <Lemma writtenForm="él" partOfSpeech="h"/>
+      <Form writtenForm="ello"/>
+      <Form writtenForm="ellos"/>
       <Sense id="L56677-S2" synset="wikidata-es-L56677-S2" ili="l485-s1">
         <Definition>pronombre personal, tercera persona singular masculina</Definition>
       </Sense>
@@ -1128,6 +1150,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1550831">
       <Lemma writtenForm="alcazar" partOfSpeech="n"/>
+      <Form writtenForm="location"/>
       <Sense id="L1550831-S2" synset="wikidata-es-L1550831-S2" ili="wikidata-es-L1550831-S2">
         <Definition>palace</Definition>
       </Sense>
@@ -1167,6 +1190,7 @@
     </LexicalEntry>
     <LexicalEntry id="L56997">
       <Lemma writtenForm="usted" partOfSpeech="h"/>
+      <Form writtenForm="ustedes"/>
       <Sense id="L56997-S1" synset="wikidata-es-L56997-S1" ili="wikidata-es-L56997-S1">
         <Definition>Formal second-person address form</Definition>
       </Sense>
@@ -1196,6 +1220,9 @@
     </LexicalEntry>
     <LexicalEntry id="L57821">
       <Lemma writtenForm="lo" partOfSpeech="h"/>
+      <Form writtenForm="los"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="las"/>
       <Sense id="L57821-S1" synset="wikidata-es-L57821-S1" ili="wikidata-es-L57821-S1">
         <Definition>refiere al objeto directo de tercera persona cuando éste ya es conocido</Definition>
         <Example>Yo bebo agua -&gt; Yo la bebí.</Example>
@@ -1275,12 +1302,6 @@
         <Definition>box</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L755292">
-      <Lemma writtenForm="quién" partOfSpeech="h"/>
-      <Sense id="L755292-S1" synset="wikidata-es-L755292-S1" ili="wikidata-es-L755292-S1">
-        <Definition>qué o cuál persona</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1133389">
       <Lemma writtenForm="de muy lejos" partOfSpeech="r"/>
       <Sense id="L1133389-S1" synset="wikidata-es-L1133389-S1" ili="wikidata-es-L1133389-S1">
@@ -1327,6 +1348,10 @@
     </LexicalEntry>
     <LexicalEntry id="L11719">
       <Lemma writtenForm="el" partOfSpeech="d"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="los"/>
+      <Form writtenForm="las"/>
+      <Form writtenForm="lo"/>
       <Sense id="L11719-S1" synset="wikidata-es-L11719-S1" ili="wikidata-es-L11719-S1">
         <Definition>artículo determinante</Definition>
       </Sense>
@@ -2083,9 +2108,6 @@
     </Synset>
     <Synset id="wikidata-es-L727552-S1" ili="wikidata-es-L727552-S1" partOfSpeech="r">
       <Definition>box</Definition>
-    </Synset>
-    <Synset id="wikidata-es-L755292-S1" ili="wikidata-es-L755292-S1" partOfSpeech="h">
-      <Definition>qué o cuál persona</Definition>
     </Synset>
     <Synset id="wikidata-es-L1133389-S1" ili="wikidata-es-L1133389-S1" partOfSpeech="r">
       <Definition>a gran distancia</Definition>

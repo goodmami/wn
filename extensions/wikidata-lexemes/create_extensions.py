@@ -1,30 +1,33 @@
 #!/usr/bin/env python3
 import bz2
-import json
-from functools import cache
+import os
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import NamedTuple
+from xml.sax.saxutils import escape as xml_escape
 
 import ijson
-import requests
-from _pos_map import POS_MAP
+from _omw_en import omw_en_pos
+from _pos_map import CONTENT_POS_MAP, POS_MAP
+from _wikidata import get_label, get_language_iso
+from _wiktionary import (
+    fetch_wiktionary,
+    is_quality_lemma,
+    prefetch_categories_batch,
+    wiktionary_definition,
+)
 from tqdm import tqdm
 
 from wn.constants import OTHER
 
+LANG_FILTER = os.environ.get("LANG_FILTER", "").strip() or None
 DATA_PATH = Path(__file__).parent / "latest-lexemes.json.bz2"
 EXTENSIONS_DIR = Path(__file__).parent / "output"
-EXTRAS_DIR = Path(__file__).parent / "extras"
 
-# Mapping for languages with non-standard OMW lexicon IDs
-BASE_LEXICON_MAP = {
-    "de": ("odenet", "1.4"),
-}
-
-SKIP_POS = {
+SKIP_POS = frozenset({
     # Covered in WordNet already
     "noun",
     "proper noun",
-    "agent noun",
     "verb",
     "proper verb",  # to Zoom, to Google
     "phrasal verb",  # get over, find out
@@ -32,7 +35,7 @@ SKIP_POS = {
     "adjective",
     "satellite adjective",
     "proper adjective",
-    # Not covered, and less useful for us
+    # Subword, less useful for us
     "prefix",
     "suffix",
     "interfix",
@@ -68,134 +71,170 @@ SKIP_POS = {
     "collocation",
     "attributive locution",
     "slogan",
-    # Entities?
+    # Entities
     "initialism",
     "demonym",
     "national demonym",
     "toponym",
-}
-
+})
 
 SENSE_RELATIONS = {
-    "P5973": "similar",  # synonym
-    "P5974": "antonym",  # antonym
-    "P5975": "hyponym",  # troponym of (more specific)
+    "P5973": "similar",   # synonym
+    "P5974": "antonym",   # antonym
+    "P5975": "hyponym",   # troponym of (more specific)
     "P6593": "hypernym",  # hyperonym (more general)
 }
 
 ENGLISH_LANG_Q = "Q1860"
+MODAL_VERB_Q = "Q560570"  # P31 value — lexemes the dictionary should always cover
+
+# Wikidata grammatical-feature Q-codes that disqualify a form from emission.
+NEGATION_Q = "Q1478451"
+_SKIP_FORM_FEATURES = frozenset({NEGATION_Q})
 
 
-@cache
-def fetch_wikidata_entity(q_code: str) -> dict:
-    cache_path = EXTRAS_DIR / f"{q_code}.json"
-    if cache_path.exists():
-        with open(cache_path, encoding="utf-8") as f:
-            data = json.load(f)
-    else:
-        print("fetch_wikidata_entity", q_code)
-        url = f"https://www.wikidata.org/wiki/Special:EntityData/{q_code}.json"
-        headers = {"User-Agent": "WikidataLexemesBot/1.0 (https://github.com/sign-language-processing/dictionary)"}
-        response = requests.get(url, headers=headers, timeout=30)
-        response.raise_for_status()
-        data = response.json()
-        EXTRAS_DIR.mkdir(parents=True, exist_ok=True)
-        with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
+def _has_p31(lex: dict, target_q: str) -> bool:
+    for claim in lex.get("claims", {}).get("P31", []):
+        dv = claim.get("mainsnak", {}).get("datavalue")
+        if (dv and dv.get("type") == "wikibase-entityid"
+                and dv["value"]["id"] == target_q):
+            return True
+    return False
 
-    entities = data["entities"]
-    return entities.get(q_code) or next(iter(entities.values()))
+# Languages whose omw lexicon ID isn't `omw-<lang>`.
+_BASE_LEXICON_OVERRIDES = {"de": ("odenet", "1.4")}
 
 
-@cache
-def get_label(q_code: str) -> str:
-    entity = fetch_wikidata_entity(q_code)
-    labels = entity.get("labels", {})
-    if "en" in labels:
-        return labels["en"]["value"].lower()
-    if labels:
-        return next(iter(labels.values()))["value"].lower()
-    return q_code
+def _escape(text: str) -> str:
+    return xml_escape(text, {'"': "&quot;", "'": "&apos;"})
 
 
-@cache
-def get_language_iso(q_code: str) -> str | None:
-    entity = fetch_wikidata_entity(q_code)
-    claims = entity.get("claims", {})
-    iso_claim = claims.get("P218", [])  # ISO 639-1 code
-    if iso_claim:
-        mainsnak = iso_claim[0].get("mainsnak", {})
-        datavalue = mainsnak.get("datavalue")
-        if datavalue:
-            return datavalue["value"]
-    return None
-
-def stream_lexemes():
+def _stream_lexemes():
     with bz2.open(DATA_PATH, "rb") as f:
         yield from ijson.items(f, "item")
 
 
-def collect_kept_sense_ids() -> tuple[set[str], set[tuple[str, str]]]:
-    """First pass: collect sense IDs and (lang, sense_id) pairs we're keeping."""
-    kept_sense_ids: set[str] = set()
-    kept_lang_senses: set[tuple[str, str]] = set()  # (lang_iso, sense_id) pairs
-    print("Step 1a: Collecting kept sense IDs...")
-    for lexeme in tqdm(stream_lexemes(), desc="Collecting"):
-        pos_q = lexeme.get("lexicalCategory")
-        if not pos_q:
-            continue
-        pos_name = get_label(pos_q)
-        if pos_name in SKIP_POS or pos_name == "abbreviation":
-            continue
-        lemmas = lexeme.get("lemmas", {})
-        for lang_iso in lemmas:
-            for sense in lexeme.get("senses", []):
-                kept_sense_ids.add(sense["id"])
-                kept_lang_senses.add((lang_iso, sense["id"]))
-    print(f"  Found {len(kept_sense_ids)} kept sense IDs")
-    print(f"  Found {len(kept_lang_senses)} kept (lang, sense) pairs")
-    return kept_sense_ids, kept_lang_senses
-
-
-def has_valid_abbreviation_relation(lexeme: dict, kept_sense_ids: set[str]) -> bool:
-    """Check if abbreviation has at least one relation to a kept sense."""
-    for sense in lexeme.get("senses", []):
-        claims = sense.get("claims", {})
+def _has_relation_to_kept(lex: dict, kept_sense_ids: set[str]) -> bool:
+    for sense in lex.get("senses", []):
         for prop in SENSE_RELATIONS:
-            for claim in claims.get(prop, []):
-                mainsnak = claim.get("mainsnak", {})
-                datavalue = mainsnak.get("datavalue")
-                if (datavalue
-                        and datavalue.get("type") == "wikibase-entityid"
-                        and datavalue["value"]["id"] in kept_sense_ids):
+            for claim in sense.get("claims", {}).get(prop, []):
+                dv = claim.get("mainsnak", {}).get("datavalue")
+                if (dv and dv.get("type") == "wikibase-entityid"
+                        and dv["value"]["id"] in kept_sense_ids):
                     return True
     return False
 
 
-def filter_lexemes() -> tuple[list[dict], set[tuple[str, str]]]:
-    """Filter lexemes to only include relevant POS."""
-    kept_sense_ids, kept_lang_senses = collect_kept_sense_ids()
+# POS labels that even the content-gap escape should never resurrect.
+# Brand names, place names, and people belong in encyclopaedias, not dictionaries.
+_NEVER_GAP_FILL = frozenset({"proper noun", "proper verb", "proper adjective"})
 
-    filtered = []
-    print("Step 1b: Filtering lexemes by POS...")
-    for lexeme in tqdm(stream_lexemes(), desc="Filtering"):
-        pos_q = lexeme.get("lexicalCategory")
+
+def _is_english_content_gap(lex: dict, pos_name: str) -> bool:
+    """English-only escape: a SKIP_POS-classified content-POS lemma stays in if
+    omw-en lacks it under that same POS. Skips proper-noun-derived lemmas
+    (any capitalised lemma, initialism, etc.) — those belong to encyclopaedic
+    rather than dictionary scope."""
+    if lex.get("language") != ENGLISH_LANG_Q:
+        return False
+    if pos_name in _NEVER_GAP_FILL:
+        return False
+    wn_pos = CONTENT_POS_MAP.get(pos_name)
+    if not wn_pos:
+        return False
+    raw_lemma = lex.get("lemmas", {}).get("en", {}).get("value", "")
+    if not raw_lemma or raw_lemma[0].isupper():
+        return False
+    return wn_pos not in omw_en_pos().get(raw_lemma.lower(), frozenset())
+
+
+def _skip_pos_passes(lex: dict, pos_name: str) -> bool:
+    """A lexeme in SKIP_POS is still kept when it's a modal verb rescue
+    (e.g. shall/can/will) or an English content-POS gap fill."""
+    keep_for_modal = (
+        lex.get("language") == ENGLISH_LANG_Q
+        and _has_p31(lex, MODAL_VERB_Q)
+    )
+    return keep_for_modal or _is_english_content_gap(lex, pos_name)
+
+
+def _try_keep(
+    lex: dict, pos_name: str,
+    seen_lemma_pos: set[tuple[str, str, str]],
+    kept_sense_ids: set[str],
+    kept_lang_senses: set[tuple[str, str]],
+) -> bool:
+    """Record sense IDs of `lex` under each of its (lang_iso, lemma, pos_code)
+    keys, deduping. Returns True if any (lang, lemma, pos) was new."""
+    lemmas = lex.get("lemmas", {})
+    if not lemmas:
+        return False
+    # English-only: skip lexemes Wikidata hasn't cross-referenced against any
+    # dictionary (no claims at all) — those are usually niche slang.
+    if lex.get("language") == ENGLISH_LANG_Q and not lex.get("claims"):
+        return False
+    pos_code = POS_MAP.get(pos_name, OTHER)
+    accepted = False
+    for lang_iso, lemma_obj in lemmas.items():
+        lemma = lemma_obj.get("value", "")
+        # Multi-word lemmas that start with uppercase are usually proper-noun-
+        # derived (e.g. "Jesus Christ", "God bless you").
+        if " " in lemma and lemma[:1].isupper():
+            continue
+        key = (lang_iso, lemma, pos_code)
+        if key in seen_lemma_pos:
+            continue
+        seen_lemma_pos.add(key)
+        accepted = True
+        for sense in lex.get("senses", []):
+            kept_sense_ids.add(sense["id"])
+            kept_lang_senses.add((lang_iso, sense["id"]))
+    return accepted
+
+
+def filter_lexemes() -> tuple[list[dict], set[tuple[str, str]]]:
+    """Stream the dump once. Keep lexemes whose POS isn't in SKIP_POS — with
+    one exception: English content-POS lemmas that omw-en doesn't already
+    have are kept (filling the gap). Abbreviations are buffered and kept
+    only if they have a sense relation to a kept sense.
+
+    Dedupe by (lang_iso, lemma, pos_code) so downstream sense-relation targets
+    can't dangle: if a duplicate lexeme is dropped here, its sense IDs are
+    excluded from `kept_lang_senses` too.
+    """
+    print("Step 1: Filtering lexemes...")
+    kept_sense_ids: set[str] = set()
+    kept_lang_senses: set[tuple[str, str]] = set()
+    seen_lemma_pos: set[tuple[str, str, str]] = set()
+    filtered: list[dict] = []
+    pending_abbrev: list[dict] = []
+
+    for lex in tqdm(_stream_lexemes(), desc="Streaming"):
+        pos_q = lex.get("lexicalCategory")
         if not pos_q:
             continue
         pos_name = get_label(pos_q)
-        if pos_name in SKIP_POS:
+        if pos_name == "abbreviation":
+            pending_abbrev.append(lex)
             continue
-        if (pos_name == "abbreviation"
-                and not has_valid_abbreviation_relation(lexeme, kept_sense_ids)):
+        if pos_name in SKIP_POS and not _skip_pos_passes(lex, pos_name):
             continue
-        filtered.append(lexeme)
+        if _try_keep(lex, pos_name, seen_lemma_pos, kept_sense_ids, kept_lang_senses):
+            filtered.append(lex)
 
-    print(f"  Kept {len(filtered)} lexemes")
+    for lex in pending_abbrev:
+        if not _has_relation_to_kept(lex, kept_sense_ids):
+            continue
+        pos_name = get_label(lex["lexicalCategory"])
+        if _try_keep(lex, pos_name, seen_lemma_pos, kept_sense_ids, kept_lang_senses):
+            filtered.append(lex)
+
+    print(f"  Kept {len(filtered)} lexemes, {len(kept_lang_senses)} sense pairs")
     return filtered, kept_lang_senses
 
 
-def _collect_senses_and_translations(lexemes: list[dict]):
-    """Collect English senses and translation mappings from lexemes."""
+def _build_ili_index(lexemes: list[dict]) -> dict[str, str]:
+    print("Step 2: Building ILI index...")
     english_senses: set[str] = set()
     translations: dict[str, list[str]] = {}
     for lexeme in tqdm(lexemes, desc="Indexing"):
@@ -204,25 +243,14 @@ def _collect_senses_and_translations(lexemes: list[dict]):
             sense_id = sense["id"]
             if is_english:
                 english_senses.add(sense_id)
-            claims = sense.get("claims", {})
-            for claim in claims.get("P5972", []):
-                mainsnak = claim.get("mainsnak", {})
-                datavalue = mainsnak.get("datavalue")
-                if datavalue and datavalue.get("type") == "wikibase-entityid":
-                    target_id = datavalue["value"]["id"]
-                    translations.setdefault(sense_id, []).append(target_id)
-    return english_senses, translations
+            for claim in sense.get("claims", {}).get("P5972", []):
+                dv = claim.get("mainsnak", {}).get("datavalue")
+                if dv and dv.get("type") == "wikibase-entityid":
+                    translations.setdefault(sense_id, []).append(dv["value"]["id"])
 
-
-def build_ili_index(lexemes: list[dict]) -> dict[str, str]:
-    """Build mapping from sense ID to English ILI."""
-    print("Step 2: Building ILI index...")
-    english_senses, translations = _collect_senses_and_translations(lexemes)
-
-    ili_index: dict[str, str] = {}
-    for sense_id in english_senses:
-        ili_index[sense_id] = sense_id.lower()
-
+    ili_index: dict[str, str] = {
+        sense_id: sense_id.lower() for sense_id in english_senses
+    }
     for sense_id, targets in translations.items():
         if sense_id in ili_index:
             continue
@@ -236,8 +264,14 @@ def build_ili_index(lexemes: list[dict]) -> dict[str, str]:
     return ili_index
 
 
+class NormalizedSense(NamedTuple):
+    id: str
+    gloss: str
+    examples: list[str]
+    relations_xml: list[str]
+
+
 def _pick_gloss(glosses: dict, lang_iso: str) -> str:
-    """Prefer the lemma language; fall back to English, then any other."""
     for candidate in (lang_iso, "en"):
         text = glosses.get(candidate, {}).get("value", "")
         if text:
@@ -250,55 +284,107 @@ def _pick_gloss(glosses: dict, lang_iso: str) -> str:
 
 
 def _extract_sense_examples(lexeme: dict, lang_iso: str) -> dict[str, list[str]]:
-    """Build mapping of sense_id -> examples from P5831 claims."""
     sense_examples: dict[str, list[str]] = {}
     for claim in lexeme.get("claims", {}).get("P5831", []):
-        mainsnak = claim.get("mainsnak", {})
-        datavalue = mainsnak.get("datavalue")
-        if not datavalue or datavalue.get("type") != "monolingualtext":
+        dv = claim.get("mainsnak", {}).get("datavalue")
+        if not dv or dv.get("type") != "monolingualtext":
             continue
-        text_value = datavalue.get("value", {})
+        text_value = dv.get("value", {})
         if text_value.get("language") != lang_iso:
             continue
         example_text = text_value.get("text", "")
-        qualifiers = claim.get("qualifiers", {})
-        for qual in qualifiers.get("P6072", []):
-            qual_datavalue = qual.get("datavalue")
-            if qual_datavalue and qual_datavalue.get("type") == "wikibase-entityid":
-                target_sense = qual_datavalue["value"]["id"]
-                sense_examples.setdefault(target_sense, []).append(example_text)
+        for qual in claim.get("qualifiers", {}).get("P6072", []):
+            qual_dv = qual.get("datavalue")
+            if qual_dv and qual_dv.get("type") == "wikibase-entityid":
+                target_id = qual_dv["value"]["id"]
+                sense_examples.setdefault(target_id, []).append(example_text)
     return sense_examples
 
 
-def _build_sense_relations(
-    sense: dict, lang_iso: str,
-    kept_lang_senses: set[tuple[str, str]],
+def _sense_relations_xml(
+    sense: dict, lang_iso: str, kept_lang_senses: set[tuple[str, str]],
 ) -> list[str]:
-    """Build XML relation strings for a sense."""
     relations = []
-    claims = sense.get("claims", {})
     for prop, rel_type in SENSE_RELATIONS.items():
-        for claim in claims.get(prop, []):
-            mainsnak = claim.get("mainsnak", {})
-            datavalue = mainsnak.get("datavalue")
-            if datavalue and datavalue.get("type") == "wikibase-entityid":
-                target_id = datavalue["value"]["id"]
-                if (lang_iso, target_id) not in kept_lang_senses:
-                    continue
-                target_synset = f"wikidata-{lang_iso}-{target_id}"
-                relations.append(
-                    f'        <SenseRelation relType="{rel_type}"'
-                    f' target="{target_synset}"/>'
-                )
+        for claim in sense.get("claims", {}).get(prop, []):
+            dv = claim.get("mainsnak", {}).get("datavalue")
+            if not (dv and dv.get("type") == "wikibase-entityid"):
+                continue
+            target_id = dv["value"]["id"]
+            if (lang_iso, target_id) not in kept_lang_senses:
+                continue
+            target_synset = f"wikidata-{lang_iso}-{target_id}"
+            relations.append(
+                f'        <SenseRelation relType="{rel_type}"'
+                f' target="{target_synset}"/>'
+            )
     return relations
+
+
+# ASCII apostrophe, right single quotation mark, modifier-letter apostrophe,
+# left single quotation mark. All four are used by Wikidata for clitic
+# contractions (e.g. 'll, U+2019 d, etc.). Intentional.
+_LEADING_APOS = "'’ʼ‘"  # noqa: RUF001
+
+
+def _extract_alt_forms(lexeme: dict, lang_iso: str, main_lemma: str) -> list[str]:
+    """Return alternative form spellings for this lexeme in `lang_iso`,
+    excluding the main lemma, negation forms, and apostrophe-leading
+    contractions (`'ll`, `'d`, `'s`, ...)."""
+    out: list[str] = []
+    seen = {main_lemma}
+    for form in lexeme.get("forms", []):
+        if any(f in _SKIP_FORM_FEATURES for f in form.get("grammaticalFeatures", [])):
+            continue
+        rep = form.get("representations", {}).get(lang_iso, {}).get("value")
+        if not rep or rep in seen:
+            continue
+        if rep[0] in _LEADING_APOS:
+            continue
+        seen.add(rep)
+        out.append(rep)
+    return out
+
+
+def _normalized_senses(
+    lexeme: dict, lemma: str, pos_name: str, lang_iso: str,
+    kept_lang_senses: set[tuple[str, str]],
+) -> list[NormalizedSense]:
+    raw = lexeme.get("senses", [])
+    if raw:
+        sense_examples = _extract_sense_examples(lexeme, lang_iso)
+        return [
+            NormalizedSense(
+                id=sense["id"],
+                gloss=_pick_gloss(sense.get("glosses", {}), lang_iso),
+                examples=sense_examples.get(sense["id"], []),
+                relations_xml=_sense_relations_xml(sense, lang_iso, kept_lang_senses),
+            )
+            for sense in raw
+        ]
+    if not lemma or len(lemma) > 80:
+        return []
+    result = wiktionary_definition(
+        lemma, pos_name, lang_iso,
+        bypass_archaic=_has_p31(lexeme, MODAL_VERB_Q),
+    )
+    if not result:
+        return []
+    definition, examples = result
+    return [NormalizedSense(
+        id=f"{lexeme['id']}-WKT1",
+        gloss=definition,
+        examples=examples,
+        relations_xml=[],
+    )]
 
 
 def build_xml_entry(
     lexeme: dict, lang_iso: str,
     ili_index: dict[str, str],
     kept_lang_senses: set[tuple[str, str]],
-) -> tuple[str, list[str]] | None:
-    lexeme_id = lexeme["id"]
+) -> tuple[str, list[str], str, str] | None:
+    """Return (entry_xml, synset_xml_list, lemma, pos_code) or None."""
     lemmas = lexeme.get("lemmas", {})
     if lang_iso not in lemmas:
         return None
@@ -310,70 +396,55 @@ def build_xml_entry(
     pos_name = get_label(pos_q)
     pos_code = POS_MAP.get(pos_name, OTHER)
 
-    senses = lexeme.get("senses", [])
+    senses = _normalized_senses(lexeme, lemma, pos_name, lang_iso, kept_lang_senses)
     if not senses:
         return None
-
-    sense_examples = _extract_sense_examples(lexeme, lang_iso)
 
     sense_entries = []
     synset_entries = []
     for sense in senses:
-        sense_id = sense["id"]
-        glosses = sense.get("glosses", {})
-        gloss = _pick_gloss(glosses, lang_iso)
-        relations = _build_sense_relations(sense, lang_iso, kept_lang_senses)
-        examples = sense_examples.get(sense_id, [])
+        synset_id = f"wikidata-{lang_iso}-{sense.id}"
+        ili = ili_index.get(sense.id, synset_id)
 
-        synset_id = f"wikidata-{lang_iso}-{sense_id}"
-        ili = ili_index.get(sense_id, synset_id)
-        ili_attr = f' ili="{ili}"'
         sense_content = (
-            f'      <Sense id="{sense_id}"'
-            f' synset="{synset_id}"{ili_attr}>\n'
+            f'      <Sense id="{sense.id}"'
+            f' synset="{synset_id}" ili="{ili}">\n'
+            f'        <Definition>{_escape(sense.gloss)}</Definition>\n'
         )
-        sense_content += f'        <Definition>{escape_xml(gloss)}</Definition>\n'
-        for example in examples:
-            sense_content += f'        <Example>{escape_xml(example)}</Example>\n'
-        if relations:
-            sense_content += "\n".join(relations) + "\n"
+        for example in sense.examples:
+            sense_content += f'        <Example>{_escape(example)}</Example>\n'
+        if sense.relations_xml:
+            sense_content += "\n".join(sense.relations_xml) + "\n"
         sense_content += "      </Sense>"
         sense_entries.append(sense_content)
 
         synset_content = (
-            f'    <Synset id="{synset_id}"{ili_attr} partOfSpeech="{pos_code}">\n'
+            f'    <Synset id="{synset_id}" ili="{ili}" partOfSpeech="{pos_code}">\n'
+            f'      <Definition>{_escape(sense.gloss)}</Definition>\n'
         )
-        synset_content += f'      <Definition>{escape_xml(gloss)}</Definition>\n'
-        for example in examples:
-            synset_content += f'      <Example>{escape_xml(example)}</Example>\n'
+        for example in sense.examples:
+            synset_content += f'      <Example>{_escape(example)}</Example>\n'
         synset_content += "    </Synset>"
         synset_entries.append(synset_content)
 
-    if not sense_entries:
-        return None
-
+    alt_forms = _extract_alt_forms(lexeme, lang_iso, lemma)
+    form_lines = "".join(
+        f'      <Form writtenForm="{_escape(form)}"/>\n' for form in alt_forms
+    )
     entry_xml = (
-        f'    <LexicalEntry id="{lexeme_id}">\n'
-        f'      <Lemma writtenForm="{escape_xml(lemma)}"'
-        f' partOfSpeech="{pos_code}"/>\n'
+        f'    <LexicalEntry id="{lexeme["id"]}">\n'
+        f'      <Lemma writtenForm="{_escape(lemma)}" partOfSpeech="{pos_code}"/>\n'
+        + form_lines
         + "\n".join(sense_entries)
         + "\n    </LexicalEntry>"
     )
-    return entry_xml, synset_entries
+    return entry_xml, synset_entries, lemma, pos_code
 
 
-def escape_xml(text: str) -> str:
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-        .replace("'", "&apos;")
+def _xml_header(lang_iso: str) -> str:
+    base_id, base_version = _BASE_LEXICON_OVERRIDES.get(
+        lang_iso, (f"omw-{lang_iso}", "1.4"),
     )
-
-
-def get_xml_header(lang_iso: str) -> str:
-    base_id, base_version = BASE_LEXICON_MAP.get(lang_iso, (f"omw-{lang_iso}", "1.4"))
     return f'''<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE LexicalResource SYSTEM "https://globalwordnet.github.io/schemas/WN-LMF-1.4.dtd">
 <LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
@@ -387,20 +458,54 @@ def get_xml_header(lang_iso: str) -> str:
 '''
 
 
-XML_FOOTER = '''  </LexiconExtension>
+_XML_FOOTER = """  </LexiconExtension>
 </LexicalResource>
-'''
+"""
+
+
+def _wiktionary_task(lex: dict) -> tuple[str, str] | None:
+    if lex.get("senses"):
+        return None
+    lang_q = lex.get("language")
+    if not lang_q:
+        return None
+    lang_iso = get_language_iso(lang_q)
+    if not lang_iso or (LANG_FILTER and lang_iso != LANG_FILTER):
+        return None
+    lemma_obj = lex.get("lemmas", {}).get(lang_iso)
+    if not lemma_obj:
+        return None
+    lemma = lemma_obj["value"]
+    if not is_quality_lemma(lemma):
+        return None
+    return (lemma, lang_iso)
+
+
+def prefetch_wiktionary(lexemes: list[dict]) -> None:
+    tasks = sorted({task for lex in lexemes if (task := _wiktionary_task(lex))})
+    if not tasks:
+        return
+    print(f"Pre-fetching {len(tasks)} Wiktionary entries...")
+    with ThreadPoolExecutor(max_workers=16) as executor:
+        list(tqdm(
+            executor.map(lambda t: fetch_wiktionary(*t), tasks),
+            total=len(tasks), desc="Wiktionary defs",
+        ))
+
+    en_lemmas = [lemma for lemma, iso in tasks if iso == "en"]
+    if en_lemmas:
+        print(f"Pre-fetching categories for {len(en_lemmas)} EN lemmas...")
+        prefetch_categories_batch(en_lemmas, "en")
 
 
 def write_all_extensions(
     lexemes: list[dict],
     ili_index: dict[str, str],
     kept_lang_senses: set[tuple[str, str]],
-):
-    """Write XML extensions for all languages."""
+) -> None:
     EXTENSIONS_DIR.mkdir(parents=True, exist_ok=True)
 
-    file_handlers: dict[str, any] = {}
+    file_handlers: dict[str, object] = {}
     entry_counts: dict[str, int] = {}
     synsets_by_lang: dict[str, list[str]] = {}
 
@@ -410,43 +515,45 @@ def write_all_extensions(
             lang_q = lexeme.get("language")
             if not lang_q:
                 continue
-
             lang_iso = get_language_iso(lang_q)
             if not lang_iso:
+                continue
+            if LANG_FILTER and lang_iso != LANG_FILTER:
                 continue
 
             result = build_xml_entry(lexeme, lang_iso, ili_index, kept_lang_senses)
             if not result:
                 continue
+            entry, synsets, _lemma, _pos_code = result
 
-            entry, synsets = result
-
-            if lang_iso not in file_handlers:
+            handler = file_handlers.get(lang_iso)
+            if handler is None:
                 output_path = EXTENSIONS_DIR / f"{lang_iso}.xml"
-                file_handlers[lang_iso] = open(output_path, "w", encoding="utf-8")  # noqa: SIM115
-                file_handlers[lang_iso].write(get_xml_header(lang_iso))
+                handler = open(output_path, "w", encoding="utf-8")  # noqa: SIM115
+                handler.write(_xml_header(lang_iso))
+                file_handlers[lang_iso] = handler
                 entry_counts[lang_iso] = 0
                 synsets_by_lang[lang_iso] = []
 
-            file_handlers[lang_iso].write(entry + "\n")
+            handler.write(entry + "\n")
             synsets_by_lang[lang_iso].extend(synsets)
             entry_counts[lang_iso] += 1
-
     finally:
-        for lang_iso, f in file_handlers.items():
+        for lang_iso, handler in file_handlers.items():
             for synset in synsets_by_lang.get(lang_iso, []):
-                f.write(synset + "\n")
-            f.write(XML_FOOTER)
-            f.close()
+                handler.write(synset + "\n")
+            handler.write(_XML_FOOTER)
+            handler.close()
 
     print(f"  Wrote {len(file_handlers)} language files:")
-    for lang_iso in sorted(entry_counts.keys()):
+    for lang_iso in sorted(entry_counts):
         print(f"    {lang_iso}: {entry_counts[lang_iso]} entries")
 
 
-def main():
+def main() -> None:
     lexemes, kept_lang_senses = filter_lexemes()
-    ili_index = build_ili_index(lexemes)
+    ili_index = _build_ili_index(lexemes)
+    prefetch_wiktionary(lexemes)
     write_all_extensions(lexemes, ili_index, kept_lang_senses)
 
 

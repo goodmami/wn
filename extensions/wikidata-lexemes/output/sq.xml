@@ -90,6 +90,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1411496">
       <Lemma writtenForm="i" partOfSpeech="d"/>
+      <Form writtenForm="të"/>
+      <Form writtenForm="e"/>
+      <Form writtenForm="së"/>
       <Sense id="L1411496-S1" synset="wikidata-sq-L1411496-S1" ili="wikidata-sq-L1411496-S1">
         <Definition>(attributive proclitic)</Definition>
       </Sense>
@@ -108,6 +111,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1411285">
       <Lemma writtenForm="ne" partOfSpeech="h"/>
+      <Form writtenForm="nesh"/>
+      <Form writtenForm="neve"/>
       <Sense id="L1411285-S1" synset="wikidata-sq-L1411285-S1" ili="wikidata-sq-L1411285-S1">
         <Definition>we</Definition>
       </Sense>

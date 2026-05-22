@@ -148,6 +148,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1408848">
       <Lemma writtenForm="y" partOfSpeech="d"/>
+      <Form writtenForm="yr"/>
       <Sense id="L1408848-S1" synset="wikidata-cy-L1408848-S1" ili="wikidata-cy-L1408848-S1">
         <Definition>article défini</Definition>
       </Sense>

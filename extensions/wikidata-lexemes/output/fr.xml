@@ -34,6 +34,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9286">
       <Lemma writtenForm="leur" partOfSpeech="h"/>
+      <Form writtenForm="leurs"/>
       <Sense id="L9286-S1" synset="wikidata-fr-L9286-S1" ili="wikidata-fr-L9286-S1">
         <Definition>adjectif possessif 3ème personne pluriel</Definition>
       </Sense>
@@ -64,6 +65,7 @@
     </LexicalEntry>
     <LexicalEntry id="L11200">
       <Lemma writtenForm="cent mille" partOfSpeech="m"/>
+      <Form writtenForm="cent-mille"/>
       <Sense id="L11200-S1" synset="wikidata-fr-L11200-S1" ili="wikidata-fr-L11200-S1">
         <Definition>hundred thousand</Definition>
       </Sense>
@@ -142,6 +144,7 @@
     </LexicalEntry>
     <LexicalEntry id="L15359">
       <Lemma writtenForm="deuxième" partOfSpeech="m"/>
+      <Form writtenForm="deuxièmes"/>
       <Sense id="L15359-S1" synset="wikidata-fr-L15359-S1" ili="wikidata-fr-L15359-S1">
         <Definition>ordinal number for 2</Definition>
       </Sense>
@@ -307,6 +310,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9435">
       <Lemma writtenForm="elles" partOfSpeech="h"/>
+      <Form writtenForm="t-elles"/>
       <Sense id="L9435-S1" synset="wikidata-fr-L9435-S1" ili="wikidata-fr-L9435-S1">
         <Definition>they (female)</Definition>
       </Sense>
@@ -397,6 +401,7 @@
     </LexicalEntry>
     <LexicalEntry id="L16490">
       <Lemma writtenForm="sixième" partOfSpeech="m"/>
+      <Form writtenForm="sixièmes"/>
       <Sense id="L16490-S1" synset="wikidata-fr-L16490-S1" ili="wikidata-fr-L16490-S1">
         <Definition>ordinal number for 6</Definition>
       </Sense>
@@ -517,6 +522,7 @@
     </LexicalEntry>
     <LexicalEntry id="L296505">
       <Lemma writtenForm="al" partOfSpeech="h"/>
+      <Form writtenForm="als"/>
       <Sense id="L296505-S1" synset="wikidata-fr-L296505-S1" ili="wikidata-fr-L296505-S1">
         <Definition>pronom utilisé sans distinction de genre</Definition>
       </Sense>
@@ -541,6 +547,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1508816">
       <Lemma writtenForm="abats" partOfSpeech="n"/>
+      <Form writtenForm="abat"/>
       <Sense id="L1508816-S1" synset="wikidata-fr-L1508816-S1" ili="wikidata-fr-L1508816-S1">
         <Definition>parties comestibles des animaux de boucherie, autres que la viande musculaire – souvent les organes internes</Definition>
       </Sense>
@@ -571,12 +578,16 @@
     </LexicalEntry>
     <LexicalEntry id="L9091">
       <Lemma writtenForm="mon" partOfSpeech="h"/>
+      <Form writtenForm="ma"/>
+      <Form writtenForm="mes"/>
       <Sense id="L9091-S1" synset="wikidata-fr-L9091-S1" ili="wikidata-fr-L9091-S1">
         <Definition>my</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L9099">
       <Lemma writtenForm="ton" partOfSpeech="h"/>
+      <Form writtenForm="tes"/>
+      <Form writtenForm="ta"/>
       <Sense id="L9099-S1" synset="wikidata-fr-L9099-S1" ili="wikidata-fr-L9099-S1">
         <Definition>use of pitch to differentiate words in a language</Definition>
       </Sense>
@@ -619,12 +630,16 @@
     </LexicalEntry>
     <LexicalEntry id="L9188">
       <Lemma writtenForm="elle" partOfSpeech="h"/>
+      <Form writtenForm="t-elle"/>
       <Sense id="L9188-S1" synset="wikidata-fr-L9188-S1" ili="wikidata-fr-L9188-S1">
         <Definition>she</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L9203">
       <Lemma writtenForm="ce" partOfSpeech="a"/>
+      <Form writtenForm="cette"/>
+      <Form writtenForm="ces"/>
+      <Form writtenForm="cet"/>
       <Sense id="L9203-S1" synset="wikidata-fr-L9203-S1" ili="wikidata-fr-L9203-S1">
         <Definition>this</Definition>
       </Sense>
@@ -769,6 +784,7 @@
     </LexicalEntry>
     <LexicalEntry id="L15026">
       <Lemma writtenForm="aucun" partOfSpeech="a"/>
+      <Form writtenForm="aucune"/>
       <Sense id="L15026-S1" synset="wikidata-fr-L15026-S1" ili="wikidata-fr-L15026-S1">
         <Definition>no, none, not any</Definition>
       </Sense>
@@ -889,6 +905,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1508829">
       <Lemma writtenForm="abdominaux" partOfSpeech="n"/>
+      <Form writtenForm="abdominal"/>
       <Sense id="L1508829-S1" synset="wikidata-fr-L1508829-S1" ili="wikidata-fr-L1508829-S1">
         <Definition>muscles constituant les parois antérieures et latérales de l&apos;abdomen</Definition>
       </Sense>
@@ -916,12 +933,15 @@
     </LexicalEntry>
     <LexicalEntry id="L9111">
       <Lemma writtenForm="un" partOfSpeech="d"/>
+      <Form writtenForm="des"/>
+      <Form writtenForm="une"/>
       <Sense id="L9111-S1" synset="wikidata-fr-L9111-S1" ili="l2767-s1">
         <Definition>a(n), indefinite article</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L9167">
       <Lemma writtenForm="un" partOfSpeech="m"/>
+      <Form writtenForm="une"/>
       <Sense id="L9167-S1" synset="wikidata-fr-L9167-S1" ili="l327-s1">
         <Definition>nombre cardinal</Definition>
       </Sense>
@@ -1123,6 +1143,8 @@
     </LexicalEntry>
     <LexicalEntry id="L9094">
       <Lemma writtenForm="je" partOfSpeech="h"/>
+      <Form writtenForm="j&apos;"/>
+      <Form writtenForm="moi"/>
       <Sense id="L9094-S1" synset="wikidata-fr-L9094-S1" ili="wikidata-fr-L9094-S1">
         <Definition>I</Definition>
       </Sense>
@@ -1141,6 +1163,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9159">
       <Lemma writtenForm="se" partOfSpeech="h"/>
+      <Form writtenForm="s&apos;"/>
       <Sense id="L9159-S1" synset="wikidata-fr-L9159-S1" ili="wikidata-fr-L9159-S1">
         <Definition>language</Definition>
       </Sense>
@@ -1177,6 +1200,8 @@
     </LexicalEntry>
     <LexicalEntry id="L9227">
       <Lemma writtenForm="son" partOfSpeech="h"/>
+      <Form writtenForm="sa"/>
+      <Form writtenForm="ses"/>
       <Sense id="L9227-S1" synset="wikidata-fr-L9227-S1" ili="wikidata-fr-L9227-S1">
         <Definition>déterminant possessif</Definition>
       </Sense>
@@ -1357,6 +1382,7 @@
     </LexicalEntry>
     <LexicalEntry id="L476219">
       <Lemma writtenForm="bonne nuit" partOfSpeech="i"/>
+      <Form writtenForm="bonnes nuits"/>
       <Sense id="L476219-S1" synset="wikidata-fr-L476219-S1" ili="l476215-s1">
         <Definition>salutation used at night</Definition>
       </Sense>
@@ -1381,18 +1407,24 @@
     </LexicalEntry>
     <LexicalEntry id="L2926">
       <Lemma writtenForm="on" partOfSpeech="h"/>
+      <Form writtenForm="t-on"/>
       <Sense id="L2926-S1" synset="wikidata-fr-L2926-S1" ili="l38519-s1">
         <Definition>any person</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L9096">
       <Lemma writtenForm="tu" partOfSpeech="h"/>
+      <Form writtenForm="te"/>
+      <Form writtenForm="t’"/>
+      <Form writtenForm="toi"/>
       <Sense id="L9096-S1" synset="wikidata-fr-L9096-S1" ili="wikidata-fr-L9096-S1">
         <Definition>you, second person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L9257">
       <Lemma writtenForm="il" partOfSpeech="h"/>
+      <Form writtenForm="t-il"/>
+      <Form writtenForm="lui"/>
       <Sense id="L9257-S1" synset="wikidata-fr-L9257-S1" ili="l485-s1">
         <Definition>he; third-person singular pronoun</Definition>
       </Sense>
@@ -1405,6 +1437,9 @@
     </LexicalEntry>
     <LexicalEntry id="L9417">
       <Lemma writtenForm="premier" partOfSpeech="m"/>
+      <Form writtenForm="première"/>
+      <Form writtenForm="1er"/>
+      <Form writtenForm="1ère"/>
       <Sense id="L9417-S1" synset="wikidata-fr-L9417-S1" ili="wikidata-fr-L9417-S1">
         <Definition>nombre ordinal</Definition>
       </Sense>
@@ -1600,6 +1635,10 @@
     </LexicalEntry>
     <LexicalEntry id="L2379">
       <Lemma writtenForm="de" partOfSpeech="p"/>
+      <Form writtenForm="d’"/>
+      <Form writtenForm="de la"/>
+      <Form writtenForm="du"/>
+      <Form writtenForm="des"/>
       <Sense id="L2379-S2" synset="wikidata-fr-L2379-S2" ili="wikidata-fr-L2379-S2">
         <Definition>préposition pour marquer l&apos;appartenance, la possession</Definition>
       </Sense>
@@ -1645,6 +1684,7 @@
     </LexicalEntry>
     <LexicalEntry id="L10468">
       <Lemma writtenForm="vingt-et-un" partOfSpeech="m"/>
+      <Form writtenForm="vingt et un"/>
       <Sense id="L10468-S1" synset="wikidata-fr-L10468-S1" ili="wikidata-fr-L10468-S1">
         <Definition>nombre</Definition>
       </Sense>
@@ -1657,6 +1697,9 @@
     </LexicalEntry>
     <LexicalEntry id="L10650">
       <Lemma writtenForm="quelqu&apos;un" partOfSpeech="h"/>
+      <Form writtenForm="quelqu&apos;une"/>
+      <Form writtenForm="quelques-uns"/>
+      <Form writtenForm="quelques-unes"/>
       <Sense id="L10650-S1" synset="wikidata-fr-L10650-S1" ili="wikidata-fr-L10650-S1">
         <Definition>someone</Definition>
       </Sense>
@@ -1849,6 +1892,9 @@
     </LexicalEntry>
     <LexicalEntry id="L2770">
       <Lemma writtenForm="le" partOfSpeech="d"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="les"/>
+      <Form writtenForm="l’"/>
       <Sense id="L2770-S1" synset="wikidata-fr-L2770-S1" ili="wikidata-fr-L2770-S1">
         <Definition>articile défini</Definition>
       </Sense>
@@ -1879,6 +1925,7 @@
     </LexicalEntry>
     <LexicalEntry id="L9319">
       <Lemma writtenForm="cent" partOfSpeech="m"/>
+      <Form writtenForm="cents"/>
       <Sense id="L9319-S1" synset="wikidata-fr-L9319-S1" ili="wikidata-fr-L9319-S1">
         <Definition>musical interval unit</Definition>
       </Sense>
@@ -1888,6 +1935,9 @@
     </LexicalEntry>
     <LexicalEntry id="L10017">
       <Lemma writtenForm="tout" partOfSpeech="a"/>
+      <Form writtenForm="toute"/>
+      <Form writtenForm="tous"/>
+      <Form writtenForm="toutes"/>
       <Sense id="L10017-S2" synset="wikidata-fr-L10017-S2" ili="wikidata-fr-L10017-S2">
         <Definition>all</Definition>
       </Sense>
@@ -2044,6 +2094,7 @@
     </LexicalEntry>
     <LexicalEntry id="L19237">
       <Lemma writtenForm="ˆ" partOfSpeech="x"/>
+      <Form writtenForm="^"/>
       <Sense id="L19237-S1" synset="wikidata-fr-L19237-S1" ili="wikidata-fr-L19237-S1">
         <Definition>diacritic in Latin, Greek and Cyrillic scripts</Definition>
       </Sense>

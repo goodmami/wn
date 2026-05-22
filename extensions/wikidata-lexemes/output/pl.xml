@@ -10,12 +10,17 @@
     <Extends id="omw-pl" version="1.4"/>
     <LexicalEntry id="L3404">
       <Lemma writtenForm="trzydzieści" partOfSpeech="n"/>
+      <Form writtenForm="trzydziestu"/>
+      <Form writtenForm="trzydziestoma"/>
       <Sense id="L3404-S1" synset="wikidata-pl-L3404-S1" ili="wikidata-pl-L3404-S1">
         <Definition>o jeden więcej niż dwadzieścia dziewięć</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21188">
       <Lemma writtenForm="my" partOfSpeech="h"/>
+      <Form writtenForm="nas"/>
+      <Form writtenForm="nam"/>
+      <Form writtenForm="nami"/>
       <Sense id="L21188-S1" synset="wikidata-pl-L21188-S1" ili="wikidata-pl-L21188-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
@@ -179,6 +184,10 @@
     </LexicalEntry>
     <LexicalEntry id="L6410">
       <Lemma writtenForm="ja" partOfSpeech="h"/>
+      <Form writtenForm="mnie"/>
+      <Form writtenForm="mię"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="mną"/>
       <Sense id="L6410-S1" synset="wikidata-pl-L6410-S1" ili="wikidata-pl-L6410-S1">
         <Definition>first person singular, I</Definition>
       </Sense>
@@ -247,6 +256,13 @@
     </LexicalEntry>
     <LexicalEntry id="L6039">
       <Lemma writtenForm="śniadanie" partOfSpeech="v"/>
+      <Form writtenForm="śniadania"/>
+      <Form writtenForm="śniadaniu"/>
+      <Form writtenForm="śniadaniem"/>
+      <Form writtenForm="śniadań"/>
+      <Form writtenForm="śniadaniom"/>
+      <Form writtenForm="śniadaniami"/>
+      <Form writtenForm="śniadaniach"/>
       <Sense id="L6039-S1" synset="wikidata-pl-L6039-S1" ili="wikidata-pl-L6039-S1">
         <Definition>pierwszy posiłek dnia</Definition>
       </Sense>
@@ -261,6 +277,11 @@
     </LexicalEntry>
     <LexicalEntry id="L10881">
       <Lemma writtenForm="ty" partOfSpeech="h"/>
+      <Form writtenForm="ciebie"/>
+      <Form writtenForm="cię"/>
+      <Form writtenForm="tobie"/>
+      <Form writtenForm="ci"/>
+      <Form writtenForm="tobą"/>
       <Sense id="L10881-S1" synset="wikidata-pl-L10881-S1" ili="wikidata-pl-L10881-S1">
         <Definition>you; second-person singular pronoun</Definition>
       </Sense>
@@ -301,6 +322,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1259868">
       <Lemma writtenForm="on" partOfSpeech="h"/>
+      <Form writtenForm="jego"/>
+      <Form writtenForm="go"/>
+      <Form writtenForm="niego"/>
+      <Form writtenForm="jemu"/>
+      <Form writtenForm="mu"/>
+      <Form writtenForm="niemu"/>
+      <Form writtenForm="nim"/>
       <Sense id="L1259868-S1" synset="wikidata-pl-L1259868-S1" ili="wikidata-pl-L1259868-S1">
         <Definition>he or it</Definition>
       </Sense>
@@ -315,6 +343,10 @@
     </LexicalEntry>
     <LexicalEntry id="L13358">
       <Lemma writtenForm="się" partOfSpeech="h"/>
+      <Form writtenForm="siebie"/>
+      <Form writtenForm="se"/>
+      <Form writtenForm="sobie"/>
+      <Form writtenForm="sobą"/>
       <Sense id="L13358-S1" synset="wikidata-pl-L13358-S1" ili="wikidata-pl-L13358-S1">
         <Definition>zaimek zwrotny</Definition>
       </Sense>
@@ -407,6 +439,7 @@
     </LexicalEntry>
     <LexicalEntry id="L449208">
       <Lemma writtenForm="sranie" partOfSpeech="v"/>
+      <Form writtenForm="sranko"/>
       <Sense id="L449208-S1" synset="wikidata-pl-L449208-S1" ili="wikidata-pl-L449208-S1">
         <Definition>wulgarne określenie na oddawanie kału</Definition>
       </Sense>

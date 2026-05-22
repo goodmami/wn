@@ -10,12 +10,19 @@
     <Extends id="omw-br" version="1.4"/>
     <LexicalEntry id="L35220">
       <Lemma writtenForm="ur" partOfSpeech="d"/>
+      <Form writtenForm="un"/>
+      <Form writtenForm="ul"/>
+      <Form writtenForm="eur"/>
+      <Form writtenForm="eun"/>
+      <Form writtenForm="eul"/>
+      <Form writtenForm="eunn"/>
       <Sense id="L35220-S1" synset="wikidata-br-L35220-S1" ili="wikidata-br-L35220-S1">
         <Definition>article indéfini</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L40123">
       <Lemma writtenForm="abalamour" partOfSpeech="p"/>
+      <Form writtenForm="ablamour"/>
       <Sense id="L40123-S1" synset="wikidata-br-L40123-S1" ili="wikidata-br-L40123-S1">
         <Definition>à cause de</Definition>
       </Sense>
@@ -34,6 +41,7 @@
     </LexicalEntry>
     <LexicalEntry id="L629705">
       <Lemma writtenForm="trema" partOfSpeech="p"/>
+      <Form writtenForm="tréma"/>
       <Sense id="L629705-S1" synset="wikidata-br-L629705-S1" ili="wikidata-br-L629705-S1">
         <Definition>vers (spatialement)</Definition>
       </Sense>
@@ -49,6 +57,7 @@
     </LexicalEntry>
     <LexicalEntry id="L630419">
       <Lemma writtenForm="a-dreuz-penn" partOfSpeech="r"/>
+      <Form writtenForm="adreûz-penn"/>
       <Sense id="L630419-S1" synset="wikidata-br-L630419-S1" ili="wikidata-br-L630419-S1">
         <Definition>tout au travers</Definition>
       </Sense>
@@ -76,6 +85,11 @@
     </LexicalEntry>
     <LexicalEntry id="L347660">
       <Lemma writtenForm="pevar" partOfSpeech="m"/>
+      <Form writtenForm="bevar"/>
+      <Form writtenForm="fevar"/>
+      <Form writtenForm="peder"/>
+      <Form writtenForm="beder"/>
+      <Form writtenForm="feder"/>
       <Sense id="L347660-S1" synset="wikidata-br-L347660-S1" ili="wikidata-br-L347660-S1">
         <Definition>niver 4</Definition>
       </Sense>
@@ -106,6 +120,17 @@
     </LexicalEntry>
     <LexicalEntry id="L501753">
       <Lemma writtenForm="da" partOfSpeech="p"/>
+      <Form writtenForm="din"/>
+      <Form writtenForm="dit"/>
+      <Form writtenForm="dezhañ"/>
+      <Form writtenForm="dezhi"/>
+      <Form writtenForm="deomp"/>
+      <Form writtenForm="dimp"/>
+      <Form writtenForm="deoc&apos;h"/>
+      <Form writtenForm="dezho"/>
+      <Form writtenForm="dezhe"/>
+      <Form writtenForm="deor"/>
+      <Form writtenForm="d&apos;"/>
       <Sense id="L501753-S1" synset="wikidata-br-L501753-S1" ili="wikidata-br-L501753-S1">
         <Definition>à, pour, sur le point de</Definition>
       </Sense>
@@ -130,24 +155,30 @@
     </LexicalEntry>
     <LexicalEntry id="L642119">
       <Lemma writtenForm="ma" partOfSpeech="c"/>
+      <Form writtenForm="mar"/>
+      <Form writtenForm="mard"/>
       <Sense id="L642119-S1" synset="wikidata-br-L642119-S1" ili="wikidata-br-L642119-S1">
         <Definition>conjonction</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L642124">
       <Lemma writtenForm="o" partOfSpeech="y"/>
+      <Form writtenForm="oc&apos;h"/>
       <Sense id="L642124-S1" synset="wikidata-br-L642124-S1" ili="wikidata-br-L642124-S1">
         <Definition>particule verbale</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1410440">
       <Lemma writtenForm="e-pad" partOfSpeech="p"/>
+      <Form writtenForm="epad"/>
       <Sense id="L1410440-S1" synset="wikidata-br-L1410440-S1" ili="wikidata-br-L1410440-S1">
         <Definition>pendant</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L40124">
       <Lemma writtenForm="abaoe" partOfSpeech="p"/>
+      <Form writtenForm="abaoué"/>
+      <Form writtenForm="abaoé"/>
       <Sense id="L40124-S1" synset="wikidata-br-L40124-S1" ili="wikidata-br-L40124-S1">
         <Definition>depuis</Definition>
       </Sense>
@@ -184,18 +215,33 @@
     </LexicalEntry>
     <LexicalEntry id="L470720">
       <Lemma writtenForm="efed ti-gwer" partOfSpeech="t"/>
+      <Form writtenForm="efedoù ti-gwer"/>
       <Sense id="L470720-S1" synset="wikidata-br-L470720-S1" ili="wikidata-br-L470720-S1">
         <Definition>anadenn aergelc&apos;h</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L627699">
       <Lemma writtenForm="hep" partOfSpeech="p"/>
+      <Form writtenForm="hép"/>
+      <Form writtenForm="hemp"/>
+      <Form writtenForm="hemb"/>
+      <Form writtenForm="hepdon"/>
+      <Form writtenForm="hepdout"/>
+      <Form writtenForm="heptañ"/>
+      <Form writtenForm="hepti"/>
+      <Form writtenForm="hepdomp"/>
+      <Form writtenForm="hepdoc&apos;h"/>
+      <Form writtenForm="hepto"/>
+      <Form writtenForm="hepte"/>
+      <Form writtenForm="hepdor"/>
       <Sense id="L627699-S1" synset="wikidata-br-L627699-S1" ili="wikidata-br-L627699-S1">
         <Definition>sans</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L629271">
       <Lemma writtenForm="e-biou" partOfSpeech="p"/>
+      <Form writtenForm="ébiou"/>
+      <Form writtenForm="hebiou"/>
       <Sense id="L629271-S1" synset="wikidata-br-L629271-S1" ili="wikidata-br-L629271-S1">
         <Definition>auprès de</Definition>
       </Sense>
@@ -211,18 +257,32 @@
     </LexicalEntry>
     <LexicalEntry id="L673553">
       <Lemma writtenForm="ket" partOfSpeech="y"/>
+      <Form writtenForm="két"/>
       <Sense id="L673553-S1" synset="wikidata-br-L673553-S1" ili="wikidata-br-L673553-S1">
         <Definition>used for negation</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1140595">
       <Lemma writtenForm="evel" partOfSpeech="p"/>
+      <Form writtenForm="ével"/>
+      <Form writtenForm="eveldon"/>
+      <Form writtenForm="eveldout"/>
+      <Form writtenForm="eveltañ"/>
+      <Form writtenForm="evelti"/>
+      <Form writtenForm="eveldomp"/>
+      <Form writtenForm="eveldoc&apos;h"/>
+      <Form writtenForm="evelto"/>
+      <Form writtenForm="evelte"/>
+      <Form writtenForm="eveldor"/>
       <Sense id="L1140595-S1" synset="wikidata-br-L1140595-S1" ili="wikidata-br-L1140595-S1">
         <Definition>comme</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L35217">
       <Lemma writtenForm="ar" partOfSpeech="d"/>
+      <Form writtenForm="an"/>
+      <Form writtenForm="al"/>
+      <Form writtenForm="ann"/>
       <Sense id="L35217-S1" synset="wikidata-br-L35217-S1" ili="wikidata-br-L35217-S1">
         <Definition>article défini</Definition>
       </Sense>
@@ -235,24 +295,37 @@
     </LexicalEntry>
     <LexicalEntry id="L347666">
       <Lemma writtenForm="dek" partOfSpeech="m"/>
+      <Form writtenForm="zek"/>
+      <Form writtenForm="tek"/>
       <Sense id="L347666-S1" synset="wikidata-br-L347666-S1" ili="wikidata-br-L347666-S1">
         <Definition>niver 10</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L411246">
       <Lemma writtenForm="evit" partOfSpeech="p"/>
+      <Form writtenForm="evidon"/>
+      <Form writtenForm="evidout"/>
+      <Form writtenForm="evitañ"/>
+      <Form writtenForm="eviti"/>
+      <Form writtenForm="evidomp"/>
+      <Form writtenForm="evidoc&apos;h"/>
+      <Form writtenForm="evito"/>
+      <Form writtenForm="evidor"/>
       <Sense id="L411246-S1" synset="wikidata-br-L411246-S1" ili="wikidata-br-L411246-S1">
         <Definition>pour</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470579">
       <Lemma writtenForm="energiezh nevezadus" partOfSpeech="t"/>
+      <Form writtenForm="energiezhioù nevezadus"/>
+      <Form writtenForm="energiezhoù nevezadus"/>
       <Sense id="L470579-S1" synset="wikidata-br-L470579-S1" ili="wikidata-br-L470579-S1">
         <Definition>gremm</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L626426">
       <Lemma writtenForm="anez" partOfSpeech="p"/>
+      <Form writtenForm="anéz"/>
       <Sense id="L626426-S1" synset="wikidata-br-L626426-S1" ili="wikidata-br-L626426-S1">
         <Definition>sans</Definition>
       </Sense>
@@ -283,6 +356,8 @@
     </LexicalEntry>
     <LexicalEntry id="L347661">
       <Lemma writtenForm="pemp" partOfSpeech="m"/>
+      <Form writtenForm="bemp"/>
+      <Form writtenForm="femp"/>
       <Sense id="L347661-S1" synset="wikidata-br-L347661-S1" ili="wikidata-br-L347661-S1">
         <Definition>niver 5</Definition>
       </Sense>
@@ -295,6 +370,9 @@
     </LexicalEntry>
     <LexicalEntry id="L470710">
       <Lemma writtenForm="marevezh skorn" partOfSpeech="t"/>
+      <Form writtenForm="varevezh skorn"/>
+      <Form writtenForm="marevezhioù skorn"/>
+      <Form writtenForm="varevezhioù skorn"/>
       <Sense id="L470710-S1" synset="wikidata-br-L470710-S1" ili="wikidata-br-L470710-S1">
         <Definition>prantad</Definition>
       </Sense>
@@ -346,18 +424,27 @@
     </LexicalEntry>
     <LexicalEntry id="L1140596">
       <Lemma writtenForm="ne" partOfSpeech="y"/>
+      <Form writtenForm="né"/>
       <Sense id="L1140596-S1" synset="wikidata-br-L1140596-S1" ili="wikidata-br-L1140596-S1">
         <Definition>particule de négation</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1140598">
       <Lemma writtenForm="met" partOfSpeech="c"/>
+      <Form writtenForm="med"/>
       <Sense id="L1140598-S1" synset="wikidata-br-L1140598-S1" ili="wikidata-br-L1140598-S1">
         <Definition>mais</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1355620">
       <Lemma writtenForm="diwar-benn" partOfSpeech="p"/>
+      <Form writtenForm="diwar ma fenn"/>
+      <Form writtenForm="diwar da benn"/>
+      <Form writtenForm="diwar e benn"/>
+      <Form writtenForm="diwar he fenn"/>
+      <Form writtenForm="diwar hor penn"/>
+      <Form writtenForm="diwar ho penn"/>
+      <Form writtenForm="diwar o fenn"/>
       <Sense id="L1355620-S1" synset="wikidata-br-L1355620-S1" ili="wikidata-br-L1355620-S1">
         <Definition>à propos de</Definition>
       </Sense>
@@ -367,6 +454,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1549459">
       <Lemma writtenForm="a-enep" partOfSpeech="p"/>
+      <Form writtenForm="em enep"/>
+      <Form writtenForm="ez enep"/>
+      <Form writtenForm="en e enep"/>
+      <Form writtenForm="en he enep"/>
+      <Form writtenForm="en hon enep"/>
+      <Form writtenForm="en hocʼh enep"/>
+      <Form writtenForm="en o enep"/>
+      <Form writtenForm="en enep"/>
       <Sense id="L1549459-S1" synset="wikidata-br-L1549459-S1" ili="wikidata-br-L1549459-S1">
         <Definition>contre</Definition>
       </Sense>
@@ -391,12 +486,24 @@
     </LexicalEntry>
     <LexicalEntry id="L501759">
       <Lemma writtenForm="da" partOfSpeech="h"/>
+      <Form writtenForm="ta"/>
       <Sense id="L501759-S1" synset="wikidata-br-L501759-S1" ili="wikidata-br-L501759-S1">
         <Definition>possessif, deuxième personne du singulier</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L627820">
       <Lemma writtenForm="ouzh" partOfSpeech="p"/>
+      <Form writtenForm="ouz"/>
+      <Form writtenForm="ouzhin"/>
+      <Form writtenForm="ouzhit"/>
+      <Form writtenForm="outañ"/>
+      <Form writtenForm="outi"/>
+      <Form writtenForm="ouzhimp"/>
+      <Form writtenForm="ouzhomp"/>
+      <Form writtenForm="ouzhoc&apos;h"/>
+      <Form writtenForm="outo"/>
+      <Form writtenForm="oute"/>
+      <Form writtenForm="ouzhor"/>
       <Sense id="L627820-S1" synset="wikidata-br-L627820-S1" ili="wikidata-br-L627820-S1">
         <Definition>vers</Definition>
       </Sense>
@@ -415,6 +522,15 @@
     </LexicalEntry>
     <LexicalEntry id="L629385">
       <Lemma writtenForm="war-dro" partOfSpeech="p"/>
+      <Form writtenForm="wardrô"/>
+      <Form writtenForm="war ma zro"/>
+      <Form writtenForm="war da dro"/>
+      <Form writtenForm="war e dro"/>
+      <Form writtenForm="war he zro"/>
+      <Form writtenForm="war hon tro"/>
+      <Form writtenForm="war ho tro"/>
+      <Form writtenForm="war o zro"/>
+      <Form writtenForm="war an tro"/>
       <Sense id="L629385-S1" synset="wikidata-br-L629385-S1" ili="wikidata-br-L629385-S1">
         <Definition>environ, alentours (dans l&apos;espace)</Definition>
       </Sense>
@@ -427,6 +543,7 @@
     </LexicalEntry>
     <LexicalEntry id="L629643">
       <Lemma writtenForm="enep" partOfSpeech="p"/>
+      <Form writtenForm="énep"/>
       <Sense id="L629643-S1" synset="wikidata-br-L629643-S1" ili="wikidata-br-L629643-S1">
         <Definition>contre</Definition>
       </Sense>
@@ -439,6 +556,18 @@
     </LexicalEntry>
     <LexicalEntry id="L1410571">
       <Lemma writtenForm="diouzh" partOfSpeech="p"/>
+      <Form writtenForm="dioc&apos;h"/>
+      <Form writtenForm="diouz"/>
+      <Form writtenForm="diouzhin"/>
+      <Form writtenForm="diouzhit"/>
+      <Form writtenForm="dioutañ"/>
+      <Form writtenForm="diouti"/>
+      <Form writtenForm="diouzhimp"/>
+      <Form writtenForm="diouzhomp"/>
+      <Form writtenForm="diouzhoc&apos;h"/>
+      <Form writtenForm="diouto"/>
+      <Form writtenForm="dioute"/>
+      <Form writtenForm="diouzhor"/>
       <Sense id="L1410571-S1" synset="wikidata-br-L1410571-S1" ili="wikidata-br-L1410571-S1">
         <Definition>de (dans l&apos;espace)</Definition>
       </Sense>
@@ -454,18 +583,36 @@
     </LexicalEntry>
     <LexicalEntry id="L56905">
       <Lemma writtenForm="ha" partOfSpeech="c"/>
+      <Form writtenForm="hag"/>
+      <Form writtenForm="hac"/>
       <Sense id="L56905-S1" synset="wikidata-br-L56905-S1" ili="wikidata-br-L56905-S1">
         <Definition>et</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L314191">
       <Lemma writtenForm="eus" partOfSpeech="p"/>
+      <Form writtenForm="eûz"/>
+      <Form writtenForm="ac&apos;hanon"/>
+      <Form writtenForm="ac&apos;hanout"/>
+      <Form writtenForm="anezhañ"/>
+      <Form writtenForm="anezhi"/>
+      <Form writtenForm="ac&apos;hanomp"/>
+      <Form writtenForm="ac&apos;hanoc&apos;h"/>
+      <Form writtenForm="anezho"/>
+      <Form writtenForm="anezhe"/>
+      <Form writtenForm="ac&apos;hanor"/>
+      <Form writtenForm="deus"/>
       <Sense id="L314191-S1" synset="wikidata-br-L314191-S1" ili="wikidata-br-L314191-S1">
         <Definition>de (origine, provenance, etc.)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347659">
       <Lemma writtenForm="tri" partOfSpeech="m"/>
+      <Form writtenForm="dri"/>
+      <Form writtenForm="zri"/>
+      <Form writtenForm="teir"/>
+      <Form writtenForm="deir"/>
+      <Form writtenForm="zeir"/>
       <Sense id="L347659-S1" synset="wikidata-br-L347659-S1" ili="wikidata-br-L347659-S1">
         <Definition>niver 3</Definition>
       </Sense>
@@ -478,6 +625,7 @@
     </LexicalEntry>
     <LexicalEntry id="L348043">
       <Lemma writtenForm="pemzek" partOfSpeech="m"/>
+      <Form writtenForm="pempzek"/>
       <Sense id="L348043-S1" synset="wikidata-br-L348043-S1" ili="wikidata-br-L348043-S1">
         <Definition>niver 15</Definition>
       </Sense>
@@ -502,12 +650,15 @@
     </LexicalEntry>
     <LexicalEntry id="L469614">
       <Lemma writtenForm="energiezh nukleel" partOfSpeech="t"/>
+      <Form writtenForm="energiezhoù nukleel"/>
+      <Form writtenForm="energiezhioù nukleel"/>
       <Sense id="L469614-S1" synset="wikidata-br-L469614-S1" ili="wikidata-br-L469614-S1">
         <Definition>gremm</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L627139">
       <Lemma writtenForm="etre" partOfSpeech="p"/>
+      <Form writtenForm="entre"/>
       <Sense id="L627139-S1" synset="wikidata-br-L627139-S1" ili="wikidata-br-L627139-S1">
         <Definition>between</Definition>
       </Sense>
@@ -517,6 +668,16 @@
     </LexicalEntry>
     <LexicalEntry id="L628322">
       <Lemma writtenForm="dre" partOfSpeech="p"/>
+      <Form writtenForm="dré"/>
+      <Form writtenForm="drezon"/>
+      <Form writtenForm="drezout"/>
+      <Form writtenForm="drezañ"/>
+      <Form writtenForm="drezi"/>
+      <Form writtenForm="drezomp"/>
+      <Form writtenForm="drezoc&apos;h"/>
+      <Form writtenForm="drezo"/>
+      <Form writtenForm="dreze"/>
+      <Form writtenForm="drezor"/>
       <Sense id="L628322-S1" synset="wikidata-br-L628322-S1" ili="wikidata-br-L628322-S1">
         <Definition>par</Definition>
       </Sense>
@@ -526,6 +687,8 @@
     </LexicalEntry>
     <LexicalEntry id="L628349">
       <Lemma writtenForm="betek" partOfSpeech="p"/>
+      <Form writtenForm="bété"/>
+      <Form writtenForm="béteg"/>
       <Sense id="L628349-S1" synset="wikidata-br-L628349-S1" ili="wikidata-br-L628349-S1">
         <Definition>jusque, jusqu&apos;à</Definition>
       </Sense>
@@ -550,6 +713,8 @@
     </LexicalEntry>
     <LexicalEntry id="L630111">
       <Lemma writtenForm="e-keñver" partOfSpeech="p"/>
+      <Form writtenForm="ékenver"/>
+      <Form writtenForm="ékéver"/>
       <Sense id="L630111-S1" synset="wikidata-br-L630111-S1" ili="wikidata-br-L630111-S1">
         <Definition>envers</Definition>
       </Sense>
@@ -568,24 +733,47 @@
     </LexicalEntry>
     <LexicalEntry id="L1334356">
       <Lemma writtenForm="egile" partOfSpeech="h"/>
+      <Form writtenForm="égilé"/>
       <Sense id="L1334356-S1" synset="wikidata-br-L1334356-S1" ili="wikidata-br-L1334356-S1">
         <Definition>l&apos;autre</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2127">
       <Lemma writtenForm="piv" partOfSpeech="q"/>
+      <Form writtenForm="piu"/>
+      <Form writtenForm="pihue"/>
       <Sense id="L2127-S1" synset="wikidata-br-L2127-S1" ili="wikidata-br-L2127-S1">
         <Definition>peseurt den</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L184227">
       <Lemma writtenForm="gant" partOfSpeech="p"/>
+      <Form writtenForm="ganin"/>
+      <Form writtenForm="ganen"/>
+      <Form writtenForm="ganein"/>
+      <Form writtenForm="ganit"/>
+      <Form writtenForm="ganez"/>
+      <Form writtenForm="gantañ"/>
+      <Form writtenForm="ganti"/>
+      <Form writtenForm="ganeomp"/>
+      <Form writtenForm="ganimp"/>
+      <Form writtenForm="ganeoc&apos;h"/>
+      <Form writtenForm="ganto"/>
+      <Form writtenForm="gante"/>
+      <Form writtenForm="gand"/>
+      <Form writtenForm="get"/>
+      <Form writtenForm="ganeor"/>
       <Sense id="L184227-S1" synset="wikidata-br-L184227-S1" ili="wikidata-br-L184227-S1">
         <Definition>with</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347658">
       <Lemma writtenForm="daou" partOfSpeech="m"/>
+      <Form writtenForm="zaou"/>
+      <Form writtenForm="taou"/>
+      <Form writtenForm="div"/>
+      <Form writtenForm="ziv"/>
+      <Form writtenForm="tiv"/>
       <Sense id="L347658-S1" synset="wikidata-br-L347658-S1" ili="wikidata-br-L347658-S1">
         <Definition>niver 2</Definition>
       </Sense>
@@ -628,6 +816,7 @@
     </LexicalEntry>
     <LexicalEntry id="L628715">
       <Lemma writtenForm="adal" partOfSpeech="p"/>
+      <Form writtenForm="adâl"/>
       <Sense id="L628715-S1" synset="wikidata-br-L628715-S1" ili="wikidata-br-L628715-S1">
         <Definition>depuis (distance)</Definition>
       </Sense>
@@ -643,6 +832,7 @@
     </LexicalEntry>
     <LexicalEntry id="L630547">
       <Lemma writtenForm="war-lerc&apos;h" partOfSpeech="p"/>
+      <Form writtenForm="warlerc&apos;h"/>
       <Sense id="L630547-S1" synset="wikidata-br-L630547-S1" ili="wikidata-br-L630547-S1">
         <Definition>après (dans l&apos;espace)</Definition>
       </Sense>
@@ -652,24 +842,39 @@
     </LexicalEntry>
     <LexicalEntry id="L630603">
       <Lemma writtenForm="eme" partOfSpeech="p"/>
+      <Form writtenForm="émé"/>
+      <Form writtenForm="émez"/>
+      <Form writtenForm="emezon"/>
+      <Form writtenForm="emezout"/>
+      <Form writtenForm="emezañ"/>
+      <Form writtenForm="emezi"/>
+      <Form writtenForm="emezomp"/>
+      <Form writtenForm="emezoc&apos;h"/>
+      <Form writtenForm="emezo"/>
+      <Form writtenForm="emezor"/>
+      <Form writtenForm="eme-z-han"/>
+      <Form writtenForm="eme-z-hi"/>
       <Sense id="L630603-S1" synset="wikidata-br-L630603-S1" ili="wikidata-br-L630603-S1">
         <Definition>dire</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L630624">
       <Lemma writtenForm="a-bouez-penn" partOfSpeech="r"/>
+      <Form writtenForm="aboez-penn"/>
       <Sense id="L630624-S1" synset="wikidata-br-L630624-S1" ili="wikidata-br-L630624-S1">
         <Definition>à tue-tête</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1217089">
       <Lemma writtenForm="pep" partOfSpeech="a"/>
+      <Form writtenForm="bep"/>
       <Sense id="L1217089-S1" synset="wikidata-br-L1217089-S1" ili="wikidata-br-L1217089-S1">
         <Definition>every</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1460511">
       <Lemma writtenForm="pe" partOfSpeech="q"/>
+      <Form writtenForm="pé"/>
       <Sense id="L1460511-S1" synset="wikidata-br-L1460511-S1" ili="wikidata-br-L1460511-S1">
         <Definition>quel</Definition>
       </Sense>

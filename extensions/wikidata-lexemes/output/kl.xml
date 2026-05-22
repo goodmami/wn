@@ -16,6 +16,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1329041">
       <Lemma writtenForm="-gaq" partOfSpeech="x"/>
+      <Form writtenForm="gaq"/>
+      <Form writtenForm="ga"/>
       <Sense id="L1329041-S1" synset="wikidata-kl-L1329041-S1" ili="wikidata-kl-L1329041-S1">
         <Definition>(one who/that is acted on) [verb]-ee</Definition>
         <SenseRelation relType="similar" target="wikidata-kl-L1329165-S1"/>
@@ -39,18 +41,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1329355">
       <Lemma writtenForm="taanna" partOfSpeech="h"/>
+      <Form writtenForm="taassuma"/>
+      <Form writtenForm="taakku"/>
       <Sense id="L1329355-S1" synset="wikidata-kl-L1329355-S1" ili="wikidata-kl-L1329355-S1">
         <Definition>inna / anna / una</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1329395">
       <Lemma writtenForm="+tarpoq" partOfSpeech="v"/>
+      <Form writtenForm="tarpoq"/>
       <Sense id="L1329395-S1" synset="wikidata-kl-L1329395-S1" ili="wikidata-kl-L1329395-S1">
         <Definition>recurring, habitually</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1329650">
       <Lemma writtenForm="-aseq" partOfSpeech="x"/>
+      <Form writtenForm="aseq"/>
       <Sense id="L1329650-S1" synset="wikidata-kl-L1329650-S1" ili="wikidata-kl-L1329650-S1">
         <Definition>(allaaseq, atuaaseq)</Definition>
       </Sense>
@@ -80,6 +86,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1331293">
       <Lemma writtenForm="to" partOfSpeech="d"/>
+      <Form writtenForm="tut"/>
+      <Form writtenForm="tup"/>
       <Sense id="L1331293-S1" synset="wikidata-kl-L1331293-S1" ili="wikidata-kl-L1331293-S1">
         <Definition>two (used with currency and units of measurement)</Definition>
       </Sense>
@@ -104,6 +112,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1421393">
       <Lemma writtenForm="innga" partOfSpeech="h"/>
+      <Form writtenForm="ikku"/>
+      <Form writtenForm="ikkua"/>
+      <Form writtenForm="issuma"/>
+      <Form writtenForm="issumunnga"/>
+      <Form writtenForm="ikkununnga"/>
+      <Form writtenForm="issumannga"/>
+      <Form writtenForm="ikkunannga"/>
+      <Form writtenForm="issumuuna"/>
+      <Form writtenForm="ikkunuuna"/>
+      <Form writtenForm="issuumani"/>
+      <Form writtenForm="ikkunani"/>
+      <Form writtenForm="uuminnga"/>
+      <Form writtenForm="ikkuninnga"/>
+      <Form writtenForm="issumatut"/>
+      <Form writtenForm="ikkunatut"/>
       <Sense id="L1421393-S1" synset="wikidata-kl-L1421393-S1" ili="wikidata-kl-L1421393-S1">
         <Definition>derhenne</Definition>
       </Sense>
@@ -128,12 +151,55 @@
     </LexicalEntry>
     <LexicalEntry id="L1328524">
       <Lemma writtenForm="+toq" partOfSpeech="x"/>
+      <Form writtenForm="toq"/>
+      <Form writtenForm="tut"/>
+      <Form writtenForm="tup"/>
+      <Form writtenForm="tumut"/>
+      <Form writtenForm="tunut"/>
+      <Form writtenForm="tumit"/>
+      <Form writtenForm="tunit"/>
+      <Form writtenForm="tumiit"/>
+      <Form writtenForm="tuniit"/>
+      <Form writtenForm="tumiik"/>
+      <Form writtenForm="tuniik"/>
+      <Form writtenForm="tuminngarnit"/>
+      <Form writtenForm="tuninngaanniit"/>
+      <Form writtenForm="tumi"/>
+      <Form writtenForm="tuni"/>
+      <Form writtenForm="tumik"/>
+      <Form writtenForm="tunik"/>
+      <Form writtenForm="tukkut"/>
+      <Form writtenForm="tutigut"/>
+      <Form writtenForm="tutut"/>
+      <Form writtenForm="tu"/>
+      <Form writtenForm="soq"/>
+      <Form writtenForm="sut"/>
+      <Form writtenForm="sup"/>
+      <Form writtenForm="sumut"/>
+      <Form writtenForm="sunut"/>
+      <Form writtenForm="sumit"/>
+      <Form writtenForm="sunit"/>
+      <Form writtenForm="sumiit"/>
+      <Form writtenForm="suniit"/>
+      <Form writtenForm="sumiik"/>
+      <Form writtenForm="suniik"/>
+      <Form writtenForm="suminngarnit"/>
+      <Form writtenForm="suninngaanniit"/>
+      <Form writtenForm="sumi"/>
+      <Form writtenForm="suni"/>
+      <Form writtenForm="sumik"/>
+      <Form writtenForm="sunik"/>
+      <Form writtenForm="sukkut"/>
+      <Form writtenForm="sutigut"/>
+      <Form writtenForm="sutut"/>
+      <Form writtenForm="su"/>
       <Sense id="L1328524-S2" synset="wikidata-kl-L1328524-S2" ili="wikidata-kl-L1328524-S2">
         <Definition>(iserportoq / tikipportoq)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1328938">
       <Lemma writtenForm="-kkut" partOfSpeech="a"/>
+      <Form writtenForm="kkut"/>
       <Sense id="L1328938-S1" synset="wikidata-kl-L1328938-S1" ili="wikidata-kl-L1328938-S1">
         <Definition>(forms collective family names)</Definition>
       </Sense>
@@ -142,27 +208,21 @@
       <Lemma writtenForm="+neq" partOfSpeech="x"/>
       <Sense id="L1329025-S1" synset="wikidata-kl-L1329025-S1" ili="wikidata-kl-L1329025-S1">
         <Definition>(the act of doing something)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S1"/>
       </Sense>
       <Sense id="L1329025-S2" synset="wikidata-kl-L1329025-S2" ili="wikidata-kl-L1329025-S2">
         <Definition>(the acting of the possessor)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S2"/>
       </Sense>
       <Sense id="L1329025-S3" synset="wikidata-kl-L1329025-S3" ili="wikidata-kl-L1329025-S3">
         <Definition>(while possessor acted)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S3"/>
       </Sense>
       <Sense id="L1329025-S4" synset="wikidata-kl-L1329025-S4" ili="wikidata-kl-L1329025-S4">
         <Definition>(before possessor acted)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S4"/>
       </Sense>
       <Sense id="L1329025-S5" synset="wikidata-kl-L1329025-S5" ili="wikidata-kl-L1329025-S5">
         <Definition>(because of action)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S5"/>
       </Sense>
       <Sense id="L1329025-S6" synset="wikidata-kl-L1329025-S6" ili="wikidata-kl-L1329025-S6">
         <Definition>(the more/most acting)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329024-S6"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1329565">
@@ -185,12 +245,18 @@
     </LexicalEntry>
     <LexicalEntry id="L1329991">
       <Lemma writtenForm="+ga" partOfSpeech="h"/>
+      <Form writtenForm="ga"/>
+      <Form writtenForm="nga"/>
+      <Form writtenForm="kka"/>
+      <Form writtenForm="ma"/>
       <Sense id="L1329991-S1" synset="wikidata-kl-L1329991-S1" ili="wikidata-kl-L1329991-S1">
         <Definition>my (first person singular possessive)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1331307">
       <Lemma writtenForm="tre" partOfSpeech="d"/>
+      <Form writtenForm="tret"/>
+      <Form writtenForm="trep"/>
       <Sense id="L1331307-S1" synset="wikidata-kl-L1331307-S1" ili="wikidata-kl-L1331307-S1">
         <Definition>three (used with currency and units of measurement)</Definition>
       </Sense>
@@ -233,51 +299,48 @@
     </LexicalEntry>
     <LexicalEntry id="L21622">
       <Lemma writtenForm="manna" partOfSpeech="h"/>
+      <Form writtenForm="makku"/>
+      <Form writtenForm="matuma"/>
+      <Form writtenForm="makkua"/>
+      <Form writtenForm="matumunnga"/>
+      <Form writtenForm="makkununnga"/>
+      <Form writtenForm="matumannga"/>
+      <Form writtenForm="makkunannga"/>
+      <Form writtenForm="matumuuna"/>
+      <Form writtenForm="makkunuuna"/>
+      <Form writtenForm="matumani"/>
+      <Form writtenForm="makkunani"/>
+      <Form writtenForm="matuminnga"/>
+      <Form writtenForm="makkuninnga"/>
+      <Form writtenForm="matumatut"/>
+      <Form writtenForm="makkunatut"/>
       <Sense id="L21622-S1" synset="wikidata-kl-L21622-S1" ili="wikidata-kl-L21622-S1">
         <Definition>una</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1328940">
       <Lemma writtenForm="+paat" partOfSpeech="a"/>
+      <Form writtenForm="paat"/>
       <Sense id="L1328940-S1" synset="wikidata-kl-L1328940-S1" ili="wikidata-kl-L1328940-S1">
         <Definition>(group of)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1328941">
       <Lemma writtenForm="-aluit" partOfSpeech="a"/>
+      <Form writtenForm="aluit"/>
       <Sense id="L1328941-S1" synset="wikidata-kl-L1328941-S1" ili="wikidata-kl-L1328941-S1">
         <Definition>(group of many)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1329024">
-      <Lemma writtenForm="+neq" partOfSpeech="x"/>
-      <Sense id="L1329024-S1" synset="wikidata-kl-L1329024-S1" ili="wikidata-kl-L1329024-S1">
-        <Definition>(the act of doing something)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S1"/>
-      </Sense>
-      <Sense id="L1329024-S2" synset="wikidata-kl-L1329024-S2" ili="wikidata-kl-L1329024-S2">
-        <Definition>(the acting of the possessor)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S2"/>
-      </Sense>
-      <Sense id="L1329024-S3" synset="wikidata-kl-L1329024-S3" ili="wikidata-kl-L1329024-S3">
-        <Definition>(while possessor acted)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S3"/>
-      </Sense>
-      <Sense id="L1329024-S4" synset="wikidata-kl-L1329024-S4" ili="wikidata-kl-L1329024-S4">
-        <Definition>(before possessor acted)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S4"/>
-      </Sense>
-      <Sense id="L1329024-S5" synset="wikidata-kl-L1329024-S5" ili="wikidata-kl-L1329024-S5">
-        <Definition>(because of action)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S5"/>
-      </Sense>
-      <Sense id="L1329024-S6" synset="wikidata-kl-L1329024-S6" ili="wikidata-kl-L1329024-S6">
-        <Definition>(the more/most acting)</Definition>
-        <SenseRelation relType="similar" target="wikidata-kl-L1329025-S6"/>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1329343">
       <Lemma writtenForm="ni" partOfSpeech="h"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="minut"/>
+      <Form writtenForm="mini"/>
+      <Form writtenForm="minit"/>
+      <Form writtenForm="minik"/>
+      <Form writtenForm="migut"/>
+      <Form writtenForm="misut"/>
       <Sense id="L1329343-S1" synset="wikidata-kl-L1329343-S1" ili="wikidata-kl-L1329343-S1">
         <Definition>(obviative singular possessive)</Definition>
       </Sense>
@@ -296,6 +359,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1330405">
       <Lemma writtenForm="+siut" partOfSpeech="a"/>
+      <Form writtenForm="siut"/>
       <Sense id="L1330405-S1" synset="wikidata-kl-L1330405-S1" ili="wikidata-kl-L1330405-S1">
         <Definition>means to search for</Definition>
       </Sense>
@@ -329,6 +393,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1416306">
       <Lemma writtenForm="una" partOfSpeech="h"/>
+      <Form writtenForm="uuma"/>
+      <Form writtenForm="uku"/>
+      <Form writtenForm="ukua"/>
       <Sense id="L1416306-S1" synset="wikidata-kl-L1416306-S1" ili="wikidata-kl-L1416306-S1">
         <Definition>taanna</Definition>
       </Sense>
@@ -395,6 +462,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1329165">
       <Lemma writtenForm="-saq" partOfSpeech="x"/>
+      <Form writtenForm="saq"/>
       <Sense id="L1329165-S1" synset="wikidata-kl-L1329165-S1" ili="wikidata-kl-L1329165-S1">
         <Definition>(one who/that is acted on) [verb]-ee</Definition>
         <SenseRelation relType="similar" target="wikidata-kl-L1329041-S1"/>
@@ -403,6 +471,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1329389">
       <Lemma writtenForm="-rippoq" partOfSpeech="v"/>
+      <Form writtenForm="rippoq"/>
+      <Form writtenForm="ris"/>
       <Sense id="L1329389-S1" synset="wikidata-kl-L1329389-S1" ili="wikidata-kl-L1329389-S1">
         <Definition>has good/beautiful (monovalent verbalizing affix)</Definition>
       </Sense>
@@ -478,6 +548,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1329166">
       <Lemma writtenForm="-ssaq" partOfSpeech="a"/>
+      <Form writtenForm="ssaq"/>
       <Sense id="L1329166-S1" synset="wikidata-kl-L1329166-S1" ili="wikidata-kl-L1329166-S1">
         <Definition>(irrealis nominal suffix; supposed, destined, or intended)</Definition>
       </Sense>
@@ -496,6 +567,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1330416">
       <Lemma writtenForm="+sivoq" partOfSpeech="v"/>
+      <Form writtenForm="si"/>
       <Sense id="L1330416-S1" synset="wikidata-kl-L1330416-S1" ili="wikidata-kl-L1330416-S1">
         <Definition>buy, acquire</Definition>
       </Sense>
@@ -540,6 +612,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1328047">
       <Lemma writtenForm="+lu" partOfSpeech="c"/>
+      <Form writtenForm="lu"/>
       <Sense id="L1328047-S1" synset="wikidata-kl-L1328047-S1" ili="wikidata-kl-L1328047-S1">
         <Definition>aamma</Definition>
       </Sense>
@@ -564,6 +637,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1329052">
       <Lemma writtenForm="+luunniit" partOfSpeech="c"/>
+      <Form writtenForm="luunniit"/>
       <Sense id="L1329052-S1" synset="wikidata-kl-L1329052-S1" ili="wikidata-kl-L1329052-S1">
         <Definition>or</Definition>
       </Sense>
@@ -592,6 +666,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1329308">
       <Lemma writtenForm="+aasiit" partOfSpeech="y"/>
+      <Form writtenForm="aasiit"/>
       <Sense id="L1329308-S1" synset="wikidata-kl-L1329308-S1" ili="wikidata-kl-L1329308-S1">
         <Definition>pisarnermisut</Definition>
       </Sense>
@@ -628,6 +703,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1330013">
       <Lemma writtenForm="-ppoq" partOfSpeech="v"/>
+      <Form writtenForm="t"/>
+      <Form writtenForm="n"/>
       <Sense id="L1330013-S1" synset="wikidata-kl-L1330013-S1" ili="wikidata-kl-L1330013-S1">
         <Definition>(with noun stem for an animal) catch, kill</Definition>
       </Sense>
@@ -640,6 +717,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1330408">
       <Lemma writtenForm="+siorpoq" partOfSpeech="v"/>
+      <Form writtenForm="si"/>
       <Sense id="L1330408-S1" synset="wikidata-kl-L1330408-S1" ili="wikidata-kl-L1330408-S1">
         <Definition>search for, be looking for</Definition>
       </Sense>
@@ -661,6 +739,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1330701">
       <Lemma writtenForm="-qarpoq" partOfSpeech="v"/>
+      <Form writtenForm="qarpoq"/>
+      <Form writtenForm="qar"/>
       <Sense id="L1330701-S1" synset="wikidata-kl-L1330701-S1" ili="wikidata-kl-L1330701-S1">
         <Definition>have, has</Definition>
       </Sense>
@@ -694,6 +774,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1320757">
       <Lemma writtenForm="at" partOfSpeech="h"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="vi"/>
+      <Form writtenForm="ata"/>
+      <Form writtenForm="isa"/>
+      <Form writtenForm="annut"/>
+      <Form writtenForm="innut"/>
+      <Form writtenForm="anni"/>
+      <Form writtenForm="ini"/>
+      <Form writtenForm="annit"/>
+      <Form writtenForm="init"/>
+      <Form writtenForm="annik"/>
+      <Form writtenForm="inik"/>
+      <Form writtenForm="atigut"/>
+      <Form writtenForm="isigut"/>
+      <Form writtenForm="asigut"/>
+      <Form writtenForm="attut"/>
+      <Form writtenForm="isut"/>
+      <Form writtenForm="asut"/>
+      <Form writtenForm="anniit"/>
+      <Form writtenForm="iniit"/>
       <Sense id="L1320757-S1" synset="wikidata-kl-L1320757-S1" ili="wikidata-kl-L1320757-S1">
         <Definition>(third-person plural possessive)</Definition>
       </Sense>
@@ -706,6 +806,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1328942">
       <Lemma writtenForm="uanga" partOfSpeech="h"/>
+      <Form writtenForm="uannut"/>
+      <Form writtenForm="uanni"/>
+      <Form writtenForm="uannit"/>
+      <Form writtenForm="uanniit"/>
+      <Form writtenForm="uannik"/>
+      <Form writtenForm="uakkut"/>
+      <Form writtenForm="uattut"/>
+      <Form writtenForm="uanninngarnit"/>
+      <Form writtenForm="uanniik"/>
       <Sense id="L1328942-S1" synset="wikidata-kl-L1328942-S1" ili="wikidata-kl-L1328942-S1">
         <Definition>uanga nammineq</Definition>
       </Sense>
@@ -730,6 +839,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1329307">
       <Lemma writtenForm="+aa" partOfSpeech="y"/>
+      <Form writtenForm="aa"/>
       <Sense id="L1329307-S1" synset="wikidata-kl-L1329307-S1" ili="wikidata-kl-L1329307-S1">
         <Definition>uumaangaa</Definition>
       </Sense>
@@ -760,6 +870,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1330412">
       <Lemma writtenForm="-ut" partOfSpeech="x"/>
+      <Form writtenForm="ut"/>
       <Sense id="L1330412-S1" synset="wikidata-kl-L1330412-S1" ili="wikidata-kl-L1330412-S1">
         <Definition>sumut atortoq</Definition>
       </Sense>
@@ -787,6 +898,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1400364">
       <Lemma writtenForm="-tsiaq" partOfSpeech="a"/>
+      <Form writtenForm="tsiaq"/>
       <Sense id="L1400364-S1" synset="wikidata-kl-L1400364-S1" ili="wikidata-kl-L1400364-S1">
         <Definition>(fair-sized)</Definition>
       </Sense>
@@ -841,12 +953,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1329394">
       <Lemma writtenForm="-jaarpoq" partOfSpeech="v"/>
+      <Form writtenForm="jaarpoq"/>
       <Sense id="L1329394-S1" synset="wikidata-kl-L1329394-S1" ili="wikidata-kl-L1329394-S1">
         <Definition>(angerlajaarpoq, aallajaarpoq)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1330854">
       <Lemma writtenForm="en" partOfSpeech="d"/>
+      <Form writtenForm="enit"/>
+      <Form writtenForm="enip"/>
+      <Form writtenForm="enimut"/>
+      <Form writtenForm="eninut"/>
+      <Form writtenForm="enimit"/>
+      <Form writtenForm="eninit"/>
+      <Form writtenForm="enimi"/>
+      <Form writtenForm="enini"/>
+      <Form writtenForm="enimik"/>
+      <Form writtenForm="eninik"/>
+      <Form writtenForm="ikkut"/>
+      <Form writtenForm="enitigut"/>
+      <Form writtenForm="enitut"/>
       <Sense id="L1330854-S1" synset="wikidata-kl-L1330854-S1" ili="wikidata-kl-L1330854-S1">
         <Definition>one (used with currency and measurement units)</Definition>
       </Sense>
@@ -889,6 +1015,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1421421">
       <Lemma writtenForm="tamanna" partOfSpeech="h"/>
+      <Form writtenForm="tamakku"/>
       <Sense id="L1421421-S1" synset="wikidata-kl-L1421421-S1" ili="wikidata-kl-L1421421-S1">
         <Definition>this (one)</Definition>
       </Sense>
@@ -1036,24 +1163,6 @@
     </Synset>
     <Synset id="wikidata-kl-L1328941-S1" ili="wikidata-kl-L1328941-S1" partOfSpeech="a">
       <Definition>(group of many)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S1" ili="wikidata-kl-L1329024-S1" partOfSpeech="x">
-      <Definition>(the act of doing something)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S2" ili="wikidata-kl-L1329024-S2" partOfSpeech="x">
-      <Definition>(the acting of the possessor)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S3" ili="wikidata-kl-L1329024-S3" partOfSpeech="x">
-      <Definition>(while possessor acted)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S4" ili="wikidata-kl-L1329024-S4" partOfSpeech="x">
-      <Definition>(before possessor acted)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S5" ili="wikidata-kl-L1329024-S5" partOfSpeech="x">
-      <Definition>(because of action)</Definition>
-    </Synset>
-    <Synset id="wikidata-kl-L1329024-S6" ili="wikidata-kl-L1329024-S6" partOfSpeech="x">
-      <Definition>(the more/most acting)</Definition>
     </Synset>
     <Synset id="wikidata-kl-L1329343-S1" ili="wikidata-kl-L1329343-S1" partOfSpeech="h">
       <Definition>(obviative singular possessive)</Definition>

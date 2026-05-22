@@ -10,6 +10,9 @@
     <Extends id="omw-ae" version="1.4"/>
     <LexicalEntry id="L1467126">
       <Lemma writtenForm="𐬗𐬀𐬚𐬡𐬀𐬭" partOfSpeech="m"/>
+      <Form writtenForm="𐬗𐬀𐬚𐬡𐬁𐬭𐬋"/>
+      <Form writtenForm="𐬗𐬀𐬙𐬀𐬢𐬭𐬋"/>
+      <Form writtenForm="𐬗𐬀𐬙𐬎𐬭𐬀"/>
       <Sense id="L1467126-S1" synset="wikidata-ae-L1467126-S1" ili="wikidata-ae-L1467126-S1">
         <Definition>four</Definition>
       </Sense>

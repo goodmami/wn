@@ -30,6 +30,24 @@
     </LexicalEntry>
     <LexicalEntry id="L1036129">
       <Lemma writtenForm="svoj" partOfSpeech="h"/>
+      <Form writtenForm="svoja"/>
+      <Form writtenForm="svoje"/>
+      <Form writtenForm="svojeg"/>
+      <Form writtenForm="svojega"/>
+      <Form writtenForm="svog"/>
+      <Form writtenForm="svoga"/>
+      <Form writtenForm="svojem"/>
+      <Form writtenForm="svojemu"/>
+      <Form writtenForm="svom"/>
+      <Form writtenForm="svome"/>
+      <Form writtenForm="svojoj"/>
+      <Form writtenForm="svoju"/>
+      <Form writtenForm="svojim"/>
+      <Form writtenForm="svojom"/>
+      <Form writtenForm="svomu"/>
+      <Form writtenForm="svoji"/>
+      <Form writtenForm="svojih"/>
+      <Form writtenForm="svojima"/>
       <Sense id="L1036129-S1" synset="wikidata-hr-L1036129-S1" ili="wikidata-hr-L1036129-S1">
         <Definition>koji pripada samom sebi; vlastiti</Definition>
       </Sense>
@@ -42,6 +60,11 @@
     </LexicalEntry>
     <LexicalEntry id="L184852">
       <Lemma writtenForm="ja" partOfSpeech="h"/>
+      <Form writtenForm="mene"/>
+      <Form writtenForm="meni"/>
+      <Form writtenForm="mnom"/>
+      <Form writtenForm="me"/>
+      <Form writtenForm="mi"/>
       <Sense id="L184852-S1" synset="wikidata-hr-L184852-S1" ili="wikidata-hr-L184852-S1">
         <Definition>osobna zamjenica za prvo lice jednine</Definition>
       </Sense>
@@ -72,18 +95,56 @@
     </LexicalEntry>
     <LexicalEntry id="L746921">
       <Lemma writtenForm="on / ona / ono" partOfSpeech="h"/>
+      <Form writtenForm="on"/>
+      <Form writtenForm="ona"/>
+      <Form writtenForm="ono"/>
+      <Form writtenForm="njega"/>
+      <Form writtenForm="ga"/>
+      <Form writtenForm="nje"/>
+      <Form writtenForm="je"/>
+      <Form writtenForm="njemu"/>
+      <Form writtenForm="mu"/>
+      <Form writtenForm="njoj"/>
+      <Form writtenForm="joj"/>
+      <Form writtenForm="nj"/>
+      <Form writtenForm="nju"/>
+      <Form writtenForm="ju"/>
+      <Form writtenForm="njem"/>
+      <Form writtenForm="njim"/>
+      <Form writtenForm="njime"/>
+      <Form writtenForm="njom"/>
+      <Form writtenForm="njome"/>
       <Sense id="L746921-S1" synset="wikidata-hr-L746921-S1" ili="wikidata-hr-L746921-S1">
         <Definition>osobna zamjenica za trečo lice jednine</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L968821">
       <Lemma writtenForm="sav" partOfSpeech="h"/>
+      <Form writtenForm="sva"/>
+      <Form writtenForm="sve"/>
+      <Form writtenForm="svega"/>
+      <Form writtenForm="sveg"/>
+      <Form writtenForm="svemu"/>
+      <Form writtenForm="svem"/>
+      <Form writtenForm="svoj"/>
+      <Form writtenForm="svu"/>
+      <Form writtenForm="svim"/>
+      <Form writtenForm="svime"/>
+      <Form writtenForm="svom"/>
+      <Form writtenForm="svi"/>
+      <Form writtenForm="svih"/>
+      <Form writtenForm="sviju"/>
+      <Form writtenForm="svima"/>
       <Sense id="L968821-S1" synset="wikidata-hr-L968821-S1" ili="wikidata-hr-L968821-S1">
         <Definition>bez iznimke; cio; čitav; kao ukopnost; potpunost</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L184859">
       <Lemma writtenForm="ti" partOfSpeech="h"/>
+      <Form writtenForm="tebe"/>
+      <Form writtenForm="tebi"/>
+      <Form writtenForm="tobom"/>
+      <Form writtenForm="te"/>
       <Sense id="L184859-S1" synset="wikidata-hr-L184859-S1" ili="l482-s1">
         <Definition>osobna zamjenica za drugo lice jednine</Definition>
       </Sense>
@@ -138,6 +199,13 @@
     </LexicalEntry>
     <LexicalEntry id="L746923">
       <Lemma writtenForm="oni / one / ona" partOfSpeech="h"/>
+      <Form writtenForm="oni"/>
+      <Form writtenForm="one"/>
+      <Form writtenForm="ona"/>
+      <Form writtenForm="njih"/>
+      <Form writtenForm="ih"/>
+      <Form writtenForm="njima"/>
+      <Form writtenForm="im"/>
       <Sense id="L746923-S1" synset="wikidata-hr-L746923-S1" ili="wikidata-hr-L746923-S1">
         <Definition>osobna zamjenica za trečo lice množine</Definition>
       </Sense>
@@ -206,12 +274,31 @@
     </LexicalEntry>
     <LexicalEntry id="L650605">
       <Lemma writtenForm="koji" partOfSpeech="h"/>
+      <Form writtenForm="koja"/>
+      <Form writtenForm="koje"/>
+      <Form writtenForm="kojoj"/>
+      <Form writtenForm="koju"/>
+      <Form writtenForm="kojom"/>
+      <Form writtenForm="kojih"/>
+      <Form writtenForm="kojim"/>
+      <Form writtenForm="kojima"/>
+      <Form writtenForm="kojeg"/>
+      <Form writtenForm="kojega"/>
+      <Form writtenForm="kojem"/>
+      <Form writtenForm="kojemu"/>
       <Sense id="L650605-S1" synset="wikidata-hr-L650605-S1" ili="wikidata-hr-L650605-S1">
         <Definition>zamjenica</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L680452">
       <Lemma writtenForm="što" partOfSpeech="h"/>
+      <Form writtenForm="šta"/>
+      <Form writtenForm="čega"/>
+      <Form writtenForm="čeg"/>
+      <Form writtenForm="čemu"/>
+      <Form writtenForm="čem"/>
+      <Form writtenForm="čim"/>
+      <Form writtenForm="čime"/>
       <Sense id="L680452-S1" synset="wikidata-hr-L680452-S1" ili="l57-s1">
         <Definition>upitna riječ za neponzantih stvari ili pojmova</Definition>
       </Sense>
@@ -246,6 +333,9 @@
     </LexicalEntry>
     <LexicalEntry id="L749558">
       <Lemma writtenForm="mi" partOfSpeech="h"/>
+      <Form writtenForm="nas"/>
+      <Form writtenForm="nama"/>
+      <Form writtenForm="nam"/>
       <Sense id="L749558-S1" synset="wikidata-hr-L749558-S1" ili="wikidata-hr-L749558-S1">
         <Definition>zamjenica za skupinu osoba kojoj pripada i osoba koja govori; zamjenica prvo lice množine</Definition>
       </Sense>
@@ -296,6 +386,7 @@
     </LexicalEntry>
     <LexicalEntry id="L708001">
       <Lemma writtenForm="po" partOfSpeech="y"/>
+      <Form writtenForm="pol"/>
       <Sense id="L708001-S1" synset="wikidata-hr-L708001-S1" ili="wikidata-hr-L708001-S1">
         <Definition>jedan od dva otprilike ista dijela; polovica; polovina</Definition>
       </Sense>
@@ -308,6 +399,19 @@
     </LexicalEntry>
     <LexicalEntry id="L940892">
       <Lemma writtenForm="prvi" partOfSpeech="m"/>
+      <Form writtenForm="prvog"/>
+      <Form writtenForm="prvoga"/>
+      <Form writtenForm="prvom"/>
+      <Form writtenForm="prvome"/>
+      <Form writtenForm="prvomu"/>
+      <Form writtenForm="prvim"/>
+      <Form writtenForm="prvo"/>
+      <Form writtenForm="prva"/>
+      <Form writtenForm="prve"/>
+      <Form writtenForm="prvoj"/>
+      <Form writtenForm="prvu"/>
+      <Form writtenForm="prvih"/>
+      <Form writtenForm="prvima"/>
       <Sense id="L940892-S1" synset="wikidata-hr-L940892-S1" ili="wikidata-hr-L940892-S1">
         <Definition>prema broju jedan; na početku nekog reda</Definition>
       </Sense>
@@ -345,6 +449,7 @@
     </LexicalEntry>
     <LexicalEntry id="L643152">
       <Lemma writtenForm="s" partOfSpeech="p"/>
+      <Form writtenForm="sa"/>
       <Sense id="L643152-S1" synset="wikidata-hr-L643152-S1" ili="wikidata-hr-L643152-S1">
         <Definition>priejdlog koji oznakuje da je nešto skupa, ili korišćeno, i drugo</Definition>
       </Sense>
@@ -395,12 +500,24 @@
     </LexicalEntry>
     <LexicalEntry id="L687">
       <Lemma writtenForm="dva" partOfSpeech="m"/>
+      <Form writtenForm="dvaju"/>
+      <Form writtenForm="dvama"/>
+      <Form writtenForm="dvoje"/>
+      <Form writtenForm="dvoga"/>
+      <Form writtenForm="dvoma"/>
+      <Form writtenForm="dvije"/>
+      <Form writtenForm="dviju"/>
+      <Form writtenForm="dvjema"/>
       <Sense id="L687-S1" synset="wikidata-hr-L687-S1" ili="wikidata-hr-L687-S1">
         <Definition>prirodan broj između jedan i tri; 2</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L625541">
       <Lemma writtenForm="se" partOfSpeech="h"/>
+      <Form writtenForm="sebe"/>
+      <Form writtenForm="sebi"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="sobom"/>
       <Sense id="L625541-S1" synset="wikidata-hr-L625541-S1" ili="wikidata-hr-L625541-S1">
         <Definition>povratna zamjenica</Definition>
       </Sense>
@@ -453,6 +570,20 @@
     </LexicalEntry>
     <LexicalEntry id="L691263">
       <Lemma writtenForm="taj" partOfSpeech="h"/>
+      <Form writtenForm="toga"/>
+      <Form writtenForm="tog"/>
+      <Form writtenForm="tomu"/>
+      <Form writtenForm="tome"/>
+      <Form writtenForm="tom"/>
+      <Form writtenForm="tim"/>
+      <Form writtenForm="time"/>
+      <Form writtenForm="ta"/>
+      <Form writtenForm="te"/>
+      <Form writtenForm="toj"/>
+      <Form writtenForm="tu"/>
+      <Form writtenForm="to"/>
+      <Form writtenForm="ti"/>
+      <Form writtenForm="tih"/>
       <Sense id="L691263-S1" synset="wikidata-hr-L691263-S1" ili="wikidata-hr-L691263-S1">
         <Definition>pokazna zamjenica</Definition>
       </Sense>
@@ -499,6 +630,19 @@
     </LexicalEntry>
     <LexicalEntry id="L1235034">
       <Lemma writtenForm="drugi" partOfSpeech="m"/>
+      <Form writtenForm="drugog"/>
+      <Form writtenForm="drugoga"/>
+      <Form writtenForm="drugom"/>
+      <Form writtenForm="drugome"/>
+      <Form writtenForm="drugomu"/>
+      <Form writtenForm="drugim"/>
+      <Form writtenForm="drugo"/>
+      <Form writtenForm="druga"/>
+      <Form writtenForm="druge"/>
+      <Form writtenForm="drugoj"/>
+      <Form writtenForm="drugu"/>
+      <Form writtenForm="drugih"/>
+      <Form writtenForm="drugima"/>
       <Sense id="L1235034-S1" synset="wikidata-hr-L1235034-S1" ili="wikidata-hr-L1235034-S1">
         <Definition>prema broju dva; poslije prvog nekog reda</Definition>
       </Sense>
@@ -550,6 +694,7 @@
     </LexicalEntry>
     <LexicalEntry id="L725867">
       <Lemma writtenForm="uz" partOfSpeech="p"/>
+      <Form writtenForm="uza"/>
       <Sense id="L725867-S1" synset="wikidata-hr-L725867-S1" ili="wikidata-hr-L725867-S1">
         <Definition>prijedlog označujući prima gori, ili blizinu, i slično</Definition>
       </Sense>
@@ -562,6 +707,7 @@
     </LexicalEntry>
     <LexicalEntry id="L740437">
       <Lemma writtenForm="kad" partOfSpeech="c"/>
+      <Form writtenForm="kada"/>
       <Sense id="L740437-S1" synset="wikidata-hr-L740437-S1" ili="wikidata-hr-L740437-S1">
         <Definition>veznica koja izriče vrijeme, uzrok, uvjet</Definition>
       </Sense>

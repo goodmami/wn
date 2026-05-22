@@ -16,6 +16,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1124870">
       <Lemma writtenForm="آئُون" partOfSpeech="h"/>
+      <Form writtenForm="آن"/>
+      <Form writtenForm="مان"/>
+      <Form writtenForm="مُون"/>
+      <Form writtenForm="مُنهُن"/>
+      <Form writtenForm="مُنهِن"/>
+      <Form writtenForm="مُنهَان"/>
+      <Form writtenForm="مُون کي"/>
+      <Form writtenForm="مان کي"/>
+      <Form writtenForm="مين"/>
       <Sense id="L1124870-S1" synset="wikidata-sd-L1124870-S1" ili="wikidata-sd-L1124870-S1">
         <Definition>میں</Definition>
       </Sense>
@@ -34,6 +43,22 @@
     </LexicalEntry>
     <LexicalEntry id="L741122">
       <Lemma writtenForm="جو" partOfSpeech="p"/>
+      <Form writtenForm="جا"/>
+      <Form writtenForm="جِي"/>
+      <Form writtenForm="جوُن"/>
+      <Form writtenForm="جيُون"/>
+      <Form writtenForm="جي"/>
+      <Form writtenForm="جَنِ"/>
+      <Form writtenForm="جِیَ"/>
+      <Form writtenForm="جِنِ"/>
+      <Form writtenForm="جُنِ"/>
+      <Form writtenForm="جِئُنِ"/>
+      <Form writtenForm="جِئَنِ"/>
+      <Form writtenForm="جڙو"/>
+      <Form writtenForm="جڙا"/>
+      <Form writtenForm="جڙِي"/>
+      <Form writtenForm="جڙُون"/>
+      <Form writtenForm="جڙي"/>
       <Sense id="L741122-S1" synset="wikidata-sd-L741122-S1" ili="wikidata-sd-L741122-S1">
         <Definition>ਦਾ</Definition>
         <SenseRelation relType="similar" target="wikidata-sd-L1124982-S1"/>
@@ -41,6 +66,11 @@
     </LexicalEntry>
     <LexicalEntry id="L1087364">
       <Lemma writtenForm="آهي" partOfSpeech="v"/>
+      <Form writtenForm="آهِنِ"/>
+      <Form writtenForm="آهِين"/>
+      <Form writtenForm="آهيو"/>
+      <Form writtenForm="آهيان"/>
+      <Form writtenForm="آهيُون"/>
       <Sense id="L1087364-S1" synset="wikidata-sd-L1087364-S1" ili="wikidata-sd-L1087364-S1">
         <Definition>اے، ہے</Definition>
       </Sense>
@@ -50,30 +80,102 @@
     </LexicalEntry>
     <LexicalEntry id="L1087515">
       <Lemma writtenForm="کان" partOfSpeech="p"/>
+      <Form writtenForm="کانسِ"/>
+      <Form writtenForm="کانِ"/>
       <Sense id="L1087515-S1" synset="wikidata-sd-L1087515-S1" ili="wikidata-sd-L1087515-S1">
         <Definition>توں</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124896">
       <Lemma writtenForm="هِي" partOfSpeech="h"/>
+      <Form writtenForm="هي"/>
+      <Form writtenForm="هِيءُ"/>
+      <Form writtenForm="هيءُ"/>
+      <Form writtenForm="اِي"/>
+      <Form writtenForm="اي"/>
+      <Form writtenForm="اِيءُ"/>
+      <Form writtenForm="هِنَ"/>
+      <Form writtenForm="اِنَ"/>
+      <Form writtenForm="هِنِ"/>
+      <Form writtenForm="هِنَنِ"/>
+      <Form writtenForm="اِنِ"/>
+      <Form writtenForm="اِنَنِ"/>
+      <Form writtenForm="هِنَان"/>
+      <Form writtenForm="هيئِي"/>
+      <Form writtenForm="هِيءَ"/>
+      <Form writtenForm="هيءَ"/>
+      <Form writtenForm="اِيءَ"/>
       <Sense id="L1124896-S1" synset="wikidata-sd-L1124896-S1" ili="wikidata-sd-L1124896-S1">
         <Definition>ایہہ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124897">
       <Lemma writtenForm="اِجھو" partOfSpeech="h"/>
+      <Form writtenForm="اِجھَا"/>
+      <Form writtenForm="اِجھي"/>
       <Sense id="L1124897-S1" synset="wikidata-sd-L1124897-S1" ili="wikidata-sd-L1124897-S1">
         <Definition>ایہہ جو</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124904">
       <Lemma writtenForm="هرڪو" partOfSpeech="h"/>
+      <Form writtenForm="هرڪا"/>
+      <Form writtenForm="هرڪَنهِن"/>
       <Sense id="L1124904-S1" synset="wikidata-sd-L1124904-S1" ili="wikidata-sd-L1124904-S1">
         <Definition>ہر کوئی</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124982">
       <Lemma writtenForm="سَندو" partOfSpeech="p"/>
+      <Form writtenForm="سَندا"/>
+      <Form writtenForm="سَندَ"/>
+      <Form writtenForm="سَندَنِ"/>
+      <Form writtenForm="سَندِي"/>
+      <Form writtenForm="سَنديُون"/>
+      <Form writtenForm="سَنديُنِ"/>
+      <Form writtenForm="سَندُمِ"/>
+      <Form writtenForm="سَندَمِ"/>
+      <Form writtenForm="سَندُءِ"/>
+      <Form writtenForm="سَندَءِ"/>
+      <Form writtenForm="سَندُسِ"/>
+      <Form writtenForm="سَندَسِ"/>
+      <Form writtenForm="سَندُون"/>
+      <Form writtenForm="سَندَئُون"/>
+      <Form writtenForm="سَندُوَ"/>
+      <Form writtenForm="سَندَوَ"/>
+      <Form writtenForm="سَندُنِ"/>
+      <Form writtenForm="سَندَنِمِ"/>
+      <Form writtenForm="سَندَنِي"/>
+      <Form writtenForm="سَندَنِسِ"/>
+      <Form writtenForm="سَندِنِئُون"/>
+      <Form writtenForm="سَندِنِوَ"/>
+      <Form writtenForm="سَندَنِنِ"/>
+      <Form writtenForm="سَندومِ"/>
+      <Form writtenForm="سَندوءِ"/>
+      <Form writtenForm="سَندوسِ"/>
+      <Form writtenForm="سَندوئُون"/>
+      <Form writtenForm="سَندووَ"/>
+      <Form writtenForm="سَندونِ"/>
+      <Form writtenForm="سَندَامِ"/>
+      <Form writtenForm="سَندَاءِ"/>
+      <Form writtenForm="سَندَاسِ"/>
+      <Form writtenForm="سَندَائُون"/>
+      <Form writtenForm="سَندَاوَ"/>
+      <Form writtenForm="سَندَانِ"/>
+      <Form writtenForm="سَنديَمِ"/>
+      <Form writtenForm="سَنديَءِ"/>
+      <Form writtenForm="سَنديَسِ"/>
+      <Form writtenForm="سَنديَئُون"/>
+      <Form writtenForm="سَنديَوَ"/>
+      <Form writtenForm="سَنديَنِ"/>
+      <Form writtenForm="سَنديُمِ"/>
+      <Form writtenForm="سَنديُنِمِ"/>
+      <Form writtenForm="سَنديُءِ"/>
+      <Form writtenForm="سَنديُسِ"/>
+      <Form writtenForm="سَنديُنِسِ"/>
+      <Form writtenForm="سَنديُوَ"/>
+      <Form writtenForm="سَنديُنِوَ"/>
+      <Form writtenForm="سَنديُنِنِ"/>
       <Sense id="L1124982-S1" synset="wikidata-sd-L1124982-S1" ili="wikidata-sd-L1124982-S1">
         <Definition>جو، وارو</Definition>
         <SenseRelation relType="similar" target="wikidata-sd-L741122-S1"/>
@@ -81,18 +183,36 @@
     </LexicalEntry>
     <LexicalEntry id="L1124996">
       <Lemma writtenForm="اَسَان جو" partOfSpeech="a"/>
+      <Form writtenForm="اَسَان جا"/>
+      <Form writtenForm="اَسَان جي"/>
+      <Form writtenForm="اَسَان جَنِ"/>
+      <Form writtenForm="اَسَان جِي"/>
+      <Form writtenForm="اَسَان جوُن"/>
+      <Form writtenForm="اَسَان جيُون"/>
       <Sense id="L1124996-S1" synset="wikidata-sd-L1124996-S1" ili="wikidata-sd-L1124996-S1">
         <Definition>ساڈا</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1125366">
       <Lemma writtenForm="وارو" partOfSpeech="p"/>
+      <Form writtenForm="وارا"/>
+      <Form writtenForm="واري"/>
+      <Form writtenForm="وارين"/>
+      <Form writtenForm="وارَنِ"/>
+      <Form writtenForm="وارَءُ"/>
+      <Form writtenForm="وارِي"/>
+      <Form writtenForm="وارُون"/>
+      <Form writtenForm="واريءَ"/>
+      <Form writtenForm="وارِنِ"/>
       <Sense id="L1125366-S1" synset="wikidata-sd-L1125366-S1" ili="wikidata-sd-L1125366-S1">
         <Definition>واهر لاءِ دانهن</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1087512">
       <Lemma writtenForm="تي" partOfSpeech="p"/>
+      <Form writtenForm="تِسِ"/>
+      <Form writtenForm="تِنِ"/>
+      <Form writtenForm="تان"/>
       <Sense id="L1087512-S1" synset="wikidata-sd-L1087512-S1" ili="wikidata-sd-L1087512-S1">
         <Definition>اُتّے</Definition>
       </Sense>
@@ -120,12 +240,31 @@
     </LexicalEntry>
     <LexicalEntry id="L1124900">
       <Lemma writtenForm="جو" partOfSpeech="h"/>
+      <Form writtenForm="جي"/>
+      <Form writtenForm="جَنهِن"/>
+      <Form writtenForm="جَنِ"/>
+      <Form writtenForm="جِنِ"/>
+      <Form writtenForm="جِنھَنِ"/>
+      <Form writtenForm="جِنھِنِ"/>
+      <Form writtenForm="جِنَنِ"/>
+      <Form writtenForm="جِنِنِ"/>
+      <Form writtenForm="جَنهِين"/>
+      <Form writtenForm="جَنِي"/>
+      <Form writtenForm="جَنِين"/>
+      <Form writtenForm="جَنھِين"/>
+      <Form writtenForm="جا"/>
       <Sense id="L1124900-S1" synset="wikidata-sd-L1124900-S1" ili="wikidata-sd-L1124900-S1">
         <Definition>جيڪو</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124984">
       <Lemma writtenForm="ڳَرِ" partOfSpeech="p"/>
+      <Form writtenForm="ڳَرِمِ"/>
+      <Form writtenForm="ڳَرِئُون"/>
+      <Form writtenForm="ڳَري"/>
+      <Form writtenForm="ڳَرِوَ"/>
+      <Form writtenForm="ڳَرِسِ"/>
+      <Form writtenForm="ڳَرِنِ"/>
       <Sense id="L1124984-S1" synset="wikidata-sd-L1124984-S1" ili="wikidata-sd-L1124984-S1">
         <Definition>وٽ، ڀر، لڳ</Definition>
       </Sense>
@@ -154,18 +293,37 @@
     </LexicalEntry>
     <LexicalEntry id="L1132853">
       <Lemma writtenForm="ڪو" partOfSpeech="h"/>
+      <Form writtenForm="ڪَا"/>
+      <Form writtenForm="ڪي"/>
+      <Form writtenForm="ڪَنهِن"/>
+      <Form writtenForm="ڪَنِ"/>
+      <Form writtenForm="ڪِنِ"/>
+      <Form writtenForm="ڪوئِي"/>
+      <Form writtenForm="ڪَائِي"/>
+      <Form writtenForm="ڪيئِي"/>
+      <Form writtenForm="ڪَئِين"/>
+      <Form writtenForm="ڪَنئِين"/>
+      <Form writtenForm="ڪَنهِين"/>
+      <Form writtenForm="ڪَنِي"/>
+      <Form writtenForm="ڪَنھِين"/>
       <Sense id="L1132853-S1" synset="wikidata-sd-L1132853-S1" ili="wikidata-sd-L1132853-S1">
         <Definition>ڪوئِي هڪڙو</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124871">
       <Lemma writtenForm="اَسِين" partOfSpeech="h"/>
+      <Form writtenForm="اَسَان"/>
+      <Form writtenForm="اَسَانهِن"/>
+      <Form writtenForm="اَسَانهُون"/>
+      <Form writtenForm="اَسَان کي"/>
+      <Form writtenForm="اَسَانهِن کي"/>
       <Sense id="L1124871-S1" synset="wikidata-sd-L1124871-S1" ili="wikidata-sd-L1124871-S1">
         <Definition>اسیں</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124903">
       <Lemma writtenForm="ڪوهُہ" partOfSpeech="h"/>
+      <Form writtenForm="ڪُهُہ"/>
       <Sense id="L1124903-S1" synset="wikidata-sd-L1124903-S1" ili="wikidata-sd-L1124903-S1">
         <Definition>کیوں</Definition>
       </Sense>
@@ -184,6 +342,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1132228">
       <Lemma writtenForm="ڪيرُ" partOfSpeech="h"/>
+      <Form writtenForm="ڪيرِ"/>
+      <Form writtenForm="ڪَنهِن"/>
+      <Form writtenForm="ڪَنِ"/>
+      <Form writtenForm="ڪِنِ"/>
+      <Form writtenForm="ڪِنَنِ"/>
+      <Form writtenForm="ڪِنِنِ"/>
+      <Form writtenForm="ڪِنْهَنِ"/>
+      <Form writtenForm="ڪِنْهِنِ"/>
+      <Form writtenForm="ڪيرَ"/>
       <Sense id="L1132228-S1" synset="wikidata-sd-L1132228-S1" ili="wikidata-sd-L1132228-S1">
         <Definition>کوݨ</Definition>
       </Sense>
@@ -208,12 +375,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1087510">
       <Lemma writtenForm="کي" partOfSpeech="p"/>
+      <Form writtenForm="کيسِ"/>
+      <Form writtenForm="کينِ"/>
+      <Form writtenForm="کينَ"/>
       <Sense id="L1087510-S1" synset="wikidata-sd-L1087510-S1" ili="wikidata-sd-L1087510-S1">
         <Definition>ڏي، ڪول</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1087517">
       <Lemma writtenForm="ساڻُ" partOfSpeech="p"/>
+      <Form writtenForm="ساڻُمِ"/>
+      <Form writtenForm="ساڻُهُون"/>
+      <Form writtenForm="ساڻُءِ"/>
+      <Form writtenForm="ساڻُوَ"/>
+      <Form writtenForm="ساڻُسِ"/>
+      <Form writtenForm="ساڻُنِ"/>
       <Sense id="L1087517-S1" synset="wikidata-sd-L1087517-S1" ili="wikidata-sd-L1087517-S1">
         <Definition>سان، سين ڀيڙو</Definition>
         <SenseRelation relType="similar" target="wikidata-sd-L1125104-S1"/>
@@ -221,12 +397,24 @@
     </LexicalEntry>
     <LexicalEntry id="L1124872">
       <Lemma writtenForm="تُون" partOfSpeech="h"/>
+      <Form writtenForm="تو"/>
+      <Form writtenForm="تُنهُن"/>
+      <Form writtenForm="توهَان"/>
+      <Form writtenForm="تو کي"/>
+      <Form writtenForm="تُنهِن"/>
       <Sense id="L1124872-S1" synset="wikidata-sd-L1124872-S1" ili="wikidata-sd-L1124872-S1">
         <Definition>تُوں</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1011780">
       <Lemma writtenForm="۾" partOfSpeech="p"/>
+      <Form writtenForm="مَينُون"/>
+      <Form writtenForm="مينسِ"/>
+      <Form writtenForm="مَينسِ"/>
+      <Form writtenForm="مينِ"/>
+      <Form writtenForm="مينَ"/>
+      <Form writtenForm="مَين"/>
+      <Form writtenForm="مان"/>
       <Sense id="L1011780-S1" synset="wikidata-sd-L1011780-S1" ili="wikidata-sd-L1011780-S1">
         <Definition>اندر، منجهه</Definition>
       </Sense>
@@ -242,30 +430,89 @@
     </LexicalEntry>
     <LexicalEntry id="L1124873">
       <Lemma writtenForm="تَوھِين" partOfSpeech="h"/>
+      <Form writtenForm="تَوِين"/>
+      <Form writtenForm="تَهِين"/>
+      <Form writtenForm="تَئِين"/>
+      <Form writtenForm="اَوھِين"/>
+      <Form writtenForm="اَوھين"/>
+      <Form writtenForm="اَوِين"/>
+      <Form writtenForm="اَهِين"/>
+      <Form writtenForm="آنئِين"/>
+      <Form writtenForm="اَنئِن"/>
+      <Form writtenForm="تَوھَان"/>
+      <Form writtenForm="تَهَان"/>
+      <Form writtenForm="اَوھَان"/>
+      <Form writtenForm="اَهَان"/>
+      <Form writtenForm="آن"/>
+      <Form writtenForm="تَوَانهِن"/>
+      <Form writtenForm="اَوَانهِن"/>
+      <Form writtenForm="آهِن"/>
+      <Form writtenForm="تَوھَان کي"/>
+      <Form writtenForm="اَوھَان کي"/>
+      <Form writtenForm="اَئِين"/>
       <Sense id="L1124873-S1" synset="wikidata-sd-L1124873-S1" ili="wikidata-sd-L1124873-S1">
         <Definition>تسیں</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124898">
       <Lemma writtenForm="هُو" partOfSpeech="h"/>
+      <Form writtenForm="هو"/>
+      <Form writtenForm="اُو"/>
+      <Form writtenForm="او"/>
+      <Form writtenForm="هوءَ"/>
+      <Form writtenForm="اوءَ"/>
+      <Form writtenForm="هُوءِ"/>
+      <Form writtenForm="هوءِ"/>
+      <Form writtenForm="اُوءِ"/>
+      <Form writtenForm="اوءِ"/>
+      <Form writtenForm="هُنَ"/>
+      <Form writtenForm="اُنَ"/>
+      <Form writtenForm="هُنَنِ"/>
+      <Form writtenForm="هُنِ"/>
+      <Form writtenForm="اُنَنِ"/>
+      <Form writtenForm="اُنِ"/>
+      <Form writtenForm="هُنِين"/>
+      <Form writtenForm="هُنَان"/>
+      <Form writtenForm="هُنَهَان"/>
+      <Form writtenForm="اُنَان"/>
       <Sense id="L1124898-S1" synset="wikidata-sd-L1124898-S1" ili="wikidata-sd-L1124898-S1">
         <Definition>اوہ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124901">
       <Lemma writtenForm="پاڻُ" partOfSpeech="h"/>
+      <Form writtenForm="پاڻَ"/>
+      <Form writtenForm="پانهَن"/>
+      <Form writtenForm="پَنهَن"/>
+      <Form writtenForm="پان"/>
+      <Form writtenForm="پاڻَ کي"/>
+      <Form writtenForm="پاڻَان"/>
+      <Form writtenForm="پاڻَهِين"/>
+      <Form writtenForm="پاڻ"/>
       <Sense id="L1124901-S1" synset="wikidata-sd-L1124901-S1" ili="wikidata-sd-L1124901-S1">
         <Definition>خود، پنڊ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1124983">
       <Lemma writtenForm="ڪَڻِ" partOfSpeech="p"/>
+      <Form writtenForm="ڪَڻِمِ"/>
+      <Form writtenForm="ڪَڻِئُون"/>
+      <Form writtenForm="ڪَڻي"/>
+      <Form writtenForm="ڪَڻِوَ"/>
+      <Form writtenForm="ڪَڻِسِ"/>
+      <Form writtenForm="ڪَڻِنِ"/>
       <Sense id="L1124983-S1" synset="wikidata-sd-L1124983-S1" ili="wikidata-sd-L1124983-S1">
         <Definition>ويجهو، نزديڪ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1125002">
       <Lemma writtenForm="مُنهِن جو" partOfSpeech="a"/>
+      <Form writtenForm="مُنهِن جا"/>
+      <Form writtenForm="مُنهِن جي"/>
+      <Form writtenForm="مُنهِن جَنِ"/>
+      <Form writtenForm="مُنهِن جِي"/>
+      <Form writtenForm="مُنهِن جوُن"/>
+      <Form writtenForm="مُنهِن جيُون"/>
       <Sense id="L1125002-S1" synset="wikidata-sd-L1125002-S1" ili="wikidata-sd-L1125002-S1">
         <Definition>میرا</Definition>
       </Sense>
@@ -278,12 +525,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1124899">
       <Lemma writtenForm="اُجھو" partOfSpeech="h"/>
+      <Form writtenForm="اُجھَا"/>
+      <Form writtenForm="اُجھي"/>
       <Sense id="L1124899-S1" synset="wikidata-sd-L1124899-S1" ili="wikidata-sd-L1124899-S1">
         <Definition>اوہ جو</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1132243">
       <Lemma writtenForm="ڪُڄَاڙِئَا" partOfSpeech="r"/>
+      <Form writtenForm="ڪُڄَاڙِيَا"/>
       <Sense id="L1132243-S1" synset="wikidata-sd-L1132243-S1" ili="wikidata-sd-L1132243-S1">
         <Definition>کیوں</Definition>
       </Sense>

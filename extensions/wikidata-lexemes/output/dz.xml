@@ -10,12 +10,16 @@
     <Extends id="omw-dz" version="1.4"/>
     <LexicalEntry id="L1327626">
       <Lemma writtenForm="ཁྱོད་" partOfSpeech="h"/>
+      <Form writtenForm="ཁྱོད་ཀྱིས་"/>
+      <Form writtenForm="ཁྱོད་ཀྱི་"/>
       <Sense id="L1327626-S1" synset="wikidata-dz-L1327626-S1" ili="wikidata-dz-L1327626-S1">
         <Definition>you; second person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327628">
       <Lemma writtenForm="མོ་" partOfSpeech="h"/>
+      <Form writtenForm="མོ་གིས་"/>
+      <Form writtenForm="མོ་གི་"/>
       <Sense id="L1327628-S1" synset="wikidata-dz-L1327628-S1" ili="wikidata-dz-L1327628-S1">
         <Definition>third person singular pronoun</Definition>
       </Sense>
@@ -28,30 +32,40 @@
     </LexicalEntry>
     <LexicalEntry id="L1327627">
       <Lemma writtenForm="ཁ་" partOfSpeech="h"/>
+      <Form writtenForm="ཁོ་གིས་"/>
+      <Form writtenForm="ཁོ་གི་"/>
       <Sense id="L1327627-S1" synset="wikidata-dz-L1327627-S1" ili="wikidata-dz-L1327627-S1">
         <Definition>third person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327625">
       <Lemma writtenForm="ང་" partOfSpeech="h"/>
+      <Form writtenForm="ང་གིས་"/>
+      <Form writtenForm="ངའི་གི་"/>
       <Sense id="L1327625-S1" synset="wikidata-dz-L1327625-S1" ili="wikidata-dz-L1327625-S1">
         <Definition>I; first person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327629">
       <Lemma writtenForm="ང་བཅས་" partOfSpeech="h"/>
+      <Form writtenForm="ང་བཅས་ཀྱིས་"/>
+      <Form writtenForm="ང་བཅས་ཀྱི་"/>
       <Sense id="L1327629-S1" synset="wikidata-dz-L1327629-S1" ili="wikidata-dz-L1327629-S1">
         <Definition>we; first person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327631">
       <Lemma writtenForm="ཁོང་" partOfSpeech="h"/>
+      <Form writtenForm="ཁོང་གིས་"/>
+      <Form writtenForm="ཁོང་གི་"/>
       <Sense id="L1327631-S1" synset="wikidata-dz-L1327631-S1" ili="wikidata-dz-L1327631-S1">
         <Definition>they; third person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327630">
       <Lemma writtenForm="ཁྱེད་" partOfSpeech="h"/>
+      <Form writtenForm="ཁྱེད་ཀྱིས་"/>
+      <Form writtenForm="ཁྱེད་ཀྱི་"/>
       <Sense id="L1327630-S1" synset="wikidata-dz-L1327630-S1" ili="wikidata-dz-L1327630-S1">
         <Definition>you; second person plural pronoun</Definition>
       </Sense>

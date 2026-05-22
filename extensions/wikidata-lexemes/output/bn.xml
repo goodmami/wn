@@ -10,6 +10,8 @@
     <Extends id="omw-bn" version="1.4"/>
     <LexicalEntry id="L60058">
       <Lemma writtenForm="আপনি" partOfSpeech="h"/>
+      <Form writtenForm="আপনার"/>
+      <Form writtenForm="আপনাকে"/>
       <Sense id="L60058-S1" synset="wikidata-bn-L60058-S1" ili="wikidata-bn-L60058-S1">
         <Definition>সম্ভ্রমার্থে সম্বোধিত ব্যক্তি</Definition>
       </Sense>
@@ -19,6 +21,7 @@
     </LexicalEntry>
     <LexicalEntry id="L303226">
       <Lemma writtenForm="দুই" partOfSpeech="m"/>
+      <Form writtenForm="দু"/>
       <Sense id="L303226-S1" synset="wikidata-bn-L303226-S1" ili="wikidata-bn-L303226-S1">
         <Definition>অঙ্কবাচক সংখ্যা (২)</Definition>
       </Sense>
@@ -31,6 +34,7 @@
     </LexicalEntry>
     <LexicalEntry id="L303234">
       <Lemma writtenForm="দশ" partOfSpeech="m"/>
+      <Form writtenForm="দশের"/>
       <Sense id="L303234-S1" synset="wikidata-bn-L303234-S1" ili="wikidata-bn-L303234-S1">
         <Definition>অঙ্কবাচক সংখ্যা (১০)</Definition>
       </Sense>
@@ -74,6 +78,9 @@
     </LexicalEntry>
     <LexicalEntry id="L303310">
       <Lemma writtenForm="ছিয়াশি" partOfSpeech="m"/>
+      <Form writtenForm="ছিয়াশির"/>
+      <Form writtenForm="ছিয়াশিকে"/>
+      <Form writtenForm="ছিয়াশিতে"/>
       <Sense id="L303310-S1" synset="wikidata-bn-L303310-S1" ili="wikidata-bn-L303310-S1">
         <Definition>অঙ্কবাচক সংখ্যা (৮৬)</Definition>
       </Sense>
@@ -131,6 +138,7 @@
     </LexicalEntry>
     <LexicalEntry id="L310559">
       <Lemma writtenForm="হইয়া" partOfSpeech="p"/>
+      <Form writtenForm="হয়ে"/>
       <Sense id="L310559-S1" synset="wikidata-bn-L310559-S1" ili="wikidata-bn-L310559-S1">
         <Definition>প্রতিনিধি স্বরূপ</Definition>
       </Sense>
@@ -197,12 +205,17 @@
     </LexicalEntry>
     <LexicalEntry id="L626232">
       <Lemma writtenForm="তা" partOfSpeech="h"/>
+      <Form writtenForm="তাহা"/>
       <Sense id="L626232-S1" synset="wikidata-bn-L626232-S1" ili="wikidata-bn-L626232-S1">
         <Definition>সে দ্রব্য</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L646660">
       <Lemma writtenForm="হাম" partOfSpeech="h"/>
+      <Form writtenForm="হামার"/>
+      <Form writtenForm="হামারি"/>
+      <Form writtenForm="হামক"/>
+      <Form writtenForm="হামে"/>
       <Sense id="L646660-S1" synset="wikidata-bn-L646660-S1" ili="wikidata-bn-L646660-S1">
         <Definition>আমি</Definition>
       </Sense>
@@ -397,6 +410,8 @@
     </LexicalEntry>
     <LexicalEntry id="L494329">
       <Lemma writtenForm="ইহারা" partOfSpeech="h"/>
+      <Form writtenForm="ইহাদের"/>
+      <Form writtenForm="ইহাদেরকে"/>
       <Sense id="L494329-S1" synset="wikidata-bn-L494329-S1" ili="wikidata-bn-L494329-S1">
         <Definition>এই ব্যক্তিগণ/বস্তুগুলো/বিষয়গুলো</Definition>
       </Sense>
@@ -444,18 +459,28 @@
     </LexicalEntry>
     <LexicalEntry id="L60056">
       <Lemma writtenForm="তুমি" partOfSpeech="h"/>
+      <Form writtenForm="তোমার"/>
+      <Form writtenForm="তোমাকে"/>
       <Sense id="L60056-S1" synset="wikidata-bn-L60056-S1" ili="wikidata-bn-L60056-S1">
         <Definition>সম্বোধিত ব্যক্তি</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L252192">
       <Lemma writtenForm="তোমরা" partOfSpeech="h"/>
+      <Form writtenForm="তোমাদের"/>
+      <Form writtenForm="তোমাদেরকে"/>
       <Sense id="L252192-S1" synset="wikidata-bn-L252192-S1" ili="wikidata-bn-L252192-S1">
         <Definition>সম্বোধিত ব্যক্তি ও অন্যান্য লোকজন</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L295106">
       <Lemma writtenForm="টি" partOfSpeech="m"/>
+      <Form writtenForm="টা"/>
+      <Form writtenForm="টির"/>
+      <Form writtenForm="টার"/>
+      <Form writtenForm="টিতে"/>
+      <Form writtenForm="টাতে"/>
+      <Form writtenForm="টায়"/>
       <Sense id="L295106-S1" synset="wikidata-bn-L295106-S1" ili="wikidata-bn-L295106-S1">
         <Definition>বিভক্তি যে যোগে বিশেষ্যপদ সামান্য বা সাধারণ অর্থ ত্যাগ করিয়া বিশিষ্ট বা নির্দিষ্ট অর্থ প্রকাশ করে</Definition>
       </Sense>
@@ -581,6 +606,7 @@
     </LexicalEntry>
     <LexicalEntry id="L310560">
       <Lemma writtenForm="হইতে" partOfSpeech="p"/>
+      <Form writtenForm="হতে"/>
       <Sense id="L310560-S1" synset="wikidata-bn-L310560-S1" ili="wikidata-bn-L310560-S1">
         <Definition>থেকে</Definition>
       </Sense>
@@ -629,6 +655,8 @@
     </LexicalEntry>
     <LexicalEntry id="L476043">
       <Lemma writtenForm="ইনি" partOfSpeech="h"/>
+      <Form writtenForm="এঁর"/>
+      <Form writtenForm="এঁকে"/>
       <Sense id="L476043-S1" synset="wikidata-bn-L476043-S1" ili="wikidata-bn-L476043-S1">
         <Definition>এই ব্যক্তি</Definition>
       </Sense>
@@ -647,6 +675,9 @@
     </LexicalEntry>
     <LexicalEntry id="L621067">
       <Lemma writtenForm="বার" partOfSpeech="m"/>
+      <Form writtenForm="বারের"/>
+      <Form writtenForm="বারকে"/>
+      <Form writtenForm="বারে"/>
       <Sense id="L621067-S1" synset="wikidata-bn-L621067-S1" ili="wikidata-bn-L621067-S1">
         <Definition>দফা</Definition>
       </Sense>
@@ -683,6 +714,8 @@
     </LexicalEntry>
     <LexicalEntry id="L252194">
       <Lemma writtenForm="আপনারা" partOfSpeech="h"/>
+      <Form writtenForm="আপনাদের"/>
+      <Form writtenForm="আপনাদেরকে"/>
       <Sense id="L252194-S1" synset="wikidata-bn-L252194-S1" ili="wikidata-bn-L252194-S1">
         <Definition>সম্ভ্রমার্থে সম্বোধিত ব্যক্তি ও অন্যান্য লোকজন</Definition>
       </Sense>
@@ -853,6 +886,8 @@
     </LexicalEntry>
     <LexicalEntry id="L476051">
       <Lemma writtenForm="তিনি" partOfSpeech="h"/>
+      <Form writtenForm="তাঁর"/>
+      <Form writtenForm="তাঁকে"/>
       <Sense id="L476051-S1" synset="wikidata-bn-L476051-S1" ili="wikidata-bn-L476051-S1">
         <Definition>সেই ব্যক্তি</Definition>
       </Sense>
@@ -865,6 +900,8 @@
     </LexicalEntry>
     <LexicalEntry id="L494331">
       <Lemma writtenForm="তাহারা" partOfSpeech="h"/>
+      <Form writtenForm="তাহাদের"/>
+      <Form writtenForm="তাহাদেরকে"/>
       <Sense id="L494331-S1" synset="wikidata-bn-L494331-S1" ili="wikidata-bn-L494331-S1">
         <Definition>সেই ব্যক্তিগণ/বস্তুগুলো/বিষয়গুলো</Definition>
       </Sense>
@@ -920,6 +957,10 @@
     </LexicalEntry>
     <LexicalEntry id="L60055">
       <Lemma writtenForm="আমি" partOfSpeech="h"/>
+      <Form writtenForm="আমার"/>
+      <Form writtenForm="আমাকে"/>
+      <Form writtenForm="আমায়"/>
+      <Form writtenForm="আমারে"/>
       <Sense id="L60055-S1" synset="wikidata-bn-L60055-S1" ili="wikidata-bn-L60055-S1">
         <Definition>বক্তা স্বয়ং</Definition>
         <Example>চলার পথে দিনে রাতে / দেখা হবে সবার সাথে— / তাদের আমি চাব, তারা / আমায় চাবে॥</Example>
@@ -929,12 +970,20 @@
     </LexicalEntry>
     <LexicalEntry id="L252193">
       <Lemma writtenForm="তোরা" partOfSpeech="h"/>
+      <Form writtenForm="তোদের"/>
+      <Form writtenForm="তোদেরকে"/>
       <Sense id="L252193-S1" synset="wikidata-bn-L252193-S1" ili="wikidata-bn-L252193-S1">
         <Definition>নিম্নপদস্থ বা অন্তরঙ্গ সম্বোধিত ব্যক্তি ও অন্যান্য লোকজন</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L295107">
       <Lemma writtenForm="-গুলি" partOfSpeech="m"/>
+      <Form writtenForm="-গুলা"/>
+      <Form writtenForm="-গুলির"/>
+      <Form writtenForm="-গুলার"/>
+      <Form writtenForm="-গুলিতে"/>
+      <Form writtenForm="-গুলাতে"/>
+      <Form writtenForm="-গুলায়"/>
       <Sense id="L295107-S1" synset="wikidata-bn-L295107-S1" ili="wikidata-bn-L295107-S1">
         <Definition>বিশেষ্যের বহুত্ব-বোধক প্রত্যয়</Definition>
       </Sense>
@@ -977,6 +1026,9 @@
     </LexicalEntry>
     <LexicalEntry id="L303250">
       <Lemma writtenForm="ছাব্বিশ" partOfSpeech="m"/>
+      <Form writtenForm="ছাব্বিশের"/>
+      <Form writtenForm="ছাব্বিশকে"/>
+      <Form writtenForm="ছাব্বিশে"/>
       <Sense id="L303250-S1" synset="wikidata-bn-L303250-S1" ili="wikidata-bn-L303250-S1">
         <Definition>অঙ্কবাচক সংখ্যা (২৬)</Definition>
       </Sense>
@@ -1001,6 +1053,9 @@
     </LexicalEntry>
     <LexicalEntry id="L303280">
       <Lemma writtenForm="ছাপ্পান্ন" partOfSpeech="m"/>
+      <Form writtenForm="ছাপ্পান্নের"/>
+      <Form writtenForm="ছাপ্পান্নকে"/>
+      <Form writtenForm="ছাপ্পান্নতে"/>
       <Sense id="L303280-S1" synset="wikidata-bn-L303280-S1" ili="wikidata-bn-L303280-S1">
         <Definition>অঙ্কবাচক সংখ্যা (৫৬)</Definition>
       </Sense>
@@ -1025,6 +1080,9 @@
     </LexicalEntry>
     <LexicalEntry id="L303300">
       <Lemma writtenForm="ছিয়াত্তর" partOfSpeech="m"/>
+      <Form writtenForm="ছিয়াত্তরের"/>
+      <Form writtenForm="ছিয়াত্তরকে"/>
+      <Form writtenForm="ছিয়াত্তরে"/>
       <Sense id="L303300-S1" synset="wikidata-bn-L303300-S1" ili="wikidata-bn-L303300-S1">
         <Definition>অঙ্কবাচক সংখ্যা (৭৬)</Definition>
       </Sense>
@@ -1097,12 +1155,17 @@
     </LexicalEntry>
     <LexicalEntry id="L483765">
       <Lemma writtenForm="কী" partOfSpeech="h"/>
+      <Form writtenForm="কীসের"/>
+      <Form writtenForm="কীসে"/>
       <Sense id="L483765-S1" synset="wikidata-bn-L483765-S1" ili="wikidata-bn-L483765-S1">
         <Definition>কোন বস্তু/বিষয়</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L483766">
       <Lemma writtenForm="কোথা" partOfSpeech="h"/>
+      <Form writtenForm="কোথাকার"/>
+      <Form writtenForm="কোথাকে"/>
+      <Form writtenForm="কোথায়"/>
       <Sense id="L483766-S1" synset="wikidata-bn-L483766-S1" ili="wikidata-bn-L483766-S1">
         <Definition>কোন স্থান</Definition>
       </Sense>
@@ -1127,6 +1190,7 @@
     </LexicalEntry>
     <LexicalEntry id="L626230">
       <Lemma writtenForm="যা" partOfSpeech="h"/>
+      <Form writtenForm="যাহা"/>
       <Sense id="L626230-S1" synset="wikidata-bn-L626230-S1" ili="wikidata-bn-L626230-S1">
         <Definition>যে দ্রব্য</Definition>
       </Sense>
@@ -1139,12 +1203,16 @@
     </LexicalEntry>
     <LexicalEntry id="L1119391">
       <Lemma writtenForm="সবাই" partOfSpeech="h"/>
+      <Form writtenForm="সবাকার"/>
+      <Form writtenForm="সবাইকে"/>
       <Sense id="L1119391-S1" synset="wikidata-bn-L1119391-S1" ili="wikidata-bn-L1119391-S1">
         <Definition>সকলেই</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1329924">
       <Lemma writtenForm="কেউ" partOfSpeech="h"/>
+      <Form writtenForm="কারো"/>
+      <Form writtenForm="কাউকে"/>
       <Sense id="L1329924-S1" synset="wikidata-bn-L1329924-S1" ili="wikidata-bn-L1329924-S1">
         <Definition>কেহ; কোনো ব্যক্তি;</Definition>
       </Sense>
@@ -1157,6 +1225,8 @@
     </LexicalEntry>
     <LexicalEntry id="L60057">
       <Lemma writtenForm="তুই" partOfSpeech="h"/>
+      <Form writtenForm="তোর"/>
+      <Form writtenForm="তোকে"/>
       <Sense id="L60057-S1" synset="wikidata-bn-L60057-S1" ili="wikidata-bn-L60057-S1">
         <Definition>নিম্নপদস্থ বা অন্তরঙ্গ সম্বোধিত ব্যক্তি</Definition>
         <Example>তোর বাবার শরীর ভালো নয়।</Example>
@@ -1262,6 +1332,8 @@
     </LexicalEntry>
     <LexicalEntry id="L476061">
       <Lemma writtenForm="এ" partOfSpeech="h"/>
+      <Form writtenForm="এর"/>
+      <Form writtenForm="একে"/>
       <Sense id="L476061-S1" synset="wikidata-bn-L476061-S1" ili="wikidata-bn-L476061-S1">
         <Definition>এই ব্যক্তি/বস্তু/বিষয়</Definition>
       </Sense>
@@ -1289,6 +1361,8 @@
     </LexicalEntry>
     <LexicalEntry id="L625189">
       <Lemma writtenForm="যে" partOfSpeech="h"/>
+      <Form writtenForm="যার"/>
+      <Form writtenForm="যাকে"/>
       <Sense id="L625189-S1" synset="wikidata-bn-L625189-S1" ili="wikidata-bn-L625189-S1">
         <Definition>নির্দিষ্ট বস্তু বা ব্যক্তি</Definition>
       </Sense>
@@ -1335,6 +1409,7 @@
     </LexicalEntry>
     <LexicalEntry id="L303225">
       <Lemma writtenForm="এক" partOfSpeech="m"/>
+      <Form writtenForm="একের"/>
       <Sense id="L303225-S1" synset="wikidata-bn-L303225-S1" ili="wikidata-bn-L303225-S1">
         <Definition>অঙ্কবাচক সংখ্যা (১)</Definition>
       </Sense>
@@ -1528,12 +1603,16 @@
     </LexicalEntry>
     <LexicalEntry id="L476064">
       <Lemma writtenForm="ও" partOfSpeech="h"/>
+      <Form writtenForm="ওর"/>
+      <Form writtenForm="ওকে"/>
       <Sense id="L476064-S1" synset="wikidata-bn-L476064-S1" ili="wikidata-bn-L476064-S1">
         <Definition>ওই ব্যক্তি/বস্তু/বিষয়</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L476066">
       <Lemma writtenForm="সে" partOfSpeech="h"/>
+      <Form writtenForm="তার"/>
+      <Form writtenForm="তাকে"/>
       <Sense id="L476066-S1" synset="wikidata-bn-L476066-S1" ili="wikidata-bn-L476066-S1">
         <Definition>সেই ব্যক্তি</Definition>
       </Sense>
@@ -1555,6 +1634,7 @@
     </LexicalEntry>
     <LexicalEntry id="L620859">
       <Lemma writtenForm="দিয়ে" partOfSpeech="p"/>
+      <Form writtenForm="দিয়া"/>
       <Sense id="L620859-S1" synset="wikidata-bn-L620859-S1" ili="wikidata-bn-L620859-S1">
         <Definition>সাহায্যে</Definition>
       </Sense>
@@ -1585,6 +1665,8 @@
     </LexicalEntry>
     <LexicalEntry id="L646662">
       <Lemma writtenForm="আপ" partOfSpeech="h"/>
+      <Form writtenForm="আপকা"/>
+      <Form writtenForm="আপকে"/>
       <Sense id="L646662-S1" synset="wikidata-bn-L646662-S1" ili="wikidata-bn-L646662-S1">
         <Definition>স্বয়ং</Definition>
       </Sense>
@@ -1625,6 +1707,8 @@
     </LexicalEntry>
     <LexicalEntry id="L252191">
       <Lemma writtenForm="আমরা" partOfSpeech="h"/>
+      <Form writtenForm="আমাদের"/>
+      <Form writtenForm="আমাদেরকে"/>
       <Sense id="L252191-S1" synset="wikidata-bn-L252191-S1" ili="wikidata-bn-L252191-S1">
         <Definition>বক্তা স্বয়ং ও অন্যান্য লোকজন</Definition>
       </Sense>
@@ -1697,6 +1781,9 @@
     </LexicalEntry>
     <LexicalEntry id="L303320">
       <Lemma writtenForm="ছিয়ানব্বই" partOfSpeech="m"/>
+      <Form writtenForm="ছিয়ানব্বইয়ের"/>
+      <Form writtenForm="ছিয়ানব্বইকে"/>
+      <Form writtenForm="ছিয়ানব্বইতে"/>
       <Sense id="L303320-S1" synset="wikidata-bn-L303320-S1" ili="wikidata-bn-L303320-S1">
         <Definition>অঙ্কবাচক সংখ্যা (৯৬)</Definition>
       </Sense>
@@ -1757,6 +1844,9 @@
     </LexicalEntry>
     <LexicalEntry id="L408650">
       <Lemma writtenForm="ছিয়াশী" partOfSpeech="m"/>
+      <Form writtenForm="ছিয়াশীর"/>
+      <Form writtenForm="ছিয়াশীকে"/>
+      <Form writtenForm="ছিয়াশীতে"/>
       <Sense id="L408650-S1" synset="wikidata-bn-L408650-S1" ili="wikidata-bn-L408650-S1">
         <Definition>অঙ্কবাচক সংখ্যা (৮৬)</Definition>
       </Sense>
@@ -1769,12 +1859,16 @@
     </LexicalEntry>
     <LexicalEntry id="L476045">
       <Lemma writtenForm="উনি" partOfSpeech="h"/>
+      <Form writtenForm="ওঁর"/>
+      <Form writtenForm="ওঁকে"/>
       <Sense id="L476045-S1" synset="wikidata-bn-L476045-S1" ili="wikidata-bn-L476045-S1">
         <Definition>ওই ব্যক্তি</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L494330">
       <Lemma writtenForm="উহারা" partOfSpeech="h"/>
+      <Form writtenForm="উহাদের"/>
+      <Form writtenForm="উহাদেরকে"/>
       <Sense id="L494330-S1" synset="wikidata-bn-L494330-S1" ili="wikidata-bn-L494330-S1">
         <Definition>ওই ব্যক্তিগণ/বস্তুগুলো/বিষয়গুলো</Definition>
       </Sense>

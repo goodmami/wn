@@ -25,12 +25,14 @@
     </LexicalEntry>
     <LexicalEntry id="L305814">
       <Lemma writtenForm="זי‎" partOfSpeech="h"/>
+      <Form writtenForm="איר‎"/>
       <Sense id="L305814-S1" synset="wikidata-yi-L305814-S1" ili="wikidata-yi-L305814-S1">
         <Definition>she; third-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L588392">
       <Lemma writtenForm="נישט" partOfSpeech="y"/>
+      <Form writtenForm="ניט"/>
       <Sense id="L588392-S1" synset="wikidata-yi-L588392-S1" ili="wikidata-yi-L588392-S1">
         <Definition>not</Definition>
       </Sense>
@@ -58,6 +60,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305815">
       <Lemma writtenForm="מיר" partOfSpeech="h"/>
+      <Form writtenForm="אונדז‎"/>
       <Sense id="L305815-S1" synset="wikidata-yi-L305815-S1" ili="wikidata-yi-L305815-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
@@ -91,6 +94,7 @@
     </LexicalEntry>
     <LexicalEntry id="L590403">
       <Lemma writtenForm="מיט" partOfSpeech="p"/>
+      <Form writtenForm="מיטן"/>
       <Sense id="L590403-S1" synset="wikidata-yi-L590403-S1" ili="wikidata-yi-L590403-S1">
         <Definition>with</Definition>
       </Sense>
@@ -106,12 +110,16 @@
     </LexicalEntry>
     <LexicalEntry id="L406826">
       <Lemma writtenForm="דאָס" partOfSpeech="d"/>
+      <Form writtenForm="דער"/>
+      <Form writtenForm="די"/>
+      <Form writtenForm="דעם"/>
       <Sense id="L406826-S1" synset="wikidata-yi-L406826-S1" ili="wikidata-yi-L406826-S1">
         <Definition>definite article; the</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L588700">
       <Lemma writtenForm="אױף" partOfSpeech="p"/>
+      <Form writtenForm="אױפֿן"/>
       <Sense id="L588700-S1" synset="wikidata-yi-L588700-S1" ili="wikidata-yi-L588700-S1">
         <Definition>on</Definition>
       </Sense>
@@ -149,12 +157,6 @@
         <Definition>any, no matter</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L943001">
-      <Lemma writtenForm="װאָס" partOfSpeech="h"/>
-      <Sense id="L943001-S1" synset="wikidata-yi-L943001-S1" ili="wikidata-yi-L943001-S1">
-        <Definition>what</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1227158">
       <Lemma writtenForm="חלילה" partOfSpeech="i"/>
       <Sense id="L1227158-S1" synset="wikidata-yi-L1227158-S1" ili="wikidata-yi-L1227158-S1">
@@ -163,6 +165,7 @@
     </LexicalEntry>
     <LexicalEntry id="L589759">
       <Lemma writtenForm="פֿאַר" partOfSpeech="p"/>
+      <Form writtenForm="פֿאַרן"/>
       <Sense id="L589759-S1" synset="wikidata-yi-L589759-S1" ili="wikidata-yi-L589759-S1">
         <Definition>in front of</Definition>
       </Sense>
@@ -175,6 +178,7 @@
     </LexicalEntry>
     <LexicalEntry id="L943014">
       <Lemma writtenForm="װאָסער" partOfSpeech="d"/>
+      <Form writtenForm="װאָסערע"/>
       <Sense id="L943014-S1" synset="wikidata-yi-L943014-S1" ili="wikidata-yi-L943014-S1">
         <Definition>which/what kind of</Definition>
       </Sense>
@@ -208,18 +212,23 @@
     </LexicalEntry>
     <LexicalEntry id="L305747">
       <Lemma writtenForm="ער" partOfSpeech="h"/>
+      <Form writtenForm="אים‎"/>
       <Sense id="L305747-S1" synset="wikidata-yi-L305747-S1" ili="wikidata-yi-L305747-S1">
         <Definition>he; masculine third person pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L305812">
       <Lemma writtenForm="איך‎" partOfSpeech="h"/>
+      <Form writtenForm="מיך‎"/>
+      <Form writtenForm="מיר‎"/>
       <Sense id="L305812-S1" synset="wikidata-yi-L305812-S1" ili="wikidata-yi-L305812-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L305816">
       <Lemma writtenForm="איר" partOfSpeech="h"/>
+      <Form writtenForm="אײַך‎"/>
+      <Form writtenForm="אײַך"/>
       <Sense id="L305816-S1" synset="wikidata-yi-L305816-S1" ili="wikidata-yi-L305816-S1">
         <Definition>second-person plural pronoun</Definition>
       </Sense>
@@ -232,12 +241,15 @@
     </LexicalEntry>
     <LexicalEntry id="L588097">
       <Lemma writtenForm="נאָך" partOfSpeech="p"/>
+      <Form writtenForm="נאָכן"/>
+      <Form writtenForm="נאָכם"/>
       <Sense id="L588097-S1" synset="wikidata-yi-L588097-S1" ili="wikidata-yi-L588097-S1">
         <Definition>after</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L588467">
       <Lemma writtenForm="פֿון" partOfSpeech="p"/>
+      <Form writtenForm="פֿונעם"/>
       <Sense id="L588467-S1" synset="wikidata-yi-L588467-S1" ili="wikidata-yi-L588467-S1">
         <Definition>of</Definition>
       </Sense>
@@ -262,6 +274,8 @@
     </LexicalEntry>
     <LexicalEntry id="L305813">
       <Lemma writtenForm="דו‎" partOfSpeech="h"/>
+      <Form writtenForm="דיך‎"/>
+      <Form writtenForm="דיר"/>
       <Sense id="L305813-S1" synset="wikidata-yi-L305813-S1" ili="wikidata-yi-L305813-S1">
         <Definition>second-person singular pronoun</Definition>
       </Sense>
@@ -286,6 +300,7 @@
     </LexicalEntry>
     <LexicalEntry id="L588096">
       <Lemma writtenForm="אַ" partOfSpeech="d"/>
+      <Form writtenForm="אַן"/>
       <Sense id="L588096-S1" synset="wikidata-yi-L588096-S1" ili="l2767-s1">
         <Definition>a, an; indefinite article</Definition>
       </Sense>
@@ -388,9 +403,6 @@
     </Synset>
     <Synset id="wikidata-yi-L942318-S4" ili="wikidata-yi-L942318-S4" partOfSpeech="c">
       <Definition>any, no matter</Definition>
-    </Synset>
-    <Synset id="wikidata-yi-L943001-S1" ili="wikidata-yi-L943001-S1" partOfSpeech="h">
-      <Definition>what</Definition>
     </Synset>
     <Synset id="wikidata-yi-L1227158-S1" ili="wikidata-yi-L1227158-S1" partOfSpeech="i">
       <Definition>God forbid</Definition>

@@ -10,6 +10,7 @@
     <Extends id="omw-tr" version="1.4"/>
     <LexicalEntry id="L294422">
       <Lemma writtenForm="sen" partOfSpeech="h"/>
+      <Form writtenForm="sana"/>
       <Sense id="L294422-S1" synset="wikidata-tr-L294422-S1" ili="wikidata-tr-L294422-S1">
         <Definition>you (singular)</Definition>
         <Example>sen kökü değil, ancak kök seni taşıyor.</Example>
@@ -17,12 +18,19 @@
     </LexicalEntry>
     <LexicalEntry id="L999115">
       <Lemma writtenForm="ya" partOfSpeech="v"/>
+      <Form writtenForm="a"/>
+      <Form writtenForm="e"/>
+      <Form writtenForm="ye"/>
       <Sense id="L999115-S1" synset="wikidata-tr-L999115-S1" ili="wikidata-tr-L999115-S1">
         <Definition>(converb which, attached to both duplicates of a duplicated verb, expresses a continuous/repeated manner of action)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1133346">
       <Lemma writtenForm="ile" partOfSpeech="c"/>
+      <Form writtenForm="le"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="yla"/>
+      <Form writtenForm="yle"/>
       <Sense id="L1133346-S1" synset="wikidata-tr-L1133346-S1" ili="wikidata-tr-L1133346-S1">
         <Definition>tümce içinde görevdeş iki öğeyi birbirine bağlar</Definition>
         <SenseRelation relType="similar" target="wikidata-tr-L482677-S1"/>
@@ -48,6 +56,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1523103">
       <Lemma writtenForm="-yı" partOfSpeech="p"/>
+      <Form writtenForm="-yi"/>
+      <Form writtenForm="-ı"/>
+      <Form writtenForm="-i"/>
       <Sense id="L1523103-S1" synset="wikidata-tr-L1523103-S1" ili="wikidata-tr-L1523103-S1">
         <Definition>(indicates genitive relationship between preceding and following noun)</Definition>
       </Sense>
@@ -93,6 +104,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1159152">
       <Lemma writtenForm="mı" partOfSpeech="r"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="mu"/>
+      <Form writtenForm="mü"/>
       <Sense id="L1159152-S1" synset="wikidata-tr-L1159152-S1" ili="wikidata-tr-L1159152-S1">
         <Definition>(question particle)</Definition>
       </Sense>
@@ -174,6 +188,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1133345">
       <Lemma writtenForm="ile" partOfSpeech="y"/>
+      <Form writtenForm="le"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="yla"/>
+      <Form writtenForm="yle"/>
       <Sense id="L1133345-S1" synset="wikidata-tr-L1133345-S1" ili="l2991-s1">
         <Definition>sözcüğün sonuna getirilerek birliktelik, işteşlik, araç, neden ya da durum bildiren tümleçler oluşturmaya yarar</Definition>
       </Sense>
@@ -263,6 +281,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1157495">
       <Lemma writtenForm="da" partOfSpeech="y"/>
+      <Form writtenForm="de"/>
       <Sense id="L1157495-S1" synset="wikidata-tr-L1157495-S1" ili="wikidata-tr-L1157495-S1">
         <Definition>as well/too/also</Definition>
       </Sense>
@@ -296,6 +315,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1235204">
       <Lemma writtenForm="ibin" partOfSpeech="p"/>
+      <Form writtenForm="ibn"/>
       <Sense id="L1235204-S1" synset="wikidata-tr-L1235204-S1" ili="wikidata-tr-L1235204-S1">
         <Definition>oğul</Definition>
       </Sense>
@@ -375,6 +395,7 @@
     </LexicalEntry>
     <LexicalEntry id="L294424">
       <Lemma writtenForm="biz" partOfSpeech="h"/>
+      <Form writtenForm="bizim"/>
       <Sense id="L294424-S1" synset="wikidata-tr-L294424-S1" ili="wikidata-tr-L294424-S1">
         <Definition>we</Definition>
       </Sense>
@@ -433,6 +454,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1235210">
       <Lemma writtenForm="dır" partOfSpeech="y"/>
+      <Form writtenForm="dir"/>
+      <Form writtenForm="dur"/>
+      <Form writtenForm="dür"/>
+      <Form writtenForm="tır"/>
+      <Form writtenForm="tir"/>
+      <Form writtenForm="tur"/>
+      <Form writtenForm="tür"/>
       <Sense id="L1235210-S1" synset="wikidata-tr-L1235210-S1" ili="wikidata-tr-L1235210-S1">
         <Definition>(generalizing epistemic modality marker)</Definition>
       </Sense>
@@ -451,6 +479,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1529750">
       <Lemma writtenForm="ait" partOfSpeech="p"/>
+      <Form writtenForm="âit"/>
       <Sense id="L1529750-S1" synset="wikidata-tr-L1529750-S1" ili="wikidata-tr-L1529750-S1">
         <Definition>ilişkin, değgin</Definition>
         <Example>Zihnimden Afganistan’a âit bütün mâlûmâtımı geçirmekteyim</Example>
@@ -458,6 +487,7 @@
     </LexicalEntry>
     <LexicalEntry id="L294423">
       <Lemma writtenForm="o" partOfSpeech="h"/>
+      <Form writtenForm="on"/>
       <Sense id="L294423-S1" synset="wikidata-tr-L294423-S1" ili="wikidata-tr-L294423-S1">
         <Definition>Tekil üçüncü şahısı gösteren söz</Definition>
       </Sense>
@@ -526,6 +556,11 @@
     </LexicalEntry>
     <LexicalEntry id="L294421">
       <Lemma writtenForm="ben" partOfSpeech="h"/>
+      <Form writtenForm="beni"/>
+      <Form writtenForm="bana"/>
+      <Form writtenForm="bende"/>
+      <Form writtenForm="benden"/>
+      <Form writtenForm="benim"/>
       <Sense id="L294421-S2" synset="wikidata-tr-L294421-S2" ili="wikidata-tr-L294421-S2">
         <Definition>kişi kendini belirtir</Definition>
       </Sense>

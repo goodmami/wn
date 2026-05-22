@@ -16,6 +16,11 @@ from wn.constants import (
     VERB,
 )
 
+# Content POS codes: those that omw-en covers natively. Used to decide
+# whether a SKIP_POS-classified Wikidata lemma should still be included
+# because omw-en doesn't have it under that POS.
+CONTENT_TARGETS = frozenset({NOUN, VERB, ADJ, ADV})
+
 POS_MAP: dict[str, str] = {
     # --- Pronoun (h) ---
     "pronoun": PRON,
@@ -50,12 +55,15 @@ POS_MAP: dict[str, str] = {
     "quantifier": DET,
     "partitive": DET,
     # --- Noun (n) ---
+    "noun": NOUN,
+    "proper noun": NOUN,
     "common noun": NOUN,
     "abstract noun": NOUN,
     "compound noun": NOUN,
     "count noun": NOUN,
     "mass noun": NOUN,
     "personal noun": NOUN,
+    "agent noun": NOUN,
     "locative noun": NOUN,
     "indeclinable noun": NOUN,
     "verbal noun": NOUN,
@@ -68,6 +76,9 @@ POS_MAP: dict[str, str] = {
     "location": NOUN,
     "jukugo": NOUN,  # Japanese kanji compound noun
     # --- Verb (v) ---
+    "verb": VERB,
+    "proper verb": VERB,
+    "phrasal verb": VERB,
     "auxiliary verb": VERB,
     "japanese auxiliary verb": VERB,
     "passive verb": VERB,
@@ -84,6 +95,9 @@ POS_MAP: dict[str, str] = {
     "imperative form": VERB,
     "infinitive": VERB,
     # --- Adjective (a) ---
+    "adjective": ADJ,
+    "satellite adjective": ADJ,
+    "proper adjective": ADJ,
     "prenominal adjective": ADJ,
     "adnominal adjective": ADJ,
     "na-adjective": ADJ,
@@ -100,6 +114,7 @@ POS_MAP: dict[str, str] = {
     "predicative": ADJ,
     "nominal modifier": ADJ,
     # --- Adverb (r) ---
+    "adverb": ADV,
     "adverbial phrase": ADV,
     "adverbial locution": ADV,
     "adverbial particle": ADV,
@@ -187,4 +202,8 @@ POS_MAP: dict[str, str] = {
     # the normalizer. Listed explicitly only when present in input.
     "acronym": OTHER,
     "abbreviation": OTHER,
+}
+
+CONTENT_POS_MAP: dict[str, str] = {
+    label: code for label, code in POS_MAP.items() if code in CONTENT_TARGETS
 }

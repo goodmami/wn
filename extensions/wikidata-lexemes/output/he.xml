@@ -31,6 +31,8 @@
     </LexicalEntry>
     <LexicalEntry id="L492222">
       <Lemma writtenForm="עשרה" partOfSpeech="m"/>
+      <Form writtenForm="עשר"/>
+      <Form writtenForm="עשרת"/>
       <Sense id="L492222-S1" synset="wikidata-he-L492222-S1" ili="wikidata-he-L492222-S1">
         <Definition>ten</Definition>
       </Sense>
@@ -76,12 +78,20 @@
     </LexicalEntry>
     <LexicalEntry id="L489654">
       <Lemma writtenForm="תשע" partOfSpeech="m"/>
+      <Form writtenForm="תשעתם"/>
+      <Form writtenForm="תשעתן"/>
+      <Form writtenForm="תשעת"/>
+      <Form writtenForm="תשעתנו"/>
+      <Form writtenForm="תשעתכן"/>
+      <Form writtenForm="תשעתכם"/>
+      <Form writtenForm="תשעה"/>
       <Sense id="L489654-S1" synset="wikidata-he-L489654-S1" ili="wikidata-he-L489654-S1">
         <Definition>Nine</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491804">
       <Lemma writtenForm="אחת" partOfSpeech="m"/>
+      <Form writtenForm="אחד"/>
       <Sense id="L491804-S1" synset="wikidata-he-L491804-S1" ili="wikidata-he-L491804-S1">
         <Definition>the number 1</Definition>
       </Sense>
@@ -164,6 +174,8 @@
     </LexicalEntry>
     <LexicalEntry id="L491962">
       <Lemma writtenForm="עם" partOfSpeech="p"/>
+      <Form writtenForm="עמהם"/>
+      <Form writtenForm="עמהן"/>
       <Sense id="L491962-S1" synset="wikidata-he-L491962-S1" ili="wikidata-he-L491962-S1">
         <Definition>with (comitative)</Definition>
       </Sense>
@@ -215,12 +227,25 @@
     </LexicalEntry>
     <LexicalEntry id="L491842">
       <Lemma writtenForm="ארבע" partOfSpeech="m"/>
+      <Form writtenForm="ארבעה"/>
+      <Form writtenForm="ארבעת"/>
+      <Form writtenForm="ארבעתכם"/>
+      <Form writtenForm="ארבעתכן"/>
+      <Form writtenForm="ארבעתם"/>
+      <Form writtenForm="ארבעתן"/>
+      <Form writtenForm="ארבעתנו"/>
       <Sense id="L491842-S1" synset="wikidata-he-L491842-S1" ili="wikidata-he-L491842-S1">
         <Definition>the number 4</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491918">
       <Lemma writtenForm="חמש" partOfSpeech="m"/>
+      <Form writtenForm="חמישה"/>
+      <Form writtenForm="חמשתכם"/>
+      <Form writtenForm="חמשתכן"/>
+      <Form writtenForm="חמשתם"/>
+      <Form writtenForm="חמשתן"/>
+      <Form writtenForm="חמשתנו"/>
       <Sense id="L491918-S1" synset="wikidata-he-L491918-S1" ili="wikidata-he-L491918-S1">
         <Definition>the number 5</Definition>
       </Sense>
@@ -233,6 +258,13 @@
     </LexicalEntry>
     <LexicalEntry id="L492273">
       <Lemma writtenForm="שלוש" partOfSpeech="m"/>
+      <Form writtenForm="שלושה"/>
+      <Form writtenForm="שלושת"/>
+      <Form writtenForm="שלושתכם"/>
+      <Form writtenForm="שלושתכן"/>
+      <Form writtenForm="שלושתם"/>
+      <Form writtenForm="שלושתן"/>
+      <Form writtenForm="שלושתנו"/>
       <Sense id="L492273-S1" synset="wikidata-he-L492273-S1" ili="wikidata-he-L492273-S1">
         <Definition>the number 3</Definition>
       </Sense>
@@ -255,44 +287,63 @@
         <Definition>מחילה, חיפוי, רחמים</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1320774">
-      <Lemma writtenForm="כפר" partOfSpeech="x"/>
-      <Sense id="L1320774-S1" synset="wikidata-he-L1320774-S1" ili="wikidata-he-L1320774-S1">
-        <Definition>מרידה, חשיבה או פעולה שמנוגדת לסמכות כלשהי, למשל דתית או מדעית</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1320775">
-      <Lemma writtenForm="כפר" partOfSpeech="x"/>
-      <Sense id="L1320775-S1" synset="wikidata-he-L1320775-S1" ili="wikidata-he-L1320775-S1">
-        <Definition>סוג יישוב, בדרך־כלל קטן, בעל אופי חקלאי ולא עירוני</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L206995">
       <Lemma writtenForm="ההוא" partOfSpeech="h"/>
+      <Form writtenForm="ההנה"/>
+      <Form writtenForm="ההיא"/>
+      <Form writtenForm="ההם"/>
+      <Form writtenForm="ההן"/>
       <Sense id="L206995-S1" synset="wikidata-he-L206995-S1" ili="wikidata-he-L206995-S1">
         <Definition>האחד שדובר עליו לא מזמן, אבל רחוק יותר מ„הזה”</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491794">
       <Lemma writtenForm="אודות" partOfSpeech="p"/>
+      <Form writtenForm="אודותיה"/>
+      <Form writtenForm="אודותיהם"/>
+      <Form writtenForm="אודותיהן"/>
+      <Form writtenForm="אודותיו"/>
+      <Form writtenForm="אודותיי"/>
+      <Form writtenForm="אודותייך"/>
+      <Form writtenForm="אודותיך"/>
+      <Form writtenForm="אודותיכם"/>
+      <Form writtenForm="אודותיכן"/>
+      <Form writtenForm="אודותינו"/>
       <Sense id="L491794-S1" synset="wikidata-he-L491794-S1" ili="wikidata-he-L491794-S1">
         <Definition>about/with regard to/concerning</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491968">
       <Lemma writtenForm="שבע" partOfSpeech="m"/>
+      <Form writtenForm="שבעתכם"/>
+      <Form writtenForm="שבעתכן"/>
+      <Form writtenForm="שבעתנו"/>
+      <Form writtenForm="שבעה"/>
+      <Form writtenForm="שבעתם"/>
+      <Form writtenForm="שבעתן"/>
       <Sense id="L491968-S1" synset="wikidata-he-L491968-S1" ili="wikidata-he-L491968-S1">
         <Definition>the number 7</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L492275">
       <Lemma writtenForm="שמונה" partOfSpeech="m"/>
+      <Form writtenForm="שמונת"/>
+      <Form writtenForm="שמונתכם"/>
+      <Form writtenForm="שמונתכן"/>
+      <Form writtenForm="שמונתם"/>
+      <Form writtenForm="שמונתן"/>
+      <Form writtenForm="שמונתנו"/>
       <Sense id="L492275-S1" synset="wikidata-he-L492275-S1" ili="wikidata-he-L492275-S1">
         <Definition>the number 8</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L492277">
       <Lemma writtenForm="שתיים" partOfSpeech="m"/>
+      <Form writtenForm="שניהם"/>
+      <Form writtenForm="שניכם"/>
+      <Form writtenForm="שתיהן"/>
+      <Form writtenForm="שתיכן"/>
+      <Form writtenForm="שניים"/>
       <Sense id="L492277-S1" synset="wikidata-he-L492277-S1" ili="wikidata-he-L492277-S1">
         <Definition>the number 2</Definition>
       </Sense>
@@ -302,12 +353,6 @@
       <Sense id="L692577-S1" synset="wikidata-he-L692577-S1" ili="wikidata-he-L692577-S1">
         <Definition>האם</Definition>
         <SenseRelation relType="similar" target="wikidata-he-L64764-S1"/>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1320635">
-      <Lemma writtenForm="ברך" partOfSpeech="x"/>
-      <Sense id="L1320635-S1" synset="wikidata-he-L1320635-S1" ili="wikidata-he-L1320635-S1">
-        <Definition>הקיפול באמצע הרגל</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1323883">
@@ -336,12 +381,15 @@
     </LexicalEntry>
     <LexicalEntry id="L491836">
       <Lemma writtenForm="אצל" partOfSpeech="p"/>
+      <Form writtenForm="אצלו"/>
+      <Form writtenForm="אצלי"/>
       <Sense id="L491836-S1" synset="wikidata-he-L491836-S1" ili="wikidata-he-L491836-S1">
         <Definition>at/near (e.g. in someone&apos;s home/office)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L491963">
       <Lemma writtenForm="עשר" partOfSpeech="m"/>
+      <Form writtenForm="עשרה"/>
       <Sense id="L491963-S1" synset="wikidata-he-L491963-S1" ili="wikidata-he-L491963-S1">
         <Definition>the number 10</Definition>
       </Sense>
@@ -390,12 +438,24 @@
     </LexicalEntry>
     <LexicalEntry id="L491805">
       <Lemma writtenForm="אחרי" partOfSpeech="p"/>
+      <Form writtenForm="אחריה"/>
+      <Form writtenForm="אחריהם"/>
+      <Form writtenForm="אחריהן"/>
+      <Form writtenForm="אחריו"/>
+      <Form writtenForm="אחריי"/>
+      <Form writtenForm="אחרייך"/>
+      <Form writtenForm="אחריך"/>
+      <Form writtenForm="אחריכם"/>
+      <Form writtenForm="אחריכן"/>
+      <Form writtenForm="אחרינו"/>
       <Sense id="L491805-S1" synset="wikidata-he-L491805-S1" ili="wikidata-he-L491805-S1">
         <Definition>after</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L492094">
       <Lemma writtenForm="זה" partOfSpeech="d"/>
+      <Form writtenForm="זו"/>
+      <Form writtenForm="אלו"/>
       <Sense id="L492094-S1" synset="wikidata-he-L492094-S1" ili="wikidata-he-L492094-S1">
         <Definition>כינוי רמז</Definition>
       </Sense>
@@ -444,12 +504,34 @@
     </LexicalEntry>
     <LexicalEntry id="L492278">
       <Lemma writtenForm="שש" partOfSpeech="m"/>
+      <Form writtenForm="ששתכם"/>
+      <Form writtenForm="ששתכן"/>
+      <Form writtenForm="ששתנו"/>
+      <Form writtenForm="שישה"/>
       <Sense id="L492278-S1" synset="wikidata-he-L492278-S1" ili="wikidata-he-L492278-S1">
         <Definition>the number 6</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L707946">
       <Lemma writtenForm="כינויי הקניין" partOfSpeech="y"/>
+      <Form writtenForm="י"/>
+      <Form writtenForm="יי"/>
+      <Form writtenForm="ך"/>
+      <Form writtenForm="יך"/>
+      <Form writtenForm="ו"/>
+      <Form writtenForm="יו"/>
+      <Form writtenForm="ה"/>
+      <Form writtenForm="יה"/>
+      <Form writtenForm="נו"/>
+      <Form writtenForm="ינו"/>
+      <Form writtenForm="כם"/>
+      <Form writtenForm="יכם"/>
+      <Form writtenForm="כן"/>
+      <Form writtenForm="יכן"/>
+      <Form writtenForm="ם"/>
+      <Form writtenForm="יהם"/>
+      <Form writtenForm="ן"/>
+      <Form writtenForm="יהן"/>
       <Sense id="L707946-S1" synset="wikidata-he-L707946-S1" ili="wikidata-he-L707946-S1">
         <Definition>כינויי הקניין הנצמדים לשם עצם</Definition>
       </Sense>
@@ -601,12 +683,6 @@
     <Synset id="wikidata-he-L1320773-S1" ili="wikidata-he-L1320773-S1" partOfSpeech="x">
       <Definition>מחילה, חיפוי, רחמים</Definition>
     </Synset>
-    <Synset id="wikidata-he-L1320774-S1" ili="wikidata-he-L1320774-S1" partOfSpeech="x">
-      <Definition>מרידה, חשיבה או פעולה שמנוגדת לסמכות כלשהי, למשל דתית או מדעית</Definition>
-    </Synset>
-    <Synset id="wikidata-he-L1320775-S1" ili="wikidata-he-L1320775-S1" partOfSpeech="x">
-      <Definition>סוג יישוב, בדרך־כלל קטן, בעל אופי חקלאי ולא עירוני</Definition>
-    </Synset>
     <Synset id="wikidata-he-L206995-S1" ili="wikidata-he-L206995-S1" partOfSpeech="h">
       <Definition>האחד שדובר עליו לא מזמן, אבל רחוק יותר מ„הזה”</Definition>
     </Synset>
@@ -624,9 +700,6 @@
     </Synset>
     <Synset id="wikidata-he-L692577-S1" ili="wikidata-he-L692577-S1" partOfSpeech="q">
       <Definition>האם</Definition>
-    </Synset>
-    <Synset id="wikidata-he-L1320635-S1" ili="wikidata-he-L1320635-S1" partOfSpeech="x">
-      <Definition>הקיפול באמצע הרגל</Definition>
     </Synset>
     <Synset id="wikidata-he-L1323883-S1" ili="wikidata-he-L1323883-S1" partOfSpeech="x">
       <Definition>נעלם, נמצא במקום לא ידוע</Definition>

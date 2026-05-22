@@ -116,12 +116,6 @@
         <Definition>ten</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L408393">
-      <Lemma writtenForm="fanh" partOfSpeech="m"/>
-      <Sense id="L408393-S1" synset="wikidata-za-L408393-S1" ili="wikidata-za-L408393-S1">
-        <Definition>ten thousand</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L408465">
       <Lemma writtenForm="gou" partOfSpeech="h"/>
       <Sense id="L408465-S1" synset="wikidata-za-L408465-S1" ili="wikidata-za-L408465-S1">
@@ -138,12 +132,6 @@
       <Lemma writtenForm="lingz" partOfSpeech="m"/>
       <Sense id="L408379-S1" synset="wikidata-za-L408379-S1" ili="wikidata-za-L408379-S1">
         <Definition>zero</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L408381">
-      <Lemma writtenForm="song" partOfSpeech="m"/>
-      <Sense id="L408381-S1" synset="wikidata-za-L408381-S1" ili="wikidata-za-L408381-S1">
-        <Definition>two</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L408389">
@@ -212,9 +200,6 @@
     <Synset id="wikidata-za-L408387-S1" ili="wikidata-za-L408387-S1" partOfSpeech="m">
       <Definition>ten</Definition>
     </Synset>
-    <Synset id="wikidata-za-L408393-S1" ili="wikidata-za-L408393-S1" partOfSpeech="m">
-      <Definition>ten thousand</Definition>
-    </Synset>
     <Synset id="wikidata-za-L408465-S1" ili="wikidata-za-L408465-S1" partOfSpeech="h">
       <Definition>I; first-person singular pronoun</Definition>
     </Synset>
@@ -223,9 +208,6 @@
     </Synset>
     <Synset id="wikidata-za-L408379-S1" ili="wikidata-za-L408379-S1" partOfSpeech="m">
       <Definition>zero</Definition>
-    </Synset>
-    <Synset id="wikidata-za-L408381-S1" ili="wikidata-za-L408381-S1" partOfSpeech="m">
-      <Definition>two</Definition>
     </Synset>
     <Synset id="wikidata-za-L408389-S1" ili="wikidata-za-L408389-S1" partOfSpeech="m">
       <Definition>six</Definition>
