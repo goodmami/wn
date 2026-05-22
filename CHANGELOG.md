@@ -3,6 +3,63 @@
 ## [Unreleased][unreleased]
 
 
+## [v1.4.0]
+
+**Release date: 2026-05-22**
+
+### Added
+
+* Wikidata Lexemes extension generator now emits `<Form>` elements
+  for each lexeme's alternative spellings (e.g. `should`/`would`/
+  `could` under `shall`/`will`/`can`; `mine` under `my`). Forms with
+  the negation grammatical feature (`Q1478451`) and apostrophe-leading
+  clitic contractions (`'ll`, `'d`, `'s`) are excluded.
+* English content-POS gap escape: a SKIP_POS-classified lemma whose
+  `(lemma, POS)` isn't in omw-en under any morphological lookup is now
+  kept, filling ~7k function/content words.
+* Modal-verb override (`P31 = Q560570`) always keeps `can`/`will`/
+  `shall` so their forms surface. Bypasses the archaic-Wiktionary
+  filter for these.
+* Wiktionary REST fallback for 0-sense Wikidata Lexemes, gated by
+  Wiktionary categories (drops onomatopoeia, dialectal, internet
+  slang, archaic-when-not-in-omw-en) and lemma quality checks (no
+  all-caps initialisms, no multi-word lemmas starting with uppercase,
+  no apostrophe-leading clitics).
+* Empty-Wikidata-claims filter (English only): drops lexemes with no
+  Oxford/Webster/Britannica cross-reference and no `instance of`,
+  which signals a niche/fandom/personal lexeme (e.g. `oshi`).
+* New shared modules under `extensions/wikidata-lexemes/`:
+  `_wikidata.py` (POS/language Q-code fetcher + `safe_filename` +
+  `cached_json_fetch`), `_omw_en.py` (cached omw-en lemma→POS index),
+  `_wiktionary.py` (REST + Action API clients with per-thread
+  `requests.Session`, paginated category fetches, HTML-entity
+  decoding).
+* Top-1000 most-common English word coverage: 84.0% (omw-en alone) →
+  **99.2% with the extension**. Remaining 8 are brand names / Latin
+  loanwords / month abbreviations.
+* `CLAUDE.md` documents the pre-PR check rule
+  (`hatch fmt --linter --check / mypy:check / build / test`).
+
+### Changed
+
+* `create_extensions.py`: hand-rolled XML escaping replaced with
+  `xml.sax.saxutils.escape`. Sense-shape smuggling (private
+  `_examples` key) replaced with a `NormalizedSense` namedtuple so
+  Wikidata-direct and Wiktionary-fallback sense paths converge before
+  rendering.
+* Dedup of `(lang_iso, lemma, pos_code)` moved from
+  `write_all_extensions` into `filter_lexemes`. Without this,
+  sense-relation targets dangled to dropped duplicate entries and the
+  merge step rejected the XML.
+* Cache directories reorganised under
+  `extras/{wikidata,wiktionary,wiktionary-cats}/` (all gitignored).
+
+### Fixed
+
+* `merge_extension.py` no longer crashes on dangling sense-relation
+  targets after dedup.
+
+
 ## [v1.3.0]
 
 **Release date: 2026-05-20**

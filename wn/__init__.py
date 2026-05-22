@@ -37,7 +37,7 @@ __all__ = (
     "word",
     "words",
 )
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 from wn._add import add, add_lexical_resource, remove
 from wn._config import config  # noqa: F401
