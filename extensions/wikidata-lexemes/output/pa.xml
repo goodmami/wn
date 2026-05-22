@@ -10,6 +10,27 @@
     <Extends id="omw-pa" version="1.4"/>
     <LexicalEntry id="L679444">
       <Lemma writtenForm="ਮੈਂ" partOfSpeech="h"/>
+      <Form writtenForm="ਮੈਨੂੰ"/>
+      <Form writtenForm="‎"/>
+      <Form writtenForm="ਮੈਥੋਂ"/>
+      <Form writtenForm="ਮੇਂ"/>
+      <Form writtenForm="ਮੰਨੂੰ"/>
+      <Form writtenForm="ਮੰਨੇ"/>
+      <Form writtenForm="ਮਾਂਹ"/>
+      <Form writtenForm="ਮਾਹਨੋ"/>
+      <Form writtenForm="ਮ੍ਹਾਥੀ"/>
+      <Form writtenForm="ਮਾਥੇ"/>
+      <Form writtenForm="ਮ੍ਹਾਥੰ"/>
+      <Form writtenForm="ਮਾਥੌਂ"/>
+      <Form writtenForm="ਮੇਤ"/>
+      <Form writtenForm="ਮੇਤੋਂ"/>
+      <Form writtenForm="ਮੇਥੇ"/>
+      <Form writtenForm="ਮੇਥੋਂ"/>
+      <Form writtenForm="ਮੇਨੇ"/>
+      <Form writtenForm="ਮੇਨੂੰ"/>
+      <Form writtenForm="ਮੈਨੋ"/>
+      <Form writtenForm="ਮੈਨ"/>
+      <Form writtenForm="ਮੀਕੀ"/>
       <Sense id="L679444-S1" synset="wikidata-pa-L679444-S1" ili="wikidata-pa-L679444-S1">
         <Definition>ਪੰਜਾਬੀ ਦਾ ਪਹਿਲਾ ਪੁਰਖ ਇੱਕ ਵਚਨ ਪੜਨਾਂਵ, ਪੁਰਾਣਾ ਲਹਿਜਾ ’ਚ ਹਉ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L738454-S1"/>
@@ -21,6 +42,10 @@
     </LexicalEntry>
     <LexicalEntry id="L679725">
       <Lemma writtenForm="ਉੱਤੇ" partOfSpeech="p"/>
+      <Form writtenForm="ਤੇ"/>
+      <Form writtenForm="ਉਤੈ"/>
+      <Form writtenForm="ਉੱਤੋਂ"/>
+      <Form writtenForm="ਤੋਂ"/>
       <Sense id="L679725-S1" synset="wikidata-pa-L679725-S1" ili="wikidata-pa-L679725-S1">
         <Definition>ਓਧਰ, ਉਸ ਪਾਸੇ</Definition>
       </Sense>
@@ -36,6 +61,39 @@
     </LexicalEntry>
     <LexicalEntry id="L685081">
       <Lemma writtenForm="ਹੈ" partOfSpeech="v"/>
+      <Form writtenForm="ਹਾਂ"/>
+      <Form writtenForm="ਹੈਂ"/>
+      <Form writtenForm="ਹੋ"/>
+      <Form writtenForm="ਹਨ"/>
+      <Form writtenForm="ਨੇ"/>
+      <Form writtenForm="ਸਾਂ"/>
+      <Form writtenForm="ਸੈਂ"/>
+      <Form writtenForm="ਸੋ"/>
+      <Form writtenForm="ਸੀ"/>
+      <Form writtenForm="ਸਨ"/>
+      <Form writtenForm="ਆਂ"/>
+      <Form writtenForm="ਆ"/>
+      <Form writtenForm="ਵਾਂ"/>
+      <Form writtenForm="ਸੇ"/>
+      <Form writtenForm="ਸੀਆਂ"/>
+      <Form writtenForm="‎"/>
+      <Form writtenForm="ਏ"/>
+      <Form writtenForm="ਓ"/>
+      <Form writtenForm="ਜੇ"/>
+      <Form writtenForm="ਏਂ"/>
+      <Form writtenForm="ਨੇਂ"/>
+      <Form writtenForm="ਸਿਗਾ"/>
+      <Form writtenForm="ਸੀਗਾ"/>
+      <Form writtenForm="ਸਿਗੇ"/>
+      <Form writtenForm="ਸਿਗੀ"/>
+      <Form writtenForm="ਸੀਗੀ"/>
+      <Form writtenForm="ਸਿਗੀਆਂ"/>
+      <Form writtenForm="ਸੀਗੀਆਂ"/>
+      <Form writtenForm="ਹੈਗਾ"/>
+      <Form writtenForm="ਹੈਗੇ"/>
+      <Form writtenForm="ਹੈਗੀ"/>
+      <Form writtenForm="ਹੈਗੀਆਂ"/>
+      <Form writtenForm="ਸੀਗੇ"/>
       <Sense id="L685081-S1" synset="wikidata-pa-L685081-S1" ili="wikidata-pa-L685081-S1">
         <Definition>ਪੰਜਾਬੀ ਦਾ ਇਕੱਲਾ ਕਿਰਿਆ ਪਦ ਹੈ, ਆਮ ਹੋਂਦ ਲਈ ਚਿੰਨ੍ਹ ਦਿੱਤਾ</Definition>
       </Sense>
@@ -64,6 +122,9 @@
     </LexicalEntry>
     <LexicalEntry id="L686353">
       <Lemma writtenForm="ਆਪ" partOfSpeech="h"/>
+      <Form writtenForm="ਆਪਸ"/>
+      <Form writtenForm="ਆਪੇ"/>
+      <Form writtenForm="ਆਪਾਂ"/>
       <Sense id="L686353-S1" synset="wikidata-pa-L686353-S1" ili="wikidata-pa-L686353-S1">
         <Definition>ਖ਼ੁਦ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L686354-S1"/>
@@ -90,6 +151,10 @@
     </LexicalEntry>
     <LexicalEntry id="L686385">
       <Lemma writtenForm="ਜਿਹੜਾ" partOfSpeech="h"/>
+      <Form writtenForm="ਜਿਹਡ਼ੀ"/>
+      <Form writtenForm="ਜਿਹਡ਼ੀਆਂ"/>
+      <Form writtenForm="ਜਿਹਡ਼ੇ"/>
+      <Form writtenForm="ਜਿਹਡ਼ਿਆਂ"/>
       <Sense id="L686385-S1" synset="wikidata-pa-L686385-S1" ili="wikidata-pa-L686385-S1">
         <Definition>who, which, that, what</Definition>
       </Sense>
@@ -102,12 +167,22 @@
     </LexicalEntry>
     <LexicalEntry id="L692299">
       <Lemma writtenForm="ਜਿਹੜਾ ਕਿਹੜਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਜਿਹੜੇ ਕਿਹੜੇ"/>
+      <Form writtenForm="ਜਿਹੜਿਆਂ ਕਿਹੜਿਆਂ"/>
+      <Form writtenForm="ਜਿਹੜੀ ਕਿਹੜੀ"/>
+      <Form writtenForm="ਜਿਹੜੀਆਂ ਕਿਹੜੀਆਂ"/>
       <Sense id="L692299-S1" synset="wikidata-pa-L692299-S1" ili="wikidata-pa-L692299-S1">
         <Definition>any Tom, Dick, or Harry</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L717868">
       <Lemma writtenForm="ਸਭ" partOfSpeech="h"/>
+      <Form writtenForm="ਸਭਨਾਂ"/>
+      <Form writtenForm="ਸਬ"/>
+      <Form writtenForm="ਸਬਨਾਂ"/>
+      <Form writtenForm="ਸਭੁ"/>
+      <Form writtenForm="ਸਭਿਅ"/>
+      <Form writtenForm="ਸਭਤੈ"/>
       <Sense id="L717868-S1" synset="wikidata-pa-L717868-S1" ili="wikidata-pa-L717868-S1">
         <Definition>ਤਮਾਮ</Definition>
       </Sense>
@@ -128,6 +203,11 @@
     </LexicalEntry>
     <LexicalEntry id="L744633">
       <Lemma writtenForm="ਸਲਾਮ ਅਲੇਕਮ" partOfSpeech="i"/>
+      <Form writtenForm="ਸਲਾਮ ਅਲੈਕਮ"/>
+      <Form writtenForm="ਸਲਾਮ ਅਲੇਕੁਮ"/>
+      <Form writtenForm="ਵਾਲੇਕਮ ਸਲਾਮ"/>
+      <Form writtenForm="ਵਾਲੈਕਮ ਸਲਾਮ"/>
+      <Form writtenForm="ਵਾਲੇਕੁਮ ਸਲਾਮ"/>
       <Sense id="L744633-S1" synset="wikidata-pa-L744633-S1" ili="wikidata-pa-L744633-S1">
         <Definition>ਮੁਸਲਮਾਨਾਂ ਨੂੰ ਪਹਿਲਾਂ ਲਫ਼ਜ਼ ਕਹਿੰਦੇ</Definition>
       </Sense>
@@ -155,6 +235,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1083734">
       <Lemma writtenForm="ਦੂਰ" partOfSpeech="p"/>
+      <Form writtenForm="ਦੂਰੋਂ"/>
       <Sense id="L1083734-S1" synset="wikidata-pa-L1083734-S1" ili="wikidata-pa-L1083734-S1">
         <Definition>ਪਰੇ ਹੋ, ਵਿੱਥ ਤੇ</Definition>
       </Sense>
@@ -167,6 +248,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1083738">
       <Lemma writtenForm="ਪਰ੍ਹਾਂ" partOfSpeech="p"/>
+      <Form writtenForm="ਪਰ੍ਹਿਓਂ"/>
       <Sense id="L1083738-S1" synset="wikidata-pa-L1083738-S1" ili="wikidata-pa-L1083738-S1">
         <Definition>ਅਲੱਗ, ਫ਼ਾਸਲੇ ਤੇ</Definition>
       </Sense>
@@ -192,6 +274,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1098409">
       <Lemma writtenForm="ਬਿਨਾਂ" partOfSpeech="p"/>
+      <Form writtenForm="ਬਿਨਾ"/>
       <Sense id="L1098409-S1" synset="wikidata-pa-L1098409-S1" ili="wikidata-pa-L1098409-S1">
         <Definition>ਬਗ਼ੈਰ, ਸਿਵਾ</Definition>
       </Sense>
@@ -234,18 +317,29 @@
     </LexicalEntry>
     <LexicalEntry id="L1234098">
       <Lemma writtenForm="ਵਿਚਕਾਰ" partOfSpeech="p"/>
+      <Form writtenForm="ਵਿਚਕਾਰੋਂ"/>
+      <Form writtenForm="ਵਿਚਕਾਰੇ"/>
       <Sense id="L1234098-S1" synset="wikidata-pa-L1234098-S1" ili="wikidata-pa-L1234098-S1">
         <Definition>ਦਰਮਿਆਨ, ਅੱਧ, ਵਿਚਾਲੇ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1476586">
       <Lemma writtenForm="ਉਲ" partOfSpeech="d"/>
+      <Form writtenForm="ਉਨ"/>
+      <Form writtenForm="ਉਰ"/>
+      <Form writtenForm="ਉਸ਼"/>
+      <Form writtenForm="ਉਜ਼"/>
+      <Form writtenForm="ਉੱ"/>
       <Sense id="L1476586-S1" synset="wikidata-pa-L1476586-S1" ili="wikidata-pa-L1476586-S1">
         <Definition>(ਅਰਬੀ ਨਾਵਾਂ ਦੇ ਵਿੱਚ ਇਸਮ ਤੇ ਸਿਫ਼ਤ ਦੇ ਸ਼ੁਰੂ ਵਿੱਚ ਲੱਗ ਕੇ ਪੈਦਾ ਕਰ ਦੇਂਦਾ ਏ)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L672607">
       <Lemma writtenForm="ਅਤੇ" partOfSpeech="c"/>
+      <Form writtenForm="ਤੇ"/>
+      <Form writtenForm="‎"/>
+      <Form writtenForm="ਅਤੈ"/>
+      <Form writtenForm="ਤੈ"/>
       <Sense id="L672607-S1" synset="wikidata-pa-L672607-S1" ili="wikidata-pa-L672607-S1">
         <Definition>and</Definition>
         <Example>ਬਹੁਤ ਕੁਝ ਬਾਕੀ ਰਹਿ ਗਿਆ ਹੈ ਅਤੇ ਬਹੁਤ ਕੁਛ ਨਾ-ਠੀਕ ਪ੍ਰਗਟ ਹੋਇਆ ਹੈ</Example>
@@ -275,6 +369,7 @@
     </LexicalEntry>
     <LexicalEntry id="L686000">
       <Lemma writtenForm="ਹੀ" partOfSpeech="y"/>
+      <Form writtenForm="ਈ"/>
       <Sense id="L686000-S1" synset="wikidata-pa-L686000-S1" ili="wikidata-pa-L686000-S1">
         <Definition>(‘ਜ਼ਰੂਰ’ ਮਾਅਨੇ ਨਾਲ ਹਰਫ਼ ਤਾਕੀਦ)</Definition>
         <SenseRelation relType="antonym" target="wikidata-pa-L686003-S1"/>
@@ -289,6 +384,15 @@
     </LexicalEntry>
     <LexicalEntry id="L689421">
       <Lemma writtenForm="ਤੁਹਾਡਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਤੁਹਾਡੀ"/>
+      <Form writtenForm="ਤੁਹਾਡੇ"/>
+      <Form writtenForm="ਤੁਹਾਡਿਆਂ"/>
+      <Form writtenForm="ਤੁਹਾਡੀਆਂ"/>
+      <Form writtenForm="ਧਿਆਡਾ"/>
+      <Form writtenForm="ਧਿਆਡੇ"/>
+      <Form writtenForm="ਧਿਆਡਿਆਂ"/>
+      <Form writtenForm="ਧਿਆਡੀ"/>
+      <Form writtenForm="ਧਿਆਡੀਆਂ"/>
       <Sense id="L689421-S1" synset="wikidata-pa-L689421-S1" ili="wikidata-pa-L689421-S1">
         <Definition>ਦੂਜੇ ਪੁਰਖ, ਜਮ੍ਹਾ  ਦੇ</Definition>
       </Sense>
@@ -326,6 +430,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1016930">
       <Lemma writtenForm="ਕੈਸਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਕੈਸੇ"/>
+      <Form writtenForm="ਕੈਸਿਆਂ"/>
+      <Form writtenForm="ਕੈਸੀ"/>
+      <Form writtenForm="ਕੈਸੀਆਂ"/>
       <Sense id="L1016930-S1" synset="wikidata-pa-L1016930-S1" ili="wikidata-pa-L1016930-S1">
         <Definition>ਕਿਵੇਂ ਦਾ</Definition>
       </Sense>
@@ -365,6 +473,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1092047">
       <Lemma writtenForm="ਕਿਹਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਕਿਹੇ"/>
+      <Form writtenForm="ਕਿਹਾਂ"/>
+      <Form writtenForm="ਕਿਹੀ"/>
+      <Form writtenForm="ਕਿਹੀਆਂ"/>
       <Sense id="L1092047-S1" synset="wikidata-pa-L1092047-S1" ili="wikidata-pa-L1092047-S1">
         <Definition>ਕਿਹੋ ਜਿਹਾ</Definition>
       </Sense>
@@ -395,6 +507,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1095535">
       <Lemma writtenForm="ਮਰ ਖਪਣ" partOfSpeech="t"/>
+      <Form writtenForm="ਮਰ ਖਪ"/>
       <Sense id="L1095535-S1" synset="wikidata-pa-L1095535-S1" ili="wikidata-pa-L1095535-S1">
         <Definition>ਮਿੱਟੀ ਵਿੱਚ ਰਲ ਜਾਵਣ</Definition>
       </Sense>
@@ -514,6 +627,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1161647">
       <Lemma writtenForm="ਸੇ" partOfSpeech="x"/>
+      <Form writtenForm="ਉਸੇ"/>
       <Sense id="L1161647-S1" synset="wikidata-pa-L1161647-S1" ili="wikidata-pa-L1161647-S1">
         <Definition>(“ਅਸੀਂ” ਮਾਅਨੇ ਤੋਂ ਲਾਹਿਕਾ)</Definition>
       </Sense>
@@ -571,6 +685,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1227903">
       <Lemma writtenForm="ਉੱਪਰ" partOfSpeech="p"/>
+      <Form writtenForm="ਉੱਪਰੋਂ"/>
       <Sense id="L1227903-S1" synset="wikidata-pa-L1227903-S1" ili="wikidata-pa-L1227903-S1">
         <Definition>ਉਚਾਈ ਤੇ, ਬੁਲੰਦੀ ਤੇ</Definition>
       </Sense>
@@ -595,18 +710,55 @@
     </LexicalEntry>
     <LexicalEntry id="L686328">
       <Lemma writtenForm="ਇਕ" partOfSpeech="d"/>
+      <Form writtenForm="ਇਕਨਾਂ"/>
+      <Form writtenForm="ਹਿੱਕ"/>
       <Sense id="L686328-S1" synset="wikidata-pa-L686328-S1" ili="wikidata-pa-L686328-S1">
         <Definition>ਇਕੋ ਵਾਰ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L689419">
       <Lemma writtenForm="ਮੇਰਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਮੇਰੀ"/>
+      <Form writtenForm="ਮਏਂ ਦਾ"/>
+      <Form writtenForm="ਮਹਾੜਾ"/>
+      <Form writtenForm="ਮੇਰੇ"/>
+      <Form writtenForm="ਮੇਰਿਆਂ"/>
+      <Form writtenForm="ਮੇਰਿਆ"/>
+      <Form writtenForm="ਮੇਰਿਓ"/>
+      <Form writtenForm="ਮੇਰੀਆਂ"/>
+      <Form writtenForm="ਮੇਰੀਏ"/>
+      <Form writtenForm="ਮੇਰੀਓ"/>
+      <Form writtenForm="ਮ੍ਹਾਰਾ"/>
+      <Form writtenForm="ਮਾੜ੍ਹਾ"/>
+      <Form writtenForm="ਮੀਂਡਾ"/>
+      <Form writtenForm="ਮੀਰੜਾ"/>
+      <Form writtenForm="ਮੇਰਲਾ"/>
+      <Form writtenForm="ਮੇਡਾ"/>
+      <Form writtenForm="ਮਹਿੰਡਾ"/>
+      <Form writtenForm="ਮਹੁੰਜਾ"/>
+      <Form writtenForm="ਮੱੜਾ"/>
+      <Form writtenForm="ਮਰਾ"/>
+      <Form writtenForm="ਮੁਝ ਦਾ"/>
+      <Form writtenForm="ਮਾੜਾ"/>
+      <Form writtenForm="ਮਾਡੜਾ"/>
+      <Form writtenForm="ਮਾਡਾ"/>
+      <Form writtenForm="ਮੈਂਡਾ"/>
+      <Form writtenForm="ਮੈਂਡੜਾ"/>
+      <Form writtenForm="ਮੋਰਾ"/>
       <Sense id="L689419-S1" synset="wikidata-pa-L689419-S1" ili="wikidata-pa-L689419-S1">
         <Definition>ਪਹਿਲੇ ਪੁਰਖ ਦਾ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L689420">
       <Lemma writtenForm="ਤੇਰਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਤੇਰੀ"/>
+      <Form writtenForm="ਤੇਰੇ"/>
+      <Form writtenForm="ਤੇਰੀਆਂ"/>
+      <Form writtenForm="ਤੇਰਿਆਂ"/>
+      <Form writtenForm="ਤੇਰਿਆ"/>
+      <Form writtenForm="ਤੇਰੀਏ"/>
+      <Form writtenForm="ਤੇਰਿਓ"/>
+      <Form writtenForm="ਤੇਰੀਓ"/>
       <Sense id="L689420-S1" synset="wikidata-pa-L689420-S1" ili="wikidata-pa-L689420-S1">
         <Definition>ਦੂਜੇ ਪੁਰਖ ਦਾ</Definition>
       </Sense>
@@ -632,6 +784,9 @@
     </LexicalEntry>
     <LexicalEntry id="L942762">
       <Lemma writtenForm="ਤੁਸੀਂ" partOfSpeech="h"/>
+      <Form writtenForm="ਤੁਸਾਂ"/>
+      <Form writtenForm="ਤੁਹਾਨੂੰ"/>
+      <Form writtenForm="ਤੁਹਾਥੋਂ"/>
       <Sense id="L942762-S1" synset="wikidata-pa-L942762-S1" ili="wikidata-pa-L942762-S1">
         <Definition>ਦੂਜੇ ਪੁਰਖ, ਜਮ੍ਹਾ ਨਿੱਜੀ ਪੜਨਾਂਵ</Definition>
       </Sense>
@@ -659,12 +814,6 @@
       </Sense>
       <Sense id="L1091482-S2" synset="wikidata-pa-L1091482-S2" ili="wikidata-pa-L1091482-S2">
         <Definition>ਫਿਰ, ਮੁੜ, ਭਾਵੇਂ</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1091483">
-      <Lemma writtenForm="ਜਾਂ" partOfSpeech="c"/>
-      <Sense id="L1091483-S1" synset="wikidata-pa-L1091483-S1" ili="wikidata-pa-L1091483-S1">
-        <Definition>ਜਦੋਂ, ਜਦ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1095550">
@@ -697,6 +846,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1136305">
       <Lemma writtenForm="ਪਾਸ" partOfSpeech="p"/>
+      <Form writtenForm="ਪਾਸੋਂ"/>
       <Sense id="L1136305-S1" synset="wikidata-pa-L1136305-S1" ili="wikidata-pa-L1136305-S1">
         <Definition>ਕੋਲ, ਨੇੜੇ</Definition>
       </Sense>
@@ -753,15 +903,6 @@
         <SenseRelation relType="similar" target="wikidata-pa-L1197134-S1"/>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1218019">
-      <Lemma writtenForm="ਪੀ ਜਾਵਣ" partOfSpeech="t"/>
-      <Sense id="L1218019-S1" synset="wikidata-pa-L1218019-S1" ili="wikidata-pa-L1218019-S1">
-        <Definition>ਚੜ੍ਹਾ ਜਾਵਣ</Definition>
-      </Sense>
-      <Sense id="L1218019-S2" synset="wikidata-pa-L1218019-S2" ili="wikidata-pa-L1218019-S2">
-        <Definition>ਜਰ ਜਾਵਣ</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1222954">
       <Lemma writtenForm="ਅਫ਼ਸੋਸ" partOfSpeech="i"/>
       <Sense id="L1222954-S1" synset="wikidata-pa-L1222954-S1" ili="wikidata-pa-L1222954-S1">
@@ -777,6 +918,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1234103">
       <Lemma writtenForm="ਹੇਠ" partOfSpeech="p"/>
+      <Form writtenForm="ਹੇਠੋਂ"/>
       <Sense id="L1234103-S1" synset="wikidata-pa-L1234103-S1" ili="wikidata-pa-L1234103-S1">
         <Definition>ਥੱਲੇ, ਨੀਚੇ</Definition>
       </Sense>
@@ -786,6 +928,24 @@
     </LexicalEntry>
     <LexicalEntry id="L679201">
       <Lemma writtenForm="ਦਾ" partOfSpeech="p"/>
+      <Form writtenForm="ਦੀ"/>
+      <Form writtenForm="ਦੇ"/>
+      <Form writtenForm="ਦੀਆਂ"/>
+      <Form writtenForm="ਦਿਆਂ"/>
+      <Form writtenForm="ਦਿਆ"/>
+      <Form writtenForm="ਦਿਓ"/>
+      <Form writtenForm="ਦਿਓਂ"/>
+      <Form writtenForm="ਦੀਏ"/>
+      <Form writtenForm="ਦੀਓ"/>
+      <Form writtenForm="ਦੀਓਂ"/>
+      <Form writtenForm="ਨਾ"/>
+      <Form writtenForm="ਨੀ"/>
+      <Form writtenForm="ਨੇ"/>
+      <Form writtenForm="ਨੀਆਂ"/>
+      <Form writtenForm="ਨਿਆਂ"/>
+      <Form writtenForm="ਨਾਂ"/>
+      <Form writtenForm="ਨੀਂ"/>
+      <Form writtenForm="ਨੇਂ"/>
       <Sense id="L679201-S1" synset="wikidata-pa-L679201-S1" ili="wikidata-pa-L679201-S1">
         <Definition>(ਹਰਫ਼-ਏ-ਇਜ਼ਾਫ਼ਤ); ਕਾ, ਜੋ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L741123-S1"/>
@@ -794,12 +954,20 @@
     </LexicalEntry>
     <LexicalEntry id="L679424">
       <Lemma writtenForm="ਤੂੰ" partOfSpeech="h"/>
+      <Form writtenForm="ਤੈਨੂੰ"/>
+      <Form writtenForm="ਤੈਥੋਂ"/>
       <Sense id="L679424-S1" synset="wikidata-pa-L679424-S1" ili="wikidata-pa-L679424-S1">
         <Definition>ਦੂਜੇ ਪੁਰਖ ਦਾ ਪੜਨਾਂਵ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L679728">
       <Lemma writtenForm="ਵਿਚ" partOfSpeech="p"/>
+      <Form writtenForm="ਵਿੱਚ"/>
+      <Form writtenForm="ਵਿਚੋਂ"/>
+      <Form writtenForm="ਵਿੱਚੋਂ"/>
+      <Form writtenForm="‎‎ਚ"/>
+      <Form writtenForm="ਚੋਂ"/>
+      <Form writtenForm="ਇਚ"/>
       <Sense id="L679728-S1" synset="wikidata-pa-L679728-S1" ili="wikidata-pa-L679728-S1">
         <Definition>ਅੰਦਰ, ਵਿਚਾਲ਼ੇ, ਦਰਮਿਆਨ</Definition>
       </Sense>
@@ -828,6 +996,7 @@
     </LexicalEntry>
     <LexicalEntry id="L686223">
       <Lemma writtenForm="ਕਿੰਜ" partOfSpeech="r"/>
+      <Form writtenForm="ਕਿੰਞ"/>
       <Sense id="L686223-S1" synset="wikidata-pa-L686223-S1" ili="wikidata-pa-L686223-S1">
         <Definition>how?</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L684360-S1"/>
@@ -836,12 +1005,20 @@
     </LexicalEntry>
     <LexicalEntry id="L686358">
       <Lemma writtenForm="ਕਿਹਦਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਕਿਹਦੇ"/>
+      <Form writtenForm="ਕਿਹਦਿਆਂ"/>
+      <Form writtenForm="ਕਿਹਦੀ"/>
+      <Form writtenForm="ਕਿਹਦੀਆਂ"/>
       <Sense id="L686358-S1" synset="wikidata-pa-L686358-S1" ili="wikidata-pa-L686358-S1">
         <Definition>ਕਿਹੜੇ ਬੰਦੇ ਦਾ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686384">
       <Lemma writtenForm="ਕਿਹੜਾ" partOfSpeech="h"/>
+      <Form writtenForm="ਕਿਹੜੇ"/>
+      <Form writtenForm="ਕਿਹੜਿਆਂ"/>
+      <Form writtenForm="ਕਿਹੜੀ"/>
+      <Form writtenForm="ਕਿਹੜੀਆਂ"/>
       <Sense id="L686384-S1" synset="wikidata-pa-L686384-S1" ili="wikidata-pa-L686384-S1">
         <Definition>ਕੌਣ</Definition>
       </Sense>
@@ -854,6 +1031,11 @@
     </LexicalEntry>
     <LexicalEntry id="L689404">
       <Lemma writtenForm="ਆਹੋ" partOfSpeech="i"/>
+      <Form writtenForm="ਇਆਹ"/>
+      <Form writtenForm="ਇਆਹੇ"/>
+      <Form writtenForm="ਇਆਹੈ"/>
+      <Form writtenForm="ਇਆਹੋ"/>
+      <Form writtenForm="ਇਆਹੌ"/>
       <Sense id="L689404-S1" synset="wikidata-pa-L689404-S1" ili="wikidata-pa-L689404-S1">
         <Definition>ਹਾਂ ਕਰਨ ਦਾ ਭਾਵ, ਹਾਮੀ, ਹੰਘੂਰਾ</Definition>
       </Sense>
@@ -867,6 +1049,7 @@
     </LexicalEntry>
     <LexicalEntry id="L712901">
       <Lemma writtenForm="ਨੇ" partOfSpeech="p"/>
+      <Form writtenForm="‎"/>
       <Sense id="L712901-S1" synset="wikidata-pa-L712901-S1" ili="wikidata-pa-L712901-S1">
         <Definition>(ergative/agentive postposition, used for marking initiator in clauses)</Definition>
       </Sense>
@@ -903,6 +1086,7 @@
     </LexicalEntry>
     <LexicalEntry id="L738454">
       <Lemma writtenForm="ਹਉ" partOfSpeech="h"/>
+      <Form writtenForm="ਮੈ"/>
       <Sense id="L738454-S1" synset="wikidata-pa-L738454-S1" ili="wikidata-pa-L738454-S1">
         <Definition>ਪੁਰਾਣੀ ਪੰਜਾਬੀ ਦਾ ਪਹਿਲਾ ਪੁਰਖ ਇੱਕ ਵਚਨ ਪੜਨਾਂਵ, ਮੈਂ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L679444-S1"/>
@@ -921,6 +1105,12 @@
     </LexicalEntry>
     <LexicalEntry id="L943569">
       <Lemma writtenForm="ਸੋ" partOfSpeech="h"/>
+      <Form writtenForm="ਤਿਸ"/>
+      <Form writtenForm="ਤਿਨ"/>
+      <Form writtenForm="ਤਿਨ੍ਹਾਂ"/>
+      <Form writtenForm="ਸੇਈ"/>
+      <Form writtenForm="ਸੋਈ"/>
+      <Form writtenForm="ਸੋਈਓ"/>
       <Sense id="L943569-S1" synset="wikidata-pa-L943569-S1" ili="wikidata-pa-L943569-S1">
         <Definition>ਉਹ, ਇਹ, ਜੈਸਾ</Definition>
       </Sense>
@@ -942,6 +1132,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1089242">
       <Lemma writtenForm="ਕਾ" partOfSpeech="p"/>
+      <Form writtenForm="ਕੇ"/>
+      <Form writtenForm="ਕਿਆਂ"/>
+      <Form writtenForm="ਕਿਆ"/>
+      <Form writtenForm="ਕਿਓ"/>
+      <Form writtenForm="ਕੀ"/>
+      <Form writtenForm="ਕੀਆਂ"/>
+      <Form writtenForm="ਕੀਏ"/>
+      <Form writtenForm="ਕੀਓ"/>
       <Sense id="L1089242-S1" synset="wikidata-pa-L1089242-S1" ili="wikidata-pa-L1089242-S1">
         <Definition>ਦਾ, ਨਾ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L679201-S1"/>
@@ -1047,6 +1245,13 @@
     </LexicalEntry>
     <LexicalEntry id="L680188">
       <Lemma writtenForm="ਨਾਲ" partOfSpeech="p"/>
+      <Form writtenForm="ਨਾਲ਼"/>
+      <Form writtenForm="ਨਾਲ਼ੇ"/>
+      <Form writtenForm="ਨਾਲੇ"/>
+      <Form writtenForm="ਨਾਲ਼ੋਂ"/>
+      <Form writtenForm="ਨਾਲੋਂ"/>
+      <Form writtenForm="ਨਾਲਿ"/>
+      <Form writtenForm="ਨਾਲਹੁ"/>
       <Sense id="L680188-S1" synset="wikidata-pa-L680188-S1" ili="wikidata-pa-L680188-S1">
         <Definition>ਸਮੇਤ, ਸੰਗ, ਦਾ ਸਾਥ</Definition>
       </Sense>
@@ -1067,6 +1272,11 @@
     </LexicalEntry>
     <LexicalEntry id="L686359">
       <Lemma writtenForm="ਜੋ" partOfSpeech="h"/>
+      <Form writtenForm="ਜਿਸ"/>
+      <Form writtenForm="ਜਿਹ"/>
+      <Form writtenForm="ਜਿਨ੍ਹਾਂ"/>
+      <Form writtenForm="ਜਿਨ"/>
+      <Form writtenForm="ਜਿਹਨਾਂ"/>
       <Sense id="L686359-S1" synset="wikidata-pa-L686359-S1" ili="wikidata-pa-L686359-S1">
         <Definition>ਜੇਹੜਾ, ਜਿਸ ਨੂੰ</Definition>
       </Sense>
@@ -1086,6 +1296,7 @@
     </LexicalEntry>
     <LexicalEntry id="L687895">
       <Lemma writtenForm="ਹੋਰ" partOfSpeech="h"/>
+      <Form writtenForm="ਹੋਰਨਾਂ"/>
       <Sense id="L687895-S1" synset="wikidata-pa-L687895-S1" ili="wikidata-pa-L687895-S1">
         <Definition>ਵਧੇਰਾ, ਸਗੋਂ</Definition>
       </Sense>
@@ -1146,6 +1357,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1093762">
       <Lemma writtenForm="ਵੱਲ" partOfSpeech="p"/>
+      <Form writtenForm="ਵੱਲੋਂ"/>
       <Sense id="L1093762-S1" synset="wikidata-pa-L1093762-S1" ili="wikidata-pa-L1093762-S1">
         <Definition>ਦੇ ਪਾਸੇ, ਪਰਨੇ</Definition>
       </Sense>
@@ -1249,24 +1461,37 @@
     </LexicalEntry>
     <LexicalEntry id="L1223551">
       <Lemma writtenForm="ਦੁਆਲੇ" partOfSpeech="r"/>
+      <Form writtenForm="ਦੁਆਲ਼ੇ"/>
+      <Form writtenForm="ਦੁਆਲਿਓਂ"/>
+      <Form writtenForm="ਦੁਆਲ਼ਿਓਂ"/>
       <Sense id="L1223551-S1" synset="wikidata-pa-L1223551-S1" ili="wikidata-pa-L1223551-S1">
         <Definition>ਗਿਰਦੇ, ਚੁਫੇਰੇ, ਆਸੇ ਪਾਸੇ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L640385">
       <Lemma writtenForm="ਅੰਦਰ" partOfSpeech="r"/>
+      <Form writtenForm="ਅੰਦਰੋਂ"/>
+      <Form writtenForm="ਅੰਦਰੇ"/>
+      <Form writtenForm="ਅੰਦਰਾਂ"/>
+      <Form writtenForm="ਅੰਦਰੀਂ"/>
       <Sense id="L640385-S1" synset="wikidata-pa-L640385-S1" ili="wikidata-pa-L640385-S1">
         <Definition>ਭੀਤਰ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L684198">
       <Lemma writtenForm="ਤੋਂ" partOfSpeech="p"/>
+      <Form writtenForm="ਓਂ"/>
       <Sense id="L684198-S1" synset="wikidata-pa-L684198-S1" ili="wikidata-pa-L684198-S1">
         <Definition>ਵੱਲੋਂ, ਕੋਲੋਂ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L684201">
       <Lemma writtenForm="ਕੌਣ" partOfSpeech="h"/>
+      <Form writtenForm="ਕਿ"/>
+      <Form writtenForm="ਕਿਸ"/>
+      <Form writtenForm="ਕਿਹ"/>
+      <Form writtenForm="ਕਿਨ੍ਹਾਂ"/>
+      <Form writtenForm="ਕਿਨ"/>
       <Sense id="L684201-S1" synset="wikidata-pa-L684201-S1" ili="wikidata-pa-L684201-S1">
         <Definition>ਕੇਹੜਾ</Definition>
       </Sense>
@@ -1281,12 +1506,20 @@
     </LexicalEntry>
     <LexicalEntry id="L684373">
       <Lemma writtenForm="ਕਿੰਨਾ" partOfSpeech="r"/>
+      <Form writtenForm="ਕਿੰਨੇ"/>
+      <Form writtenForm="ਕਿੰਨਿਆਂ"/>
+      <Form writtenForm="ਕਿੰਨੀ"/>
+      <Form writtenForm="ਕਿੰਨੀਆਂ"/>
       <Sense id="L684373-S1" synset="wikidata-pa-L684373-S1" ili="wikidata-pa-L684373-S1">
         <Definition>how much, how many</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686379">
       <Lemma writtenForm="ਆਪਣਾ ਆਪਣਾ" partOfSpeech="h"/>
+      <Form writtenForm="ਆਪਣੇ ਆਪਣੇ"/>
+      <Form writtenForm="ਆਪਣਿਆਂ ਆਪਣਿਆਂ"/>
+      <Form writtenForm="ਆਪਣੀ ਆਪਣੀ"/>
+      <Form writtenForm="ਆਪਣੀਆਂ ਆਪਣੀਆਂ"/>
       <Sense id="L686379-S1" synset="wikidata-pa-L686379-S1" ili="wikidata-pa-L686379-S1">
         <Definition>ਆਪੋ ਆਪਣਾ, ਜ਼ਾਤੀ</Definition>
       </Sense>
@@ -1296,6 +1529,11 @@
     </LexicalEntry>
     <LexicalEntry id="L700902">
       <Lemma writtenForm="ਹੈ ਨਹੀਂ ਗਾ" partOfSpeech="t"/>
+      <Form writtenForm="ਹੈ ਨਹੀਂ ਗੇ"/>
+      <Form writtenForm="ਨਹੀਂ ਗੇ"/>
+      <Form writtenForm="ਹੈ ਨਹੀਂ ਗੀ"/>
+      <Form writtenForm="ਨਹੀਂ ਗੀ"/>
+      <Form writtenForm="ਹੈ ਨਹੀਂ ਗੀਆਂ"/>
       <Sense id="L700902-S1" synset="wikidata-pa-L700902-S1" ili="wikidata-pa-L700902-S1">
         <Definition>is not (definite sense)</Definition>
       </Sense>
@@ -1328,6 +1566,8 @@
     </LexicalEntry>
     <LexicalEntry id="L742024">
       <Lemma writtenForm="ਮ" partOfSpeech="x"/>
+      <Form writtenForm="ਉਮ"/>
+      <Form writtenForm="ਅਮ"/>
       <Sense id="L742024-S1" synset="wikidata-pa-L742024-S1" ili="wikidata-pa-L742024-S1">
         <Definition>(“ਮੈਂ” ਮਾਅਨੇ ਤੋਂ ਲਾਹਿਕਾ)</Definition>
       </Sense>
@@ -1356,6 +1596,7 @@
     </LexicalEntry>
     <LexicalEntry id="L747223">
       <Lemma writtenForm="ਸੰਦਾ" partOfSpeech="p"/>
+      <Form writtenForm="ਸੰਦੀ"/>
       <Sense id="L747223-S1" synset="wikidata-pa-L747223-S1" ili="wikidata-pa-L747223-S1">
         <Definition>ਦਾ, ਨਾ</Definition>
       </Sense>
@@ -1377,6 +1618,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1083609">
       <Lemma writtenForm="ਕੋਲ" partOfSpeech="p"/>
+      <Form writtenForm="ਕੋਲੋਂ"/>
       <Sense id="L1083609-S1" synset="wikidata-pa-L1083609-S1" ili="wikidata-pa-L1083609-S1">
         <Definition>ਲਾਗੇ, ਨੇੜੇ</Definition>
       </Sense>
@@ -1386,6 +1628,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1091957">
       <Lemma writtenForm="ਵਾਲਾ" partOfSpeech="p"/>
+      <Form writtenForm="ਵਾਲੇ"/>
+      <Form writtenForm="ਵਾਲਿਆਂ"/>
+      <Form writtenForm="ਵਾਲਿਆ"/>
+      <Form writtenForm="ਵਾਲਿਓ"/>
+      <Form writtenForm="ਵਾਲੀ"/>
+      <Form writtenForm="ਵਾਲੀਆਂ"/>
+      <Form writtenForm="ਵਾਲੀਏ"/>
+      <Form writtenForm="ਵਾਲੀਓ"/>
       <Sense id="L1091957-S1" synset="wikidata-pa-L1091957-S1" ili="wikidata-pa-L1091957-S1">
         <Definition>ਵਾਨ, ਵੰਤ, ਕਾਜ ਦਾ ਕਰਤਾ</Definition>
       </Sense>
@@ -1432,6 +1682,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1101191">
       <Lemma writtenForm="ਪੱਦ ਮਾਰਨ" partOfSpeech="t"/>
+      <Form writtenForm="ਪੱਦ ਮਾਰਨਾ"/>
+      <Form writtenForm="ਪੱਦ ਮਾਰ"/>
+      <Form writtenForm="ਪੱਦ ਮਾਰ ਕੇ"/>
+      <Form writtenForm="ਪੱਦ ਮਾਰਿਆਂ"/>
       <Sense id="L1101191-S1" synset="wikidata-pa-L1101191-S1" ili="wikidata-pa-L1101191-S1">
         <Definition>ਗੰਦੀ ਹਵਾ ਖ਼ਾਰਿਜ ਕਰਨ</Definition>
       </Sense>
@@ -1512,6 +1766,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1226434">
       <Lemma writtenForm="ਅਜਿਹਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਅਜਿਹੇ"/>
+      <Form writtenForm="ਅਜਿਹਿਆਂ"/>
+      <Form writtenForm="ਅਜਿਹੀ"/>
+      <Form writtenForm="ਅਜਿਹੀਆਂ"/>
       <Sense id="L1226434-S1" synset="wikidata-pa-L1226434-S1" ili="wikidata-pa-L1226434-S1">
         <Definition>ਏਦਾਂ ਦਾ, ਇਸ ਤਰ੍ਹਾਂ ਦਾ</Definition>
       </Sense>
@@ -1527,12 +1785,25 @@
     </LexicalEntry>
     <LexicalEntry id="L672613">
       <Lemma writtenForm="ਇਹ" partOfSpeech="h"/>
+      <Form writtenForm="ਇਸ"/>
+      <Form writtenForm="ਇਹਨੂੰ"/>
+      <Form writtenForm="ਇਹਤੋਂ"/>
+      <Form writtenForm="ਇਹਨਾਂ"/>
+      <Form writtenForm="ਇਨ੍ਹਾਂ"/>
+      <Form writtenForm="ਇਸਨੂੰ"/>
       <Sense id="L672613-S1" synset="wikidata-pa-L672613-S1" ili="wikidata-pa-L672613-S1">
         <Definition>ਇਥੇ ਕੁਝ ਮੱਦ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L684195">
       <Lemma writtenForm="ਕੀਹ" partOfSpeech="h"/>
+      <Form writtenForm="ਕੀ"/>
+      <Form writtenForm="ਕਾਹ"/>
+      <Form writtenForm="ਕਾਸ"/>
+      <Form writtenForm="ਕੀਨੂੰ"/>
+      <Form writtenForm="ਕੀਹਤੋਂ"/>
+      <Form writtenForm="ਕੀਹਥੋਂ"/>
+      <Form writtenForm="ਕੀਹਨੂੰ"/>
       <Sense id="L684195-S1" synset="wikidata-pa-L684195-S1" ili="wikidata-pa-L684195-S1">
         <Definition>ਕਿਆ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L722752-S1"/>
@@ -1546,24 +1817,9 @@
     </LexicalEntry>
     <LexicalEntry id="L686360">
       <Lemma writtenForm="ਕਿੱਥੇ" partOfSpeech="r"/>
+      <Form writtenForm="ਕਿੱਥੋਂ"/>
       <Sense id="L686360-S1" synset="wikidata-pa-L686360-S1" ili="wikidata-pa-L686360-S1">
         <Definition>ਕਿਧਰ, ਕਿਸ ਪਾਸੇ</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L686368">
-      <Lemma writtenForm="ਕੋਈ" partOfSpeech="h"/>
-      <Sense id="L686368-S1" synset="wikidata-pa-L686368-S1" ili="wikidata-pa-L686368-S1">
-        <Definition>ਕੁਝ ਲੋਕਾਂ ਵਿਚੋਂ ਇਕ</Definition>
-        <SenseRelation relType="hypernym" target="wikidata-pa-L686368-S2"/>
-      </Sense>
-      <Sense id="L686368-S2" synset="wikidata-pa-L686368-S2" ili="wikidata-pa-L686368-S2">
-        <Definition>ਬਹੁਤਿਆਂ ਵਿਚੋਂ ਇਕ</Definition>
-      </Sense>
-      <Sense id="L686368-S3" synset="wikidata-pa-L686368-S3" ili="wikidata-pa-L686368-S3">
-        <Definition>ਕੁਝ ਵਿਰਲਾ ਇਕ</Definition>
-      </Sense>
-      <Sense id="L686368-S4" synset="wikidata-pa-L686368-S4" ili="wikidata-pa-L686368-S4">
-        <Definition>ਕੁਝ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686369">
@@ -1574,6 +1830,14 @@
     </LexicalEntry>
     <LexicalEntry id="L686378">
       <Lemma writtenForm="ਆਪਣਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਆਪਣੀ"/>
+      <Form writtenForm="ਆਪਣੇ"/>
+      <Form writtenForm="ਆਪਣਿਆਂ"/>
+      <Form writtenForm="ਆਪਣੀਆਂ"/>
+      <Form writtenForm="ਆਪਣੀਏ"/>
+      <Form writtenForm="ਆਪਣੀਓ"/>
+      <Form writtenForm="ਆਪਣਿਆ"/>
+      <Form writtenForm="ਆਪਣਿਓ"/>
       <Sense id="L686378-S1" synset="wikidata-pa-L686378-S1" ili="wikidata-pa-L686378-S1">
         <Definition>ਸ੍ਵੈ ਦਾ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L738454-S2"/>
@@ -1587,6 +1851,14 @@
     </LexicalEntry>
     <LexicalEntry id="L686410">
       <Lemma writtenForm="ਅਸੀਂ" partOfSpeech="h"/>
+      <Form writtenForm="ਆਪਾਂ"/>
+      <Form writtenForm="ਸਾਨੂੰ"/>
+      <Form writtenForm="ਆਸਾਂ"/>
+      <Form writtenForm="ਸਾਥੋਂ"/>
+      <Form writtenForm="‎"/>
+      <Form writtenForm="ਅਸਾਨੂੰ"/>
+      <Form writtenForm="ਅਸਾਥੋਂ"/>
+      <Form writtenForm="ਅਸਾਂ"/>
       <Sense id="L686410-S1" synset="wikidata-pa-L686410-S1" ili="wikidata-pa-L686410-S1">
         <Definition>ਪਹਿਲਾ ਪੁਰਖ, ਜਮ੍ਹਾ ਪੜਨਾਂਵ</Definition>
       </Sense>
@@ -1602,6 +1874,15 @@
     </LexicalEntry>
     <LexicalEntry id="L689422">
       <Lemma writtenForm="ਇਹਦਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਇਹਨਾਂ ਦਾ"/>
+      <Form writtenForm="ਇਹਦੇ"/>
+      <Form writtenForm="ਇਹਦਿਆਂ"/>
+      <Form writtenForm="ਇਹਦੀ"/>
+      <Form writtenForm="ਇਹਦੀਆਂ"/>
+      <Form writtenForm="ਇਹਨਾਂ ਦੇ"/>
+      <Form writtenForm="ਇਹਨਾਂ ਦਿਆਂ"/>
+      <Form writtenForm="ਇਹਨਾਂ ਦੀ"/>
+      <Form writtenForm="ਇਹਨਾਂ ਦੀਆਂ"/>
       <Sense id="L689422-S1" synset="wikidata-pa-L689422-S1" ili="wikidata-pa-L689422-S1">
         <Definition>ਇਸ ਦਾ</Definition>
       </Sense>
@@ -1620,6 +1901,10 @@
     </LexicalEntry>
     <LexicalEntry id="L692298">
       <Lemma writtenForm="ਜਿਹੜਾ ਜਿਹੜਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਜਿਹੜੇ ਜਿਹੜੇ"/>
+      <Form writtenForm="ਜਿਹੜਿਆਂ ਜਿਹੜਿਆਂ"/>
+      <Form writtenForm="ਜਿਹੜੀ ਜਿਹੜੀ"/>
+      <Form writtenForm="ਜਿਹੜੀਆਂ ਜਿਹੜੀਆਂ"/>
       <Sense id="L692298-S1" synset="wikidata-pa-L692298-S1" ili="wikidata-pa-L692298-S1">
         <Definition>who all</Definition>
       </Sense>
@@ -1632,6 +1917,7 @@
     </LexicalEntry>
     <LexicalEntry id="L718506">
       <Lemma writtenForm="‍ੀ" partOfSpeech="x"/>
+      <Form writtenForm="ਈ"/>
       <Sense id="L718506-S1" synset="wikidata-pa-L718506-S1" ili="wikidata-pa-L718506-S1">
         <Definition>(infix forming subtractive phase forms of verbs)</Definition>
       </Sense>
@@ -1645,12 +1931,36 @@
     </LexicalEntry>
     <LexicalEntry id="L740291">
       <Lemma writtenForm="‍ਏ" partOfSpeech="x"/>
+      <Form writtenForm="‍ਆਂ"/>
+      <Form writtenForm="‍ਈਏ"/>
+      <Form writtenForm="‍ਏਂ"/>
+      <Form writtenForm="‍ਓ"/>
+      <Form writtenForm="‍ਣ"/>
+      <Form writtenForm="‍ਨ"/>
+      <Form writtenForm="‍ਵੇ"/>
+      <Form writtenForm="‍ਊ"/>
+      <Form writtenForm="‍ਵੋ"/>
+      <Form writtenForm="‍ਵੇਂ"/>
+      <Form writtenForm="‍ਵਾਂ"/>
+      <Form writtenForm="‍ਊਂ"/>
+      <Form writtenForm="ਆਂਹ"/>
+      <Form writtenForm="ਏਨ"/>
+      <Form writtenForm="ਵਾਂਹ"/>
+      <Form writtenForm="ਵੇਨ"/>
+      <Form writtenForm="ਆਹਾਂ"/>
+      <Form writtenForm="ਆਹੇਂ"/>
+      <Form writtenForm="ਈਹਾਂ"/>
+      <Form writtenForm="ਹੇਂ"/>
+      <Form writtenForm="ਹੋ"/>
+      <Form writtenForm="ਈਨ"/>
       <Sense id="L740291-S1" synset="wikidata-pa-L740291-S1" ili="wikidata-pa-L740291-S1">
         <Definition>(ਲੇਟ ਲਕਾਰ ਦਾ ਹਰਫ਼)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L741123">
       <Lemma writtenForm="ਜੋ" partOfSpeech="p"/>
+      <Form writtenForm="ਜੀ"/>
+      <Form writtenForm="ਜੇ"/>
       <Sense id="L741123-S1" synset="wikidata-pa-L741123-S1" ili="wikidata-pa-L741123-S1">
         <Definition>ਦਾ</Definition>
         <SenseRelation relType="similar" target="wikidata-pa-L679201-S1"/>
@@ -1665,6 +1975,7 @@
     </LexicalEntry>
     <LexicalEntry id="L749144">
       <Lemma writtenForm="ਤੇ" partOfSpeech="y"/>
+      <Form writtenForm="ਤਾਂ"/>
       <Sense id="L749144-S1" synset="wikidata-pa-L749144-S1" ili="wikidata-pa-L749144-S1">
         <Definition>(ਜ਼ੋਰ ਦੇਣ ਦਾ ਅੰਸ਼)</Definition>
       </Sense>
@@ -1750,12 +2061,6 @@
         <Definition>ਨੋਸ਼ ਕਰ ਦੇਈਦਾ</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1124995">
-      <Lemma writtenForm="ਕਿ" partOfSpeech="c"/>
-      <Sense id="L1124995-S1" synset="wikidata-pa-L1124995-S1" ili="wikidata-pa-L1124995-S1">
-        <Definition>ਯਾਂ, ਜਾਂ</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1129659">
       <Lemma writtenForm="ਪਾ ਦੇਵਣ" partOfSpeech="t"/>
       <Sense id="L1129659-S1" synset="wikidata-pa-L1129659-S1" ili="wikidata-pa-L1129659-S1">
@@ -1810,6 +2115,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1224925">
       <Lemma writtenForm="ਤੋਂ ਬਿਨਾਂ" partOfSpeech="t"/>
+      <Form writtenForm="ਤੋਂ ਬਿਨਾ"/>
       <Sense id="L1224925-S1" synset="wikidata-pa-L1224925-S1" ili="wikidata-pa-L1224925-S1">
         <Definition>ਦੇ ਬਗ਼ੈਰ</Definition>
       </Sense>
@@ -1822,24 +2128,71 @@
     </LexicalEntry>
     <LexicalEntry id="L686366">
       <Lemma writtenForm="ਸਾਡਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਸਾਡੀ"/>
+      <Form writtenForm="ਸਾਡੇ"/>
+      <Form writtenForm="ਸਾਡਿਆਂ"/>
+      <Form writtenForm="ਸਾਡੀਆਂ"/>
+      <Form writtenForm="ਸਾਡਿਆ"/>
+      <Form writtenForm="ਸਾਡਿਓ"/>
+      <Form writtenForm="ਸਾਡੀਏ"/>
+      <Form writtenForm="ਸਾਡੀਓ"/>
       <Sense id="L686366-S1" synset="wikidata-pa-L686366-S1" ili="wikidata-pa-L686366-S1">
         <Definition>ਪਹਿਲੇ ਪੁਰਖ, ਵਾਹਿਦ ਦਾ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686605">
       <Lemma writtenForm="ਉਹ" partOfSpeech="h"/>
+      <Form writtenForm="ਉਸ"/>
+      <Form writtenForm="ਉਹਨਾਂ"/>
+      <Form writtenForm="ਉਹਨੂੰ"/>
+      <Form writtenForm="ਉਹਤੋਂ"/>
+      <Form writtenForm="ਉਨ੍ਹਾਂ"/>
+      <Form writtenForm="ਉਸਨੇ"/>
+      <Form writtenForm="ਉਸਨੂੰ"/>
+      <Form writtenForm="ਉਸੇ"/>
+      <Form writtenForm="ਉਹਨੇ"/>
       <Sense id="L686605-S1" synset="wikidata-pa-L686605-S1" ili="wikidata-pa-L686605-S1">
         <Definition>ਤੀਜਾ ਪੁਰਖ ਵਿਚ ਮੱਦ ਨਹੀਂ ਨੇੜੇ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L689423">
       <Lemma writtenForm="ਉਹਦਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦਾ"/>
+      <Form writtenForm="ਉਹਦੇ"/>
+      <Form writtenForm="ਉਹਦਿਆਂ"/>
+      <Form writtenForm="ਉਹਦਿਆ"/>
+      <Form writtenForm="ਉਹਦਿਓ"/>
+      <Form writtenForm="ਉਹਦੀ"/>
+      <Form writtenForm="ਉਹਦੀਆਂ"/>
+      <Form writtenForm="ਉਹਦੀਏ"/>
+      <Form writtenForm="ਉਹਦੀਓ"/>
+      <Form writtenForm="ਉਸਦਾ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦੇ"/>
+      <Form writtenForm="ਉਸਦੇ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦਿਆਂ"/>
+      <Form writtenForm="ਉਸਦਿਆਂ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦਿਆ"/>
+      <Form writtenForm="ਉਸਦਿਆ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦਿਓ"/>
+      <Form writtenForm="ਉਸਦਿਓ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦੀ"/>
+      <Form writtenForm="ਉਸਦੀ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦੀਆਂ"/>
+      <Form writtenForm="ਉਸਦੀਆਂ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦੀਏ"/>
+      <Form writtenForm="ਉਸਦੀਏ"/>
+      <Form writtenForm="ਉਹਨਾਂ ਦੀਓ"/>
+      <Form writtenForm="ਉਸਦੀਓ"/>
       <Sense id="L689423-S1" synset="wikidata-pa-L689423-S1" ili="wikidata-pa-L689423-S1">
         <Definition>ਉਸ ਕਾ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L689429">
       <Lemma writtenForm="ਜਿਹਨਾਂ ਦਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਜਿਹਨਾਂ ਦੇ"/>
+      <Form writtenForm="ਜਿਹਨਾਂ ਦਿਆਂ"/>
+      <Form writtenForm="ਜਿਹਨਾਂ ਦੀ"/>
+      <Form writtenForm="ਜਿਹਨਾਂ ਦੀਆਂ"/>
       <Sense id="L689429-S1" synset="wikidata-pa-L689429-S1" ili="wikidata-pa-L689429-S1">
         <Definition>whose</Definition>
       </Sense>
@@ -1870,6 +2223,7 @@
     </LexicalEntry>
     <LexicalEntry id="L742011">
       <Lemma writtenForm="ਤ" partOfSpeech="x"/>
+      <Form writtenForm="ਵਤ"/>
       <Sense id="L742011-S1" synset="wikidata-pa-L742011-S1" ili="wikidata-pa-L742011-S1">
         <Definition>(ਸੁਤੰਤਰਤਾ ਕਿਰਦੰਤਕ ਦੇ ਲਹਿਕੇ ਦਾ ਅੱਖਰ)</Definition>
       </Sense>
@@ -1913,12 +2267,32 @@
     </LexicalEntry>
     <LexicalEntry id="L1017659">
       <Lemma writtenForm="ਸ਼ਾਬਾਸ਼" partOfSpeech="i"/>
+      <Form writtenForm="ਸਿਆਬਾ"/>
+      <Form writtenForm="ਸਿਆਬਸੇ"/>
+      <Form writtenForm="ਸਿਆਬਸੀ"/>
       <Sense id="L1017659-S1" synset="wikidata-pa-L1017659-S1" ili="wikidata-pa-L1017659-S1">
         <Definition>ਅਫਰੀਂ! ਹੰਬਡੇ!</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1036355">
       <Lemma writtenForm="ਨਿੱਸੂ" partOfSpeech="t"/>
+      <Form writtenForm="ਨੀਮਹੂੰ"/>
+      <Form writtenForm="ਨਿੱਸੂੰ"/>
+      <Form writtenForm="ਨਿੱਸੇ"/>
+      <Form writtenForm="ਨੀਹੂੰ"/>
+      <Form writtenForm="ਨੂੰਹ"/>
+      <Form writtenForm="ਨੀਹੇ"/>
+      <Form writtenForm="ਨੇਈਹ"/>
+      <Form writtenForm="ਨਿੰਨੇ"/>
+      <Form writtenForm="ਨਿੰਨ੍ਹੇ"/>
+      <Form writtenForm="ਨਾਹੁਸ"/>
+      <Form writtenForm="ਨਾਹੇਂ"/>
+      <Form writtenForm="ਨਾਹਾ"/>
+      <Form writtenForm="ਨਾਹੱਸੇ"/>
+      <Form writtenForm="ਨਾਹੇ"/>
+      <Form writtenForm="ਨਾਹਿਨ"/>
+      <Form writtenForm="ਨਾਂਹ"/>
+      <Form writtenForm="ਨਾਹਾਂ"/>
       <Sense id="L1036355-S1" synset="wikidata-pa-L1036355-S1" ili="wikidata-pa-L1036355-S1">
         <Definition>ਨਹੀਂ ਏ, ਨਾ ਹੋ</Definition>
         <SenseRelation relType="antonym" target="wikidata-pa-L685081-S2"/>
@@ -1930,6 +2304,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1077604">
       <Lemma writtenForm="ਨੀਂ" partOfSpeech="y"/>
+      <Form writtenForm="ਨੀ"/>
       <Sense id="L1077604-S1" synset="wikidata-pa-L1077604-S1" ili="wikidata-pa-L1077604-S1">
         <Definition>ਔਰਤਾਂ, ਕੁੜੀਆਂ ਨੂੰ ਮੁਖਾਤਿਬ ਕਰ ਕੇ ਬੋਲਦਾ</Definition>
       </Sense>
@@ -1961,6 +2336,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1087532">
       <Lemma writtenForm="ਵਜੋਂ" partOfSpeech="r"/>
+      <Form writtenForm="ਵੱਜੋਂ"/>
       <Sense id="L1087532-S1" synset="wikidata-pa-L1087532-S1" ili="wikidata-pa-L1087532-S1">
         <Definition>ਵਜਹੋਂ</Definition>
       </Sense>
@@ -1974,23 +2350,10 @@
         <Definition>ਨਾਲ ਲੈ ਕੇ ਖੜਨ</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1116261">
-      <Lemma writtenForm="ਛੱਡ ਬਹਿਣ" partOfSpeech="t"/>
-      <Sense id="L1116261-S1" synset="wikidata-pa-L1116261-S1" ili="wikidata-pa-L1116261-S1">
-        <Definition>ਤਰਕ ਕਰ ਦੇਵਣ</Definition>
-      </Sense>
-      <Sense id="L1116261-S2" synset="wikidata-pa-L1116261-S2" ili="wikidata-pa-L1116261-S2">
-        <Definition>ਤਲਾਕ ਕਰ ਦੇਵਣ</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1116479">
-      <Lemma writtenForm="ਪੈ ਜਾਵਣ" partOfSpeech="t"/>
-      <Sense id="L1116479-S1" synset="wikidata-pa-L1116479-S1" ili="wikidata-pa-L1116479-S1">
-        <Definition>ਲੇਟ ਜਾਵਣ, ਥੱਕ ਜਾਵਣ</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1126340">
       <Lemma writtenForm="ਆਹ" partOfSpeech="h"/>
+      <Form writtenForm="ਆਹੀ"/>
+      <Form writtenForm="ਆਹਾਂ"/>
       <Sense id="L1126340-S1" synset="wikidata-pa-L1126340-S1" ili="wikidata-pa-L1126340-S1">
         <Definition>ਆਹਾ, ਇਹੋ</Definition>
       </Sense>
@@ -2017,12 +2380,6 @@
       </Sense>
       <Sense id="L1151540-S3" synset="wikidata-pa-L1151540-S3" ili="wikidata-pa-L1151540-S3">
         <Definition>ਮੁਖ਼ਾਲਿਫ਼ ਨੂੰ ਜਾ ਪੈਣ</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1151682">
-      <Lemma writtenForm="ਆ ਪੈਣ" partOfSpeech="t"/>
-      <Sense id="L1151682-S1" synset="wikidata-pa-L1151682-S1" ili="wikidata-pa-L1151682-S1">
-        <Definition>ਹਮਲਾ ਹੋਵਣ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1160579">
@@ -2082,6 +2439,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1226435">
       <Lemma writtenForm="ਉਜਿਹਾ" partOfSpeech="a"/>
+      <Form writtenForm="ਉਜਿਹੇ"/>
+      <Form writtenForm="ਉਜਿਹਿਆ"/>
+      <Form writtenForm="ਉਜਿਹੀ"/>
+      <Form writtenForm="ਉਜਿਹੀਆਂ"/>
       <Sense id="L1226435-S1" synset="wikidata-pa-L1226435-S1" ili="wikidata-pa-L1226435-S1">
         <Definition>ਉਸ ਵਰਗਾ, ਉਹਦੇ ਰੰਗਾ</Definition>
       </Sense>
@@ -2480,9 +2841,6 @@
     <Synset id="wikidata-pa-L1091482-S2" ili="wikidata-pa-L1091482-S2" partOfSpeech="c">
       <Definition>ਫਿਰ, ਮੁੜ, ਭਾਵੇਂ</Definition>
     </Synset>
-    <Synset id="wikidata-pa-L1091483-S1" ili="wikidata-pa-L1091483-S1" partOfSpeech="c">
-      <Definition>ਜਦੋਂ, ਜਦ</Definition>
-    </Synset>
     <Synset id="wikidata-pa-L1095550-S1" ili="wikidata-pa-L1095550-S1" partOfSpeech="t">
       <Definition>ਕੋਈ ਗ਼ਲਤੀ ਨਾਲ ਕਰ ਜਾਵਣ</Definition>
     </Synset>
@@ -2533,12 +2891,6 @@
     </Synset>
     <Synset id="wikidata-pa-L1197169-S1" ili="wikidata-pa-L1197169-S1" partOfSpeech="t">
       <Definition>ਲੈ ਕੇ ਸਾਂਭ ਰੱਖਣ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1218019-S1" ili="wikidata-pa-L1218019-S1" partOfSpeech="t">
-      <Definition>ਚੜ੍ਹਾ ਜਾਵਣ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1218019-S2" ili="wikidata-pa-L1218019-S2" partOfSpeech="t">
-      <Definition>ਜਰ ਜਾਵਣ</Definition>
     </Synset>
     <Synset id="wikidata-pa-L1222954-S1" ili="wikidata-pa-L1222954-S1" partOfSpeech="i">
       <Definition>(ਕਲਮਾ-ਏ-ਤਾਅਸੁਫ਼ ਦੇ ਬਤੌਰ) ਦੁੱਖ, ਰੰਜ, ਹੈਰਤ</Definition>
@@ -2994,18 +3346,6 @@
     <Synset id="wikidata-pa-L686360-S1" ili="wikidata-pa-L686360-S1" partOfSpeech="r">
       <Definition>ਕਿਧਰ, ਕਿਸ ਪਾਸੇ</Definition>
     </Synset>
-    <Synset id="wikidata-pa-L686368-S1" ili="wikidata-pa-L686368-S1" partOfSpeech="h">
-      <Definition>ਕੁਝ ਲੋਕਾਂ ਵਿਚੋਂ ਇਕ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L686368-S2" ili="wikidata-pa-L686368-S2" partOfSpeech="h">
-      <Definition>ਬਹੁਤਿਆਂ ਵਿਚੋਂ ਇਕ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L686368-S3" ili="wikidata-pa-L686368-S3" partOfSpeech="h">
-      <Definition>ਕੁਝ ਵਿਰਲਾ ਇਕ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L686368-S4" ili="wikidata-pa-L686368-S4" partOfSpeech="h">
-      <Definition>ਕੁਝ</Definition>
-    </Synset>
     <Synset id="wikidata-pa-L686369-S1" ili="wikidata-pa-L686369-S1" partOfSpeech="c">
       <Definition>ਇਸ ਲਈ ਜੇ</Definition>
     </Synset>
@@ -3113,9 +3453,6 @@
     </Synset>
     <Synset id="wikidata-pa-L1113760-S2" ili="wikidata-pa-L1113760-S2" partOfSpeech="t">
       <Definition>ਨੋਸ਼ ਕਰ ਦੇਈਦਾ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1124995-S1" ili="wikidata-pa-L1124995-S1" partOfSpeech="c">
-      <Definition>ਯਾਂ, ਜਾਂ</Definition>
     </Synset>
     <Synset id="wikidata-pa-L1129659-S1" ili="wikidata-pa-L1129659-S1" partOfSpeech="t">
       <Definition>ਸ਼ਾਮਲ ਕਰ ਦੇਵਣ</Definition>
@@ -3246,15 +3583,6 @@
     <Synset id="wikidata-pa-L1115552-S2" ili="wikidata-pa-L1115552-S2" partOfSpeech="t">
       <Definition>ਨਾਲ ਲੈ ਕੇ ਖੜਨ</Definition>
     </Synset>
-    <Synset id="wikidata-pa-L1116261-S1" ili="wikidata-pa-L1116261-S1" partOfSpeech="t">
-      <Definition>ਤਰਕ ਕਰ ਦੇਵਣ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1116261-S2" ili="wikidata-pa-L1116261-S2" partOfSpeech="t">
-      <Definition>ਤਲਾਕ ਕਰ ਦੇਵਣ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1116479-S1" ili="wikidata-pa-L1116479-S1" partOfSpeech="t">
-      <Definition>ਲੇਟ ਜਾਵਣ, ਥੱਕ ਜਾਵਣ</Definition>
-    </Synset>
     <Synset id="wikidata-pa-L1126340-S1" ili="wikidata-pa-L1126340-S1" partOfSpeech="h">
       <Definition>ਆਹਾ, ਇਹੋ</Definition>
     </Synset>
@@ -3275,9 +3603,6 @@
     </Synset>
     <Synset id="wikidata-pa-L1151540-S3" ili="wikidata-pa-L1151540-S3" partOfSpeech="t">
       <Definition>ਮੁਖ਼ਾਲਿਫ਼ ਨੂੰ ਜਾ ਪੈਣ</Definition>
-    </Synset>
-    <Synset id="wikidata-pa-L1151682-S1" ili="wikidata-pa-L1151682-S1" partOfSpeech="t">
-      <Definition>ਹਮਲਾ ਹੋਵਣ</Definition>
     </Synset>
     <Synset id="wikidata-pa-L1160579-S1" ili="wikidata-pa-L1160579-S1" partOfSpeech="r">
       <Definition>ਕਿਵੇਂ, ਕਿੰਜ, ਕਿੱਦਾਂ</Definition>

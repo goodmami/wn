@@ -10,12 +10,28 @@
     <Extends id="omw-ta" version="1.4"/>
     <LexicalEntry id="L40042">
       <Lemma writtenForm="அவன்" partOfSpeech="h"/>
+      <Form writtenForm="அவனை"/>
+      <Form writtenForm="அவனால்"/>
+      <Form writtenForm="அவனுக்கு"/>
+      <Form writtenForm="அவனின்"/>
+      <Form writtenForm="அவனது"/>
+      <Form writtenForm="அவனிடம்"/>
+      <Form writtenForm="அவனே"/>
       <Sense id="L40042-S4" synset="wikidata-ta-L40042-S4" ili="wikidata-ta-L40042-S4">
         <Definition>உயர்திணைப் படர்க்கையில் அருகில் இல்லாத ஆணைச் சுட்டும் பெயர்</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L500882">
       <Lemma writtenForm="நான்" partOfSpeech="h"/>
+      <Form writtenForm="என்னை"/>
+      <Form writtenForm="என்னால்"/>
+      <Form writtenForm="என்னோடு"/>
+      <Form writtenForm="என்னுடன்"/>
+      <Form writtenForm="எனக்கு"/>
+      <Form writtenForm="என்"/>
+      <Form writtenForm="என்னுடைய"/>
+      <Form writtenForm="என்னில்"/>
+      <Form writtenForm="என்னிடம்"/>
       <Sense id="L500882-S1" synset="wikidata-ta-L500882-S1" ili="wikidata-ta-L500882-S1">
         <Definition>first person singular, I</Definition>
       </Sense>
@@ -28,13 +44,24 @@
     </LexicalEntry>
     <LexicalEntry id="L684412">
       <Lemma writtenForm="ஒன்று" partOfSpeech="m"/>
+      <Form writtenForm="ஒன்றே"/>
+      <Form writtenForm="ஒன்றை"/>
+      <Form writtenForm="ஒன்றுக்கு"/>
+      <Form writtenForm="ஒன்றுடைய"/>
+      <Form writtenForm="ஒன்றால்"/>
+      <Form writtenForm="ஒன்றிலிருந்து"/>
+      <Form writtenForm="ஒன்றோடு"/>
+      <Form writtenForm="ஒன்றுடன்"/>
       <Sense id="L684412-S1" synset="wikidata-ta-L684412-S1" ili="wikidata-ta-L684412-S1">
         <Definition>one</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1142877">
       <Lemma writtenForm="அது" partOfSpeech="h"/>
-      <Sense id="L1142877-S1" synset="wikidata-ta-L1142877-S1" ili="l333971-s1">
+      <Form writtenForm="அவை"/>
+      <Form writtenForm="அதற்கு"/>
+      <Form writtenForm="அவற்றுக்கு"/>
+      <Sense id="L1142877-S1" synset="wikidata-ta-L1142877-S1" ili="wikidata-ta-L1142877-S1">
         <Definition>that, indicating something that is far away from both the speaker and the listener</Definition>
       </Sense>
     </LexicalEntry>
@@ -46,6 +73,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1171064">
       <Lemma writtenForm="ஐந்து" partOfSpeech="m"/>
+      <Form writtenForm="ஐந்தாவது"/>
       <Sense id="L1171064-S1" synset="wikidata-ta-L1171064-S1" ili="wikidata-ta-L1171064-S1">
         <Definition>five, a numeral</Definition>
       </Sense>
@@ -58,18 +86,34 @@
     </LexicalEntry>
     <LexicalEntry id="L1142421">
       <Lemma writtenForm="நீ" partOfSpeech="h"/>
+      <Form writtenForm="நீர்"/>
+      <Form writtenForm="நீங்கள்"/>
       <Sense id="L1142421-S1" synset="wikidata-ta-L1142421-S1" ili="wikidata-ta-L1142421-S1">
         <Definition>you, second person pronoun (informal, impolite) Used while talking to person of lower age or of same age, with equal social status. Not used against elder people</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L40035">
       <Lemma writtenForm="அவள்" partOfSpeech="h"/>
+      <Form writtenForm="அவளை"/>
+      <Form writtenForm="அவளால்"/>
+      <Form writtenForm="அவளுக்கு"/>
+      <Form writtenForm="அவளின்"/>
+      <Form writtenForm="அவளினது"/>
+      <Form writtenForm="அவளிடம்"/>
+      <Form writtenForm="அவளே"/>
       <Sense id="L40035-S2" synset="wikidata-ta-L40035-S2" ili="wikidata-ta-L40035-S2">
         <Definition>உயர்திணைப் படர்க்கையில் அருகில் இல்லாத பெண்ணைச் சுட்டும் பெயர்</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347312">
       <Lemma writtenForm="அவர்" partOfSpeech="h"/>
+      <Form writtenForm="அவரை"/>
+      <Form writtenForm="அவரால்"/>
+      <Form writtenForm="அவருக்கு"/>
+      <Form writtenForm="அவரின்"/>
+      <Form writtenForm="அவரது"/>
+      <Form writtenForm="அவரிடம்"/>
+      <Form writtenForm="அவரே"/>
       <Sense id="L347312-S1" synset="wikidata-ta-L347312-S1" ili="wikidata-ta-L347312-S1">
         <Definition>அருகில் இல்லாத படர்க்கை இடத்து ஆணையோ பெண்ணையோ மரியாதையுடன் சுட்டும் பெயர்</Definition>
       </Sense>
@@ -86,7 +130,7 @@
     <Synset id="wikidata-ta-L684412-S1" ili="wikidata-ta-L684412-S1" partOfSpeech="m">
       <Definition>one</Definition>
     </Synset>
-    <Synset id="wikidata-ta-L1142877-S1" ili="l333971-s1" partOfSpeech="h">
+    <Synset id="wikidata-ta-L1142877-S1" ili="wikidata-ta-L1142877-S1" partOfSpeech="h">
       <Definition>that, indicating something that is far away from both the speaker and the listener</Definition>
     </Synset>
     <Synset id="wikidata-ta-L1227083-S1" ili="l329-s1" partOfSpeech="m">

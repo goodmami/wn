@@ -22,6 +22,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1216765">
       <Lemma writtenForm="και" partOfSpeech="c"/>
+      <Form writtenForm="κι"/>
       <Sense id="L1216765-S1" synset="wikidata-el-L1216765-S1" ili="wikidata-el-L1216765-S1">
         <Definition>and</Definition>
       </Sense>
@@ -52,6 +53,17 @@
     </LexicalEntry>
     <LexicalEntry id="L984122">
       <Lemma writtenForm="ο" partOfSpeech="d"/>
+      <Form writtenForm="η"/>
+      <Form writtenForm="το"/>
+      <Form writtenForm="οι"/>
+      <Form writtenForm="τα"/>
+      <Form writtenForm="του"/>
+      <Form writtenForm="της"/>
+      <Form writtenForm="των"/>
+      <Form writtenForm="τον"/>
+      <Form writtenForm="την"/>
+      <Form writtenForm="τους"/>
+      <Form writtenForm="τις"/>
       <Sense id="L984122-S1" synset="wikidata-el-L984122-S1" ili="wikidata-el-L984122-S1">
         <Definition>(definite article)</Definition>
       </Sense>

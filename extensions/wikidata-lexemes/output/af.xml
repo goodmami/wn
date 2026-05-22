@@ -10,12 +10,14 @@
     <Extends id="omw-af" version="1.4"/>
     <LexicalEntry id="L1143585">
       <Lemma writtenForm="hy" partOfSpeech="h"/>
+      <Form writtenForm="hom"/>
       <Sense id="L1143585-S1" synset="wikidata-af-L1143585-S1" ili="wikidata-af-L1143585-S1">
         <Definition>third person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1143586">
       <Lemma writtenForm="sy" partOfSpeech="h"/>
+      <Form writtenForm="haar"/>
       <Sense id="L1143586-S1" synset="wikidata-af-L1143586-S1" ili="wikidata-af-L1143586-S1">
         <Definition>third person singular pronoun</Definition>
       </Sense>
@@ -28,12 +30,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1143583">
       <Lemma writtenForm="ek" partOfSpeech="h"/>
+      <Form writtenForm="my"/>
       <Sense id="L1143583-S1" synset="wikidata-af-L1143583-S1" ili="wikidata-af-L1143583-S1">
         <Definition>I; first person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1143584">
       <Lemma writtenForm="jy" partOfSpeech="h"/>
+      <Form writtenForm="jou"/>
       <Sense id="L1143584-S1" synset="wikidata-af-L1143584-S1" ili="wikidata-af-L1143584-S1">
         <Definition>you; second person singular pronoun</Definition>
       </Sense>

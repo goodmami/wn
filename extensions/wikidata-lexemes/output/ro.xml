@@ -10,6 +10,10 @@
     <Extends id="omw-ro" version="1.4"/>
     <LexicalEntry id="L941798">
       <Lemma writtenForm="eu" partOfSpeech="h"/>
+      <Form writtenForm="mă"/>
+      <Form writtenForm="mine"/>
+      <Form writtenForm="îmi"/>
+      <Form writtenForm="mie"/>
       <Sense id="L941798-S1" synset="wikidata-ro-L941798-S1" ili="wikidata-ro-L941798-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
@@ -22,6 +26,7 @@
     </LexicalEntry>
     <LexicalEntry id="L684435">
       <Lemma writtenForm="unu" partOfSpeech="d"/>
+      <Form writtenForm="una"/>
       <Sense id="L684435-S1" synset="wikidata-ro-L684435-S1" ili="wikidata-ro-L684435-S1">
         <Definition>one</Definition>
       </Sense>

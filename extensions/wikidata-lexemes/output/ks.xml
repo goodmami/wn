@@ -10,6 +10,9 @@
     <Extends id="omw-ks" version="1.4"/>
     <LexicalEntry id="L1091117">
       <Lemma writtenForm="چھُ" partOfSpeech="v"/>
+      <Form writtenForm="چھِ"/>
+      <Form writtenForm="اوس"/>
+      <Form writtenForm="ٲس"/>
       <Sense id="L1091117-S1" synset="wikidata-ks-L1091117-S1" ili="wikidata-ks-L1091117-S1">
         <Definition>existence</Definition>
       </Sense>

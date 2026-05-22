@@ -19,6 +19,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1230678">
       <Lemma writtenForm="wao" partOfSpeech="h"/>
+      <Form writtenForm="o"/>
       <Sense id="L1230678-S1" synset="wikidata-sw-L1230678-S1" ili="wikidata-sw-L1230678-S1">
         <Definition>(third-person plural personal pronoun) they, them</Definition>
       </Sense>
@@ -43,18 +44,27 @@
     </LexicalEntry>
     <LexicalEntry id="L1230640">
       <Lemma writtenForm="wewe" partOfSpeech="h"/>
+      <Form writtenForm="we"/>
       <Sense id="L1230640-S1" synset="wikidata-sw-L1230640-S1" ili="wikidata-sw-L1230640-S1">
         <Definition>(second-person singular personal pronoun) you</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1230659">
       <Lemma writtenForm="nyinyi" partOfSpeech="h"/>
+      <Form writtenForm="ninyi"/>
+      <Form writtenForm="nyi"/>
       <Sense id="L1230659-S1" synset="wikidata-sw-L1230659-S1" ili="wikidata-sw-L1230659-S1">
         <Definition>(second-person plural personal pronoun) you, ye</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1346422">
       <Lemma writtenForm="o-ote" partOfSpeech="a"/>
+      <Form writtenForm="yeyote"/>
+      <Form writtenForm="wowote"/>
+      <Form writtenForm="yoyote"/>
+      <Form writtenForm="lolote"/>
+      <Form writtenForm="chochote"/>
+      <Form writtenForm="vyovyote"/>
       <Sense id="L1346422-S1" synset="wikidata-sw-L1346422-S1" ili="wikidata-sw-L1346422-S1">
         <Definition>any</Definition>
       </Sense>
@@ -67,12 +77,28 @@
     </LexicalEntry>
     <LexicalEntry id="L1230612">
       <Lemma writtenForm="mimi" partOfSpeech="h"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="mie"/>
       <Sense id="L1230612-S1" synset="wikidata-sw-L1230612-S1" ili="wikidata-sw-L1230612-S1">
         <Definition>(first-person singular pronoun) I, me</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1230767">
       <Lemma writtenForm="mw" partOfSpeech="h"/>
+      <Form writtenForm="ni"/>
+      <Form writtenForm="tu"/>
+      <Form writtenForm="ku"/>
+      <Form writtenForm="wa"/>
+      <Form writtenForm="m"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="ya"/>
+      <Form writtenForm="ki"/>
+      <Form writtenForm="vi"/>
+      <Form writtenForm="zi"/>
+      <Form writtenForm="pa"/>
+      <Form writtenForm="mu"/>
       <Sense id="L1230767-S1" synset="wikidata-sw-L1230767-S1" ili="wikidata-sw-L1230767-S1">
         <Definition>(prefixed to verb roots for object concord)</Definition>
       </Sense>
@@ -91,6 +117,32 @@
     </LexicalEntry>
     <LexicalEntry id="L1227896">
       <Lemma writtenForm="a" partOfSpeech="h"/>
+      <Form writtenForm="ni"/>
+      <Form writtenForm="tu"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="m"/>
+      <Form writtenForm="mw"/>
+      <Form writtenForm="wa"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="ya"/>
+      <Form writtenForm="ki"/>
+      <Form writtenForm="vi"/>
+      <Form writtenForm="zi"/>
+      <Form writtenForm="ku"/>
+      <Form writtenForm="pa"/>
+      <Form writtenForm="mu"/>
+      <Form writtenForm="n"/>
+      <Form writtenForm="tw"/>
+      <Form writtenForm="w"/>
+      <Form writtenForm="‎"/>
+      <Form writtenForm="y"/>
+      <Form writtenForm="l"/>
+      <Form writtenForm="ch"/>
+      <Form writtenForm="vy"/>
+      <Form writtenForm="z"/>
+      <Form writtenForm="kw"/>
+      <Form writtenForm="p"/>
       <Sense id="L1227896-S1" synset="wikidata-sw-L1227896-S1" ili="wikidata-sw-L1227896-S1">
         <Definition>(prefixed to verbs in the affirmative for subject concord)</Definition>
       </Sense>
@@ -103,12 +155,33 @@
     </LexicalEntry>
     <LexicalEntry id="L228334">
       <Lemma writtenForm="a" partOfSpeech="p"/>
+      <Form writtenForm="wa"/>
+      <Form writtenForm="ya"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="cha"/>
+      <Form writtenForm="vya"/>
+      <Form writtenForm="za"/>
+      <Form writtenForm="kwa"/>
+      <Form writtenForm="pa"/>
+      <Form writtenForm="mwa"/>
+      <Form writtenForm="w"/>
       <Sense id="L228334-S1" synset="wikidata-sw-L228334-S1" ili="wikidata-sw-L228334-S1">
         <Definition>(genitive-associative relationship marking connector)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L689565">
       <Lemma writtenForm="mwa" partOfSpeech="x"/>
+      <Form writtenForm="m"/>
+      <Form writtenForm="wa"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="ji"/>
+      <Form writtenForm="ma"/>
+      <Form writtenForm="ki"/>
+      <Form writtenForm="vi"/>
+      <Form writtenForm="n"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="ku"/>
+      <Form writtenForm="pa"/>
       <Sense id="L689565-S1" synset="wikidata-sw-L689565-S1" ili="wikidata-sw-L689565-S1">
         <Definition>(distinguishes morphological noun classes)</Definition>
       </Sense>
@@ -121,6 +194,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1230655">
       <Lemma writtenForm="ni" partOfSpeech="v"/>
+      <Form writtenForm="ndi"/>
       <Sense id="L1230655-S1" synset="wikidata-sw-L1230655-S1" ili="wikidata-sw-L1230655-S1">
         <Definition>(as copulative verb) am, is, are</Definition>
       </Sense>
@@ -136,12 +210,19 @@
     </LexicalEntry>
     <LexicalEntry id="L1227899">
       <Lemma writtenForm="ha" partOfSpeech="h"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="hatu"/>
+      <Form writtenForm="hu"/>
+      <Form writtenForm="ham"/>
+      <Form writtenForm="hamw"/>
+      <Form writtenForm="hawa"/>
       <Sense id="L1227899-S1" synset="wikidata-sw-L1227899-S1" ili="wikidata-sw-L1227899-S1">
         <Definition>(prefixed to verbs in the negative for subject concord)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1230676">
       <Lemma writtenForm="yeye" partOfSpeech="h"/>
+      <Form writtenForm="ye"/>
       <Sense id="L1230676-S1" synset="wikidata-sw-L1230676-S1" ili="wikidata-sw-L1230676-S1">
         <Definition>(third-person singular personal pronoun) he, she</Definition>
       </Sense>
@@ -154,6 +235,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1230625">
       <Lemma writtenForm="sisi" partOfSpeech="h"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="o"/>
       <Sense id="L1230625-S1" synset="wikidata-sw-L1230625-S1" ili="wikidata-sw-L1230625-S1">
         <Definition>(first-person plural personal pronoun) we, us</Definition>
       </Sense>

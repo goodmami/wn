@@ -16,12 +16,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1375217">
       <Lemma writtenForm="və" partOfSpeech="c"/>
+      <Form writtenForm="ve"/>
       <Sense id="L1375217-S1" synset="wikidata-az-L1375217-S1" ili="wikidata-az-L1375217-S1">
         <Definition>and</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1375549">
       <Lemma writtenForm="nə" partOfSpeech="h"/>
+      <Form writtenForm="ne"/>
       <Sense id="L1375549-S1" synset="wikidata-az-L1375549-S1" ili="wikidata-az-L1375549-S1">
         <Definition>(sual əvəz)</Definition>
       </Sense>

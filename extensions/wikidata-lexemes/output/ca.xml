@@ -22,6 +22,10 @@
     </LexicalEntry>
     <LexicalEntry id="L7410">
       <Lemma writtenForm="el" partOfSpeech="d"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="els"/>
+      <Form writtenForm="les"/>
+      <Form writtenForm="l&apos;"/>
       <Sense id="L7410-S1" synset="wikidata-ca-L7410-S1" ili="wikidata-ca-L7410-S1">
         <Definition>the; definite article</Definition>
       </Sense>
@@ -250,6 +254,13 @@
     </LexicalEntry>
     <LexicalEntry id="L722959">
       <Lemma writtenForm="el" partOfSpeech="h"/>
+      <Form writtenForm="l&apos;"/>
+      <Form writtenForm="-lo"/>
+      <Form writtenForm="els"/>
+      <Form writtenForm="-los"/>
+      <Form writtenForm="-la"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="les"/>
       <Sense id="L722959-S1" synset="wikidata-ca-L722959-S1" ili="wikidata-ca-L722959-S1">
         <Definition>(third-person direct object)</Definition>
       </Sense>
@@ -313,6 +324,7 @@
     </LexicalEntry>
     <LexicalEntry id="L721993">
       <Lemma writtenForm="de" partOfSpeech="p"/>
+      <Form writtenForm="d&apos;"/>
       <Sense id="L721993-S1" synset="wikidata-ca-L721993-S1" ili="wikidata-ca-L721993-S1">
         <Definition>from</Definition>
       </Sense>

@@ -16,24 +16,34 @@
     </LexicalEntry>
     <LexicalEntry id="L447077">
       <Lemma writtenForm="dir" partOfSpeech="h"/>
+      <Form writtenForm="der"/>
+      <Form writtenForm="iech"/>
       <Sense id="L447077-S1" synset="wikidata-lb-L447077-S1" ili="wikidata-lb-L447077-S1">
         <Definition>you; second-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447079">
       <Lemma writtenForm="Dir" partOfSpeech="h"/>
+      <Form writtenForm="Der"/>
+      <Form writtenForm="Iech"/>
       <Sense id="L447079-S1" synset="wikidata-lb-L447079-S1" ili="wikidata-lb-L447079-S1">
         <Definition>you; formal second-person pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447080">
       <Lemma writtenForm="mir" partOfSpeech="h"/>
+      <Form writtenForm="mer"/>
+      <Form writtenForm="eis"/>
       <Sense id="L447080-S1" synset="wikidata-lb-L447080-S1" ili="wikidata-lb-L447080-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447073">
       <Lemma writtenForm="du" partOfSpeech="h"/>
+      <Form writtenForm="de"/>
+      <Form writtenForm="dech"/>
+      <Form writtenForm="dir"/>
+      <Form writtenForm="der"/>
       <Sense id="L447073-S1" synset="wikidata-lb-L447073-S1" ili="wikidata-lb-L447073-S1">
         <Definition>you; second-person singular pronoun</Definition>
       </Sense>
@@ -46,32 +56,39 @@
     </LexicalEntry>
     <LexicalEntry id="L447072">
       <Lemma writtenForm="ech" partOfSpeech="h"/>
+      <Form writtenForm="mech"/>
+      <Form writtenForm="mir"/>
+      <Form writtenForm="mer"/>
       <Sense id="L447072-S1" synset="wikidata-lb-L447072-S1" ili="wikidata-lb-L447072-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447074">
       <Lemma writtenForm="hien" partOfSpeech="h"/>
+      <Form writtenForm="en"/>
+      <Form writtenForm="him"/>
+      <Form writtenForm="em"/>
+      <Form writtenForm="hie"/>
       <Sense id="L447074-S1" synset="wikidata-lb-L447074-S1" ili="wikidata-lb-L447074-S1">
         <Definition>he; third-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447076">
       <Lemma writtenForm="hatt" partOfSpeech="h"/>
+      <Form writtenForm="et"/>
+      <Form writtenForm="him"/>
+      <Form writtenForm="em"/>
       <Sense id="L447076-S1" synset="wikidata-lb-L447076-S1" ili="wikidata-lb-L447076-S1">
         <Definition>it; third-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L447075">
       <Lemma writtenForm="si" partOfSpeech="h"/>
+      <Form writtenForm="se"/>
+      <Form writtenForm="hir"/>
+      <Form writtenForm="er"/>
       <Sense id="L447075-S1" synset="wikidata-lb-L447075-S1" ili="wikidata-lb-L447075-S1">
         <Definition>she; third-person singular pronoun</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L447078">
-      <Lemma writtenForm="si" partOfSpeech="h"/>
-      <Sense id="L447078-S1" synset="wikidata-lb-L447078-S1" ili="wikidata-lb-L447078-S1">
-        <Definition>they; third-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <Synset id="wikidata-lb-L406989-S1" ili="wikidata-lb-L406989-S1" partOfSpeech="y">
@@ -103,9 +120,6 @@
     </Synset>
     <Synset id="wikidata-lb-L447075-S1" ili="wikidata-lb-L447075-S1" partOfSpeech="h">
       <Definition>she; third-person singular pronoun</Definition>
-    </Synset>
-    <Synset id="wikidata-lb-L447078-S1" ili="wikidata-lb-L447078-S1" partOfSpeech="h">
-      <Definition>they; third-person plural pronoun</Definition>
     </Synset>
   </LexiconExtension>
 </LexicalResource>

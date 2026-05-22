@@ -10,6 +10,8 @@
     <Extends id="omw-gu" version="1.4"/>
     <LexicalEntry id="L228189">
       <Lemma writtenForm="હું" partOfSpeech="h"/>
+      <Form writtenForm="મેં"/>
+      <Form writtenForm="મને"/>
       <Sense id="L228189-S1" synset="wikidata-gu-L228189-S1" ili="wikidata-gu-L228189-S1">
         <Definition>I, me</Definition>
       </Sense>

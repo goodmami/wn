@@ -10,18 +10,21 @@
     <Extends id="omw-ml" version="1.4"/>
     <LexicalEntry id="L2391">
       <Lemma writtenForm="നാല്" partOfSpeech="m"/>
+      <Form writtenForm="നാലു"/>
       <Sense id="L2391-S1" synset="wikidata-ml-L2391-S1" ili="l332-s1">
         <Definition>4; four, the numeral</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2392">
       <Lemma writtenForm="അഞ്ച്" partOfSpeech="m"/>
+      <Form writtenForm="അഞ്ചു"/>
       <Sense id="L2392-S1" synset="wikidata-ml-L2392-S1" ili="l333-s1">
         <Definition>5; numeral five</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2395">
       <Lemma writtenForm="എട്ട്" partOfSpeech="m"/>
+      <Form writtenForm="എട്ടു"/>
       <Sense id="L2395-S1" synset="wikidata-ml-L2395-S1" ili="l336-s1">
         <Definition>numeral for 8; eight</Definition>
       </Sense>
@@ -40,12 +43,21 @@
     </LexicalEntry>
     <LexicalEntry id="L2407">
       <Lemma writtenForm="പതിനൊന്ന്" partOfSpeech="m"/>
+      <Form writtenForm="പതിനൊന്നു"/>
       <Sense id="L2407-S1" synset="wikidata-ml-L2407-S1" ili="wikidata-ml-L2407-S1">
         <Definition>11, eleven</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2439">
       <Lemma writtenForm="ഞങ്ങൾ" partOfSpeech="h"/>
+      <Form writtenForm="ഞങ്ങള്‍"/>
+      <Form writtenForm="ഞങ്ങളെ"/>
+      <Form writtenForm="ഞങ്ങളുടെ"/>
+      <Form writtenForm="ഞങ്ങുടെ"/>
+      <Form writtenForm="ഞങ്ങള്‍ക്കു"/>
+      <Form writtenForm="ഞങ്ങളാല്‍"/>
+      <Form writtenForm="ഞങ്ങളില്‍"/>
+      <Form writtenForm="ഞങ്ങളോടു"/>
       <Sense id="L2439-S1" synset="wikidata-ml-L2439-S1" ili="l483-s1">
         <Definition>speakers/writers, or the speaker/writer and at least one other person</Definition>
       </Sense>
@@ -64,18 +76,32 @@
     </LexicalEntry>
     <LexicalEntry id="L551211">
       <Lemma writtenForm="എൻ" partOfSpeech="h"/>
+      <Form writtenForm="എന്നെ"/>
+      <Form writtenForm="എനിക്ക്"/>
+      <Form writtenForm="എന്നിൽ"/>
+      <Form writtenForm="എന്നോട്"/>
+      <Form writtenForm="എന്നാൽ"/>
+      <Form writtenForm="എന്റെ"/>
       <Sense id="L551211-S1" synset="wikidata-ml-L551211-S1" ili="wikidata-ml-L551211-S1">
         <Definition>ഞാൻ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L551227">
       <Lemma writtenForm="പക്ഷേ" partOfSpeech="y"/>
+      <Form writtenForm="പക്ഷെ"/>
       <Sense id="L551227-S1" synset="wikidata-ml-L551227-S1" ili="wikidata-ml-L551227-S1">
         <Definition>but</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L562660">
       <Lemma writtenForm="ഇവ" partOfSpeech="d"/>
+      <Form writtenForm="ഇവയെ"/>
+      <Form writtenForm="ഇവയ്ക്ക്"/>
+      <Form writtenForm="ഇവയിൽ"/>
+      <Form writtenForm="ഇവയോട്"/>
+      <Form writtenForm="ഇവയാൽ"/>
+      <Form writtenForm="ഇവയുടെ"/>
+      <Form writtenForm="ഇവകൾ"/>
       <Sense id="L562660-S1" synset="wikidata-ml-L562660-S1" ili="wikidata-ml-L562660-S1">
         <Definition>these</Definition>
       </Sense>
@@ -190,18 +216,27 @@
     </LexicalEntry>
     <LexicalEntry id="L2389">
       <Lemma writtenForm="രണ്ട്" partOfSpeech="m"/>
+      <Form writtenForm="രണ്ടു"/>
       <Sense id="L2389-S1" synset="wikidata-ml-L2389-S1" ili="l329-s1">
         <Definition>2, two; natural number between 1 and 3</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2396">
       <Lemma writtenForm="ഒൻപത്" partOfSpeech="m"/>
+      <Form writtenForm="ഒൻപതു"/>
+      <Form writtenForm="ഒമ്പത്"/>
       <Sense id="L2396-S1" synset="wikidata-ml-L2396-S1" ili="l337-s1">
         <Definition>numeral for 9; nine</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2406">
       <Lemma writtenForm="നൂറ്" partOfSpeech="m"/>
+      <Form writtenForm="നൂറിനെ"/>
+      <Form writtenForm="നൂറിന്"/>
+      <Form writtenForm="നൂറിൽ"/>
+      <Form writtenForm="നൂറിനോട്"/>
+      <Form writtenForm="നൂറിനാൽ"/>
+      <Form writtenForm="നൂറിന്റെ"/>
       <Sense id="L2406-S1" synset="wikidata-ml-L2406-S1" ili="l4138-s1">
         <Definition>hundred,   the number 100</Definition>
       </Sense>
@@ -220,18 +255,39 @@
     </LexicalEntry>
     <LexicalEntry id="L2440">
       <Lemma writtenForm="നിങ്ങൾ" partOfSpeech="h"/>
+      <Form writtenForm="നിങ്ങളെ"/>
+      <Form writtenForm="നിങ്ങളുടെ"/>
+      <Form writtenForm="നിങ്ങള്‍ക്കു"/>
+      <Form writtenForm="നിങ്ങളാൽ"/>
+      <Form writtenForm="നിങ്ങളില്‍"/>
+      <Form writtenForm="നിങ്ങളൊടു"/>
+      <Form writtenForm="നിങ്ങടെ"/>
       <Sense id="L2440-S1" synset="wikidata-ml-L2440-S1" ili="wikidata-ml-L2440-S1">
         <Definition>you; second person plural</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2444">
       <Lemma writtenForm="അവൻ" partOfSpeech="h"/>
+      <Form writtenForm="അവനേ"/>
+      <Form writtenForm="അവനെ"/>
+      <Form writtenForm="അവന്റെ"/>
+      <Form writtenForm="അവനുടെ"/>
+      <Form writtenForm="അവനു"/>
+      <Form writtenForm="അവനാല്‍"/>
+      <Form writtenForm="അവനില്‍"/>
+      <Form writtenForm="അവനോടു"/>
       <Sense id="L2444-S1" synset="wikidata-ml-L2444-S1" ili="l485-s1">
         <Definition>he; third-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L300690">
       <Lemma writtenForm="താൻ" partOfSpeech="h"/>
+      <Form writtenForm="തന്നെ"/>
+      <Form writtenForm="തനിക്ക്"/>
+      <Form writtenForm="തന്നിൽ"/>
+      <Form writtenForm="തന്നോട്"/>
+      <Form writtenForm="തന്നാൽ"/>
+      <Form writtenForm="തന്റെ"/>
       <Sense id="L300690-S1" synset="wikidata-ml-L300690-S1" ili="wikidata-ml-L300690-S1">
         <Definition>you (informal, impolite)</Definition>
         <SenseRelation relType="similar" target="wikidata-ml-L2438-S1"/>
@@ -239,6 +295,20 @@
     </LexicalEntry>
     <LexicalEntry id="L413259">
       <Lemma writtenForm="അവ" partOfSpeech="d"/>
+      <Form writtenForm="അവക്കൾ"/>
+      <Form writtenForm="അവയെ"/>
+      <Form writtenForm="അവയ്ക്ക്"/>
+      <Form writtenForm="അവയിൽ"/>
+      <Form writtenForm="അവയോട്"/>
+      <Form writtenForm="അവയാൽ"/>
+      <Form writtenForm="അവയുടെ"/>
+      <Form writtenForm="അവകൾ"/>
+      <Form writtenForm="അവകളെ"/>
+      <Form writtenForm="അവകൾക്ക്"/>
+      <Form writtenForm="അവകളിൽ"/>
+      <Form writtenForm="അവകളോട്"/>
+      <Form writtenForm="അവകളാൽ"/>
+      <Form writtenForm="അവകളുടെ"/>
       <Sense id="L413259-S1" synset="wikidata-ml-L413259-S1" ili="wikidata-ml-L413259-S1">
         <Definition>Those</Definition>
       </Sense>
@@ -277,6 +347,7 @@
     </LexicalEntry>
     <LexicalEntry id="L580441">
       <Lemma writtenForm="മറ്റ്" partOfSpeech="y"/>
+      <Form writtenForm="മറ്റു"/>
       <Sense id="L580441-S1" synset="wikidata-ml-L580441-S1" ili="wikidata-ml-L580441-S1">
         <Definition>other</Definition>
         <SenseRelation relType="similar" target="wikidata-ml-L580442-S1"/>
@@ -372,6 +443,7 @@
     </LexicalEntry>
     <LexicalEntry id="L2393">
       <Lemma writtenForm="ആറ്" partOfSpeech="m"/>
+      <Form writtenForm="ആറു"/>
       <Sense id="L2393-S1" synset="wikidata-ml-L2393-S1" ili="l334-s1">
         <Definition>numeral for 6; six</Definition>
       </Sense>
@@ -384,6 +456,14 @@
     </LexicalEntry>
     <LexicalEntry id="L2438">
       <Lemma writtenForm="നീ" partOfSpeech="h"/>
+      <Form writtenForm="നിങ്ങൾ"/>
+      <Form writtenForm="നിന്നെ"/>
+      <Form writtenForm="നിന്റെ"/>
+      <Form writtenForm="നിനക്കു"/>
+      <Form writtenForm="നിന്നാല്"/>
+      <Form writtenForm="നിന്നില്‍"/>
+      <Form writtenForm="നിന്നൊടു"/>
+      <Form writtenForm="നിന്നുടെ"/>
       <Sense id="L2438-S1" synset="wikidata-ml-L2438-S1" ili="l482-s1">
         <Definition>you, second person pronoun (informal, impolite) Used while talking to person of lower age or of same age, with equal social status. Not used against elder people</Definition>
         <SenseRelation relType="similar" target="wikidata-ml-L300690-S1"/>
@@ -403,12 +483,32 @@
     </LexicalEntry>
     <LexicalEntry id="L470364">
       <Lemma writtenForm="അവര്‍" partOfSpeech="h"/>
+      <Form writtenForm="അവരേ"/>
+      <Form writtenForm="അവരെ"/>
+      <Form writtenForm="അവരുടെ"/>
+      <Form writtenForm="അവർക്കു"/>
+      <Form writtenForm="അവരാൽ"/>
+      <Form writtenForm="അവരില്‍"/>
+      <Form writtenForm="അവരോടു"/>
       <Sense id="L470364-S1" synset="wikidata-ml-L470364-S1" ili="wikidata-ml-L470364-S1">
         <Definition>third person plural; they</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L479461">
       <Lemma writtenForm="നന്ദി" partOfSpeech="i"/>
+      <Form writtenForm="നന്ദിയെ"/>
+      <Form writtenForm="നന്ദിക്ക്"/>
+      <Form writtenForm="നന്ദിയിൽ"/>
+      <Form writtenForm="നന്ദിയോട്"/>
+      <Form writtenForm="നന്ദിയാൽ"/>
+      <Form writtenForm="നന്ദിയുടെ"/>
+      <Form writtenForm="നന്ദികൾ"/>
+      <Form writtenForm="നന്ദികളെ"/>
+      <Form writtenForm="നന്ദികൾക്ക്"/>
+      <Form writtenForm="നന്ദികളിൽ"/>
+      <Form writtenForm="നന്ദികളോട്"/>
+      <Form writtenForm="നന്ദികളാൽ"/>
+      <Form writtenForm="നന്ദികളുടെ"/>
       <Sense id="L479461-S1" synset="wikidata-ml-L479461-S1" ili="l579678-s1">
         <Definition>Thank you, thanks</Definition>
       </Sense>
@@ -418,6 +518,21 @@
     </LexicalEntry>
     <LexicalEntry id="L527810">
       <Lemma writtenForm="അയാൾ" partOfSpeech="h"/>
+      <Form writtenForm="അയാളെ"/>
+      <Form writtenForm="അയാളിന്"/>
+      <Form writtenForm="അയാളിൽ"/>
+      <Form writtenForm="അയാളിനോട്"/>
+      <Form writtenForm="അയാളിനാൽ"/>
+      <Form writtenForm="അയാളിന്റെ"/>
+      <Form writtenForm="അയാളേ"/>
+      <Form writtenForm="അയാളുകൾ"/>
+      <Form writtenForm="അയാളുകളെ"/>
+      <Form writtenForm="അയാളുകൾക്ക്"/>
+      <Form writtenForm="അയാളുകളിൽ"/>
+      <Form writtenForm="അയാളുകളോട്"/>
+      <Form writtenForm="അയാളുകളാൽ"/>
+      <Form writtenForm="അയാളുകളുടെ"/>
+      <Form writtenForm="അയാളുകളേ"/>
       <Sense id="L527810-S1" synset="wikidata-ml-L527810-S1" ili="wikidata-ml-L527810-S1">
         <Definition>ആ ആൾ, ആ മനുഷ്യൻ</Definition>
         <SenseRelation relType="antonym" target="wikidata-ml-L578461-S1"/>
@@ -450,6 +565,7 @@
     </LexicalEntry>
     <LexicalEntry id="L578460">
       <Lemma writtenForm="അത്" partOfSpeech="d"/>
+      <Form writtenForm="അതു"/>
       <Sense id="L578460-S1" synset="wikidata-ml-L578460-S1" ili="l3229-s1">
         <Definition>that, object at a distance</Definition>
         <SenseRelation relType="antonym" target="wikidata-ml-L547840-S1"/>
@@ -457,6 +573,9 @@
     </LexicalEntry>
     <LexicalEntry id="L579658">
       <Lemma writtenForm="കൊണ്ട്" partOfSpeech="y"/>
+      <Form writtenForm="കൊണ്ടിരിക്കുന്നു"/>
+      <Form writtenForm="കൊണ്ടിരിക്കും"/>
+      <Form writtenForm="കൊണ്ടിരുന്നു"/>
       <Sense id="L579658-S1" synset="wikidata-ml-L579658-S1" ili="wikidata-ml-L579658-S1">
         <Definition>(with noun classes) because of, due to. (Placed after word)</Definition>
       </Sense>
@@ -502,6 +621,7 @@
     </LexicalEntry>
     <LexicalEntry id="L584473">
       <Lemma writtenForm="അരുത്" partOfSpeech="i"/>
+      <Form writtenForm="അരുതു്"/>
       <Sense id="L584473-S1" synset="wikidata-ml-L584473-S1" ili="wikidata-ml-L584473-S1">
         <Definition>don&apos;t</Definition>
       </Sense>
@@ -616,6 +736,14 @@
     </LexicalEntry>
     <LexicalEntry id="L2437">
       <Lemma writtenForm="ഞാൻ" partOfSpeech="h"/>
+      <Form writtenForm="എന്റെ"/>
+      <Form writtenForm="എനിക്ക്"/>
+      <Form writtenForm="ഞങ്ങൾ"/>
+      <Form writtenForm="എന്നിൽ"/>
+      <Form writtenForm="എന്നെ"/>
+      <Form writtenForm="എന്നുടെ"/>
+      <Form writtenForm="എന്നാല്"/>
+      <Form writtenForm="എന്നൊടു"/>
       <Sense id="L2437-S1" synset="wikidata-ml-L2437-S1" ili="l487-s1">
         <Definition>first person singular, I</Definition>
       </Sense>
@@ -652,6 +780,21 @@
     </LexicalEntry>
     <LexicalEntry id="L578369">
       <Lemma writtenForm="അദ്ദേഹം" partOfSpeech="h"/>
+      <Form writtenForm="അദ്ദേഹത്തെ"/>
+      <Form writtenForm="അദ്ദേഹത്തിന്"/>
+      <Form writtenForm="അദ്ദേഹത്തിൽ"/>
+      <Form writtenForm="അദ്ദേഹത്തോട്"/>
+      <Form writtenForm="അദ്ദേഹത്താൽ"/>
+      <Form writtenForm="അദ്ദേഹത്തിന്റെ"/>
+      <Form writtenForm="അദ്ദേഹമേ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങൾ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളെ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങൾക്ക്"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളിൽ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളോട്"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളാൽ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളുടെ"/>
+      <Form writtenForm="അദ്ദേഹങ്ങളേ"/>
       <Sense id="L578369-S1" synset="wikidata-ml-L578369-S1" ili="wikidata-ml-L578369-S1">
         <Definition>Him, that person, to respectfully address a person, respectful pronoun for third person</Definition>
       </Sense>
@@ -759,12 +902,14 @@
     </LexicalEntry>
     <LexicalEntry id="L2390">
       <Lemma writtenForm="മൂന്ന്" partOfSpeech="m"/>
+      <Form writtenForm="മൂന്നു"/>
       <Sense id="L2390-S1" synset="wikidata-ml-L2390-S1" ili="l330-s1">
         <Definition>three</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L2394">
       <Lemma writtenForm="ഏഴ്" partOfSpeech="m"/>
+      <Form writtenForm="ഏഴു"/>
       <Sense id="L2394-S1" synset="wikidata-ml-L2394-S1" ili="l335-s1">
         <Definition>numeral for 7; seven</Definition>
       </Sense>
@@ -783,6 +928,12 @@
     </LexicalEntry>
     <LexicalEntry id="L2422">
       <Lemma writtenForm="അഞ്ഞൂറ്" partOfSpeech="m"/>
+      <Form writtenForm="അഞ്ഞൂറിനെ"/>
+      <Form writtenForm="അഞ്ഞൂറിന്"/>
+      <Form writtenForm="അഞ്ഞൂറിൽ"/>
+      <Form writtenForm="അഞ്ഞൂറിനോട്"/>
+      <Form writtenForm="അഞ്ഞൂറിനാൽ"/>
+      <Form writtenForm="അഞ്ഞൂറിന്റെ"/>
       <Sense id="L2422-S1" synset="wikidata-ml-L2422-S1" ili="wikidata-ml-L2422-S1">
         <Definition>500, five hundred</Definition>
       </Sense>
@@ -801,6 +952,12 @@
     </LexicalEntry>
     <LexicalEntry id="L2445">
       <Lemma writtenForm="അവൽ" partOfSpeech="h"/>
+      <Form writtenForm="അവലിനെ"/>
+      <Form writtenForm="അവലിന്"/>
+      <Form writtenForm="അവലിൽ"/>
+      <Form writtenForm="അവലിനോട്"/>
+      <Form writtenForm="അവലിനാൽ"/>
+      <Form writtenForm="അവലിന്റെ"/>
       <Sense id="L2445-S1" synset="wikidata-ml-L2445-S1" ili="wikidata-ml-L2445-S1">
         <Definition>Indian food</Definition>
       </Sense>
@@ -813,6 +970,19 @@
     </LexicalEntry>
     <LexicalEntry id="L300682">
       <Lemma writtenForm="ലക്ഷം" partOfSpeech="m"/>
+      <Form writtenForm="ലക്ഷത്തെ"/>
+      <Form writtenForm="ലക്ഷത്തിന്"/>
+      <Form writtenForm="ലക്ഷത്തിൽ"/>
+      <Form writtenForm="ലക്ഷത്തോട്"/>
+      <Form writtenForm="ലക്ഷത്താൽ"/>
+      <Form writtenForm="ലക്ഷത്തിന്റെ"/>
+      <Form writtenForm="ലക്ഷങ്ങൾ"/>
+      <Form writtenForm="ലക്ഷങ്ങളെ"/>
+      <Form writtenForm="ലക്ഷങ്ങൾക്ക്"/>
+      <Form writtenForm="ലക്ഷങ്ങളിൽ"/>
+      <Form writtenForm="ലക്ഷങ്ങളോട്"/>
+      <Form writtenForm="ലക്ഷങ്ങളാൽ"/>
+      <Form writtenForm="ലക്ഷങ്ങളുടെ"/>
       <Sense id="L300682-S1" synset="wikidata-ml-L300682-S1" ili="wikidata-ml-L300682-S1">
         <Definition>1 lakh, 1,00,000</Definition>
       </Sense>
@@ -825,12 +995,20 @@
     </LexicalEntry>
     <LexicalEntry id="L469615">
       <Lemma writtenForm="അവള്‍" partOfSpeech="h"/>
+      <Form writtenForm="അവളേ"/>
+      <Form writtenForm="അവളെ"/>
+      <Form writtenForm="അവളുടെ"/>
+      <Form writtenForm="അവൾക്കു"/>
+      <Form writtenForm="അവളാൽ"/>
+      <Form writtenForm="അവളിൽ"/>
+      <Form writtenForm="അവളോടു"/>
       <Sense id="L469615-S1" synset="wikidata-ml-L469615-S1" ili="l484-s1">
         <Definition>she; third-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L551228">
       <Lemma writtenForm="പക്ഷെ" partOfSpeech="y"/>
+      <Form writtenForm="പക്ഷേ"/>
       <Sense id="L551228-S1" synset="wikidata-ml-L551228-S1" ili="wikidata-ml-L551228-S1">
         <Definition>but</Definition>
       </Sense>
@@ -990,6 +1168,20 @@
     </LexicalEntry>
     <LexicalEntry id="L547840">
       <Lemma writtenForm="ഇത്" partOfSpeech="d"/>
+      <Form writtenForm="ഇതിനെ"/>
+      <Form writtenForm="ഇതിന്"/>
+      <Form writtenForm="ഇതിൽ"/>
+      <Form writtenForm="ഇതിനോട്"/>
+      <Form writtenForm="ഇതിനാൽ"/>
+      <Form writtenForm="ഇതിന്റെ"/>
+      <Form writtenForm="ഇതുങ്ങൾ"/>
+      <Form writtenForm="ഇതുങ്ങളെ"/>
+      <Form writtenForm="ഇതുങ്ങൾക്ക്"/>
+      <Form writtenForm="ഇതുങ്ങളിൽ"/>
+      <Form writtenForm="ഇതുങ്ങളോട്"/>
+      <Form writtenForm="ഇതുങ്ങളാൽ"/>
+      <Form writtenForm="ഇതുങ്ങളുടെ"/>
+      <Form writtenForm="ഇതു"/>
       <Sense id="L547840-S1" synset="wikidata-ml-L547840-S1" ili="l2994-s1">
         <Definition>this</Definition>
         <SenseRelation relType="antonym" target="wikidata-ml-L578460-S1"/>
@@ -1003,6 +1195,7 @@
     </LexicalEntry>
     <LexicalEntry id="L579653">
       <Lemma writtenForm="തോറും" partOfSpeech="y"/>
+      <Form writtenForm="തൊറും"/>
       <Sense id="L579653-S1" synset="wikidata-ml-L579653-S1" ili="wikidata-ml-L579653-S1">
         <Definition>&quot;by&quot; in day by day, city by city</Definition>
       </Sense>
@@ -1144,12 +1337,6 @@
         <Definition>below</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L2399">
-      <Lemma writtenForm="മുപ്പത്" partOfSpeech="m"/>
-      <Sense id="L2399-S1" synset="wikidata-ml-L2399-S1" ili="wikidata-ml-L2399-S1">
-        <Definition>30, thirty</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L2405">
       <Lemma writtenForm="തൊണ്ണൂറ്" partOfSpeech="m"/>
       <Sense id="L2405-S1" synset="wikidata-ml-L2405-S1" ili="wikidata-ml-L2405-S1">
@@ -1170,6 +1357,12 @@
     </LexicalEntry>
     <LexicalEntry id="L2414">
       <Lemma writtenForm="പതിനെട്ട്" partOfSpeech="m"/>
+      <Form writtenForm="പതിനെട്ടിനെ"/>
+      <Form writtenForm="പതിനെട്ടിന്"/>
+      <Form writtenForm="പതിനെട്ടിൽ"/>
+      <Form writtenForm="പതിനെട്ടിനോട്"/>
+      <Form writtenForm="പതിനെട്ടിനാൽ"/>
+      <Form writtenForm="പതിനെട്ടിന്റെ"/>
       <Sense id="L2414-S1" synset="wikidata-ml-L2414-S1" ili="wikidata-ml-L2414-S1">
         <Definition>18, eighteen</Definition>
       </Sense>
@@ -1188,12 +1381,25 @@
     </LexicalEntry>
     <LexicalEntry id="L300691">
       <Lemma writtenForm="നമ്മൾ" partOfSpeech="h"/>
+      <Form writtenForm="നമ്മെ"/>
+      <Form writtenForm="നമ്മുടെ"/>
+      <Form writtenForm="നമുക്കു"/>
+      <Form writtenForm="നമ്മാൽ"/>
+      <Form writtenForm="നമ്മില്‍"/>
+      <Form writtenForm="നമ്മോടു"/>
+      <Form writtenForm="നമ്മളുടെ"/>
       <Sense id="L300691-S1" synset="wikidata-ml-L300691-S1" ili="wikidata-ml-L300691-S1">
         <Definition>first person plural</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L467066">
       <Lemma writtenForm="ഇവൻ" partOfSpeech="h"/>
+      <Form writtenForm="ഇവനെ"/>
+      <Form writtenForm="ഇവന്റെ"/>
+      <Form writtenForm="ഇവനിൽ"/>
+      <Form writtenForm="ഇവനൊട്"/>
+      <Form writtenForm="ഇവനാൽ"/>
+      <Form writtenForm="ഇവനു"/>
       <Sense id="L467066-S1" synset="wikidata-ml-L467066-S1" ili="wikidata-ml-L467066-S1">
         <Definition>he (lacks respect; not used for elders)</Definition>
       </Sense>
@@ -1237,6 +1443,7 @@
     </LexicalEntry>
     <LexicalEntry id="L583887">
       <Lemma writtenForm="ഏത്" partOfSpeech="d"/>
+      <Form writtenForm="ഏതു"/>
       <Sense id="L583887-S1" synset="wikidata-ml-L583887-S1" ili="wikidata-ml-L583887-S1">
         <Definition>which; interogative</Definition>
       </Sense>
@@ -1385,6 +1592,13 @@
     </LexicalEntry>
     <LexicalEntry id="L300707">
       <Lemma writtenForm="ആര്" partOfSpeech="q"/>
+      <Form writtenForm="ആരെ"/>
+      <Form writtenForm="ആർക്ക്"/>
+      <Form writtenForm="ആരിൽ"/>
+      <Form writtenForm="ആരോട്"/>
+      <Form writtenForm="ആരാൽ"/>
+      <Form writtenForm="ആർടെ"/>
+      <Form writtenForm="ആരേ"/>
       <Sense id="L300707-S1" synset="wikidata-ml-L300707-S1" ili="wikidata-ml-L300707-S1">
         <Definition>who</Definition>
       </Sense>
@@ -1446,6 +1660,8 @@
     </LexicalEntry>
     <LexicalEntry id="L583896">
       <Lemma writtenForm="ഉണ്ട്" partOfSpeech="y"/>
+      <Form writtenForm="ഉണ്ടാകും"/>
+      <Form writtenForm="ഉണ്ടായിരുന്നു"/>
       <Sense id="L583896-S1" synset="wikidata-ml-L583896-S1" ili="wikidata-ml-L583896-S1">
         <Definition>exists</Definition>
       </Sense>
@@ -2110,9 +2326,6 @@
     </Synset>
     <Synset id="wikidata-ml-L1132045-S1" ili="wikidata-ml-L1132045-S1" partOfSpeech="p">
       <Definition>below</Definition>
-    </Synset>
-    <Synset id="wikidata-ml-L2399-S1" ili="wikidata-ml-L2399-S1" partOfSpeech="m">
-      <Definition>30, thirty</Definition>
     </Synset>
     <Synset id="wikidata-ml-L2405-S1" ili="wikidata-ml-L2405-S1" partOfSpeech="m">
       <Definition>90, ninety</Definition>

@@ -10,18 +10,39 @@
     <Extends id="omw-oc" version="1.4"/>
     <LexicalEntry id="L57930">
       <Lemma writtenForm="aqueste" partOfSpeech="d"/>
+      <Form writtenForm="aquesta"/>
+      <Form writtenForm="aquestes"/>
+      <Form writtenForm="aquestas"/>
       <Sense id="L57930-S1" synset="wikidata-oc-L57930-S1" ili="wikidata-oc-L57930-S1">
         <Definition>ce</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L57929">
       <Lemma writtenForm="lo" partOfSpeech="d"/>
+      <Form writtenForm="l’"/>
+      <Form writtenForm="los"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="las"/>
+      <Form writtenForm="eth"/>
+      <Form writtenForm="eths"/>
+      <Form writtenForm="era"/>
+      <Form writtenForm="eras"/>
+      <Form writtenForm="le"/>
+      <Form writtenForm="les"/>
+      <Form writtenForm="lhi"/>
+      <Form writtenForm="lu"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="lòs"/>
+      <Form writtenForm="el"/>
+      <Form writtenForm="lons"/>
+      <Form writtenForm="lei"/>
       <Sense id="L57929-S1" synset="wikidata-oc-L57929-S1" ili="wikidata-oc-L57929-S1">
         <Definition>the, definite article</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L41768">
       <Lemma writtenForm="ostal" partOfSpeech="n"/>
+      <Form writtenForm="ostau"/>
       <Sense id="L41768-S2" synset="wikidata-oc-L41768-S2" ili="wikidata-oc-L41768-S2">
         <Definition>bastiment fach per l&apos;albèrgament</Definition>
       </Sense>

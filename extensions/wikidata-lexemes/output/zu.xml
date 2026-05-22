@@ -10,6 +10,8 @@
     <Extends id="omw-zu" version="1.4"/>
     <LexicalEntry id="L677327">
       <Lemma writtenForm="wena" partOfSpeech="h"/>
+      <Form writtenForm="-we"/>
+      <Form writtenForm="-kho"/>
       <Sense id="L677327-S1" synset="wikidata-zu-L677327-S1" ili="wikidata-zu-L677327-S1">
         <Definition>thou (second-person singular pronoun)</Definition>
       </Sense>
@@ -28,6 +30,15 @@
     </LexicalEntry>
     <LexicalEntry id="L736571">
       <Lemma writtenForm="lo" partOfSpeech="h"/>
+      <Form writtenForm="laba"/>
+      <Form writtenForm="le"/>
+      <Form writtenForm="leli"/>
+      <Form writtenForm="la"/>
+      <Form writtenForm="lesi"/>
+      <Form writtenForm="lezi"/>
+      <Form writtenForm="lolu"/>
+      <Form writtenForm="lobu"/>
+      <Form writtenForm="lokhu"/>
       <Sense id="L736571-S1" synset="wikidata-zu-L736571-S1" ili="wikidata-zu-L736571-S1">
         <Definition>this</Definition>
       </Sense>
@@ -46,6 +57,18 @@
     </LexicalEntry>
     <LexicalEntry id="L732280">
       <Lemma writtenForm="angi" partOfSpeech="y"/>
+      <Form writtenForm="aka"/>
+      <Form writtenForm="aba"/>
+      <Form writtenForm="awu"/>
+      <Form writtenForm="ayi"/>
+      <Form writtenForm="ali"/>
+      <Form writtenForm="awa"/>
+      <Form writtenForm="asi"/>
+      <Form writtenForm="azi"/>
+      <Form writtenForm="alu"/>
+      <Form writtenForm="abu"/>
+      <Form writtenForm="aku"/>
+      <Form writtenForm="ani"/>
       <Sense id="L732280-S1" synset="wikidata-zu-L732280-S1" ili="wikidata-zu-L732280-S1">
         <Definition>(negative subject concord)</Definition>
       </Sense>
@@ -58,6 +81,24 @@
     </LexicalEntry>
     <LexicalEntry id="L689510">
       <Lemma writtenForm="umu" partOfSpeech="y"/>
+      <Form writtenForm="um"/>
+      <Form writtenForm="aba"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="o"/>
+      <Form writtenForm="imi"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="ili"/>
+      <Form writtenForm="ama"/>
+      <Form writtenForm="isi"/>
+      <Form writtenForm="izi"/>
+      <Form writtenForm="in"/>
+      <Form writtenForm="izin"/>
+      <Form writtenForm="ulu"/>
+      <Form writtenForm="ubu"/>
+      <Form writtenForm="uku"/>
+      <Form writtenForm="ku"/>
+      <Form writtenForm="im"/>
+      <Form writtenForm="izim"/>
       <Sense id="L689510-S1" synset="wikidata-zu-L689510-S1" ili="wikidata-zu-L689510-S1">
         <Definition>full noun prefix</Definition>
       </Sense>
@@ -187,12 +228,37 @@
     </LexicalEntry>
     <LexicalEntry id="L688517">
       <Lemma writtenForm="engi" partOfSpeech="y"/>
+      <Form writtenForm="o"/>
+      <Form writtenForm="esi"/>
+      <Form writtenForm="eni"/>
+      <Form writtenForm="aba"/>
+      <Form writtenForm="e"/>
+      <Form writtenForm="eli"/>
+      <Form writtenForm="a"/>
+      <Form writtenForm="ezi"/>
+      <Form writtenForm="olu"/>
+      <Form writtenForm="obu"/>
+      <Form writtenForm="oku"/>
       <Sense id="L688517-S1" synset="wikidata-zu-L688517-S1" ili="wikidata-zu-L688517-S1">
         <Definition>(regular relative concord)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L731129">
       <Lemma writtenForm="mu" partOfSpeech="y"/>
+      <Form writtenForm="m"/>
+      <Form writtenForm="ba"/>
+      <Form writtenForm="bo"/>
+      <Form writtenForm="mi"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="ma"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="zi"/>
+      <Form writtenForm="yi"/>
+      <Form writtenForm="zin"/>
+      <Form writtenForm="lu"/>
+      <Form writtenForm="bu"/>
+      <Form writtenForm="ku"/>
+      <Form writtenForm="⁠"/>
       <Sense id="L731129-S1" synset="wikidata-zu-L731129-S1" ili="wikidata-zu-L731129-S1">
         <Definition>(basic noun prefix, without the augment)</Definition>
       </Sense>
@@ -211,12 +277,24 @@
     </LexicalEntry>
     <LexicalEntry id="L737301">
       <Lemma writtenForm="mina" partOfSpeech="h"/>
+      <Form writtenForm="-mi"/>
       <Sense id="L737301-S1" synset="wikidata-zu-L737301-S1" ili="wikidata-zu-L737301-S1">
         <Definition>I (first-person singular pronoun)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L740039">
       <Lemma writtenForm="om" partOfSpeech="y"/>
+      <Form writtenForm="omu"/>
+      <Form writtenForm="aba"/>
+      <Form writtenForm="emi"/>
+      <Form writtenForm="eli"/>
+      <Form writtenForm="ama"/>
+      <Form writtenForm="esi"/>
+      <Form writtenForm="ezin"/>
+      <Form writtenForm="en"/>
+      <Form writtenForm="olu"/>
+      <Form writtenForm="obu"/>
+      <Form writtenForm="oku"/>
       <Sense id="L740039-S1" synset="wikidata-zu-L740039-S1" ili="wikidata-zu-L740039-S1">
         <Definition>(adjectival concord)</Definition>
       </Sense>
@@ -235,6 +313,17 @@
     </LexicalEntry>
     <LexicalEntry id="L731133">
       <Lemma writtenForm="ngi" partOfSpeech="y"/>
+      <Form writtenForm="u"/>
+      <Form writtenForm="si"/>
+      <Form writtenForm="ni"/>
+      <Form writtenForm="ba"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="li"/>
+      <Form writtenForm="a"/>
+      <Form writtenForm="zi"/>
+      <Form writtenForm="lu"/>
+      <Form writtenForm="bu"/>
+      <Form writtenForm="ku"/>
       <Sense id="L731133-S1" synset="wikidata-zu-L731133-S1" ili="wikidata-zu-L731133-S1">
         <Definition>(subject concord)</Definition>
       </Sense>

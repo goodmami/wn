@@ -10,12 +10,26 @@
     <Extends id="omw-ha" version="1.4"/>
     <LexicalEntry id="L524180">
       <Lemma writtenForm="su" partOfSpeech="h"/>
+      <Form writtenForm="sun"/>
+      <Form writtenForm="suka"/>
+      <Form writtenForm="suna"/>
+      <Form writtenForm="suke"/>
+      <Form writtenForm="sukan"/>
+      <Form writtenForm="za su"/>
+      <Form writtenForm="sa"/>
       <Sense id="L524180-S1" synset="wikidata-ha-L524180-S1" ili="wikidata-ha-L524180-S1">
         <Definition>they</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L524392">
       <Lemma writtenForm="ku" partOfSpeech="h"/>
+      <Form writtenForm="kun"/>
+      <Form writtenForm="kuka"/>
+      <Form writtenForm="kuna"/>
+      <Form writtenForm="kuke"/>
+      <Form writtenForm="kukan"/>
+      <Form writtenForm="za ku"/>
+      <Form writtenForm="kwa"/>
       <Sense id="L524392-S1" synset="wikidata-ha-L524392-S1" ili="wikidata-ha-L524392-S1">
         <Definition>(second person, plural subject pronoun)</Definition>
       </Sense>
@@ -40,6 +54,10 @@
     </LexicalEntry>
     <LexicalEntry id="L524155">
       <Lemma writtenForm="ta" partOfSpeech="h"/>
+      <Form writtenForm="tana"/>
+      <Form writtenForm="take"/>
+      <Form writtenForm="takan"/>
+      <Form writtenForm="za ta"/>
       <Sense id="L524155-S1" synset="wikidata-ha-L524155-S1" ili="wikidata-ha-L524155-S1">
         <Definition>she</Definition>
       </Sense>
@@ -82,6 +100,8 @@
     </LexicalEntry>
     <LexicalEntry id="L524446">
       <Lemma writtenForm="namu" partOfSpeech="h"/>
+      <Form writtenForm="tamu"/>
+      <Form writtenForm="mu"/>
       <Sense id="L524446-S1" synset="wikidata-ha-L524446-S1" ili="wikidata-ha-L524446-S1">
         <Definition>our</Definition>
       </Sense>
@@ -94,12 +114,20 @@
     </LexicalEntry>
     <LexicalEntry id="L640292">
       <Lemma writtenForm="wanda" partOfSpeech="h"/>
+      <Form writtenForm="wadda"/>
+      <Form writtenForm="wacce"/>
+      <Form writtenForm="waɗanda"/>
       <Sense id="L640292-S1" synset="wikidata-ha-L640292-S1" ili="wikidata-ha-L640292-S1">
         <Definition>that which, the one who</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1248495">
       <Lemma writtenForm="in" partOfSpeech="h"/>
+      <Form writtenForm="na"/>
+      <Form writtenForm="ina"/>
+      <Form writtenForm="nake"/>
+      <Form writtenForm="nakan"/>
+      <Form writtenForm="zan"/>
       <Sense id="L1248495-S1" synset="wikidata-ha-L1248495-S1" ili="wikidata-ha-L1248495-S1">
         <Definition>I (first person singular subject)</Definition>
       </Sense>
@@ -142,6 +170,13 @@
     </LexicalEntry>
     <LexicalEntry id="L524161">
       <Lemma writtenForm="mu" partOfSpeech="h"/>
+      <Form writtenForm="mun"/>
+      <Form writtenForm="muka"/>
+      <Form writtenForm="muna"/>
+      <Form writtenForm="muke"/>
+      <Form writtenForm="mukan"/>
+      <Form writtenForm="za mu"/>
+      <Form writtenForm="ma"/>
       <Sense id="L524161-S1" synset="wikidata-ha-L524161-S1" ili="wikidata-ha-L524161-S1">
         <Definition>we</Definition>
       </Sense>
@@ -160,6 +195,8 @@
     </LexicalEntry>
     <LexicalEntry id="L624580">
       <Lemma writtenForm="nawa" partOfSpeech="h"/>
+      <Form writtenForm="tawa"/>
+      <Form writtenForm="a"/>
       <Sense id="L624580-S1" synset="wikidata-ha-L624580-S1" ili="wikidata-ha-L624580-S1">
         <Definition>my</Definition>
       </Sense>
@@ -172,12 +209,19 @@
     </LexicalEntry>
     <LexicalEntry id="L1290929">
       <Lemma writtenForm="ka" partOfSpeech="h"/>
+      <Form writtenForm="kana"/>
+      <Form writtenForm="kake"/>
+      <Form writtenForm="za ka"/>
+      <Form writtenForm="kakan"/>
       <Sense id="L1290929-S1" synset="wikidata-ha-L1290929-S1" ili="wikidata-ha-L1290929-S1">
         <Definition>(second-person singular masculine subject pronoun)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1291113">
       <Lemma writtenForm="n" partOfSpeech="c"/>
+      <Form writtenForm="in"/>
+      <Form writtenForm="r"/>
+      <Form writtenForm="t"/>
       <Sense id="L1291113-S1" synset="wikidata-ha-L1291113-S1" ili="wikidata-ha-L1291113-S1">
         <Definition>(links preceding attribute to following nominal)</Definition>
       </Sense>
@@ -190,6 +234,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1310018">
       <Lemma writtenForm="mai" partOfSpeech="p"/>
+      <Form writtenForm="masu"/>
       <Sense id="L1310018-S1" synset="wikidata-ha-L1310018-S1" ili="wikidata-ha-L1310018-S1">
         <Definition>having or being characterized by</Definition>
       </Sense>
@@ -199,6 +244,9 @@
     </LexicalEntry>
     <LexicalEntry id="L524367">
       <Lemma writtenForm="wani" partOfSpeech="h"/>
+      <Form writtenForm="wata"/>
+      <Form writtenForm="wasu"/>
+      <Form writtenForm="waɗansu"/>
       <Sense id="L524367-S1" synset="wikidata-ha-L524367-S1" ili="wikidata-ha-L524367-S1">
         <Definition>some, someone</Definition>
       </Sense>
@@ -260,12 +308,6 @@
         <Definition>Somewhere</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1307597">
-      <Lemma writtenForm="da" partOfSpeech="c"/>
-      <Sense id="L1307597-S1" synset="wikidata-ha-L1307597-S1" ili="wikidata-ha-L1307597-S1">
-        <Definition>there is, there are</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1380826">
       <Lemma writtenForm="ya" partOfSpeech="p"/>
       <Sense id="L1380826-S1" synset="wikidata-ha-L1380826-S1" ili="wikidata-ha-L1380826-S1">
@@ -274,6 +316,11 @@
     </LexicalEntry>
     <LexicalEntry id="L1523723">
       <Lemma writtenForm="a" partOfSpeech="h"/>
+      <Form writtenForm="an"/>
+      <Form writtenForm="aka"/>
+      <Form writtenForm="ana"/>
+      <Form writtenForm="ake"/>
+      <Form writtenForm="za a"/>
       <Sense id="L1523723-S1" synset="wikidata-ha-L1523723-S1" ili="wikidata-ha-L1523723-S1">
         <Definition>(impersonal subject pronoun)</Definition>
       </Sense>
@@ -292,6 +339,7 @@
     </LexicalEntry>
     <LexicalEntry id="L640294">
       <Lemma writtenForm="wannan" partOfSpeech="d"/>
+      <Form writtenForm="waɗannan"/>
       <Sense id="L640294-S2" synset="wikidata-ha-L640294-S2" ili="wikidata-ha-L640294-S2">
         <Definition>this, this one, these</Definition>
       </Sense>
@@ -304,12 +352,19 @@
     </LexicalEntry>
     <LexicalEntry id="L1525155">
       <Lemma writtenForm="ya" partOfSpeech="h"/>
+      <Form writtenForm="yana"/>
+      <Form writtenForm="yake"/>
+      <Form writtenForm="zai"/>
+      <Form writtenForm="yakan"/>
       <Sense id="L1525155-S1" synset="wikidata-ha-L1525155-S1" ili="wikidata-ha-L1525155-S1">
         <Definition>he (third-person masculine singular subject pronoun)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L524176">
       <Lemma writtenForm="shi" partOfSpeech="h"/>
+      <Form writtenForm="masa"/>
+      <Form writtenForm="mishi"/>
+      <Form writtenForm="mar"/>
       <Sense id="L524176-S1" synset="wikidata-ha-L524176-S1" ili="wikidata-ha-L524176-S1">
         <Definition>he</Definition>
       </Sense>
@@ -481,9 +536,6 @@
     </Synset>
     <Synset id="wikidata-ha-L643100-S1" ili="wikidata-ha-L643100-S1" partOfSpeech="h">
       <Definition>Somewhere</Definition>
-    </Synset>
-    <Synset id="wikidata-ha-L1307597-S1" ili="wikidata-ha-L1307597-S1" partOfSpeech="c">
-      <Definition>there is, there are</Definition>
     </Synset>
     <Synset id="wikidata-ha-L1380826-S1" ili="wikidata-ha-L1380826-S1" partOfSpeech="p">
       <Definition>just like, equivalent to</Definition>

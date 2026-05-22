@@ -47,12 +47,20 @@
     </LexicalEntry>
     <LexicalEntry id="L31546">
       <Lemma writtenForm="ніхто" partOfSpeech="h"/>
+      <Form writtenForm="нікого"/>
+      <Form writtenForm="нікому"/>
+      <Form writtenForm="ніким"/>
       <Sense id="L31546-S1" synset="wikidata-uk-L31546-S1" ili="wikidata-uk-L31546-S1">
         <Definition>відсутність когось</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L10906">
       <Lemma writtenForm="Ковальчук" partOfSpeech="n"/>
+      <Form writtenForm="Ковальчуки"/>
+      <Form writtenForm="Ковальчука"/>
+      <Form writtenForm="Ковальчуків"/>
+      <Form writtenForm="Ковальчуку"/>
+      <Form writtenForm="Ковальчукам"/>
       <Sense id="L10906-S1" synset="wikidata-uk-L10906-S1" ili="wikidata-uk-L10906-S1">
         <Definition>украинская фамилия</Definition>
       </Sense>
@@ -83,6 +91,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1333155">
       <Lemma writtenForm="вони" partOfSpeech="h"/>
+      <Form writtenForm="їх"/>
+      <Form writtenForm="їм"/>
+      <Form writtenForm="ними"/>
+      <Form writtenForm="них"/>
       <Sense id="L1333155-S1" synset="wikidata-uk-L1333155-S1" ili="l371-s2">
         <Definition>позначає предмет мовлення, виражений іменником у множині до або після цього займенника</Definition>
       </Sense>
@@ -92,6 +104,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1490646">
       <Lemma writtenForm="Чмих" partOfSpeech="n"/>
+      <Form writtenForm="Чмиха"/>
+      <Form writtenForm="Чмиху"/>
+      <Form writtenForm="Чмихові"/>
+      <Form writtenForm="Чмихом"/>
+      <Form writtenForm="Чмихи"/>
+      <Form writtenForm="Чмихів"/>
+      <Form writtenForm="Чмихам"/>
+      <Form writtenForm="Чмихами"/>
+      <Form writtenForm="Чмихах"/>
       <Sense id="L1490646-S1" synset="wikidata-uk-L1490646-S1" ili="wikidata-uk-L1490646-S1">
         <Definition>українське прізвище</Definition>
       </Sense>
@@ -119,6 +140,32 @@
     </LexicalEntry>
     <LexicalEntry id="L31592">
       <Lemma writtenForm="один" partOfSpeech="m"/>
+      <Form writtenForm="одного"/>
+      <Form writtenForm="одному"/>
+      <Form writtenForm="одним"/>
+      <Form writtenForm="одна"/>
+      <Form writtenForm="одної"/>
+      <Form writtenForm="одній"/>
+      <Form writtenForm="одну"/>
+      <Form writtenForm="одною"/>
+      <Form writtenForm="одне"/>
+      <Form writtenForm="одні"/>
+      <Form writtenForm="одних"/>
+      <Form writtenForm="одними"/>
+      <Form writtenForm="перший"/>
+      <Form writtenForm="першого"/>
+      <Form writtenForm="першому"/>
+      <Form writtenForm="першим"/>
+      <Form writtenForm="перша"/>
+      <Form writtenForm="першої"/>
+      <Form writtenForm="першій"/>
+      <Form writtenForm="першу"/>
+      <Form writtenForm="першою"/>
+      <Form writtenForm="перше"/>
+      <Form writtenForm="перші"/>
+      <Form writtenForm="перших"/>
+      <Form writtenForm="першими"/>
+      <Form writtenForm="одно"/>
       <Sense id="L31592-S1" synset="wikidata-uk-L31592-S1" ili="l327-s1">
         <Definition>числівник, що означає число 1</Definition>
       </Sense>

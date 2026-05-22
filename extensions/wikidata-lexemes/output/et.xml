@@ -22,6 +22,40 @@
     </LexicalEntry>
     <LexicalEntry id="L363902">
       <Lemma writtenForm="kolm" partOfSpeech="m"/>
+      <Form writtenForm="kolme"/>
+      <Form writtenForm="kolmesse"/>
+      <Form writtenForm="kolmes"/>
+      <Form writtenForm="kolmest"/>
+      <Form writtenForm="kolmele"/>
+      <Form writtenForm="kolmel"/>
+      <Form writtenForm="kolmelt"/>
+      <Form writtenForm="kolmeks"/>
+      <Form writtenForm="kolmeni"/>
+      <Form writtenForm="kolmena"/>
+      <Form writtenForm="kolmeta"/>
+      <Form writtenForm="kolmega"/>
+      <Form writtenForm="kolmed"/>
+      <Form writtenForm="kolmede"/>
+      <Form writtenForm="kolmi"/>
+      <Form writtenForm="kolmesid"/>
+      <Form writtenForm="kolmisse"/>
+      <Form writtenForm="kolmedesse"/>
+      <Form writtenForm="kolmedes"/>
+      <Form writtenForm="kolmis"/>
+      <Form writtenForm="kolmedest"/>
+      <Form writtenForm="kolmist"/>
+      <Form writtenForm="kolmedele"/>
+      <Form writtenForm="kolmile"/>
+      <Form writtenForm="kolmil"/>
+      <Form writtenForm="kolmedel"/>
+      <Form writtenForm="kolmedelt"/>
+      <Form writtenForm="kolmilt"/>
+      <Form writtenForm="kolmedeks"/>
+      <Form writtenForm="kolmiks"/>
+      <Form writtenForm="kolmedeni"/>
+      <Form writtenForm="kolmedena"/>
+      <Form writtenForm="kolmedeta"/>
+      <Form writtenForm="kolmedega"/>
       <Sense id="L363902-S1" synset="wikidata-et-L363902-S1" ili="wikidata-et-L363902-S1">
         <Definition>three</Definition>
       </Sense>
@@ -78,6 +112,26 @@
     </LexicalEntry>
     <LexicalEntry id="L374881">
       <Lemma writtenForm="need" partOfSpeech="h"/>
+      <Form writtenForm="nende"/>
+      <Form writtenForm="neid"/>
+      <Form writtenForm="nendesse"/>
+      <Form writtenForm="neisse"/>
+      <Form writtenForm="nendes"/>
+      <Form writtenForm="neis"/>
+      <Form writtenForm="neist"/>
+      <Form writtenForm="nendest"/>
+      <Form writtenForm="nendele"/>
+      <Form writtenForm="neile"/>
+      <Form writtenForm="neil"/>
+      <Form writtenForm="nendel"/>
+      <Form writtenForm="neilt"/>
+      <Form writtenForm="nendelt"/>
+      <Form writtenForm="nendeks"/>
+      <Form writtenForm="neiks"/>
+      <Form writtenForm="nendeni"/>
+      <Form writtenForm="nendena"/>
+      <Form writtenForm="nendeta"/>
+      <Form writtenForm="nendega"/>
       <Sense id="L374881-S1" synset="wikidata-et-L374881-S1" ili="wikidata-et-L374881-S1">
         <Definition>these, those</Definition>
       </Sense>
@@ -102,18 +156,108 @@
     </LexicalEntry>
     <LexicalEntry id="L399131">
       <Lemma writtenForm="üks" partOfSpeech="m"/>
+      <Form writtenForm="ühe"/>
+      <Form writtenForm="ühte"/>
+      <Form writtenForm="üht"/>
+      <Form writtenForm="ühesse"/>
+      <Form writtenForm="ühes"/>
+      <Form writtenForm="ühest"/>
+      <Form writtenForm="ühele"/>
+      <Form writtenForm="ühel"/>
+      <Form writtenForm="ühelt"/>
+      <Form writtenForm="üheks"/>
+      <Form writtenForm="üheni"/>
+      <Form writtenForm="ühena"/>
+      <Form writtenForm="üheta"/>
+      <Form writtenForm="ühega"/>
+      <Form writtenForm="ühed"/>
+      <Form writtenForm="ühtede"/>
+      <Form writtenForm="ühtesid"/>
+      <Form writtenForm="ühtedesse"/>
+      <Form writtenForm="ühtedes"/>
+      <Form writtenForm="ühtedest"/>
+      <Form writtenForm="ühtedele"/>
+      <Form writtenForm="ühtedel"/>
+      <Form writtenForm="ühtedelt"/>
+      <Form writtenForm="ühtedeks"/>
+      <Form writtenForm="ühtedeni"/>
+      <Form writtenForm="ühtedena"/>
+      <Form writtenForm="ühtedeta"/>
+      <Form writtenForm="ühtedega"/>
       <Sense id="L399131-S1" synset="wikidata-et-L399131-S1" ili="wikidata-et-L399131-S1">
         <Definition>one</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L212">
       <Lemma writtenForm="sada" partOfSpeech="m"/>
+      <Form writtenForm="saja"/>
+      <Form writtenForm="sadat"/>
+      <Form writtenForm="sajasse"/>
+      <Form writtenForm="sajas"/>
+      <Form writtenForm="sajast"/>
+      <Form writtenForm="sajale"/>
+      <Form writtenForm="sajal"/>
+      <Form writtenForm="sajalt"/>
+      <Form writtenForm="sajaks"/>
+      <Form writtenForm="sajani"/>
+      <Form writtenForm="sajana"/>
+      <Form writtenForm="sajata"/>
+      <Form writtenForm="sajaga"/>
+      <Form writtenForm="sajad"/>
+      <Form writtenForm="sadade"/>
+      <Form writtenForm="sadasid"/>
+      <Form writtenForm="sadu"/>
+      <Form writtenForm="sadadesse"/>
+      <Form writtenForm="sadades"/>
+      <Form writtenForm="sadadest"/>
+      <Form writtenForm="sadadele"/>
+      <Form writtenForm="sadadel"/>
+      <Form writtenForm="sadadelt"/>
+      <Form writtenForm="sadadeks"/>
+      <Form writtenForm="sadadeni"/>
+      <Form writtenForm="sadadena"/>
+      <Form writtenForm="sadadeta"/>
+      <Form writtenForm="sadadega"/>
       <Sense id="L212-S1" synset="wikidata-et-L212-S1" ili="wikidata-et-L212-S1">
         <Definition>100</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L214">
       <Lemma writtenForm="kümme" partOfSpeech="m"/>
+      <Form writtenForm="kümne"/>
+      <Form writtenForm="kümmet"/>
+      <Form writtenForm="kümnesse"/>
+      <Form writtenForm="kümnes"/>
+      <Form writtenForm="kümnest"/>
+      <Form writtenForm="kümnele"/>
+      <Form writtenForm="kümnel"/>
+      <Form writtenForm="kümnelt"/>
+      <Form writtenForm="kümneks"/>
+      <Form writtenForm="kümneni"/>
+      <Form writtenForm="kümnena"/>
+      <Form writtenForm="kümneta"/>
+      <Form writtenForm="kümnega"/>
+      <Form writtenForm="kümned"/>
+      <Form writtenForm="kümnete"/>
+      <Form writtenForm="kümneid"/>
+      <Form writtenForm="kümnetesse"/>
+      <Form writtenForm="kümneisse"/>
+      <Form writtenForm="kümnetes"/>
+      <Form writtenForm="kümneis"/>
+      <Form writtenForm="kümneist"/>
+      <Form writtenForm="kümnetest"/>
+      <Form writtenForm="kümneile"/>
+      <Form writtenForm="kümnetele"/>
+      <Form writtenForm="kümnetel"/>
+      <Form writtenForm="kümneil"/>
+      <Form writtenForm="kümnetelt"/>
+      <Form writtenForm="kümneilt"/>
+      <Form writtenForm="kümneiks"/>
+      <Form writtenForm="kümneteks"/>
+      <Form writtenForm="kümneteni"/>
+      <Form writtenForm="kümnetena"/>
+      <Form writtenForm="kümneteta"/>
+      <Form writtenForm="kümnetega"/>
       <Sense id="L214-S1" synset="wikidata-et-L214-S1" ili="wikidata-et-L214-S1">
         <Definition>ten</Definition>
       </Sense>
@@ -145,14 +289,33 @@
         <Definition>(expression of wonder or surprise)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L350122">
-      <Lemma writtenForm="alates" partOfSpeech="p"/>
-      <Sense id="L350122-S1" synset="wikidata-et-L350122-S1" ili="wikidata-et-L350122-S1">
-        <Definition>since</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L353942">
       <Lemma writtenForm="enese" partOfSpeech="h"/>
+      <Form writtenForm="ennast"/>
+      <Form writtenForm="enesesse"/>
+      <Form writtenForm="eneses"/>
+      <Form writtenForm="enesest"/>
+      <Form writtenForm="enesele"/>
+      <Form writtenForm="enesel"/>
+      <Form writtenForm="eneselt"/>
+      <Form writtenForm="eneseks"/>
+      <Form writtenForm="eneseni"/>
+      <Form writtenForm="enesena"/>
+      <Form writtenForm="eneseta"/>
+      <Form writtenForm="enesega"/>
+      <Form writtenForm="eneste"/>
+      <Form writtenForm="endid"/>
+      <Form writtenForm="enestesse"/>
+      <Form writtenForm="enestes"/>
+      <Form writtenForm="enestest"/>
+      <Form writtenForm="enestele"/>
+      <Form writtenForm="enestel"/>
+      <Form writtenForm="enestelt"/>
+      <Form writtenForm="enesteks"/>
+      <Form writtenForm="enesteni"/>
+      <Form writtenForm="enestena"/>
+      <Form writtenForm="enesteta"/>
+      <Form writtenForm="enestega"/>
       <Sense id="L353942-S1" synset="wikidata-et-L353942-S1" ili="wikidata-et-L353942-S1">
         <Definition>(reflexive pronoun)</Definition>
       </Sense>
@@ -178,6 +341,26 @@
     </LexicalEntry>
     <LexicalEntry id="L386643">
       <Lemma writtenForm="sina" partOfSpeech="h"/>
+      <Form writtenForm="sinu"/>
+      <Form writtenForm="sind"/>
+      <Form writtenForm="sinusse"/>
+      <Form writtenForm="sinus"/>
+      <Form writtenForm="sinust"/>
+      <Form writtenForm="sinule"/>
+      <Form writtenForm="sinul"/>
+      <Form writtenForm="sinult"/>
+      <Form writtenForm="sinuks"/>
+      <Form writtenForm="sinuni"/>
+      <Form writtenForm="sinuna"/>
+      <Form writtenForm="sinuta"/>
+      <Form writtenForm="sinuga"/>
+      <Form writtenForm="teie"/>
+      <Form writtenForm="teid"/>
+      <Form writtenForm="teieks"/>
+      <Form writtenForm="teieni"/>
+      <Form writtenForm="teiena"/>
+      <Form writtenForm="teieta"/>
+      <Form writtenForm="teiega"/>
       <Sense id="L386643-S1" synset="wikidata-et-L386643-S1" ili="wikidata-et-L386643-S1">
         <Definition>second person singular, you</Definition>
       </Sense>
@@ -190,6 +373,40 @@
     </LexicalEntry>
     <LexicalEntry id="L271">
       <Lemma writtenForm="seitse" partOfSpeech="m"/>
+      <Form writtenForm="seitsme"/>
+      <Form writtenForm="seitset"/>
+      <Form writtenForm="seitsmesse"/>
+      <Form writtenForm="seitsmes"/>
+      <Form writtenForm="seitsmest"/>
+      <Form writtenForm="seitsmele"/>
+      <Form writtenForm="seitsmel"/>
+      <Form writtenForm="seitsmelt"/>
+      <Form writtenForm="seitsmeks"/>
+      <Form writtenForm="seitsmeni"/>
+      <Form writtenForm="seitsmena"/>
+      <Form writtenForm="seitsmeta"/>
+      <Form writtenForm="seitsmega"/>
+      <Form writtenForm="seitsmed"/>
+      <Form writtenForm="seitsmete"/>
+      <Form writtenForm="seitsmeid"/>
+      <Form writtenForm="seitsmetesse"/>
+      <Form writtenForm="seitsmeisse"/>
+      <Form writtenForm="seitsmeis"/>
+      <Form writtenForm="seitsmetes"/>
+      <Form writtenForm="seitsmeist"/>
+      <Form writtenForm="seitsmetest"/>
+      <Form writtenForm="seitsmeile"/>
+      <Form writtenForm="seitsmetele"/>
+      <Form writtenForm="seitsmetel"/>
+      <Form writtenForm="seitsmeil"/>
+      <Form writtenForm="seitsmeilt"/>
+      <Form writtenForm="seitsmetelt"/>
+      <Form writtenForm="seitsmeteks"/>
+      <Form writtenForm="seitsmeiks"/>
+      <Form writtenForm="seitsmeteni"/>
+      <Form writtenForm="seitsmetena"/>
+      <Form writtenForm="seitsmeteta"/>
+      <Form writtenForm="seitsmetega"/>
       <Sense id="L271-S1" synset="wikidata-et-L271-S1" ili="wikidata-et-L271-S1">
         <Definition>seven</Definition>
       </Sense>
@@ -227,6 +444,40 @@
     </LexicalEntry>
     <LexicalEntry id="L372990">
       <Lemma writtenForm="miljon" partOfSpeech="m"/>
+      <Form writtenForm="miljoni"/>
+      <Form writtenForm="miljonit"/>
+      <Form writtenForm="miljonisse"/>
+      <Form writtenForm="miljonis"/>
+      <Form writtenForm="miljonist"/>
+      <Form writtenForm="miljonile"/>
+      <Form writtenForm="miljonil"/>
+      <Form writtenForm="miljonilt"/>
+      <Form writtenForm="miljoniks"/>
+      <Form writtenForm="miljonini"/>
+      <Form writtenForm="miljonina"/>
+      <Form writtenForm="miljonita"/>
+      <Form writtenForm="miljoniga"/>
+      <Form writtenForm="miljonid"/>
+      <Form writtenForm="miljonite"/>
+      <Form writtenForm="miljoneid"/>
+      <Form writtenForm="miljonitesse"/>
+      <Form writtenForm="miljoneisse"/>
+      <Form writtenForm="miljoneis"/>
+      <Form writtenForm="miljonites"/>
+      <Form writtenForm="miljoneist"/>
+      <Form writtenForm="miljonitest"/>
+      <Form writtenForm="miljoneile"/>
+      <Form writtenForm="miljonitele"/>
+      <Form writtenForm="miljonitel"/>
+      <Form writtenForm="miljoneil"/>
+      <Form writtenForm="miljoneilt"/>
+      <Form writtenForm="miljonitelt"/>
+      <Form writtenForm="miljoniteks"/>
+      <Form writtenForm="miljoneiks"/>
+      <Form writtenForm="miljoniteni"/>
+      <Form writtenForm="miljonitena"/>
+      <Form writtenForm="miljoniteta"/>
+      <Form writtenForm="miljonitega"/>
       <Sense id="L372990-S1" synset="wikidata-et-L372990-S1" ili="wikidata-et-L372990-S1">
         <Definition>(one) million, 1 000 000</Definition>
       </Sense>
@@ -240,6 +491,39 @@
     </LexicalEntry>
     <LexicalEntry id="L385927">
       <Lemma writtenForm="sekstiljon" partOfSpeech="m"/>
+      <Form writtenForm="sekstiljoni"/>
+      <Form writtenForm="sekstiljonisse"/>
+      <Form writtenForm="sekstiljonis"/>
+      <Form writtenForm="sekstiljonist"/>
+      <Form writtenForm="sekstiljonile"/>
+      <Form writtenForm="sekstiljonil"/>
+      <Form writtenForm="sekstiljonilt"/>
+      <Form writtenForm="sekstiljoniks"/>
+      <Form writtenForm="sekstiljonini"/>
+      <Form writtenForm="sekstiljonina"/>
+      <Form writtenForm="sekstiljonita"/>
+      <Form writtenForm="sekstiljoniga"/>
+      <Form writtenForm="sekstiljonid"/>
+      <Form writtenForm="sekstiljonide"/>
+      <Form writtenForm="sekstiljone"/>
+      <Form writtenForm="sekstiljonidesse"/>
+      <Form writtenForm="sekstiljonesse"/>
+      <Form writtenForm="sekstiljonides"/>
+      <Form writtenForm="sekstiljones"/>
+      <Form writtenForm="sekstiljonidest"/>
+      <Form writtenForm="sekstiljonest"/>
+      <Form writtenForm="sekstiljonidele"/>
+      <Form writtenForm="sekstiljonele"/>
+      <Form writtenForm="sekstiljonidel"/>
+      <Form writtenForm="sekstiljonel"/>
+      <Form writtenForm="sekstiljonidelt"/>
+      <Form writtenForm="sekstiljonelt"/>
+      <Form writtenForm="sekstiljonideks"/>
+      <Form writtenForm="sekstiljoneks"/>
+      <Form writtenForm="sekstiljonideni"/>
+      <Form writtenForm="sekstiljonidena"/>
+      <Form writtenForm="sekstiljonideta"/>
+      <Form writtenForm="sekstiljonidega"/>
       <Sense id="L385927-S1" synset="wikidata-et-L385927-S1" ili="wikidata-et-L385927-S1">
         <Definition>sextillion (either 10^21 or 10^36)</Definition>
       </Sense>
@@ -276,6 +560,26 @@
     </LexicalEntry>
     <LexicalEntry id="L373017">
       <Lemma writtenForm="mina" partOfSpeech="h"/>
+      <Form writtenForm="minu"/>
+      <Form writtenForm="mind"/>
+      <Form writtenForm="minusse"/>
+      <Form writtenForm="minus"/>
+      <Form writtenForm="minust"/>
+      <Form writtenForm="minule"/>
+      <Form writtenForm="minul"/>
+      <Form writtenForm="minult"/>
+      <Form writtenForm="minuks"/>
+      <Form writtenForm="minuni"/>
+      <Form writtenForm="minuna"/>
+      <Form writtenForm="minuta"/>
+      <Form writtenForm="minuga"/>
+      <Form writtenForm="meie"/>
+      <Form writtenForm="meid"/>
+      <Form writtenForm="meieks"/>
+      <Form writtenForm="meieni"/>
+      <Form writtenForm="meiena"/>
+      <Form writtenForm="meieta"/>
+      <Form writtenForm="meiega"/>
       <Sense id="L373017-S1" synset="wikidata-et-L373017-S1" ili="wikidata-et-L373017-S1">
         <Definition>I (first-person singular pronoun)</Definition>
       </Sense>
@@ -289,12 +593,72 @@
     </LexicalEntry>
     <LexicalEntry id="L377110">
       <Lemma writtenForm="paar" partOfSpeech="h"/>
+      <Form writtenForm="paari"/>
+      <Form writtenForm="paarisse"/>
+      <Form writtenForm="paaris"/>
+      <Form writtenForm="paarist"/>
+      <Form writtenForm="paarile"/>
+      <Form writtenForm="paaril"/>
+      <Form writtenForm="paarilt"/>
+      <Form writtenForm="paariks"/>
+      <Form writtenForm="paarini"/>
+      <Form writtenForm="paarina"/>
+      <Form writtenForm="paarita"/>
+      <Form writtenForm="paariga"/>
+      <Form writtenForm="paarid"/>
+      <Form writtenForm="paaride"/>
+      <Form writtenForm="paare"/>
+      <Form writtenForm="paarisid"/>
+      <Form writtenForm="paaridesse"/>
+      <Form writtenForm="paaresse"/>
+      <Form writtenForm="paares"/>
+      <Form writtenForm="paarides"/>
+      <Form writtenForm="paarest"/>
+      <Form writtenForm="paaridest"/>
+      <Form writtenForm="paarele"/>
+      <Form writtenForm="paaridele"/>
+      <Form writtenForm="paarel"/>
+      <Form writtenForm="paaridel"/>
+      <Form writtenForm="paaridelt"/>
+      <Form writtenForm="paarelt"/>
+      <Form writtenForm="paarideks"/>
+      <Form writtenForm="paareks"/>
+      <Form writtenForm="paarideni"/>
+      <Form writtenForm="paaridena"/>
+      <Form writtenForm="paarideta"/>
+      <Form writtenForm="paaridega"/>
       <Sense id="L377110-S1" synset="wikidata-et-L377110-S1" ili="wikidata-et-L377110-S1">
         <Definition>a few (e.g. two or three)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L377573">
       <Lemma writtenForm="palju" partOfSpeech="h"/>
+      <Form writtenForm="paljut"/>
+      <Form writtenForm="paljusse"/>
+      <Form writtenForm="paljus"/>
+      <Form writtenForm="paljust"/>
+      <Form writtenForm="paljule"/>
+      <Form writtenForm="paljul"/>
+      <Form writtenForm="paljult"/>
+      <Form writtenForm="paljuks"/>
+      <Form writtenForm="paljuni"/>
+      <Form writtenForm="paljuna"/>
+      <Form writtenForm="paljuta"/>
+      <Form writtenForm="paljuga"/>
+      <Form writtenForm="paljud"/>
+      <Form writtenForm="paljude"/>
+      <Form writtenForm="paljusid"/>
+      <Form writtenForm="paljudesse"/>
+      <Form writtenForm="paljudes"/>
+      <Form writtenForm="paljudest"/>
+      <Form writtenForm="paljudele"/>
+      <Form writtenForm="paljudel"/>
+      <Form writtenForm="paljudelt"/>
+      <Form writtenForm="paljudeks"/>
+      <Form writtenForm="paljudeni"/>
+      <Form writtenForm="paljudena"/>
+      <Form writtenForm="paljudeta"/>
+      <Form writtenForm="paljudega"/>
       <Sense id="L377573-S1" synset="wikidata-et-L377573-S1" ili="wikidata-et-L377573-S1">
         <Definition>many</Definition>
       </Sense>
@@ -307,12 +671,57 @@
     </LexicalEntry>
     <LexicalEntry id="L385669">
       <Lemma writtenForm="see" partOfSpeech="h"/>
+      <Form writtenForm="selle"/>
+      <Form writtenForm="seda"/>
+      <Form writtenForm="sellesse"/>
+      <Form writtenForm="sesse"/>
+      <Form writtenForm="ses"/>
+      <Form writtenForm="selles"/>
+      <Form writtenForm="sellest"/>
+      <Form writtenForm="sest"/>
+      <Form writtenForm="sellele"/>
+      <Form writtenForm="sellel"/>
+      <Form writtenForm="sel"/>
+      <Form writtenForm="selt"/>
+      <Form writtenForm="sellelt"/>
+      <Form writtenForm="seks"/>
+      <Form writtenForm="selleks"/>
+      <Form writtenForm="selleni"/>
+      <Form writtenForm="sellena"/>
+      <Form writtenForm="selleta"/>
+      <Form writtenForm="sellega"/>
       <Sense id="L385669-S1" synset="wikidata-et-L385669-S1" ili="wikidata-et-L385669-S1">
         <Definition>it</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L390838">
       <Lemma writtenForm="tema" partOfSpeech="h"/>
+      <Form writtenForm="teda"/>
+      <Form writtenForm="temasse"/>
+      <Form writtenForm="temas"/>
+      <Form writtenForm="temast"/>
+      <Form writtenForm="temale"/>
+      <Form writtenForm="temal"/>
+      <Form writtenForm="temalt"/>
+      <Form writtenForm="temaks"/>
+      <Form writtenForm="temani"/>
+      <Form writtenForm="temana"/>
+      <Form writtenForm="temata"/>
+      <Form writtenForm="temaga"/>
+      <Form writtenForm="nemad"/>
+      <Form writtenForm="nende"/>
+      <Form writtenForm="neid"/>
+      <Form writtenForm="nendesse"/>
+      <Form writtenForm="nendes"/>
+      <Form writtenForm="nendest"/>
+      <Form writtenForm="nendele"/>
+      <Form writtenForm="nendel"/>
+      <Form writtenForm="nendelt"/>
+      <Form writtenForm="nendeks"/>
+      <Form writtenForm="nendeni"/>
+      <Form writtenForm="nendena"/>
+      <Form writtenForm="nendeta"/>
+      <Form writtenForm="nendega"/>
       <Sense id="L390838-S1" synset="wikidata-et-L390838-S1" ili="wikidata-et-L390838-S1">
         <Definition>(third-person singular animate pronoun)</Definition>
       </Sense>
@@ -406,9 +815,6 @@
     </Synset>
     <Synset id="wikidata-et-L361244-S1" ili="wikidata-et-L361244-S1" partOfSpeech="i">
       <Definition>(expression of wonder or surprise)</Definition>
-    </Synset>
-    <Synset id="wikidata-et-L350122-S1" ili="wikidata-et-L350122-S1" partOfSpeech="p">
-      <Definition>since</Definition>
     </Synset>
     <Synset id="wikidata-et-L353942-S1" ili="wikidata-et-L353942-S1" partOfSpeech="h">
       <Definition>(reflexive pronoun)</Definition>

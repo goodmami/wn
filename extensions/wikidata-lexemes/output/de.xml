@@ -31,6 +31,9 @@
     </LexicalEntry>
     <LexicalEntry id="L41653">
       <Lemma writtenForm="sie" partOfSpeech="h"/>
+      <Form writtenForm="ihrer"/>
+      <Form writtenForm="ihr"/>
+      <Form writtenForm="sich"/>
       <Sense id="L41653-S1" synset="wikidata-de-L41653-S1" ili="l484-s1">
         <Definition>weibliche Person, die zuvor erwähnt wurde oder deren Identität sonstig bekannt ist</Definition>
       </Sense>
@@ -148,6 +151,11 @@
     </LexicalEntry>
     <LexicalEntry id="L411092">
       <Lemma writtenForm="unser" partOfSpeech="h"/>
+      <Form writtenForm="unserer"/>
+      <Form writtenForm="unsere"/>
+      <Form writtenForm="unseres"/>
+      <Form writtenForm="unseren"/>
+      <Form writtenForm="unserem"/>
       <Sense id="L411092-S1" synset="wikidata-de-L411092-S1" ili="wikidata-de-L411092-S1">
         <Definition>ours</Definition>
       </Sense>
@@ -352,6 +360,9 @@
     </LexicalEntry>
     <LexicalEntry id="L226822">
       <Lemma writtenForm="wer" partOfSpeech="h"/>
+      <Form writtenForm="wessen"/>
+      <Form writtenForm="wem"/>
+      <Form writtenForm="wen"/>
       <Sense id="L226822-S1" synset="wikidata-de-L226822-S1" ili="wikidata-de-L226822-S1">
         <Definition>interrogative pronoun or question asking for the identity of one or several persons</Definition>
       </Sense>
@@ -364,6 +375,9 @@
     </LexicalEntry>
     <LexicalEntry id="L344332">
       <Lemma writtenForm="ebensolch" partOfSpeech="h"/>
+      <Form writtenForm="ebensolcher"/>
+      <Form writtenForm="ebensolche"/>
+      <Form writtenForm="ebensolches"/>
       <Sense id="L344332-S1" synset="wikidata-de-L344332-S1" ili="wikidata-de-L344332-S1">
         <Definition>genau solcher, solche, solches</Definition>
       </Sense>
@@ -633,13 +647,6 @@
         <Definition>sound of bells ringing</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1218503">
-      <Lemma writtenForm="Hals und Beinbruch" partOfSpeech="i"/>
-      <Sense id="L1218503-S1" synset="wikidata-de-L1218503-S1" ili="l1218499-s1">
-        <Definition>used to wish someone the best of luck and that events will turn out in favorably</Definition>
-        <SenseRelation relType="similar" target="wikidata-de-L1218502-S1"/>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1332007">
       <Lemma writtenForm="was ist das?" partOfSpeech="x"/>
       <Sense id="L1332007-S1" synset="wikidata-de-L1332007-S1" ili="wikidata-de-L1332007-S1">
@@ -648,6 +655,7 @@
     </LexicalEntry>
     <LexicalEntry id="L6750">
       <Lemma writtenForm="aufgrund" partOfSpeech="p"/>
+      <Form writtenForm="auf Grund"/>
       <Sense id="L6750-S1" synset="wikidata-de-L6750-S1" ili="wikidata-de-L6750-S1">
         <Definition>because of</Definition>
       </Sense>
@@ -673,6 +681,8 @@
     </LexicalEntry>
     <LexicalEntry id="L248776">
       <Lemma writtenForm="es" partOfSpeech="h"/>
+      <Form writtenForm="ihm"/>
+      <Form writtenForm="sich"/>
       <Sense id="L248776-S1" synset="wikidata-de-L248776-S1" ili="wikidata-de-L248776-S1">
         <Definition>Personalpronomen</Definition>
       </Sense>
@@ -685,12 +695,15 @@
     </LexicalEntry>
     <LexicalEntry id="L302429">
       <Lemma writtenForm="vier" partOfSpeech="m"/>
+      <Form writtenForm="4"/>
       <Sense id="L302429-S1" synset="wikidata-de-L302429-S1" ili="l332-s1">
         <Definition>die natürliche Zahl zwischen Drei und Fünf</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L304140">
       <Lemma writtenForm="wir" partOfSpeech="h"/>
+      <Form writtenForm="uns"/>
+      <Form writtenForm="unser"/>
       <Sense id="L304140-S1" synset="wikidata-de-L304140-S1" ili="wikidata-de-L304140-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
@@ -730,6 +743,11 @@
     </LexicalEntry>
     <LexicalEntry id="L409194">
       <Lemma writtenForm="ein" partOfSpeech="d"/>
+      <Form writtenForm="einem"/>
+      <Form writtenForm="eine"/>
+      <Form writtenForm="einer"/>
+      <Form writtenForm="einen"/>
+      <Form writtenForm="eines"/>
       <Sense id="L409194-S1" synset="wikidata-de-L409194-S1" ili="wikidata-de-L409194-S1">
         <Definition>a; an</Definition>
       </Sense>
@@ -768,12 +786,6 @@
       <Lemma writtenForm="si" partOfSpeech="y"/>
       <Sense id="L411031-S1" synset="wikidata-de-L411031-S1" ili="wikidata-de-L411031-S1">
         <Definition>Tonsilbe</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L411101">
-      <Lemma writtenForm="was" partOfSpeech="h"/>
-      <Sense id="L411101-S1" synset="wikidata-de-L411101-S1" ili="wikidata-de-L411101-S1">
-        <Definition>what</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L411163">
@@ -959,6 +971,8 @@
     </LexicalEntry>
     <LexicalEntry id="L938878">
       <Lemma writtenForm="wau wau" partOfSpeech="i"/>
+      <Form writtenForm="wau, wau"/>
+      <Form writtenForm="wauwau"/>
       <Sense id="L938878-S1" synset="wikidata-de-L938878-S1" ili="wikidata-de-L938878-S1">
         <Definition>immitation of a dog vocalisation</Definition>
       </Sense>
@@ -995,6 +1009,10 @@
     </LexicalEntry>
     <LexicalEntry id="L41654">
       <Lemma writtenForm="er" partOfSpeech="h"/>
+      <Form writtenForm="seiner"/>
+      <Form writtenForm="ihm"/>
+      <Form writtenForm="ihn"/>
+      <Form writtenForm="sich"/>
       <Sense id="L41654-S1" synset="wikidata-de-L41654-S1" ili="l485-s1">
         <Definition>männliche Person, die zuvor erwähnt wurde oder deren Identität sonstig bekannt ist</Definition>
       </Sense>
@@ -1010,12 +1028,17 @@
     </LexicalEntry>
     <LexicalEntry id="L304141">
       <Lemma writtenForm="ihr" partOfSpeech="h"/>
+      <Form writtenForm="euch"/>
+      <Form writtenForm="euer"/>
       <Sense id="L304141-S1" synset="wikidata-de-L304141-S1" ili="wikidata-de-L304141-S1">
         <Definition>second-person plural pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L304143">
       <Lemma writtenForm="Sie" partOfSpeech="h"/>
+      <Form writtenForm="Ihnen"/>
+      <Form writtenForm="Ihrer"/>
+      <Form writtenForm="sich"/>
       <Sense id="L304143-S1" synset="wikidata-de-L304143-S1" ili="wikidata-de-L304143-S1">
         <Definition>second person formal pronoun</Definition>
       </Sense>
@@ -1040,6 +1063,11 @@
     </LexicalEntry>
     <LexicalEntry id="L409187">
       <Lemma writtenForm="kein" partOfSpeech="h"/>
+      <Form writtenForm="keine"/>
+      <Form writtenForm="keinen"/>
+      <Form writtenForm="keinem"/>
+      <Form writtenForm="keines"/>
+      <Form writtenForm="keins"/>
       <Sense id="L409187-S1" synset="wikidata-de-L409187-S1" ili="wikidata-de-L409187-S1">
         <Definition>not a; no</Definition>
       </Sense>
@@ -1082,14 +1110,14 @@
     </LexicalEntry>
     <LexicalEntry id="L411090">
       <Lemma writtenForm="sein" partOfSpeech="h"/>
+      <Form writtenForm="seiner"/>
+      <Form writtenForm="seine"/>
+      <Form writtenForm="seines"/>
+      <Form writtenForm="seins"/>
+      <Form writtenForm="seinen"/>
+      <Form writtenForm="seinem"/>
       <Sense id="L411090-S1" synset="wikidata-de-L411090-S1" ili="wikidata-de-L411090-S1">
         <Definition>his</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L411094">
-      <Lemma writtenForm="ihr" partOfSpeech="h"/>
-      <Sense id="L411094-S1" synset="wikidata-de-L411094-S1" ili="wikidata-de-L411094-S1">
-        <Definition>their</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L451356">
@@ -1191,12 +1219,6 @@
         <Definition>informal goodbye</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L497294">
-      <Lemma writtenForm="wer" partOfSpeech="h"/>
-      <Sense id="L497294-S1" synset="wikidata-de-L497294-S1" ili="wikidata-de-L497294-S1">
-        <Definition>diejenige Person, die</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L610552">
       <Lemma writtenForm="tausendeins" partOfSpeech="m"/>
       <Sense id="L610552-S1" synset="wikidata-de-L610552-S1" ili="wikidata-de-L610552-S1">
@@ -1232,6 +1254,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1409841">
       <Lemma writtenForm="andere" partOfSpeech="h"/>
+      <Form writtenForm="anderer"/>
+      <Form writtenForm="anderes"/>
+      <Form writtenForm="anderem"/>
+      <Form writtenForm="anderen"/>
       <Sense id="L1409841-S1" synset="wikidata-de-L1409841-S1" ili="wikidata-de-L1409841-S1">
         <Definition>other</Definition>
       </Sense>
@@ -1265,6 +1291,10 @@
     </LexicalEntry>
     <LexicalEntry id="L304654">
       <Lemma writtenForm="xier" partOfSpeech="h"/>
+      <Form writtenForm="xien"/>
+      <Form writtenForm="xiem"/>
+      <Form writtenForm="xies"/>
+      <Form writtenForm="sich"/>
       <Sense id="L304654-S1" synset="wikidata-de-L304654-S1" ili="wikidata-de-L304654-S1">
         <Definition>Neopronomen</Definition>
       </Sense>
@@ -1367,12 +1397,23 @@
     </LexicalEntry>
     <LexicalEntry id="L411088">
       <Lemma writtenForm="mein" partOfSpeech="h"/>
+      <Form writtenForm="meiner"/>
+      <Form writtenForm="meine"/>
+      <Form writtenForm="meines"/>
+      <Form writtenForm="meins"/>
+      <Form writtenForm="meinen"/>
+      <Form writtenForm="meinem"/>
       <Sense id="L411088-S1" synset="wikidata-de-L411088-S1" ili="wikidata-de-L411088-S1">
         <Definition>my</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L411095">
       <Lemma writtenForm="Ihr" partOfSpeech="h"/>
+      <Form writtenForm="Ihrer"/>
+      <Form writtenForm="Ihre"/>
+      <Form writtenForm="Ihres"/>
+      <Form writtenForm="Ihren"/>
+      <Form writtenForm="Ihrem"/>
       <Sense id="L411095-S1" synset="wikidata-de-L411095-S1" ili="wikidata-de-L411095-S1">
         <Definition>yours (formal)</Definition>
       </Sense>
@@ -1387,12 +1428,6 @@
       <Lemma writtenForm="hahaha" partOfSpeech="i"/>
       <Sense id="L488526-S1" synset="wikidata-de-L488526-S1" ili="wikidata-de-L488526-S1">
         <Definition>onomatopoeic representation of laughter</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L488532">
-      <Lemma writtenForm="na" partOfSpeech="i"/>
-      <Sense id="L488532-S1" synset="wikidata-de-L488532-S1" ili="wikidata-de-L488532-S1">
-        <Definition>nein</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L488950">
@@ -1599,12 +1634,6 @@
         <Definition>bezüglich, hinsichtlich</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1218440">
-      <Lemma writtenForm="Hut ab" partOfSpeech="i"/>
-      <Sense id="L1218440-S1" synset="wikidata-de-L1218440-S1" ili="wikidata-de-L1218440-S1">
-        <Definition>drückt Hochachtung, Respekt, Bewunderung aus</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1228183">
       <Lemma writtenForm="bomben-" partOfSpeech="x"/>
       <Sense id="L1228183-S1" synset="wikidata-de-L1228183-S1" ili="wikidata-de-L1228183-S1">
@@ -1616,6 +1645,11 @@
     </LexicalEntry>
     <LexicalEntry id="L7881">
       <Lemma writtenForm="dieser" partOfSpeech="h"/>
+      <Form writtenForm="diese"/>
+      <Form writtenForm="dieses"/>
+      <Form writtenForm="dies"/>
+      <Form writtenForm="diesen"/>
+      <Form writtenForm="diesem"/>
       <Sense id="L7881-S1" synset="wikidata-de-L7881-S1" ili="wikidata-de-L7881-S1">
         <Definition>this one</Definition>
       </Sense>
@@ -1640,6 +1674,7 @@
     </LexicalEntry>
     <LexicalEntry id="L304659">
       <Lemma writtenForm="sier" partOfSpeech="h"/>
+      <Form writtenForm="sich"/>
       <Sense id="L304659-S1" synset="wikidata-de-L304659-S1" ili="wikidata-de-L304659-S1">
         <Definition>Neopronomen</Definition>
         <Example>Obwohl sier in England geboren wurde, lebt und arbeitet dier nicht-binäre, genderqueere Elektro-Musiker*in Jam Rostrom aka Planningtorock seit 2002 in Berlin.</Example>
@@ -1654,6 +1689,12 @@
     </LexicalEntry>
     <LexicalEntry id="L409202">
       <Lemma writtenForm="ein" partOfSpeech="h"/>
+      <Form writtenForm="einer"/>
+      <Form writtenForm="eine"/>
+      <Form writtenForm="einen"/>
+      <Form writtenForm="einem"/>
+      <Form writtenForm="eines"/>
+      <Form writtenForm="eins"/>
       <Sense id="L409202-S1" synset="wikidata-de-L409202-S1" ili="wikidata-de-L409202-S1">
         <Definition>one (as a pronoun); someone; one thing</Definition>
       </Sense>
@@ -1670,14 +1711,16 @@
         <Definition>and/or</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L411091">
-      <Lemma writtenForm="ihr" partOfSpeech="h"/>
-      <Sense id="L411091-S1" synset="wikidata-de-L411091-S1" ili="wikidata-de-L411091-S1">
-        <Definition>hers</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L411097">
       <Lemma writtenForm="der" partOfSpeech="h"/>
+      <Form writtenForm="die"/>
+      <Form writtenForm="das"/>
+      <Form writtenForm="den"/>
+      <Form writtenForm="dessen"/>
+      <Form writtenForm="deren"/>
+      <Form writtenForm="derer"/>
+      <Form writtenForm="dem"/>
+      <Form writtenForm="denen"/>
       <Sense id="L411097-S1" synset="wikidata-de-L411097-S1" ili="wikidata-de-L411097-S1">
         <Definition>the one; this one; that one</Definition>
       </Sense>
@@ -1699,6 +1742,7 @@
     </LexicalEntry>
     <LexicalEntry id="L493822">
       <Lemma writtenForm="fünfzehn" partOfSpeech="m"/>
+      <Form writtenForm="15"/>
       <Sense id="L493822-S1" synset="wikidata-de-L493822-S1" ili="wikidata-de-L493822-S1">
         <Definition>the number 15</Definition>
       </Sense>
@@ -1871,6 +1915,11 @@
     </LexicalEntry>
     <LexicalEntry id="L59500">
       <Lemma writtenForm="das" partOfSpeech="d"/>
+      <Form writtenForm="der"/>
+      <Form writtenForm="die"/>
+      <Form writtenForm="des"/>
+      <Form writtenForm="dem"/>
+      <Form writtenForm="den"/>
       <Sense id="L59500-S1" synset="wikidata-de-L59500-S1" ili="l2768-s1">
         <Definition>bestimmter Artikel</Definition>
         <Example>Der Mann hat einen Hund.</Example>
@@ -1878,26 +1927,18 @@
     </LexicalEntry>
     <LexicalEntry id="L228333">
       <Lemma writtenForm="und" partOfSpeech="c"/>
+      <Form writtenForm="&amp;"/>
       <Sense id="L228333-S1" synset="wikidata-de-L228333-S1" ili="wikidata-de-L228333-S1">
         <Definition>and, joins words and sentence parts together</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L304139">
       <Lemma writtenForm="du" partOfSpeech="h"/>
+      <Form writtenForm="dich"/>
+      <Form writtenForm="dir"/>
+      <Form writtenForm="deiner"/>
       <Sense id="L304139-S1" synset="wikidata-de-L304139-S1" ili="wikidata-de-L304139-S1">
         <Definition>second-person singular pronoun</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L304142">
-      <Lemma writtenForm="sie" partOfSpeech="h"/>
-      <Sense id="L304142-S1" synset="wikidata-de-L304142-S1" ili="wikidata-de-L304142-S1">
-        <Definition>they; third person plural pronoun</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L304660">
-      <Lemma writtenForm="sier" partOfSpeech="h"/>
-      <Sense id="L304660-S1" synset="wikidata-de-L304660-S1" ili="wikidata-de-L304660-S1">
-        <Definition>Neopronomen</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347807">
@@ -1986,14 +2027,13 @@
     </LexicalEntry>
     <LexicalEntry id="L411093">
       <Lemma writtenForm="euer" partOfSpeech="h"/>
+      <Form writtenForm="eurer"/>
+      <Form writtenForm="eure"/>
+      <Form writtenForm="eures"/>
+      <Form writtenForm="euren"/>
+      <Form writtenForm="eurem"/>
       <Sense id="L411093-S1" synset="wikidata-de-L411093-S1" ili="wikidata-de-L411093-S1">
         <Definition>yours (plural)</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L411096">
-      <Lemma writtenForm="der" partOfSpeech="h"/>
-      <Sense id="L411096-S1" synset="wikidata-de-L411096-S1" ili="wikidata-de-L411096-S1">
-        <Definition>that; which; who</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L493820">
@@ -2136,7 +2176,6 @@
       <Lemma writtenForm="viel Glück" partOfSpeech="i"/>
       <Sense id="L1218502-S1" synset="wikidata-de-L1218502-S1" ili="l1218499-s1">
         <Definition>used to wish someone the best of luck and that events will turn out favorably</Definition>
-        <SenseRelation relType="similar" target="wikidata-de-L1218503-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1228177">
@@ -2178,6 +2217,10 @@
     </LexicalEntry>
     <LexicalEntry id="L7877">
       <Lemma writtenForm="ich" partOfSpeech="h"/>
+      <Form writtenForm="meiner"/>
+      <Form writtenForm="mir"/>
+      <Form writtenForm="mich"/>
+      <Form writtenForm="mein"/>
       <Sense id="L7877-S1" synset="wikidata-de-L7877-S1" ili="l487-s1">
         <Definition>bezeichnet die eigene Person</Definition>
       </Sense>
@@ -2281,14 +2324,14 @@
     </LexicalEntry>
     <LexicalEntry id="L411089">
       <Lemma writtenForm="dein" partOfSpeech="h"/>
+      <Form writtenForm="deiner"/>
+      <Form writtenForm="deine"/>
+      <Form writtenForm="deines"/>
+      <Form writtenForm="deins"/>
+      <Form writtenForm="deinen"/>
+      <Form writtenForm="deinem"/>
       <Sense id="L411089-S1" synset="wikidata-de-L411089-S1" ili="wikidata-de-L411089-S1">
         <Definition>yours (singular)</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L411099">
-      <Lemma writtenForm="was" partOfSpeech="h"/>
-      <Sense id="L411099-S1" synset="wikidata-de-L411099-S1" ili="wikidata-de-L411099-S1">
-        <Definition>etwas</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L413030">
@@ -2468,6 +2511,9 @@
     </LexicalEntry>
     <LexicalEntry id="L937787">
       <Lemma writtenForm="moin" partOfSpeech="i"/>
+      <Form writtenForm="Moin"/>
+      <Form writtenForm="moin, moin"/>
+      <Form writtenForm="Moin, Moin"/>
       <Sense id="L937787-S1" synset="wikidata-de-L937787-S1" ili="wikidata-de-L937787-S1">
         <Definition>greeting</Definition>
       </Sense>
@@ -2811,9 +2857,6 @@
     <Synset id="wikidata-de-L1191929-S1" ili="wikidata-de-L1191929-S1" partOfSpeech="i">
       <Definition>sound of bells ringing</Definition>
     </Synset>
-    <Synset id="wikidata-de-L1218503-S1" ili="l1218499-s1" partOfSpeech="i">
-      <Definition>used to wish someone the best of luck and that events will turn out in favorably</Definition>
-    </Synset>
     <Synset id="wikidata-de-L1332007-S1" ili="wikidata-de-L1332007-S1" partOfSpeech="x">
       <Definition>what&apos;s this?</Definition>
     </Synset>
@@ -2879,9 +2922,6 @@
     </Synset>
     <Synset id="wikidata-de-L411031-S1" ili="wikidata-de-L411031-S1" partOfSpeech="y">
       <Definition>Tonsilbe</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L411101-S1" ili="wikidata-de-L411101-S1" partOfSpeech="h">
-      <Definition>what</Definition>
     </Synset>
     <Synset id="wikidata-de-L411163-S1" ili="wikidata-de-L411163-S1" partOfSpeech="m">
       <Definition>the number 12</Definition>
@@ -3043,9 +3083,6 @@
     <Synset id="wikidata-de-L411090-S1" ili="wikidata-de-L411090-S1" partOfSpeech="h">
       <Definition>his</Definition>
     </Synset>
-    <Synset id="wikidata-de-L411094-S1" ili="wikidata-de-L411094-S1" partOfSpeech="h">
-      <Definition>their</Definition>
-    </Synset>
     <Synset id="wikidata-de-L451356-S2" ili="wikidata-de-L451356-S2" partOfSpeech="p">
       <Definition>left of</Definition>
     </Synset>
@@ -3096,9 +3133,6 @@
     </Synset>
     <Synset id="wikidata-de-L496925-S2" ili="wikidata-de-L496925-S2" partOfSpeech="i">
       <Definition>informal goodbye</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L497294-S1" ili="wikidata-de-L497294-S1" partOfSpeech="h">
-      <Definition>diejenige Person, die</Definition>
     </Synset>
     <Synset id="wikidata-de-L610552-S1" ili="wikidata-de-L610552-S1" partOfSpeech="m">
       <Definition>1001</Definition>
@@ -3202,9 +3236,6 @@
     <Synset id="wikidata-de-L488526-S1" ili="wikidata-de-L488526-S1" partOfSpeech="i">
       <Definition>onomatopoeic representation of laughter</Definition>
     </Synset>
-    <Synset id="wikidata-de-L488532-S1" ili="wikidata-de-L488532-S1" partOfSpeech="i">
-      <Definition>nein</Definition>
-    </Synset>
     <Synset id="wikidata-de-L488950-S1" ili="wikidata-de-L488950-S1" partOfSpeech="i">
       <Definition>ow, ouch</Definition>
     </Synset>
@@ -3307,9 +3338,6 @@
     <Synset id="wikidata-de-L1141740-S1" ili="wikidata-de-L1141740-S1" partOfSpeech="p">
       <Definition>bezüglich, hinsichtlich</Definition>
     </Synset>
-    <Synset id="wikidata-de-L1218440-S1" ili="wikidata-de-L1218440-S1" partOfSpeech="i">
-      <Definition>drückt Hochachtung, Respekt, Bewunderung aus</Definition>
-    </Synset>
     <Synset id="wikidata-de-L1228183-S1" ili="wikidata-de-L1228183-S1" partOfSpeech="x">
       <Definition>vorangestelltes Wortbildungselement bei Adjektiven zur Verdeutlichung einer besonders stark ausgeprägten Eigenschaft</Definition>
     </Synset>
@@ -3344,9 +3372,6 @@
     </Synset>
     <Synset id="wikidata-de-L411006-S1" ili="wikidata-de-L411006-S1" partOfSpeech="c">
       <Definition>and/or</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L411091-S1" ili="wikidata-de-L411091-S1" partOfSpeech="h">
-      <Definition>hers</Definition>
     </Synset>
     <Synset id="wikidata-de-L411097-S1" ili="wikidata-de-L411097-S1" partOfSpeech="h">
       <Definition>the one; this one; that one</Definition>
@@ -3454,12 +3479,6 @@
     <Synset id="wikidata-de-L304139-S1" ili="wikidata-de-L304139-S1" partOfSpeech="h">
       <Definition>second-person singular pronoun</Definition>
     </Synset>
-    <Synset id="wikidata-de-L304142-S1" ili="wikidata-de-L304142-S1" partOfSpeech="h">
-      <Definition>they; third person plural pronoun</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L304660-S1" ili="wikidata-de-L304660-S1" partOfSpeech="h">
-      <Definition>Neopronomen</Definition>
-    </Synset>
     <Synset id="wikidata-de-L347807-S1" ili="wikidata-de-L347807-S1" partOfSpeech="m">
       <Definition>number 6</Definition>
     </Synset>
@@ -3504,9 +3523,6 @@
     </Synset>
     <Synset id="wikidata-de-L411093-S1" ili="wikidata-de-L411093-S1" partOfSpeech="h">
       <Definition>yours (plural)</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L411096-S1" ili="wikidata-de-L411096-S1" partOfSpeech="h">
-      <Definition>that; which; who</Definition>
     </Synset>
     <Synset id="wikidata-de-L493820-S1" ili="wikidata-de-L493820-S1" partOfSpeech="m">
       <Definition>the number 13</Definition>
@@ -3658,9 +3674,6 @@
     </Synset>
     <Synset id="wikidata-de-L411089-S1" ili="wikidata-de-L411089-S1" partOfSpeech="h">
       <Definition>yours (singular)</Definition>
-    </Synset>
-    <Synset id="wikidata-de-L411099-S1" ili="wikidata-de-L411099-S1" partOfSpeech="h">
-      <Definition>etwas</Definition>
     </Synset>
     <Synset id="wikidata-de-L413030-S1" ili="wikidata-de-L413030-S1" partOfSpeech="h">
       <Definition>proposed gender-neutral relative pronoun</Definition>

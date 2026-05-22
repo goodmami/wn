@@ -28,6 +28,7 @@
     </LexicalEntry>
     <LexicalEntry id="L37479">
       <Lemma writtenForm="fem" partOfSpeech="m"/>
+      <Form writtenForm="fems"/>
       <Sense id="L37479-S1" synset="wikidata-da-L37479-S1" ili="l333-s1">
         <Definition>tallet efter fire og før seks</Definition>
         <Example>Efter fem år er det på tide med en evaluering.</Example>
@@ -43,10 +44,12 @@
       <Lemma writtenForm="ifølge" partOfSpeech="p"/>
       <Sense id="L42590-S1" synset="wikidata-da-L42590-S1" ili="wikidata-da-L42590-S1">
         <Definition>according to</Definition>
+        <SenseRelation relType="similar" target="wikidata-da-L1411892-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L43100">
       <Lemma writtenForm="sytten" partOfSpeech="m"/>
+      <Form writtenForm="syttens"/>
       <Sense id="L43100-S1" synset="wikidata-da-L43100-S1" ili="wikidata-da-L43100-S1">
         <Definition>tallet 17 mellem 16 og 18</Definition>
         <Example>Jeg har været medlem af Parlamentet i sytten år.</Example>
@@ -54,6 +57,7 @@
     </LexicalEntry>
     <LexicalEntry id="L45895">
       <Lemma writtenForm="firs" partOfSpeech="m"/>
+      <Form writtenForm="firs&apos;"/>
       <Sense id="L45895-S1" synset="wikidata-da-L45895-S1" ili="wikidata-da-L45895-S1">
         <Definition>tallet 80</Definition>
         <Example>Gennem de seneste firs år er de nationale mindretal i Ungarn alle blevet udslettet, mens Europa så til i tavshed.</Example>
@@ -63,6 +67,7 @@
     </LexicalEntry>
     <LexicalEntry id="L45899">
       <Lemma writtenForm="femten" partOfSpeech="m"/>
+      <Form writtenForm="femtens"/>
       <Sense id="L45899-S1" synset="wikidata-da-L45899-S1" ili="wikidata-da-L45899-S1">
         <Definition>tallet 15</Definition>
         <Example>Vi ved, at der i de sidste femten år er skabt stadig flere økologiske landbrug i Europa.</Example>
@@ -70,6 +75,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48464">
       <Lemma writtenForm="tretten" partOfSpeech="m"/>
+      <Form writtenForm="trettens"/>
       <Sense id="L48464-S1" synset="wikidata-da-L48464-S1" ili="wikidata-da-L48464-S1">
         <Definition>tallet 13 mellem tolv og fjorten</Definition>
         <Example>Alligevel idømmes de tretten måneders ubetinget fængsel og meget høje bøder.</Example>
@@ -77,6 +83,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48465">
       <Lemma writtenForm="elleve" partOfSpeech="m"/>
+      <Form writtenForm="elleves"/>
       <Sense id="L48465-S1" synset="wikidata-da-L48465-S1" ili="wikidata-da-L48465-S1">
         <Definition>tallet 11 mellem ti og tolv</Definition>
         <Example>På den ene side tager det tid at få dokumenterne oversat, så der kan forelægges et resumé på de elleve sprog.</Example>
@@ -108,6 +115,7 @@
     </LexicalEntry>
     <LexicalEntry id="L235257">
       <Lemma writtenForm="tresindstyve" partOfSpeech="m"/>
+      <Form writtenForm="tresindstyves"/>
       <Sense id="L235257-S1" synset="wikidata-da-L235257-S1" ili="wikidata-da-L235257-S1">
         <Definition>tallet 60</Definition>
         <Example>Den danske regering vil opfordre de kompetente stedlige myndigheder til at overdrage Kommissionen brugen af de arealer, der rummer Det britiske Statssamfunds krigsgrave, for et tidsrum af tresindstyve år med mulighed for forlængelse.</Example>
@@ -142,12 +150,14 @@
     </LexicalEntry>
     <LexicalEntry id="L671960">
       <Lemma writtenForm="fyrretyve" partOfSpeech="m"/>
+      <Form writtenForm="fyrretyves"/>
       <Sense id="L671960-S1" synset="wikidata-da-L671960-S1" ili="wikidata-da-L671960-S1">
         <Definition>tallet 40</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L678595">
       <Lemma writtenForm="miav" partOfSpeech="x"/>
+      <Form writtenForm="mjav"/>
       <Sense id="L678595-S1" synset="wikidata-da-L678595-S1" ili="wikidata-da-L678595-S1">
         <Definition>lyden fra en kat</Definition>
       </Sense>
@@ -178,6 +188,7 @@
     </LexicalEntry>
     <LexicalEntry id="L735050">
       <Lemma writtenForm="treti" partOfSpeech="m"/>
+      <Form writtenForm="tretis"/>
       <Sense id="L735050-S1" synset="wikidata-da-L735050-S1" ili="wikidata-da-L735050-S1">
         <Definition>tallet 30</Definition>
       </Sense>
@@ -208,6 +219,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1010820">
       <Lemma writtenForm="fireogtres" partOfSpeech="m"/>
+      <Form writtenForm="fireogtres&apos;"/>
       <Sense id="L1010820-S1" synset="wikidata-da-L1010820-S1" ili="wikidata-da-L1010820-S1">
         <Definition>tallet 64</Definition>
       </Sense>
@@ -218,17 +230,9 @@
         <Definition>tidsperiode med skriftlige kilder</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1081949">
-      <Lemma writtenForm="vedr." partOfSpeech="x"/>
-      <Sense id="L1081949-S1" synset="wikidata-da-L1081949-S1" ili="wikidata-da-L1081949-S1">
-        <Definition>concerning, with respect to</Definition>
-        <SenseRelation relType="similar" target="wikidata-da-L688421-S1"/>
-        <SenseRelation relType="similar" target="wikidata-da-L688427-S1"/>
-        <SenseRelation relType="similar" target="wikidata-da-L689010-S1"/>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1117249">
       <Lemma writtenForm="syvtifem" partOfSpeech="m"/>
+      <Form writtenForm="syvtifems"/>
       <Sense id="L1117249-S1" synset="wikidata-da-L1117249-S1" ili="wikidata-da-L1117249-S1">
         <Definition>tallet 75</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117255-S1"/>
@@ -236,18 +240,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1117377">
       <Lemma writtenForm="toogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="toogtyvendes"/>
       <Sense id="L1117377-S1" synset="wikidata-da-L1117377-S1" ili="wikidata-da-L1117377-S1">
         <Definition>ordenstallet 22.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119166">
       <Lemma writtenForm="billionte" partOfSpeech="m"/>
+      <Form writtenForm="billiontes"/>
       <Sense id="L1119166-S1" synset="wikidata-da-L1119166-S1" ili="wikidata-da-L1119166-S1">
         <Definition>ordenstallet for en million million</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119187">
       <Lemma writtenForm="firtifem" partOfSpeech="m"/>
+      <Form writtenForm="firtifems"/>
       <Sense id="L1119187-S1" synset="wikidata-da-L1119187-S1" ili="wikidata-da-L1119187-S1">
         <Definition>tallet 45</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119188-S1"/>
@@ -255,6 +262,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119188">
       <Lemma writtenForm="femogfyrre" partOfSpeech="m"/>
+      <Form writtenForm="femogfyrres"/>
       <Sense id="L1119188-S1" synset="wikidata-da-L1119188-S1" ili="wikidata-da-L1119188-S1">
         <Definition>tallet 45</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119187-S1"/>
@@ -262,12 +270,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1119226">
       <Lemma writtenForm="tredivte" partOfSpeech="m"/>
+      <Form writtenForm="tredivtes"/>
       <Sense id="L1119226-S1" synset="wikidata-da-L1119226-S1" ili="wikidata-da-L1119226-S1">
         <Definition>ordenstallet 30.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119257">
       <Lemma writtenForm="femogtres" partOfSpeech="m"/>
+      <Form writtenForm="femogtres&apos;"/>
       <Sense id="L1119257-S1" synset="wikidata-da-L1119257-S1" ili="wikidata-da-L1119257-S1">
         <Definition>tallet 65</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119255-S1"/>
@@ -275,6 +285,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119259">
       <Lemma writtenForm="femogfirs" partOfSpeech="m"/>
+      <Form writtenForm="femogfirs&apos;"/>
       <Sense id="L1119259-S1" synset="wikidata-da-L1119259-S1" ili="wikidata-da-L1119259-S1">
         <Definition>tallet 85</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119258-S1"/>
@@ -282,6 +293,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1218844">
       <Lemma writtenForm="det ved den søde grød" partOfSpeech="t"/>
+      <Form writtenForm="ved grød"/>
+      <Form writtenForm="ved den søde grød"/>
       <Sense id="L1218844-S1" synset="wikidata-da-L1218844-S1" ili="wikidata-da-L1218844-S1">
         <Definition>forstærkende kraftudtryk</Definition>
       </Sense>
@@ -306,6 +319,7 @@
     </LexicalEntry>
     <LexicalEntry id="L37611">
       <Lemma writtenForm="nul" partOfSpeech="m"/>
+      <Form writtenForm="nuls"/>
       <Sense id="L37611-S1" synset="wikidata-da-L37611-S1" ili="wikidata-da-L37611-S1">
         <Definition>tallet for ingenting</Definition>
         <Example>Og nul plus nul giver stadig nul.</Example>
@@ -313,6 +327,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42265">
       <Lemma writtenForm="syv" partOfSpeech="m"/>
+      <Form writtenForm="syvs"/>
       <Sense id="L42265-S1" synset="wikidata-da-L42265-S1" ili="wikidata-da-L42265-S1">
         <Definition>tallet mellem 6 og 8</Definition>
         <Example>I syv måneder er der ikke blevet udbetalt lønninger og pensioner.</Example>
@@ -327,6 +342,7 @@
     </LexicalEntry>
     <LexicalEntry id="L43254">
       <Lemma writtenForm="tres" partOfSpeech="m"/>
+      <Form writtenForm="tres&apos;"/>
       <Sense id="L43254-S1" synset="wikidata-da-L43254-S1" ili="wikidata-da-L43254-S1">
         <Definition>tallet 60</Definition>
         <Example>Det har i tres år været indprentet i vores kollektive hukommelse.</Example>
@@ -336,12 +352,14 @@
     </LexicalEntry>
     <LexicalEntry id="L45896">
       <Lemma writtenForm="femte" partOfSpeech="m"/>
+      <Form writtenForm="femtes"/>
       <Sense id="L45896-S1" synset="wikidata-da-L45896-S1" ili="wikidata-da-L45896-S1">
         <Definition>ordinaltallet 5</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L48466">
       <Lemma writtenForm="seksten" partOfSpeech="m"/>
+      <Form writtenForm="sekstens"/>
       <Sense id="L48466-S1" synset="wikidata-da-L48466-S1" ili="wikidata-da-L48466-S1">
         <Definition>tallet 16 mellem femten og sytten</Definition>
         <Example>Der er godkendt seksten produkter siden oprettelsen af WTO-panelet, men kun syv i 2007.</Example>
@@ -355,6 +373,7 @@
     </LexicalEntry>
     <LexicalEntry id="L235254">
       <Lemma writtenForm="enogtyve" partOfSpeech="m"/>
+      <Form writtenForm="enogtyves"/>
       <Sense id="L235254-S1" synset="wikidata-da-L235254-S1" ili="wikidata-da-L235254-S1">
         <Definition>tallet 21</Definition>
         <Example>Med hensyn til tidsplanen synes De at være låst fast på idéen om en to-trinsreform. Først en lille reform, inden medlem nummer seksten lukkes ind, og derefter en stor reform, inden nummer enogtyve indtræder.</Example>
@@ -362,6 +381,7 @@
     </LexicalEntry>
     <LexicalEntry id="L301413">
       <Lemma writtenForm="niende" partOfSpeech="m"/>
+      <Form writtenForm="niendes"/>
       <Sense id="L301413-S1" synset="wikidata-da-L301413-S1" ili="wikidata-da-L301413-S1">
         <Definition>ordinalet 9</Definition>
         <Example>Det niende møde bør vedtage økologiske kriterier til fastlæggelse af marine områder i dybhavsfarvandene, der har brug for beskyttelse.</Example>
@@ -369,6 +389,7 @@
     </LexicalEntry>
     <LexicalEntry id="L301687">
       <Lemma writtenForm="femtende" partOfSpeech="m"/>
+      <Form writtenForm="femtendes"/>
       <Sense id="L301687-S1" synset="wikidata-da-L301687-S1" ili="wikidata-da-L301687-S1">
         <Definition>ordenstallet 15</Definition>
         <Example>Alan Johnston er den femtende journalist, der bortføres i Gazastriben, og i den måned, der fulgte bortførelsen, hørte vi længe intet nyt om ham.</Example>
@@ -376,6 +397,7 @@
     </LexicalEntry>
     <LexicalEntry id="L448762">
       <Lemma writtenForm="toogtyve" partOfSpeech="m"/>
+      <Form writtenForm="toogtyves"/>
       <Sense id="L448762-S1" synset="wikidata-da-L448762-S1" ili="wikidata-da-L448762-S1">
         <Definition>tallet 22</Definition>
         <Example>På området findes der fire og en halv million handelsforetagender, og de beskæftiger toogtyve millioner personer.</Example>
@@ -401,6 +423,7 @@
     </LexicalEntry>
     <LexicalEntry id="L688433">
       <Lemma writtenForm="nja" partOfSpeech="i"/>
+      <Form writtenForm="njae"/>
       <Sense id="L688433-S1" synset="wikidata-da-L688433-S1" ili="wikidata-da-L688433-S1">
         <Definition>delvis bekræftigelse med forbehold</Definition>
       </Sense>
@@ -419,6 +442,7 @@
     </LexicalEntry>
     <LexicalEntry id="L691760">
       <Lemma writtenForm="x&apos;te" partOfSpeech="m"/>
+      <Form writtenForm="x&apos;tes"/>
       <Sense id="L691760-S1" synset="wikidata-da-L691760-S1" ili="wikidata-da-L691760-S1">
         <Definition>et element i en rækkefølge angivet ved variablen &apos;x&apos;</Definition>
       </Sense>
@@ -437,18 +461,21 @@
     </LexicalEntry>
     <LexicalEntry id="L941897">
       <Lemma writtenForm="syvti" partOfSpeech="m"/>
+      <Form writtenForm="syvtis"/>
       <Sense id="L941897-S1" synset="wikidata-da-L941897-S1" ili="wikidata-da-L941897-S1">
         <Definition>tallet 70</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L984401">
       <Lemma writtenForm="fireogfirs" partOfSpeech="m"/>
+      <Form writtenForm="fireogfirs&apos;"/>
       <Sense id="L984401-S1" synset="wikidata-da-L984401-S1" ili="wikidata-da-L984401-S1">
         <Definition>tallet 84</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1010814">
       <Lemma writtenForm="fireoghalvfems" partOfSpeech="m"/>
+      <Form writtenForm="fireoghalvfems&apos;"/>
       <Sense id="L1010814-S1" synset="wikidata-da-L1010814-S1" ili="wikidata-da-L1010814-S1">
         <Definition>tallet 94</Definition>
       </Sense>
@@ -461,6 +488,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1116352">
       <Lemma writtenForm="femoghalvtreds" partOfSpeech="m"/>
+      <Form writtenForm="femoghalvtreds&apos;"/>
       <Sense id="L1116352-S1" synset="wikidata-da-L1116352-S1" ili="wikidata-da-L1116352-S1">
         <Definition>tallet 55</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1116351-S1"/>
@@ -468,6 +496,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1116355">
       <Lemma writtenForm="attende" partOfSpeech="m"/>
+      <Form writtenForm="attendes"/>
       <Sense id="L1116355-S1" synset="wikidata-da-L1116355-S1" ili="wikidata-da-L1116355-S1">
         <Definition>ordenstallet 18.</Definition>
       </Sense>
@@ -480,6 +509,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1117379">
       <Lemma writtenForm="halvfemsindstyvende" partOfSpeech="m"/>
+      <Form writtenForm="halvfemsindstyvendes"/>
       <Sense id="L1117379-S1" synset="wikidata-da-L1117379-S1" ili="wikidata-da-L1117379-S1">
         <Definition>ordenstallet 90.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117380-S1"/>
@@ -487,6 +517,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119164">
       <Lemma writtenForm="halvtredsindstyvende" partOfSpeech="m"/>
+      <Form writtenForm="halvtredsindstyvendes"/>
       <Sense id="L1119164-S1" synset="wikidata-da-L1119164-S1" ili="wikidata-da-L1119164-S1">
         <Definition>ordenstallet 50.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119165-S1"/>
@@ -494,12 +525,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1119189">
       <Lemma writtenForm="fjortende" partOfSpeech="m"/>
+      <Form writtenForm="fjortendes"/>
       <Sense id="L1119189-S1" synset="wikidata-da-L1119189-S1" ili="wikidata-da-L1119189-S1">
         <Definition>ordentallet 14.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119190">
       <Lemma writtenForm="fyrrende" partOfSpeech="m"/>
+      <Form writtenForm="fyrrendes"/>
       <Sense id="L1119190-S1" synset="wikidata-da-L1119190-S1" ili="wikidata-da-L1119190-S1">
         <Definition>ordenstallet 40.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119191-S1"/>
@@ -507,6 +540,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119243">
       <Lemma writtenForm="tressende" partOfSpeech="m"/>
+      <Form writtenForm="tressendes"/>
       <Sense id="L1119243-S1" synset="wikidata-da-L1119243-S1" ili="wikidata-da-L1119243-S1">
         <Definition>ordenstallet 60.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119252-S1"/>
@@ -514,6 +548,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119252">
       <Lemma writtenForm="tresindstyvende" partOfSpeech="m"/>
+      <Form writtenForm="tresindstyvendes"/>
       <Sense id="L1119252-S1" synset="wikidata-da-L1119252-S1" ili="wikidata-da-L1119252-S1">
         <Definition>ordenstallet 60.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119243-S1"/>
@@ -521,6 +556,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1218366">
       <Lemma writtenForm="fy" partOfSpeech="i"/>
+      <Form writtenForm="fyh"/>
       <Sense id="L1218366-S1" synset="wikidata-da-L1218366-S1" ili="wikidata-da-L1218366-S1">
         <Definition>anvendes for at udtrykke afsky eller lede</Definition>
       </Sense>
@@ -533,6 +569,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1330485">
       <Lemma writtenForm="De" partOfSpeech="h"/>
+      <Form writtenForm="Dem"/>
+      <Form writtenForm="Deres"/>
       <Sense id="L1330485-S1" synset="wikidata-da-L1330485-S1" ili="wikidata-da-L1330485-S1">
         <Definition>formelt eller høfligt pronomen brugt til at adressere en person</Definition>
       </Sense>
@@ -559,6 +597,7 @@
     </LexicalEntry>
     <LexicalEntry id="L34132">
       <Lemma writtenForm="tre" partOfSpeech="m"/>
+      <Form writtenForm="tres"/>
       <Sense id="L34132-S1" synset="wikidata-da-L34132-S1" ili="wikidata-da-L34132-S1">
         <Definition>tallet 3</Definition>
         <Example>Nu lå der tolv lig i de tre små stuer.</Example>
@@ -598,6 +637,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42597">
       <Lemma writtenForm="inklusive" partOfSpeech="p"/>
+      <Form writtenForm="inklusiv"/>
       <Sense id="L42597-S1" synset="wikidata-da-L42597-S1" ili="wikidata-da-L42597-S1">
         <Definition>iberegnet</Definition>
         <SenseRelation relType="antonym" target="wikidata-da-L42598-S1"/>
@@ -605,6 +645,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42598">
       <Lemma writtenForm="eksklusive" partOfSpeech="p"/>
+      <Form writtenForm="eksklusiv"/>
       <Sense id="L42598-S1" synset="wikidata-da-L42598-S1" ili="wikidata-da-L42598-S1">
         <Definition>med udelukkelse af</Definition>
         <SenseRelation relType="antonym" target="wikidata-da-L42597-S1"/>
@@ -618,6 +659,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48468">
       <Lemma writtenForm="tredive" partOfSpeech="m"/>
+      <Form writtenForm="tredives"/>
       <Sense id="L48468-S1" synset="wikidata-da-L48468-S1" ili="wikidata-da-L48468-S1">
         <Definition>tallet 30 mellem 29 og 31</Definition>
         <Example>Der er nu omkring tredive lande, der ikke har svaret.</Example>
@@ -625,6 +667,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48473">
       <Lemma writtenForm="halvfjerds" partOfSpeech="m"/>
+      <Form writtenForm="halvfjerds&apos;"/>
       <Sense id="L48473-S1" synset="wikidata-da-L48473-S1" ili="wikidata-da-L48473-S1">
         <Definition>tallet 70 mellem 69 og 71</Definition>
         <Example>Alt foregik bag lukkede døre, og halvfjerds journalister blev udvist fra retslokalet.</Example>
@@ -633,6 +676,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48494">
       <Lemma writtenForm="tiende" partOfSpeech="m"/>
+      <Form writtenForm="tiendes"/>
       <Sense id="L48494-S1" synset="wikidata-da-L48494-S1" ili="wikidata-da-L48494-S1">
         <Definition>nummer ti i en række</Definition>
         <Example>Jeg ville ud på tiende sal.</Example>
@@ -642,6 +686,8 @@
     </LexicalEntry>
     <LexicalEntry id="L48590">
       <Lemma writtenForm="anden" partOfSpeech="m"/>
+      <Form writtenForm="andet"/>
+      <Form writtenForm="andens"/>
       <Sense id="L48590-S1" synset="wikidata-da-L48590-S1" ili="wikidata-da-L48590-S1">
         <Definition>indikere et element i en række der optræder i begyndelsen som nummer 2</Definition>
         <Example>Alt i alt viser det, at hverken tredje søjle eller den marginale overdragelse af kompetence til en anden søjle er nok til at skabe effektive sikkerhedsstrukturer i Europa</Example>
@@ -676,6 +722,7 @@
     </LexicalEntry>
     <LexicalEntry id="L501643">
       <Lemma writtenForm="otteogtyve" partOfSpeech="m"/>
+      <Form writtenForm="otteogtyves"/>
       <Sense id="L501643-S1" synset="wikidata-da-L501643-S1" ili="wikidata-da-L501643-S1">
         <Definition>tallet 28</Definition>
       </Sense>
@@ -688,18 +735,21 @@
     </LexicalEntry>
     <LexicalEntry id="L654891">
       <Lemma writtenForm="treogtyve" partOfSpeech="m"/>
+      <Form writtenForm="treogtyves"/>
       <Sense id="L654891-S1" synset="wikidata-da-L654891-S1" ili="wikidata-da-L654891-S1">
         <Definition>tallet 23</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L654902">
       <Lemma writtenForm="enogfirs" partOfSpeech="m"/>
+      <Form writtenForm="enogfirs&apos;"/>
       <Sense id="L654902-S1" synset="wikidata-da-L654902-S1" ili="wikidata-da-L654902-S1">
         <Definition>tallet 81</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L654903">
       <Lemma writtenForm="enoghalvfems" partOfSpeech="m"/>
+      <Form writtenForm="enoghalvfems&apos;"/>
       <Sense id="L654903-S1" synset="wikidata-da-L654903-S1" ili="wikidata-da-L654903-S1">
         <Definition>tallet 91</Definition>
       </Sense>
@@ -721,7 +771,7 @@
       <Sense id="L688421-S1" synset="wikidata-da-L688421-S1" ili="wikidata-da-L688421-S1">
         <Definition>concerning, with respect to</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L688427-S1"/>
-        <SenseRelation relType="similar" target="wikidata-da-L689010-S1"/>
+        <SenseRelation relType="similar" target="wikidata-da-L1081949-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L688426">
@@ -736,7 +786,7 @@
         <Definition>concerning, with respect to</Definition>
         <Example>Bestemmelser angående regeringens førelse i tilfælde af kongens umyndighed, sygdom eller fraværelse fastsættes ved lov.</Example>
         <SenseRelation relType="similar" target="wikidata-da-L688421-S1"/>
-        <SenseRelation relType="similar" target="wikidata-da-L689010-S1"/>
+        <SenseRelation relType="similar" target="wikidata-da-L1081949-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L688430">
@@ -767,6 +817,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1079337">
       <Lemma writtenForm="tvende" partOfSpeech="m"/>
+      <Form writtenForm="tvendes"/>
       <Sense id="L1079337-S1" synset="wikidata-da-L1079337-S1" ili="wikidata-da-L1079337-S1">
         <Definition>to</Definition>
         <Example>Af forsikringsakten udstedes tvende ligelydende originaler, af hvilke den ene overgives folketinget for at opbevares i sammes arkiv, den anden nedlægges i rigsarkivet.</Example>
@@ -775,12 +826,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1083915">
       <Lemma writtenForm="femti" partOfSpeech="m"/>
+      <Form writtenForm="femtis"/>
       <Sense id="L1083915-S1" synset="wikidata-da-L1083915-S1" ili="wikidata-da-L1083915-S1">
         <Definition>tallet 50</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1117222">
       <Lemma writtenForm="halvfjerdsende" partOfSpeech="m"/>
+      <Form writtenForm="halvfjerdsendes"/>
       <Sense id="L1117222-S1" synset="wikidata-da-L1117222-S1" ili="wikidata-da-L1117222-S1">
         <Definition>ordenstallet 70.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117223-S1"/>
@@ -788,18 +841,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1119192">
       <Lemma writtenForm="milliardte" partOfSpeech="m"/>
+      <Form writtenForm="milliardtes"/>
       <Sense id="L1119192-S1" synset="wikidata-da-L1119192-S1" ili="wikidata-da-L1119192-S1">
         <Definition>ordenstallet for 1.000.000.000</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119249">
       <Lemma writtenForm="nittende" partOfSpeech="m"/>
+      <Form writtenForm="nittendes"/>
       <Sense id="L1119249-S1" synset="wikidata-da-L1119249-S1" ili="wikidata-da-L1119249-S1">
         <Definition>ordenstalordet 19.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119254">
       <Lemma writtenForm="seksti" partOfSpeech="m"/>
+      <Form writtenForm="sekstis"/>
       <Sense id="L1119254-S1" synset="wikidata-da-L1119254-S1" ili="wikidata-da-L1119254-S1">
         <Definition>tallet 60</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L43254-S1"/>
@@ -808,6 +864,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1119260">
       <Lemma writtenForm="halvhundred" partOfSpeech="m"/>
+      <Form writtenForm="halvhundrede"/>
+      <Form writtenForm="halvhundreds"/>
+      <Form writtenForm="halvhundredes"/>
       <Sense id="L1119260-S1" synset="wikidata-da-L1119260-S1" ili="wikidata-da-L1119260-S1">
         <Definition>omkring 50</Definition>
       </Sense>
@@ -826,6 +885,7 @@
     </LexicalEntry>
     <LexicalEntry id="L2022">
       <Lemma writtenForm="en" partOfSpeech="d"/>
+      <Form writtenForm="et"/>
       <Sense id="L2022-S1" synset="wikidata-da-L2022-S1" ili="wikidata-da-L2022-S1">
         <Definition>a(n), indefinite article</Definition>
         <Example>En 31-årig mand fra Horsens gik bersærkergang torsdag aften og nåede at overtræde massevis af paragraffer i straffeloven, inden politiet omsider fik standset ham.</Example>
@@ -833,6 +893,10 @@
     </LexicalEntry>
     <LexicalEntry id="L3073">
       <Lemma writtenForm="en" partOfSpeech="m"/>
+      <Form writtenForm="et"/>
+      <Form writtenForm="én"/>
+      <Form writtenForm="ét"/>
+      <Form writtenForm="ens"/>
       <Sense id="L3073-S1" synset="wikidata-da-L3073-S1" ili="wikidata-da-L3073-S1">
         <Definition>det naturlige tal &quot;1&quot;</Definition>
         <Example>Der er nu ganske vist to finske kanaler og en portugisisk kanal, men der er stadig ingen nederlandsk kanal, og jeg havde anmodet Dem om en nederlandsk kanal, fordi også nederlændere gerne vil følge med i nyhederne hver måned, når vi forvises til dette sted.</Example>
@@ -846,6 +910,7 @@
     </LexicalEntry>
     <LexicalEntry id="L37612">
       <Lemma writtenForm="nulte" partOfSpeech="m"/>
+      <Form writtenForm="nultes"/>
       <Sense id="L37612-S1" synset="wikidata-da-L37612-S1" ili="wikidata-da-L37612-S1">
         <Definition>ordinaltallet for 0</Definition>
         <Example>... og Rækken standser af sig selv med første eller nulte Potens af x+rb, eftersom p er ulige eller lige.</Example>
@@ -859,6 +924,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42266">
       <Lemma writtenForm="ti" partOfSpeech="m"/>
+      <Form writtenForm="tis"/>
       <Sense id="L42266-S1" synset="wikidata-da-L42266-S1" ili="wikidata-da-L42266-S1">
         <Definition>tallet 10 mellem 9 og 11</Definition>
         <Example>Antallet af allergier er de seneste ti år fordoblet 120 gange.</Example>
@@ -890,6 +956,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48588">
       <Lemma writtenForm="tredje" partOfSpeech="m"/>
+      <Form writtenForm="tredjes"/>
       <Sense id="L48588-S1" synset="wikidata-da-L48588-S1" ili="wikidata-da-L48588-S1">
         <Definition>ordinaltallet 3</Definition>
       </Sense>
@@ -908,30 +975,42 @@
     </LexicalEntry>
     <LexicalEntry id="L525206">
       <Lemma writtenForm="spidssnudet frø" partOfSpeech="n"/>
+      <Form writtenForm="spidssnudede frø"/>
+      <Form writtenForm="spidssnudede frøer"/>
+      <Form writtenForm="spidssnudet frøs"/>
+      <Form writtenForm="spidssnudede frøs"/>
+      <Form writtenForm="spidssnudede frøers"/>
       <Sense id="L525206-S1" synset="wikidata-da-L525206-S1" ili="wikidata-da-L525206-S1">
         <Definition>frø af arten Rana arvalis</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L525225">
       <Lemma writtenForm="grønbroget tudse" partOfSpeech="n"/>
+      <Form writtenForm="grønbrogede tudse"/>
+      <Form writtenForm="grønbrogede tudser"/>
       <Sense id="L525225-S1" synset="wikidata-da-L525225-S1" ili="wikidata-da-L525225-S1">
         <Definition>padde i arten Pseudepidalea viridis</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L654892">
       <Lemma writtenForm="fireogtyve" partOfSpeech="m"/>
+      <Form writtenForm="fireogtyves"/>
       <Sense id="L654892-S1" synset="wikidata-da-L654892-S1" ili="wikidata-da-L654892-S1">
         <Definition>tallet 24</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L673761">
       <Lemma writtenForm="tusinde" partOfSpeech="m"/>
+      <Form writtenForm="tusind"/>
+      <Form writtenForm="tusindes"/>
+      <Form writtenForm="tusinds"/>
       <Sense id="L673761-S1" synset="wikidata-da-L673761-S1" ili="wikidata-da-L673761-S1">
         <Definition>tallet 1000</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L679278">
       <Lemma writtenForm="toti" partOfSpeech="m"/>
+      <Form writtenForm="totis"/>
       <Sense id="L679278-S1" synset="wikidata-da-L679278-S1" ili="wikidata-da-L679278-S1">
         <Definition>tallet 20</Definition>
       </Sense>
@@ -980,6 +1059,7 @@
     </LexicalEntry>
     <LexicalEntry id="L702778">
       <Lemma writtenForm="tolvte" partOfSpeech="m"/>
+      <Form writtenForm="tolvtes"/>
       <Sense id="L702778-S1" synset="wikidata-da-L702778-S1" ili="wikidata-da-L702778-S1">
         <Definition>ordinaltallet 8</Definition>
         <Example>Hver tolvte EU-borger er arbejdsløs.</Example>
@@ -993,12 +1073,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1010816">
       <Lemma writtenForm="fireoghalvtreds" partOfSpeech="m"/>
+      <Form writtenForm="fireoghalvtreds&apos;"/>
       <Sense id="L1010816-S1" synset="wikidata-da-L1010816-S1" ili="wikidata-da-L1010816-S1">
         <Definition>tallet 54</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1010818">
       <Lemma writtenForm="syttende" partOfSpeech="m"/>
+      <Form writtenForm="syttendes"/>
       <Sense id="L1010818-S1" synset="wikidata-da-L1010818-S1" ili="wikidata-da-L1010818-S1">
         <Definition>seventeenth</Definition>
         <Example>Fru Marie Grubbe. Interieurer fra det syttende Aarhundrede</Example>
@@ -1012,6 +1094,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1116351">
       <Lemma writtenForm="femtifem" partOfSpeech="m"/>
+      <Form writtenForm="femtifems"/>
       <Sense id="L1116351-S1" synset="wikidata-da-L1116351-S1" ili="wikidata-da-L1116351-S1">
         <Definition>tallet 55</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1116352-S1"/>
@@ -1019,6 +1102,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1117223">
       <Lemma writtenForm="halvfjerdsindstyvende" partOfSpeech="m"/>
+      <Form writtenForm="halvfjerdsindstyvendes"/>
       <Sense id="L1117223-S1" synset="wikidata-da-L1117223-S1" ili="wikidata-da-L1117223-S1">
         <Definition>ordenstallet 70.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117222-S1"/>
@@ -1026,18 +1110,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1119168">
       <Lemma writtenForm="firsende" partOfSpeech="m"/>
+      <Form writtenForm="firsendes"/>
       <Sense id="L1119168-S1" synset="wikidata-da-L1119168-S1" ili="wikidata-da-L1119168-S1">
         <Definition>ordenstallet 80.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119169">
       <Lemma writtenForm="firsindstyvende" partOfSpeech="m"/>
+      <Form writtenForm="firsindstyvendes"/>
       <Sense id="L1119169-S1" synset="wikidata-da-L1119169-S1" ili="wikidata-da-L1119169-S1">
         <Definition>ordenstallet 80.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119170">
       <Lemma writtenForm="tretifem" partOfSpeech="m"/>
+      <Form writtenForm="tretifems"/>
       <Sense id="L1119170-S1" synset="wikidata-da-L1119170-S1" ili="wikidata-da-L1119170-S1">
         <Definition>tallet 35</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1094317-S1"/>
@@ -1045,6 +1132,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119253">
       <Lemma writtenForm="treogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="treogtyvendes"/>
       <Sense id="L1119253-S1" synset="wikidata-da-L1119253-S1" ili="wikidata-da-L1119253-S1">
         <Definition>ordenstallet 23.</Definition>
       </Sense>
@@ -1058,6 +1146,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1278488">
       <Lemma writtenForm="treogfirs" partOfSpeech="m"/>
+      <Form writtenForm="treogfirs&apos;"/>
       <Sense id="L1278488-S1" synset="wikidata-da-L1278488-S1" ili="wikidata-da-L1278488-S1">
         <Definition>tallet 83</Definition>
       </Sense>
@@ -1066,13 +1155,6 @@
       <Lemma writtenForm="-al" partOfSpeech="x"/>
       <Sense id="L1379404-S1" synset="wikidata-da-L1379404-S1" ili="wikidata-da-L1379404-S1">
         <Definition>i kemi</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1411892">
-      <Lemma writtenForm="if." partOfSpeech="x"/>
-      <Sense id="L1411892-S1" synset="wikidata-da-L1411892-S1" ili="wikidata-da-L1411892-S1">
-        <Definition>ifølge</Definition>
-        <SenseRelation relType="similar" target="wikidata-da-L42590-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1504412">
@@ -1098,6 +1180,7 @@
     </LexicalEntry>
     <LexicalEntry id="L31614">
       <Lemma writtenForm="den" partOfSpeech="d"/>
+      <Form writtenForm="det"/>
       <Sense id="L31614-S1" synset="wikidata-da-L31614-S1" ili="wikidata-da-L31614-S1">
         <Definition>the, definite article</Definition>
       </Sense>
@@ -1130,6 +1213,7 @@
     </LexicalEntry>
     <LexicalEntry id="L37930">
       <Lemma writtenForm="fire" partOfSpeech="m"/>
+      <Form writtenForm="fires"/>
       <Sense id="L37930-S1" synset="wikidata-da-L37930-S1" ili="wikidata-da-L37930-S1">
         <Definition>tallet 4, større en tre og mindre en fem</Definition>
         <Example>Nu er der kun fire tilbage.</Example>
@@ -1143,6 +1227,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42268">
       <Lemma writtenForm="tolv" partOfSpeech="m"/>
+      <Form writtenForm="tolvs"/>
       <Sense id="L42268-S1" synset="wikidata-da-L42268-S1" ili="wikidata-da-L42268-S1">
         <Definition>tallet 12 mellem 11 og 13</Definition>
         <Example>Nu lå der tolv lig i de tre små stuer.</Example>
@@ -1170,6 +1255,7 @@
     </LexicalEntry>
     <LexicalEntry id="L45900">
       <Lemma writtenForm="femogtyve" partOfSpeech="m"/>
+      <Form writtenForm="femogtyves"/>
       <Sense id="L45900-S1" synset="wikidata-da-L45900-S1" ili="wikidata-da-L45900-S1">
         <Definition>tallet 25</Definition>
         <Example>For hvis det er vanskeligt at træffe beslutninger ved enstemmighed i en organisation med femogtyve medlemmer, er det heller ikke acceptabelt at træffe flertalsbeslutninger, når organisationen har femogtyve heterogene medlemmer.</Example>
@@ -1189,6 +1275,9 @@
     </LexicalEntry>
     <LexicalEntry id="L48470">
       <Lemma writtenForm="hundred" partOfSpeech="m"/>
+      <Form writtenForm="hundrede"/>
+      <Form writtenForm="hundredes"/>
+      <Form writtenForm="hundreds"/>
       <Sense id="L48470-S1" synset="wikidata-da-L48470-S1" ili="wikidata-da-L48470-S1">
         <Definition>tallet 100 mellem 99 og 101</Definition>
         <Example>Ulykker i transportsystemer kan bringe flere hundrede mennesker i fare.</Example>
@@ -1199,6 +1288,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48591">
       <Lemma writtenForm="fjerde" partOfSpeech="m"/>
+      <Form writtenForm="fjerdes"/>
       <Sense id="L48591-S1" synset="wikidata-da-L48591-S1" ili="wikidata-da-L48591-S1">
         <Definition>4.; ordinaltallet 4</Definition>
         <Example>Jeg kommer nu til min fjerde og næstsidste betragtning.</Example>
@@ -1212,6 +1302,11 @@
     </LexicalEntry>
     <LexicalEntry id="L184199">
       <Lemma writtenForm="denne" partOfSpeech="h"/>
+      <Form writtenForm="dette"/>
+      <Form writtenForm="disse"/>
+      <Form writtenForm="dennes"/>
+      <Form writtenForm="dettes"/>
+      <Form writtenForm="disses"/>
       <Sense id="L184199-S1" synset="wikidata-da-L184199-S1" ili="wikidata-da-L184199-S1">
         <Definition>this</Definition>
       </Sense>
@@ -1224,6 +1319,7 @@
     </LexicalEntry>
     <LexicalEntry id="L235255">
       <Lemma writtenForm="firsindstyve" partOfSpeech="m"/>
+      <Form writtenForm="firsindstyves"/>
       <Sense id="L235255-S1" synset="wikidata-da-L235255-S1" ili="wikidata-da-L235255-S1">
         <Definition>tallet 80</Definition>
         <Example>For hver stat, som ratificerer overenskomsten eller tiltræder den efter deponeringen af det ottende ratifikations- eller tiltrædelsesdokument, som nævnt ovenfor i stk. 1, skal overenskomsten træde i kraft et hundrede og firsindstyve dage efter datoen for den pågældende stats deponering af ratifikations- eller tiltrædelsesdokumentet.</Example>
@@ -1233,6 +1329,7 @@
     </LexicalEntry>
     <LexicalEntry id="L301394">
       <Lemma writtenForm="sjette" partOfSpeech="m"/>
+      <Form writtenForm="sjettes"/>
       <Sense id="L301394-S1" synset="wikidata-da-L301394-S1" ili="wikidata-da-L301394-S1">
         <Definition>ordinaltallet 6</Definition>
         <Example>For blot 100 år siden var hver sjette, syvende indbygger i verden europæer, men om 40 år vil blot hvert 20. menneske bo på vores kontinent.</Example>
@@ -1240,6 +1337,9 @@
     </LexicalEntry>
     <LexicalEntry id="L302337">
       <Lemma writtenForm="allesammen" partOfSpeech="h"/>
+      <Form writtenForm="allesammens"/>
+      <Form writtenForm="alle sammen"/>
+      <Form writtenForm="alle sammens"/>
       <Sense id="L302337-S1" synset="wikidata-da-L302337-S1" ili="wikidata-da-L302337-S1">
         <Definition>everyone</Definition>
       </Sense>
@@ -1264,12 +1364,14 @@
     </LexicalEntry>
     <LexicalEntry id="L346500">
       <Lemma writtenForm="alting" partOfSpeech="h"/>
+      <Form writtenForm="altings"/>
       <Sense id="L346500-S1" synset="wikidata-da-L346500-S1" ili="wikidata-da-L346500-S1">
         <Definition>everything</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L465341">
       <Lemma writtenForm="syvogtyve" partOfSpeech="m"/>
+      <Form writtenForm="syvogtyves"/>
       <Sense id="L465341-S1" synset="wikidata-da-L465341-S1" ili="wikidata-da-L465341-S1">
         <Definition>tallet 27</Definition>
       </Sense>
@@ -1282,6 +1384,7 @@
     </LexicalEntry>
     <LexicalEntry id="L620414">
       <Lemma writtenForm="pøj pøj" partOfSpeech="i"/>
+      <Form writtenForm="pøj pøj med det hele"/>
       <Sense id="L620414-S1" synset="wikidata-da-L620414-S1" ili="wikidata-da-L620414-S1">
         <Definition>held og lykke</Definition>
       </Sense>
@@ -1318,18 +1421,21 @@
     </LexicalEntry>
     <LexicalEntry id="L984405">
       <Lemma writtenForm="trettende" partOfSpeech="m"/>
+      <Form writtenForm="trettendes"/>
       <Sense id="L984405-S1" synset="wikidata-da-L984405-S1" ili="wikidata-da-L984405-S1">
         <Definition>thirteenth</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1117237">
       <Lemma writtenForm="seksogtres" partOfSpeech="m"/>
+      <Form writtenForm="seksogtres&apos;"/>
       <Sense id="L1117237-S1" synset="wikidata-da-L1117237-S1" ili="wikidata-da-L1117237-S1">
         <Definition>tallet 66</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1117255">
       <Lemma writtenForm="femoghalvfjerds" partOfSpeech="m"/>
+      <Form writtenForm="femoghalvfjerds&apos;"/>
       <Sense id="L1117255-S1" synset="wikidata-da-L1117255-S1" ili="wikidata-da-L1117255-S1">
         <Definition>tallet 75</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117249-S1"/>
@@ -1337,6 +1443,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119191">
       <Lemma writtenForm="fyrretyvende" partOfSpeech="m"/>
+      <Form writtenForm="fyrretyvendes"/>
       <Sense id="L1119191-S1" synset="wikidata-da-L1119191-S1" ili="wikidata-da-L1119191-S1">
         <Definition>ordenstallet 40.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119190-S1"/>
@@ -1344,6 +1451,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119194">
       <Lemma writtenForm="niogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="niogtyvendes"/>
       <Sense id="L1119194-S1" synset="wikidata-da-L1119194-S1" ili="wikidata-da-L1119194-S1">
         <Definition>ordenstallet 29.</Definition>
       </Sense>
@@ -1387,6 +1495,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42413">
       <Lemma writtenForm="tyve" partOfSpeech="m"/>
+      <Form writtenForm="tyves"/>
       <Sense id="L42413-S1" synset="wikidata-da-L42413-S1" ili="wikidata-da-L42413-S1">
         <Definition>antallet 20 mellem 19 og 21</Definition>
         <Example>Forkert brug af organiske opløsningsmidler gav allerede for tyve år siden problemer.</Example>
@@ -1400,6 +1509,7 @@
     </LexicalEntry>
     <LexicalEntry id="L45894">
       <Lemma writtenForm="nitten" partOfSpeech="m"/>
+      <Form writtenForm="nittens"/>
       <Sense id="L45894-S1" synset="wikidata-da-L45894-S1" ili="wikidata-da-L45894-S1">
         <Definition>tallet 19</Definition>
         <Example>I gennemsnit blev der hver uge i 1996 vedtaget nitten forordninger og to direktiver, hvoraf de fleste drejede sig om den fælles landbrugspolitik.</Example>
@@ -1407,6 +1517,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48463">
       <Lemma writtenForm="fjorten" partOfSpeech="m"/>
+      <Form writtenForm="fjortens"/>
       <Sense id="L48463-S1" synset="wikidata-da-L48463-S1" ili="wikidata-da-L48463-S1">
         <Definition>tallet 14 mellem tretten og femten</Definition>
         <Example>Jeg nævner også de kommende klimaforhandlinger, som startes om fjorten dage i Bonn.</Example>
@@ -1414,6 +1525,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48469">
       <Lemma writtenForm="fyrre" partOfSpeech="m"/>
+      <Form writtenForm="fyrres"/>
       <Sense id="L48469-S1" synset="wikidata-da-L48469-S1" ili="wikidata-da-L48469-S1">
         <Definition>tallet 40 mellem 39 og 41</Definition>
         <Example>For fyrre år siden var der god mening heri, og det er der også i dag!</Example>
@@ -1421,6 +1533,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48474">
       <Lemma writtenForm="halvfems" partOfSpeech="m"/>
+      <Form writtenForm="halvfems&apos;"/>
       <Sense id="L48474-S1" synset="wikidata-da-L48474-S1" ili="wikidata-da-L48474-S1">
         <Definition>tallet 90 mellem 89 og 91</Definition>
         <Example>Tilsvarende burde verden selvfølgelig reagere, når over halvfems procent af de førende forskere på området i verden siger, at den globale opvarmning er reel, og at den er menneskeskabt.</Example>
@@ -1429,14 +1542,13 @@
     </LexicalEntry>
     <LexicalEntry id="L48587">
       <Lemma writtenForm="anden" partOfSpeech="h"/>
+      <Form writtenForm="andet"/>
+      <Form writtenForm="andre"/>
+      <Form writtenForm="andens"/>
+      <Form writtenForm="andets"/>
+      <Form writtenForm="andres"/>
       <Sense id="L48587-S1" synset="wikidata-da-L48587-S1" ili="l1323942-s1">
         <Definition>med forskel i forbindelse med selektiv referentialitet og kategori</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L221802">
-      <Lemma writtenForm="auto-" partOfSpeech="x"/>
-      <Sense id="L221802-S1" synset="wikidata-da-L221802-S1" ili="wikidata-da-L221802-S1">
-        <Definition>bil</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L231574">
@@ -1447,6 +1559,7 @@
     </LexicalEntry>
     <LexicalEntry id="L233332">
       <Lemma writtenForm="halvfemsindstyve" partOfSpeech="m"/>
+      <Form writtenForm="halvfemsindstyves"/>
       <Sense id="L233332-S1" synset="wikidata-da-L233332-S1" ili="wikidata-da-L233332-S1">
         <Definition>90</Definition>
         <Example>Denne meddelelse må i de tilfælde, hvor en stat allerede har tiltrådt konventionen, gives inden halvfemsindstyve dage efter datoen for generalsekretærens meddelelse, og i de tilfælde, hvor en stat senere tiltræder, inden halvfemsindtyve dage efter datoen for deponeringen af ratifikations- eller tiltrædelsesinstrumentet.</Example>
@@ -1455,6 +1568,7 @@
     </LexicalEntry>
     <LexicalEntry id="L235256">
       <Lemma writtenForm="halvtredsindstyve" partOfSpeech="m"/>
+      <Form writtenForm="halvtredsindstyves"/>
       <Sense id="L235256-S1" synset="wikidata-da-L235256-S1" ili="wikidata-da-L235256-S1">
         <Definition>tallet 50</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L48472-S1"/>
@@ -1462,6 +1576,7 @@
     </LexicalEntry>
     <LexicalEntry id="L301404">
       <Lemma writtenForm="syvende" partOfSpeech="m"/>
+      <Form writtenForm="syvendes"/>
       <Sense id="L301404-S1" synset="wikidata-da-L301404-S1" ili="wikidata-da-L301404-S1">
         <Definition>ordinaltallet 7</Definition>
         <Example>Jeg er adræt nok til at gå ned fra sjette eller syvende sal.</Example>
@@ -1469,6 +1584,7 @@
     </LexicalEntry>
     <LexicalEntry id="L301411">
       <Lemma writtenForm="ottende" partOfSpeech="m"/>
+      <Form writtenForm="ottendes"/>
       <Sense id="L301411-S1" synset="wikidata-da-L301411-S1" ili="wikidata-da-L301411-S1">
         <Definition>ordinaltallet 8</Definition>
         <Example>Dette er den ottende årsberetning om strukturfondsbevillinger.</Example>
@@ -1476,6 +1592,7 @@
     </LexicalEntry>
     <LexicalEntry id="L307396">
       <Lemma writtenForm="seksogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="seksogtyvendes"/>
       <Sense id="L307396-S1" synset="wikidata-da-L307396-S1" ili="wikidata-da-L307396-S1">
         <Definition>ordenstal for 26</Definition>
       </Sense>
@@ -1506,6 +1623,7 @@
     </LexicalEntry>
     <LexicalEntry id="L654894">
       <Lemma writtenForm="toogtredive" partOfSpeech="m"/>
+      <Form writtenForm="toogtredives"/>
       <Sense id="L654894-S1" synset="wikidata-da-L654894-S1" ili="wikidata-da-L654894-S1">
         <Definition>tallet 32</Definition>
       </Sense>
@@ -1542,18 +1660,21 @@
     </LexicalEntry>
     <LexicalEntry id="L984402">
       <Lemma writtenForm="fireogfyrre" partOfSpeech="m"/>
+      <Form writtenForm="fireogfyrres"/>
       <Sense id="L984402-S1" synset="wikidata-da-L984402-S1" ili="wikidata-da-L984402-S1">
         <Definition>tallet 44</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1094314">
       <Lemma writtenForm="femogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="femogtyvendes"/>
       <Sense id="L1094314-S1" synset="wikidata-da-L1094314-S1" ili="wikidata-da-L1094314-S1">
         <Definition>twentyfifth</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1094317">
       <Lemma writtenForm="femogtredive" partOfSpeech="m"/>
+      <Form writtenForm="femogtredives"/>
       <Sense id="L1094317-S1" synset="wikidata-da-L1094317-S1" ili="wikidata-da-L1094317-S1">
         <Definition>tallet 35</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119170-S1"/>
@@ -1561,18 +1682,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1101532">
       <Lemma writtenForm="enogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="enogtyvendes"/>
       <Sense id="L1101532-S1" synset="wikidata-da-L1101532-S1" ili="wikidata-da-L1101532-S1">
         <Definition>twenty-first</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1116354">
       <Lemma writtenForm="syvogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="syvogtyvendes"/>
       <Sense id="L1116354-S1" synset="wikidata-da-L1116354-S1" ili="wikidata-da-L1116354-S1">
         <Definition>ordenstallet 27.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119165">
       <Lemma writtenForm="halvtredsende" partOfSpeech="m"/>
+      <Form writtenForm="halvtredsendes"/>
       <Sense id="L1119165-S1" synset="wikidata-da-L1119165-S1" ili="wikidata-da-L1119165-S1">
         <Definition>ordenstallet 50.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119164-S1"/>
@@ -1580,6 +1704,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119255">
       <Lemma writtenForm="sekstifem" partOfSpeech="m"/>
+      <Form writtenForm="sekstifems"/>
       <Sense id="L1119255-S1" synset="wikidata-da-L1119255-S1" ili="wikidata-da-L1119255-S1">
         <Definition>tallet 65</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119257-S1"/>
@@ -1600,7 +1725,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1218343">
       <Lemma writtenForm="det var kattens" partOfSpeech="i"/>
-      <Sense id="L1218343-S1" synset="wikidata-da-L1218343-S1" ili="l1218344-s1">
+      <Sense id="L1218343-S1" synset="wikidata-da-L1218343-S1" ili="wikidata-da-L1218343-S1">
         <Definition>udtryk for bestyrtelse og overraskelse</Definition>
       </Sense>
     </LexicalEntry>
@@ -1612,6 +1737,8 @@
     </LexicalEntry>
     <LexicalEntry id="L3514">
       <Lemma writtenForm="to" partOfSpeech="m"/>
+      <Form writtenForm="tos"/>
+      <Form writtenForm="2"/>
       <Sense id="L3514-S1" synset="wikidata-da-L3514-S1" ili="l329-s1">
         <Definition>tallet 2, der er mellem 1 og 3</Definition>
         <Example>Det var de to beslutninger, der blev truffet i går.</Example>
@@ -1626,6 +1753,7 @@
     </LexicalEntry>
     <LexicalEntry id="L34283">
       <Lemma writtenForm="hinanden" partOfSpeech="h"/>
+      <Form writtenForm="hinandens"/>
       <Sense id="L34283-S1" synset="wikidata-da-L34283-S1" ili="wikidata-da-L34283-S1">
         <Definition>each other</Definition>
       </Sense>
@@ -1656,6 +1784,7 @@
     </LexicalEntry>
     <LexicalEntry id="L42264">
       <Lemma writtenForm="ni" partOfSpeech="m"/>
+      <Form writtenForm="nis"/>
       <Sense id="L42264-S1" synset="wikidata-da-L42264-S1" ili="wikidata-da-L42264-S1">
         <Definition>tallet 9 mellem 8 og 10</Definition>
         <Example>Kan vi gøre noget positivt nu her ni år efter?</Example>
@@ -1669,6 +1798,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48467">
       <Lemma writtenForm="atten" partOfSpeech="m"/>
+      <Form writtenForm="attens"/>
       <Sense id="L48467-S1" synset="wikidata-da-L48467-S1" ili="wikidata-da-L48467-S1">
         <Definition>tallet 18 mellem sytten og nitten</Definition>
         <Example>For atten år siden ansøgte vi om optagelse i EU.</Example>
@@ -1688,12 +1818,14 @@
     </LexicalEntry>
     <LexicalEntry id="L307397">
       <Lemma writtenForm="seksogtyve" partOfSpeech="m"/>
+      <Form writtenForm="seksogtyves"/>
       <Sense id="L307397-S1" synset="wikidata-da-L307397-S1" ili="wikidata-da-L307397-S1">
         <Definition>tallet 26</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347018">
       <Lemma writtenForm="tyvende" partOfSpeech="m"/>
+      <Form writtenForm="tyvendes"/>
       <Sense id="L347018-S1" synset="wikidata-da-L347018-S1" ili="wikidata-da-L347018-S1">
         <Definition>nummer 20 i en række</Definition>
       </Sense>
@@ -1718,6 +1850,7 @@
     </LexicalEntry>
     <LexicalEntry id="L673288">
       <Lemma writtenForm="toogfyrre" partOfSpeech="m"/>
+      <Form writtenForm="toogfyrres"/>
       <Sense id="L673288-S1" synset="wikidata-da-L673288-S1" ili="wikidata-da-L673288-S1">
         <Definition>tallet 42</Definition>
       </Sense>
@@ -1746,14 +1879,6 @@
         <Definition>sorry</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L689010">
-      <Lemma writtenForm="ad" partOfSpeech="p"/>
-      <Sense id="L689010-S1" synset="wikidata-da-L689010-S1" ili="wikidata-da-L689010-S1">
-        <Definition>vedrørende</Definition>
-        <SenseRelation relType="similar" target="wikidata-da-L688421-S1"/>
-        <SenseRelation relType="similar" target="wikidata-da-L688427-S1"/>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L689204">
       <Lemma writtenForm="omendskønt" partOfSpeech="c"/>
       <Sense id="L689204-S1" synset="wikidata-da-L689204-S1" ili="wikidata-da-L689204-S1">
@@ -1768,18 +1893,21 @@
     </LexicalEntry>
     <LexicalEntry id="L691633">
       <Lemma writtenForm="niogtyve" partOfSpeech="m"/>
+      <Form writtenForm="niogtyves"/>
       <Sense id="L691633-S1" synset="wikidata-da-L691633-S1" ili="wikidata-da-L691633-S1">
         <Definition>tallet 29</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L702779">
       <Lemma writtenForm="niti" partOfSpeech="m"/>
+      <Form writtenForm="nitis"/>
       <Sense id="L702779-S1" synset="wikidata-da-L702779-S1" ili="wikidata-da-L702779-S1">
         <Definition>tallet 90</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L735051">
       <Lemma writtenForm="firti" partOfSpeech="m"/>
+      <Form writtenForm="firtis"/>
       <Sense id="L735051-S1" synset="wikidata-da-L735051-S1" ili="wikidata-da-L735051-S1">
         <Definition>tallet 40</Definition>
       </Sense>
@@ -1792,12 +1920,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1116265">
       <Lemma writtenForm="enogtres" partOfSpeech="m"/>
+      <Form writtenForm="enogtres&apos;"/>
       <Sense id="L1116265-S1" synset="wikidata-da-L1116265-S1" ili="wikidata-da-L1116265-S1">
         <Definition>tallet 61</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1117380">
       <Lemma writtenForm="halvfemsende" partOfSpeech="m"/>
+      <Form writtenForm="halvfemsendes"/>
       <Sense id="L1117380-S1" synset="wikidata-da-L1117380-S1" ili="wikidata-da-L1117380-S1">
         <Definition>ordenstallet 90.</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1117379-S1"/>
@@ -1805,30 +1935,35 @@
     </LexicalEntry>
     <LexicalEntry id="L1119167">
       <Lemma writtenForm="ellevte" partOfSpeech="m"/>
+      <Form writtenForm="ellevtes"/>
       <Sense id="L1119167-S1" synset="wikidata-da-L1119167-S1" ili="wikidata-da-L1119167-S1">
         <Definition>ordenstallet 11.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119193">
       <Lemma writtenForm="millionte" partOfSpeech="m"/>
+      <Form writtenForm="milliontes"/>
       <Sense id="L1119193-S1" synset="wikidata-da-L1119193-S1" ili="wikidata-da-L1119193-S1">
         <Definition>ordenstallet for en million</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119250">
       <Lemma writtenForm="nitifem" partOfSpeech="m"/>
+      <Form writtenForm="nitifems"/>
       <Sense id="L1119250-S1" synset="wikidata-da-L1119250-S1" ili="wikidata-da-L1119250-S1">
         <Definition>tallet 95</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119251">
       <Lemma writtenForm="sekstende" partOfSpeech="m"/>
+      <Form writtenForm="sekstendes"/>
       <Sense id="L1119251-S1" synset="wikidata-da-L1119251-S1" ili="wikidata-da-L1119251-S1">
         <Definition>ordenstallet 16.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119256">
       <Lemma writtenForm="otti" partOfSpeech="m"/>
+      <Form writtenForm="ottis"/>
       <Sense id="L1119256-S1" synset="wikidata-da-L1119256-S1" ili="wikidata-da-L1119256-S1">
         <Definition>tallet 80</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L45895-S1"/>
@@ -1837,6 +1972,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119258">
       <Lemma writtenForm="ottifem" partOfSpeech="m"/>
+      <Form writtenForm="ottifems"/>
       <Sense id="L1119258-S1" synset="wikidata-da-L1119258-S1" ili="wikidata-da-L1119258-S1">
         <Definition>tallet 85</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L1119259-S1"/>
@@ -1844,6 +1980,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1119287">
       <Lemma writtenForm="treogtredive" partOfSpeech="m"/>
+      <Form writtenForm="treogtredives"/>
       <Sense id="L1119287-S1" synset="wikidata-da-L1119287-S1" ili="wikidata-da-L1119287-S1">
         <Definition>tallet 33</Definition>
       </Sense>
@@ -1890,6 +2027,7 @@
     </LexicalEntry>
     <LexicalEntry id="L34131">
       <Lemma writtenForm="otte" partOfSpeech="m"/>
+      <Form writtenForm="ottes"/>
       <Sense id="L34131-S1" synset="wikidata-da-L34131-S1" ili="wikidata-da-L34131-S1">
         <Definition>tallet 8 efter 7 og før 9</Definition>
         <Example>Alt dette forsvandt for otte måneder siden.</Example>
@@ -1939,6 +2077,7 @@
     </LexicalEntry>
     <LexicalEntry id="L48472">
       <Lemma writtenForm="halvtreds" partOfSpeech="m"/>
+      <Form writtenForm="halvtreds&apos;"/>
       <Sense id="L48472-S1" synset="wikidata-da-L48472-S1" ili="wikidata-da-L48472-S1">
         <Definition>tallet 50 mellem 49 og 51</Definition>
         <Example>Lad os huske på, at kriminaliteten i Europa er steget betydeligt i løbet af de sidste halvtreds år.</Example>
@@ -1962,6 +2101,7 @@
     </LexicalEntry>
     <LexicalEntry id="L233333">
       <Lemma writtenForm="halvfjerdsindstyve" partOfSpeech="m"/>
+      <Form writtenForm="halvfjerdsindstyves"/>
       <Sense id="L233333-S1" synset="wikidata-da-L233333-S1" ili="wikidata-da-L233333-S1">
         <Definition>tallet 70</Definition>
         <SenseRelation relType="similar" target="wikidata-da-L48473-S1"/>
@@ -1984,12 +2124,18 @@
     </LexicalEntry>
     <LexicalEntry id="L347223">
       <Lemma writtenForm="ingenting" partOfSpeech="h"/>
+      <Form writtenForm="ingentings"/>
+      <Form writtenForm="ingen ting"/>
+      <Form writtenForm="ingen tings"/>
       <Sense id="L347223-S1" synset="wikidata-da-L347223-S1" ili="wikidata-da-L347223-S1">
         <Definition>nothing</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L347747">
       <Lemma writtenForm="halvanden" partOfSpeech="m"/>
+      <Form writtenForm="halvandet"/>
+      <Form writtenForm="halvandens"/>
+      <Form writtenForm="halvandets"/>
       <Sense id="L347747-S1" synset="wikidata-da-L347747-S1" ili="wikidata-da-L347747-S1">
         <Definition>den rationelle talværdi der ligger midt imellem et og to</Definition>
       </Sense>
@@ -2027,6 +2173,7 @@
     </LexicalEntry>
     <LexicalEntry id="L654893">
       <Lemma writtenForm="enogtredive" partOfSpeech="m"/>
+      <Form writtenForm="enogtredives"/>
       <Sense id="L654893-S1" synset="wikidata-da-L654893-S1" ili="wikidata-da-L654893-S1">
         <Definition>tallet 31</Definition>
       </Sense>
@@ -2060,42 +2207,49 @@
     </LexicalEntry>
     <LexicalEntry id="L984403">
       <Lemma writtenForm="fireoghalvfjerds" partOfSpeech="m"/>
+      <Form writtenForm="fireoghalvfjerds&apos;"/>
       <Sense id="L984403-S1" synset="wikidata-da-L984403-S1" ili="wikidata-da-L984403-S1">
         <Definition>tallet 74</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1116263">
       <Lemma writtenForm="otteogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="otteogtyvendes"/>
       <Sense id="L1116263-S1" synset="wikidata-da-L1116263-S1" ili="wikidata-da-L1116263-S1">
         <Definition>ordenstal for 28</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1116356">
       <Lemma writtenForm="niogfyrre" partOfSpeech="m"/>
+      <Form writtenForm="niogfyrres"/>
       <Sense id="L1116356-S1" synset="wikidata-da-L1116356-S1" ili="wikidata-da-L1116356-S1">
         <Definition>tallet 49</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1116401">
       <Lemma writtenForm="fireogtyvende" partOfSpeech="m"/>
+      <Form writtenForm="fireogtyvendes"/>
       <Sense id="L1116401-S1" synset="wikidata-da-L1116401-S1" ili="wikidata-da-L1116401-S1">
         <Definition>ordenstallet 24.</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119244">
       <Lemma writtenForm="totifem" partOfSpeech="m"/>
+      <Form writtenForm="totifems"/>
       <Sense id="L1119244-S1" synset="wikidata-da-L1119244-S1" ili="wikidata-da-L1119244-S1">
         <Definition>tallet 25</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1119261">
       <Lemma writtenForm="n&apos;te" partOfSpeech="m"/>
+      <Form writtenForm="n&apos;tes"/>
       <Sense id="L1119261-S1" synset="wikidata-da-L1119261-S1" ili="wikidata-da-L1119261-S1">
         <Definition>et element i en rækkefølge angivet ved variablen &apos;n&apos;</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1143780">
       <Lemma writtenForm="toogfirs" partOfSpeech="m"/>
+      <Form writtenForm="toogfirs&apos;"/>
       <Sense id="L1143780-S1" synset="wikidata-da-L1143780-S1" ili="wikidata-da-L1143780-S1">
         <Definition>tallet 82</Definition>
       </Sense>
@@ -2109,22 +2263,10 @@
         <Definition>udtryk for overraskelse eller forbavselse</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1227933">
-      <Lemma writtenForm="Gud og hvermand" partOfSpeech="r"/>
-      <Sense id="L1227933-S1" synset="wikidata-da-L1227933-S1" ili="wikidata-da-L1227933-S1">
-        <Definition>alle</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1316687">
       <Lemma writtenForm="to-tre" partOfSpeech="m"/>
       <Sense id="L1316687-S1" synset="wikidata-da-L1316687-S1" ili="wikidata-da-L1316687-S1">
         <Definition>to eller tre</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1379403">
-      <Lemma writtenForm="-al" partOfSpeech="x"/>
-      <Sense id="L1379403-S1" synset="wikidata-da-L1379403-S1" ili="wikidata-da-L1379403-S1">
-        <Definition>fx i: kollegial, normal</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1505586">
@@ -2137,6 +2279,21 @@
       <Lemma writtenForm="avs" partOfSpeech="i"/>
       <Sense id="L1505606-S1" synset="wikidata-da-L1505606-S1" ili="wikidata-da-L1505606-S1">
         <Definition>udtryk for smerte</Definition>
+      </Sense>
+    </LexicalEntry>
+    <LexicalEntry id="L1081949">
+      <Lemma writtenForm="vedr." partOfSpeech="x"/>
+      <Sense id="L1081949-S1" synset="wikidata-da-L1081949-S1" ili="wikidata-da-L1081949-S1">
+        <Definition>concerning, with respect to</Definition>
+        <SenseRelation relType="similar" target="wikidata-da-L688421-S1"/>
+        <SenseRelation relType="similar" target="wikidata-da-L688427-S1"/>
+      </Sense>
+    </LexicalEntry>
+    <LexicalEntry id="L1411892">
+      <Lemma writtenForm="if." partOfSpeech="x"/>
+      <Sense id="L1411892-S1" synset="wikidata-da-L1411892-S1" ili="wikidata-da-L1411892-S1">
+        <Definition>ifølge</Definition>
+        <SenseRelation relType="similar" target="wikidata-da-L42590-S1"/>
       </Sense>
     </LexicalEntry>
     <Synset id="wikidata-da-L2312-S1" ili="wikidata-da-L2312-S1" partOfSpeech="p">
@@ -2245,9 +2402,6 @@
     </Synset>
     <Synset id="wikidata-da-L1012253-S1" ili="wikidata-da-L1012253-S1" partOfSpeech="t">
       <Definition>tidsperiode med skriftlige kilder</Definition>
-    </Synset>
-    <Synset id="wikidata-da-L1081949-S1" ili="wikidata-da-L1081949-S1" partOfSpeech="x">
-      <Definition>concerning, with respect to</Definition>
     </Synset>
     <Synset id="wikidata-da-L1117249-S1" ili="wikidata-da-L1117249-S1" partOfSpeech="m">
       <Definition>tallet 75</Definition>
@@ -2668,9 +2822,6 @@
     <Synset id="wikidata-da-L1379404-S1" ili="wikidata-da-L1379404-S1" partOfSpeech="x">
       <Definition>i kemi</Definition>
     </Synset>
-    <Synset id="wikidata-da-L1411892-S1" ili="wikidata-da-L1411892-S1" partOfSpeech="x">
-      <Definition>ifølge</Definition>
-    </Synset>
     <Synset id="wikidata-da-L1504412-S1" ili="wikidata-da-L1504412-S1" partOfSpeech="i">
       <Definition>kommando til en hund om at den skal sætte sig ned</Definition>
     </Synset>
@@ -2858,9 +3009,6 @@
     <Synset id="wikidata-da-L48587-S1" ili="l1323942-s1" partOfSpeech="h">
       <Definition>med forskel i forbindelse med selektiv referentialitet og kategori</Definition>
     </Synset>
-    <Synset id="wikidata-da-L221802-S1" ili="wikidata-da-L221802-S1" partOfSpeech="x">
-      <Definition>bil</Definition>
-    </Synset>
     <Synset id="wikidata-da-L231574-S1" ili="wikidata-da-L231574-S1" partOfSpeech="x">
       <Definition>forstærker</Definition>
     </Synset>
@@ -2939,7 +3087,7 @@
     <Synset id="wikidata-da-L1175186-S1" ili="wikidata-da-L1175186-S1" partOfSpeech="i">
       <Definition>held og lykke</Definition>
     </Synset>
-    <Synset id="wikidata-da-L1218343-S1" ili="l1218344-s1" partOfSpeech="i">
+    <Synset id="wikidata-da-L1218343-S1" ili="wikidata-da-L1218343-S1" partOfSpeech="i">
       <Definition>udtryk for bestyrtelse og overraskelse</Definition>
     </Synset>
     <Synset id="wikidata-da-L1226650-S1" ili="wikidata-da-L1226650-S1" partOfSpeech="r">
@@ -3013,9 +3161,6 @@
     </Synset>
     <Synset id="wikidata-da-L688446-S1" ili="wikidata-da-L688446-S1" partOfSpeech="i">
       <Definition>sorry</Definition>
-    </Synset>
-    <Synset id="wikidata-da-L689010-S1" ili="wikidata-da-L689010-S1" partOfSpeech="p">
-      <Definition>vedrørende</Definition>
     </Synset>
     <Synset id="wikidata-da-L689204-S1" ili="wikidata-da-L689204-S1" partOfSpeech="c">
       <Definition>konjunktion, der bruges til at indlede en sætning eller klausul, der udtrykker en indrømmelse eller en undtagelse, svarende til &apos;selvom&apos; eller &apos;skønt&apos;</Definition>
@@ -3198,20 +3343,20 @@
     <Synset id="wikidata-da-L1218379-S2" ili="wikidata-da-L1218379-S2" partOfSpeech="i">
       <Definition>udtryk for overraskelse eller forbavselse</Definition>
     </Synset>
-    <Synset id="wikidata-da-L1227933-S1" ili="wikidata-da-L1227933-S1" partOfSpeech="r">
-      <Definition>alle</Definition>
-    </Synset>
     <Synset id="wikidata-da-L1316687-S1" ili="wikidata-da-L1316687-S1" partOfSpeech="m">
       <Definition>to eller tre</Definition>
-    </Synset>
-    <Synset id="wikidata-da-L1379403-S1" ili="wikidata-da-L1379403-S1" partOfSpeech="x">
-      <Definition>fx i: kollegial, normal</Definition>
     </Synset>
     <Synset id="wikidata-da-L1505586-S1" ili="wikidata-da-L1505586-S1" partOfSpeech="i">
       <Definition>udtryk for bekræftende indrømmelse eller indsigt</Definition>
     </Synset>
     <Synset id="wikidata-da-L1505606-S1" ili="wikidata-da-L1505606-S1" partOfSpeech="i">
       <Definition>udtryk for smerte</Definition>
+    </Synset>
+    <Synset id="wikidata-da-L1081949-S1" ili="wikidata-da-L1081949-S1" partOfSpeech="x">
+      <Definition>concerning, with respect to</Definition>
+    </Synset>
+    <Synset id="wikidata-da-L1411892-S1" ili="wikidata-da-L1411892-S1" partOfSpeech="x">
+      <Definition>ifølge</Definition>
     </Synset>
   </LexiconExtension>
 </LexicalResource>

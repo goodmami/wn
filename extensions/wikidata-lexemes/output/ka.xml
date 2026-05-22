@@ -43,6 +43,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1231">
       <Lemma writtenForm="მე" partOfSpeech="h"/>
+      <Form writtenForm="ჩემ"/>
+      <Form writtenForm="ჩემით"/>
+      <Form writtenForm="ჩემად"/>
       <Sense id="L1231-S1" synset="wikidata-ka-L1231-S1" ili="wikidata-ka-L1231-S1">
         <Definition>I, me</Definition>
       </Sense>

@@ -10,12 +10,14 @@
     <Extends id="omw-eo" version="1.4"/>
     <LexicalEntry id="L43386">
       <Lemma writtenForm="ĝi" partOfSpeech="h"/>
+      <Form writtenForm="ĝin"/>
       <Sense id="L43386-S1" synset="wikidata-eo-L43386-S1" ili="l507-s1">
         <Definition>it</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L305162">
       <Lemma writtenForm="ili" partOfSpeech="h"/>
+      <Form writtenForm="ilin"/>
       <Sense id="L305162-S1" synset="wikidata-eo-L305162-S1" ili="l371-s2">
         <Definition>triapersona plurala pronomo</Definition>
       </Sense>
@@ -124,6 +126,9 @@
     </LexicalEntry>
     <LexicalEntry id="L523784">
       <Lemma writtenForm="mia" partOfSpeech="h"/>
+      <Form writtenForm="mian"/>
+      <Form writtenForm="miaj"/>
+      <Form writtenForm="miajn"/>
       <Sense id="L523784-S1" synset="wikidata-eo-L523784-S1" ili="wikidata-eo-L523784-S1">
         <Definition>my</Definition>
       </Sense>
@@ -148,12 +153,14 @@
     </LexicalEntry>
     <LexicalEntry id="L43387">
       <Lemma writtenForm="ri" partOfSpeech="h"/>
+      <Form writtenForm="rin"/>
       <Sense id="L43387-S1" synset="wikidata-eo-L43387-S1" ili="l371-s1">
         <Definition>single person, previously mentioned, of unknown or non-binary gender</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L305818">
       <Lemma writtenForm="ivi" partOfSpeech="h"/>
+      <Form writtenForm="ivin"/>
       <Sense id="L305818-S1" synset="wikidata-eo-L305818-S1" ili="wikidata-eo-L305818-S1">
         <Definition>proposed second-person plural pronoun</Definition>
       </Sense>
@@ -325,12 +332,18 @@
     </LexicalEntry>
     <LexicalEntry id="L523787">
       <Lemma writtenForm="ŝia" partOfSpeech="h"/>
+      <Form writtenForm="ŝian"/>
+      <Form writtenForm="ŝiaj"/>
+      <Form writtenForm="ŝiajn"/>
       <Sense id="L523787-S1" synset="wikidata-eo-L523787-S1" ili="wikidata-eo-L523787-S1">
         <Definition>hers</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L523792">
       <Lemma writtenForm="onia" partOfSpeech="h"/>
+      <Form writtenForm="onian"/>
+      <Form writtenForm="oniaj"/>
+      <Form writtenForm="oniajn"/>
       <Sense id="L523792-S1" synset="wikidata-eo-L523792-S1" ili="wikidata-eo-L523792-S1">
         <Definition>one&apos;s; your (generic)</Definition>
       </Sense>
@@ -349,6 +362,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305165">
       <Lemma writtenForm="ŝli" partOfSpeech="h"/>
+      <Form writtenForm="ŝlin"/>
       <Sense id="L305165-S1" synset="wikidata-eo-L305165-S1" ili="wikidata-eo-L305165-S1">
         <Definition>proposed gender-neutral third-person singular pronoun</Definition>
       </Sense>
@@ -422,6 +436,9 @@
     </LexicalEntry>
     <LexicalEntry id="L523790">
       <Lemma writtenForm="via" partOfSpeech="h"/>
+      <Form writtenForm="vian"/>
+      <Form writtenForm="viaj"/>
+      <Form writtenForm="viajn"/>
       <Sense id="L523790-S1" synset="wikidata-eo-L523790-S1" ili="wikidata-eo-L523790-S1">
         <Definition>your (plural)</Definition>
       </Sense>
@@ -455,6 +472,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305160">
       <Lemma writtenForm="vi" partOfSpeech="h"/>
+      <Form writtenForm="vin"/>
       <Sense id="L305160-S1" synset="wikidata-eo-L305160-S1" ili="wikidata-eo-L305160-S1">
         <Definition>second-person singular pronoun</Definition>
         <SenseRelation relType="similar" target="wikidata-eo-L305164-S1"/>
@@ -552,12 +570,16 @@
     </LexicalEntry>
     <LexicalEntry id="L523798">
       <Lemma writtenForm="ria" partOfSpeech="h"/>
+      <Form writtenForm="rian"/>
+      <Form writtenForm="riaj"/>
+      <Form writtenForm="riajn"/>
       <Sense id="L523798-S1" synset="wikidata-eo-L523798-S1" ili="wikidata-eo-L523798-S1">
         <Definition>their (singular they)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L43384">
       <Lemma writtenForm="li" partOfSpeech="h"/>
+      <Form writtenForm="lin"/>
       <Sense id="L43384-S1" synset="wikidata-eo-L43384-S1" ili="l485-s1">
         <Definition>he; third-person masculine singular pronoun</Definition>
       </Sense>
@@ -573,6 +595,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305164">
       <Lemma writtenForm="ci" partOfSpeech="h"/>
+      <Form writtenForm="cin"/>
       <Sense id="L305164-S1" synset="wikidata-eo-L305164-S1" ili="wikidata-eo-L305164-S1">
         <Definition>uncommon second-person singular pronoun</Definition>
         <SenseRelation relType="similar" target="wikidata-eo-L305160-S1"/>
@@ -580,6 +603,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305811">
       <Lemma writtenForm="iŝi" partOfSpeech="h"/>
+      <Form writtenForm="iŝin"/>
       <Sense id="L305811-S1" synset="wikidata-eo-L305811-S1" ili="wikidata-eo-L305811-S1">
         <Definition>proposed third-person feminine plural pronoun</Definition>
       </Sense>
@@ -667,12 +691,18 @@
     </LexicalEntry>
     <LexicalEntry id="L523785">
       <Lemma writtenForm="cia" partOfSpeech="h"/>
+      <Form writtenForm="cian"/>
+      <Form writtenForm="ciaj"/>
+      <Form writtenForm="ciajn"/>
       <Sense id="L523785-S1" synset="wikidata-eo-L523785-S1" ili="wikidata-eo-L523785-S1">
         <Definition>your (singular)</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L523788">
       <Lemma writtenForm="ĝia" partOfSpeech="h"/>
+      <Form writtenForm="ĝian"/>
+      <Form writtenForm="ĝiaj"/>
+      <Form writtenForm="ĝiajn"/>
       <Sense id="L523788-S1" synset="wikidata-eo-L523788-S1" ili="wikidata-eo-L523788-S1">
         <Definition>its</Definition>
       </Sense>
@@ -685,6 +715,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1371131">
       <Lemma writtenForm="neniu" partOfSpeech="h"/>
+      <Form writtenForm="neniun"/>
       <Sense id="L1371131-S1" synset="wikidata-eo-L1371131-S1" ili="wikidata-eo-L1371131-S1">
         <Definition>nobody</Definition>
       </Sense>
@@ -697,12 +728,14 @@
     </LexicalEntry>
     <LexicalEntry id="L305159">
       <Lemma writtenForm="mi" partOfSpeech="h"/>
+      <Form writtenForm="min"/>
       <Sense id="L305159-S1" synset="wikidata-eo-L305159-S1" ili="wikidata-eo-L305159-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L305849">
       <Lemma writtenForm="hi" partOfSpeech="h"/>
+      <Form writtenForm="hin"/>
       <Sense id="L305849-S1" synset="wikidata-eo-L305849-S1" ili="wikidata-eo-L305849-S1">
         <Definition>proposed third-person masculine pronoun</Definition>
       </Sense>
@@ -844,6 +877,7 @@
     </LexicalEntry>
     <LexicalEntry id="L43385">
       <Lemma writtenForm="ŝi" partOfSpeech="h"/>
+      <Form writtenForm="ŝin"/>
       <Sense id="L43385-S1" synset="wikidata-eo-L43385-S1" ili="l484-s1">
         <Definition>she</Definition>
       </Sense>
@@ -934,6 +968,9 @@
     </LexicalEntry>
     <LexicalEntry id="L523786">
       <Lemma writtenForm="lia" partOfSpeech="h"/>
+      <Form writtenForm="lian"/>
+      <Form writtenForm="liaj"/>
+      <Form writtenForm="liajn"/>
       <Sense id="L523786-S1" synset="wikidata-eo-L523786-S1" ili="wikidata-eo-L523786-S1">
         <Definition>his</Definition>
       </Sense>
@@ -958,6 +995,7 @@
     </LexicalEntry>
     <LexicalEntry id="L305161">
       <Lemma writtenForm="ni" partOfSpeech="h"/>
+      <Form writtenForm="nin"/>
       <Sense id="L305161-S1" synset="wikidata-eo-L305161-S1" ili="wikidata-eo-L305161-S1">
         <Definition>we; first-person plural pronoun</Definition>
       </Sense>
@@ -1111,18 +1149,27 @@
     </LexicalEntry>
     <LexicalEntry id="L523789">
       <Lemma writtenForm="nia" partOfSpeech="h"/>
+      <Form writtenForm="nian"/>
+      <Form writtenForm="niaj"/>
+      <Form writtenForm="niajn"/>
       <Sense id="L523789-S1" synset="wikidata-eo-L523789-S1" ili="wikidata-eo-L523789-S1">
         <Definition>our</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L523791">
       <Lemma writtenForm="ilia" partOfSpeech="h"/>
+      <Form writtenForm="ilian"/>
+      <Form writtenForm="iliaj"/>
+      <Form writtenForm="iliajn"/>
       <Sense id="L523791-S1" synset="wikidata-eo-L523791-S1" ili="wikidata-eo-L523791-S1">
         <Definition>their</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L523793">
       <Lemma writtenForm="sia" partOfSpeech="h"/>
+      <Form writtenForm="sian"/>
+      <Form writtenForm="siaj"/>
+      <Form writtenForm="siajn"/>
       <Sense id="L523793-S1" synset="wikidata-eo-L523793-S1" ili="wikidata-eo-L523793-S1">
         <Definition>the subject&apos;s; his/her/its/their own</Definition>
       </Sense>

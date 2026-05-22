@@ -27,6 +27,9 @@
     </LexicalEntry>
     <LexicalEntry id="L59524">
       <Lemma writtenForm="один" partOfSpeech="m"/>
+      <Form writtenForm="одна"/>
+      <Form writtenForm="одно"/>
+      <Form writtenForm="одни"/>
       <Sense id="L59524-S1" synset="wikidata-ru-L59524-S1" ili="wikidata-ru-L59524-S1">
         <Definition>натуральное число</Definition>
         <Example>Один из крупнейших словарей русского языка.</Example>
@@ -34,6 +37,22 @@
     </LexicalEntry>
     <LexicalEntry id="L183954">
       <Lemma writtenForm="заключённый" partOfSpeech="v"/>
+      <Form writtenForm="заключённого"/>
+      <Form writtenForm="заключённому"/>
+      <Form writtenForm="заключённым"/>
+      <Form writtenForm="заключённом"/>
+      <Form writtenForm="заключён"/>
+      <Form writtenForm="заключённое"/>
+      <Form writtenForm="заключено"/>
+      <Form writtenForm="заключённая"/>
+      <Form writtenForm="заключённой"/>
+      <Form writtenForm="заключённую"/>
+      <Form writtenForm="заключённою"/>
+      <Form writtenForm="заключена"/>
+      <Form writtenForm="заключённые"/>
+      <Form writtenForm="заключённых"/>
+      <Form writtenForm="заключёнными"/>
+      <Form writtenForm="заключены"/>
       <Sense id="L183954-S1" synset="wikidata-ru-L183954-S1" ili="wikidata-ru-L183954-S1">
         <Definition>помещённый внутрь</Definition>
       </Sense>
@@ -123,12 +142,6 @@
         <Definition>подчёркивает, что действие или предмет вполне соответствуют чему-либо предварительно упомянутому</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L470666">
-      <Lemma writtenForm="Тихий океан" partOfSpeech="t"/>
-      <Sense id="L470666-S1" synset="wikidata-ru-L470666-S1" ili="wikidata-ru-L470666-S1">
-        <Definition>океан на Земле</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L528356">
       <Lemma writtenForm="атас" partOfSpeech="i"/>
       <Sense id="L528356-S1" synset="wikidata-ru-L528356-S1" ili="wikidata-ru-L528356-S1">
@@ -195,15 +208,6 @@
         <Definition>указание на цель или причину, из-за</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L625206">
-      <Lemma writtenForm="Новый год" partOfSpeech="t"/>
-      <Sense id="L625206-S1" synset="wikidata-ru-L625206-S1" ili="wikidata-ru-L625206-S1">
-        <Definition>календарная дата - первая в году</Definition>
-      </Sense>
-      <Sense id="L625206-S2" synset="wikidata-ru-L625206-S2" ili="wikidata-ru-L625206-S2">
-        <Definition>праздник начала года</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L679894">
       <Lemma writtenForm="тринадцать" partOfSpeech="m"/>
       <Sense id="L679894-S1" synset="wikidata-ru-L679894-S1" ili="wikidata-ru-L679894-S1">
@@ -251,6 +255,7 @@
     </LexicalEntry>
     <LexicalEntry id="L2109">
       <Lemma writtenForm="в" partOfSpeech="p"/>
+      <Form writtenForm="во"/>
       <Sense id="L2109-S1" synset="wikidata-ru-L2109-S1" ili="l2987-s1">
         <Definition>внутрь (о направлении)</Definition>
       </Sense>
@@ -333,6 +338,7 @@
     </LexicalEntry>
     <LexicalEntry id="L409420">
       <Lemma writtenForm="что" partOfSpeech="y"/>
+      <Form writtenForm="чё"/>
       <Sense id="L409420-S1" synset="wikidata-ru-L409420-S1" ili="wikidata-ru-L409420-S1">
         <Definition>употребляется как вопросительный отклик, ответ на обращение или при переспросе нерасслышанного</Definition>
       </Sense>
@@ -348,6 +354,14 @@
     </LexicalEntry>
     <LexicalEntry id="L409467">
       <Lemma writtenForm="он" partOfSpeech="h"/>
+      <Form writtenForm="его"/>
+      <Form writtenForm="него"/>
+      <Form writtenForm="ему"/>
+      <Form writtenForm="нему"/>
+      <Form writtenForm="им"/>
+      <Form writtenForm="ним"/>
+      <Form writtenForm="ём"/>
+      <Form writtenForm="нём"/>
       <Sense id="L409467-S1" synset="wikidata-ru-L409467-S1" ili="wikidata-ru-L409467-S1">
         <Definition>тот предмет, человек и т. п.; указывает на предмет речи, выраженный в предшествующем или в последующем повествовании существительным м. р. ед. ч.</Definition>
         <Example>Тогда он оглянулся назад и, увидев меня, позвал меня.</Example>
@@ -358,6 +372,8 @@
     </LexicalEntry>
     <LexicalEntry id="L447104">
       <Lemma writtenForm="и" partOfSpeech="i"/>
+      <Form writtenForm="и-и"/>
+      <Form writtenForm="и-и-и"/>
       <Sense id="L447104-S1" synset="wikidata-ru-L447104-S1" ili="wikidata-ru-L447104-S1">
         <Definition>выражает несогласие со словами собеседника, возражение ему, увещание</Definition>
         <Example>― Ел? ― И-и! Боже упаси, и смотреть не стал…</Example>
@@ -370,6 +386,7 @@
     </LexicalEntry>
     <LexicalEntry id="L447105">
       <Lemma writtenForm="и" partOfSpeech="x"/>
+      <Form writtenForm="И"/>
       <Sense id="L447105-S1" synset="wikidata-ru-L447105-S1" ili="wikidata-ru-L447105-S1">
         <Definition>русская буква</Definition>
       </Sense>
@@ -378,12 +395,6 @@
       <Lemma writtenForm="как" partOfSpeech="y"/>
       <Sense id="L448556-S1" synset="wikidata-ru-L448556-S1" ili="wikidata-ru-L448556-S1">
         <Definition>употребляется при выражении эмоций</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L470667">
-      <Lemma writtenForm="Атлантический океан" partOfSpeech="t"/>
-      <Sense id="L470667-S1" synset="wikidata-ru-L470667-S1" ili="wikidata-ru-L470667-S1">
-        <Definition>океан на Земле</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L524571">
@@ -400,6 +411,14 @@
     </LexicalEntry>
     <LexicalEntry id="L582437">
       <Lemma writtenForm="она" partOfSpeech="h"/>
+      <Form writtenForm="её"/>
+      <Form writtenForm="неё"/>
+      <Form writtenForm="ея"/>
+      <Form writtenForm="нея"/>
+      <Form writtenForm="ей"/>
+      <Form writtenForm="ней"/>
+      <Form writtenForm="ею"/>
+      <Form writtenForm="нею"/>
       <Sense id="L582437-S1" synset="wikidata-ru-L582437-S1" ili="wikidata-ru-L582437-S1">
         <Definition>это лицо женского пола или этот объект, ассоциируемый с женским родом; указывает на предмет речи, выраженный в предшествующем или в последующем повествовании существительным женского рода</Definition>
         <Example>Поэзия — светлый и свежий водоём, и когда душа прикасается к этой влаге, она пьёт из источника вечной юности.</Example>
@@ -440,6 +459,18 @@
     </LexicalEntry>
     <LexicalEntry id="L994333">
       <Lemma writtenForm="тот" partOfSpeech="h"/>
+      <Form writtenForm="того"/>
+      <Form writtenForm="тому"/>
+      <Form writtenForm="тем"/>
+      <Form writtenForm="том"/>
+      <Form writtenForm="та"/>
+      <Form writtenForm="той"/>
+      <Form writtenForm="ту"/>
+      <Form writtenForm="тою"/>
+      <Form writtenForm="то"/>
+      <Form writtenForm="те"/>
+      <Form writtenForm="тех"/>
+      <Form writtenForm="теми"/>
       <Sense id="L994333-S1" synset="wikidata-ru-L994333-S1" ili="wikidata-ru-L994333-S1">
         <Definition>данный, находящийся там, далеко от говорящего</Definition>
       </Sense>
@@ -496,12 +527,20 @@
     </LexicalEntry>
     <LexicalEntry id="L245941">
       <Lemma writtenForm="два" partOfSpeech="m"/>
+      <Form writtenForm="две"/>
+      <Form writtenForm="двух"/>
+      <Form writtenForm="двум"/>
+      <Form writtenForm="двумя"/>
       <Sense id="L245941-S1" synset="wikidata-ru-L245941-S1" ili="wikidata-ru-L245941-S1">
         <Definition>натуральное число</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L409413">
       <Lemma writtenForm="что" partOfSpeech="h"/>
+      <Form writtenForm="чего"/>
+      <Form writtenForm="чему"/>
+      <Form writtenForm="чем"/>
+      <Form writtenForm="чём"/>
       <Sense id="L409413-S1" synset="wikidata-ru-L409413-S1" ili="wikidata-ru-L409413-S1">
         <Definition>употребляется для формирования вопроса, с помощью которого говорящий хочет получить информацию о предмете, признаке, действии</Definition>
       </Sense>
@@ -719,6 +758,7 @@
     </LexicalEntry>
     <LexicalEntry id="L409443">
       <Lemma writtenForm="от" partOfSpeech="p"/>
+      <Form writtenForm="ото"/>
       <Sense id="L409443-S1" synset="wikidata-ru-L409443-S1" ili="wikidata-ru-L409443-S1">
         <Definition>обозначение исходной точки передвижения предмета или информации</Definition>
       </Sense>
@@ -814,6 +854,10 @@
     </LexicalEntry>
     <LexicalEntry id="L640808">
       <Lemma writtenForm="маточное молочко" partOfSpeech="t"/>
+      <Form writtenForm="маточного молочка"/>
+      <Form writtenForm="маточному молочку"/>
+      <Form writtenForm="маточным молочком"/>
+      <Form writtenForm="маточном молочке"/>
       <Sense id="L640808-S1" synset="wikidata-ru-L640808-S1" ili="wikidata-ru-L640808-S1">
         <Definition>продукт питания пчёл</Definition>
       </Sense>
@@ -865,6 +909,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1450783">
       <Lemma writtenForm="о" partOfSpeech="p"/>
+      <Form writtenForm="об"/>
+      <Form writtenForm="обо"/>
       <Sense id="L1450783-S1" synset="wikidata-ru-L1450783-S1" ili="wikidata-ru-L1450783-S1">
         <Definition>указывает на объект глагола: предмет, на который направлена мысль, речь, чувство, действие</Definition>
       </Sense>
@@ -898,6 +944,14 @@
     </LexicalEntry>
     <LexicalEntry id="L2027">
       <Lemma writtenForm="я" partOfSpeech="h"/>
+      <Form writtenForm="меня"/>
+      <Form writtenForm="мне"/>
+      <Form writtenForm="мной"/>
+      <Form writtenForm="мною"/>
+      <Form writtenForm="мы"/>
+      <Form writtenForm="нас"/>
+      <Form writtenForm="нам"/>
+      <Form writtenForm="нами"/>
       <Sense id="L2027-S1" synset="wikidata-ru-L2027-S1" ili="wikidata-ru-L2027-S1">
         <Definition>местоимение первого лица</Definition>
       </Sense>
@@ -942,12 +996,23 @@
     </LexicalEntry>
     <LexicalEntry id="L290215">
       <Lemma writtenForm="сто" partOfSpeech="m"/>
+      <Form writtenForm="ста"/>
+      <Form writtenForm="сот"/>
       <Sense id="L290215-S1" synset="wikidata-ru-L290215-S1" ili="wikidata-ru-L290215-S1">
         <Definition>натуральное число</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L348650">
       <Lemma writtenForm="нуль" partOfSpeech="m"/>
+      <Form writtenForm="нуля"/>
+      <Form writtenForm="нул"/>
+      <Form writtenForm="нулём"/>
+      <Form writtenForm="нуле"/>
+      <Form writtenForm="нули"/>
+      <Form writtenForm="нулей"/>
+      <Form writtenForm="нулям"/>
+      <Form writtenForm="нулями"/>
+      <Form writtenForm="нулях"/>
       <Sense id="L348650-S1" synset="wikidata-ru-L348650-S1" ili="wikidata-ru-L348650-S1">
         <Definition>число</Definition>
       </Sense>
@@ -959,12 +1024,6 @@
       <Lemma writtenForm="озонная дыра" partOfSpeech="t"/>
       <Sense id="L470652-S1" synset="wikidata-ru-L470652-S1" ili="wikidata-ru-L470652-S1">
         <Definition>падение концентрации озона</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L470675">
-      <Lemma writtenForm="Индийский океан" partOfSpeech="t"/>
-      <Sense id="L470675-S1" synset="wikidata-ru-L470675-S1" ili="wikidata-ru-L470675-S1">
-        <Definition>океан на Земле</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L470735">
@@ -981,6 +1040,12 @@
     </LexicalEntry>
     <LexicalEntry id="L582524">
       <Lemma writtenForm="они" partOfSpeech="h"/>
+      <Form writtenForm="их"/>
+      <Form writtenForm="них"/>
+      <Form writtenForm="им"/>
+      <Form writtenForm="ним"/>
+      <Form writtenForm="ими"/>
+      <Form writtenForm="ними"/>
       <Sense id="L582524-S1" synset="wikidata-ru-L582524-S1" ili="wikidata-ru-L582524-S1">
         <Definition>указывает на (обычно ранее упомянутые) предметы (лица) во множественном числе, к которым говорящий не относит ни себя, ни адресатов высказывания</Definition>
       </Sense>
@@ -1008,6 +1073,9 @@
     </LexicalEntry>
     <LexicalEntry id="L704932">
       <Lemma writtenForm="несколько" partOfSpeech="m"/>
+      <Form writtenForm="нескольких"/>
+      <Form writtenForm="нескольким"/>
+      <Form writtenForm="несколькими"/>
       <Sense id="L704932-S1" synset="wikidata-ru-L704932-S1" ili="wikidata-ru-L704932-S1">
         <Definition>некоторое небольшое число</Definition>
       </Sense>
@@ -1099,6 +1167,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1422132">
       <Lemma writtenForm="бы" partOfSpeech="y"/>
+      <Form writtenForm="б"/>
       <Sense id="L1422132-S1" synset="wikidata-ru-L1422132-S1" ili="wikidata-ru-L1422132-S1">
         <Definition>для сослагательного наклонения</Definition>
       </Sense>
@@ -1138,6 +1207,10 @@
     </LexicalEntry>
     <LexicalEntry id="L37632">
       <Lemma writtenForm="много" partOfSpeech="m"/>
+      <Form writtenForm="мно́го"/>
+      <Form writtenForm="мно́гих"/>
+      <Form writtenForm="мно́гим"/>
+      <Form writtenForm="мно́гими"/>
       <Sense id="L37632-S1" synset="wikidata-ru-L37632-S1" ili="wikidata-ru-L37632-S1">
         <Definition>большое количество, значительное число кого-либо, чего-либ</Definition>
       </Sense>
@@ -1156,6 +1229,7 @@
     </LexicalEntry>
     <LexicalEntry id="L409334">
       <Lemma writtenForm="с" partOfSpeech="p"/>
+      <Form writtenForm="со"/>
       <Sense id="L409334-S1" synset="wikidata-ru-L409334-S1" ili="wikidata-ru-L409334-S1">
         <Definition>указывает на место или объект, с которого что-либо удаляется, снимается</Definition>
       </Sense>
@@ -1201,6 +1275,16 @@
     </LexicalEntry>
     <LexicalEntry id="L448251">
       <Lemma writtenForm="ты" partOfSpeech="h"/>
+      <Form writtenForm="тебя"/>
+      <Form writtenForm="тебе"/>
+      <Form writtenForm="тобой"/>
+      <Form writtenForm="тобою"/>
+      <Form writtenForm="тя"/>
+      <Form writtenForm="те"/>
+      <Form writtenForm="вы"/>
+      <Form writtenForm="вас"/>
+      <Form writtenForm="вам"/>
+      <Form writtenForm="вами"/>
       <Sense id="L448251-S1" synset="wikidata-ru-L448251-S1" ili="wikidata-ru-L448251-S1">
         <Definition>при обращении к знакомому собеседнику</Definition>
       </Sense>
@@ -1310,6 +1394,19 @@
     </LexicalEntry>
     <LexicalEntry id="L37633">
       <Lemma writtenForm="тысяча" partOfSpeech="m"/>
+      <Form writtenForm="ты́сяча"/>
+      <Form writtenForm="ты́сячи"/>
+      <Form writtenForm="тысячи"/>
+      <Form writtenForm="тысяче"/>
+      <Form writtenForm="тысячу"/>
+      <Form writtenForm="тысячей"/>
+      <Form writtenForm="тысячею"/>
+      <Form writtenForm="тысяч"/>
+      <Form writtenForm="тысячам"/>
+      <Form writtenForm="тысячами"/>
+      <Form writtenForm="тысячах"/>
+      <Form writtenForm="тыс."/>
+      <Form writtenForm="тыс"/>
       <Sense id="L37633-S1" synset="wikidata-ru-L37633-S1" ili="l2263-s1">
         <Definition>натуральное число между 999 и 1001, десять сотен</Definition>
         <Example>Вы, я вижу, бескорыстно любите деньги. Скажите, какая сумма вам нравится? ― Пять тысяч, ― быстро ответил Балаганов.</Example>
@@ -1332,6 +1429,15 @@
     </LexicalEntry>
     <LexicalEntry id="L348649">
       <Lemma writtenForm="ноль" partOfSpeech="m"/>
+      <Form writtenForm="ноля"/>
+      <Form writtenForm="нолю"/>
+      <Form writtenForm="нолём"/>
+      <Form writtenForm="ноле"/>
+      <Form writtenForm="ноли"/>
+      <Form writtenForm="нолей"/>
+      <Form writtenForm="нолям"/>
+      <Form writtenForm="нолями"/>
+      <Form writtenForm="нолях"/>
       <Sense id="L348649-S1" synset="wikidata-ru-L348649-S1" ili="wikidata-ru-L348649-S1">
         <Definition>число</Definition>
       </Sense>
@@ -1350,6 +1456,7 @@
     </LexicalEntry>
     <LexicalEntry id="L409439">
       <Lemma writtenForm="к" partOfSpeech="p"/>
+      <Form writtenForm="ко"/>
       <Sense id="L409439-S1" synset="wikidata-ru-L409439-S1" ili="wikidata-ru-L409439-S1">
         <Definition>по направлению к, соприкасаясь с</Definition>
       </Sense>
@@ -1372,18 +1479,6 @@
         <Definition>в вводных словосочетаниях: к счастью, к несчастью, к сожалению</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L470665">
-      <Lemma writtenForm="Северный Ледовитый океан" partOfSpeech="t"/>
-      <Sense id="L470665-S1" synset="wikidata-ru-L470665-S1" ili="wikidata-ru-L470665-S1">
-        <Definition>океан на Земле</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L470674">
-      <Lemma writtenForm="Южный океан" partOfSpeech="t"/>
-      <Sense id="L470674-S1" synset="wikidata-ru-L470674-S1" ili="wikidata-ru-L470674-S1">
-        <Definition>океан на Земле</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L525260">
       <Lemma writtenForm="ли" partOfSpeech="y"/>
       <Sense id="L525260-S1" synset="wikidata-ru-L525260-S1" ili="wikidata-ru-L525260-S1">
@@ -1401,6 +1496,18 @@
     </LexicalEntry>
     <LexicalEntry id="L578639">
       <Lemma writtenForm="весь" partOfSpeech="r"/>
+      <Form writtenForm="всего"/>
+      <Form writtenForm="всему"/>
+      <Form writtenForm="всем"/>
+      <Form writtenForm="всём"/>
+      <Form writtenForm="вся"/>
+      <Form writtenForm="всей"/>
+      <Form writtenForm="всю"/>
+      <Form writtenForm="всею"/>
+      <Form writtenForm="всё"/>
+      <Form writtenForm="все"/>
+      <Form writtenForm="всех"/>
+      <Form writtenForm="всеми"/>
       <Sense id="L578639-S1" synset="wikidata-ru-L578639-S1" ili="wikidata-ru-L578639-S1">
         <Definition>целый, полный, без исключений</Definition>
       </Sense>
@@ -1422,6 +1529,18 @@
     </LexicalEntry>
     <LexicalEntry id="L579902">
       <Lemma writtenForm="этот" partOfSpeech="h"/>
+      <Form writtenForm="это"/>
+      <Form writtenForm="этого"/>
+      <Form writtenForm="этому"/>
+      <Form writtenForm="этим"/>
+      <Form writtenForm="этом"/>
+      <Form writtenForm="эта"/>
+      <Form writtenForm="этой"/>
+      <Form writtenForm="эту"/>
+      <Form writtenForm="этою"/>
+      <Form writtenForm="эти"/>
+      <Form writtenForm="этих"/>
+      <Form writtenForm="этими"/>
       <Sense id="L579902-S1" synset="wikidata-ru-L579902-S1" ili="wikidata-ru-L579902-S1">
         <Definition>данный, находящийся здесь, близко к говорящему или слушающему</Definition>
       </Sense>
@@ -1458,6 +1577,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1370759">
       <Lemma writtenForm="над" partOfSpeech="p"/>
+      <Form writtenForm="надо"/>
       <Sense id="L1370759-S1" synset="wikidata-ru-L1370759-S1" ili="wikidata-ru-L1370759-S1">
         <Definition>пространственное отношение - свыше, поверх</Definition>
       </Sense>
@@ -1575,9 +1695,6 @@
     <Synset id="wikidata-ru-L447101-S4" ili="wikidata-ru-L447101-S4" partOfSpeech="y">
       <Definition>подчёркивает, что действие или предмет вполне соответствуют чему-либо предварительно упомянутому</Definition>
     </Synset>
-    <Synset id="wikidata-ru-L470666-S1" ili="wikidata-ru-L470666-S1" partOfSpeech="t">
-      <Definition>океан на Земле</Definition>
-    </Synset>
     <Synset id="wikidata-ru-L528356-S1" ili="wikidata-ru-L528356-S1" partOfSpeech="i">
       <Definition>предупреждение об опасности</Definition>
     </Synset>
@@ -1637,12 +1754,6 @@
     </Synset>
     <Synset id="wikidata-ru-L561182-S19" ili="wikidata-ru-L561182-S19" partOfSpeech="p">
       <Definition>указание на цель или причину, из-за</Definition>
-    </Synset>
-    <Synset id="wikidata-ru-L625206-S1" ili="wikidata-ru-L625206-S1" partOfSpeech="t">
-      <Definition>календарная дата - первая в году</Definition>
-    </Synset>
-    <Synset id="wikidata-ru-L625206-S2" ili="wikidata-ru-L625206-S2" partOfSpeech="t">
-      <Definition>праздник начала года</Definition>
     </Synset>
     <Synset id="wikidata-ru-L679894-S1" ili="wikidata-ru-L679894-S1" partOfSpeech="m">
       <Definition>натуральное число</Definition>
@@ -1773,9 +1884,6 @@
     </Synset>
     <Synset id="wikidata-ru-L448556-S1" ili="wikidata-ru-L448556-S1" partOfSpeech="y">
       <Definition>употребляется при выражении эмоций</Definition>
-    </Synset>
-    <Synset id="wikidata-ru-L470667-S1" ili="wikidata-ru-L470667-S1" partOfSpeech="t">
-      <Definition>океан на Земле</Definition>
     </Synset>
     <Synset id="wikidata-ru-L524571-S1" ili="wikidata-ru-L524571-S1" partOfSpeech="p">
       <Definition>за вычетом, вычтя</Definition>
@@ -2199,9 +2307,6 @@
     <Synset id="wikidata-ru-L470652-S1" ili="wikidata-ru-L470652-S1" partOfSpeech="t">
       <Definition>падение концентрации озона</Definition>
     </Synset>
-    <Synset id="wikidata-ru-L470675-S1" ili="wikidata-ru-L470675-S1" partOfSpeech="t">
-      <Definition>океан на Земле</Definition>
-    </Synset>
     <Synset id="wikidata-ru-L470735-S1" ili="wikidata-ru-L470735-S1" partOfSpeech="t">
       <Definition>газы, вызывающие парниковый эффект</Definition>
     </Synset>
@@ -2481,12 +2586,6 @@
     </Synset>
     <Synset id="wikidata-ru-L409439-S7" ili="wikidata-ru-L409439-S7" partOfSpeech="p">
       <Definition>в вводных словосочетаниях: к счастью, к несчастью, к сожалению</Definition>
-    </Synset>
-    <Synset id="wikidata-ru-L470665-S1" ili="wikidata-ru-L470665-S1" partOfSpeech="t">
-      <Definition>океан на Земле</Definition>
-    </Synset>
-    <Synset id="wikidata-ru-L470674-S1" ili="wikidata-ru-L470674-S1" partOfSpeech="t">
-      <Definition>океан на Земле</Definition>
     </Synset>
     <Synset id="wikidata-ru-L525260-S1" ili="wikidata-ru-L525260-S1" partOfSpeech="y">
       <Definition>вопросительная частица</Definition>

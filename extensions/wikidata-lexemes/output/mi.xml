@@ -10,6 +10,7 @@
     <Extends id="omw-mi" version="1.4"/>
     <LexicalEntry id="L2222">
       <Lemma writtenForm="mamati" partOfSpeech="x"/>
+      <Form writtenForm="mamatitanga"/>
       <Sense id="L2222-S1" synset="wikidata-mi-L2222-S1" ili="wikidata-mi-L2222-S1">
         <Definition>matihiko, ahiko, mati</Definition>
       </Sense>
@@ -22,6 +23,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1327420">
       <Lemma writtenForm="te" partOfSpeech="d"/>
+      <Form writtenForm="ngā"/>
       <Sense id="L1327420-S1" synset="wikidata-mi-L1327420-S1" ili="wikidata-mi-L1327420-S1">
         <Definition>the (indicates definiteness)</Definition>
       </Sense>
@@ -46,12 +48,15 @@
     </LexicalEntry>
     <LexicalEntry id="L655725">
       <Lemma writtenForm="paerangi" partOfSpeech="x"/>
+      <Form writtenForm="paerangitanga"/>
       <Sense id="L655725-S1" synset="wikidata-mi-L655725-S1" ili="wikidata-mi-L655725-S1">
         <Definition>coming from a distance</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1330232">
       <Lemma writtenForm="takitahi" partOfSpeech="x"/>
+      <Form writtenForm="takitahitanga"/>
+      <Form writtenForm="takitahitia"/>
       <Sense id="L1330232-S1" synset="wikidata-mi-L1330232-S1" ili="wikidata-mi-L1330232-S1">
         <Definition>e noho ana, e haere ana, e kawea ana</Definition>
       </Sense>
@@ -60,12 +65,6 @@
       <Lemma writtenForm="Huka" partOfSpeech="n"/>
       <Sense id="L1370811-S1" synset="wikidata-mi-L1370811-S1" ili="wikidata-mi-L1370811-S1">
         <Definition>Hooker, family name</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1407840">
-      <Lemma writtenForm="Te Tai-o-Rehua" partOfSpeech="n"/>
-      <Sense id="L1407840-S1" synset="wikidata-mi-L1407840-S1" ili="wikidata-mi-L1407840-S1">
-        <Definition>Tasman Sea</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L58071">
@@ -91,6 +90,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1328869">
       <Lemma writtenForm="wahine" partOfSpeech="x"/>
+      <Form writtenForm="wahinetanga"/>
       <Sense id="L1328869-S1" synset="wikidata-mi-L1328869-S1" ili="wikidata-mi-L1328869-S1">
         <Definition>female, womanly, feminine</Definition>
       </Sense>
@@ -103,12 +103,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1407922">
       <Lemma writtenForm="Māori" partOfSpeech="x"/>
+      <Form writtenForm="Māoritanga"/>
       <Sense id="L1407922-S1" synset="wikidata-mi-L1407922-S1" ili="wikidata-mi-L1407922-S1">
         <Definition>pertaining to the indigenous people of Aotearoa/New Zealand</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327422">
       <Lemma writtenForm="tētahi" partOfSpeech="d"/>
+      <Form writtenForm="ētahi"/>
       <Sense id="L1327422-S1" synset="wikidata-mi-L1327422-S1" ili="wikidata-mi-L1327422-S1">
         <Definition>a certain particular (emphatic indefiniteness marker)</Definition>
       </Sense>
@@ -131,21 +133,6 @@
         <Definition>no longer (expressing loss, absence, or departure)</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1407836">
-      <Lemma writtenForm="Te Whanga-nui-a-Tara" partOfSpeech="n"/>
-      <Sense id="L1407836-S1" synset="wikidata-mi-L1407836-S1" ili="wikidata-mi-L1407836-S1">
-        <Definition>Wellington, New Zealand</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1407837">
-      <Lemma writtenForm="Te Waipounamu" partOfSpeech="n"/>
-      <Sense id="L1407837-S1" synset="wikidata-mi-L1407837-S1" ili="wikidata-mi-L1407837-S1">
-        <Definition>South Island, New Zealand</Definition>
-      </Sense>
-      <Sense id="L1407837-S2" synset="wikidata-mi-L1407837-S2" ili="wikidata-mi-L1407837-S2">
-        <Definition>Greenstone Valley</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1407919">
       <Lemma writtenForm="nē" partOfSpeech="q"/>
       <Sense id="L1407919-S1" synset="wikidata-mi-L1407919-S1" ili="wikidata-mi-L1407919-S1">
@@ -154,12 +141,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1327722">
       <Lemma writtenForm="tangata" partOfSpeech="x"/>
+      <Form writtenForm="tangatatanga"/>
       <Sense id="L1327722-S1" synset="wikidata-mi-L1327722-S1" ili="wikidata-mi-L1327722-S1">
         <Definition>human, individual</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327759">
       <Lemma writtenForm="kē" partOfSpeech="r"/>
+      <Form writtenForm="kētia"/>
+      <Form writtenForm="kētanga"/>
       <Sense id="L1327759-S1" synset="wikidata-mi-L1327759-S1" ili="wikidata-mi-L1327759-S1">
         <Definition>(indication of difference, unexpectedness) already, actually, another, in a different place, for a different purpose</Definition>
       </Sense>
@@ -184,6 +174,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1327711">
       <Lemma writtenForm="mātua" partOfSpeech="x"/>
+      <Form writtenForm="mātuatanga"/>
       <Sense id="L1327711-S1" synset="wikidata-mi-L1327711-S1" ili="wikidata-mi-L1327711-S1">
         <Definition>first, important, large, of priority</Definition>
       </Sense>
@@ -193,41 +184,34 @@
     </LexicalEntry>
     <LexicalEntry id="L1327753">
       <Lemma writtenForm="katoa" partOfSpeech="r"/>
+      <Form writtenForm="katoatia"/>
       <Sense id="L1327753-S1" synset="wikidata-mi-L1327753-S1" ili="wikidata-mi-L1327753-S1">
         <Definition>all, every, totally, completely</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327761">
       <Lemma writtenForm="kē" partOfSpeech="x"/>
+      <Form writtenForm="kētanga"/>
       <Sense id="L1327761-S1" synset="wikidata-mi-L1327761-S1" ili="wikidata-mi-L1327761-S1">
         <Definition>whakatioro</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327762">
       <Lemma writtenForm="noa" partOfSpeech="r"/>
+      <Form writtenForm="noatia"/>
+      <Form writtenForm="noatanga"/>
       <Sense id="L1327762-S1" synset="wikidata-mi-L1327762-S1" ili="wikidata-mi-L1327762-S1">
         <Definition>(indicates absence of limit, conditions) only, just, merely, quite, until, randomly</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1328868">
       <Lemma writtenForm="wāhine" partOfSpeech="x"/>
+      <Form writtenForm="wāhinetanga"/>
       <Sense id="L1328868-S1" synset="wikidata-mi-L1328868-S1" ili="wikidata-mi-L1328868-S1">
         <Definition>women’s; female, feminine</Definition>
       </Sense>
       <Sense id="L1328868-S2" synset="wikidata-mi-L1328868-S2" ili="wikidata-mi-L1328868-S2">
         <Definition>womanhood</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1407798">
-      <Lemma writtenForm="Hutu" partOfSpeech="n"/>
-      <Sense id="L1407798-S1" synset="wikidata-mi-L1407798-S1" ili="wikidata-mi-L1407798-S1">
-        <Definition>Chute (English surname)</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1407838">
-      <Lemma writtenForm="Te Ika-a-Māui" partOfSpeech="n"/>
-      <Sense id="L1407838-S1" synset="wikidata-mi-L1407838-S1" ili="wikidata-mi-L1407838-S1">
-        <Definition>Te Mangōroa</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1327421">
@@ -238,6 +222,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1330237">
       <Lemma writtenForm="tahi" partOfSpeech="x"/>
+      <Form writtenForm="tahitia"/>
+      <Form writtenForm="tahitanga"/>
       <Sense id="L1330237-S1" synset="wikidata-mi-L1330237-S1" ili="wikidata-mi-L1330237-S1">
         <Definition>one</Definition>
       </Sense>
@@ -275,9 +261,6 @@
     <Synset id="wikidata-mi-L1370811-S1" ili="wikidata-mi-L1370811-S1" partOfSpeech="n">
       <Definition>Hooker, family name</Definition>
     </Synset>
-    <Synset id="wikidata-mi-L1407840-S1" ili="wikidata-mi-L1407840-S1" partOfSpeech="n">
-      <Definition>Tasman Sea</Definition>
-    </Synset>
     <Synset id="wikidata-mi-L58071-S1" ili="wikidata-mi-L58071-S1" partOfSpeech="n">
       <Definition>country in Europe</Definition>
     </Synset>
@@ -313,15 +296,6 @@
     </Synset>
     <Synset id="wikidata-mi-L1397271-S3" ili="wikidata-mi-L1397271-S3" partOfSpeech="y">
       <Definition>no longer (expressing loss, absence, or departure)</Definition>
-    </Synset>
-    <Synset id="wikidata-mi-L1407836-S1" ili="wikidata-mi-L1407836-S1" partOfSpeech="n">
-      <Definition>Wellington, New Zealand</Definition>
-    </Synset>
-    <Synset id="wikidata-mi-L1407837-S1" ili="wikidata-mi-L1407837-S1" partOfSpeech="n">
-      <Definition>South Island, New Zealand</Definition>
-    </Synset>
-    <Synset id="wikidata-mi-L1407837-S2" ili="wikidata-mi-L1407837-S2" partOfSpeech="n">
-      <Definition>Greenstone Valley</Definition>
     </Synset>
     <Synset id="wikidata-mi-L1407919-S1" ili="wikidata-mi-L1407919-S1" partOfSpeech="q">
       <Definition>is that so? isn’t it?</Definition>
@@ -364,12 +338,6 @@
     </Synset>
     <Synset id="wikidata-mi-L1328868-S2" ili="wikidata-mi-L1328868-S2" partOfSpeech="x">
       <Definition>womanhood</Definition>
-    </Synset>
-    <Synset id="wikidata-mi-L1407798-S1" ili="wikidata-mi-L1407798-S1" partOfSpeech="n">
-      <Definition>Chute (English surname)</Definition>
-    </Synset>
-    <Synset id="wikidata-mi-L1407838-S1" ili="wikidata-mi-L1407838-S1" partOfSpeech="n">
-      <Definition>Te Mangōroa</Definition>
     </Synset>
     <Synset id="wikidata-mi-L1327421-S1" ili="wikidata-mi-L1327421-S1" partOfSpeech="d">
       <Definition>a, an, some (indicates indefiniteness)</Definition>

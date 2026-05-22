@@ -16,12 +16,19 @@
     </LexicalEntry>
     <LexicalEntry id="L691243">
       <Lemma writtenForm="mabuhay" partOfSpeech="i"/>
+      <Form writtenForm="nabuhay"/>
+      <Form writtenForm="nabubuhay"/>
+      <Form writtenForm="mabubuhay"/>
+      <Form writtenForm="kabubuhay"/>
+      <Form writtenForm="kakabuhay"/>
       <Sense id="L691243-S1" synset="wikidata-tl-L691243-S1" ili="wikidata-tl-L691243-S1">
         <Definition>long live!</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1476746">
       <Lemma writtenForm="-in-" partOfSpeech="x"/>
+      <Form writtenForm="in-"/>
+      <Form writtenForm="ni-"/>
       <Sense id="L1476746-S1" synset="wikidata-tl-L1476746-S1" ili="wikidata-tl-L1476746-S1">
         <Definition>forms the complete aspect in all triggers except the active trigger</Definition>
       </Sense>

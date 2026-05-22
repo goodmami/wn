@@ -247,6 +247,7 @@
     </LexicalEntry>
     <LexicalEntry id="L249480">
       <Lemma writtenForm="dolu" partOfSpeech="p"/>
+      <Form writtenForm="dole"/>
       <Sense id="L249480-S1" synset="wikidata-sk-L249480-S1" ili="wikidata-sk-L249480-S1">
         <Definition>smerovanie</Definition>
       </Sense>

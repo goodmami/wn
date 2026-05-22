@@ -284,6 +284,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1321107">
       <Lemma writtenForm="أَيّ" partOfSpeech="q"/>
+      <Form writtenForm="أَيَّة"/>
       <Sense id="L1321107-S1" synset="wikidata-ar-L1321107-S1" ili="wikidata-ar-L1321107-S1">
         <Definition>which</Definition>
       </Sense>
@@ -754,6 +755,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1404925">
       <Lemma writtenForm="هُ" partOfSpeech="h"/>
+      <Form writtenForm="هِ"/>
       <Sense id="L1404925-S1" synset="wikidata-ar-L1404925-S1" ili="wikidata-ar-L1404925-S1">
         <Definition>(ضمير متَّصل للمفرد المذكر الغائب)</Definition>
       </Sense>
@@ -1316,6 +1318,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1157099">
       <Lemma writtenForm="مِئَة" partOfSpeech="m"/>
+      <Form writtenForm="مِئة"/>
+      <Form writtenForm="مِئات"/>
+      <Form writtenForm="مِائَة"/>
+      <Form writtenForm="مئُون"/>
       <Sense id="L1157099-S1" synset="wikidata-ar-L1157099-S1" ili="wikidata-ar-L1157099-S1">
         <Definition>عدد</Definition>
       </Sense>
@@ -1613,6 +1619,7 @@
     </LexicalEntry>
     <LexicalEntry id="L43460">
       <Lemma writtenForm="أَحَدَ عَشَرَ" partOfSpeech="m"/>
+      <Form writtenForm="إِحْدَى عَشْرَةَ"/>
       <Sense id="L43460-S1" synset="wikidata-ar-L43460-S1" ili="wikidata-ar-L43460-S1">
         <Definition>eleven</Definition>
       </Sense>
@@ -1772,6 +1779,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1259879">
       <Lemma writtenForm="ن" partOfSpeech="y"/>
+      <Form writtenForm="نْ"/>
+      <Form writtenForm="نَّ"/>
       <Sense id="L1259879-S1" synset="wikidata-ar-L1259879-S1" ili="wikidata-ar-L1259879-S1">
         <Definition>(suffixed to subjunctive or imperative verb forms to mark ‘energetic’ modality)</Definition>
       </Sense>
@@ -1883,6 +1892,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1420615">
       <Lemma writtenForm="ذٰلِكَ" partOfSpeech="d"/>
+      <Form writtenForm="ذلك"/>
+      <Form writtenForm="تلك"/>
+      <Form writtenForm="ذانك"/>
+      <Form writtenForm="ذينك"/>
+      <Form writtenForm="تانك"/>
+      <Form writtenForm="تينك"/>
+      <Form writtenForm="أولئك"/>
       <Sense id="L1420615-S1" synset="wikidata-ar-L1420615-S1" ili="wikidata-ar-L1420615-S1">
         <Definition>that</Definition>
       </Sense>
@@ -1961,6 +1977,7 @@
     </LexicalEntry>
     <LexicalEntry id="L35607">
       <Lemma writtenForm="عَلَى" partOfSpeech="p"/>
+      <Form writtenForm="عَلَيْ"/>
       <Sense id="L35607-S1" synset="wikidata-ar-L35607-S1" ili="wikidata-ar-L35607-S1">
         <Definition>on, over</Definition>
         <SenseRelation relType="antonym" target="wikidata-ar-L35611-S1"/>
@@ -2130,6 +2147,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1321099">
       <Lemma writtenForm="مَعَ" partOfSpeech="p"/>
+      <Form writtenForm="مَعًا"/>
       <Sense id="L1321099-S1" synset="wikidata-ar-L1321099-S1" ili="l2991-s1">
         <Definition>مرتبط أو مرافق</Definition>
       </Sense>
@@ -2403,6 +2421,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1233454">
       <Lemma writtenForm="ٱلَّذِي" partOfSpeech="h"/>
+      <Form writtenForm="ٱلَّتِي"/>
       <Sense id="L1233454-S1" synset="wikidata-ar-L1233454-S1" ili="wikidata-ar-L1233454-S1">
         <Definition>that which, those who</Definition>
       </Sense>
@@ -2559,6 +2578,16 @@
     </LexicalEntry>
     <LexicalEntry id="L7892">
       <Lemma writtenForm="هٰذَا" partOfSpeech="d"/>
+      <Form writtenForm="هذه"/>
+      <Form writtenForm="هذا"/>
+      <Form writtenForm="هذي"/>
+      <Form writtenForm="هؤلاء"/>
+      <Form writtenForm="هاتان"/>
+      <Form writtenForm="هاتين"/>
+      <Form writtenForm="هاتيْن"/>
+      <Form writtenForm="هذان"/>
+      <Form writtenForm="هذين"/>
+      <Form writtenForm="هٰذَيْن"/>
       <Sense id="L7892-S1" synset="wikidata-ar-L7892-S1" ili="wikidata-ar-L7892-S1">
         <Definition>this</Definition>
       </Sense>
@@ -2656,6 +2685,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1157108">
       <Lemma writtenForm="ثُمُن" partOfSpeech="m"/>
+      <Form writtenForm="ثمن"/>
+      <Form writtenForm="أثمان"/>
       <Sense id="L1157108-S1" synset="wikidata-ar-L1157108-S1" ili="wikidata-ar-L1157108-S1">
         <Definition>الجزء الواحد من الثُّمْنُ ثمانية والجمع : أثمانٌ</Definition>
       </Sense>

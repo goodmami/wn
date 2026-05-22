@@ -29,12 +29,6 @@
         <Definition>(of time) before, previously</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L48237">
-      <Lemma writtenForm="Veni, Vidi, Vici" partOfSpeech="t"/>
-      <Sense id="L48237-S1" synset="wikidata-la-L48237-S1" ili="wikidata-la-L48237-S1">
-        <Definition>I have come, I have seen, I have beaten.</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L279136">
       <Lemma writtenForm="nam" partOfSpeech="c"/>
       <Sense id="L279136-S1" synset="wikidata-la-L279136-S1" ili="wikidata-la-L279136-S1">
@@ -43,6 +37,13 @@
     </LexicalEntry>
     <LexicalEntry id="L287128">
       <Lemma writtenForm="unus" partOfSpeech="m"/>
+      <Form writtenForm="una"/>
+      <Form writtenForm="unum"/>
+      <Form writtenForm="unam"/>
+      <Form writtenForm="une"/>
+      <Form writtenForm="uni"/>
+      <Form writtenForm="unius"/>
+      <Form writtenForm="uno"/>
       <Sense id="L287128-S1" synset="wikidata-la-L287128-S1" ili="wikidata-la-L287128-S1">
         <Definition>число</Definition>
       </Sense>
@@ -85,24 +86,64 @@
     </LexicalEntry>
     <LexicalEntry id="L40313">
       <Lemma writtenForm="factus" partOfSpeech="v"/>
+      <Form writtenForm="facta"/>
+      <Form writtenForm="factum"/>
+      <Form writtenForm="factī"/>
+      <Form writtenForm="factae"/>
       <Sense id="L40313-S1" synset="wikidata-la-L40313-S1" ili="wikidata-la-L40313-S1">
         <Definition>done, made</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L51197">
-      <Lemma writtenForm="Verba volent, scripta manent." partOfSpeech="t"/>
-      <Sense id="L51197-S1" synset="wikidata-la-L51197-S1" ili="wikidata-la-L51197-S1">
-        <Definition>Les paroles volent, les écrits restent.</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L275493">
       <Lemma writtenForm="idem" partOfSpeech="h"/>
+      <Form writtenForm="ea"/>
+      <Form writtenForm="eae"/>
+      <Form writtenForm="ean"/>
+      <Form writtenForm="earun"/>
+      <Form writtenForm="eas"/>
+      <Form writtenForm="ei"/>
+      <Form writtenForm="eis"/>
+      <Form writtenForm="eius"/>
+      <Form writtenForm="eo"/>
+      <Form writtenForm="eorun"/>
+      <Form writtenForm="eos"/>
+      <Form writtenForm="eun"/>
+      <Form writtenForm="i"/>
+      <Form writtenForm="ii"/>
+      <Form writtenForm="iis"/>
+      <Form writtenForm="io"/>
+      <Form writtenForm="is"/>
       <Sense id="L275493-S1" synset="wikidata-la-L275493-S1" ili="wikidata-la-L275493-S1">
         <Definition>the same</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L283027">
       <Lemma writtenForm="quīnque" partOfSpeech="m"/>
+      <Form writtenForm="quina"/>
+      <Form writtenForm="quinae"/>
+      <Form writtenForm="quinarum"/>
+      <Form writtenForm="quinas"/>
+      <Form writtenForm="quini"/>
+      <Form writtenForm="quinis"/>
+      <Form writtenForm="quinorum"/>
+      <Form writtenForm="quinos"/>
+      <Form writtenForm="quinum"/>
+      <Form writtenForm="quinquiens"/>
+      <Form writtenForm="quinquies"/>
+      <Form writtenForm="quinque"/>
+      <Form writtenForm="quinta"/>
+      <Form writtenForm="quintae"/>
+      <Form writtenForm="quintam"/>
+      <Form writtenForm="quintarum"/>
+      <Form writtenForm="quintas"/>
+      <Form writtenForm="quinte"/>
+      <Form writtenForm="quinti"/>
+      <Form writtenForm="quintis"/>
+      <Form writtenForm="quinto"/>
+      <Form writtenForm="quintorum"/>
+      <Form writtenForm="quintos"/>
+      <Form writtenForm="quintum"/>
+      <Form writtenForm="quintus"/>
       <Sense id="L283027-S1" synset="wikidata-la-L283027-S1" ili="wikidata-la-L283027-S1">
         <Definition>натуральное число</Definition>
       </Sense>
@@ -112,6 +153,9 @@
     </LexicalEntry>
     <LexicalEntry id="L292288">
       <Lemma writtenForm="ego" partOfSpeech="h"/>
+      <Form writtenForm="mihi"/>
+      <Form writtenForm="mē"/>
+      <Form writtenForm="meī"/>
       <Sense id="L292288-S1" synset="wikidata-la-L292288-S1" ili="wikidata-la-L292288-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
@@ -149,14 +193,32 @@
         <Definition>if, supposing that</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L272440">
-      <Lemma writtenForm="duo" partOfSpeech="m"/>
-      <Sense id="L272440-S1" synset="wikidata-la-L272440-S1" ili="wikidata-la-L272440-S1">
-        <Definition>two</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L279501">
       <Lemma writtenForm="novem" partOfSpeech="m"/>
+      <Form writtenForm="nona"/>
+      <Form writtenForm="nonae"/>
+      <Form writtenForm="nonam"/>
+      <Form writtenForm="nonarum"/>
+      <Form writtenForm="nonas"/>
+      <Form writtenForm="none"/>
+      <Form writtenForm="noni"/>
+      <Form writtenForm="nonis"/>
+      <Form writtenForm="nono"/>
+      <Form writtenForm="nonorum"/>
+      <Form writtenForm="nonos"/>
+      <Form writtenForm="nonum"/>
+      <Form writtenForm="nonus"/>
+      <Form writtenForm="noviens"/>
+      <Form writtenForm="novies"/>
+      <Form writtenForm="novena"/>
+      <Form writtenForm="novenae"/>
+      <Form writtenForm="novenarum"/>
+      <Form writtenForm="novenas"/>
+      <Form writtenForm="noveni"/>
+      <Form writtenForm="novenis"/>
+      <Form writtenForm="novenorum"/>
+      <Form writtenForm="novenos"/>
+      <Form writtenForm="novenum"/>
       <Sense id="L279501-S1" synset="wikidata-la-L279501-S1" ili="wikidata-la-L279501-S1">
         <Definition>натуральное число</Definition>
       </Sense>
@@ -184,6 +246,7 @@
     </LexicalEntry>
     <LexicalEntry id="L11738">
       <Lemma writtenForm="ex" partOfSpeech="p"/>
+      <Form writtenForm="e"/>
       <Sense id="L11738-S1" synset="wikidata-la-L11738-S1" ili="l333900-s2">
         <Definition>out of, from</Definition>
       </Sense>
@@ -226,6 +289,30 @@
     </LexicalEntry>
     <LexicalEntry id="L279903">
       <Lemma writtenForm="octo" partOfSpeech="m"/>
+      <Form writtenForm="octiens"/>
+      <Form writtenForm="octies"/>
+      <Form writtenForm="octava"/>
+      <Form writtenForm="octavae"/>
+      <Form writtenForm="octavam"/>
+      <Form writtenForm="octavarum"/>
+      <Form writtenForm="octavas"/>
+      <Form writtenForm="octave"/>
+      <Form writtenForm="octavi"/>
+      <Form writtenForm="octavis"/>
+      <Form writtenForm="octavo"/>
+      <Form writtenForm="octavorum"/>
+      <Form writtenForm="octavos"/>
+      <Form writtenForm="octavum"/>
+      <Form writtenForm="octavus"/>
+      <Form writtenForm="octona"/>
+      <Form writtenForm="octonae"/>
+      <Form writtenForm="octonarum"/>
+      <Form writtenForm="octonas"/>
+      <Form writtenForm="octoni"/>
+      <Form writtenForm="octonis"/>
+      <Form writtenForm="octonorum"/>
+      <Form writtenForm="octonos"/>
+      <Form writtenForm="octonum"/>
       <Sense id="L279903-S1" synset="wikidata-la-L279903-S1" ili="wikidata-la-L279903-S1">
         <Definition>натуральное число</Definition>
       </Sense>
@@ -236,20 +323,18 @@
         <Definition>four</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L286709">
-      <Lemma writtenForm="tres" partOfSpeech="m"/>
-      <Sense id="L286709-S1" synset="wikidata-la-L286709-S1" ili="wikidata-la-L286709-S1">
-        <Definition>three</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L13362">
       <Lemma writtenForm="ab" partOfSpeech="p"/>
+      <Form writtenForm="a"/>
       <Sense id="L13362-S1" synset="wikidata-la-L13362-S1" ili="wikidata-la-L13362-S1">
         <Definition>from, away from, out of</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L40136">
       <Lemma writtenForm="efficiens" partOfSpeech="v"/>
+      <Form writtenForm="efficiēns"/>
+      <Form writtenForm="efficientēs"/>
+      <Form writtenForm="efficientem"/>
       <Sense id="L40136-S1" synset="wikidata-la-L40136-S1" ili="wikidata-la-L40136-S1">
         <Definition>producing</Definition>
       </Sense>
@@ -316,12 +401,42 @@
     </LexicalEntry>
     <LexicalEntry id="L284563">
       <Lemma writtenForm="septem" partOfSpeech="m"/>
+      <Form writtenForm="septiens"/>
+      <Form writtenForm="septies"/>
+      <Form writtenForm="septena"/>
+      <Form writtenForm="septenae"/>
+      <Form writtenForm="septenarum"/>
+      <Form writtenForm="septenas"/>
+      <Form writtenForm="septeni"/>
+      <Form writtenForm="septenis"/>
+      <Form writtenForm="septenorum"/>
+      <Form writtenForm="septenos"/>
+      <Form writtenForm="septenum"/>
+      <Form writtenForm="septima"/>
+      <Form writtenForm="septimae"/>
+      <Form writtenForm="septimam"/>
+      <Form writtenForm="septimarum"/>
+      <Form writtenForm="septimas"/>
+      <Form writtenForm="septime"/>
+      <Form writtenForm="septimi"/>
+      <Form writtenForm="septimis"/>
+      <Form writtenForm="septimo"/>
+      <Form writtenForm="septimorum"/>
+      <Form writtenForm="septimos"/>
+      <Form writtenForm="septimum"/>
+      <Form writtenForm="septimus"/>
       <Sense id="L284563-S1" synset="wikidata-la-L284563-S1" ili="wikidata-la-L284563-S1">
         <Definition>натуральное число</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1654">
       <Lemma writtenForm="-are" partOfSpeech="x"/>
+      <Form writtenForm="-o"/>
+      <Form writtenForm="-as"/>
+      <Form writtenForm="-at"/>
+      <Form writtenForm="-amus"/>
+      <Form writtenForm="-atis"/>
+      <Form writtenForm="-ant"/>
       <Sense id="L1654-S1" synset="wikidata-la-L1654-S1" ili="wikidata-la-L1654-S1">
         <Definition>conjugation of Latin verbs, with a stem ending in &quot;a&quot; and an infinitive in &quot;are&quot;; e.g. amō (I love), amāre (to love), “amāvi” (I loved)</Definition>
       </Sense>
@@ -334,6 +449,30 @@
     </LexicalEntry>
     <LexicalEntry id="L284724">
       <Lemma writtenForm="sex" partOfSpeech="m"/>
+      <Form writtenForm="sena"/>
+      <Form writtenForm="senae"/>
+      <Form writtenForm="senarum"/>
+      <Form writtenForm="senas"/>
+      <Form writtenForm="seni"/>
+      <Form writtenForm="senis"/>
+      <Form writtenForm="senorum"/>
+      <Form writtenForm="senos"/>
+      <Form writtenForm="senum"/>
+      <Form writtenForm="sexiens"/>
+      <Form writtenForm="sexies"/>
+      <Form writtenForm="sexta"/>
+      <Form writtenForm="sextae"/>
+      <Form writtenForm="sextam"/>
+      <Form writtenForm="sextarum"/>
+      <Form writtenForm="sextas"/>
+      <Form writtenForm="sexte"/>
+      <Form writtenForm="sexti"/>
+      <Form writtenForm="sextis"/>
+      <Form writtenForm="sexto"/>
+      <Form writtenForm="sextorum"/>
+      <Form writtenForm="sextos"/>
+      <Form writtenForm="sextum"/>
+      <Form writtenForm="sextus"/>
       <Sense id="L284724-S1" synset="wikidata-la-L284724-S1" ili="wikidata-la-L284724-S1">
         <Definition>натуральное число</Definition>
       </Sense>
@@ -349,9 +488,6 @@
     </Synset>
     <Synset id="wikidata-la-L5234-S2" ili="wikidata-la-L5234-S2" partOfSpeech="p">
       <Definition>(of time) before, previously</Definition>
-    </Synset>
-    <Synset id="wikidata-la-L48237-S1" ili="wikidata-la-L48237-S1" partOfSpeech="t">
-      <Definition>I have come, I have seen, I have beaten.</Definition>
     </Synset>
     <Synset id="wikidata-la-L279136-S1" ili="wikidata-la-L279136-S1" partOfSpeech="c">
       <Definition>ponieważ</Definition>
@@ -379,9 +515,6 @@
     </Synset>
     <Synset id="wikidata-la-L40313-S1" ili="wikidata-la-L40313-S1" partOfSpeech="v">
       <Definition>done, made</Definition>
-    </Synset>
-    <Synset id="wikidata-la-L51197-S1" ili="wikidata-la-L51197-S1" partOfSpeech="t">
-      <Definition>Les paroles volent, les écrits restent.</Definition>
     </Synset>
     <Synset id="wikidata-la-L275493-S1" ili="wikidata-la-L275493-S1" partOfSpeech="h">
       <Definition>the same</Definition>
@@ -412,9 +545,6 @@
     </Synset>
     <Synset id="wikidata-la-L36315-S1" ili="wikidata-la-L36315-S1" partOfSpeech="c">
       <Definition>if, supposing that</Definition>
-    </Synset>
-    <Synset id="wikidata-la-L272440-S1" ili="wikidata-la-L272440-S1" partOfSpeech="m">
-      <Definition>two</Definition>
     </Synset>
     <Synset id="wikidata-la-L279501-S1" ili="wikidata-la-L279501-S1" partOfSpeech="m">
       <Definition>натуральное число</Definition>
@@ -466,9 +596,6 @@
     </Synset>
     <Synset id="wikidata-la-L282973-S1" ili="wikidata-la-L282973-S1" partOfSpeech="m">
       <Definition>four</Definition>
-    </Synset>
-    <Synset id="wikidata-la-L286709-S1" ili="wikidata-la-L286709-S1" partOfSpeech="m">
-      <Definition>three</Definition>
     </Synset>
     <Synset id="wikidata-la-L13362-S1" ili="wikidata-la-L13362-S1" partOfSpeech="p">
       <Definition>from, away from, out of</Definition>

@@ -76,6 +76,22 @@
     </LexicalEntry>
     <LexicalEntry id="L6501">
       <Lemma writtenForm="me" partOfSpeech="h"/>
+      <Form writtenForm="meidän"/>
+      <Form writtenForm="meitä"/>
+      <Form writtenForm="meinä"/>
+      <Form writtenForm="meiksi"/>
+      <Form writtenForm="meissä"/>
+      <Form writtenForm="meille"/>
+      <Form writtenForm="meittä"/>
+      <Form writtenForm="meidät"/>
+      <Form writtenForm="meistä"/>
+      <Form writtenForm="meihin"/>
+      <Form writtenForm="meillä"/>
+      <Form writtenForm="meiltä"/>
+      <Form writtenForm="met"/>
+      <Form writtenForm="meän"/>
+      <Form writtenForm="myö"/>
+      <Form writtenForm="meiän"/>
       <Sense id="L6501-S1" synset="wikidata-fi-L6501-S1" ili="wikidata-fi-L6501-S1">
         <Definition>monikon ensimmäisen persoonan pronomini</Definition>
       </Sense>
@@ -119,6 +135,17 @@
     </LexicalEntry>
     <LexicalEntry id="L6498">
       <Lemma writtenForm="minä" partOfSpeech="h"/>
+      <Form writtenForm="minun"/>
+      <Form writtenForm="minut"/>
+      <Form writtenForm="minua"/>
+      <Form writtenForm="minuna"/>
+      <Form writtenForm="minuksi"/>
+      <Form writtenForm="minussa"/>
+      <Form writtenForm="minusta"/>
+      <Form writtenForm="minuun"/>
+      <Form writtenForm="minulla"/>
+      <Form writtenForm="minulle"/>
+      <Form writtenForm="minulta"/>
       <Sense id="L6498-S1" synset="wikidata-fi-L6498-S1" ili="wikidata-fi-L6498-S1">
         <Definition>yksikön ensimmäisen persoonan pronomini</Definition>
         <SenseRelation relType="similar" target="wikidata-fi-L1116863-S1"/>
@@ -126,6 +153,38 @@
     </LexicalEntry>
     <LexicalEntry id="L12130">
       <Lemma writtenForm="muu" partOfSpeech="h"/>
+      <Form writtenForm="muut"/>
+      <Form writtenForm="muun"/>
+      <Form writtenForm="muiden"/>
+      <Form writtenForm="muuta"/>
+      <Form writtenForm="muita"/>
+      <Form writtenForm="muuna"/>
+      <Form writtenForm="muina"/>
+      <Form writtenForm="muuksi"/>
+      <Form writtenForm="muiksi"/>
+      <Form writtenForm="muussa"/>
+      <Form writtenForm="muissa"/>
+      <Form writtenForm="muusta"/>
+      <Form writtenForm="muista"/>
+      <Form writtenForm="muuhun"/>
+      <Form writtenForm="muihin"/>
+      <Form writtenForm="muulla"/>
+      <Form writtenForm="muilla"/>
+      <Form writtenForm="muulta"/>
+      <Form writtenForm="muilta"/>
+      <Form writtenForm="muulle"/>
+      <Form writtenForm="muille"/>
+      <Form writtenForm="muitten"/>
+      <Form writtenForm="muutta"/>
+      <Form writtenForm="muitta"/>
+      <Form writtenForm="muine"/>
+      <Form writtenForm="muin"/>
+      <Form writtenForm="muualla"/>
+      <Form writtenForm="muualta"/>
+      <Form writtenForm="muualle"/>
+      <Form writtenForm="muulloin"/>
+      <Form writtenForm="muilloin"/>
+      <Form writtenForm="muuten"/>
       <Sense id="L12130-S1" synset="wikidata-fi-L12130-S1" ili="wikidata-fi-L12130-S1">
         <Definition>joku toinen henkilö tai jokin toinen asia, kuin mitä käsiteltiin aikaisemmin</Definition>
         <Example>Ihmisiä juoksi pitkin saarta, ja karhut, pukit, hirvet, sudet, ketut ja kaikki muut eläimet niiden jäljestä.</Example>
@@ -171,6 +230,17 @@
     </LexicalEntry>
     <LexicalEntry id="L1333446">
       <Lemma writtenForm="mikä" partOfSpeech="h"/>
+      <Form writtenForm="mitkä"/>
+      <Form writtenForm="minkä"/>
+      <Form writtenForm="mitä"/>
+      <Form writtenForm="minä"/>
+      <Form writtenForm="miksi"/>
+      <Form writtenForm="missä"/>
+      <Form writtenForm="mistä"/>
+      <Form writtenForm="mihin"/>
+      <Form writtenForm="millä"/>
+      <Form writtenForm="miltä"/>
+      <Form writtenForm="mille"/>
       <Sense id="L1333446-S1" synset="wikidata-fi-L1333446-S1" ili="wikidata-fi-L1333446-S1">
         <Definition>what/which?</Definition>
       </Sense>
@@ -183,6 +253,7 @@
     </LexicalEntry>
     <LexicalEntry id="L10933">
       <Lemma writtenForm="ja" partOfSpeech="c"/>
+      <Form writtenForm="ia"/>
       <Sense id="L10933-S1" synset="wikidata-fi-L10933-S1" ili="wikidata-fi-L10933-S1">
         <Definition>and</Definition>
       </Sense>
@@ -195,6 +266,16 @@
     </LexicalEntry>
     <LexicalEntry id="L39639">
       <Lemma writtenForm="tämä" partOfSpeech="h"/>
+      <Form writtenForm="tämän"/>
+      <Form writtenForm="tätä"/>
+      <Form writtenForm="tänä"/>
+      <Form writtenForm="täksi"/>
+      <Form writtenForm="tässä"/>
+      <Form writtenForm="tästä"/>
+      <Form writtenForm="tähän"/>
+      <Form writtenForm="tällä"/>
+      <Form writtenForm="tältä"/>
+      <Form writtenForm="tälle"/>
       <Sense id="L39639-S1" synset="wikidata-fi-L39639-S1" ili="wikidata-fi-L39639-S1">
         <Definition>osoittaessa tai viitattaessa johonkin aivan puhujan lähellä olevaan asiaan, esineeseen tai ihmiseen</Definition>
         <SenseRelation relType="similar" target="wikidata-fi-L1142310-S1"/>
@@ -202,6 +283,12 @@
     </LexicalEntry>
     <LexicalEntry id="L1116863">
       <Lemma writtenForm="mä" partOfSpeech="h"/>
+      <Form writtenForm="mun"/>
+      <Form writtenForm="mua"/>
+      <Form writtenForm="mulla"/>
+      <Form writtenForm="multa"/>
+      <Form writtenForm="mulle"/>
+      <Form writtenForm="mut"/>
       <Sense id="L1116863-S1" synset="wikidata-fi-L1116863-S1" ili="wikidata-fi-L1116863-S1">
         <Definition>I (first-person singular pronoun)</Definition>
         <Example>Parketti kutsuu mua ku en oo enää lukossa / Niinku cha cha cha mä oon tulossa</Example>
@@ -234,6 +321,19 @@
     </LexicalEntry>
     <LexicalEntry id="L6500">
       <Lemma writtenForm="hän" partOfSpeech="h"/>
+      <Form writtenForm="hänen"/>
+      <Form writtenForm="häntä"/>
+      <Form writtenForm="hänessä"/>
+      <Form writtenForm="hänestä"/>
+      <Form writtenForm="häneen"/>
+      <Form writtenForm="hänellä"/>
+      <Form writtenForm="häneltä"/>
+      <Form writtenForm="hänelle"/>
+      <Form writtenForm="hänenä"/>
+      <Form writtenForm="häneksi"/>
+      <Form writtenForm="hänet"/>
+      <Form writtenForm="hen"/>
+      <Form writtenForm="henen"/>
       <Sense id="L6500-S1" synset="wikidata-fi-L6500-S1" ili="wikidata-fi-L6500-S1">
         <Definition>yksikön kolmannen persoonan pronomini</Definition>
       </Sense>
@@ -264,6 +364,17 @@
     </LexicalEntry>
     <LexicalEntry id="L6503">
       <Lemma writtenForm="he" partOfSpeech="h"/>
+      <Form writtenForm="heidän"/>
+      <Form writtenForm="heitä"/>
+      <Form writtenForm="heihin"/>
+      <Form writtenForm="heille"/>
+      <Form writtenForm="heidät"/>
+      <Form writtenForm="heinä"/>
+      <Form writtenForm="heiksi"/>
+      <Form writtenForm="heissä"/>
+      <Form writtenForm="heistä"/>
+      <Form writtenForm="heillä"/>
+      <Form writtenForm="heiltä"/>
       <Sense id="L6503-S1" synset="wikidata-fi-L6503-S1" ili="wikidata-fi-L6503-S1">
         <Definition>monikon 3. persoonan pronomini</Definition>
         <Example>He puhelivat keskenään hiljaisella äänellä.</Example>
@@ -284,6 +395,21 @@
     </LexicalEntry>
     <LexicalEntry id="L6502">
       <Lemma writtenForm="te" partOfSpeech="h"/>
+      <Form writtenForm="teidät"/>
+      <Form writtenForm="teidän"/>
+      <Form writtenForm="teitä"/>
+      <Form writtenForm="teinä"/>
+      <Form writtenForm="teiksi"/>
+      <Form writtenForm="teissä"/>
+      <Form writtenForm="teistä"/>
+      <Form writtenForm="teihin"/>
+      <Form writtenForm="teillä"/>
+      <Form writtenForm="teiltä"/>
+      <Form writtenForm="teille"/>
+      <Form writtenForm="teittä"/>
+      <Form writtenForm="työ"/>
+      <Form writtenForm="tet"/>
+      <Form writtenForm="teän"/>
       <Sense id="L6502-S1" synset="wikidata-fi-L6502-S1" ili="wikidata-fi-L6502-S1">
         <Definition>monikon toisen persoonan pronomini</Definition>
       </Sense>

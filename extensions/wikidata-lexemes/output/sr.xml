@@ -16,6 +16,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1422483">
       <Lemma writtenForm="с" partOfSpeech="p"/>
+      <Form writtenForm="са"/>
       <Sense id="L1422483-S1" synset="wikidata-sr-L1422483-S1" ili="wikidata-sr-L1422483-S1">
         <Definition>предлог који означава де је нешто заједно, или коришћено</Definition>
       </Sense>
@@ -70,6 +71,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1422472">
       <Lemma writtenForm="међу" partOfSpeech="p"/>
+      <Form writtenForm="између"/>
       <Sense id="L1422472-S1" synset="wikidata-sr-L1422472-S1" ili="wikidata-sr-L1422472-S1">
         <Definition>протеже се између једног и другог у времену или простору; између</Definition>
       </Sense>
@@ -82,6 +84,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1422479">
       <Lemma writtenForm="испод" partOfSpeech="p"/>
+      <Form writtenForm="под"/>
       <Sense id="L1422479-S1" synset="wikidata-sr-L1422479-S1" ili="wikidata-sr-L1422479-S1">
         <Definition>ниже него; према доле</Definition>
       </Sense>
@@ -190,6 +193,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1422482">
       <Lemma writtenForm="изнад" partOfSpeech="p"/>
+      <Form writtenForm="над"/>
       <Sense id="L1422482-S1" synset="wikidata-sr-L1422482-S1" ili="wikidata-sr-L1422482-S1">
         <Definition>preko; više nego; više vrijedno; prima gore</Definition>
       </Sense>

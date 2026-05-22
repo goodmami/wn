@@ -25,6 +25,7 @@
     </LexicalEntry>
     <LexicalEntry id="L564">
       <Lemma writtenForm="よ" partOfSpeech="y"/>
+      <Form writtenForm="よう"/>
       <Sense id="L564-S1" synset="wikidata-ja-L564-S1" ili="wikidata-ja-L564-S1">
         <Definition>感動、詠嘆を表す</Definition>
         <Example>やっと手紙が来たよ。</Example>
@@ -40,6 +41,8 @@
     </LexicalEntry>
     <LexicalEntry id="L584">
       <Lemma writtenForm="けれども" partOfSpeech="y"/>
+      <Form writtenForm="けれど"/>
+      <Form writtenForm="けど"/>
       <Sense id="L584-S1" synset="wikidata-ja-L584-S1" ili="wikidata-ja-L584-S1">
         <Definition>逆接の確定条件を表す</Definition>
         <Example>頑張ったけれども、不合格だった</Example>
@@ -79,12 +82,19 @@
     </LexicalEntry>
     <LexicalEntry id="L620">
       <Lemma writtenForm="させる" partOfSpeech="v"/>
+      <Form writtenForm="させ"/>
+      <Form writtenForm="させれ"/>
+      <Form writtenForm="させろ"/>
+      <Form writtenForm="させよ"/>
       <Sense id="L620-S1" synset="wikidata-ja-L620-S1" ili="wikidata-ja-L620-S1">
         <Definition>使役</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L622">
       <Lemma writtenForm="ぬ" partOfSpeech="v"/>
+      <Form writtenForm="ず"/>
+      <Form writtenForm="ん"/>
+      <Form writtenForm="ね"/>
       <Sense id="L622-S1" synset="wikidata-ja-L622-S1" ili="wikidata-ja-L622-S1">
         <Definition>否定、打消を表す。「ない」の別形</Definition>
         <Example>行かず</Example>
@@ -112,6 +122,12 @@
     </LexicalEntry>
     <LexicalEntry id="L632">
       <Lemma writtenForm="そうだ" partOfSpeech="v"/>
+      <Form writtenForm="そうだろ"/>
+      <Form writtenForm="そうだっ"/>
+      <Form writtenForm="そうで"/>
+      <Form writtenForm="そうに"/>
+      <Form writtenForm="そうな"/>
+      <Form writtenForm="そうなら"/>
       <Sense id="L632-S1" synset="wikidata-ja-L632-S1" ili="wikidata-ja-L632-S1">
         <Definition>伝聞（伝聞情報の伝達）</Definition>
         <Example>言ったそうで</Example>
@@ -152,6 +168,12 @@
     </LexicalEntry>
     <LexicalEntry id="L296172">
       <Lemma writtenForm="あげえ" partOfSpeech="a"/>
+      <Form writtenForm="あげえに"/>
+      <Form writtenForm="あげえな"/>
+      <Form writtenForm="あげえなら"/>
+      <Form writtenForm="あげん"/>
+      <Form writtenForm="あげんな"/>
+      <Form writtenForm="あげな"/>
       <Sense id="L296172-S1" synset="wikidata-ja-L296172-S1" ili="wikidata-ja-L296172-S1">
         <Definition>あのよう（彼様）を見よ。あのよう。あの様子。</Definition>
         <Example>金玉のう釣りあげてうっちぬべいと、あげえこげえに騒ぎやることよ</Example>
@@ -175,7 +197,6 @@
       <Lemma writtenForm="申し" partOfSpeech="i"/>
       <Sense id="L625734-S1" synset="wikidata-ja-L625734-S1" ili="wikidata-ja-L625734-S1">
         <Definition>when starting a phone call</Definition>
-        <SenseRelation relType="similar" target="wikidata-ja-L691140-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L625739">
@@ -224,7 +245,6 @@
       <Lemma writtenForm="人" partOfSpeech="m"/>
       <Sense id="L680847-S1" synset="wikidata-ja-L680847-S1" ili="wikidata-ja-L680847-S1">
         <Definition>人の数を数える語</Definition>
-        <SenseRelation relType="similar" target="wikidata-ja-L689309-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686344">
@@ -271,6 +291,7 @@
     </LexicalEntry>
     <LexicalEntry id="L734738">
       <Lemma writtenForm="十九" partOfSpeech="m"/>
+      <Form writtenForm="19"/>
       <Sense id="L734738-S1" synset="wikidata-ja-L734738-S1" ili="wikidata-ja-L734738-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -308,12 +329,16 @@
     </LexicalEntry>
     <LexicalEntry id="L1115876">
       <Lemma writtenForm="三つ" partOfSpeech="m"/>
+      <Form writtenForm="3つ"/>
       <Sense id="L1115876-S1" synset="wikidata-ja-L1115876-S1" ili="wikidata-ja-L1115876-S1">
         <Definition>natural number</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1148029">
       <Lemma writtenForm="八千" partOfSpeech="m"/>
+      <Form writtenForm="８０００"/>
+      <Form writtenForm="８千"/>
+      <Form writtenForm="八〇〇〇"/>
       <Sense id="L1148029-S1" synset="wikidata-ja-L1148029-S1" ili="wikidata-ja-L1148029-S1">
         <Definition>number between 7999 and 8001</Definition>
         <Example>八千以上だ！</Example>
@@ -439,6 +464,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1235414">
       <Lemma writtenForm="きり" partOfSpeech="y"/>
+      <Form writtenForm="ぎり"/>
       <Sense id="L1235414-S1" synset="wikidata-ja-L1235414-S1" ili="wikidata-ja-L1235414-S1">
         <Definition>それだけと限定して程度を表す</Definition>
         <Example>お会いするのは、もうこれっきりにさせてください。</Example>
@@ -483,6 +509,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1246243">
       <Lemma writtenForm="されど" partOfSpeech="c"/>
+      <Form writtenForm="されども"/>
       <Sense id="L1246243-S1" synset="wikidata-ja-L1246243-S1" ili="wikidata-ja-L1246243-S1">
         <Definition>（逆接）</Definition>
       </Sense>
@@ -565,6 +592,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1343804">
       <Lemma writtenForm="騎虎の勢い" partOfSpeech="t"/>
+      <Form writtenForm="騎虎の勢"/>
       <Sense id="L1343804-S1" synset="wikidata-ja-L1343804-S1" ili="wikidata-ja-L1343804-S1">
         <Definition>静止できない勢い</Definition>
       </Sense>
@@ -579,7 +607,6 @@
       <Lemma writtenForm="アンド" partOfSpeech="y"/>
       <Sense id="L1378983-S1" synset="wikidata-ja-L1378983-S1" ili="wikidata-ja-L1378983-S1">
         <Definition>列挙を示す</Definition>
-        <SenseRelation relType="similar" target="wikidata-ja-L544-S2"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1403818">
@@ -626,6 +653,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1491427">
       <Lemma writtenForm="二千" partOfSpeech="m"/>
+      <Form writtenForm="二〇〇〇"/>
+      <Form writtenForm="2000"/>
       <Sense id="L1491427-S1" synset="wikidata-ja-L1491427-S1" ili="wikidata-ja-L1491427-S1">
         <Definition>2000</Definition>
       </Sense>
@@ -665,18 +694,32 @@
     </LexicalEntry>
     <LexicalEntry id="L1506140">
       <Lemma writtenForm="知らぬ振り" partOfSpeech="t"/>
+      <Form writtenForm="知らぬふり"/>
+      <Form writtenForm="知らん振り"/>
+      <Form writtenForm="知らんぷり"/>
       <Sense id="L1506140-S1" synset="wikidata-ja-L1506140-S1" ili="wikidata-ja-L1506140-S1">
         <Definition>気づかない風を装うこと</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1506393">
       <Lemma writtenForm="吝か" partOfSpeech="a"/>
+      <Form writtenForm="吝かだろ"/>
+      <Form writtenForm="吝かだっ"/>
+      <Form writtenForm="吝かで"/>
+      <Form writtenForm="吝かに"/>
+      <Form writtenForm="吝かだ"/>
+      <Form writtenForm="吝かな"/>
+      <Form writtenForm="吝かなら"/>
       <Sense id="L1506393-S1" synset="wikidata-ja-L1506393-S1" ili="wikidata-ja-L1506393-S1">
         <Definition>思い切りが悪い様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1506400">
       <Lemma writtenForm="顔を立てる" partOfSpeech="t"/>
+      <Form writtenForm="顔を立て"/>
+      <Form writtenForm="顔を立てれ"/>
+      <Form writtenForm="顔を立てろ"/>
+      <Form writtenForm="顔を立てよ"/>
       <Sense id="L1506400-S1" synset="wikidata-ja-L1506400-S1" ili="wikidata-ja-L1506400-S1">
         <Definition>相手が面目を保てるようにする</Definition>
         <SenseRelation relType="antonym" target="wikidata-ja-L1548401-S1"/>
@@ -709,18 +752,34 @@
     </LexicalEntry>
     <LexicalEntry id="L1532105">
       <Lemma writtenForm="愛想が尽きる" partOfSpeech="t"/>
+      <Form writtenForm="愛想が尽き"/>
+      <Form writtenForm="愛想が尽きれ"/>
+      <Form writtenForm="愛想が尽きろ"/>
+      <Form writtenForm="愛想が尽きよ"/>
       <Sense id="L1532105-S1" synset="wikidata-ja-L1532105-S1" ili="wikidata-ja-L1532105-S1">
         <Definition>興が冷めて相手に対する愛想がなくなる</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546221">
       <Lemma writtenForm="あやふや" partOfSpeech="a"/>
+      <Form writtenForm="あやふやだろ"/>
+      <Form writtenForm="あやふやだっ"/>
+      <Form writtenForm="あやふやで"/>
+      <Form writtenForm="あやふやに"/>
+      <Form writtenForm="あやふやだ"/>
+      <Form writtenForm="あやふやな"/>
+      <Form writtenForm="あやふやなら"/>
       <Sense id="L1546221-S1" synset="wikidata-ja-L1546221-S1" ili="wikidata-ja-L1546221-S1">
         <Definition>曖昧ではっきりしない様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546275">
       <Lemma writtenForm="泡を吹く" partOfSpeech="t"/>
+      <Form writtenForm="泡を吹か"/>
+      <Form writtenForm="泡を吹こ"/>
+      <Form writtenForm="泡を吹き"/>
+      <Form writtenForm="泡を吹け"/>
+      <Form writtenForm="泡を吹い"/>
       <Sense id="L1546275-S1" synset="wikidata-ja-L1546275-S1" ili="wikidata-ja-L1546275-S1">
         <Definition>不意を打たれて驚く</Definition>
       </Sense>
@@ -739,68 +798,85 @@
     </LexicalEntry>
     <LexicalEntry id="L1548291">
       <Lemma writtenForm="合理的" partOfSpeech="a"/>
+      <Form writtenForm="合理的だろ"/>
+      <Form writtenForm="合理的だっ"/>
+      <Form writtenForm="合理的で"/>
+      <Form writtenForm="合理的に"/>
+      <Form writtenForm="合理的だ"/>
+      <Form writtenForm="合理的な"/>
+      <Form writtenForm="合理的なら"/>
       <Sense id="L1548291-S1" synset="wikidata-ja-L1548291-S1" ili="wikidata-ja-L1548291-S1">
         <Definition>理に適っている</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548676">
       <Lemma writtenForm="肝要" partOfSpeech="a"/>
+      <Form writtenForm="肝要だろ"/>
+      <Form writtenForm="肝要だっ"/>
+      <Form writtenForm="肝要で"/>
+      <Form writtenForm="肝要に"/>
+      <Form writtenForm="肝要だ"/>
+      <Form writtenForm="肝要な"/>
+      <Form writtenForm="肝要なら"/>
       <Sense id="L1548676-S1" synset="wikidata-ja-L1548676-S1" ili="wikidata-ja-L1548676-S1">
         <Definition>外せない中核的な部分であること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548946">
       <Lemma writtenForm="気が利く" partOfSpeech="t"/>
+      <Form writtenForm="気が利か"/>
+      <Form writtenForm="気が利こ"/>
+      <Form writtenForm="気が利き"/>
+      <Form writtenForm="気が利け"/>
+      <Form writtenForm="気が利い"/>
       <Sense id="L1548946-S1" synset="wikidata-ja-L1548946-S1" ili="wikidata-ja-L1548946-S1">
         <Definition>配慮が行き届いている</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548967">
       <Lemma writtenForm="気がつく" partOfSpeech="t"/>
+      <Form writtenForm="気がつか"/>
+      <Form writtenForm="気がつこ"/>
+      <Form writtenForm="気がつき"/>
+      <Form writtenForm="気がつけ"/>
+      <Form writtenForm="気がつい"/>
       <Sense id="L1548967-S1" synset="wikidata-ja-L1548967-S1" ili="wikidata-ja-L1548967-S1">
         <Definition>感づく、才知がはたらく</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548971">
       <Lemma writtenForm="気を揉む" partOfSpeech="t"/>
+      <Form writtenForm="気を揉ま"/>
+      <Form writtenForm="気を揉も"/>
+      <Form writtenForm="気を揉み"/>
+      <Form writtenForm="気を揉め"/>
+      <Form writtenForm="気を揉ん"/>
       <Sense id="L1548971-S1" synset="wikidata-ja-L1548971-S1" ili="wikidata-ja-L1548971-S1">
         <Definition>いろいろとあせる、はらはらする</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1549385">
       <Lemma writtenForm="不当" partOfSpeech="a"/>
+      <Form writtenForm="不当だろ"/>
+      <Form writtenForm="不当だっ"/>
+      <Form writtenForm="不当で"/>
+      <Form writtenForm="不当に"/>
+      <Form writtenForm="不当だ"/>
+      <Form writtenForm="不当な"/>
+      <Form writtenForm="不当なら"/>
       <Sense id="L1549385-S1" synset="wikidata-ja-L1549385-S1" ili="wikidata-ja-L1549385-S1">
         <Definition>適切でない</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1551316">
       <Lemma writtenForm="席を立つ" partOfSpeech="t"/>
+      <Form writtenForm="席を立た"/>
+      <Form writtenForm="席を立と"/>
+      <Form writtenForm="席を立ち"/>
+      <Form writtenForm="席を立て"/>
+      <Form writtenForm="席を立っ"/>
       <Sense id="L1551316-S1" synset="wikidata-ja-L1551316-S1" ili="wikidata-ja-L1551316-S1">
         <Definition>退出する</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L544">
-      <Lemma writtenForm="と" partOfSpeech="y"/>
-      <Sense id="L544-S1" synset="wikidata-ja-L544-S1" ili="wikidata-ja-L544-S1">
-        <Definition>共に、あるいは相互に行う動作の相手を示す</Definition>
-        <Example>友人と会う</Example>
-      </Sense>
-      <Sense id="L544-S2" synset="wikidata-ja-L544-S2" ili="wikidata-ja-L544-S2">
-        <Definition>列挙を示す</Definition>
-        <Example>赤と黄色と緑</Example>
-        <SenseRelation relType="similar" target="wikidata-ja-L1378983-S1"/>
-      </Sense>
-      <Sense id="L544-S3" synset="wikidata-ja-L544-S3" ili="wikidata-ja-L544-S3">
-        <Definition>関連する対象を示す</Definition>
-        <Example>彼女とは幼馴染だ</Example>
-      </Sense>
-      <Sense id="L544-S4" synset="wikidata-ja-L544-S4" ili="wikidata-ja-L544-S4">
-        <Definition>発言などの引用を示す</Definition>
-        <Example>愛していると言った</Example>
-      </Sense>
-      <Sense id="L544-S5" synset="wikidata-ja-L544-S5" ili="wikidata-ja-L544-S5">
-        <Definition>判断結果や状態を示す</Definition>
-        <Example>これで作業は完了とみなす</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L553">
@@ -827,6 +903,7 @@
     </LexicalEntry>
     <LexicalEntry id="L563">
       <Lemma writtenForm="さ" partOfSpeech="y"/>
+      <Form writtenForm="さあ"/>
       <Sense id="L563-S1" synset="wikidata-ja-L563-S1" ili="wikidata-ja-L563-S1">
         <Definition>主張を強調する。反駁を表す。</Definition>
         <Example>だから嫌われるのさ。</Example>
@@ -860,28 +937,10 @@
     </LexicalEntry>
     <LexicalEntry id="L576">
       <Lemma writtenForm="しか" partOfSpeech="y"/>
+      <Form writtenForm="ほか"/>
       <Sense id="L576-S1" synset="wikidata-ja-L576-S1" ili="wikidata-ja-L576-S1">
         <Definition>下に打消表現を伴って他を排して限定や強調の意を表す</Definition>
         <Example>病み上がりで、まだおかゆしか食べられない。</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L580">
-      <Lemma writtenForm="て" partOfSpeech="y"/>
-      <Sense id="L580-S1" synset="wikidata-ja-L580-S1" ili="wikidata-ja-L580-S1">
-        <Definition>対等の文節をつくる</Definition>
-        <Example>上着を着て、手袋を着ける</Example>
-      </Sense>
-      <Sense id="L580-S2" synset="wikidata-ja-L580-S2" ili="wikidata-ja-L580-S2">
-        <Definition>原因や理由を表す</Definition>
-        <Example>古くて使えない</Example>
-      </Sense>
-      <Sense id="L580-S3" synset="wikidata-ja-L580-S3" ili="wikidata-ja-L580-S3">
-        <Definition>逆接を表す</Definition>
-        <Example>二十歳にもなって、責任ある言動がとれないようでは残念である</Example>
-      </Sense>
-      <Sense id="L580-S4" synset="wikidata-ja-L580-S4" ili="wikidata-ja-L580-S4">
-        <Definition>用言に接続して補助用言を下に伴う</Definition>
-        <Example>手を繋いでいる</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L581">
@@ -931,6 +990,10 @@
     </LexicalEntry>
     <LexicalEntry id="L627">
       <Lemma writtenForm="たい" partOfSpeech="v"/>
+      <Form writtenForm="たかろ"/>
+      <Form writtenForm="たく"/>
+      <Form writtenForm="たかっ"/>
+      <Form writtenForm="たけれ"/>
       <Sense id="L627-S1" synset="wikidata-ja-L627-S1" ili="wikidata-ja-L627-S1">
         <Definition>希望</Definition>
         <Example>何食べたい？</Example>
@@ -955,13 +1018,10 @@
       </Sense>
       <Sense id="L679-S2" synset="wikidata-ja-L679-S2" ili="wikidata-ja-L679-S2">
         <Definition>あの人。三人称</Definition>
-        <SenseRelation relType="similar" target="wikidata-ja-L1082282-S1"/>
       </Sense>
       <Sense id="L679-S3" synset="wikidata-ja-L679-S3" ili="wikidata-ja-L679-S3">
         <Definition>遠称の代名詞</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L1399597-S1"/>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399629-S1"/>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399631-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L680">
@@ -979,6 +1039,13 @@
     </LexicalEntry>
     <LexicalEntry id="L315608">
       <Lemma writtenForm="素敵" partOfSpeech="a"/>
+      <Form writtenForm="素敵だろ"/>
+      <Form writtenForm="素敵だっ"/>
+      <Form writtenForm="素敵で"/>
+      <Form writtenForm="素敵に"/>
+      <Form writtenForm="素敵だ"/>
+      <Form writtenForm="素敵な"/>
+      <Form writtenForm="素敵なら"/>
       <Sense id="L315608-S1" synset="wikidata-ja-L315608-S1" ili="wikidata-ja-L315608-S1">
         <Definition>とても面白い、とてもうまい、見事だ、好ましい</Definition>
         <Example>あなたは素敵な downtown boy</Example>
@@ -992,6 +1059,8 @@
     </LexicalEntry>
     <LexicalEntry id="L625706">
       <Lemma writtenForm="〇" partOfSpeech="m"/>
+      <Form writtenForm="零"/>
+      <Form writtenForm="０"/>
       <Sense id="L625706-S1" synset="wikidata-ja-L625706-S1" ili="wikidata-ja-L625706-S1">
         <Definition>整数</Definition>
       </Sense>
@@ -1009,12 +1078,6 @@
       <Lemma writtenForm="零" partOfSpeech="m"/>
       <Sense id="L625710-S1" synset="wikidata-ja-L625710-S1" ili="wikidata-ja-L625710-S1">
         <Definition>皆無であること</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L626057">
-      <Lemma writtenForm="人" partOfSpeech="m"/>
-      <Sense id="L626057-S1" synset="wikidata-ja-L626057-S1" ili="wikidata-ja-L626057-S1">
-        <Definition>indicates that the preceding number represents a number of people</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L680105">
@@ -1088,6 +1151,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1011289">
       <Lemma writtenForm="そして" partOfSpeech="c"/>
+      <Form writtenForm="而して"/>
       <Sense id="L1011289-S1" synset="wikidata-ja-L1011289-S1" ili="wikidata-ja-L1011289-S1">
         <Definition>語句の累加を表す</Definition>
       </Sense>
@@ -1220,6 +1284,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1225149">
       <Lemma writtenForm="即" partOfSpeech="c"/>
+      <Form writtenForm="即ち"/>
       <Sense id="L1225149-S1" synset="wikidata-ja-L1225149-S1" ili="wikidata-ja-L1225149-S1">
         <Definition>すなわち、とりもなおさず（語句の言い換え）</Definition>
         <Example>信号機の赤は即ち止まれの意味だ</Example>
@@ -1227,18 +1292,22 @@
     </LexicalEntry>
     <LexicalEntry id="L1225791">
       <Lemma writtenForm="単刀直入" partOfSpeech="n"/>
+      <Form writtenForm="短刀直入"/>
       <Sense id="L1225791-S1" synset="wikidata-ja-L1225791-S1" ili="wikidata-ja-L1225791-S1">
         <Definition>真正面から直接に説破すること、冒頭を置かずに直ちに本題に入ること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1225810">
       <Lemma writtenForm="断末魔" partOfSpeech="t"/>
+      <Form writtenForm="断末摩"/>
       <Sense id="L1225810-S1" synset="wikidata-ja-L1225810-S1" ili="wikidata-ja-L1225810-S1">
         <Definition>一命が終わろうとする時</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1227295">
       <Lemma writtenForm="付和雷同" partOfSpeech="n"/>
+      <Form writtenForm="附和雷同"/>
+      <Form writtenForm="不和雷同"/>
       <Sense id="L1227295-S1" synset="wikidata-ja-L1227295-S1" ili="wikidata-ja-L1227295-S1">
         <Definition>軽々しく他人の説に賛同すること</Definition>
       </Sense>
@@ -1257,6 +1326,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1231376">
       <Lemma writtenForm="鰻登り" partOfSpeech="t"/>
+      <Form writtenForm="鰻上り"/>
       <Sense id="L1231376-S1" synset="wikidata-ja-L1231376-S1" ili="wikidata-ja-L1231376-S1">
         <Definition>低い地位からとんとん拍子に出世する様子</Definition>
       </Sense>
@@ -1298,6 +1368,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1235302">
       <Lemma writtenForm="そうです" partOfSpeech="v"/>
+      <Form writtenForm="そうでしょ"/>
+      <Form writtenForm="そうでし"/>
       <Sense id="L1235302-S1" synset="wikidata-ja-L1235302-S1" ili="wikidata-ja-L1235302-S1">
         <Definition>伝聞（伝聞情報の伝達）</Definition>
         <Example>晴れるそうでした</Example>
@@ -1314,14 +1386,6 @@
       <Sense id="L1235409-S1" synset="wikidata-ja-L1235409-S1" ili="wikidata-ja-L1235409-S1">
         <Definition>逆接の確定条件を表す</Definition>
         <Example>気持ちは分かるものの、このまま進めるのはやはり無理がある。</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1235431">
-      <Lemma writtenForm="や" partOfSpeech="y"/>
-      <Sense id="L1235431-S1" synset="wikidata-ja-L1235431-S1" ili="wikidata-ja-L1235431-S1">
-        <Definition>詠嘆、呼び掛け、促しを表す</Definition>
-        <Example>娘や、大きく育つんだぞ。</Example>
-        <Example>みんなで行こうや。</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1244198">
@@ -1344,6 +1408,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1244490">
       <Lemma writtenForm="気が置けない" partOfSpeech="t"/>
+      <Form writtenForm="気の置けない"/>
       <Sense id="L1244490-S1" synset="wikidata-ja-L1244490-S1" ili="wikidata-ja-L1244490-S1">
         <Definition>信頼でき、気を遣わずに済む</Definition>
       </Sense>
@@ -1353,6 +1418,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1244542">
       <Lemma writtenForm="恩に着せる" partOfSpeech="t"/>
+      <Form writtenForm="恩を着せる"/>
       <Sense id="L1244542-S1" synset="wikidata-ja-L1244542-S1" ili="wikidata-ja-L1244542-S1">
         <Definition>してあげたことなどをことさらに相手に伝えて、返礼を期待する様子</Definition>
       </Sense>
@@ -1420,26 +1486,23 @@
     </LexicalEntry>
     <LexicalEntry id="L1344899">
       <Lemma writtenForm="朝一" partOfSpeech="t"/>
+      <Form writtenForm="朝イチ"/>
       <Sense id="L1344899-S1" synset="wikidata-ja-L1344899-S1" ili="wikidata-ja-L1344899-S1">
         <Definition>朝一番で行う仕事</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1347557">
       <Lemma writtenForm="忌憚の無い" partOfSpeech="t"/>
+      <Form writtenForm="忌憚のない"/>
       <Sense id="L1347557-S1" synset="wikidata-ja-L1347557-S1" ili="wikidata-ja-L1347557-S1">
         <Definition>忌み憚ることのない、率直な</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1379087">
       <Lemma writtenForm="首を切る" partOfSpeech="t"/>
+      <Form writtenForm="首を斬る"/>
       <Sense id="L1379087-S1" synset="wikidata-ja-L1379087-S1" ili="wikidata-ja-L1379087-S1">
         <Definition>解雇する</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1398135">
-      <Lemma writtenForm="僕" partOfSpeech="h"/>
-      <Sense id="L1398135-S1" synset="wikidata-ja-L1398135-S1" ili="wikidata-ja-L1398135-S1">
-        <Definition>年上が小さい男の子に対して言う語</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1407667">
@@ -1532,6 +1595,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1506142">
       <Lemma writtenForm="目くじらを立てる" partOfSpeech="t"/>
+      <Form writtenForm="目鯨を立てる"/>
       <Sense id="L1506142-S1" synset="wikidata-ja-L1506142-S1" ili="wikidata-ja-L1506142-S1">
         <Definition>目を吊り上げる、粗探しをする</Definition>
       </Sense>
@@ -1544,6 +1608,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1520152">
       <Lemma writtenForm="優雅" partOfSpeech="a"/>
+      <Form writtenForm="優雅だろ"/>
+      <Form writtenForm="優雅だっ"/>
+      <Form writtenForm="優雅で"/>
+      <Form writtenForm="優雅に"/>
+      <Form writtenForm="優雅だ"/>
+      <Form writtenForm="優雅な"/>
+      <Form writtenForm="優雅なら"/>
       <Sense id="L1520152-S1" synset="wikidata-ja-L1520152-S1" ili="wikidata-ja-L1520152-S1">
         <Definition>とても雅やかな様子</Definition>
       </Sense>
@@ -1556,36 +1627,72 @@
     </LexicalEntry>
     <LexicalEntry id="L1531561">
       <Lemma writtenForm="老獪" partOfSpeech="a"/>
+      <Form writtenForm="老獪だろ"/>
+      <Form writtenForm="老獪だっ"/>
+      <Form writtenForm="老獪で"/>
+      <Form writtenForm="老獪に"/>
+      <Form writtenForm="老獪だ"/>
+      <Form writtenForm="老獪な"/>
+      <Form writtenForm="老獪なら"/>
       <Sense id="L1531561-S1" synset="wikidata-ja-L1531561-S1" ili="wikidata-ja-L1531561-S1">
         <Definition>経験を積んで狡猾であること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1532282">
       <Lemma writtenForm="味を占める" partOfSpeech="t"/>
+      <Form writtenForm="味を占め"/>
+      <Form writtenForm="味を占めれ"/>
+      <Form writtenForm="味を占めろ"/>
+      <Form writtenForm="味を占めよ"/>
       <Sense id="L1532282-S1" synset="wikidata-ja-L1532282-S1" ili="wikidata-ja-L1532282-S1">
         <Definition>一度うまく行ったので次も上手く行くと期待する様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1532304">
       <Lemma writtenForm="呆気に取られる" partOfSpeech="t"/>
+      <Form writtenForm="呆気に取られ"/>
+      <Form writtenForm="呆気に取られれ"/>
+      <Form writtenForm="呆気に取られろ"/>
+      <Form writtenForm="呆気に取られよ"/>
       <Sense id="L1532304-S1" synset="wikidata-ja-L1532304-S1" ili="wikidata-ja-L1532304-S1">
         <Definition>ひどく呆れて我を失う様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548585">
       <Lemma writtenForm="軽やか" partOfSpeech="a"/>
+      <Form writtenForm="軽やかだろ"/>
+      <Form writtenForm="軽やかだっ"/>
+      <Form writtenForm="軽やかで"/>
+      <Form writtenForm="軽やかに"/>
+      <Form writtenForm="軽やかだ"/>
+      <Form writtenForm="軽やかな"/>
+      <Form writtenForm="軽やかなら"/>
       <Sense id="L1548585-S1" synset="wikidata-ja-L1548585-S1" ili="wikidata-ja-L1548585-S1">
         <Definition>軽々とした様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548846">
       <Lemma writtenForm="閑静" partOfSpeech="a"/>
+      <Form writtenForm="閑静だろ"/>
+      <Form writtenForm="閑静だっ"/>
+      <Form writtenForm="閑静で"/>
+      <Form writtenForm="閑静に"/>
+      <Form writtenForm="閑静だ"/>
+      <Form writtenForm="閑静な"/>
+      <Form writtenForm="閑静なら"/>
       <Sense id="L1548846-S1" synset="wikidata-ja-L1548846-S1" ili="wikidata-ja-L1548846-S1">
         <Definition>物静かであること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548861">
       <Lemma writtenForm="簡単" partOfSpeech="a"/>
+      <Form writtenForm="簡単だろ"/>
+      <Form writtenForm="簡単だっ"/>
+      <Form writtenForm="簡単で"/>
+      <Form writtenForm="簡単に"/>
+      <Form writtenForm="簡単だ"/>
+      <Form writtenForm="簡単な"/>
+      <Form writtenForm="簡単なら"/>
       <Sense id="L1548861-S1" synset="wikidata-ja-L1548861-S1" ili="wikidata-ja-L1548861-S1">
         <Definition>簡素で単純な様子</Definition>
       </Sense>
@@ -1604,6 +1711,8 @@
     </LexicalEntry>
     <LexicalEntry id="L571">
       <Lemma writtenForm="など" partOfSpeech="y"/>
+      <Form writtenForm="なんぞ"/>
+      <Form writtenForm="なんか"/>
       <Sense id="L571-S1" synset="wikidata-ja-L571-S1" ili="wikidata-ja-L571-S1">
         <Definition>あるものを例示して他にまだあることを表す</Definition>
         <Example>お気づきの点などありましたらお知らせください。</Example>
@@ -1634,6 +1743,7 @@
     </LexicalEntry>
     <LexicalEntry id="L582">
       <Lemma writtenForm="ので" partOfSpeech="y"/>
+      <Form writtenForm="んで"/>
       <Sense id="L582-S1" synset="wikidata-ja-L582-S1" ili="wikidata-ja-L582-S1">
         <Definition>前が後で示す動作や作用の原因や理由であることを表す</Definition>
         <Example>誤りを放置するわけには行かないので、直ちに訂正した</Example>
@@ -1646,27 +1756,21 @@
         <Definition>前に対して後が予想外であることを表す</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L586">
-      <Lemma writtenForm="けれども" partOfSpeech="y"/>
-      <Sense id="L586-S1" synset="wikidata-ja-L586-S1" ili="wikidata-ja-L586-S1">
-        <Definition>一言いった後に、自分の考えをほのめかす</Definition>
-        <Example>ここから始めると良いのでしょうかね。よくは分かりませんけれども。</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L599">
-      <Lemma writtenForm="さ" partOfSpeech="y"/>
-      <Sense id="L599-S1" synset="wikidata-ja-L599-S1" ili="wikidata-ja-L599-S1">
-        <Definition>東北方言などで、動作や作用の向けられる方向・場所・相手を示す</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L619">
       <Lemma writtenForm="せる" partOfSpeech="v"/>
+      <Form writtenForm="せ"/>
+      <Form writtenForm="せれ"/>
+      <Form writtenForm="せろ"/>
+      <Form writtenForm="せよ"/>
       <Sense id="L619-S1" synset="wikidata-ja-L619-S1" ili="wikidata-ja-L619-S1">
         <Definition>使役</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L634">
       <Lemma writtenForm="らしい" partOfSpeech="v"/>
+      <Form writtenForm="らしく"/>
+      <Form writtenForm="らしゅう"/>
+      <Form writtenForm="らしかっ"/>
       <Sense id="L634-S1" synset="wikidata-ja-L634-S1" ili="wikidata-ja-L634-S1">
         <Definition>推量（伝聞情報を根拠とした推量）</Definition>
         <Example>早いらしく</Example>
@@ -1774,6 +1878,7 @@
     </LexicalEntry>
     <LexicalEntry id="L735976">
       <Lemma writtenForm="七十" partOfSpeech="m"/>
+      <Form writtenForm="70"/>
       <Sense id="L735976-S1" synset="wikidata-ja-L735976-S1" ili="wikidata-ja-L735976-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -1810,6 +1915,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1080733">
       <Lemma writtenForm="思いの外" partOfSpeech="t"/>
+      <Form writtenForm="思いのほか"/>
       <Sense id="L1080733-S1" synset="wikidata-ja-L1080733-S1" ili="wikidata-ja-L1080733-S1">
         <Definition>意外なこと、思いもよらないこと</Definition>
       </Sense>
@@ -1831,6 +1937,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1113522">
       <Lemma writtenForm="一個" partOfSpeech="m"/>
+      <Form writtenForm="一箇"/>
       <Sense id="L1113522-S1" synset="wikidata-ja-L1113522-S1" ili="wikidata-ja-L1113522-S1">
         <Definition>one thing</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L686295-S2"/>
@@ -1882,12 +1989,24 @@
     </LexicalEntry>
     <LexicalEntry id="L1162001">
       <Lemma writtenForm="九十" partOfSpeech="m"/>
+      <Form writtenForm="九〇"/>
+      <Form writtenForm="90"/>
       <Sense id="L1162001-S1" synset="wikidata-ja-L1162001-S1" ili="wikidata-ja-L1162001-S1">
         <Definition>natural number between 89 and 91</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1218678">
       <Lemma writtenForm="明らか" partOfSpeech="a"/>
+      <Form writtenForm="明らかだろ"/>
+      <Form writtenForm="明らかだっ"/>
+      <Form writtenForm="明らかで"/>
+      <Form writtenForm="明らかに"/>
+      <Form writtenForm="明らかだ"/>
+      <Form writtenForm="明らかな"/>
+      <Form writtenForm="明らかなら"/>
+      <Form writtenForm="明らかでしょ"/>
+      <Form writtenForm="明らかでし"/>
+      <Form writtenForm="明らかです"/>
       <Sense id="L1218678-S1" synset="wikidata-ja-L1218678-S1" ili="wikidata-ja-L1218678-S1">
         <Definition>どう見ても明白であるさま</Definition>
         <Example>誰の目にも明らかだろう。</Example>
@@ -1927,6 +2046,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1220433">
       <Lemma writtenForm="乙" partOfSpeech="a"/>
+      <Form writtenForm="乙だろ"/>
+      <Form writtenForm="乙だっ"/>
+      <Form writtenForm="乙で"/>
+      <Form writtenForm="乙に"/>
+      <Form writtenForm="乙だ"/>
+      <Form writtenForm="乙な"/>
+      <Form writtenForm="乙なら"/>
       <Sense id="L1220433-S1" synset="wikidata-ja-L1220433-S1" ili="wikidata-ja-L1220433-S1">
         <Definition>気が利いて物事の分かること、かわり映えがして趣のある様子</Definition>
       </Sense>
@@ -1982,6 +2108,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1230890">
       <Lemma writtenForm="洋洋" partOfSpeech="a"/>
+      <Form writtenForm="洋洋と"/>
+      <Form writtenForm="洋洋たる"/>
+      <Form writtenForm="洋々と"/>
+      <Form writtenForm="洋々たる"/>
       <Sense id="L1230890-S1" synset="wikidata-ja-L1230890-S1" ili="wikidata-ja-L1230890-S1">
         <Definition>水が盛んなさま</Definition>
       </Sense>
@@ -2032,12 +2162,20 @@
     </LexicalEntry>
     <LexicalEntry id="L1243949">
       <Lemma writtenForm="遥か" partOfSpeech="a"/>
+      <Form writtenForm="遥かだろ"/>
+      <Form writtenForm="遥かだっ"/>
+      <Form writtenForm="遥かで"/>
+      <Form writtenForm="遥かに"/>
+      <Form writtenForm="遥かだ"/>
+      <Form writtenForm="遥かな"/>
+      <Form writtenForm="遥かなら"/>
       <Sense id="L1243949-S1" synset="wikidata-ja-L1243949-S1" ili="wikidata-ja-L1243949-S1">
         <Definition>遠く及ばない様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1244193">
       <Lemma writtenForm="且つ" partOfSpeech="c"/>
+      <Form writtenForm="且"/>
       <Sense id="L1244193-S1" synset="wikidata-ja-L1244193-S1" ili="wikidata-ja-L1244193-S1">
         <Definition>語句の累加を表す、一方では、その上に、なお、ながら</Definition>
       </Sense>
@@ -2074,6 +2212,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1246242">
       <Lemma writtenForm="さりとて" partOfSpeech="c"/>
+      <Form writtenForm="とはいえ"/>
       <Sense id="L1246242-S1" synset="wikidata-ja-L1246242-S1" ili="wikidata-ja-L1246242-S1">
         <Definition>（逆接）</Definition>
       </Sense>
@@ -2268,6 +2407,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1476378">
       <Lemma writtenForm="風前の灯" partOfSpeech="t"/>
+      <Form writtenForm="風前の灯火"/>
       <Sense id="L1476378-S1" synset="wikidata-ja-L1476378-S1" ili="wikidata-ja-L1476378-S1">
         <Definition>危険なことの喩え</Definition>
       </Sense>
@@ -2362,30 +2502,65 @@
     </LexicalEntry>
     <LexicalEntry id="L1523504">
       <Lemma writtenForm="顕著" partOfSpeech="a"/>
+      <Form writtenForm="顕著だろ"/>
+      <Form writtenForm="顕著だっ"/>
+      <Form writtenForm="顕著で"/>
+      <Form writtenForm="顕著に"/>
+      <Form writtenForm="顕著だ"/>
+      <Form writtenForm="顕著な"/>
+      <Form writtenForm="顕著なら"/>
       <Sense id="L1523504-S1" synset="wikidata-ja-L1523504-S1" ili="wikidata-ja-L1523504-S1">
         <Definition>著しく明らか</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1523511">
       <Lemma writtenForm="引っ切り無し" partOfSpeech="a"/>
+      <Form writtenForm="引っ切り無しだろ"/>
+      <Form writtenForm="引っ切り無しだっ"/>
+      <Form writtenForm="引っ切り無しで"/>
+      <Form writtenForm="引っ切り無しに"/>
+      <Form writtenForm="引っ切り無しだ"/>
+      <Form writtenForm="引っ切り無しな"/>
+      <Form writtenForm="引っ切り無しなら"/>
       <Sense id="L1523511-S1" synset="wikidata-ja-L1523511-S1" ili="wikidata-ja-L1523511-S1">
         <Definition>途切れず続く様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1524872">
       <Lemma writtenForm="壊滅的" partOfSpeech="a"/>
+      <Form writtenForm="壊滅的だろ"/>
+      <Form writtenForm="壊滅的だっ"/>
+      <Form writtenForm="壊滅的で"/>
+      <Form writtenForm="壊滅的に"/>
+      <Form writtenForm="壊滅的だ"/>
+      <Form writtenForm="壊滅的な"/>
+      <Form writtenForm="壊滅的なら"/>
       <Sense id="L1524872-S1" synset="wikidata-ja-L1524872-S1" ili="wikidata-ja-L1524872-S1">
         <Definition>壊れて滅びる様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1529543">
       <Lemma writtenForm="私的" partOfSpeech="a"/>
+      <Form writtenForm="私的だろ"/>
+      <Form writtenForm="私的だっ"/>
+      <Form writtenForm="私的で"/>
+      <Form writtenForm="私的に"/>
+      <Form writtenForm="私的だ"/>
+      <Form writtenForm="私的な"/>
+      <Form writtenForm="私的なら"/>
       <Sense id="L1529543-S1" synset="wikidata-ja-L1529543-S1" ili="wikidata-ja-L1529543-S1">
         <Definition>個人的</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1529824">
       <Lemma writtenForm="一時的" partOfSpeech="a"/>
+      <Form writtenForm="一時的だろ"/>
+      <Form writtenForm="一時的だっ"/>
+      <Form writtenForm="一時的で"/>
+      <Form writtenForm="一時的に"/>
+      <Form writtenForm="一時的だ"/>
+      <Form writtenForm="一時的な"/>
+      <Form writtenForm="一時的なら"/>
       <Sense id="L1529824-S1" synset="wikidata-ja-L1529824-S1" ili="wikidata-ja-L1529824-S1">
         <Definition>その時だけ</Definition>
       </Sense>
@@ -2398,30 +2573,54 @@
     </LexicalEntry>
     <LexicalEntry id="L1532220">
       <Lemma writtenForm="手に汗を握る" partOfSpeech="t"/>
+      <Form writtenForm="手に汗を握ら"/>
+      <Form writtenForm="手に汗を握ろ"/>
+      <Form writtenForm="手に汗を握り"/>
+      <Form writtenForm="手に汗を握れ"/>
       <Sense id="L1532220-S1" synset="wikidata-ja-L1532220-S1" ili="wikidata-ja-L1532220-S1">
         <Definition>はらはらして見守る様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548399">
       <Lemma writtenForm="顔が売れる" partOfSpeech="t"/>
+      <Form writtenForm="顔が売れ"/>
+      <Form writtenForm="顔が売れれ"/>
+      <Form writtenForm="顔が売れろ"/>
+      <Form writtenForm="顔が売れよ"/>
       <Sense id="L1548399-S1" synset="wikidata-ja-L1548399-S1" ili="wikidata-ja-L1548399-S1">
         <Definition>有名になる</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548679">
       <Lemma writtenForm="閑雅" partOfSpeech="a"/>
+      <Form writtenForm="閑雅だろ"/>
+      <Form writtenForm="閑雅だっ"/>
+      <Form writtenForm="閑雅で"/>
+      <Form writtenForm="閑雅に"/>
+      <Form writtenForm="閑雅だ"/>
+      <Form writtenForm="閑雅な"/>
+      <Form writtenForm="閑雅なら"/>
       <Sense id="L1548679-S1" synset="wikidata-ja-L1548679-S1" ili="wikidata-ja-L1548679-S1">
         <Definition>しとやかで雅やかな様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1549762">
       <Lemma writtenForm="釘を刺す" partOfSpeech="t"/>
+      <Form writtenForm="釘を刺さ"/>
+      <Form writtenForm="釘を刺そ"/>
+      <Form writtenForm="釘を刺し"/>
+      <Form writtenForm="釘を刺せ"/>
       <Sense id="L1549762-S1" synset="wikidata-ja-L1549762-S1" ili="wikidata-ja-L1549762-S1">
         <Definition>固く約束する</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1550768">
       <Lemma writtenForm="雲を掴む" partOfSpeech="t"/>
+      <Form writtenForm="雲を掴ま"/>
+      <Form writtenForm="雲を掴も"/>
+      <Form writtenForm="雲を掴み"/>
+      <Form writtenForm="雲を掴め"/>
+      <Form writtenForm="雲を掴ん"/>
       <Sense id="L1550768-S1" synset="wikidata-ja-L1550768-S1" ili="wikidata-ja-L1550768-S1">
         <Definition>漠然として頼りない様子</Definition>
       </Sense>
@@ -2498,6 +2697,7 @@
     </LexicalEntry>
     <LexicalEntry id="L597">
       <Lemma writtenForm="もの" partOfSpeech="y"/>
+      <Form writtenForm="もん"/>
       <Sense id="L597-S1" synset="wikidata-ja-L597-S1" ili="wikidata-ja-L597-S1">
         <Definition>反論や自己主張を表す</Definition>
         <Example>だって、本当に分からないんだもん。</Example>
@@ -2511,6 +2711,11 @@
     </LexicalEntry>
     <LexicalEntry id="L628">
       <Lemma writtenForm="たがる" partOfSpeech="v"/>
+      <Form writtenForm="たがら"/>
+      <Form writtenForm="たがろ"/>
+      <Form writtenForm="たがり"/>
+      <Form writtenForm="たがっ"/>
+      <Form writtenForm="たがれ"/>
       <Sense id="L628-S1" synset="wikidata-ja-L628-S1" ili="wikidata-ja-L628-S1">
         <Definition>希望</Definition>
         <Example>会いたがらない</Example>
@@ -2524,6 +2729,11 @@
     </LexicalEntry>
     <LexicalEntry id="L629">
       <Lemma writtenForm="た" partOfSpeech="v"/>
+      <Form writtenForm="たろ"/>
+      <Form writtenForm="だろ"/>
+      <Form writtenForm="だ"/>
+      <Form writtenForm="たら"/>
+      <Form writtenForm="だら"/>
       <Sense id="L629-S1" synset="wikidata-ja-L629-S1" ili="wikidata-ja-L629-S1">
         <Definition>過去・完了・確認</Definition>
         <Example>育ったろう</Example>
@@ -2559,6 +2769,13 @@
     </LexicalEntry>
     <LexicalEntry id="L2454">
       <Lemma writtenForm="元気" partOfSpeech="a"/>
+      <Form writtenForm="元気だろ"/>
+      <Form writtenForm="元気だっ"/>
+      <Form writtenForm="元気で"/>
+      <Form writtenForm="元気に"/>
+      <Form writtenForm="元気だ"/>
+      <Form writtenForm="元気な"/>
+      <Form writtenForm="元気なら"/>
       <Sense id="L2454-S1" synset="wikidata-ja-L2454-S1" ili="wikidata-ja-L2454-S1">
         <Definition>full of energy</Definition>
       </Sense>
@@ -2569,12 +2786,26 @@
     </LexicalEntry>
     <LexicalEntry id="L21613">
       <Lemma writtenForm="雅" partOfSpeech="a"/>
+      <Form writtenForm="雅だろ"/>
+      <Form writtenForm="雅だっ"/>
+      <Form writtenForm="雅で"/>
+      <Form writtenForm="雅に"/>
+      <Form writtenForm="雅だ"/>
+      <Form writtenForm="雅な"/>
+      <Form writtenForm="雅なら"/>
       <Sense id="L21613-S1" synset="wikidata-ja-L21613-S1" ili="wikidata-ja-L21613-S1">
         <Definition>風流、風雅、優美であること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L21614">
       <Lemma writtenForm="複雑" partOfSpeech="a"/>
+      <Form writtenForm="複雑だろ"/>
+      <Form writtenForm="複雑だっ"/>
+      <Form writtenForm="複雑で"/>
+      <Form writtenForm="複雑に"/>
+      <Form writtenForm="複雑だ"/>
+      <Form writtenForm="複雑な"/>
+      <Form writtenForm="複雑なら"/>
       <Sense id="L21614-S1" synset="wikidata-ja-L21614-S1" ili="wikidata-ja-L21614-S1">
         <Definition>入り組んでいること</Definition>
       </Sense>
@@ -2608,6 +2839,7 @@
     </LexicalEntry>
     <LexicalEntry id="L310591">
       <Lemma writtenForm="お早う" partOfSpeech="i"/>
+      <Form writtenForm="御早う"/>
       <Sense id="L310591-S1" synset="wikidata-ja-L310591-S1" ili="l310592-s1">
         <Definition>朝、人に挨拶する言葉</Definition>
       </Sense>
@@ -2623,6 +2855,7 @@
     </LexicalEntry>
     <LexicalEntry id="L404524">
       <Lemma writtenForm="彼ら" partOfSpeech="h"/>
+      <Form writtenForm="彼等"/>
       <Sense id="L404524-S1" synset="wikidata-ja-L404524-S1" ili="wikidata-ja-L404524-S1">
         <Definition>あの人たち</Definition>
       </Sense>
@@ -2647,6 +2880,7 @@
     </LexicalEntry>
     <LexicalEntry id="L625738">
       <Lemma writtenForm="個" partOfSpeech="m"/>
+      <Form writtenForm="一箇"/>
       <Sense id="L625738-S1" synset="wikidata-ja-L625738-S1" ili="wikidata-ja-L625738-S1">
         <Definition>個数を表す語</Definition>
         <SenseRelation relType="hypernym" target="wikidata-ja-L625738-S3"/>
@@ -2691,6 +2925,7 @@
     </LexicalEntry>
     <LexicalEntry id="L673668">
       <Lemma writtenForm="四十二" partOfSpeech="m"/>
+      <Form writtenForm="42"/>
       <Sense id="L673668-S1" synset="wikidata-ja-L673668-S1" ili="wikidata-ja-L673668-S1">
         <Definition>forty-two</Definition>
       </Sense>
@@ -2721,6 +2956,7 @@
     </LexicalEntry>
     <LexicalEntry id="L718794">
       <Lemma writtenForm="色々" partOfSpeech="a"/>
+      <Form writtenForm="色色"/>
       <Sense id="L718794-S1" synset="wikidata-ja-L718794-S1" ili="wikidata-ja-L718794-S1">
         <Definition>さまざまであること</Definition>
       </Sense>
@@ -2797,6 +3033,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1218973">
       <Lemma writtenForm="なり" partOfSpeech="v"/>
+      <Form writtenForm="なら"/>
+      <Form writtenForm="に"/>
+      <Form writtenForm="なる"/>
+      <Form writtenForm="なれ"/>
       <Sense id="L1218973-S1" synset="wikidata-ja-L1218973-S1" ili="wikidata-ja-L1218973-S1">
         <Definition>断定をあらわす</Definition>
       </Sense>
@@ -2827,6 +3067,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1220314">
       <Lemma writtenForm="鵜呑み" partOfSpeech="t"/>
+      <Form writtenForm="鵜呑"/>
       <Sense id="L1220314-S1" synset="wikidata-ja-L1220314-S1" ili="wikidata-ja-L1220314-S1">
         <Definition>よく味合わずに丸呑みすること</Definition>
       </Sense>
@@ -2923,6 +3164,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1226574">
       <Lemma writtenForm="登竜門" partOfSpeech="t"/>
+      <Form writtenForm="登龍門"/>
       <Sense id="L1226574-S1" synset="wikidata-ja-L1226574-S1" ili="wikidata-ja-L1226574-S1">
         <Definition>立身出世の階梯</Definition>
       </Sense>
@@ -2932,6 +3174,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1226670">
       <Lemma writtenForm="呑舟之魚" partOfSpeech="n"/>
+      <Form writtenForm="呑舟の魚"/>
       <Sense id="L1226670-S1" synset="wikidata-ja-L1226670-S1" ili="wikidata-ja-L1226670-S1">
         <Definition>傑物、大奸物</Definition>
       </Sense>
@@ -2974,6 +3217,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1235426">
       <Lemma writtenForm="な" partOfSpeech="y"/>
+      <Form writtenForm="なあ"/>
       <Sense id="L1235426-S1" synset="wikidata-ja-L1235426-S1" ili="wikidata-ja-L1235426-S1">
         <Definition>感動、詠嘆を表す</Definition>
         <Example>よく分かったな。</Example>
@@ -2985,16 +3229,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1235649">
       <Lemma writtenForm="ものか" partOfSpeech="y"/>
+      <Form writtenForm="もんか"/>
       <Sense id="L1235649-S1" synset="wikidata-ja-L1235649-S1" ili="wikidata-ja-L1235649-S1">
         <Definition>強い否定を表す</Definition>
         <Example>酔ってなんかいるもんか。</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1235650">
-      <Lemma writtenForm="ものを" partOfSpeech="y"/>
-      <Sense id="L1235650-S1" synset="wikidata-ja-L1235650-S1" ili="wikidata-ja-L1235650-S1">
-        <Definition>無念さを含んだ詠嘆を表す</Definition>
-        <Example>あと一時間早ければ間に合ったものを。</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1244540">
@@ -3005,6 +3243,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1244609">
       <Lemma writtenForm="けれど" partOfSpeech="c"/>
+      <Form writtenForm="けれども"/>
+      <Form writtenForm="けど"/>
+      <Form writtenForm="けども"/>
       <Sense id="L1244609-S1" synset="wikidata-ja-L1244609-S1" ili="wikidata-ja-L1244609-S1">
         <Definition>（逆接）</Definition>
       </Sense>
@@ -3023,12 +3264,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1262873">
       <Lemma writtenForm="是々非々" partOfSpeech="t"/>
+      <Form writtenForm="是是非非"/>
       <Sense id="L1262873-S1" synset="wikidata-ja-L1262873-S1" ili="wikidata-ja-L1262873-S1">
         <Definition>賛成すべきものには賛成し、反対すべきものには反対するということ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1262938">
       <Lemma writtenForm="粗製乱造" partOfSpeech="t"/>
+      <Form writtenForm="粗製濫造"/>
       <Sense id="L1262938-S1" synset="wikidata-ja-L1262938-S1" ili="wikidata-ja-L1262938-S1">
         <Definition>粗末なものをたくさん作ること</Definition>
       </Sense>
@@ -3074,6 +3317,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1321859">
       <Lemma writtenForm="初心" partOfSpeech="a"/>
+      <Form writtenForm="初"/>
       <Sense id="L1321859-S1" synset="wikidata-ja-L1321859-S1" ili="wikidata-ja-L1321859-S1">
         <Definition>本来のまま初々しい様子</Definition>
       </Sense>
@@ -3114,7 +3358,6 @@
         <Definition>遠称の指示代名詞</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L1399597-S1"/>
         <SenseRelation relType="similar" target="wikidata-ja-L679-S3"/>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399631-S1"/>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1408955">
@@ -3237,12 +3480,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1523300">
       <Lemma writtenForm="近代的" partOfSpeech="a"/>
+      <Form writtenForm="近代的だろ"/>
+      <Form writtenForm="近代的だっ"/>
+      <Form writtenForm="近代的で"/>
+      <Form writtenForm="近代的に"/>
+      <Form writtenForm="近代的だ"/>
+      <Form writtenForm="近代的な"/>
+      <Form writtenForm="近代的なら"/>
       <Sense id="L1523300-S1" synset="wikidata-ja-L1523300-S1" ili="wikidata-ja-L1523300-S1">
         <Definition>近代のものである様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1529542">
       <Lemma writtenForm="不適切" partOfSpeech="a"/>
+      <Form writtenForm="不適切だろ"/>
+      <Form writtenForm="不適切だっ"/>
+      <Form writtenForm="不適切で"/>
+      <Form writtenForm="不適切に"/>
+      <Form writtenForm="不適切だ"/>
+      <Form writtenForm="不適切な"/>
+      <Form writtenForm="不適切なら"/>
       <Sense id="L1529542-S1" synset="wikidata-ja-L1529542-S1" ili="wikidata-ja-L1529542-S1">
         <Definition>適切でない</Definition>
       </Sense>
@@ -3273,6 +3530,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1532228">
       <Lemma writtenForm="頭を掻く" partOfSpeech="t"/>
+      <Form writtenForm="頭を掻か"/>
+      <Form writtenForm="頭を掻こ"/>
+      <Form writtenForm="頭を掻き"/>
+      <Form writtenForm="頭を掻け"/>
       <Sense id="L1532228-S1" synset="wikidata-ja-L1532228-S1" ili="wikidata-ja-L1532228-S1">
         <Definition>罰が悪そうに話す様子</Definition>
       </Sense>
@@ -3285,18 +3546,30 @@
     </LexicalEntry>
     <LexicalEntry id="L1546707">
       <Lemma writtenForm="息を凝らす" partOfSpeech="t"/>
+      <Form writtenForm="息を凝らさ"/>
+      <Form writtenForm="息を凝らそ"/>
+      <Form writtenForm="息を凝らし"/>
+      <Form writtenForm="息を凝らせ"/>
       <Sense id="L1546707-S1" synset="wikidata-ja-L1546707-S1" ili="wikidata-ja-L1546707-S1">
         <Definition>呼吸を抑えてじっとする</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546825">
       <Lemma writtenForm="目が覚める" partOfSpeech="t"/>
+      <Form writtenForm="目が覚め"/>
+      <Form writtenForm="目が覚めれ"/>
+      <Form writtenForm="目が覚めろ"/>
+      <Form writtenForm="目が覚めよ"/>
       <Sense id="L1546825-S1" synset="wikidata-ja-L1546825-S1" ili="wikidata-ja-L1546825-S1">
         <Definition>睡眠から起きる</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548401">
       <Lemma writtenForm="顔に泥を塗る" partOfSpeech="t"/>
+      <Form writtenForm="顔に泥を塗ら"/>
+      <Form writtenForm="顔に泥を塗ろ"/>
+      <Form writtenForm="顔に泥を塗り"/>
+      <Form writtenForm="顔に泥を塗れ"/>
       <Sense id="L1548401-S1" synset="wikidata-ja-L1548401-S1" ili="wikidata-ja-L1548401-S1">
         <Definition>恥をかかせる</Definition>
         <SenseRelation relType="antonym" target="wikidata-ja-L1506400-S1"/>
@@ -3322,6 +3595,12 @@
     </LexicalEntry>
     <LexicalEntry id="L1550281">
       <Lemma writtenForm="首にする" partOfSpeech="t"/>
+      <Form writtenForm="首にさ"/>
+      <Form writtenForm="首にし"/>
+      <Form writtenForm="首にせ"/>
+      <Form writtenForm="首にすれ"/>
+      <Form writtenForm="首にしろ"/>
+      <Form writtenForm="首にせよ"/>
       <Sense id="L1550281-S1" synset="wikidata-ja-L1550281-S1" ili="wikidata-ja-L1550281-S1">
         <Definition>首を切る</Definition>
       </Sense>
@@ -3403,24 +3682,12 @@
         <Definition>「という」の意を表す語</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L551">
-      <Lemma writtenForm="から" partOfSpeech="y"/>
-      <Sense id="L551-S1" synset="wikidata-ja-L551-S1" ili="l2168-s1">
-        <Definition>場所や時間・作用の起点を表す</Definition>
-        <Example>夏頃から体調を崩した</Example>
-        <SenseRelation relType="antonym" target="wikidata-ja-L567-S1"/>
-      </Sense>
-      <Sense id="L551-S2" synset="wikidata-ja-L551-S2" ili="wikidata-ja-L551-S2">
-        <Definition>主語文節をつくる</Definition>
-        <Example>会社から連絡が行く</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L567">
       <Lemma writtenForm="まで" partOfSpeech="y"/>
+      <Form writtenForm="迄"/>
       <Sense id="L567-S1" synset="wikidata-ja-L567-S1" ili="wikidata-ja-L567-S1">
         <Definition>動作や作用の至り及ぶところを表す</Definition>
         <Example>駅まで行きましょう。</Example>
-        <SenseRelation relType="antonym" target="wikidata-ja-L551-S1"/>
       </Sense>
       <Sense id="L567-S2" synset="wikidata-ja-L567-S2" ili="wikidata-ja-L567-S2">
         <Definition>限度を表す。「だけ」</Definition>
@@ -3467,6 +3734,10 @@
     </LexicalEntry>
     <LexicalEntry id="L621">
       <Lemma writtenForm="ない" partOfSpeech="v"/>
+      <Form writtenForm="なかろ"/>
+      <Form writtenForm="なく"/>
+      <Form writtenForm="なかっ"/>
+      <Form writtenForm="なけれ"/>
       <Sense id="L621-S1" synset="wikidata-ja-L621-S1" ili="wikidata-ja-L621-S1">
         <Definition>打消・否定を表す</Definition>
         <Example>しなかろう</Example>
@@ -3482,6 +3753,15 @@
     </LexicalEntry>
     <LexicalEntry id="L630">
       <Lemma writtenForm="だ" partOfSpeech="v"/>
+      <Form writtenForm="だろ"/>
+      <Form writtenForm="だっ"/>
+      <Form writtenForm="で"/>
+      <Form writtenForm="な"/>
+      <Form writtenForm="なら"/>
+      <Form writtenForm="なれ"/>
+      <Form writtenForm="やろ"/>
+      <Form writtenForm="やっ"/>
+      <Form writtenForm="や"/>
       <Sense id="L630-S1" synset="wikidata-ja-L630-S1" ili="wikidata-ja-L630-S1">
         <Definition>断定</Definition>
         <Example>雨だろう</Example>
@@ -3510,6 +3790,13 @@
     </LexicalEntry>
     <LexicalEntry id="L25044">
       <Lemma writtenForm="便利" partOfSpeech="a"/>
+      <Form writtenForm="便利だろ"/>
+      <Form writtenForm="便利だっ"/>
+      <Form writtenForm="便利で"/>
+      <Form writtenForm="便利に"/>
+      <Form writtenForm="便利だ"/>
+      <Form writtenForm="便利な"/>
+      <Form writtenForm="便利なら"/>
       <Sense id="L25044-S1" synset="wikidata-ja-L25044-S1" ili="wikidata-ja-L25044-S1">
         <Definition>都合が良いこと</Definition>
       </Sense>
@@ -3542,6 +3829,7 @@
     </LexicalEntry>
     <LexicalEntry id="L625229">
       <Lemma writtenForm="七" partOfSpeech="m"/>
+      <Form writtenForm="8"/>
       <Sense id="L625229-S1" synset="wikidata-ja-L625229-S1" ili="wikidata-ja-L625229-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -3599,18 +3887,27 @@
     </LexicalEntry>
     <LexicalEntry id="L685723">
       <Lemma writtenForm="八" partOfSpeech="m"/>
+      <Form writtenForm="8"/>
       <Sense id="L685723-S1" synset="wikidata-ja-L685723-S1" ili="wikidata-ja-L685723-S1">
         <Definition>natural number</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L685908">
       <Lemma writtenForm="新た" partOfSpeech="a"/>
+      <Form writtenForm="新ただろ"/>
+      <Form writtenForm="新ただっ"/>
+      <Form writtenForm="新たで"/>
+      <Form writtenForm="新たに"/>
+      <Form writtenForm="新ただ"/>
+      <Form writtenForm="新たな"/>
+      <Form writtenForm="新たなら"/>
       <Sense id="L685908-S1" synset="wikidata-ja-L685908-S1" ili="wikidata-ja-L685908-S1">
         <Definition>今までになくできたばかりである</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L686295">
       <Lemma writtenForm="一つ" partOfSpeech="m"/>
+      <Form writtenForm="一"/>
       <Sense id="L686295-S1" synset="wikidata-ja-L686295-S1" ili="wikidata-ja-L686295-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -3670,6 +3967,7 @@
     </LexicalEntry>
     <LexicalEntry id="L735977">
       <Lemma writtenForm="七十" partOfSpeech="m"/>
+      <Form writtenForm="70"/>
       <Sense id="L735977-S1" synset="wikidata-ja-L735977-S1" ili="wikidata-ja-L735977-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -3695,6 +3993,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1037298">
       <Lemma writtenForm="疎ら" partOfSpeech="a"/>
+      <Form writtenForm="疎らだろ"/>
+      <Form writtenForm="疎らだっ"/>
+      <Form writtenForm="疎らで"/>
+      <Form writtenForm="疎らに"/>
+      <Form writtenForm="疎らだ"/>
+      <Form writtenForm="疎らな"/>
+      <Form writtenForm="疎らなら"/>
+      <Form writtenForm="疏ら"/>
       <Sense id="L1037298-S1" synset="wikidata-ja-L1037298-S1" ili="wikidata-ja-L1037298-S1">
         <Definition>間が透けてばらばらなこと、繁っていないこと</Definition>
       </Sense>
@@ -3709,12 +4015,6 @@
       <Lemma writtenForm="おほん" partOfSpeech="i"/>
       <Sense id="L1080310-S1" synset="wikidata-ja-L1080310-S1" ili="wikidata-ja-L1080310-S1">
         <Definition>気取って咳払いする声</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1082283">
-      <Lemma writtenForm="日" partOfSpeech="m"/>
-      <Sense id="L1082283-S1" synset="wikidata-ja-L1082283-S1" ili="wikidata-ja-L1082283-S1">
-        <Definition>日数を数える語</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1133042">
@@ -3809,6 +4109,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1224688">
       <Lemma writtenForm="水魚の交わり" partOfSpeech="t"/>
+      <Form writtenForm="水魚の交"/>
       <Sense id="L1224688-S1" synset="wikidata-ja-L1224688-S1" ili="wikidata-ja-L1224688-S1">
         <Definition>親密な交情を表す</Definition>
       </Sense>
@@ -3846,6 +4147,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1230944">
       <Lemma writtenForm="流言飛語" partOfSpeech="n"/>
+      <Form writtenForm="流言蜚語"/>
       <Sense id="L1230944-S1" synset="wikidata-ja-L1230944-S1" ili="wikidata-ja-L1230944-S1">
         <Definition>根も葉もないうわさ話</Definition>
       </Sense>
@@ -3872,27 +4174,18 @@
     </LexicalEntry>
     <LexicalEntry id="L1235295">
       <Lemma writtenForm="しめる" partOfSpeech="v"/>
+      <Form writtenForm="しめ"/>
+      <Form writtenForm="しめれ"/>
+      <Form writtenForm="しめろ"/>
+      <Form writtenForm="しめよ"/>
       <Sense id="L1235295-S1" synset="wikidata-ja-L1235295-S1" ili="wikidata-ja-L1235295-S1">
         <Definition>使役</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1235401">
-      <Lemma writtenForm="が" partOfSpeech="y"/>
-      <Sense id="L1235401-S1" synset="wikidata-ja-L1235401-S1" ili="wikidata-ja-L1235401-S1">
-        <Definition>逆接の確定条件を表す</Definition>
-        <Example>明け方の五時だったが、すぐさま飛び起きた。</Example>
-      </Sense>
-      <Sense id="L1235401-S2" synset="wikidata-ja-L1235401-S2" ili="wikidata-ja-L1235401-S2">
-        <Definition>反対の二つのことを対比的に表す</Definition>
-        <Example>見た目は悪いが、びっくりするほど美味しかった</Example>
-      </Sense>
-      <Sense id="L1235401-S3" synset="wikidata-ja-L1235401-S3" ili="wikidata-ja-L1235401-S3">
-        <Definition>前述の語を単に後に続けることを表す</Definition>
-        <Example>話を聞きましたが、大変だったようですね</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1235642">
       <Lemma writtenForm="の" partOfSpeech="y"/>
+      <Form writtenForm="のう"/>
+      <Form writtenForm="のお"/>
       <Sense id="L1235642-S1" synset="wikidata-ja-L1235642-S1" ili="wikidata-ja-L1235642-S1">
         <Definition>断定を表す</Definition>
         <Example>忙しいのよ。</Example>
@@ -3921,12 +4214,18 @@
     </LexicalEntry>
     <LexicalEntry id="L1244610">
       <Lemma writtenForm="だけど" partOfSpeech="c"/>
+      <Form writtenForm="だけども"/>
+      <Form writtenForm="だけれども"/>
+      <Form writtenForm="ですけど"/>
+      <Form writtenForm="ですけれど"/>
+      <Form writtenForm="ですけれども"/>
       <Sense id="L1244610-S1" synset="wikidata-ja-L1244610-S1" ili="wikidata-ja-L1244610-S1">
         <Definition>（逆接）</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1248340">
       <Lemma writtenForm="肘鉄を食う" partOfSpeech="t"/>
+      <Form writtenForm="肘鉄砲を食う"/>
       <Sense id="L1248340-S1" synset="wikidata-ja-L1248340-S1" ili="wikidata-ja-L1248340-S1">
         <Definition>女性にはねつけられる様子</Definition>
       </Sense>
@@ -3948,6 +4247,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1262850">
       <Lemma writtenForm="深刻" partOfSpeech="a"/>
+      <Form writtenForm="深刻だろ"/>
+      <Form writtenForm="深刻だっ"/>
+      <Form writtenForm="深刻で"/>
+      <Form writtenForm="深刻に"/>
+      <Form writtenForm="深刻だ"/>
+      <Form writtenForm="深刻な"/>
+      <Form writtenForm="深刻なら"/>
       <Sense id="L1262850-S1" synset="wikidata-ja-L1262850-S1" ili="wikidata-ja-L1262850-S1">
         <Definition>底深いこと、深みのあること</Definition>
       </Sense>
@@ -4050,8 +4356,6 @@
       <Sense id="L1399597-S1" synset="wikidata-ja-L1399597-S1" ili="wikidata-ja-L1399597-S1">
         <Definition>指示代名詞。向こうの方。あちら。</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L679-S3"/>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399629-S1"/>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399631-S1"/>
       </Sense>
       <Sense id="L1399597-S2" synset="wikidata-ja-L1399597-S2" ili="wikidata-ja-L1399597-S2">
         <Definition>過ぎ去った時。以前。</Definition>
@@ -4069,7 +4373,6 @@
       <Lemma writtenForm="彼" partOfSpeech="h"/>
       <Sense id="L1399631-S1" synset="wikidata-ja-L1399631-S1" ili="wikidata-ja-L1399631-S1">
         <Definition>遠称の指示代名詞</Definition>
-        <SenseRelation relType="similar" target="wikidata-ja-L1399629-S1"/>
         <SenseRelation relType="similar" target="wikidata-ja-L1399597-S1"/>
         <SenseRelation relType="similar" target="wikidata-ja-L679-S3"/>
       </Sense>
@@ -4121,6 +4424,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1476592">
       <Lemma writtenForm="温か" partOfSpeech="a"/>
+      <Form writtenForm="温かだろ"/>
+      <Form writtenForm="温かだっ"/>
+      <Form writtenForm="温かで"/>
+      <Form writtenForm="温かに"/>
+      <Form writtenForm="温かだ"/>
+      <Form writtenForm="温かな"/>
+      <Form writtenForm="温かなら"/>
       <Sense id="L1476592-S1" synset="wikidata-ja-L1476592-S1" ili="wikidata-ja-L1476592-S1">
         <Definition>（主に物が）冷たくない</Definition>
       </Sense>
@@ -4192,12 +4502,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1523307">
       <Lemma writtenForm="科学的" partOfSpeech="a"/>
+      <Form writtenForm="科学的だろ"/>
+      <Form writtenForm="科学的だっ"/>
+      <Form writtenForm="科学的で"/>
+      <Form writtenForm="科学的に"/>
+      <Form writtenForm="科学的だ"/>
+      <Form writtenForm="科学的な"/>
+      <Form writtenForm="科学的なら"/>
       <Sense id="L1523307-S1" synset="wikidata-ja-L1523307-S1" ili="wikidata-ja-L1523307-S1">
         <Definition>科学に基づく</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1523553">
       <Lemma writtenForm="総合的" partOfSpeech="a"/>
+      <Form writtenForm="総合的だろ"/>
+      <Form writtenForm="総合的だっ"/>
+      <Form writtenForm="総合的で"/>
+      <Form writtenForm="総合的に"/>
+      <Form writtenForm="総合的だ"/>
+      <Form writtenForm="総合的な"/>
+      <Form writtenForm="総合的なら"/>
       <Sense id="L1523553-S1" synset="wikidata-ja-L1523553-S1" ili="wikidata-ja-L1523553-S1">
         <Definition>全体でとらえる様子</Definition>
       </Sense>
@@ -4216,6 +4540,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1530780">
       <Lemma writtenForm="一般的" partOfSpeech="a"/>
+      <Form writtenForm="一般的だろ"/>
+      <Form writtenForm="一般的だっ"/>
+      <Form writtenForm="一般的で"/>
+      <Form writtenForm="一般的に"/>
+      <Form writtenForm="一般的だ"/>
+      <Form writtenForm="一般的な"/>
+      <Form writtenForm="一般的なら"/>
       <Sense id="L1530780-S1" synset="wikidata-ja-L1530780-S1" ili="wikidata-ja-L1530780-S1">
         <Definition>広く当てはまる様子</Definition>
       </Sense>
@@ -4228,6 +4559,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1532224">
       <Lemma writtenForm="汗水を流す" partOfSpeech="t"/>
+      <Form writtenForm="汗水を流さ"/>
+      <Form writtenForm="汗水を流そ"/>
+      <Form writtenForm="汗水を流し"/>
+      <Form writtenForm="汗水を流せ"/>
       <Sense id="L1532224-S1" synset="wikidata-ja-L1532224-S1" ili="wikidata-ja-L1532224-S1">
         <Definition>労苦をいとわず力を尽くして働く</Definition>
       </Sense>
@@ -4240,18 +4575,34 @@
     </LexicalEntry>
     <LexicalEntry id="L1546700">
       <Lemma writtenForm="息が切れる" partOfSpeech="t"/>
+      <Form writtenForm="息が切れ"/>
+      <Form writtenForm="息が切れれ"/>
+      <Form writtenForm="息が切れろ"/>
+      <Form writtenForm="息が切れよ"/>
       <Sense id="L1546700-S1" synset="wikidata-ja-L1546700-S1" ili="wikidata-ja-L1546700-S1">
         <Definition>呼吸が苦しい</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548839">
       <Lemma writtenForm="顔色を失う" partOfSpeech="t"/>
+      <Form writtenForm="顔色を失わ"/>
+      <Form writtenForm="顔色を失お"/>
+      <Form writtenForm="顔色を失い"/>
+      <Form writtenForm="顔色を失え"/>
+      <Form writtenForm="顔色を失っ"/>
       <Sense id="L1548839-S1" synset="wikidata-ja-L1548839-S1" ili="wikidata-ja-L1548839-S1">
         <Definition>動揺して顔が青白くなる様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548844">
       <Lemma writtenForm="肝心" partOfSpeech="a"/>
+      <Form writtenForm="肝心だろ"/>
+      <Form writtenForm="肝心だっ"/>
+      <Form writtenForm="肝心で"/>
+      <Form writtenForm="肝心に"/>
+      <Form writtenForm="肝心だ"/>
+      <Form writtenForm="肝心な"/>
+      <Form writtenForm="肝心なら"/>
       <Sense id="L1548844-S1" synset="wikidata-ja-L1548844-S1" ili="wikidata-ja-L1548844-S1">
         <Definition>肝要または必要であること</Definition>
       </Sense>
@@ -4264,12 +4615,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1549090">
       <Lemma writtenForm="広大" partOfSpeech="a"/>
+      <Form writtenForm="広大だろ"/>
+      <Form writtenForm="広大だっ"/>
+      <Form writtenForm="広大で"/>
+      <Form writtenForm="広大に"/>
+      <Form writtenForm="広大だ"/>
+      <Form writtenForm="広大な"/>
+      <Form writtenForm="広大なら"/>
       <Sense id="L1549090-S1" synset="wikidata-ja-L1549090-S1" ili="wikidata-ja-L1549090-S1">
         <Definition>広く大きい様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1549200">
       <Lemma writtenForm="奇怪" partOfSpeech="a"/>
+      <Form writtenForm="奇怪だろ"/>
+      <Form writtenForm="奇怪だっ"/>
+      <Form writtenForm="奇怪で"/>
+      <Form writtenForm="奇怪に"/>
+      <Form writtenForm="奇怪だ"/>
+      <Form writtenForm="奇怪な"/>
+      <Form writtenForm="奇怪なら"/>
       <Sense id="L1549200-S1" synset="wikidata-ja-L1549200-S1" ili="wikidata-ja-L1549200-S1">
         <Definition>怪しむべきこと</Definition>
       </Sense>
@@ -4282,6 +4647,10 @@
     </LexicalEntry>
     <LexicalEntry id="L1550770">
       <Lemma writtenForm="雲を衝く" partOfSpeech="t"/>
+      <Form writtenForm="雲を衝か"/>
+      <Form writtenForm="雲を衝こ"/>
+      <Form writtenForm="雲を衝き"/>
+      <Form writtenForm="雲を衝け"/>
       <Sense id="L1550770-S1" synset="wikidata-ja-L1550770-S1" ili="wikidata-ja-L1550770-S1">
         <Definition>雲に届くほど背が高い様子</Definition>
       </Sense>
@@ -4322,27 +4691,9 @@
         <Example>彼は頭の回転が早い。</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L549">
-      <Lemma writtenForm="の" partOfSpeech="y"/>
-      <Sense id="L549-S1" synset="wikidata-ja-L549-S1" ili="l2986-s1">
-        <Definition>次の文節を修飾し限定する。連体助詞</Definition>
-        <Example>頭の上</Example>
-      </Sense>
-      <Sense id="L549-S2" synset="wikidata-ja-L549-S2" ili="wikidata-ja-L549-S2">
-        <Definition>主語文節をつくる</Definition>
-        <Example>愛のない日々</Example>
-      </Sense>
-      <Sense id="L549-S3" synset="wikidata-ja-L549-S3" ili="wikidata-ja-L549-S3">
-        <Definition>「~のもの」を表す。準体助詞</Definition>
-        <Example>このお金は君のだ</Example>
-      </Sense>
-      <Sense id="L549-S4" synset="wikidata-ja-L549-S4" ili="wikidata-ja-L549-S4">
-        <Definition>並立を表す。並立助詞</Definition>
-        <Example>苦しいの苦しくないのって</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L570">
       <Lemma writtenForm="くらい" partOfSpeech="y"/>
+      <Form writtenForm="ぐらい"/>
       <Sense id="L570-S1" synset="wikidata-ja-L570-S1" ili="wikidata-ja-L570-S1">
         <Definition>物理的な分量を示す。ほど、だけ</Definition>
         <Example>そこから湯村までは歩いて二十分くらい。</Example>
@@ -4366,6 +4717,7 @@
     </LexicalEntry>
     <LexicalEntry id="L591">
       <Lemma writtenForm="たり" partOfSpeech="y"/>
+      <Form writtenForm="だり"/>
       <Sense id="L591-S1" synset="wikidata-ja-L591-S1" ili="wikidata-ja-L591-S1">
         <Definition>概括を表す</Definition>
         <Example>手を抜いたりしないでくださいね</Example>
@@ -4383,6 +4735,8 @@
     </LexicalEntry>
     <LexicalEntry id="L638">
       <Lemma writtenForm="です" partOfSpeech="v"/>
+      <Form writtenForm="でしょ"/>
+      <Form writtenForm="でし"/>
       <Sense id="L638-S1" synset="wikidata-ja-L638-S1" ili="wikidata-ja-L638-S1">
         <Definition>「だ」（断定）の丁寧な表現</Definition>
         <Example>雨でしょう</Example>
@@ -4392,6 +4746,8 @@
     </LexicalEntry>
     <LexicalEntry id="L677">
       <Lemma writtenForm="あなた" partOfSpeech="h"/>
+      <Form writtenForm="貴女"/>
+      <Form writtenForm="貴男"/>
       <Sense id="L677-S1" synset="wikidata-ja-L677-S1" ili="wikidata-ja-L677-S1">
         <Definition>二人称単数</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L1143885-S7"/>
@@ -4418,6 +4774,7 @@
     </LexicalEntry>
     <LexicalEntry id="L47983">
       <Lemma writtenForm="一" partOfSpeech="m"/>
+      <Form writtenForm="壱"/>
       <Sense id="L47983-S1" synset="wikidata-ja-L47983-S1" ili="l327-s1">
         <Definition>ひとつ</Definition>
       </Sense>
@@ -4452,12 +4809,14 @@
     </LexicalEntry>
     <LexicalEntry id="L625228">
       <Lemma writtenForm="四" partOfSpeech="m"/>
+      <Form writtenForm="4"/>
       <Sense id="L625228-S1" synset="wikidata-ja-L625228-S1" ili="wikidata-ja-L625228-S1">
         <Definition>natural number</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L625705">
       <Lemma writtenForm="五" partOfSpeech="m"/>
+      <Form writtenForm="5"/>
       <Sense id="L625705-S1" synset="wikidata-ja-L625705-S1" ili="wikidata-ja-L625705-S1">
         <Definition>数字の5</Definition>
       </Sense>
@@ -4497,12 +4856,15 @@
     </LexicalEntry>
     <LexicalEntry id="L734743">
       <Lemma writtenForm="二十" partOfSpeech="m"/>
+      <Form writtenForm="20"/>
       <Sense id="L734743-S1" synset="wikidata-ja-L734743-S1" ili="wikidata-ja-L734743-S1">
         <Definition>natural number</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L735812">
       <Lemma writtenForm="三十" partOfSpeech="m"/>
+      <Form writtenForm="30"/>
+      <Form writtenForm="三〇"/>
       <Sense id="L735812-S1" synset="wikidata-ja-L735812-S1" ili="wikidata-ja-L735812-S1">
         <Definition>natural number</Definition>
       </Sense>
@@ -4545,6 +4907,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1073090">
       <Lemma writtenForm="穏やか" partOfSpeech="a"/>
+      <Form writtenForm="穏やかだろ"/>
+      <Form writtenForm="穏やかだっ"/>
+      <Form writtenForm="穏やかで"/>
+      <Form writtenForm="穏やかに"/>
+      <Form writtenForm="穏やかだ"/>
+      <Form writtenForm="穏やかな"/>
+      <Form writtenForm="穏やかなら"/>
       <Sense id="L1073090-S1" synset="wikidata-ja-L1073090-S1" ili="wikidata-ja-L1073090-S1">
         <Definition>平穏無事であること</Definition>
       </Sense>
@@ -4646,6 +5015,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1224115">
       <Lemma writtenForm="品定め" partOfSpeech="t"/>
+      <Form writtenForm="品さだめ"/>
       <Sense id="L1224115-S1" synset="wikidata-ja-L1224115-S1" ili="wikidata-ja-L1224115-S1">
         <Definition>優劣を決めること</Definition>
       </Sense>
@@ -4704,6 +5074,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1230953">
       <Lemma writtenForm="立錐の余地もない" partOfSpeech="t"/>
+      <Form writtenForm="立錐の地もない"/>
       <Sense id="L1230953-S1" synset="wikidata-ja-L1230953-S1" ili="wikidata-ja-L1230953-S1">
         <Definition>錐（きり）を立てる隙間もないほどぎっしり詰まっている様子</Definition>
       </Sense>
@@ -4738,12 +5109,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1234512">
       <Lemma writtenForm="痛切" partOfSpeech="a"/>
+      <Form writtenForm="痛切だろ"/>
+      <Form writtenForm="痛切だっ"/>
+      <Form writtenForm="痛切で"/>
+      <Form writtenForm="痛切に"/>
+      <Form writtenForm="痛切だ"/>
+      <Form writtenForm="痛切な"/>
+      <Form writtenForm="痛切なら"/>
       <Sense id="L1234512-S1" synset="wikidata-ja-L1234512-S1" ili="wikidata-ja-L1234512-S1">
         <Definition>身にしみて、しみじみと</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1235299">
       <Lemma writtenForm="ようです" partOfSpeech="v"/>
+      <Form writtenForm="ようでしょ"/>
+      <Form writtenForm="ようでし"/>
       <Sense id="L1235299-S1" synset="wikidata-ja-L1235299-S1" ili="wikidata-ja-L1235299-S1">
         <Definition>「ようだ」（比況）の丁寧形</Definition>
         <Example>あるようでしょう</Example>
@@ -4754,22 +5134,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1235301">
       <Lemma writtenForm="みたいです" partOfSpeech="v"/>
+      <Form writtenForm="みたいでしょ"/>
+      <Form writtenForm="みたいでし"/>
       <Sense id="L1235301-S1" synset="wikidata-ja-L1235301-S1" ili="wikidata-ja-L1235301-S1">
         <Definition>「みたいだ」（比況）の丁寧形（伝聞情報を根拠としない判断）</Definition>
         <Example>あるみたいでしょう</Example>
         <Example>あるみたいでした</Example>
         <Example>あるみたいです</Example>
         <Example>あるみたいですもの</Example>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1235410">
-      <Lemma writtenForm="か" partOfSpeech="y"/>
-      <Sense id="L1235410-S1" synset="wikidata-ja-L1235410-S1" ili="wikidata-ja-L1235410-S1">
-        <Definition>疑問語を受けて不確実なことを表す</Definition>
-        <Example>どうしたら良いのか、全くわからない。</Example>
-      </Sense>
-      <Sense id="L1235410-S2" synset="wikidata-ja-L1235410-S2" ili="wikidata-ja-L1235410-S2">
-        <Definition>事物を並立してひとつ選ぶことを表す</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1235652">
@@ -4835,12 +5207,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1246235">
       <Lemma writtenForm="だが" partOfSpeech="c"/>
+      <Form writtenForm="ですが"/>
       <Sense id="L1246235-S1" synset="wikidata-ja-L1246235-S1" ili="wikidata-ja-L1246235-S1">
         <Definition>（逆接）</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1257620">
       <Lemma writtenForm="藪蛇" partOfSpeech="t"/>
+      <Form writtenForm="やぶ蛇"/>
       <Sense id="L1257620-S1" synset="wikidata-ja-L1257620-S1" ili="wikidata-ja-L1257620-S1">
         <Definition>自分から求めて災いに遭う様子</Definition>
       </Sense>
@@ -4860,12 +5234,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1258444">
       <Lemma writtenForm="論理的" partOfSpeech="a"/>
+      <Form writtenForm="論理的だろ"/>
+      <Form writtenForm="論理的だっ"/>
+      <Form writtenForm="論理的で"/>
+      <Form writtenForm="論理的に"/>
+      <Form writtenForm="論理的だ"/>
+      <Form writtenForm="論理的な"/>
+      <Form writtenForm="論理的なら"/>
       <Sense id="L1258444-S1" synset="wikidata-ja-L1258444-S1" ili="wikidata-ja-L1258444-S1">
         <Definition>筋道が通っていること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1258461">
       <Lemma writtenForm="唖然" partOfSpeech="a"/>
+      <Form writtenForm="あ然"/>
+      <Form writtenForm="啞然"/>
       <Sense id="L1258461-S1" synset="wikidata-ja-L1258461-S1" ili="wikidata-ja-L1258461-S1">
         <Definition>意外なことに言葉も出ず呆れるさま</Definition>
       </Sense>
@@ -4902,12 +5285,14 @@
     </LexicalEntry>
     <LexicalEntry id="L1320397">
       <Lemma writtenForm="何処" partOfSpeech="h"/>
+      <Form writtenForm="何所"/>
       <Sense id="L1320397-S1" synset="wikidata-ja-L1320397-S1" ili="wikidata-ja-L1320397-S1">
         <Definition>どこ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1321442">
       <Lemma writtenForm="一足飛び" partOfSpeech="t"/>
+      <Form writtenForm="一足跳び"/>
       <Sense id="L1321442-S1" synset="wikidata-ja-L1321442-S1" ili="wikidata-ja-L1321442-S1">
         <Definition>ひととび</Definition>
       </Sense>
@@ -4938,6 +5323,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1399658">
       <Lemma writtenForm="畳" partOfSpeech="m"/>
+      <Form writtenForm="疊"/>
       <Sense id="L1399658-S1" synset="wikidata-ja-L1399658-S1" ili="wikidata-ja-L1399658-S1">
         <Definition>部屋の広さを表す語</Definition>
       </Sense>
@@ -4986,12 +5372,15 @@
     </LexicalEntry>
     <LexicalEntry id="L1491525">
       <Lemma writtenForm="九千" partOfSpeech="m"/>
+      <Form writtenForm="九〇〇〇"/>
+      <Form writtenForm="9000"/>
       <Sense id="L1491525-S1" synset="wikidata-ja-L1491525-S1" ili="wikidata-ja-L1491525-S1">
         <Definition>9000</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1492976">
       <Lemma writtenForm="十分" partOfSpeech="a"/>
+      <Form writtenForm="充分"/>
       <Sense id="L1492976-S1" synset="wikidata-ja-L1492976-S1" ili="wikidata-ja-L1492976-S1">
         <Definition>Enough</Definition>
       </Sense>
@@ -5058,6 +5447,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1520279">
       <Lemma writtenForm="盛ん" partOfSpeech="a"/>
+      <Form writtenForm="盛んだろ"/>
+      <Form writtenForm="盛んだっ"/>
+      <Form writtenForm="盛んで"/>
+      <Form writtenForm="盛んに"/>
+      <Form writtenForm="盛んだ"/>
+      <Form writtenForm="盛んな"/>
+      <Form writtenForm="盛んなら"/>
       <Sense id="L1520279-S1" synset="wikidata-ja-L1520279-S1" ili="wikidata-ja-L1520279-S1">
         <Definition>勢いがある様子</Definition>
       </Sense>
@@ -5076,12 +5472,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1529811">
       <Lemma writtenForm="短期的" partOfSpeech="a"/>
+      <Form writtenForm="短期的だろ"/>
+      <Form writtenForm="短期的だっ"/>
+      <Form writtenForm="短期的で"/>
+      <Form writtenForm="短期的に"/>
+      <Form writtenForm="短期的だ"/>
+      <Form writtenForm="短期的な"/>
+      <Form writtenForm="短期的なら"/>
       <Sense id="L1529811-S1" synset="wikidata-ja-L1529811-S1" ili="wikidata-ja-L1529811-S1">
         <Definition>短い期間である様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1531569">
       <Lemma writtenForm="朗らか" partOfSpeech="a"/>
+      <Form writtenForm="朗らかだろ"/>
+      <Form writtenForm="朗らかだっ"/>
+      <Form writtenForm="朗らかで"/>
+      <Form writtenForm="朗らかに"/>
+      <Form writtenForm="朗らかだ"/>
+      <Form writtenForm="朗らかな"/>
+      <Form writtenForm="朗らかなら"/>
       <Sense id="L1531569-S1" synset="wikidata-ja-L1531569-S1" ili="wikidata-ja-L1531569-S1">
         <Definition>性格が明るく晴れやか</Definition>
       </Sense>
@@ -5091,18 +5501,35 @@
     </LexicalEntry>
     <LexicalEntry id="L1532206">
       <Lemma writtenForm="足早" partOfSpeech="a"/>
+      <Form writtenForm="足早だろ"/>
+      <Form writtenForm="足早だっ"/>
+      <Form writtenForm="足早で"/>
+      <Form writtenForm="足早に"/>
+      <Form writtenForm="足早だ"/>
+      <Form writtenForm="足早な"/>
+      <Form writtenForm="足早なら"/>
       <Sense id="L1532206-S1" synset="wikidata-ja-L1532206-S1" ili="wikidata-ja-L1532206-S1">
         <Definition>歩き方が早い様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1532210">
       <Lemma writtenForm="足踏みをする" partOfSpeech="t"/>
+      <Form writtenForm="足踏みをさ"/>
+      <Form writtenForm="足踏みをし"/>
+      <Form writtenForm="足踏みをせ"/>
+      <Form writtenForm="足踏みをすれ"/>
+      <Form writtenForm="足踏みをしろ"/>
+      <Form writtenForm="足踏みをせよ"/>
       <Sense id="L1532210-S1" synset="wikidata-ja-L1532210-S1" ili="wikidata-ja-L1532210-S1">
         <Definition>準備できているが前に進めず待っている状態</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1532337">
       <Lemma writtenForm="跡を付ける" partOfSpeech="t"/>
+      <Form writtenForm="跡を付け"/>
+      <Form writtenForm="跡を付けれ"/>
+      <Form writtenForm="跡を付けろ"/>
+      <Form writtenForm="跡を付けよ"/>
       <Sense id="L1532337-S1" synset="wikidata-ja-L1532337-S1" ili="wikidata-ja-L1532337-S1">
         <Definition>その跡を追っていく</Definition>
       </Sense>
@@ -5115,18 +5542,33 @@
     </LexicalEntry>
     <LexicalEntry id="L1546695">
       <Lemma writtenForm="息が通う" partOfSpeech="t"/>
+      <Form writtenForm="息が通わ"/>
+      <Form writtenForm="息が通お"/>
+      <Form writtenForm="息が通い"/>
+      <Form writtenForm="息が通っ"/>
+      <Form writtenForm="息が通え"/>
       <Sense id="L1546695-S1" synset="wikidata-ja-L1546695-S1" ili="wikidata-ja-L1546695-S1">
         <Definition>呼吸する</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546706">
       <Lemma writtenForm="息を切る" partOfSpeech="t"/>
+      <Form writtenForm="息を切ら"/>
+      <Form writtenForm="息を切ろ"/>
+      <Form writtenForm="息を切り"/>
+      <Form writtenForm="息を切れ"/>
+      <Form writtenForm="息を切っ"/>
       <Sense id="L1546706-S1" synset="wikidata-ja-L1546706-S1" ili="wikidata-ja-L1546706-S1">
         <Definition>あえぐ</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546711">
       <Lemma writtenForm="息を継ぐ" partOfSpeech="t"/>
+      <Form writtenForm="息を継が"/>
+      <Form writtenForm="息を継ご"/>
+      <Form writtenForm="息を継ぎ"/>
+      <Form writtenForm="息を継げ"/>
+      <Form writtenForm="息を継い"/>
       <Sense id="L1546711-S1" synset="wikidata-ja-L1546711-S1" ili="wikidata-ja-L1546711-S1">
         <Definition>ひと休みする</Definition>
       </Sense>
@@ -5139,6 +5581,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1548584">
       <Lemma writtenForm="可憐" partOfSpeech="a"/>
+      <Form writtenForm="可憐だろ"/>
+      <Form writtenForm="可憐だっ"/>
+      <Form writtenForm="可憐で"/>
+      <Form writtenForm="可憐に"/>
+      <Form writtenForm="可憐だ"/>
+      <Form writtenForm="可憐な"/>
+      <Form writtenForm="可憐なら"/>
       <Sense id="L1548584-S1" synset="wikidata-ja-L1548584-S1" ili="wikidata-ja-L1548584-S1">
         <Definition>愛すべき様子</Definition>
       </Sense>
@@ -5170,6 +5619,7 @@
     </LexicalEntry>
     <LexicalEntry id="L565">
       <Lemma writtenForm="ね" partOfSpeech="y"/>
+      <Form writtenForm="ねえ"/>
       <Sense id="L565-S1" synset="wikidata-ja-L565-S1" ili="wikidata-ja-L565-S1">
         <Definition>念押し、詠嘆を表す</Definition>
         <Example>立派に育ちましたね。</Example>
@@ -5205,12 +5655,6 @@
         <Example>夢は大きければ大きいほど良い。</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L573">
-      <Lemma writtenForm="やら" partOfSpeech="y"/>
-      <Sense id="L573-S1" synset="wikidata-ja-L573-S1" ili="wikidata-ja-L573-S1">
-        <Definition>決定しがたい二つ以上の事柄を並列および列挙する意を表す</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L590">
       <Lemma writtenForm="ながら" partOfSpeech="y"/>
       <Sense id="L590-S1" synset="wikidata-ja-L590-S1" ili="wikidata-ja-L590-S1">
@@ -5222,23 +5666,13 @@
         <Example>早くやろうと思いながら、ついつい後回しになってしまった。</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L598">
-      <Lemma writtenForm="かしら" partOfSpeech="y"/>
-      <Sense id="L598-S1" synset="wikidata-ja-L598-S1" ili="wikidata-ja-L598-S1">
-        <Definition>疑念を含む問いかけ</Definition>
-        <Example>これであなたの思い通りになったのかしら。</Example>
-      </Sense>
-      <Sense id="L598-S2" synset="wikidata-ja-L598-S2" ili="wikidata-ja-L598-S2">
-        <Definition>疑念。自問</Definition>
-        <Example>これで良かったのかしら。</Example>
-      </Sense>
-      <Sense id="L598-S3" synset="wikidata-ja-L598-S3" ili="wikidata-ja-L598-S3">
-        <Definition>願望や依頼</Definition>
-        <Example>私のかわりに銀行まで行ってくれないかしら。</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L618">
       <Lemma writtenForm="られる" partOfSpeech="v"/>
+      <Form writtenForm="られ"/>
+      <Form writtenForm="られれ"/>
+      <Form writtenForm="られろ"/>
+      <Form writtenForm="られよ"/>
+      <Form writtenForm="られい"/>
       <Sense id="L618-S1" synset="wikidata-ja-L618-S1" ili="wikidata-ja-L618-S1">
         <Definition>自発</Definition>
         <Example>信じられない</Example>
@@ -5274,6 +5708,11 @@
     </LexicalEntry>
     <LexicalEntry id="L631">
       <Lemma writtenForm="ます" partOfSpeech="v"/>
+      <Form writtenForm="ませ"/>
+      <Form writtenForm="ましょ"/>
+      <Form writtenForm="まし"/>
+      <Form writtenForm="まする"/>
+      <Form writtenForm="ますれ"/>
       <Sense id="L631-S1" synset="wikidata-ja-L631-S1" ili="wikidata-ja-L631-S1">
         <Definition>丁寧</Definition>
         <Example>ありません</Example>
@@ -5289,12 +5728,29 @@
     </LexicalEntry>
     <LexicalEntry id="L817">
       <Lemma writtenForm="滑稽" partOfSpeech="a"/>
+      <Form writtenForm="滑稽だろ"/>
+      <Form writtenForm="滑稽だっ"/>
+      <Form writtenForm="滑稽で"/>
+      <Form writtenForm="滑稽に"/>
+      <Form writtenForm="滑稽だ"/>
+      <Form writtenForm="滑稽な"/>
+      <Form writtenForm="滑稽なら"/>
       <Sense id="L817-S1" synset="wikidata-ja-L817-S1" ili="wikidata-ja-L817-S1">
         <Definition>中国古代の歴史書『史記』中の列伝の篇名、饒舌なさま、転じて笑いやユーモアと同義の用語</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L292040">
       <Lemma writtenForm="敏速" partOfSpeech="a"/>
+      <Form writtenForm="敏速だろ"/>
+      <Form writtenForm="敏速だっ"/>
+      <Form writtenForm="敏速で"/>
+      <Form writtenForm="敏速に"/>
+      <Form writtenForm="敏速だ"/>
+      <Form writtenForm="敏速な"/>
+      <Form writtenForm="敏速なら"/>
+      <Form writtenForm="敏速でしょ"/>
+      <Form writtenForm="敏速でし"/>
+      <Form writtenForm="敏速です"/>
       <Sense id="L292040-S1" synset="wikidata-ja-L292040-S1" ili="wikidata-ja-L292040-S1">
         <Definition>さとく行動などが素早いこと</Definition>
       </Sense>
@@ -5358,6 +5814,11 @@
     </LexicalEntry>
     <LexicalEntry id="L717593">
       <Lemma writtenForm="気になる" partOfSpeech="t"/>
+      <Form writtenForm="気になら"/>
+      <Form writtenForm="気になろ"/>
+      <Form writtenForm="気になり"/>
+      <Form writtenForm="気になれ"/>
+      <Form writtenForm="気になっ"/>
       <Sense id="L717593-S1" synset="wikidata-ja-L717593-S1" ili="wikidata-ja-L717593-S1">
         <Definition>to be invested in something</Definition>
       </Sense>
@@ -5424,6 +5885,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1152036">
       <Lemma writtenForm="一国者" partOfSpeech="t"/>
+      <Form writtenForm="一刻者"/>
       <Sense id="L1152036-S1" synset="wikidata-ja-L1152036-S1" ili="wikidata-ja-L1152036-S1">
         <Definition>国を閉ざして他と交わらないことから、頑固で人の意見を聞かない人をいう</Definition>
         <SenseRelation relType="similar" target="wikidata-ja-L1152040-S1"/>
@@ -5492,6 +5954,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1227453">
       <Lemma writtenForm="捧腹絶倒" partOfSpeech="n"/>
+      <Form writtenForm="抱腹絶倒"/>
       <Sense id="L1227453-S1" synset="wikidata-ja-L1227453-S1" ili="wikidata-ja-L1227453-S1">
         <Definition>手で腹をささげて、倒れんばかりに笑い崩れること</Definition>
       </Sense>
@@ -5506,13 +5969,6 @@
       <Lemma writtenForm="二枚舌" partOfSpeech="t"/>
       <Sense id="L1235203-S1" synset="wikidata-ja-L1235203-S1" ili="wikidata-ja-L1235203-S1">
         <Definition>二枚の舌でそれぞれ違うことを言う事、つまり嘘をつくこと</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1235402">
-      <Lemma writtenForm="に" partOfSpeech="y"/>
-      <Sense id="L1235402-S1" synset="wikidata-ja-L1235402-S1" ili="wikidata-ja-L1235402-S1">
-        <Definition>逆接の確定条件を表す</Definition>
-        <Example>よくよく見るに、探していたものではなかった</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1244236">
@@ -5554,6 +6010,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1262459">
       <Lemma writtenForm="奇矯" partOfSpeech="a"/>
+      <Form writtenForm="奇矯だろ"/>
+      <Form writtenForm="奇矯だっ"/>
+      <Form writtenForm="奇矯で"/>
+      <Form writtenForm="奇矯に"/>
+      <Form writtenForm="奇矯だ"/>
+      <Form writtenForm="奇矯な"/>
+      <Form writtenForm="奇矯なら"/>
       <Sense id="L1262459-S1" synset="wikidata-ja-L1262459-S1" ili="wikidata-ja-L1262459-S1">
         <Definition>奇抜で激しい</Definition>
       </Sense>
@@ -5711,12 +6174,23 @@
     </LexicalEntry>
     <LexicalEntry id="L1502939">
       <Lemma writtenForm="悠長" partOfSpeech="a"/>
+      <Form writtenForm="悠長だろ"/>
+      <Form writtenForm="悠長だっ"/>
+      <Form writtenForm="悠長で"/>
+      <Form writtenForm="悠長に"/>
+      <Form writtenForm="悠長だ"/>
+      <Form writtenForm="悠長な"/>
+      <Form writtenForm="悠長なら"/>
       <Sense id="L1502939-S1" synset="wikidata-ja-L1502939-S1" ili="wikidata-ja-L1502939-S1">
         <Definition>遠く長い様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1502942">
       <Lemma writtenForm="悠悠" partOfSpeech="a"/>
+      <Form writtenForm="悠悠と"/>
+      <Form writtenForm="悠悠たる"/>
+      <Form writtenForm="悠々と"/>
+      <Form writtenForm="悠々たる"/>
       <Sense id="L1502942-S1" synset="wikidata-ja-L1502942-S1" ili="wikidata-ja-L1502942-S1">
         <Definition>ゆったり落ち着いている様子</Definition>
       </Sense>
@@ -5736,6 +6210,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1508436">
       <Lemma writtenForm="真っ赤" partOfSpeech="a"/>
+      <Form writtenForm="真っ赤だろ"/>
+      <Form writtenForm="真っ赤だっ"/>
+      <Form writtenForm="真っ赤で"/>
+      <Form writtenForm="真っ赤に"/>
+      <Form writtenForm="真っ赤だ"/>
+      <Form writtenForm="真っ赤な"/>
+      <Form writtenForm="真っ赤なら"/>
       <Sense id="L1508436-S1" synset="wikidata-ja-L1508436-S1" ili="wikidata-ja-L1508436-S1">
         <Definition>極めて赤みが強い様子</Definition>
         <Example>真っ赤な太陽</Example>
@@ -5759,18 +6240,39 @@
     </LexicalEntry>
     <LexicalEntry id="L1523458">
       <Lemma writtenForm="豊富" partOfSpeech="a"/>
+      <Form writtenForm="豊富だろ"/>
+      <Form writtenForm="豊富だっ"/>
+      <Form writtenForm="豊富で"/>
+      <Form writtenForm="豊富に"/>
+      <Form writtenForm="豊富だ"/>
+      <Form writtenForm="豊富な"/>
+      <Form writtenForm="豊富なら"/>
       <Sense id="L1523458-S1" synset="wikidata-ja-L1523458-S1" ili="wikidata-ja-L1523458-S1">
         <Definition>ものが豊かであること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1523536">
       <Lemma writtenForm="本格的" partOfSpeech="a"/>
+      <Form writtenForm="本格的だろ"/>
+      <Form writtenForm="本格的だっ"/>
+      <Form writtenForm="本格的で"/>
+      <Form writtenForm="本格的に"/>
+      <Form writtenForm="本格的だ"/>
+      <Form writtenForm="本格的な"/>
+      <Form writtenForm="本格的なら"/>
       <Sense id="L1523536-S1" synset="wikidata-ja-L1523536-S1" ili="wikidata-ja-L1523536-S1">
         <Definition>本来の格式に沿った様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1524146">
       <Lemma writtenForm="爆発的" partOfSpeech="a"/>
+      <Form writtenForm="爆発的だろ"/>
+      <Form writtenForm="爆発的だっ"/>
+      <Form writtenForm="爆発的で"/>
+      <Form writtenForm="爆発的に"/>
+      <Form writtenForm="爆発的だ"/>
+      <Form writtenForm="爆発的な"/>
+      <Form writtenForm="爆発的なら"/>
       <Sense id="L1524146-S1" synset="wikidata-ja-L1524146-S1" ili="wikidata-ja-L1524146-S1">
         <Definition>発火して破裂するような勢いのある様子</Definition>
       </Sense>
@@ -5783,6 +6285,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1530372">
       <Lemma writtenForm="系統的" partOfSpeech="a"/>
+      <Form writtenForm="系統的だろ"/>
+      <Form writtenForm="系統的だっ"/>
+      <Form writtenForm="系統的で"/>
+      <Form writtenForm="系統的に"/>
+      <Form writtenForm="系統的だ"/>
+      <Form writtenForm="系統的な"/>
+      <Form writtenForm="系統的なら"/>
       <Sense id="L1530372-S1" synset="wikidata-ja-L1530372-S1" ili="wikidata-ja-L1530372-S1">
         <Definition>次第や順序を追って統一してある様子</Definition>
       </Sense>
@@ -5798,54 +6307,105 @@
     </LexicalEntry>
     <LexicalEntry id="L1530947">
       <Lemma writtenForm="先進的" partOfSpeech="a"/>
+      <Form writtenForm="先進的だろ"/>
+      <Form writtenForm="先進的だっ"/>
+      <Form writtenForm="先進的で"/>
+      <Form writtenForm="先進的に"/>
+      <Form writtenForm="先進的だ"/>
+      <Form writtenForm="先進的な"/>
+      <Form writtenForm="先進的なら"/>
       <Sense id="L1530947-S1" synset="wikidata-ja-L1530947-S1" ili="wikidata-ja-L1530947-S1">
         <Definition>一般的な水準よりも先に進んでいる様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1532339">
       <Lemma writtenForm="後を引く" partOfSpeech="t"/>
+      <Form writtenForm="後を引か"/>
+      <Form writtenForm="後を引こ"/>
+      <Form writtenForm="後を引き"/>
+      <Form writtenForm="後を引け"/>
       <Sense id="L1532339-S1" synset="wikidata-ja-L1532339-S1" ili="wikidata-ja-L1532339-S1">
         <Definition>あることが長く続く</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546440">
       <Lemma writtenForm="淫ら" partOfSpeech="a"/>
+      <Form writtenForm="淫らだろ"/>
+      <Form writtenForm="淫らだっ"/>
+      <Form writtenForm="淫らで"/>
+      <Form writtenForm="淫らに"/>
+      <Form writtenForm="淫らだ"/>
+      <Form writtenForm="淫らな"/>
+      <Form writtenForm="淫らなら"/>
+      <Form writtenForm="猥ら"/>
       <Sense id="L1546440-S1" synset="wikidata-ja-L1546440-S1" ili="wikidata-ja-L1546440-S1">
         <Definition>性に関して慎みが無くだらしないさま</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1546709">
       <Lemma writtenForm="息を衝く" partOfSpeech="t"/>
+      <Form writtenForm="息を衝か"/>
+      <Form writtenForm="息を衝こ"/>
+      <Form writtenForm="息を衝き"/>
+      <Form writtenForm="息を衝け"/>
+      <Form writtenForm="息を衝い"/>
       <Sense id="L1546709-S1" synset="wikidata-ja-L1546709-S1" ili="wikidata-ja-L1546709-S1">
         <Definition>激しく呼吸する</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548511">
       <Lemma writtenForm="体を壊す" partOfSpeech="t"/>
+      <Form writtenForm="体を壊さ"/>
+      <Form writtenForm="体を壊そ"/>
+      <Form writtenForm="体を壊し"/>
+      <Form writtenForm="体を壊せ"/>
       <Sense id="L1548511-S1" synset="wikidata-ja-L1548511-S1" ili="wikidata-ja-L1548511-S1">
         <Definition>病気や怪我をする</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548572">
       <Lemma writtenForm="軽はずみ" partOfSpeech="a"/>
+      <Form writtenForm="軽はずみだろ"/>
+      <Form writtenForm="軽はずみだっ"/>
+      <Form writtenForm="軽はずみで"/>
+      <Form writtenForm="軽はずみに"/>
+      <Form writtenForm="軽はずみだ"/>
+      <Form writtenForm="軽はずみな"/>
+      <Form writtenForm="軽はずみなら"/>
       <Sense id="L1548572-S1" synset="wikidata-ja-L1548572-S1" ili="wikidata-ja-L1548572-S1">
         <Definition>軽率な様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548665">
       <Lemma writtenForm="簡易" partOfSpeech="a"/>
+      <Form writtenForm="簡易だろ"/>
+      <Form writtenForm="簡易だっ"/>
+      <Form writtenForm="簡易で"/>
+      <Form writtenForm="簡易に"/>
+      <Form writtenForm="簡易だ"/>
+      <Form writtenForm="簡易な"/>
+      <Form writtenForm="簡易なら"/>
       <Sense id="L1548665-S1" synset="wikidata-ja-L1548665-S1" ili="wikidata-ja-L1548665-S1">
         <Definition>手軽な様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548838">
       <Lemma writtenForm="顔色を窺う" partOfSpeech="t"/>
+      <Form writtenForm="顔色を窺わ"/>
+      <Form writtenForm="顔色を窺お"/>
+      <Form writtenForm="顔色を窺い"/>
+      <Form writtenForm="顔色を窺え"/>
+      <Form writtenForm="顔色を窺っ"/>
       <Sense id="L1548838-S1" synset="wikidata-ja-L1548838-S1" ili="wikidata-ja-L1548838-S1">
         <Definition>相手の機嫌を推し量って何かをする</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548970">
       <Lemma writtenForm="気を晴らす" partOfSpeech="t"/>
+      <Form writtenForm="気を晴らさ"/>
+      <Form writtenForm="気を晴らそ"/>
+      <Form writtenForm="気を晴らし"/>
+      <Form writtenForm="気を晴らせ"/>
       <Sense id="L1548970-S1" synset="wikidata-ja-L1548970-S1" ili="wikidata-ja-L1548970-S1">
         <Definition>なぐさめる</Definition>
       </Sense>
@@ -5858,6 +6418,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1551310">
       <Lemma writtenForm="殺伐" partOfSpeech="a"/>
+      <Form writtenForm="殺伐だろ"/>
+      <Form writtenForm="殺伐だっ"/>
+      <Form writtenForm="殺伐で"/>
+      <Form writtenForm="殺伐に"/>
+      <Form writtenForm="殺伐だ"/>
+      <Form writtenForm="殺伐な"/>
+      <Form writtenForm="殺伐なら"/>
       <Sense id="L1551310-S1" synset="wikidata-ja-L1551310-S1" ili="wikidata-ja-L1551310-S1">
         <Definition>荒々しい様子</Definition>
       </Sense>
@@ -5921,6 +6488,8 @@
     </LexicalEntry>
     <LexicalEntry id="L556">
       <Lemma writtenForm="なり" partOfSpeech="y"/>
+      <Form writtenForm="なりと"/>
+      <Form writtenForm="なりとも"/>
       <Sense id="L556-S1" synset="wikidata-ja-L556-S1" ili="wikidata-ja-L556-S1">
         <Definition>複数例示して選ぶことを表す</Definition>
         <Example>起きるなり寝るなり</Example>
@@ -5941,15 +6510,9 @@
         <Example>猿だの猪だのが畑を荒らして行った。</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L559">
-      <Lemma writtenForm="な" partOfSpeech="y"/>
-      <Sense id="L559-S1" synset="wikidata-ja-L559-S1" ili="wikidata-ja-L559-S1">
-        <Definition>禁止を表す</Definition>
-        <Example>独りで行くな。</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L587">
       <Lemma writtenForm="ても" partOfSpeech="y"/>
+      <Form writtenForm="でも"/>
       <Sense id="L587-S1" synset="wikidata-ja-L587-S1" ili="wikidata-ja-L587-S1">
         <Definition>逆接の仮定条件を表す。「たとえ~しても」</Definition>
         <Example>寝ても覚めても忘れない</Example>
@@ -5965,6 +6528,11 @@
     </LexicalEntry>
     <LexicalEntry id="L617">
       <Lemma writtenForm="れる" partOfSpeech="v"/>
+      <Form writtenForm="れ"/>
+      <Form writtenForm="れれ"/>
+      <Form writtenForm="れろ"/>
+      <Form writtenForm="れよ"/>
+      <Form writtenForm="れい"/>
       <Sense id="L617-S1" synset="wikidata-ja-L617-S1" ili="wikidata-ja-L617-S1">
         <Definition>自発</Definition>
         <Example>思い出されない</Example>
@@ -6000,6 +6568,12 @@
     </LexicalEntry>
     <LexicalEntry id="L636">
       <Lemma writtenForm="ようだ" partOfSpeech="v"/>
+      <Form writtenForm="ようだろ"/>
+      <Form writtenForm="ようだっ"/>
+      <Form writtenForm="ようで"/>
+      <Form writtenForm="ように"/>
+      <Form writtenForm="ような"/>
+      <Form writtenForm="ようなら"/>
       <Sense id="L636-S1" synset="wikidata-ja-L636-S1" ili="wikidata-ja-L636-S1">
         <Definition>比況</Definition>
         <Example>あるようだろう</Example>
@@ -6013,6 +6587,8 @@
     </LexicalEntry>
     <LexicalEntry id="L684">
       <Lemma writtenForm="俺" partOfSpeech="h"/>
+      <Form writtenForm="己"/>
+      <Form writtenForm="乃公"/>
       <Sense id="L684-S1" synset="wikidata-ja-L684-S1" ili="wikidata-ja-L684-S1">
         <Definition>一人称の代名詞で同輩またはそれ以下に対していう語</Definition>
       </Sense>
@@ -6049,6 +6625,10 @@
     </LexicalEntry>
     <LexicalEntry id="L626068">
       <Lemma writtenForm="千" partOfSpeech="m"/>
+      <Form writtenForm="一〇〇〇"/>
+      <Form writtenForm="1000"/>
+      <Form writtenForm="阡"/>
+      <Form writtenForm="仟"/>
       <Sense id="L626068-S1" synset="wikidata-ja-L626068-S1" ili="wikidata-ja-L626068-S1">
         <Definition>数字の1000</Definition>
       </Sense>
@@ -6064,12 +6644,13 @@
     </LexicalEntry>
     <LexicalEntry id="L626073">
       <Lemma writtenForm="あれ" partOfSpeech="h"/>
-      <Sense id="L626073-S1" synset="wikidata-ja-L626073-S1" ili="l333971-s1">
+      <Sense id="L626073-S1" synset="wikidata-ja-L626073-S1" ili="wikidata-ja-L626073-S1">
         <Definition>idicating something that is far away from both the speaker and the listener</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L641828">
       <Lemma writtenForm="三" partOfSpeech="m"/>
+      <Form writtenForm="3"/>
       <Sense id="L641828-S1" synset="wikidata-ja-L641828-S1" ili="wikidata-ja-L641828-S1">
         <Definition>the natural number 3</Definition>
       </Sense>
@@ -6159,7 +6740,7 @@
     </LexicalEntry>
     <LexicalEntry id="L738572">
       <Lemma writtenForm="あちら" partOfSpeech="h"/>
-      <Sense id="L738572-S1" synset="wikidata-ja-L738572-S1" ili="wikidata-ja-L738572-S1">
+      <Sense id="L738572-S1" synset="wikidata-ja-L738572-S1" ili="l196357-s1">
         <Definition>that way</Definition>
       </Sense>
     </LexicalEntry>
@@ -6191,13 +6772,6 @@
         <SenseRelation relType="similar" target="wikidata-ja-L679-S2"/>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1082290">
-      <Lemma writtenForm="が" partOfSpeech="y"/>
-      <Sense id="L1082290-S1" synset="wikidata-ja-L1082290-S1" ili="wikidata-ja-L1082290-S1">
-        <Definition>だが、しかし</Definition>
-        <Example>道は険しいが頑張ろう</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1133043">
       <Lemma writtenForm="何か" partOfSpeech="h"/>
       <Sense id="L1133043-S1" synset="wikidata-ja-L1133043-S1" ili="wikidata-ja-L1133043-S1">
@@ -6206,6 +6780,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1150363">
       <Lemma writtenForm="板につく" partOfSpeech="t"/>
+      <Form writtenForm="板に着く"/>
+      <Form writtenForm="板に付く"/>
       <Sense id="L1150363-S1" synset="wikidata-ja-L1150363-S1" ili="wikidata-ja-L1150363-S1">
         <Definition>役者の演技が板（舞台）の上で危なげなく見える様子から転じて、わざとらしいところがなく、ぴったりと当てはまること</Definition>
       </Sense>
@@ -6225,19 +6801,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1218643">
       <Lemma writtenForm="赤子の手をひねる" partOfSpeech="t"/>
+      <Form writtenForm="赤子の腕をひねる"/>
       <Sense id="L1218643-S1" synset="wikidata-ja-L1218643-S1" ili="wikidata-ja-L1218643-S1">
         <Definition>いともたやすいこと</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1218974">
-      <Lemma writtenForm="なり" partOfSpeech="y"/>
-      <Sense id="L1218974-S1" synset="wikidata-ja-L1218974-S1" ili="wikidata-ja-L1218974-S1">
-        <Definition>動作が連動している状態を表す</Definition>
-        <Example>横になるなりぐっすり眠った</Example>
-      </Sense>
-      <Sense id="L1218974-S2" synset="wikidata-ja-L1218974-S2" ili="wikidata-ja-L1218974-S2">
-        <Definition>動作が続いている状態を表す。「~たなり」の形をとる。</Definition>
-        <Example>立ち止まったなり、話し始めた。</Example>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1220290">
@@ -6323,6 +6889,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1224741">
       <Lemma writtenForm="先鞭をつける" partOfSpeech="t"/>
+      <Form writtenForm="先鞭を着ける"/>
       <Sense id="L1224741-S1" synset="wikidata-ja-L1224741-S1" ili="wikidata-ja-L1224741-S1">
         <Definition>他人に先立って事に着手する</Definition>
       </Sense>
@@ -6367,6 +6934,8 @@
     </LexicalEntry>
     <LexicalEntry id="L1234276">
       <Lemma writtenForm="綺麗" partOfSpeech="a"/>
+      <Form writtenForm="奇麗"/>
+      <Form writtenForm="暉麗"/>
       <Sense id="L1234276-S1" synset="wikidata-ja-L1234276-S1" ili="wikidata-ja-L1234276-S1">
         <Definition>美しいこと</Definition>
       </Sense>
@@ -6382,6 +6951,12 @@
     </LexicalEntry>
     <LexicalEntry id="L1235300">
       <Lemma writtenForm="みたいだ" partOfSpeech="v"/>
+      <Form writtenForm="みたいだろ"/>
+      <Form writtenForm="みたいだっ"/>
+      <Form writtenForm="みたいで"/>
+      <Form writtenForm="みたいに"/>
+      <Form writtenForm="みたいな"/>
+      <Form writtenForm="みたいなら"/>
       <Sense id="L1235300-S1" synset="wikidata-ja-L1235300-S1" ili="wikidata-ja-L1235300-S1">
         <Definition>比況（伝聞情報を根拠としない判断）</Definition>
         <Example>あるみたいだろう</Example>
@@ -6393,15 +6968,9 @@
         <Example>あるみたいなら</Example>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1235329">
-      <Lemma writtenForm="も" partOfSpeech="y"/>
-      <Sense id="L1235329-S1" synset="wikidata-ja-L1235329-S1" ili="wikidata-ja-L1235329-S1">
-        <Definition>逆接の仮定条件を表す</Definition>
-        <Example>水を探そうとするも、なかなか見つからない</Example>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1235403">
       <Lemma writtenForm="ど" partOfSpeech="y"/>
+      <Form writtenForm="ども"/>
       <Sense id="L1235403-S1" synset="wikidata-ja-L1235403-S1" ili="wikidata-ja-L1235403-S1">
         <Definition>逆接の確定条件を表す</Definition>
         <Example>はたらけどはたらけどわが生活楽にならざりぢっと手をみる</Example>
@@ -6409,6 +6978,9 @@
     </LexicalEntry>
     <LexicalEntry id="L1235405">
       <Lemma writtenForm="り" partOfSpeech="v"/>
+      <Form writtenForm="ら"/>
+      <Form writtenForm="る"/>
+      <Form writtenForm="れ"/>
       <Sense id="L1235405-S1" synset="wikidata-ja-L1235405-S1" ili="wikidata-ja-L1235405-S1">
         <Definition>（古典文法）完了や存続の意味を付け加える</Definition>
       </Sense>
@@ -6539,12 +7111,6 @@
         <Definition>和歌の単位</Definition>
       </Sense>
     </LexicalEntry>
-    <LexicalEntry id="L1321628">
-      <Lemma writtenForm="足" partOfSpeech="m"/>
-      <Sense id="L1321628-S1" synset="wikidata-ja-L1321628-S1" ili="wikidata-ja-L1321628-S1">
-        <Definition>履物の揃いの数を表す語</Definition>
-      </Sense>
-    </LexicalEntry>
     <LexicalEntry id="L1323827">
       <Lemma writtenForm="品" partOfSpeech="m"/>
       <Sense id="L1323827-S1" synset="wikidata-ja-L1323827-S1" ili="wikidata-ja-L1323827-S1">
@@ -6553,6 +7119,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1327331">
       <Lemma writtenForm="依怙贔屓" partOfSpeech="t"/>
+      <Form writtenForm="エコ贔屓"/>
       <Sense id="L1327331-S1" synset="wikidata-ja-L1327331-S1" ili="wikidata-ja-L1327331-S1">
         <Definition>片方だけ贔屓すること</Definition>
       </Sense>
@@ -6574,12 +7141,18 @@
     </LexicalEntry>
     <LexicalEntry id="L1348035">
       <Lemma writtenForm="溜飲を下げる" partOfSpeech="t"/>
+      <Form writtenForm="溜飲が下がる"/>
       <Sense id="L1348035-S1" synset="wikidata-ja-L1348035-S1" ili="wikidata-ja-L1348035-S1">
         <Definition>鬱屈した気持ちが晴れること</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1378703">
       <Lemma writtenForm="首になる" partOfSpeech="t"/>
+      <Form writtenForm="首になら"/>
+      <Form writtenForm="首になろ"/>
+      <Form writtenForm="首になり"/>
+      <Form writtenForm="首になれ"/>
+      <Form writtenForm="首になっ"/>
       <Sense id="L1378703-S1" synset="wikidata-ja-L1378703-S1" ili="wikidata-ja-L1378703-S1">
         <Definition>解雇させられる</Definition>
       </Sense>
@@ -6601,6 +7174,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1412112">
       <Lemma writtenForm="罰当たり" partOfSpeech="a"/>
+      <Form writtenForm="罰当り"/>
       <Sense id="L1412112-S1" synset="wikidata-ja-L1412112-S1" ili="wikidata-ja-L1412112-S1">
         <Definition>to be damned</Definition>
       </Sense>
@@ -6625,6 +7199,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1502730">
       <Lemma writtenForm="幽か" partOfSpeech="a"/>
+      <Form writtenForm="幽かだろ"/>
+      <Form writtenForm="幽かだっ"/>
+      <Form writtenForm="幽かで"/>
+      <Form writtenForm="幽かに"/>
+      <Form writtenForm="幽かだ"/>
+      <Form writtenForm="幽かな"/>
+      <Form writtenForm="幽かなら"/>
       <Sense id="L1502730-S1" synset="wikidata-ja-L1502730-S1" ili="wikidata-ja-L1502730-S1">
         <Definition>ぼんやりしている、はっきり見えない</Definition>
       </Sense>
@@ -6671,6 +7252,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1520350">
       <Lemma writtenForm="大規模" partOfSpeech="a"/>
+      <Form writtenForm="大規模だろ"/>
+      <Form writtenForm="大規模だっ"/>
+      <Form writtenForm="大規模で"/>
+      <Form writtenForm="大規模に"/>
+      <Form writtenForm="大規模だ"/>
+      <Form writtenForm="大規模な"/>
+      <Form writtenForm="大規模なら"/>
       <Sense id="L1520350-S1" synset="wikidata-ja-L1520350-S1" ili="wikidata-ja-L1520350-S1">
         <Definition>規模が大きい</Definition>
       </Sense>
@@ -6683,12 +7271,26 @@
     </LexicalEntry>
     <LexicalEntry id="L1522301">
       <Lemma writtenForm="断続的" partOfSpeech="a"/>
+      <Form writtenForm="断続的だろ"/>
+      <Form writtenForm="断続的だっ"/>
+      <Form writtenForm="断続的で"/>
+      <Form writtenForm="断続的に"/>
+      <Form writtenForm="断続的だ"/>
+      <Form writtenForm="断続的な"/>
+      <Form writtenForm="断続的なら"/>
       <Sense id="L1522301-S1" synset="wikidata-ja-L1522301-S1" ili="wikidata-ja-L1522301-S1">
         <Definition>途絶えたり続いたりする様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1523972">
       <Lemma writtenForm="代表的" partOfSpeech="a"/>
+      <Form writtenForm="代表的だろ"/>
+      <Form writtenForm="代表的だっ"/>
+      <Form writtenForm="代表的で"/>
+      <Form writtenForm="代表的に"/>
+      <Form writtenForm="代表的だ"/>
+      <Form writtenForm="代表的な"/>
+      <Form writtenForm="代表的なら"/>
       <Sense id="L1523972-S1" synset="wikidata-ja-L1523972-S1" ili="wikidata-ja-L1523972-S1">
         <Definition>代表するような</Definition>
       </Sense>
@@ -6707,41 +7309,59 @@
     </LexicalEntry>
     <LexicalEntry id="L1547971">
       <Lemma writtenForm="買い付け" partOfSpeech="x"/>
+      <Form writtenForm="買付"/>
       <Sense id="L1547971-S1" synset="wikidata-ja-L1547971-S1" ili="wikidata-ja-L1547971-S1">
         <Definition>常に買うこと</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548230">
       <Lemma writtenForm="頭を振る" partOfSpeech="t"/>
+      <Form writtenForm="頭を振ら"/>
+      <Form writtenForm="頭を振ろ"/>
+      <Form writtenForm="頭を振り"/>
+      <Form writtenForm="頭を振っ"/>
+      <Form writtenForm="頭を振れ"/>
       <Sense id="L1548230-S1" synset="wikidata-ja-L1548230-S1" ili="wikidata-ja-L1548230-S1">
         <Definition>頭を左右に振って否定をあらわす</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548929">
       <Lemma writtenForm="簡便" partOfSpeech="a"/>
+      <Form writtenForm="簡便だろ"/>
+      <Form writtenForm="簡便だっ"/>
+      <Form writtenForm="簡便で"/>
+      <Form writtenForm="簡便に"/>
+      <Form writtenForm="簡便だ"/>
+      <Form writtenForm="簡便な"/>
+      <Form writtenForm="簡便なら"/>
       <Sense id="L1548929-S1" synset="wikidata-ja-L1548929-S1" ili="wikidata-ja-L1548929-S1">
         <Definition>手軽で便利な様子</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1548968">
       <Lemma writtenForm="気にする" partOfSpeech="t"/>
+      <Form writtenForm="気にさ"/>
+      <Form writtenForm="気にし"/>
+      <Form writtenForm="気にせ"/>
+      <Form writtenForm="気にすれ"/>
+      <Form writtenForm="気にしろ"/>
+      <Form writtenForm="気にせよ"/>
       <Sense id="L1548968-S1" synset="wikidata-ja-L1548968-S1" ili="wikidata-ja-L1548968-S1">
         <Definition>心配する</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1549835">
       <Lemma writtenForm="口を利く" partOfSpeech="t"/>
+      <Form writtenForm="口を利か"/>
+      <Form writtenForm="口を利こ"/>
+      <Form writtenForm="口を利き"/>
+      <Form writtenForm="口を利け"/>
+      <Form writtenForm="口を利い"/>
       <Sense id="L1549835-S1" synset="wikidata-ja-L1549835-S1" ili="wikidata-ja-L1549835-S1">
         <Definition>しゃべる</Definition>
       </Sense>
       <Sense id="L1549835-S2" synset="wikidata-ja-L1549835-S2" ili="wikidata-ja-L1549835-S2">
         <Definition>間をとりなす</Definition>
-      </Sense>
-    </LexicalEntry>
-    <LexicalEntry id="L1551311">
-      <Lemma writtenForm="殺伐" partOfSpeech="a"/>
-      <Sense id="L1551311-S1" synset="wikidata-ja-L1551311-S1" ili="wikidata-ja-L1551311-S1">
-        <Definition>荒々しい様子</Definition>
       </Sense>
     </LexicalEntry>
     <Synset id="wikidata-ja-L550-S1" ili="wikidata-ja-L550-S1" partOfSpeech="y">
@@ -7170,26 +7790,6 @@
     <Synset id="wikidata-ja-L1551316-S1" ili="wikidata-ja-L1551316-S1" partOfSpeech="t">
       <Definition>退出する</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L544-S1" ili="wikidata-ja-L544-S1" partOfSpeech="y">
-      <Definition>共に、あるいは相互に行う動作の相手を示す</Definition>
-      <Example>友人と会う</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L544-S2" ili="wikidata-ja-L544-S2" partOfSpeech="y">
-      <Definition>列挙を示す</Definition>
-      <Example>赤と黄色と緑</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L544-S3" ili="wikidata-ja-L544-S3" partOfSpeech="y">
-      <Definition>関連する対象を示す</Definition>
-      <Example>彼女とは幼馴染だ</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L544-S4" ili="wikidata-ja-L544-S4" partOfSpeech="y">
-      <Definition>発言などの引用を示す</Definition>
-      <Example>愛していると言った</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L544-S5" ili="wikidata-ja-L544-S5" partOfSpeech="y">
-      <Definition>判断結果や状態を示す</Definition>
-      <Example>これで作業は完了とみなす</Example>
-    </Synset>
     <Synset id="wikidata-ja-L553-S1" ili="wikidata-ja-L553-S1" partOfSpeech="y">
       <Definition>動作の後にすぐ別の動作が生じることを表す</Definition>
       <Example>駆けつけるやいなや、一気に飲み干した。</Example>
@@ -7236,22 +7836,6 @@
     <Synset id="wikidata-ja-L576-S1" ili="wikidata-ja-L576-S1" partOfSpeech="y">
       <Definition>下に打消表現を伴って他を排して限定や強調の意を表す</Definition>
       <Example>病み上がりで、まだおかゆしか食べられない。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L580-S1" ili="wikidata-ja-L580-S1" partOfSpeech="y">
-      <Definition>対等の文節をつくる</Definition>
-      <Example>上着を着て、手袋を着ける</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L580-S2" ili="wikidata-ja-L580-S2" partOfSpeech="y">
-      <Definition>原因や理由を表す</Definition>
-      <Example>古くて使えない</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L580-S3" ili="wikidata-ja-L580-S3" partOfSpeech="y">
-      <Definition>逆接を表す</Definition>
-      <Example>二十歳にもなって、責任ある言動がとれないようでは残念である</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L580-S4" ili="wikidata-ja-L580-S4" partOfSpeech="y">
-      <Definition>用言に接続して補助用言を下に伴う</Definition>
-      <Example>手を繋いでいる</Example>
     </Synset>
     <Synset id="wikidata-ja-L581-S1" ili="wikidata-ja-L581-S1" partOfSpeech="y">
       <Definition>逆接の確定条件を表す</Definition>
@@ -7325,9 +7909,6 @@
     </Synset>
     <Synset id="wikidata-ja-L625710-S1" ili="wikidata-ja-L625710-S1" partOfSpeech="m">
       <Definition>皆無であること</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L626057-S1" ili="wikidata-ja-L626057-S1" partOfSpeech="m">
-      <Definition>indicates that the preceding number represents a number of people</Definition>
     </Synset>
     <Synset id="wikidata-ja-L680105-S1" ili="wikidata-ja-L680105-S1" partOfSpeech="m">
       <Definition>the number 9</Definition>
@@ -7487,11 +8068,6 @@
       <Definition>逆接の確定条件を表す</Definition>
       <Example>気持ちは分かるものの、このまま進めるのはやはり無理がある。</Example>
     </Synset>
-    <Synset id="wikidata-ja-L1235431-S1" ili="wikidata-ja-L1235431-S1" partOfSpeech="y">
-      <Definition>詠嘆、呼び掛け、促しを表す</Definition>
-      <Example>娘や、大きく育つんだぞ。</Example>
-      <Example>みんなで行こうや。</Example>
-    </Synset>
     <Synset id="wikidata-ja-L1244198-S1" ili="wikidata-ja-L1244198-S1" partOfSpeech="c">
       <Definition>語句の累加を表す</Definition>
     </Synset>
@@ -7548,9 +8124,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1379087-S1" ili="wikidata-ja-L1379087-S1" partOfSpeech="t">
       <Definition>解雇する</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1398135-S1" ili="wikidata-ja-L1398135-S1" partOfSpeech="h">
-      <Definition>年上が小さい男の子に対して言う語</Definition>
     </Synset>
     <Synset id="wikidata-ja-L1407667-S1" ili="wikidata-ja-L1407667-S1" partOfSpeech="a">
       <Definition>稀にある</Definition>
@@ -7661,13 +8234,6 @@
     </Synset>
     <Synset id="wikidata-ja-L583-S1" ili="wikidata-ja-L583-S1" partOfSpeech="y">
       <Definition>前に対して後が予想外であることを表す</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L586-S1" ili="wikidata-ja-L586-S1" partOfSpeech="y">
-      <Definition>一言いった後に、自分の考えをほのめかす</Definition>
-      <Example>ここから始めると良いのでしょうかね。よくは分かりませんけれども。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L599-S1" ili="wikidata-ja-L599-S1" partOfSpeech="y">
-      <Definition>東北方言などで、動作や作用の向けられる方向・場所・相手を示す</Definition>
     </Synset>
     <Synset id="wikidata-ja-L619-S1" ili="wikidata-ja-L619-S1" partOfSpeech="v">
       <Definition>使役</Definition>
@@ -8428,10 +8994,6 @@
       <Definition>強い否定を表す</Definition>
       <Example>酔ってなんかいるもんか。</Example>
     </Synset>
-    <Synset id="wikidata-ja-L1235650-S1" ili="wikidata-ja-L1235650-S1" partOfSpeech="y">
-      <Definition>無念さを含んだ詠嘆を表す</Definition>
-      <Example>あと一時間早ければ間に合ったものを。</Example>
-    </Synset>
     <Synset id="wikidata-ja-L1244540-S1" ili="wikidata-ja-L1244540-S1" partOfSpeech="t">
       <Definition>金属（鉄）製の草鞋、とことん歩き回っても履き潰れないことの喩え</Definition>
     </Synset>
@@ -8668,14 +9230,6 @@
     <Synset id="wikidata-ja-L548-S4" ili="wikidata-ja-L548-S4" partOfSpeech="y">
       <Definition>「という」の意を表す語</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L551-S1" ili="l2168-s1" partOfSpeech="y">
-      <Definition>場所や時間・作用の起点を表す</Definition>
-      <Example>夏頃から体調を崩した</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L551-S2" ili="wikidata-ja-L551-S2" partOfSpeech="y">
-      <Definition>主語文節をつくる</Definition>
-      <Example>会社から連絡が行く</Example>
-    </Synset>
     <Synset id="wikidata-ja-L567-S1" ili="wikidata-ja-L567-S1" partOfSpeech="y">
       <Definition>動作や作用の至り及ぶところを表す</Definition>
       <Example>駅まで行きましょう。</Example>
@@ -8853,9 +9407,6 @@
     <Synset id="wikidata-ja-L1080310-S1" ili="wikidata-ja-L1080310-S1" partOfSpeech="i">
       <Definition>気取って咳払いする声</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L1082283-S1" ili="wikidata-ja-L1082283-S1" partOfSpeech="m">
-      <Definition>日数を数える語</Definition>
-    </Synset>
     <Synset id="wikidata-ja-L1133042-S1" ili="wikidata-ja-L1133042-S1" partOfSpeech="h">
       <Definition>uncertain or unspecified entity</Definition>
     </Synset>
@@ -8940,18 +9491,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1235295-S1" ili="wikidata-ja-L1235295-S1" partOfSpeech="v">
       <Definition>使役</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1235401-S1" ili="wikidata-ja-L1235401-S1" partOfSpeech="y">
-      <Definition>逆接の確定条件を表す</Definition>
-      <Example>明け方の五時だったが、すぐさま飛び起きた。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L1235401-S2" ili="wikidata-ja-L1235401-S2" partOfSpeech="y">
-      <Definition>反対の二つのことを対比的に表す</Definition>
-      <Example>見た目は悪いが、びっくりするほど美味しかった</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L1235401-S3" ili="wikidata-ja-L1235401-S3" partOfSpeech="y">
-      <Definition>前述の語を単に後に続けることを表す</Definition>
-      <Example>話を聞きましたが、大変だったようですね</Example>
     </Synset>
     <Synset id="wikidata-ja-L1235642-S1" ili="wikidata-ja-L1235642-S1" partOfSpeech="y">
       <Definition>断定を表す</Definition>
@@ -9192,22 +9731,6 @@
       <Definition>述語が連文節になっている場合の主語を表す</Definition>
       <Example>彼は頭の回転が早い。</Example>
     </Synset>
-    <Synset id="wikidata-ja-L549-S1" ili="l2986-s1" partOfSpeech="y">
-      <Definition>次の文節を修飾し限定する。連体助詞</Definition>
-      <Example>頭の上</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L549-S2" ili="wikidata-ja-L549-S2" partOfSpeech="y">
-      <Definition>主語文節をつくる</Definition>
-      <Example>愛のない日々</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L549-S3" ili="wikidata-ja-L549-S3" partOfSpeech="y">
-      <Definition>「~のもの」を表す。準体助詞</Definition>
-      <Example>このお金は君のだ</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L549-S4" ili="wikidata-ja-L549-S4" partOfSpeech="y">
-      <Definition>並立を表す。並立助詞</Definition>
-      <Example>苦しいの苦しくないのって</Example>
-    </Synset>
     <Synset id="wikidata-ja-L570-S1" ili="wikidata-ja-L570-S1" partOfSpeech="y">
       <Definition>物理的な分量を示す。ほど、だけ</Definition>
       <Example>そこから湯村までは歩いて二十分くらい。</Example>
@@ -9437,13 +9960,6 @@
       <Example>あるみたいでした</Example>
       <Example>あるみたいです</Example>
       <Example>あるみたいですもの</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L1235410-S1" ili="wikidata-ja-L1235410-S1" partOfSpeech="y">
-      <Definition>疑問語を受けて不確実なことを表す</Definition>
-      <Example>どうしたら良いのか、全くわからない。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L1235410-S2" ili="wikidata-ja-L1235410-S2" partOfSpeech="y">
-      <Definition>事物を並立してひとつ選ぶことを表す</Definition>
     </Synset>
     <Synset id="wikidata-ja-L1235652-S1" ili="wikidata-ja-L1235652-S1" partOfSpeech="y">
       <Definition>念押しを表す</Definition>
@@ -9685,9 +10201,6 @@
       <Definition>「~ば~ほど」の形で用いられる</Definition>
       <Example>夢は大きければ大きいほど良い。</Example>
     </Synset>
-    <Synset id="wikidata-ja-L573-S1" ili="wikidata-ja-L573-S1" partOfSpeech="y">
-      <Definition>決定しがたい二つ以上の事柄を並列および列挙する意を表す</Definition>
-    </Synset>
     <Synset id="wikidata-ja-L590-S1" ili="wikidata-ja-L590-S1" partOfSpeech="y">
       <Definition>2つの動作が同時に行われることを表す</Definition>
       <Example>歩きながら考える</Example>
@@ -9695,18 +10208,6 @@
     <Synset id="wikidata-ja-L590-S2" ili="wikidata-ja-L590-S2" partOfSpeech="y">
       <Definition>2つの動作が逆接であることを表す</Definition>
       <Example>早くやろうと思いながら、ついつい後回しになってしまった。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L598-S1" ili="wikidata-ja-L598-S1" partOfSpeech="y">
-      <Definition>疑念を含む問いかけ</Definition>
-      <Example>これであなたの思い通りになったのかしら。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L598-S2" ili="wikidata-ja-L598-S2" partOfSpeech="y">
-      <Definition>疑念。自問</Definition>
-      <Example>これで良かったのかしら。</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L598-S3" ili="wikidata-ja-L598-S3" partOfSpeech="y">
-      <Definition>願望や依頼</Definition>
-      <Example>私のかわりに銀行まで行ってくれないかしら。</Example>
     </Synset>
     <Synset id="wikidata-ja-L618-S1" ili="wikidata-ja-L618-S1" partOfSpeech="v">
       <Definition>自発</Definition>
@@ -9865,10 +10366,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1235203-S1" ili="wikidata-ja-L1235203-S1" partOfSpeech="t">
       <Definition>二枚の舌でそれぞれ違うことを言う事、つまり嘘をつくこと</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1235402-S1" ili="wikidata-ja-L1235402-S1" partOfSpeech="y">
-      <Definition>逆接の確定条件を表す</Definition>
-      <Example>よくよく見るに、探していたものではなかった</Example>
     </Synset>
     <Synset id="wikidata-ja-L1244236-S1" ili="wikidata-ja-L1244236-S1" partOfSpeech="c">
       <Definition>（後から注釈などを接続）</Definition>
@@ -10113,10 +10610,6 @@
       <Definition>同類のものからいくつか列挙することを表す</Definition>
       <Example>猿だの猪だのが畑を荒らして行った。</Example>
     </Synset>
-    <Synset id="wikidata-ja-L559-S1" ili="wikidata-ja-L559-S1" partOfSpeech="y">
-      <Definition>禁止を表す</Definition>
-      <Example>独りで行くな。</Example>
-    </Synset>
     <Synset id="wikidata-ja-L587-S1" ili="wikidata-ja-L587-S1" partOfSpeech="y">
       <Definition>逆接の仮定条件を表す。「たとえ~しても」</Definition>
       <Example>寝ても覚めても忘れない</Example>
@@ -10195,7 +10688,7 @@
     <Synset id="wikidata-ja-L626069-S2" ili="wikidata-ja-L626069-S2" partOfSpeech="m">
       <Definition>a large number</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L626073-S1" ili="l333971-s1" partOfSpeech="h">
+    <Synset id="wikidata-ja-L626073-S1" ili="wikidata-ja-L626073-S1" partOfSpeech="h">
       <Definition>idicating something that is far away from both the speaker and the listener</Definition>
     </Synset>
     <Synset id="wikidata-ja-L641828-S1" ili="wikidata-ja-L641828-S1" partOfSpeech="m">
@@ -10256,7 +10749,7 @@
     <Synset id="wikidata-ja-L735964-S1" ili="wikidata-ja-L735964-S1" partOfSpeech="m">
       <Definition>natural number</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L738572-S1" ili="wikidata-ja-L738572-S1" partOfSpeech="h">
+    <Synset id="wikidata-ja-L738572-S1" ili="l196357-s1" partOfSpeech="h">
       <Definition>that way</Definition>
     </Synset>
     <Synset id="wikidata-ja-L1022011-S1" ili="wikidata-ja-L1022011-S1" partOfSpeech="t">
@@ -10274,10 +10767,6 @@
     <Synset id="wikidata-ja-L1082282-S1" ili="wikidata-ja-L1082282-S1" partOfSpeech="h">
       <Definition>かれ（彼）に同じ</Definition>
     </Synset>
-    <Synset id="wikidata-ja-L1082290-S1" ili="wikidata-ja-L1082290-S1" partOfSpeech="y">
-      <Definition>だが、しかし</Definition>
-      <Example>道は険しいが頑張ろう</Example>
-    </Synset>
     <Synset id="wikidata-ja-L1133043-S1" ili="wikidata-ja-L1133043-S1" partOfSpeech="h">
       <Definition>uncertain or unspecified entity</Definition>
     </Synset>
@@ -10293,14 +10782,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1218643-S1" ili="wikidata-ja-L1218643-S1" partOfSpeech="t">
       <Definition>いともたやすいこと</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1218974-S1" ili="wikidata-ja-L1218974-S1" partOfSpeech="y">
-      <Definition>動作が連動している状態を表す</Definition>
-      <Example>横になるなりぐっすり眠った</Example>
-    </Synset>
-    <Synset id="wikidata-ja-L1218974-S2" ili="wikidata-ja-L1218974-S2" partOfSpeech="y">
-      <Definition>動作が続いている状態を表す。「~たなり」の形をとる。</Definition>
-      <Example>立ち止まったなり、話し始めた。</Example>
     </Synset>
     <Synset id="wikidata-ja-L1220290-S1" ili="wikidata-ja-L1220290-S1" partOfSpeech="t">
       <Definition>世の中の色々な人、群衆</Definition>
@@ -10387,10 +10868,6 @@
       <Example>あるみたいな</Example>
       <Example>あるみたいなら</Example>
     </Synset>
-    <Synset id="wikidata-ja-L1235329-S1" ili="wikidata-ja-L1235329-S1" partOfSpeech="y">
-      <Definition>逆接の仮定条件を表す</Definition>
-      <Example>水を探そうとするも、なかなか見つからない</Example>
-    </Synset>
     <Synset id="wikidata-ja-L1235403-S1" ili="wikidata-ja-L1235403-S1" partOfSpeech="y">
       <Definition>逆接の確定条件を表す</Definition>
       <Example>はたらけどはたらけどわが生活楽にならざりぢっと手をみる</Example>
@@ -10461,9 +10938,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1321545-S1" ili="wikidata-ja-L1321545-S1" partOfSpeech="m">
       <Definition>和歌の単位</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1321628-S1" ili="wikidata-ja-L1321628-S1" partOfSpeech="m">
-      <Definition>履物の揃いの数を表す語</Definition>
     </Synset>
     <Synset id="wikidata-ja-L1323827-S1" ili="wikidata-ja-L1323827-S1" partOfSpeech="m">
       <Definition>料理の皿を数える単位</Definition>
@@ -10566,9 +11040,6 @@
     </Synset>
     <Synset id="wikidata-ja-L1549835-S2" ili="wikidata-ja-L1549835-S2" partOfSpeech="t">
       <Definition>間をとりなす</Definition>
-    </Synset>
-    <Synset id="wikidata-ja-L1551311-S1" ili="wikidata-ja-L1551311-S1" partOfSpeech="a">
-      <Definition>荒々しい様子</Definition>
     </Synset>
   </LexiconExtension>
 </LexicalResource>

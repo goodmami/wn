@@ -22,12 +22,20 @@
     </LexicalEntry>
     <LexicalEntry id="L1328284">
       <Lemma writtenForm="ár" partOfSpeech="h"/>
+      <Form writtenForm="ár m"/>
+      <Form writtenForm="ár g"/>
+      <Form writtenForm="ár n"/>
+      <Form writtenForm="ár bh"/>
+      <Form writtenForm="ár b"/>
+      <Form writtenForm="ár d"/>
+      <Form writtenForm="ár n-"/>
       <Sense id="L1328284-S1" synset="wikidata-ga-L1328284-S1" ili="wikidata-ga-L1328284-S1">
         <Definition>our</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L941923">
       <Lemma writtenForm="mé" partOfSpeech="h"/>
+      <Form writtenForm="mise"/>
       <Sense id="L941923-S1" synset="wikidata-ga-L941923-S1" ili="wikidata-ga-L941923-S1">
         <Definition>I; first-person singular pronoun</Definition>
       </Sense>
@@ -40,6 +48,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1328261">
       <Lemma writtenForm="an" partOfSpeech="d"/>
+      <Form writtenForm="na"/>
       <Sense id="L1328261-S1" synset="wikidata-ga-L1328261-S1" ili="wikidata-ga-L1328261-S1">
         <Definition>the</Definition>
       </Sense>
@@ -52,12 +61,21 @@
     </LexicalEntry>
     <LexicalEntry id="L1328544">
       <Lemma writtenForm="don" partOfSpeech="p"/>
+      <Form writtenForm="do na"/>
+      <Form writtenForm="dosna"/>
       <Sense id="L1328544-S1" synset="wikidata-ga-L1328544-S1" ili="wikidata-ga-L1328544-S1">
         <Definition>to the, from the</Definition>
       </Sense>
     </LexicalEntry>
     <LexicalEntry id="L1328286">
       <Lemma writtenForm="a" partOfSpeech="h"/>
+      <Form writtenForm="a m"/>
+      <Form writtenForm="a g"/>
+      <Form writtenForm="a n"/>
+      <Form writtenForm="a bh"/>
+      <Form writtenForm="a b"/>
+      <Form writtenForm="a d"/>
+      <Form writtenForm="a n-"/>
       <Sense id="L1328286-S1" synset="wikidata-ga-L1328286-S1" ili="wikidata-ga-L1328286-S1">
         <Definition>their</Definition>
       </Sense>
@@ -70,6 +88,13 @@
     </LexicalEntry>
     <LexicalEntry id="L1328285">
       <Lemma writtenForm="bhur" partOfSpeech="h"/>
+      <Form writtenForm="bhur m"/>
+      <Form writtenForm="bhur g"/>
+      <Form writtenForm="bhur n"/>
+      <Form writtenForm="bhur bh"/>
+      <Form writtenForm="bhur b"/>
+      <Form writtenForm="bhur d"/>
+      <Form writtenForm="bhur n-"/>
       <Sense id="L1328285-S1" synset="wikidata-ga-L1328285-S1" ili="wikidata-ga-L1328285-S1">
         <Definition>your (plural)</Definition>
       </Sense>
@@ -88,6 +113,7 @@
     </LexicalEntry>
     <LexicalEntry id="L1328543">
       <Lemma writtenForm="do" partOfSpeech="p"/>
+      <Form writtenForm="d’"/>
       <Sense id="L1328543-S1" synset="wikidata-ga-L1328543-S1" ili="wikidata-ga-L1328543-S1">
         <Definition>to, from</Definition>
       </Sense>
