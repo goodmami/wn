@@ -3,6 +3,21 @@
 ## [Unreleased][unreleased]
 
 
+## [v1.4.1]
+
+**Release date: 2026-07-09**
+
+### Changed
+
+* All GET data endpoints of the web API (`words`, `word`, `senses`,
+  `sense`, `synsets`, `synset`, `lexicon`) now send
+  `Cache-Control: public, max-age=...` (1 month), matching the policy
+  `lexicons` and `forms` already used. Lexicon data is immutable per
+  deployment, and without the header browsers and CDNs refetched
+  identical responses on every call.
+  ([sign/wn#3](https://github.com/sign/wn/pull/3))
+
+
 ## [v1.4.0]
 
 **Release date: 2026-05-22**
