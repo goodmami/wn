@@ -286,6 +286,7 @@ async def lexicons(request):
     return {'data': _lexicons}
 
 
+@cached_response(months=1)
 async def lexicon(request):
     path_params = request.path_params
     lex = wn.lexicons(lexicon=path_params['lexicon'])[0]
@@ -301,6 +302,7 @@ def _get_words(wordnet: wn.Wordnet, request: Request) -> dict:
     return {'data': _words}
 
 
+@cached_response(months=1)
 @paginate(make_word)
 async def all_words(request):
     query = request.query_params
@@ -308,6 +310,7 @@ async def all_words(request):
     return _get_words(wordnet, request)
 
 
+@cached_response(months=1)
 @paginate(make_word)
 async def words(request):
     wordnet = _init_wordnet(request.path_params['lexicon'])
@@ -361,6 +364,7 @@ async def forms(request):
     return response
 
 
+@cached_response(months=1)
 async def word(request):
     path_params = request.path_params
     wordnet = _init_wordnet(request.path_params['lexicon'])
@@ -383,6 +387,7 @@ def _get_senses(wordnet: wn.Wordnet, request: Request) -> dict:
     return {'data': _senses}
 
 
+@cached_response(months=1)
 @paginate(make_sense)
 async def all_senses(request):
     query = request.query_params
@@ -390,12 +395,14 @@ async def all_senses(request):
     return _get_senses(wordnet, request)
 
 
+@cached_response(months=1)
 @paginate(make_sense)
 async def senses(request):
     wordnet = _init_wordnet(request.path_params['lexicon'])
     return _get_senses(wordnet, request)
 
 
+@cached_response(months=1)
 async def sense(request):
     path_params = request.path_params
     wordnet = _init_wordnet(path_params['lexicon'])
@@ -413,6 +420,7 @@ def _get_synsets(wordnet: wn.Wordnet, request: Request) -> dict:
     return {'data': _synsets}
 
 
+@cached_response(months=1)
 @paginate(make_synset)
 async def all_synsets(request):
     query = request.query_params
@@ -420,12 +428,14 @@ async def all_synsets(request):
     return _get_synsets(wordnet, request)
 
 
+@cached_response(months=1)
 @paginate(make_synset)
 async def synsets(request):
     wordnet = _init_wordnet(request.path_params['lexicon'])
     return _get_synsets(wordnet, request)
 
 
+@cached_response(months=1)
 async def synset(request):
     path_params = request.path_params
     wordnet = _init_wordnet(path_params['lexicon'])
