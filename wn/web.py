@@ -157,6 +157,17 @@ def make_lexicon(lex: wn.Lexicon, request: Request) -> dict:
     }
 
 
+def _make_synset_link(ss: wn.Synset) -> dict:
+    lemmas = ss.lemmas()
+    return {'id': ss.id, 'lemma': lemmas[0] if lemmas else None}
+
+
+# Synset relations inlined into the word response as `related` so the
+# dictionary word page can render "see also" links without fetching each
+# synset's relationship graph separately.
+INLINE_WORD_RELATIONS = ('similar', 'also')
+
+
 def make_word(w: wn.Word, request: Request, basic: bool = False) -> dict:
     lex_spec = w.lexicon().specifier()
     d: dict = {
@@ -180,7 +191,22 @@ def make_word(w: wn.Word, request: Request, basic: bool = False) -> dict:
         included = []
         for ss in synsets:
             ss_data = make_synset(ss, request, basic=True)
-            ss_data['attributes']['count'] = sense_counts.get(ss.id, 0)
+            attrs = ss_data['attributes']
+            attrs['count'] = sense_counts.get(ss.id, 0)
+            attrs['members'] = ss.lemmas()
+            paths = ss.hypernym_paths()
+            if paths:
+                # First (usually only) path, reordered root -> immediate
+                # hypernym, ready to render as a breadcrumb.
+                attrs['hypernyms'] = [
+                    _make_synset_link(hss) for hss in reversed(paths[0])
+                ]
+            related = {
+                relname: [_make_synset_link(rss) for rss in sslist]
+                for relname, sslist in ss.relations(*INLINE_WORD_RELATIONS).items()
+            }
+            if related:
+                attrs['related'] = related
             included.append(ss_data)
 
         d.update({

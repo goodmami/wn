@@ -89,6 +89,34 @@ def test_synsets():
 
 
 @pytest.mark.usefixtures('mini_db_web')
+def test_words_included_synset_enrichment():
+    response = client.get(
+        "/lexicons/test-en:1/words", params={"form": "random sample"}
+    )
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert len(data) == 1
+    included = data[0]["included"]
+    attrs = next(
+        ss["attributes"] for ss in included if ss["id"] == "test-en-0005-n"
+    )
+    assert attrs["members"] == ["random sample"]
+    # breadcrumb is ordered root -> immediate hypernym
+    hypernyms = attrs["hypernyms"]
+    assert [h["id"] for h in hypernyms] == [
+        "test-en-0001-n", "test-en-0002-n", "test-en-0004-n",
+    ]
+    assert hypernyms[0]["lemma"] == "information"
+
+    # synset with multiple members exposes them all
+    response = client.get(
+        "/lexicons/test-en:1/words", params={"form": "example"}
+    )
+    attrs = response.json()["data"][0]["included"][0]["attributes"]
+    assert set(attrs["members"]) == {"example", "illustration"}
+
+
+@pytest.mark.usefixtures('mini_db_web')
 def test_lexicon_words():
     response1 = client.get("/lexicons/test-en:1/words")
     response2 = client.get("/words", params={"lexicon": "test-en:1"})
