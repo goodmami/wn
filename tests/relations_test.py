@@ -58,6 +58,22 @@ def test_sense_relations():
     }
 
 
+@pytest.mark.usefixtures("uninitialized_datadir")
+def test_sense_synset_relations_issue_328(datadir):
+    # https://github.com/goodmami/wn/issues/328
+    wn.add(datadir / "gh328.xml")
+    w = wn.Wordnet("gh328")
+    assert w.sense("gh328-shorty-1").synset_relations() == {
+        "exemplifies": [w.synset("gh328-aae-n")]
+    }
+    ss_rels = w.sense("gh328-shorty-1").synset_relations("exemplifies", data=True)
+    rel = next(iter(ss_rels))
+    assert rel.source_id == "gh328-shorty-1"
+    assert rel.target_id == "gh328-aae-n"
+    assert rel.name == "exemplifies"
+    assert ss_rels[rel] == w.synset("gh328-aae-n")
+
+
 @pytest.mark.usefixtures("mini_db_1_1")
 def test_extension_relations():
     # default mode

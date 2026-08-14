@@ -873,7 +873,7 @@ def get_sense_synset_relations(
 ) -> Iterator[_Synset_Relation]:
     params: list = []
     constraint = ""
-    if "*" not in relation_types:
+    if relation_types and "*" not in relation_types:
         constraint = f"WHERE type IN ({_qs(relation_types)})"
         params.extend(relation_types)
     params.extend(lexicons)
