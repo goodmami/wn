@@ -6,6 +6,8 @@
 
 * `Sense.synset_relations()` returns any relations when no relation name is
   given ([#328])
+* `Sense.relations()`, `Sense.synset_relations()`, and `Synset.relations()`
+  correctly filter by relation name when `data=True` ([#329])
 
 
 ## [v1.1.0]
@@ -986,3 +988,4 @@ abandoned, but this is an entirely new codebase.
 [#316]: https://github.com/goodmami/wn/issues/316
 [#319]: https://github.com/goodmami/wn/issues/319
 [#328]: https://github.com/goodmami/wn/issues/328
+[#329]: https://github.com/goodmami/wn/issues/329

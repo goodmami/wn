@@ -40,6 +40,9 @@ def test_synset_relations():
         "hypernym": [w.synset("test-en-0001-n")],
         "hyponym": [w.synset("test-en-0004-n")],
     }
+    assert len(w.synset("test-en-0002-n").relations()) == 2
+    assert len(w.synset("test-en-0002-n").relations("hypernym")) == 1
+    assert len(w.synset("test-en-0002-n").relations("also")) == 0
 
 
 @pytest.mark.usefixtures("mini_db")
@@ -56,6 +59,9 @@ def test_sense_relations():
     assert w.sense("test-en-example-n-0002-01").relations() == {
         "derivation": [w.sense("test-en-exemplify-v-0003-01")]
     }
+    assert len(w.sense("test-en-illustrate-v-0003-01").relations()) == 2
+    assert len(w.sense("test-en-illustrate-v-0003-01").relations("derivation")) == 1
+    assert len(w.sense("test-en-illustrate-v-0003-01").relations("also")) == 0
 
 
 @pytest.mark.usefixtures("uninitialized_datadir")
@@ -63,15 +69,19 @@ def test_sense_synset_relations_issue_328(datadir):
     # https://github.com/goodmami/wn/issues/328
     wn.add(datadir / "gh328.xml")
     w = wn.Wordnet("gh328")
-    assert w.sense("gh328-shorty-1").synset_relations() == {
-        "exemplifies": [w.synset("gh328-aae-n")]
-    }
-    ss_rels = w.sense("gh328-shorty-1").synset_relations("exemplifies", data=True)
+    shorty = w.sense("gh328-shorty-1")
+    assert shorty.synset_relations() == {"exemplifies": [w.synset("gh328-aae-n")]}
+    assert len(shorty.synset_relations("exemplifies")) == 1
+    assert len(shorty.synset_relations("other")) == 0
+
+    ss_rels = shorty.synset_relations("exemplifies", data=True)
     rel = next(iter(ss_rels))
     assert rel.source_id == "gh328-shorty-1"
     assert rel.target_id == "gh328-aae-n"
     assert rel.name == "exemplifies"
     assert ss_rels[rel] == w.synset("gh328-aae-n")
+    assert len(shorty.synset_relations("exemplifies", data=True)) == 1
+    assert len(shorty.synset_relations("other", data=True)) == 0
 
 
 @pytest.mark.usefixtures("mini_db_1_1")
@@ -135,7 +145,8 @@ def test_synset_relations_issue_177():
 def test_sense_relation_data_true():
     en = wn.Wordnet("test-en")
     assert en.sense("test-en-information-n-0001-01").relations(data=True) == {}
-    relmap = en.sense("test-en-illustrate-v-0003-01").relations(data=True)
+    illustrate = en.sense("test-en-illustrate-v-0003-01")
+    relmap = illustrate.relations(data=True)
     # only sense-sense relations by default
     assert len(relmap) == 3
     assert all(isinstance(tgt, wn.Sense) for tgt in relmap.values())
@@ -143,6 +154,9 @@ def test_sense_relation_data_true():
     assert {rel.target_id for rel in relmap} == {"test-en-illustration-n-0002-01"}
     # sense relations targets should always have same ids as resolved targets
     assert all(rel.target_id == tgt.id for rel, tgt in relmap.items())
+    # relname filter
+    assert len(illustrate.relations("derivation", data=True)) == 1
+    assert len(illustrate.relations("also", data=True)) == 0
 
 
 @pytest.mark.usefixtures("mini_db")
@@ -165,3 +179,7 @@ def test_synset_relations_data_true():
     assert {rel.target_id for rel in relmap} == {"test-en-0001-n", "test-en-0004-n"}
     assert all(rel.target_id != tgt.id for rel, tgt in relmap.items())
     assert all(rel.lexicon().id == "test-en" for rel in relmap)
+
+    # relname filter
+    assert len(en.synset("test-en-0002-n").relations("hypernym", data=True)) == 1
+    assert len(en.synset("test-en-0002-n").relations("also", data=True)) == 0
