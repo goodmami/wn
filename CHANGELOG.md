@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+
+## [v1.1.1]
+
+**Release date: 2026-08-13**
+
 ### Fixed
 
 * `Sense.synset_relations()` returns any relations when no relation name is
@@ -835,6 +840,7 @@ the https://github.com/nltk/wordnet/ code which had been effectively
 abandoned, but this is an entirely new codebase.
 
 
+[v1.1.1]: ../../releases/tag/v1.1.1
 [v1.1.0]: ../../releases/tag/v1.1.0
 [v1.0.0]: ../../releases/tag/v1.0.0
 [v0.14.0]: ../../releases/tag/v0.14.0
