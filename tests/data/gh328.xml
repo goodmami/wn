@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.4.dtd">
+<LexicalResource xmlns:dc="https://globalwordnet.github.io/schemas/dc/">
+    <Lexicon id="gh328"
+        label="Example wordnet (English)"
+        language="en" 
+        email="john@mccr.ae"
+        license="https://creativecommons.org/publicdomain/zero/1.0/"
+        version="1.0"
+        citation="CILI: the Collaborative Interlingual Index. Francis Bond, Piek Vossen, John P. McCrae and Christiane Fellbaum, Proceedings of the Global WordNet Conference 2016, (2016)."
+        url="http://globalwordnet.github.io/schemas/"
+        dc:publisher="Global Wordnet Association">
+    <LexicalEntry id="gh328-w1">
+        <Lemma writtenForm="shorty" partOfSpeech="n"/>
+        <Sense id="gh328-shorty-1" synset="gh328-shorty-n">
+            <SenseRelation relType="exemplifies" target="gh328-aae-n"/>
+        </Sense>
+    </LexicalEntry>
+    <LexicalEntry id="gh328-w2">
+        <Lemma writtenForm="African-American English" partOfSpeech="n"/>
+        <Sense id="gh328-aae-1" synset="gh328-aae-n"/>
+    </LexicalEntry>
+    <Synset id="gh328-shorty-n" partOfSpeech="n" ili="in">
+        <Definition>a woman</Definition>
+    </Synset>
+    <Synset id="gh328-aae-n" partOfSpeech="n" ili="in">
+        <Definition>English as spoken by Black Americans</Definition>
+    </Synset>
+</Lexicon>
+</LexicalResource>

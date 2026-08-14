@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+### Fixed
+
+* `Sense.synset_relations()` returns any relations when no relation name is
+  given ([#328])
+
 
 ## [v1.1.0]
 
@@ -980,3 +985,4 @@ abandoned, but this is an entirely new codebase.
 [#314]: https://github.com/goodmami/wn/issues/314
 [#316]: https://github.com/goodmami/wn/issues/316
 [#319]: https://github.com/goodmami/wn/issues/319
+[#328]: https://github.com/goodmami/wn/issues/328
