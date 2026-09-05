@@ -1,8 +1,10 @@
+import sqlite3
 from pathlib import Path
 
 import pytest
 
 import wn
+from wn._db import connect
 
 
 @pytest.mark.usefixtures("mini_db_1_1")
@@ -95,3 +97,12 @@ def test_portable_entities_issue_226(monkeypatch, tmp_path, datadir):
         info2 = en.synsets("information")[0]  # en Wordnet object still works
         assert info1 == info2  # synsets are equivalent
         wn._db.clear_connections()
+
+
+@pytest.mark.usefixtures("mini_db_1_1")
+def test_dqs_issue_334():
+    conn = connect()
+    conn.setconfig(sqlite3.SQLITE_DBCONFIG_DQS_DDL, False)
+    conn.setconfig(sqlite3.SQLITE_DBCONFIG_DQS_DML, False)
+    ja = wn.Wordnet("test-ja")
+    assert [lex.id for lex in ja.expanded_lexicons()] == ["test-en"]
