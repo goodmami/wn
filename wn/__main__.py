@@ -99,7 +99,7 @@ def _path_type(arg):
 def _file_path_type(arg):
     path = Path(arg)
     if not path.is_file():
-        raise argparse.ArgumentTypeError(f"cannot file file: {arg}")
+        raise argparse.ArgumentTypeError(f"cannot find file: {arg}")
     return path
 
 
