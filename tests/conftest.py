@@ -6,6 +6,17 @@ import pytest
 import wn
 
 
+@pytest.fixture(scope="session", autouse=True)
+def default_datadir(tmp_path_factory):
+    # monkeypatching wn.config.data_directory reads the old value
+    # first, and reading it creates the directory; start from a
+    # temporary one so the tests don't create ~/.wn_data
+    original = wn.config._data_directory
+    wn.config.data_directory = tmp_path_factory.mktemp("wn_data_default")
+    yield
+    wn.config.data_directory = original
+
+
 @pytest.fixture(scope="session")
 def datadir():
     return Path(__file__).parent / "data"

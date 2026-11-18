@@ -2,6 +2,11 @@
 
 ## [Unreleased][unreleased]
 
+### Fixed
+
+* Running the tests or benchmarks no longer creates `~/.wn_data`
+  ([#335])
+
 
 ## [v1.1.1]
 
@@ -995,3 +1000,4 @@ abandoned, but this is an entirely new codebase.
 [#319]: https://github.com/goodmami/wn/issues/319
 [#328]: https://github.com/goodmami/wn/issues/328
 [#329]: https://github.com/goodmami/wn/issues/329
+[#335]: https://github.com/goodmami/wn/issues/335

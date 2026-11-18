@@ -8,6 +8,15 @@ import wn
 from wn import lmf
 
 
+@pytest.fixture(scope="session", autouse=True)
+def default_datadir(tmp_path_factory):
+    # see tests/conftest.py: keep the benchmarks from creating ~/.wn_data
+    original = wn.config._data_directory
+    wn.config.data_directory = tmp_path_factory.mktemp("wn_data_default")
+    yield
+    wn.config.data_directory = original
+
+
 @pytest.fixture
 def clean_db():
     def clean_db():
